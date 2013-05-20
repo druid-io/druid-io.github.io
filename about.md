@@ -4,3 +4,5 @@ layout: default
 ---
 
 ##About Druid
+
+Druid is realtime, distributed, column-oriented and interactive
