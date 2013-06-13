@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>	
+		<meta charset="UTF-8" />	
+		<title>Druid</title>	
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" media="all" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/custom.css" media="all" />
+		<link href="img/favicon.ico" rel="shortcut icon">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>	
+		<div class="wrapper">
+			<header>
+				<div class="container custom">
+					<div class="row-fluid">
+						<div class="span12">
+							<div class="navbar navbar-inverse custom">
+								<div class="navbar-inner">
+									<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+										  <span class="icon-bar"></span>
+										  <span class="icon-bar"></span>
+										  <span class="icon-bar"></span>
+									</button>
+									 <a class="brand" href="index.html">DRUID</a>
+									 <div class="nav-collapse collapse">
+										<ul class="nav">
+											<li>
+												<a href="downloads.html">Downloads</a>
+											</li>
+											<li>
+												<a class="doc-link" target="_blank" href="https://github.com/metamx/druid/wiki">Documentation <span></span></a>
+											</li>
+											<li>
+												<a href="community.html">Community</a>
+											</li>
+											<li>
+												<a href="faq.html">FAQ</a>
+											</li>
+											<li>
+												<a href="blog.html">Blog</a>
+											</li>
+											<li class="pull-right">
+												<a href="blog.html">BETA</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div class="container custom main-cont">
+				<div class="row-fluid">
+					<div class="span4 bs-docs-sidebar">
+						<ul class="nav nav-list bs-docs-sidenav affix">
+							<li>
+								<a href="#whatis"><i class="icon-chevron-right"></i>What is Druid?</a>
+							</li>
+							<li>
+								<a href="#where"><i class="icon-chevron-right"></i>Where Did Druid Come From?</a>
+							</li>
+							<li>
+								<a href="#used"><i class="icon-chevron-right"></i>What is Druid Used for?</a>
+							</li>
+							<li>
+								<a href="#whois"><i class="icon-chevron-right"></i>Who is Using Druid?</a>
+							</li>
+						</ul>
+					</div>
+					<div class="span8">
+							<div class="text-item">
+								<h2 id="whatis">What is Druid?</h2>
+								<h3>Druid is an analytics data store built to allow fast (“real-time”) access to large sets of read-oriented data.</h3>
+								<h4 id="realtime">Real Time Ingestion</h4>
+								<p><span>Real time query.</span> Typical analytics databases ingest data via batch processing; while the ingestion to query latency this is low for smaller data sets, Druid's real time nodes allow querying against multiple very large data sets while they are streaming into the system.</p>
+							</div>
+							<div class="text-item">
+								<h4 id="scalable">Scalable</h4>
+								<p><span>Efficient in-memory configuration.</span> While the entire database can be configured in memory, this becomes cost prohibitive considering the explosive growth of "Big Data." Druid query nodes are configurable and can be configured to be completely in-memory, only from storage or both.</p>
+								<p><span>Highly Available.</span> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on "hot segments." And, because of replication, Druid supports rolling deployments and restarts. Scaling up or scale down just by adding or remove nodes; without re-indexing.</p>
+							</div>
+							<div class="text-item">
+								<h4 id="hri">Human Responsive Interaction</h4>
+								<p><span>Ad hoc, multi-dimensional filtering.</span> Druid uses bitmap indices with CONCISE compression to create highly dense and accurate indices allowing for an arbitrary number of filters, cost effectively and without impact on performance.<br/>
+								<a href="http://metamarkets.com/2012/druid-bitmap-compression/">http://metamarkets.com/2012/druid-bitmap-compression/</a></p>
+								<p><span>Column-oriented for speed.</span> Data is laid out in columns so that scans are limited to specific data being searched. Compression decreases overall data footprint.
+								<a href="http://metamarkets.com/2011/druid-part-deux-three-principles-for-fast-distributed-olap/">http://metamarkets.com/2011/druid-part-deux-three-principles-for-fast-distributed-olap/</a></p>
+								<p><span>Seamless query against real-time and historical data.</span>Druid automates the migration of real-time data to historical query nodes as the data ages. This allows querying against both real-time and vast amounts of historical data in a single query.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="where">Where did Druid Come From?</h2>
+								<p>Druid was created out of necessity by Metamarkets, a company focused on providing real-time interactive insight to the RTB (real time bidding) AdTech space with a full stack analytics service.  It’s thesis was to create a read oriented database that could query while ingesting data, provide ad-hoc N-dimensional drill down and still provide sub-second responses. Stretching it further, the system was designed to scale without downtime, and utilize cloud resources cost efficiently.</p>
+								<p>Druid was <a href="http://metamarkets.com/2012/metamarkets-open-sources-druid/">open-sourced</a> to help raise awareness for true real-time interactive analytics among all the "big-data" incumbents.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="used">What's Druid Used For?</h2>
+								<p>Druid is a purpose built database that provides deep exploratory insight against very large quantities of data as its being streamed or ingested into the system.  It's useful for immediate insight for lots of streaming data and/or ad hoc n-dimensional filtering.</p>
+							</div>
+							<div class="text-item">
+								<h4>Immediate insight to large quantities of data:</h4>
+								<p>The low time latency between when data is ingested into Druid and when that data is available for query allows users to develop insight very close to actual events producing that data.</p>
+							</div>
+							<div class="text-item">
+								<h4>Deep, exploratory drill-down:</h4>
+								<p>Users value the ability to create many arbitrary filter dimensions without impacting performance, breaking scalability or cost viability (compute infrastructure). Ad hoc drill down on immediate and historical data allows users to query both "fresh", or immediately ingested data and historical data all at once.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="whois">Who is using Druid?</h2>
+								<h4>Metamarkets</h4>
+								<p>Druid is the primary data store for Metamarkets’ full stack visual analytics service for the RTB (real time bidding) space. Pulling in over xx billion records per day, Metamarkets is able to provide insight to its customers with complex ad-hoc queries with an average query time of less than 400 milliseconds.</p>
+							</div>
+							<div class="text-item">
+								<h4>Netflix</h4>
+								<p>Netflix engineers use Druid to aggregate hundreds of data streams, ingesting up to two terabytes per hour, with the ability to query data as its being ingested. They use Druid to pinpoint anomalies within their infrastructure, endpoint activity and content flow.</p>
+							</div>
+							<div class="text-item">
+								<h4>R-users</h4>
+								<p>The R community leverages Druid for research on extremely large data sets;  the ability of being able to return complex query drill downs in seconds oppose to hours helps Data Scientists be more efficient and effective. To make it even easier, Metamarkets recently open sourced the Druid-R connector (found here: <a href="https://github.com/metamx/RDruid">https://github.com/metamx/RDruid</a>)</p>
+							</div>
+							<div class="text-item">
+								<h4>Virtustream</h4>
+								<p><a href="http://www.virtustream.com/company/buzz/press_releases/big_data_cloud">Virtustream</a>, an Enterprise Class Cloud provider, offers secure highly available, flexible, infrastructure as a Service (IaaS) platform, uses Druid as a real-time analytics service offering for their customers.</p>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="container custom">
+				<div class="row-fluid">
+					<div class="span3">
+						<div class="contact-item">
+							<span>CONTACT US</span>
+							(415) 814-1788<br/>
+							<a href="mailto:info@druid.io">info@druid.io</a>
+						</div>
+						<div class="contact-item">
+							<span>Metamarkets</span>
+							625 2nd Street, Suite #230<br/>
+							San Francisco, CA 94017
+						</div>
+						<div class="soc">
+							<a href="https://twitter.com/druidio"></a>
+							<a href="https://github.com/metamx/druid" class="github"></a>
+							<a href="http://www.meetup.com/Open-Druid/" class="meet"></a>
+						</div>
+					</div>
+					<div class="span4">
+						<ul class="unstyled">
+							<li>
+								<a href="downloads.html">Downloads</a>
+							</li>
+							<li>
+								<a target="_blank" href="https://github.com/metamx/druid/wiki">Documentation</a>
+							</li>
+							<li>
+								<a href="community.html">Community</a>
+							</li>
+							<li>
+								<a href="faq.html">FAQ</a>
+							</li>
+						</ul>
+						<ul class="unstyled">
+							<li>
+								<a href="druid.html">What is Druid?</a>
+							</li>
+							<li>
+								<a href="licensing.html">Licensing</a>
+							</li>
+							<li>
+								<a href="blog.html">Blog</a>
+							</li>
+							<li>
+								<a href="mailto:info@druid.io">Contact Us</a>
+							</li>
+						</ul>
+					</div>
+					<div class="span5">
+						<span class="logo custom">
+							<a href="index.html">Druid</a>
+						</span>
+						<p>is an open source project sponsored by<br/> Metamarkets.</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
