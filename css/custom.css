@@ -39,8 +39,9 @@ header .span12 {
 	padding:0 0 7px 0;
 }
 .logo.custom {
-	float:left;
+	display:inline-block;
 	margin:0;
+	vertical-align:25px;
 }
 .logo.custom a {
 	background:url(../img/logo.png) no-repeat;
@@ -55,13 +56,17 @@ header .span12 {
 .custom.navbar .nav li  {
 	padding:0 !important;
 }
-.custom.navbar .nav li a, .navbar .brand {
-	font:300 16px/20px 'Open Sans', Arial, Helvetica, sans-serif;
-	padding:10px 15px;
+.custom.navbar .nav li a, .navbar .brand, .custom.navbar .nav li.pull-right span {
+	font:300 14px/20px 'Open Sans', Arial, Helvetica, sans-serif;
+	padding:10px 10px;
 }
-.custom.navbar .nav li.pull-right a {
+.navbar .brand.active {
+	color:#fff;
+}
+.custom.navbar .nav li.pull-right span {
 	padding-right:0;	
-	color:#e76d4c;
+	color:#e76d4c !important;
+	display:block;
 }
 .custom.navbar .nav li a.doc-link {
 	padding:5px 10px 0;
@@ -129,7 +134,7 @@ h2 {
 	margin:0 auto 35px; 
 }
 .third-item {
-	text-align:center;
+	text-align:left;
 }
 .third-item:first-child {
 	margin:0;
@@ -139,8 +144,9 @@ h2 {
 	font-family:'Open Sans', Arial, Helvetica, sans-serif;
 	font-weight:700;
 	font-size:30px;
-	margin:0 0 20px;
+	margin:0 auto 20px;
 	color:#252424;
+	text-align:center;
 }
 .container.custom {
 	padding:0;
@@ -221,31 +227,46 @@ footer .container.custom {
 	border-top:1px solid #e1e1e1;
 	padding:20px 0 25px;
 }
-footer .container.custom ul.unstyled {
-	display:inline-block;
-	margin:30px 0 0 20px;
+footer .span9 {
 	text-align:left;
 }
+footer .container.custom ul.unstyled {
+	display:inline-block;
+	margin:0 0 0 150px;
+	text-align:left;
+	vertical-align:top;
+}
+footer .container.custom ul.unstyled:first-child {
+	margin-left:30px;
+}
 footer .container.custom ul.unstyled li {
-	font:300 14px/24px 'Open Sans', Arial, Helvetica, sans-serif;
+	font:300 14px/26px 'Open Sans', Arial, Helvetica, sans-serif;
 	margin:0;
 }
 footer .container.custom .unstyled li a {
 	color:#000;
+	font-weight:300;
+}
+footer .container.custom .unstyled li:first-child a {
 	font-weight:400;
 }
 footer ul li a:hover {
 	text-decoration:underline;
 	color:#fff;
 }
+footer .logo-block {
+	text-align:right;
+	padding-top:30px;
+}
 footer .container.custom p {
-	float:left;
+	display:inline-block;
 	margin:28px 0 0 10px;
 	text-align:left;
 }
 .contact-item {
 	margin:30px 0 0 30px;
 	text-align:left;
+	font-weight:300;
 }
 .contact-item a {
 	color:#000;
@@ -283,7 +304,7 @@ footer .span5 {
 	background-position:0 -68px;
 }
 .text-item {
-	margin:0 0 100px;
+	margin:0 0 75px;
 }
 .container.custom p.note {
 	text-align:center;
@@ -299,15 +320,42 @@ h2.date {
 	font-weight:400;
 }
 .blog h2.date {	
-	margin:0 0 5px;
+	margin:0 0 25px;
 }
 h2.date span {
-	color:#69b5dd;
 	display:block;
 	margin:0 0 5px;
+	padding:0 0 15px;
+	font-size:20px;
+	border-bottom:1px solid #ccc;
 }
 .blog h2.date a {
-	font-weight:400;
+	font-weight:700;
+}
+.blog.inner h2.date span:first-child {
+	display:block;
+	font-size:30px;
+	font-weight:700;
+	padding:0;
+	border:none;
+}
+.blog.inner h3 {
+	text-align:left;
+	font-size:25px;
+	font-weight:700;
+	margin:0 0 15px;
+}
+.blog.inner ul li {
+	margin-left: 50px;
+	line-height:26px;
+}
+.recent h3 {
+	font-size: 25px;
+    font-weight: 700;
+    margin: 0 0 15px;
+    text-align: left;
+}
+.recent ul li.active a {
 	color:#252525;
 }
 .border {
@@ -320,7 +368,7 @@ h2.date span {
 	display:block;
 	margin:0 auto 17px;
 }
-.downloads p, .downloads ul {
+.indent p, .indent ul {
 	padding:0 0 0 50px;
 }
 .span3 {
@@ -339,6 +387,16 @@ h2.date span {
 .nav.nav-list.bs-docs-sidenav li:first-child {
 	border:none;
 }
+.nav.nav-list.bs-docs-sidenav li:first-child a {
+	border-radius:5px 5px 0 0;
+	-moz-border-radius:5px 5px 0 0;
+	-webkit-border-radius:5px 5px 0 0;
+}
+.nav.nav-list.bs-docs-sidenav li:last-child, .nav.nav-list.bs-docs-sidenav li:last-child a {
+	border-radius:0 0 5px 5px;
+	-moz-border-radius:0 0 5px 5px;
+	-webkit-border-radius:0 0 5px 5px;
+}
 .nav.nav-list.bs-docs-sidenav li a {
 	padding:10px;
 	margin:0;
@@ -352,7 +410,7 @@ h2.date span {
     margin-top: 2px;
     opacity: 0.25;
 }
-.downloads ul li {
+.indent ul li {
 	line-height:26px;
 }
 .span8 h3 {
@@ -391,11 +449,15 @@ header.index-head .span12 {
 	margin-right:-2px;
 }
 @media (min-width: 1200px) {
-	.custom.navbar .nav li a, .navbar .brand {
+	.custom.navbar .nav li a, .navbar .brand, .custom.navbar .nav li.pull-right span {
 		padding: 10px 20px;
+		font-size:16px;
 	}
 	.nav.nav-list.bs-docs-sidenav {
 		width:258px;
+	}
+	.container.custom .recent ul.unstyled {
+		margin-right:100px;
 	}
 }
 @media (max-width: 980px) {
@@ -473,4 +535,8 @@ h1.center {
 	height:auto;
 	width:auto;
 	margin:10px 0 0;
+}
+.navbar-inner {
+	z-index:100000;
+	position:relative;
 }

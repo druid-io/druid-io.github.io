@@ -60,20 +60,48 @@
 			</header>
 			<div class="container custom main-cont">
 				<div class="row-fluid">
-					<div class="span10 offset1 simple-page">
-						<h1 class="index">Latest News from Druid</h1>
-						<div class="text-part">
-							<div class="text-item blog">
-								<h2 class="date"><a href="blog-inner-one.html">Real Real-Time. For Real.</a><span>May 10, 2013</span></h2>
-								<p>Real-time has become a heavily overloaded term so it is important to properly define it.</p>
-								<a href="blog-inner-one.html">Continue Reading →</a>
+					<div class="span4 recent">
+						<h3>Recent posts</h3>
+						<ul class="unstyled">
+							<li><a href="blog-inner-one.html">Real Real-Time. For Real.</a></li>
+							<li class="active"><a href="blog-inner-two.html">Meet the Druid and Find Out Why We Set Him Free</a></li>
+						</ul>
+					</div>
+					<div class="span8 simple-page">
+						<!--<h1 class="index">Latest News from Druid</h1>
+						<div class="text-part">-->
+							<div class="text-item blog inner">
+								<h2 class="date"><span>Meet the Druid and Find Out Why We Set Him Free</span><span>April 26, 2013 by STEVE HARRIS</span></h2>
+								
+								<img src="http://metamarkets.com/wp-content/uploads/2013/04/wordle_from_open_source_book-4f737c9-intro.jpg" alt="What is the Druid?" class="text-img" />
+								<h3>Introduction</h3>
+								<p>Before jumping straight into why Metamarkets open sourced Druid, I thought I would give a brief dive into what Druid is and how it came about. For more details, check out the <a href="http://static.druid.io/docs/druid.pdf">Druid white paper</a>.</p>
+
+								<p>We are lucky to be developing software in a period of extreme innovation. Fifteen years ago, if a developer or ops person went into his or her boss’s office and suggested using a non-relational/non-SQL/non-ACID/non-Oracle approach to storing data, they would pretty much get sent on their way. All problems at all companies were believed to be solved just fine using relational databases.</p>
+
+								<p>Skip forward a few years and the scale, latency and uptime requirements of the Internet really started hitting the Googles and Amazons of the world. It was quickly realized that some compromises needed to be made to manage the challenging data issues they were having in a cost-effective way. It was also finally acknowledged that different use cases might benefit from different solutions.</p>
+
+								<p>Druid was born out of this era of data stores, purpose-built for a specific set of trade-offs and use cases. We believe that taking part in and keeping pace with this period of innovation requires more than a company. It requires a community.</p>
+
+								<h3>So What Are Druid’s Core Values?</h3>
+								
+								<p>Druid was built as an analytics data store for Metamarkets’ as-it-happens, interactive SaaS platform targeted at the online advertising industry. It fundamentally needs to ingest tens of billions of events per day per customer and provide sub-second, interactive, slicing and dicing on arbitrary queries. It has to do this in an efficient and cost effective way.</p>
+
+								<p>Values:</p>
+
+								<p>
+									<ul>
+										<li>24x7x365x10 (Hours/days, days/a week, days/year, years)</li>
+										<li>User speed responses (millis not micros) on arbitrary analytics queries</li>
+										<li>Billions of events per day per customer as they happen (fast append)</li>
+										<li>Cost-effective data management</li>
+										<li>Linear scale-out</li>
+										<li>Predictable responses</li>
+										<li>Community/Adoption wins</li>
+									</ul>
+								</p>	
 							</div>
-							<div class="text-item blog">
-								<h2 class="date"><a href="blog-inner-two.html">Meet the Druid and Find Out Why We Set Him Free</a><span>April 26, 2013</span></h2>
-								<p>Before jumping straight into why Metamarkets open sourced Druid, I thought I would give a brief dive into what Druid is and how it came about.</p>
-								<a href="blog-inner-two.html">Continue Reading →</a>
-							</div>
-						</div>
+						<!--/div-->
 					</div>
 				</div>
 			</div>

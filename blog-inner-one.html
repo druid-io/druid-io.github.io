@@ -58,21 +58,36 @@
 					</div>
 				</div>
 			</header>
+
 			<div class="container custom main-cont">
 				<div class="row-fluid">
-					<div class="span10 offset1 simple-page">
-						<h1 class="index">Latest News from Druid</h1>
-						<div class="text-part">
-							<div class="text-item blog">
-								<h2 class="date"><a href="blog-inner-one.html">Real Real-Time. For Real.</a><span>May 10, 2013</span></h2>
-								<p>Real-time has become a heavily overloaded term so it is important to properly define it.</p>
-								<a href="blog-inner-one.html">Continue Reading →</a>
-							</div>
-							<div class="text-item blog">
-								<h2 class="date"><a href="blog-inner-two.html">Meet the Druid and Find Out Why We Set Him Free</a><span>April 26, 2013</span></h2>
-								<p>Before jumping straight into why Metamarkets open sourced Druid, I thought I would give a brief dive into what Druid is and how it came about.</p>
-								<a href="blog-inner-two.html">Continue Reading →</a>
-							</div>
+					<div class="span4 recent">
+						<h3>Recent posts</h3>
+						<ul class="unstyled">
+							<li class="active"><a href="blog-inner-one.html">Real Real-Time. For Real.</a></li>
+							<li><a href="blog-inner-two.html">Meet the Druid and Find Out Why We Set Him Free</a></li>
+						</ul>
+					</div>
+					<div class="span8 simple-page">
+						<!--<h1 class="index">Latest News from Druid</h1>
+						<div class="text-part">-->
+							<div class="text-item blog inner">
+								<h2 class="date"><span>Real Real-Time. For Real.</span><span>May 10, 2013 by ERIC TSCHETTER</span></h2>
+								<p><i>Danny Yuan, Cloud System Architect at Netflix, and I recently co-presented at the Strata Conference in Santa Clara. The presentation discussed how Netflix engineers leverage Druid, Metamarkets’ open-source, distributed, real-time, analytical data store, to ingest 150,000 events per second (billions per day), equating to about 500MB/s of data at peak (terabytes per hour) while still maintaining real-time, exploratory querying capabilities. Before and after the presentation, we had some interesting chats with conference attendees. One common theme from those discussions was curiosity around the definition of “real-time” in the real world and how Netflix could possibly achieve it at those volumes. This post is a summary of the learnings from those conversations and a response to some of those questions.</i></p>
+
+								<h3>What is Real-time?</h3>
+								<p>Real-time has become a heavily overloaded term so it is important to properly define it. I will limit our discussion of the term to its usage in the data space as it takes on different meanings in other arenas. In the data space, it is now commonly used to refer to one of two kinds of latency: query latency and data ingestion latency.</p>
+
+								<p>Query latency is the rate of return of queries. It assumes a static data set and refers to the speed at which you can ask questions of that data set. Right now, the vast majority of “real-time” systems are co-opting the word real-time to refer to “fast query latency.” I do not agree with this definition of “real-time” and prefer “interactive queries,” but it is the most prevalent use of real-time and thus is worth noting.</p>
+
+								<p>Data ingestion latency is the amount of time it takes for an event to be reflected in your query results. An example of this would be the amount of time it takes from when someone visits your website to when you can run a query that tells you about that person’s activity on your site. When that latency is close to a few seconds, you feel like you are seeing what is going on right now or that you are seeing things in “real-time.” This is what I believe most people assume when they hear about “real-time data.” However, rapid data ingestion latency is the lesser used definition due to of the lack of infrastructure to support it at scale (tens of billions of events/terabytes of data per day), while the infrastructure to support fast query latencies is easier to create and readily available.</p>
+
+								<h3>What’s Considered Real-Time?</h3>
+								<p>Okay, now that we have a definition of real-time and that definition depends on latency, there’s the remaining question of which latencies are good enough to earn the “real-time” moniker. The truth is that it’s up to interpretation. The key point is that the people who see the output of the queries feel like they are looking at what is going on “right now.” I don’t have any scientifically-driven methods of understanding where this boundary is, but I do have experience from interacting with customers at Metamarkets.</p>
+
+								<p>Conclusions first, descriptions second. To be considered real-time, query latency must be below 5 seconds and data ingestion latency must be below 15 seconds.</p>
+
+							<!--/div-->
 						</div>
 					</div>
 				</div>
