@@ -232,12 +232,9 @@ footer .span9 {
 }
 footer .container.custom ul.unstyled {
 	display:inline-block;
-	margin:0 0 0 150px;
+	margin:0 120px 30px 30px;
 	text-align:left;
 	vertical-align:top;
-}
-footer .container.custom ul.unstyled:first-child {
-	margin-left:30px;
 }
 footer .container.custom ul.unstyled li {
 	font:300 14px/26px 'Open Sans', Arial, Helvetica, sans-serif;
@@ -256,7 +253,6 @@ footer ul li a:hover {
 }
 footer .logo-block {
 	text-align:right;
-	padding-top:30px;
 }
 footer .container.custom p {
 	display:inline-block;
@@ -264,15 +260,12 @@ footer .container.custom p {
 	text-align:left;
 }
 .contact-item {
-	margin:30px 0 0 30px;
+	margin:0 0 30px 30px;
 	text-align:left;
 	font-weight:300;
 }
 .contact-item a {
 	color:#000;
-}
-footer .contact-item:first-child {
-	margin:0 0 0 30px;
 }
 footer .contact-item span {
 	font-weight:400;
@@ -289,7 +282,7 @@ footer .span5 {
 }
 .soc {
 	text-align:left;
-	margin:5px 0 0 30px;
+	margin:5px 0 0 0;
 }
 .soc a {
 	display:inline-block;
@@ -441,6 +434,9 @@ header.index-head .span12 {
 	display:block;
 	margin:0 auto 70px;
 }
+.container.custom .third-item p {
+	margin:0 0 0 20px;
+} 
 .row-fluid {
 	margin:0;
 	padding:0;
@@ -511,10 +507,65 @@ and (max-device-width : 480px) {
 		width:100%;
 		margin:0;
 	}
+	footer .logo-block {
+		text-align: left;
+		padding-left:30px;
+	}
+	.offset1, .row-fluid .offset1:first-child {
+		margin:0;
+	}
+	.indent p, .indent ul {
+		padding:0;
+	}
+	.indent, .blog, .recent h3, .recent ul, .text-part {
+		padding:0 20px;
+	}
+	.index-head h3 {
+		font-size:20px;
+	}
+	.index-content {
+		padding:0 20px;
+	}
+	.content h2, .content h3, .content ul.unstyled, .sidebar h3 {
+		padding:0 20px;
+	}
+	h1 {
+		padding:0 20px;
+	}
 }
 @media (max-width: 320px) {
 	.container.custom {
 		width:100%;
+	}
+	footer .logo-block {
+		text-align: left;
+		padding-left:30px;
+	}
+	footer .container.custom p {
+		margin-top:10px;
+	}
+	.offset1, .row-fluid .offset1:first-child {
+		margin:0;
+	}
+	.indent p, .indent ul {
+		padding:0;
+	}
+	.indent, .blog, .recent h3, .recent ul, .text-part {
+		padding:0 20px;
+	}
+	.index-head h3 {
+		font-size:25px;
+		line-height:30px;
+		padding:0 20px;
+	}
+	.index-content {
+		padding:0 20px;
+	}
+	.content h2, .content h3, .content ul.unstyled, .sidebar h3 {
+		padding:0 20px;
+	}
+	h1 {
+		padding:0 20px;
 	}
 }
 iframe {
