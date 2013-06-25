@@ -1,0 +1,31 @@
+---
+layout: default
+sectionid: blog
+---
+
+<div class="container custom main-cont">
+  <div class="row-fluid">
+    <div class="span4 recent">
+      <h3>Recent posts</h3>
+      <ul class="unstyled">
+        {% for post in site.posts limit: 5 %}
+          <li{% if page.title == post.title %} class="active"{% endif %}><a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="span8 simple-page">
+      <div class="text-item blog inner">
+        <h2 class="date">
+          <span>{{ page.title }}</span>
+          <span>{{ page.date | date: "%B %e, %Y" }} by {{ page.author | upcase }}</span>
+        </h2>
+
+        {% if page.image %}<img src="{{ page.image }}" alt="{{ page.title }}" class="text-img" />{% endif %}
+
+        {{ content }}
+        
+      </div>
+    </div>
+  </div>
+</div>
