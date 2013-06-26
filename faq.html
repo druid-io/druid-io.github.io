@@ -1,1 +1,231 @@
-<!DOCTYPE html><html lang="en">	<head>			<meta charset="UTF-8" />			<title>Druid</title>			<link rel="stylesheet" type="text/css" href="css/bootstrap.css" media="all" />		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" media="all" />		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800' rel='stylesheet' type='text/css'>		<link rel="stylesheet" type="text/css" href="css/custom.css" media="all" />		<link href="img/favicon.ico" rel="shortcut icon">		<script src="http://code.jquery.com/jquery.js"></script>		<script src="js/bootstrap.min.js"></script>		<meta name="viewport" content="width=device-width, initial-scale=1.0">	</head>	<body>			<div class="wrapper">			<header>				<div class="container custom">					<div class="row-fluid">						<div class="span12">							<div class="navbar navbar-inverse custom">								<div class="navbar-inner">									<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">										  <span class="icon-bar"></span>										  <span class="icon-bar"></span>										  <span class="icon-bar"></span>									</button>									 <a class="brand" href="index.html">Home</a>									 <div class="nav-collapse collapse">										<ul class="nav">											<li>												<a href="druid.html">What is Druid?</a>											</li>											<li>												<a href="downloads.html">Downloads</a>											</li>											<li>												<a class="doc-link" target="_blank" href="https://github.com/metamx/druid/wiki">Documentation <span></span></a>											</li>											<li>												<a href="community.html">Community</a>											</li>											<li class="active">												<a href="faq.html">FAQ</a>											</li>											<li>												<a href="blog.html">Blog</a>											</li>											<li class="pull-right">												<span>BETA</span>											</li>										</ul>									</nav>								</div>							</div>							</div>						</div>					</div>				</div>			</header>			<div class="container custom main-cont">				<div class="row-fluid">					<div class="span10 offset1 simple-page faq-page">						<h1 class="index">Frequently Asked Questions</h1>						<h3>Don’t see your question here? Ask us on the <a href="community.html">Druid mailing list.</a></h3>						<div class="text-part">							<div class="text-item">								<h2 id="why">Why did Metamarkets Open Source Druid?</h2>								<p>Originally built by Metamarkets as a component of its analytics service as a platform to provide immediate insight against live data feeds for the <a href="http://metamarkets.com/product/">on-line advertising space</a>, we realized Druid itself was broadly applicable for real-time and n-dimensional drill down use cases. Presenting Druid to the community helps evolve Druid as a horizontal platform, and over time, helps Metamarkets understand requirements from adjacent verticals.</p>								<p>It’s not a secret, Druid is a very important piece of the Metamarkets platform. For use cases not directly covered by Metamarkets focus, open source Druid helps users create software that can leverage the power of a real-time, scalable analytics-oriented data store.</p>							</div>							<div class="text-item">								<h2 class="memory">Is Druid in-memory?</h2>								<p>It can be. Druid was designed to be a highly economical solution without compromising speed, flexibility and scale. Druid deployment architecture allows users to tier nodes: ones that handle more frequent queries can be fast and in memory and queries that are less frequent can be on slower nodes and draw data from storage.</p>							</div>							<div class="text-item">								<h2 id="no-sql">Is Druid a NoSql database?</h2>								<p>Yes. The native interface relies on JSON based queries. We have a standard query syntax located here. That said, our community has created connectors and clients  that allow Druid to communicate easily with many systems. Ruby, SQL, R, etc.</p>							</div>							<div class="text-item">								<h2 id="sql-client">Is there a SQL client for Druid?</h2>								<p>Yes. it’s open source and located on the Metamarkets Github repository: <a href="https://github.com/metamx/druid/tree/bb1b3cd2f999e2ffa406e3c410e5e5f3724d3270/client/src/main/java/com/metamx/druid/sql">here</a></p>							</div>							<div class="text-item">								<h2 id="redshift">How does Druid compare to Redshift?</h2>								<p>There is a more comprehensive answer on Quora: <a href="http://www.quora.com/What-are-the-differences-between-Druid-and-AWS-Redshift">here</a></p>								<p>In terms of drawing a differentiation, Redshift is essentially ParAccel (Actian) which Amazon is licensing.</p>								<p>Aside from potential performance differences, there are some functional differences:</p>								<p>1) Druid is a read oriented analytical data store, it's write semantics aren't as fluid and does not support joins (though the community has been discussing ways to implement joins). ParAccel is a full on database with SQL support including joins and insert/update statements.</p>								<p>2) Data distribution model</p>								<p>Druid's data distribution, is segment based which exists on highly available "deep" storage, like S3 or HDFS.  Scaling up (or down) does not require massive copy actions or downtime; in fact, losing any number of compute nodes does not cripple the system because Druid creates new compute nodes to handle the query volume - reading from "deep" storage.</p>								<p>To contrast, ParAccel's data distribution model is hash-based.  Expanding the cluster size requires re-hashing the data across the nodes, making it difficult to perform without taking downtime.  Amazon’s Redshift guide works around this issue with a multi-step process:</p>								<p>a) set cluster into read-only mode<br/>								b) copy data from cluster to new cluster that exists in parallel<br/>								c) redirect traffic to new cluster</p>								<p>They do not indicate if they charge for the extra machines consumed during the copy.</p>								<p>3) Replication strategy</p>								<p>Druid employs segment-level data distribution meaning that more nodes can be added and rebalanced without having to perform a staged swap.  The replication strategy also makes all replicas available for querying.</p>								<p>ParAccel's hash-based distribution generally means that replication strategy is conducted via hot spares. When a node is lost with ParAccel, you are covered by a hot spare; the hot spare may or may not be available as a query node.</p>								<p>4) Indexing strategy</p>								<p>Along with column oriented structures, Druid uses indexing structures to speed up query execution when a filter is provided. Indexing structures do increase storage overhead (and make it more difficult to allow for mutation), but they can also significantly speed up queries.</p>								<p>ParAccel solely relies on column-orientation to process queries.</p>								<p>5) Real-time data ingestion</p>								<p>Because Druid is optimized to provide insight against massive quantities of streaming data; it is able to load and aggregate data in real-time -- separating the concerns of that load from the "historical" processing concerns of the "data warehouse."</p>								<p>Generally traditional data warehouses including column store optimize around batch ingestion at a regular interval which generally works cost effectively for small to moderate data streams.</p>							</div>							<div class="text-item">								<h2 id="vertica">How does Druid compare to Vertica?</h2>							</div>							<div class="text-item">								<h2 id="cassandra">How does Druid compare to Cassandra?</h2>								<p>Druid is highly optimized for scans and aggregations, it supports arbitrarily deep drill downs into data sets without the need to pre-compute, and it can ingest event streams in real-time and allow users to query events as they come in. At Metamarkets, we actually experimented with HBase as our core data store platform but it failed to achieve the speed and scale we desired. We found that in order to get the query latencies we wanted with HBase and to be able to arbitrarily drill into the data, we had to pre-compute permutations of dimension values of data sets. If the schema of a particular data set changed, we had to recompute everything for that data set. The problem became computationally intractable. We actually wrote up <a href="http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/#more-189">a blog post on the subject</a>.</p>								<p>HBase and Cassandra are great systems for certain use cases, but we found query latencies were too slow to power an interactive dashboard where schema changes are common.</p>								<p>Druid is fully read-consistent. Druid breaks down a data set into immutable chunks known as segments. All replicants always present the exact same view for the piece of data they are holding and we don't have to worry about data synchronization. The tradeoff is that Druid has limited semantics for write and update operations. Cassandra, similar to Amazon's Dynamo, has an eventually consistent data model. Writes are always supported but updates to data may take some time before all replicas synch up (data reconciliation is done at read time). This model favors availability and scalability over consistency.</p>							</div>							<div class="text-item">								<h2 id="hadoop">How does Druid compare to Hadoop?</h2>								<p>Druid, if anything, amplifies the value Hadoop brings to data centers; at Metamarkets, we use Hadoop as our backbone for all batch related processing, ingestion and updates. We recently introduced functionality that allows Druid to read from HDFS. Together, a Druid/Hadoop system is  simultaneously capable of real-time query against ingesting data and batch data.</p>							</div>							<div class="text-item">								<h2 id="external">What external dependencies does Druid have?</h2>								<p>Yes; as in the previous answer, Druid is able to utilize any storage system as long as it is mountable. In terms of best practices, we recommend that deep storage have the following properties: fully backed up, highly available and low latency.</p>							</div>							<div class="text-item">								<h2 id="deep-storage">What is "deep storage"?</h2>								<p>Druid relies on "deep storage" as the reference data which its compute nodes represent. We consider deep storage to be any traditional mountable storage system that ideally is highly available and serves as the data of record. For Metamarkets, its Amazon’s S3 but other implementations like Virtustream uses its own back end, or deep storage.</p>							</div>							<div class="text-item">								<h2 id="deep">Can anything other than S3 be used for "deep storage"?</h2>								<p>Yes; as in the previous answer, Druid is able to utilize any storage system as long as it is mountable. In terms of best practices, we recommend that deep storage have the following properties: fully backed up, highly available and low latency.</p>							</div>							<div class="text-item">								<h2 id="queries">Where can I find a set of simple queries to run?</h2>							</div>							<div class="text-item">								<h2 id="non-structured">Can Druid accept non-structured data?</h2>								<p>Druid is optimized for semi-structured data; meaning that we expect the schema to change infrequently and in a known and predictable way.</p>							</div>							<div class="text-item">								<h2 id="time-series">Does Druid only accept time-series data?</h2>								<p>Yes. That said, depending on how data is read into the system, almost everything can express uniqueness with a timestamp. Timestamp granularity?</p>							</div>							<div class="text-item">								<h2 id="zookeeper">Isn't Zookeeper a single point of failure?</h2>							</div>							<div class="text-item">								<h2 id="master">Isn't the Master a single point of failure?</h2>							</div>							<div class="text-item">								<h2 id="mas-queries">Do all queries go through the master?</h2>							</div>							<div class="text-item">								<h2 id="mas-dies">Can I query Druid even after the master dies?</h2>							</div>							<div class="text-item">								<h2 id="update">How do I update data?</h2>							</div>							<div class="text-item">								<h2 id="ind-serv">What is the IndexingService, do I need that?</h2>							</div>						</div>					</div>				</div>			</div>		</div>		<footer>			<div class="container custom">				<div class="row-fluid">					<div class="span3">						<div class="contact-item">							<span>CONTACT US</span>							(415) 814-1788<br/>							<a href="mailto:info@druid.io">info@druid.io</a>						</div>						<div class="contact-item">							<span>Metamarkets</span>							625 2nd Street, Suite #230<br/>							San Francisco, CA 94017							<div class="soc">								<a href="https://twitter.com/druidio"></a>								<a href="https://github.com/metamx/druid" class="github"></a>								<a href="http://www.meetup.com/Open-Druid/" class="meet"></a>							</div>						</div>					</div>					<div class="span9">						<ul class="unstyled">							<li>								<a href="index.html">DRUID</a>							</li>							<li>								<a href="druid.html">What is Druid?</a>							</li>							<li>								<a href="downloads.html">Downloads</a>							</li>							<li>								<a target="_blank" href="https://github.com/metamx/druid/wiki">Documentation</a>							</li>						</ul>						<ul class="unstyled">							<li>								<a href="#">SUPPORT</a>							</li>							<li>								<a href="community.html">Community</a>							</li>							<li>								<a href="faq.html">FAQ</a>							</li>							<li>								<a href="licensing.html">Licensing</a>							</li>						</ul>						<ul class="unstyled">							<li>								<a href="blog.html">BLOG</a>							</li>						</ul>						<div class="logo-block">							<span class="logo custom">								<a href="index.html"></a>							</span>							<p>is an open source project sponsored by<br/> Metamarkets.</p>						</div>					</div>				</div>			</div>		</footer>	</body></html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>	
+		<meta charset="UTF-8" />	
+		<title>Druid</title>	
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" media="all" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/custom.css" media="all" />
+		<link href="img/favicon.ico" rel="shortcut icon">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>	
+		<div class="wrapper">
+			<header>
+				<div class="container custom">
+					<div class="row-fluid">
+						<div class="span12">
+							<div class="navbar navbar-inverse custom">
+								<div class="navbar-inner">
+									<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+										  <span class="icon-bar"></span>
+										  <span class="icon-bar"></span>
+										  <span class="icon-bar"></span>
+									</button>
+									 <a class="brand" href="index.html">Home</a>
+									 <div class="nav-collapse collapse">
+										<ul class="nav">
+											<li>
+												<a href="druid.html">What is Druid?</a>
+											</li>
+											<li>
+												<a href="downloads.html">Downloads</a>
+											</li>
+											<li>
+												<a class="doc-link" target="_blank" href="https://github.com/metamx/druid/wiki">Documentation <span></span></a>
+											</li>
+											<li>
+												<a href="community.html">Community</a>
+											</li>
+											<li class="active">
+												<a href="faq.html">FAQ</a>
+											</li>
+											<li>
+												<a href="blog.html">Blog</a>
+											</li>
+											<li class="pull-right">
+												<span>BETA</span>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div class="container custom main-cont">
+				<div class="row-fluid">
+					<div class="span10 offset1 simple-page faq-page">
+						<h1 class="index">Frequently Asked Questions</h1>
+						<h3>Don’t see your question here? Ask us on the <a href="community.html">Druid mailing list.</a></h3>
+						<div class="text-part">
+							<div class="text-item">
+								<h2 id="why">Why did Metamarkets Open Source Druid?</h2>
+								<p>Originally built by Metamarkets as a component of its analytics service as a platform to provide immediate insight against live data feeds for the <a href="http://metamarkets.com/product/">on-line advertising space</a>, we realized Druid itself was broadly applicable for real-time and n-dimensional drill down use cases. Presenting Druid to the community helps evolve Druid as a horizontal platform, and over time, helps Metamarkets understand requirements from adjacent verticals.</p>
+								<p>It’s not a secret, Druid is a very important piece of the Metamarkets platform. For use cases not directly covered by Metamarkets focus, open source Druid helps users create software that can leverage the power of a real-time, scalable analytics-oriented data store.</p>
+							</div>
+							<div class="text-item">
+								<h2 class="memory">Is Druid in-memory?</h2>
+								<p>It can be. Druid was designed to be a highly economical solution without compromising speed, flexibility and scale. Druid deployment architecture allows users to tier nodes: ones that handle more frequent queries can be fast and in memory and queries that are less frequent can be on slower nodes and draw data from storage.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="no-sql">Is Druid a NoSql database?</h2>
+								<p>Yes. The native interface relies on JSON based queries. We have a standard query syntax located here. That said, our community has created connectors and clients  that allow Druid to communicate easily with many systems. Ruby, SQL, R, etc.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="sql-client">Is there a SQL client for Druid?</h2>
+								<p>Yes. it’s open source and located on the Metamarkets Github repository: <a href="https://github.com/metamx/druid/tree/bb1b3cd2f999e2ffa406e3c410e5e5f3724d3270/client/src/main/java/com/metamx/druid/sql">here</a></p>
+							</div>
+							<div class="text-item">
+								<h2 id="redshift">How does Druid compare to Redshift?</h2>
+								<p>There is a more comprehensive answer on Quora: <a href="http://www.quora.com/What-are-the-differences-between-Druid-and-AWS-Redshift">here</a></p>
+								<p>In terms of drawing a differentiation, Redshift is essentially ParAccel (Actian) which Amazon is licensing.</p>
+								<p>Aside from potential performance differences, there are some functional differences:</p>
+								<p>1) Druid is a read oriented analytical data store, it's write semantics aren't as fluid and does not support joins (though the community has been discussing ways to implement joins). ParAccel is a full on database with SQL support including joins and insert/update statements.</p>
+								<p>2) Data distribution model</p>
+								<p>Druid's data distribution, is segment based which exists on highly available "deep" storage, like S3 or HDFS.  Scaling up (or down) does not require massive copy actions or downtime; in fact, losing any number of compute nodes does not cripple the system because Druid creates new compute nodes to handle the query volume - reading from "deep" storage.</p>
+								<p>To contrast, ParAccel's data distribution model is hash-based.  Expanding the cluster size requires re-hashing the data across the nodes, making it difficult to perform without taking downtime.  Amazon’s Redshift guide works around this issue with a multi-step process:</p>
+								<p>a) set cluster into read-only mode<br/>
+								b) copy data from cluster to new cluster that exists in parallel<br/>
+								c) redirect traffic to new cluster</p>
+								<p>They do not indicate if they charge for the extra machines consumed during the copy.</p>
+								<p>3) Replication strategy</p>
+								<p>Druid employs segment-level data distribution meaning that more nodes can be added and rebalanced without having to perform a staged swap.  The replication strategy also makes all replicas available for querying.</p>
+								<p>ParAccel's hash-based distribution generally means that replication strategy is conducted via hot spares. When a node is lost with ParAccel, you are covered by a hot spare; the hot spare may or may not be available as a query node.</p>
+								<p>4) Indexing strategy</p>
+								<p>Along with column oriented structures, Druid uses indexing structures to speed up query execution when a filter is provided. Indexing structures do increase storage overhead (and make it more difficult to allow for mutation), but they can also significantly speed up queries.</p>
+								<p>ParAccel solely relies on column-orientation to process queries.</p>
+								<p>5) Real-time data ingestion</p>
+								<p>Because Druid is optimized to provide insight against massive quantities of streaming data; it is able to load and aggregate data in real-time -- separating the concerns of that load from the "historical" processing concerns of the "data warehouse."</p>
+								<p>Generally traditional data warehouses including column store optimize around batch ingestion at a regular interval which generally works cost effectively for small to moderate data streams.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="vertica">How does Druid compare to Vertica?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="cassandra">How does Druid compare to Cassandra?</h2>
+								<p>Druid is highly optimized for scans and aggregations, it supports arbitrarily deep drill downs into data sets without the need to pre-compute, and it can ingest event streams in real-time and allow users to query events as they come in. At Metamarkets, we actually experimented with HBase as our core data store platform but it failed to achieve the speed and scale we desired. We found that in order to get the query latencies we wanted with HBase and to be able to arbitrarily drill into the data, we had to pre-compute permutations of dimension values of data sets. If the schema of a particular data set changed, we had to recompute everything for that data set. The problem became computationally intractable. We actually wrote up <a href="http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/#more-189">a blog post on the subject</a>.</p>
+								<p>HBase and Cassandra are great systems for certain use cases, but we found query latencies were too slow to power an interactive dashboard where schema changes are common.</p>
+								<p>Druid is fully read-consistent. Druid breaks down a data set into immutable chunks known as segments. All replicants always present the exact same view for the piece of data they are holding and we don't have to worry about data synchronization. The tradeoff is that Druid has limited semantics for write and update operations. Cassandra, similar to Amazon's Dynamo, has an eventually consistent data model. Writes are always supported but updates to data may take some time before all replicas synch up (data reconciliation is done at read time). This model favors availability and scalability over consistency.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="hadoop">How does Druid compare to Hadoop?</h2>
+								<p>Druid, if anything, amplifies the value Hadoop brings to data centers; at Metamarkets, we use Hadoop as our backbone for all batch related processing, ingestion and updates. We recently introduced functionality that allows Druid to read from HDFS. Together, a Druid/Hadoop system is  simultaneously capable of real-time query against ingesting data and batch data.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="external">What external dependencies does Druid have?</h2>
+								<p>Yes; as in the previous answer, Druid is able to utilize any storage system as long as it is mountable. In terms of best practices, we recommend that deep storage have the following properties: fully backed up, highly available and low latency.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="deep-storage">What is "deep storage"?</h2>
+								<p>Druid relies on "deep storage" as the reference data which its compute nodes represent. We consider deep storage to be any traditional mountable storage system that ideally is highly available and serves as the data of record. For Metamarkets, its Amazon’s S3 but other implementations like Virtustream uses its own back end, or deep storage.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="deep">Can anything other than S3 be used for "deep storage"?</h2>
+								<p>Yes; as in the previous answer, Druid is able to utilize any storage system as long as it is mountable. In terms of best practices, we recommend that deep storage have the following properties: fully backed up, highly available and low latency.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="queries">Where can I find a set of simple queries to run?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="non-structured">Can Druid accept non-structured data?</h2>
+								<p>Druid is optimized for semi-structured data; meaning that we expect the schema to change infrequently and in a known and predictable way.</p>
+							</div>
+							<div class="text-item">
+								<h2 id="time-series">Does Druid only accept time-series data?</h2>
+								<p>Yes. That said, depending on how data is read into the system, almost everything can express uniqueness with a timestamp. Timestamp granularity?</p>
+							</div>
+							<div class="text-item">
+								<h2 id="zookeeper">Isn't Zookeeper a single point of failure?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="master">Isn't the Master a single point of failure?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="mas-queries">Do all queries go through the master?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="mas-dies">Can I query Druid even after the master dies?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="update">How do I update data?</h2>
+							</div>
+							<div class="text-item">
+								<h2 id="ind-serv">What is the IndexingService, do I need that?</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="container custom">
+				<div class="row-fluid">
+					<div class="span3">
+						<div class="contact-item">
+							<span>CONTACT US</span>
+							(415) 814-1788<br/>
+							<a href="mailto:info@druid.io">info@druid.io</a>
+						</div>
+						<div class="contact-item">
+							<span>Metamarkets</span>
+							625 2nd Street, Suite #230<br/>
+							San Francisco, CA 94017
+							<div class="soc">
+								<a href="https://twitter.com/druidio"></a>
+								<a href="https://github.com/metamx/druid" class="github"></a>
+								<a href="http://www.meetup.com/Open-Druid/" class="meet"></a>
+							</div>
+						</div>
+					</div>
+					<div class="span9">
+						<ul class="unstyled">
+							<li>
+								<a href="index.html">DRUID</a>
+							</li>
+							<li>
+								<a href="druid.html">What is Druid?</a>
+							</li>
+							<li>
+								<a href="downloads.html">Downloads</a>
+							</li>
+							<li>
+								<a target="_blank" href="https://github.com/metamx/druid/wiki">Documentation</a>
+							</li>
+						</ul>
+						<ul class="unstyled">
+							<li>
+								<a href="#">SUPPORT</a>
+							</li>
+							<li>
+								<a href="community.html">Community</a>
+							</li>
+							<li>
+								<a href="faq.html">FAQ</a>
+							</li>
+							<li>
+								<a href="licensing.html">Licensing</a>
+							</li>
+						</ul>
+						<ul class="unstyled">
+							<li>
+								<a href="blog.html">BLOG</a>
+							</li>
+						</ul>
+						<div class="logo-block">
+							<span class="logo custom">
+								<a href="index.html"></a>
+							</span>
+							<p>is an open source project sponsored by<br/> Metamarkets.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
