@@ -1,0 +1,20 @@
+---
+title: Blog
+sectionid: blog
+layout: page
+---
+
+<h1 class="index">Latest News from Druid</h1>
+
+<div class="text-part">
+
+  {% for page in site.posts %}
+    <div class="text-item blog">
+      <h2 class="date"><a href="{{ page.url }}">{{ page.title }}</a>
+      <span>{{ page.date | date: "%B %e, %Y" }} by {{ page.author | upcase }}</span></h2>
+      <p>{{ page.excerpt }}</p>
+      <a href="{{ page.url }}">Continue Reading →</a>
+    </div>
+  {% endfor %}
+
+</div>
