@@ -2,6 +2,7 @@
 title: Real Real-Time. For Real.
 layout: post
 author: Eric Tschetter
+image: http://metamarkets.com/wp-content/uploads/2013/05/Clocks.jpg
 ---
 
 _Danny Yuan, Cloud System Architect at Netflix, and I recently co-presented at the Strata Conference in Santa Clara. The presentation discussed how Netflix engineers leverage Druid, Metamarkets’ open-source, distributed, real-time, analytical data store, to ingest 150,000 events per second (billions per day), equating to about 500MB/s of data at peak (terabytes per hour) while still maintaining real-time, exploratory querying capabilities. Before and after the presentation, we had some interesting chats with conference attendees. One common theme from those discussions was curiosity around the definition of “real-time” in the real world and how Netflix could possibly achieve it at those volumes. This post is a summary of the learnings from those conversations and a response to some of those questions._
