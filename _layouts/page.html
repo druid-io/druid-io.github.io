@@ -2,10 +2,10 @@
 layout: default
 ---
 
-<div class="container custom main-cont">
-  <div class="row-fluid">
-    <div class="span10 offset1{% if page.id != 'home' %} simple-page{% endif %}{% if page.sectionid == 'faq' %} faq-page{% endif %}">
-      {{ content }}
-    </div>
+<div class="row-fluid">
+  <div class="span10 offset1{% if page.id != 'home' %} simple-page{% endif %}{% if page.sectionid == 'faq' %} faq-page{% endif %}">
+
+    {{ content }}
+    
   </div>
 </div>
