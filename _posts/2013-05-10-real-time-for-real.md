@@ -131,7 +131,7 @@ trying it out, the code is available on
 [GitHub](https://github.com/metamx/druid) and our [wiki with documentation is
 available here](https://github.com/metamx/druid/wiki). Finally, to complete
 the link soup at the bottom of our post,
-[here] is our introductory
+[here is our introductory
 presentation at Strata](http://www.youtube.com/watch?v=eCbXoGSyHbg) and [here
 is our most recent Strata talk](http://www.youtube.com/watch?v=Dlqj34l2upk) with Danny about real-time in Santa Clara.
 
