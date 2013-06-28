@@ -19,15 +19,17 @@ OLAP data store that resulted.
 To frame our discussion, let’s begin with an illustration of what our raw impression event logs look 
 like, containing many dimensions and two metrics (click and price).
 
-    timestamp             publisher          advertiser  gender  country  .. dimensions ..   click  price
-    2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                         0      0.65
-    2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                         0      0.62
-    2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                         1      0.45
+
+    timestamp             publisher          advertiser  gender  country  dimensions  click  price
+    2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                  0      0.65
+    2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                  0      0.62
+    2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                  1      0.45
     ...
-    2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK                          0      0.87
-    2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                          0      0.99
-    2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                          1      1.53
+    2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK                   0      0.87
+    2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                   0      0.99
+    2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                   1      1.53
     ...
+
 
 We call this our *alpha* data set. We perform a first-level aggregation operation over a selected set of 
 dimensions, equivalent to (in pseudocode):
@@ -38,11 +40,11 @@ dimensions, equivalent to (in pseudocode):
 
 to yield a compacted version:
 
-     timestamp             publisher           advertiser   gender   country  impressions  clicks  revenue
-     2011-01-01T01:00:00Z  ultratrimfast.com   google.com   Male     USA      1800         25      15.70
-     2011-01-01T01:00:00Z  bieberfever.com     google.com   Male     USA      2912         42      29.18
-     2011-01-01T02:00:00Z  ultratrimfast.com   google.com   Male     UK       1953         17      17.31
-     2011-01-01T02:00:00Z  bieberfever.com     google.com   Male     UK       3194         170     34.01
+     timestamp             publisher          advertiser  gender country impressions clicks revenue
+     2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+     2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+     2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+     2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
 
 This is our *beta* data set, filtered for five selected dimensions and compacted. In the limit, as we group 
 by all available dimensions, the size of this aggregated beta converges to the original *alpha*. In practice, 
