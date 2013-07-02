@@ -88,14 +88,11 @@ aggregation queries.  SQL is included to describe what the query is doing.
 
 
     * The timestamp range encompasses all data.  
-    * 15-core is a 16-core machine with 60GB RAM and 1TB of local disk. The
-      machine was configured to only use 15
+    * 15-core is a 16-core machine with 60GB RAM and 1TB of local disk. The machine was configured to only use 15
     * threads for processing queries.  
     * 4-core is a 4-core machine with 32GB RAM and 1TB of local disk.  
-    * in-memory means that the machine was configured to load all data up
-      into the Java heap and have it available for querying 
-    * mmap means that the machine was configured to mmap the data instead
-      of load it into the Java heap
+    * in-memory means that the machine was configured to load all data up into the Java heap and have it available for querying 
+    * mmap means that the machine was configured to mmap the data instead of load it into the Java heap
 
 
 
@@ -209,7 +206,7 @@ times of 10 seconds instead of 1 second, we can pay less for our processing.
 If we can tolerate response times of 1 minute, we pay even less.  Conversely,
 if we need answers in milliseconds, this is achievable at a higher price point.
 
-V) Using Druid
+###V) Using Druid
 
 We currently offer Druid as a hosted service, but are exploring steps to open
 up the platform to a developer community.  If you would like to explore either
