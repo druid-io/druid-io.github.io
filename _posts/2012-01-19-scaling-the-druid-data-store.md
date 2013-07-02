@@ -75,74 +75,54 @@ changed the ratio of data served to available RAM.
 First, we’ll provide some benchmarks for our 100-node configuration on simple
 aggregation queries.  SQL is included to describe what the query is doing.
 
-    "Select count(*) from _table_ where timestamp >= ? and timestamp < ?"
+    Select count(*) from _table_ where timestamp >= ? and timestamp < ?
 
-cluster scan rate (rows/sec)	core scan rate
-26,610,386,635	17,740,258
-25,224,873,928	22,422,110
-20,387,152,160	27,182,870
-11,910,388,894	31,761,037
-10,008,730,163	19,100,630
-10,129,695,120	19,331,479
-6,626,570,688	33,132,853
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core,  50 nodes, mmap
-
-* The timestamp range encompasses all data.
-* 15-core is a 16-core machine with 60GB RAM and 1TB of local disk.  The
-  machine was configured to only use 15 threads for processing queries.
-* 4-core is a 4-core machine with 32GB RAM and 1TB of local disk.  “in-memory”
-  means that the machine was configured to load all data up into the Java heap
-and have it available for querying
-* “mmap” means that the machine was configured to mmap the data instead of load
-  it into the Java heap
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		26,610,386,635			17,740,258
+	15-core,  75 nodes, mmap		25,224,873,928			22,422,110
+	15-core,  50 nodes, mmap		20,387,152,160			27,182,870
+	15-core,  25 nodes, mmap		11,910,388,894			31,761,037
+	4-core,  131 nodes, in-memory		10,008,730,163			19,100,630
+	4-core,  131 nodes, mmap		10,129,695,120			19,331,479
+	4-core,   50 nodes, mmap		 6,626,570,688			33,132,853
 
 
-``"Select count(*), sum(metric1) from _table_ where timestamp >= ? and timestamp < ?"
-``
+    * The timestamp range encompasses all data.  
+    * 15-core is a 16-core machine with 60GB RAM and 1TB of local disk. The
+      machine was configured to only use 15
+    * threads for processing queries.  
+    * 4-core is a 4-core machine with 32GB RAM and 1TB of local disk.  
+    * in-memory means that the machine was configured to load all data up
+      into the Java heap and have it available for querying 
+    * mmap means that the machine was configured to mmap the data instead
+      of load it into the Java heap
 
-cluster scan rate (rows/sec)	core scan rate
-16,223,081,703	10,815,388
-9,860,968,285	8,765,305
-8,093,611,909	10,791,483
-4,126,502,352	11,004,006
-5,755,274,389	10,983,348
-5,032,185,657	9,603,408
-1,720,238,609	8,601,193
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core, 50 nodes, mmap
+
+
+    Select count(*), sum(metric1) from _table_ where timestamp >= ? and timestamp < ?
+
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		16,223,081,703			10,815,388
+	15-core,  75 nodes, mmap	 	 9,860,968,285			8,765,305
+	15-core,  50 nodes, mmap	 	 8,093,611,909			10,791,483
+	15-core,  25 nodes, mmap	 	 4,126,502,352			11,004,006
+	4-core,  131 nodes, in-memory	 	 5,755,274,389			10,983,348
+	4-core,  131 nodes, mmap	 	 5,032,185,657			9,603,408
+	4-core,   50 nodes, mmap	 	 1,720,238,609			8,601,193
+
 
     Select count(*), sum(metric1), sum(metric2), sum(metric3), sum(metric4)
     where timestamp >= ? and timestamp < ? 
 
-cluster scan rate (rows/sec)	core scan rate
-7,591,604,822	5,061,070
-4,319,179,995	3,839,271
-3,406,554,102	4,542,072
-1,826,451,888	4,870,538
-1,936,648,601	3,695,894
-2,210,367,152	4,218,258
-1,002,291,562	5,011,458
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core,  50 nodes, mmap
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		7,591,604,822			5,061,070
+	15-core,  75 nodes, mmap		4,319,179,995			3,839,271
+	15-core,  50 nodes, mmap		3,406,554,102			4,542,072
+	15-core,  25 nodes, mmap		1,826,451,888			4,870,538
+	4-core,  131 nodes, in-memory		1,936,648,601			3,695,894
+	4-core,  131 nodes, mmap		2,210,367,152			4,218,258
+	4-core,   50 nodes, mmap		1,002,291,562			5,011,458
+
 
 The first query is just a count and we see the best performance out of our
 system with it, achieving scan rates of 33M rows/second/core.  At first glance
@@ -162,67 +142,47 @@ As we add metrics, it has to also load those metric values and scan over them,
 increasing the amount of memory scanned.  Next, we’ll do a top 100 query on our
 high cardinality dimension:
 
-    Select high_card_dimension, count(*) AS cnt from _table_ where timestamp >= ? 
-    and timestamp < ? group by high_card_dimension order by cnt limit 100;
 
-cluster scan rate (rows/sec)	core scan rate
-10,241,183,745	6,827,456
-4,891,097,559	4,347,642
-3,616,707,511	4,822,277
-1,665,053,263	4,440,142
-4,388,159,569	8,374,350
-2,444,344,232	4,664,779
-1,215,737,558	6,078,688
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core,  50 nodes, mmap
+	Select high_card_dimension, count(*) AS cnt from _table_ where timestamp >= ? 
+	and timestamp < ? group by high_card_dimension order by cnt limit 100;
+
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		10,241,183,745			6,827,456
+	15-core,  75 nodes, mmap	 	 4,891,097,559			4,347,642
+	15-core,  50 nodes, mmap	 	 3,616,707,511			4,822,277
+	15-core,  25 nodes, mmap	 	 1,665,053,263			4,440,142
+	4-core,  131 nodes, in-memory	 	 4,388,159,569			8,374,350
+	4-core,  131 nodes, mmap	 	 2,444,344,232			4,664,779
+	4-core,   50 nodes, mmap	 	 1,215,737,558			6,078,688
+	
 
     Select high_card_dimension, count(*), sum(metric1) AS cnt from _table_
     where timestamp >= ? and timestamp < ? group by high_card_dimension order by
     cnt limit 100;
 
-cluster scan rate (rows/sec)	core scan rate
-7,309,984,688	4,873,323
-3,333,628,777	2,963,226
-2,555,300,237	3,407,067
-1,384,674,717	3,692,466
-3,237,907,984	6,179,214
-1,740,481,380	3,321,529
-863,170,420	4,315,852
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core,  50 nodes, mmap
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		7,309,984,688			4,873,323
+	15-core,  75 nodes, mmap		3,333,628,777			2,963,226
+	15-core,  50 nodes, mmap		2,555,300,237			3,407,067
+	15-core,  25 nodes, mmap		1,384,674,717			3,692,466
+	4-core,  131 nodes, in-memory		3,237,907,984			6,179,214
+	4-core,  131 nodes, mmap		1,740,481,380			3,321,529
+	4-core,   50 nodes, mmap	  	  863,170,420			4,315,852
 
-    Select high_card_dimension, count(*), sum(metric1), sum(metric2), sum(metric3),
-    sum(metric4) AS cnt from _table_ where timestamp >= ? and timestamp < ? group
-by high_card_dimension order by cnt limit 100;
 
-cluster scan rate (rows/sec)	core scan rate
-4,064,424,274	2,709,616
-2,014,067,386	1,790,282
-1,499,452,617	1,999,270
-810,143,518	2,160,383
-1,670,214,695	3,187,433
-1,116,635,690	2,130,984
-531,389,163	2,656,946
-cluster
-15-core, 100 nodes, in-memory
-15-core,  75 nodes, mmap
-15-core,  50 nodes, mmap
-15-core,  25 nodes, mmap
-4-core, 131 nodes, in-memory
-4-core, 131 nodes, mmap
-4-core,  50 nodes, mmap
+    	
+	Select high_card_dimension, count(*), sum(imetric1), sum(metric2),
+	sum(metric3), sum(metric4) AS cnt from _table_ where timestamp >= ? and
+	timestamp < ? group by high_card_dimension order by cnt limit 100;
+
+	cluster					cluster scan rate (rows/sec)	core scan rate
+	15-core, 100 nodes, in-memory		4,064,424,274			2,709,616
+	15-core,  75 nodes, mmap		2,014,067,386			1,790,282
+	15-core,  50 nodes, mmap		1,499,452,617			1,999,270
+	15-core,  25 nodes, mmap	  	  810,143,518			2,160,383
+	4-core,  131 nodes, in-memory		1,670,214,695			3,187,433
+	4-core,  131 nodes, mmap		1,116,635,690			2,130,984
+	4-core,   50 nodes, mmap	  	  531,389,163			2,656,946
 
 Here we see the superior performance of the in-memory representation when doing
 top lists versus when doing simple time-based aggregations.  This is an
