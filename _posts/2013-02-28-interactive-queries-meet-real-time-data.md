@@ -1,5 +1,5 @@
 ---
-title: "Druid: Interactive Queries Meet Real-time Data"
+title: "Druid: Interactive Queries Meet Real-time Data (Video)"
 layout: post
 author: Eric Tschetter
 ---
@@ -9,5 +9,5 @@ Eric Tschetter (lead architect of Druid) and Danny Yuan (Netflix Platform Engine
 
 
 <iframe width="560" height="315" 
-src="//www.youtube.com/embed/eCbXoGSyHbg?rel=0" 
+src="//www.youtube.com/embed/Dlqj34l2upk?rel=0" 
 frameborder="0"></iframe>
