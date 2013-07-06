@@ -5,7 +5,7 @@ author: Eric Tschetter
 image: http://metamarkets.com/wp-content/uploads/2012/01/scaling2.jpg
 ---
 
-> ###“Give me a lever long enough… and I shall move the world”
+> *“Give me a lever long enough… and I shall move the world”*
 > — Archimedes
 
 Parallelism is computing’s leverage, a force multiplier acting against the
