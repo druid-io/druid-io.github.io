@@ -6,7 +6,4 @@ author: Eric Tschetter
 
 Eric Tschetter (lead architect of Druid)
 
-
-<iframe width="560" height="315" 
-src="//www.youtube.com/embed/eCbXoGSyHbg?rel=0" 
-frameborder="0"></iframe>
+<iframe width="640" height="360" src="//www.youtube.com/embed/eCbXoGSyHbg?rel=0" frameborder="0" allowfullscreen=""></iframe>
