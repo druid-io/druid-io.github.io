@@ -5,7 +5,7 @@ author: Eric Tschetter
 image: http://metamarkets.com/wp-content/uploads/2012/01/scaling2.jpg
 ---
 
-> *“Give me a lever long enough… and I shall move the world”*
+> ####*“Give me a lever long enough… and I shall move the world”*
 > — Archimedes
 
 Parallelism is computing’s leverage, a force multiplier acting against the
@@ -75,6 +75,7 @@ changed the ratio of data served to available RAM.
 First, we’ll provide some benchmarks for our 100-node configuration on simple
 aggregation queries.  SQL is included to describe what the query is doing.
 
+
     Select count(*) from _table_ where timestamp >= ? and timestamp < ?
 
 	cluster					cluster scan rate (rows/sec)	core scan rate
@@ -87,13 +88,12 @@ aggregation queries.  SQL is included to describe what the query is doing.
 	4-core,   50 nodes, mmap		 6,626,570,688			33,132,853
 
 
-    * The timestamp range encompasses all data.  
-    * 15-core is a 16-core machine with 60GB RAM and 1TB of local disk. The machine was configured to only use 15
-    * threads for processing queries.  
-    * 4-core is a 4-core machine with 32GB RAM and 1TB of local disk.  
-    * in-memory means that the machine was configured to load all data up into the Java heap and have it available for querying 
-    * mmap means that the machine was configured to mmap the data instead of load it into the Java heap
-
+>##### 1. The timestamp range encompasses all data.  
+>##### 2. 15-core is a 16-core machine with 60GB RAM and 1TB of local disk. The machine was configured to only use 15 
+>##### 3. threads for processing queries. 
+>##### 4. 4-core is a 4-core machine with 32GB RAM and 1TB of local disk.  
+>##### 5. in-memory means that the machine was configured to load all data up into the Java heap and have it available for querying 
+>##### 6. mmap means that the machine was configured to mmap the data instead of load it into the Java heap
 
 
     Select count(*), sum(metric1) from _table_ where timestamp >= ? and timestamp < ?
@@ -119,6 +119,7 @@ aggregation queries.  SQL is included to describe what the query is doing.
 	4-core,  131 nodes, in-memory		1,936,648,601			3,695,894
 	4-core,  131 nodes, mmap		2,210,367,152			4,218,258
 	4-core,   50 nodes, mmap		1,002,291,562			5,011,458
+
 
 
 The first query is just a count and we see the best performance out of our
