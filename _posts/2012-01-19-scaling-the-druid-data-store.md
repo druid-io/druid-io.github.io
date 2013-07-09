@@ -1,11 +1,12 @@
 ---
-title: "Scaling the Druid Data Store"
+published: true
+title: Scaling the Druid Data Store
 layout: post
 author: Eric Tschetter
-image: http://metamarkets.com/wp-content/uploads/2012/01/scaling2.jpg
+image: "http://metamarkets.com/wp-content/uploads/2012/01/scaling2.jpg"
 ---
 
-> ####“Give me a lever long enough… and I shall move the world”
+> *“Give me a lever long enough… and I shall move the world”*
 > — Archimedes
 
 Parallelism is computing’s leverage, a force multiplier acting against the
@@ -212,5 +213,3 @@ We currently offer Druid as a hosted service, but are exploring steps to open
 up the platform to a developer community.  If you would like to explore either
 using our hosted service or being part of a developer community, please drop us
 a note.
-
-
