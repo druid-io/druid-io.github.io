@@ -13,8 +13,6 @@ post, we characterized the performance and scaling challenges that motivated us
 to build this system in the first place. Here, we discuss three design
 principles underpinning its architecture.
 
----
-
 **1. Partial Aggregates + In-Memory + Indexes => Fast Queries** 
 
 We work with two representations of our data: *alpha* represents the raw,
@@ -30,7 +28,7 @@ This is the most compact representation that preserves the finest grain of data,
 while enabling on-the-fly computation of all O(2^n) possible dimensional
 roll-ups.
 
-The key to Druid’s speed is maintaining the *beta* data entirely in memory. Full
+The key to Druid’s speed is maintaining the _beta_ data entirely in memory. Full
 scans are several orders of magnitude faster in memory than via disk. What we
 lose in having to compute roll-ups on the fly, we make up for with speed.
 
