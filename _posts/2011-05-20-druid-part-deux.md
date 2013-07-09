@@ -1,8 +1,9 @@
 ---
+published: true
 title: "Druid, Part Deux: Three Principles for Fast, Distributed OLAP"
-layout: post
 author: Eric Tschetter
-image: http://metamarkets.com/wp-content/uploads/2011/05/toyota-sized-470x288.jpg
+image: "http://metamarkets.com/wp-content/uploads/2011/05/toyota-sized-470x288.jpg"
+layout: post
 ---
 
 In a [previous blog
@@ -11,6 +12,8 @@ distributed indexing and query processing infrastructure we call Druid. In that
 post, we characterized the performance and scaling challenges that motivated us
 to build this system in the first place. Here, we discuss three design
 principles underpinning its architecture.
+
+---
 
 **1. Partial Aggregates + In-Memory + Indexes => Fast Queries** 
 
@@ -104,4 +107,3 @@ with sub-second response times.
 We believe that the performance, scalability, and unification of real-time and
 historical data that Druid provides could be of broader interest. As such, we
 plan to open source our code base in the coming year.
-
