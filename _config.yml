@@ -3,9 +3,10 @@ exclude:
 permalink: /blog/:year/:month/:day/:title.html
 
 prose:
-  _posts:
-    - name: "layout"
-      field:
-        element: "text"
-        label: "Layout"
-        value: "post"
+  metadata:
+    _posts:
+      - name: "layout"
+        field:
+          element: "text"
+          label: "Layout"
+          value: "post"
