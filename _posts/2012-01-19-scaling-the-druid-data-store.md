@@ -95,29 +95,30 @@ threads for processing queries.
 * in-memory means that the machine was configured to load all data up into the Java heap and have it available for querying
 * mmap means that the machine was configured to mmap the data instead of load it into the Java heap
 
-        Select count(*), sum(metric1) from _table_ where timestamp >= ? and timestamp < ?
 
-        cluster                         cluster scan rate (rows/sec)    core scan rate
-        15-core, 100 nodes, in-memory   16,223,081,703                  10,815,388
-        15-core,  75 nodes, mmap        9,860,968,285                   8,765,305
-        15-core,  50 nodes, mmap        8,093,611,909                   10,791,483
-        15-core,  25 nodes, mmap        4,126,502,352                   11,004,006
-        4-core,  131 nodes, in-memory   5,755,274,389                   10,983,348
-        4-core,  131 nodes, mmap        5,032,185,657                   9,603,408
-        4-core,   50 nodes, mmap        1,720,238,609                   8,601,193
+    Select count(*), sum(metric1) from _table_ where timestamp >= ? and timestamp < ?
+
+    cluster                         cluster scan rate (rows/sec)    core scan rate
+    15-core, 100 nodes, in-memory   16,223,081,703                  10,815,388
+    15-core,  75 nodes, mmap        9,860,968,285                   8,765,305
+    15-core,  50 nodes, mmap        8,093,611,909                   10,791,483
+    15-core,  25 nodes, mmap        4,126,502,352                   11,004,006
+    4-core,  131 nodes, in-memory   5,755,274,389                   10,983,348
+    4-core,  131 nodes, mmap        5,032,185,657                   9,603,408
+    4-core,   50 nodes, mmap        1,720,238,609                   8,601,193
 
 
-        Select count(*), sum(metric1), sum(metric2), sum(metric3), sum(metric4)
-        where timestamp >= ? and timestamp < ?
+    Select count(*), sum(metric1), sum(metric2), sum(metric3), sum(metric4)
+    where timestamp >= ? and timestamp < ?
 
-        cluster                         cluster scan rate (rows/sec)    core scan rate
-        15-core, 100 nodes, in-memory   7,591,604,822                   5,061,070
-        15-core,  75 nodes, mmap        4,319,179,995                   3,839,271
-        15-core,  50 nodes, mmap        3,406,554,102                   4,542,072
-        15-core,  25 nodes, mmap        1,826,451,888                   4,870,538
-        4-core,  131 nodes, in-memory   1,936,648,601                   3,695,894
-        4-core,  131 nodes, mmap        2,210,367,152                   4,218,258
-        4-core,   50 nodes, mmap        1,002,291,562                   5,011,458
+    cluster                         cluster scan rate (rows/sec)    core scan rate
+    15-core, 100 nodes, in-memory   7,591,604,822                   5,061,070
+    15-core,  75 nodes, mmap        4,319,179,995                   3,839,271
+    15-core,  50 nodes, mmap        3,406,554,102                   4,542,072
+    15-core,  25 nodes, mmap        1,826,451,888                   4,870,538
+    4-core,  131 nodes, in-memory   1,936,648,601                   3,695,894
+    4-core,  131 nodes, mmap        2,210,367,152                   4,218,258
+    4-core,   50 nodes, mmap        1,002,291,562                   5,011,458
 
 
 The first query is just a count and we see the best performance out of our
