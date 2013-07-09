@@ -1,7 +1,7 @@
 ---
 title: "Druid, R, Pizza and massively large data sets (Video)"
 layout: post
-author: Xavier LÉautÉ 
+author: Xavier LÉAUTÉ
 ---
 
 On April 3rd 2013 we held our first Meetup hosted by Metamarkets. The description and video follows. 
