@@ -5,8 +5,24 @@ permalink: /blog/:year/:month/:day/:title.html
 prose:
   metadata:
     _posts:
+      - name: "title"
+        field:
+          element: "text"
+          label: "Title"
+          value: ""
+      - name: "author"
+        field:
+          element: "text"
+          label: "Author"
+          value: ""
+      - name: "image"
+        field:
+          element: "text"
+          label: "Image URL"
+          value: ""
       - name: "layout"
         field:
           element: "text"
           label: "Layout"
           value: "post"
+
