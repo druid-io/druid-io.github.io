@@ -4,7 +4,14 @@ layout: post
 ---
 
 ## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
-In our last post, we got a realtime node working. Now it is time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [[Firehose]]. In this post we'll outline how to ingest data in realtime using a Firehose.
+## About Druid ##
+Druid is a rockin' data store capable of interactively querying big data as it updates in realtime. Druid drives the Metamarkets platform and Metamarkets is committed to developing Druid in open source.
+
+## Introduction ##
+
+In our last post, we got a realtime node working with example Twitter data. Now it's time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a Firehose. In this post we'll outline how to ingest data from Kafka in realtime using a Firehose.
+
+Druid is available [here](https://github.com/metamx/druid).
 
 ## Create Config Directories ##
 Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory.
@@ -19,7 +26,7 @@ mkdir config/broker
 
 ## Loading Data with Kafka ##
 
-[KafkaFirehoseFactory](https://github.com/metamx/druid/blob/master/realtime/src/main/java/com/metamx/druid/realtime/firehose/KafkaFirehoseFactory.java) is how druid communicates with Kafka. Using this [[Firehose]] with the right configuration, we can import data into Druid in realtime without writing any code. To load data to a realtime node via Kafka, we'll first need to initialize Zookeeper and Kafka, and then configure and initialize a [[Realtime]] node.
+[KafkaFirehoseFactory](https://github.com/metamx/druid/blob/master/realtime/src/main/java/com/metamx/druid/realtime/firehose/KafkaFirehoseFactory.java) is how druid communicates with Kafka. Using this Firehose with the right configuration, we can import data into Druid in realtime without writing any code. To load data to a realtime node via Kafka, we'll first need to initialize Zookeeper and Kafka, and then configure and initialize a Realtime node.
 
 ### Booting Kafka ###
 
@@ -43,7 +50,7 @@ bin/zookeeper-server-start.sh config/zookeeper.properties
 # in a new console
 bin/kafka-server-start.sh config/server.properties
 ```
-4. Launch the console producer (so you can type in JSON kafka messages in a bit)
+4. In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)
 ```bash
 bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ```
@@ -67,8 +74,6 @@ druid.request.logging.dir=/tmp/example/log
 druid.realtime.specFile=realtime.spec
 com.metamx.emitter.logging=true
 com.metamx.emitter.logging.level=info
-
-druid.processing.numThreads=3
 
 com.metamx.aws.accessKey=dummy_access_key
 com.metamx.aws.secretKey=dummy_secret_key
