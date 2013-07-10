@@ -50,6 +50,7 @@ bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ### Launching a Realtime Node
 
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
+
 ```bash
 druid.host=127.0.0.1
 druid.port=8080
@@ -82,6 +83,7 @@ druid.database.password=diurd
 druid.database.connectURI=
 druid.host=127.0.0.1:8080
 ```
+
 2. Create a valid realtime configuration file similar to this called realtime.spec:
 
 ```json
