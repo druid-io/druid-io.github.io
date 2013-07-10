@@ -154,9 +154,9 @@ The result looks something like this:
 This data, plotted in a time series/distribution, looks something like this:
 
 
-![Timezone / Tweets Scatter Plot](/content/uploads/2013/06/tweets_timezone_offset.png)
+![Timezone / Tweets Scatter Plot](http://http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png)
 
-This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have "curl":http://curl.haxx.se/ installed. Control+C to break out of the client script.
+This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have [curl](http://curl.haxx.se/) installed. Control+C to break out of the client script.
 
 ## Querying Druid ##
 
@@ -337,4 +337,4 @@ Feel free to tweak other query parameters to answer other questions you may have
 
 This tutorial is merely showcasing a small fraction of what Druid can do. If you are interested in more information about Druid, including setting up a more sophisticated Druid cluster, please read the other links in our wiki.
 
-And thus concludes our journey! Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our "google groups page":http://www.groups.google.com/forum/#!forum/druid-development.
+And thus concludes our journey! Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our [google groups page](http://www.groups.google.com/forum/#!forum/druid-development).
