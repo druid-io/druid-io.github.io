@@ -9,7 +9,7 @@ layout: post
 
 Druid is a rockin' analytical data store capable of offering interactive query on big data in realtime - as data is ingested. Druid drives the Metamarkets platform, and Metamarkets is committed to building Druid in open source.
 
-Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the "Twitter spritzer stream":https://dev.twitter.com/docs/streaming-apis/streams/public. If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
+Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the [Twitter spritzer stream](https://dev.twitter.com/docs/streaming-apis/streams/public). If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
 
 ## Setting Up ##
 
@@ -17,7 +17,7 @@ There are two ways to setup Druid: download a tarball, or build it from source.
 
 ### Download a Tarball ###
 
-We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/artifacts/druid-services-0.5.5-SNAPSHOT-bin.tar.gz.
+We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/druid-services-0.5.5-SNAPSHOT-bin.tar.gz).
 Download this bad boy to a directory of your choosing.
 
 You can extract the awesomeness within by issuing:
@@ -61,7 +61,7 @@ Let's start doing stuff. You can start a Druid [[Realtime]] node by issuing:
 
 Select "twitter". 
 
-You'll need to register a new application with the twitter API, which only takes a minute. Go to "https://twitter.com/oauth_clients/new":https://twitter.com/oauth_clients/new and fill out the form and submit. Don't worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.
+You'll need to register a new application with the twitter API, which only takes a minute. Go to [https://twitter.com/oauth_clients/new](https://twitter.com/oauth_clients/new) and fill out the form and submit. Don't worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.
 
 Enter your credentials when prompted.
 
@@ -100,12 +100,12 @@ These messages indicate you are ingesting events. The Druid real time-node inges
 ... ETC
 </code></pre>
 
-The logs are about building different columns, probably not the most exciting stuff (they might as well be in Vulcan) if are you learning about Druid for the first time. Nevertheless, if you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our "White Paper":http://static.druid.io/docs/druid.pdf.
+The logs are about building different columns, probably not the most exciting stuff (they might as well be in Vulcan) if are you learning about Druid for the first time. Nevertheless, if you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our [White Paper](http://static.druid.io/docs/druid.pdf).
 
 Okay, things are about to get real (-time). To query the real-time node you've spun up, you can issue:
 <pre>./run_example_client.sh</pre>
 
-Select "twitter" once again. This script issues [[GroupByQuery]]s to the twitter data we've been ingesting. The query looks like this:
+Select "twitter" once again. This script issues GroupByQuerys to the twitter data we've been ingesting. The query looks like this:
 
 ```json
 {
@@ -153,7 +153,8 @@ The result looks something like this:
 
 This data, plotted in a time series/distribution, looks something like this:
 
-!http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png(Timezone / Tweets Scatter Plot)!
+
+![Timezone / Tweets Scatter Plot](/content/uploads/2013/06/tweets_timezone_offset.png)
 
 This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have "curl":http://curl.haxx.se/ installed. Control+C to break out of the client script.
 
