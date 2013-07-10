@@ -60,7 +60,6 @@ druid.processing.formatString=processing_%s
 druid.processing.numThreads=1
 druid.processing.buffer.sizeBytes=10000000
 
-#emitting, opaque marker
 druid.service=example
 
 druid.request.logging.dir=/tmp/example/log
@@ -68,7 +67,6 @@ druid.realtime.specFile=realtime.spec
 com.metamx.emitter.logging=true
 com.metamx.emitter.logging.level=info
 
-# below are dummy values when operating a realtime only node
 druid.processing.numThreads=3
 
 com.metamx.aws.accessKey=dummy_access_key
@@ -85,6 +83,7 @@ druid.database.connectURI=
 druid.host=127.0.0.1:8080
 ```
 2. Create a valid realtime configuration file similar to this called realtime.spec:
+
 ```json
 [{
   "schema" : { "dataSource":"druidtest",
@@ -115,6 +114,7 @@ druid.host=127.0.0.1:8080
 
 }]
 ```
+
 3. Launch the realtime node
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
