@@ -154,7 +154,7 @@ The result looks something like this:
 This data, plotted in a time series/distribution, looks something like this:
 
 
-![Timezone / Tweets Scatter Plot](http://http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png)
+![Timezone / Tweets Scatter Plot](http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png)
 
 This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have [curl](http://curl.haxx.se/) installed. Control+C to break out of the client script.
 
