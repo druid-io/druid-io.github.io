@@ -5,17 +5,17 @@ layout: post
 
 ## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
 
-h2. About Druid
+## About Druid ##
 
 Druid is a rockin' analytical data store capable of offering interactive query on big data in realtime - as data is ingested. Druid drives the Metamarkets platform, and Metamarkets is committed to building Druid in open source.
 
 Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the "Twitter spritzer stream":https://dev.twitter.com/docs/streaming-apis/streams/public. If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
 
-h2. Setting Up
+## Setting Up ##
 
 There are two ways to setup Druid: download a tarball, or build it from source.
 
-h3. Download a Tarball
+### Download a Tarball ###
 
 We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/artifacts/druid-services-0.5.5-SNAPSHOT-bin.tar.gz.
 Download this bad boy to a directory of your choosing.
@@ -31,7 +31,7 @@ You should see a bunch of files:
 * run_example_client.sh
 * LICENSE, config, examples, lib directories
 
-h3. Clone and Build from Source
+### Clone and Build from Source ###
 
 The other way to setup Druid is from source via git. To do so, run these commands:
 
@@ -54,7 +54,7 @@ You can find the example executables in the examples/bin directory:
 * run_example_server.sh
 * run_example_client.sh
 
-h2. Running Example Scripts
+## Running Example Scripts ##
 
 Let's start doing stuff. You can start a Druid [[Realtime]] node by issuing:
 <pre>./run_example_server.sh</pre>
@@ -157,7 +157,7 @@ This data, plotted in a time series/distribution, looks something like this:
 
 This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have "curl":http://curl.haxx.se/ installed. Control+C to break out of the client script.
 
-h2. Querying Druid
+## Querying Druid ##
 
 In your favorite editor, create the file:
 <pre>time_boundary_query.body</pre>
@@ -203,7 +203,7 @@ We are going to make a slightly more complicated query, the [[TimeseriesQuery]].
 }
 </code></pre>
 
-You are probably wondering, what are these [[Granularities]] and [[Aggregations]] things? What the query is doing is aggregating some metrics over some span of time. 
+You are probably wondering, what are these granularities and aggregations things? What the query is doing is aggregating some metrics over some span of time. 
 To issue the query and get some results, run the following in your command line:
 <pre><code>curl -X POST 'http://localhost:8080/druid/v2/?pretty' -H 'content-type: application/json'  -d @timeseries_query.body</code></pre>
 
@@ -263,7 +263,7 @@ This gives us something like the following:
 ...
 ```
 
-h2. Solving a Problem
+## Solving a Problem ##
 
 One of Druid's main powers (see what we did there?) is to provide answers to problems, so let's pose a problem. What if we wanted to know what the top hash tags are, ordered by the number tweets, where the language is english, over the last few minutes you've been reading this tutorial? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the [[GroupByQuery]]. It would be nice if we could group by results by dimension value and somehow sort those results... and it turns out we can! 
 
@@ -332,7 +332,7 @@ You should hopefully see an answer to our question. For my twitter stream, it lo
 
 Feel free to tweak other query parameters to answer other questions you may have about the data.
 
-h2. Additional Information
+## Additional Information ##
 
 This tutorial is merely showcasing a small fraction of what Druid can do. If you are interested in more information about Druid, including setting up a more sophisticated Druid cluster, please read the other links in our wiki.
 
