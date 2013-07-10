@@ -7,7 +7,7 @@ layout: post
 
 h2. About Druid
 
-Druid is a rockin' analytical data store capable of offering interactive query on data in realtime - as data is ingested. Druid drives the Metamarkets platform, and Metamarkets is committed to building Druid in open source.
+Druid is a rockin' analytical data store capable of offering interactive query on big data in realtime - as data is ingested. Druid drives the Metamarkets platform, and Metamarkets is committed to building Druid in open source.
 
 Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the "Twitter spritzer stream":https://dev.twitter.com/docs/streaming-apis/streams/public. If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
 
@@ -17,14 +17,14 @@ There are two ways to setup Druid: download a tarball, or build it from source.
 
 h3. Download a Tarball
 
-We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/data/examples/druid-services-0.4.6.tar.gz.
+We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/artifacts/druid-services-0.5.5-SNAPSHOT-bin.tar.gz.
 Download this bad boy to a directory of your choosing.
 
 You can extract the awesomeness within by issuing:
-<pre>tar -zxvf druid-services-0.4.6.tar.gz</pre>
+<pre>tar -zxvf druid-services-0.5.5-SNAPSHOT-bin.tar.gz</pre>
 
 Not too lost so far right? That's great! If you cd into the directory:
-<pre>cd druid-services-0.4.6-SNAPSHOT</pre>
+<pre>cd druid-services-0.5.5-SNAPSHOT-bin</pre>
 
 You should see a bunch of files:
 * run_example_server.sh
