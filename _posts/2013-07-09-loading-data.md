@@ -4,12 +4,11 @@ layout: post
 ---
 
 ## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
-Once you have a realtime node working, it is time to load your own data to see how Druid performs.
-
-Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [[Firehose]].
+In our last post, we got a realtime node working. Now it is time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [[Firehose]]. In this post we'll outline how to ingest data in realtime using a Firehose.
 
 ## Create Config Directories ##
 Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory.
+
 ```bash
 mkdir config
 mkdir config/realtime
@@ -51,7 +50,7 @@ bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ### Launching a Realtime Node
 
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
-```
+```bash
 druid.host=127.0.0.1
 druid.port=8080
 
@@ -84,7 +83,6 @@ druid.database.user=user
 druid.database.password=diurd
 druid.database.connectURI=
 druid.host=127.0.0.1:8080
-
 ```
 2. Create a valid realtime configuration file similar to this called realtime.spec:
 ```json
@@ -169,4 +167,4 @@ curl -X POST "http://localhost:8080/druid/v2/?pretty" \
   }
 } ]
 ```
-Now you're ready for [[Querying Your Data]]!
+Congratulations, you've queried the data we just loaded! In our next post, we'll move on to Querying our Data.
