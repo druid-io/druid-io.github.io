@@ -17,14 +17,14 @@ There are two ways to setup Druid: download a tarball, or build it from source.
 
 ### Download a Tarball ###
 
-We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/druid-services-0.5.5-SNAPSHOT-bin.tar.gz).
+We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/druid-services-0.5.6-SNAPSHOT-bin.tar.gz).
 Download this bad boy to a directory of your choosing.
 
 You can extract the awesomeness within by issuing:
-<pre>tar -zxvf druid-services-0.5.5-SNAPSHOT-bin.tar.gz</pre>
+<pre>tar -zxvf druid-services-0.5.6-SNAPSHOT-bin.tar.gz</pre>
 
 Not too lost so far right? That's great! If you cd into the directory:
-<pre>cd druid-services-0.5.5-SNAPSHOT-bin</pre>
+<pre>cd druid-services-0.5.6-SNAPSHOT-bin</pre>
 
 You should see a bunch of files:
 * run_example_server.sh
