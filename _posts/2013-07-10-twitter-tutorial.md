@@ -24,7 +24,7 @@ You can extract the awesomeness within by issuing:
 <pre>tar -zxvf druid-services-0.5.6-SNAPSHOT-bin.tar.gz</pre>
 
 Not too lost so far right? That's great! If you cd into the directory:
-<pre>cd druid-services-0.5.6-SNAPSHOT-bin</pre>
+<pre>cd druid-services-0.5.6-SNAPSHOT</pre>
 
 You should see a bunch of files:
 * run_example_server.sh
