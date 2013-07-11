@@ -5,23 +5,20 @@ layout: post
 
 ## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
 ## About Druid ##
-Druid is a rockin' data store capable of interactively querying big data as it updates in realtime. Druid drives the Metamarkets platform and Metamarkets is committed to developing Druid in open source.
-
-## Introduction ##
-
-In our last post, we got a realtime node working with example Twitter data. Now it's time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a Firehose. In this post we'll outline how to ingest data from Kafka in realtime using a Firehose.
+Druid is a rockin' analytical data store capable of interactively querying big data as it updates in realtime. Druid drives the Metamarkets platform and Metamarkets is committed to developing Druid in open source.
 
 Druid is available [here](https://github.com/metamx/druid).
 
+## Introduction ##
+
+In our last post, we got a realtime node working with example Twitter data. Now it's time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [Firehose](https://github.com/metamx/druid/wiki/Firehose). In this post we'll outline how to ingest data from Kafka in realtime using the Kafka Firehose.
+
 ## Create Config Directories ##
-Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory.
+Each type of node needs its own config file and directory, so create these subdirectories under the druid directory.
 
 ```bash
 mkdir config
 mkdir config/realtime
-mkdir config/master
-mkdir config/compute
-mkdir config/broker
 ```
 
 ## Loading Data with Kafka ##
@@ -32,25 +29,20 @@ mkdir config/broker
 
 Instructions for booting a Zookeeper and then Kafka cluster are available [here](http://kafka.apache.org/07/quickstart.html).
 
-1. Download Apache Kafka 0.7.2 from [http://kafka.apache.org/downloads.html](http://kafka.apache.org/downloads.html)
+1. Download Apache Kafka 0.7.2 from [http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz](http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz)
 ```bash
-wget http://apache.spinellicreations.com/incubator/kafka/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
-tar -xvzf kafka-0.7.2-incubating-src.tgz
-cd kafka-0.7.2-incubating-src
+wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
+tar -xvzf kafka-0.7.2-incubating-bin.tgz
+cd kafka-0.7.2-incubating-bin
 ```
-2. Build Kafka
-```bash
-./sbt update
-./sbt package
-```
-3. Boot Kafka
+2. Boot Zookeeper and Kafka
 ```bash
 cat config/zookeeper.properties
 bin/zookeeper-server-start.sh config/zookeeper.properties
 # in a new console
 bin/kafka-server-start.sh config/server.properties
 ```
-4. In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)
+3. In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)
 ```bash
 bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ```
@@ -126,7 +118,7 @@ druid.host=127.0.0.1:8080
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
--classpath services/target/druid-services-0.5.5-SNAPSHOT-selfcontained.jar:config/realtime \
+-classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime \
 com.metamx.druid.realtime.RealtimeMain
 ```
 4. Paste data into the Kafka console producer
