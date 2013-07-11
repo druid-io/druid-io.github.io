@@ -56,7 +56,7 @@ You can find the example executables in the examples/bin directory:
 
 ## Running Example Scripts ##
 
-Let's start doing stuff. You can start a Druid [[Realtime]] node by issuing:
+Let's start doing stuff. You can start a Druid Realtime node by issuing:
 <pre>./run_example_server.sh</pre>
 
 Select "twitter". 
