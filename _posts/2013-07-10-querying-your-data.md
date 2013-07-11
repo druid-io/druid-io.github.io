@@ -15,7 +15,7 @@ Before we start querying druid, we're going to finish setting up a complete clus
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
--classpath services/target/druid-services-0.5.5-SNAPSHOT-selfcontained.jar:config/broker \
+-classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/broker \
 com.metamx.druid.http.BrokerMain
 ```
 
@@ -25,7 +25,7 @@ com.metamx.druid.http.BrokerMain
 2. Run the master node:
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
--classpath services/target/druid-services-0.5.5-SNAPSHOT-selfcontained.jar:config/master \
+-classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/master \
 com.metamx.druid.http.MasterMain
 ```
 
@@ -38,7 +38,7 @@ com.metamx.druid.http.MasterMain
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
--classpath services/target/druid-services-0.5.5-SNAPSHOT-selfcontained.jar:config/realtime \
+-classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime \
 com.metamx.druid.realtime.RealtimeMain
 ```
 
@@ -48,7 +48,7 @@ com.metamx.druid.realtime.RealtimeMain
 2. Run the compute node:
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
--classpath services/target/druid-services-0.5.5-SNAPSHOT-selfcontained.jar:config/compute \
+-classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/compute \
 com.metamx.druid.http.ComputeMain
 ```
 
