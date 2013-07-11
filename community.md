@@ -1,4 +1,5 @@
 ---
+published: true
 title: Community
 sectionid: community
 layout: page
@@ -19,15 +20,15 @@ We are also squatting in channel #druid-dev on [irc.freenode.net](irc.freenode.n
 +-- {.text-item .indent}
 ## Contribute
 
-Druid has a growing list open source projects and we’re delighted to work with
+We intend for Druid to be a community-led project and we’re delighted to work with
 outside engineers on everything from fixes, new connectors, and core projects.
+
 Of course, there are more ways to contribute than writing code, feature
 suggestions, reporting bugs, [documentation](documentation.html) and usability
 feedback all matter immensely. You can learn more about contributing by
-visiting our wiki maintained on our [Github page](https://github.com/metamx/druid/wiki).
-In case you’re curious, our contributor’s license agreement is embedded in our
-submission process and must be accepted before your Github pull request can be
-merged.
+visiting our [Github wiki](https://github.com/metamx/druid/wiki).
+
+For code contributions, we do require that a contributor's license agreement (CLA) is agreed to before we can accept the code.  Our CLA is fashioned after the Apache CLA and can be found in the base directory in the source code at https://github.com/metamx/druid
 =--
 
 =--
