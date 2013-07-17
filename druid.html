@@ -28,7 +28,7 @@ sectionid: druid
     <p><span>Highly Available.</span> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on "hot segments." And, because of replication, Druid supports rolling deployments and restarts. Scale up or scale down just by adding or remove nodes, it's that easy and no data has to be re-processed or re-indexed, just re-replicated.</p>
   </div>
   <div class="text-item indent">
-    <h2 id="hri">Human Responsive Interaction</h2>
+    <h2 id="hri">Real-time Queries</h2>
     <p><span>Ad hoc, multi-dimensional filtering.</span> Druid maintains bitmap indexes compressed using <a href="http://ricerca.mat.uniroma3.it/users/colanton/concise.html">CONCISE</a> to determine what data it has to look at before it ever starts looking at data.  This significantly speeds up ad hoc filtered queries, even allowing for fast OR queries which are traditionally slow.  All this <a href="http://metamarkets.com/2012/druid-bitmap-compression/">without a significant impact on data footprint</a><br/></p>
     <p><span>Column-oriented for speed.</span> Data is laid out in columns so that scans are limited to the specific data being searched. <a href="blog/2011/05/20/druid-part-deux.html">Compression decreases overall data footprint.</a></p>
   </div>
@@ -41,7 +41,7 @@ sectionid: druid
   <div class="text-item indent">
     <h1 id="where">Where did Druid Come From?</h1>
     <p>Druid was created out of necessity by Metamarkets, a company focused on providing real-time interactive insight to the RTB (real time bidding) AdTech space with a full stack analytics service.  Metamarkets required a system that could ingest data in real-time, provide ad-hoc N-dimensional drill down and still provide sub-second responses.  As a hosted service, Metamarkets also required no downtime deployments, fault-tolerance and self-healing properties.
-    <p>Druid was <a href="http://metamarkets.com/2012/metamarkets-open-sources-druid/">opened up</a> because Metamarkets is focused on the AdTech space and thus is fully engrained in the AdTech use case.  However, it was felt that Druid had more general applicability to other spaces and it was in Metamarket's best interests not to limit Druid's development solely to its own use cases.</p>
+    <p>Druid was <a href="http://metamarkets.com/2012/metamarkets-open-sources-druid/">opened up</a> because Metamarkets is fully committed to the AdTech use case.  However, it was felt that Druid had more general applicability to other spaces and it was in Metamarket's best interests not to limit Druid's development solely to its own use cases.</p>
   </div>
   <div class="text-item indent">
     <h1 id="used">What is Druid Used For?</h1>

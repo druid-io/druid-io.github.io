@@ -105,6 +105,11 @@ h2 {
 	margin:0 0 20px;
 	color:#0f1e35;
 }
+h3 {
+	font:300 30px/36px 'Open Sans', Arial, Helvetica, sans-serif;
+	margin:0 0 33px;
+	text-align:center;
+}
 .btn {
 	display:block;
 	margin:0 auto 65px;
@@ -169,11 +174,6 @@ h2 {
 }
 .index-page .sidebar {
 	padding:65px 0 30px;
-}
-h3 {
-	font:300 30px/36px 'Open Sans', Arial, Helvetica, sans-serif;
-	margin:0 0 33px;
-	text-align:center;
 }
 .container.custom p {
 	margin:0 0 17px;

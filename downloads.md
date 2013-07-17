@@ -26,7 +26,6 @@ sectionid: downloads
   <ul>
     <li><a href="https://github.com/metamx/RDruid">RDruid</a> is an open source connector that enables R users to query vast amounts of data.</li>
     <li><a href="https://github.com/madvertise/ruby-druid">Ruby-Druid</a> is a open source Ruby client for Druid</li>
-    <li>Coming soon: Python Druid connector</li>
   </ul>
 </div>
 </div>
