@@ -4,28 +4,33 @@ layout: page
 sectionid: downloads
 ---
 
+{% assign links-wiki = 'https://github.com/metamx/druid/wiki' %}
+{% assign links-artifacts = 'http://static.druid.io/artifacts' %}
+
 # Downloads and Resources {.center}
 
-<div class="text-part">
-<div class="text-item indent">
-  <h2>Downloads</h2>
-  <p><a href="#">&lt;link&gt; for tarball</a><br/>
-  <a href="#">&lt;link&gt; for AWS AMIs</a><br/>
-  <a href="#">&lt;link&gt; for AWS Cloud Formation</a><br/>
-  <a href="#">&lt;link&gt; for Github Source</a><br/></p>
-</div>
-
-<div class="text-item indent">
-  <h2>Resources</h2>
-  <p>For setup, configuration, architecture and terminology please visit our <a href="https://github.com/metamx/druid/wiki">Github Wiki</a>.</p>
-  <p>Our <a href="blog.html">blog</a> contains in-depth context around Druid and concepts around its technology.</p>
-</div>
-
-<div class="text-item indent">
-  <h2>Connectors and Extensions</h2>
-  <ul>
-    <li><a href="https://github.com/metamx/RDruid">RDruid</a> is an open source connector that enables R users to query vast amounts of data.</li>
-    <li><a href="https://github.com/madvertise/ruby-druid">Ruby-Druid</a> is a open source Ruby client for Druid</li>
-  </ul>
-</div>
-</div>
++-- {.text-part}
+|+-- {.text-item .indent}
+||## Downloads
+||[Download a tarball]({{links-artifacts}}/druid-services-0.5.7-bin.tar.gz)
+||
+||Though, we recommend that you start with our Tutorial.  
+||
+||- [Tutorial]({{links-wiki}}/Tutorial)
+||
+||Or one of the other Getting Started pages on the wiki.
+||- [Examples]({{links-wiki}}/Examples)
+||- [Loading Your Data]({{links-wiki}}/Loading-Your-Data)
+||- [Querying Your Data]({{links-wiki}}/Querying-Your-Data)
+||- [Booting a Production Cluster]({{links-wiki}}/Booting-a-Production-Cluster)
+|
+|+--{.text-item .indent}
+||## Resources
+||For setup, configuration, architecture and terminology please visit our [Github Wiki]({{links-wiki}}){: target=_blank}.  
+||
+||Our [blog](blog.html) contains in-depth context around Druid and concepts around its technology.
+|
+|+-- {.text-item .indent}
+||## Connectors and Extensions
+||- [RDruid](https://github.com/metamx/RDruid) is an open source connector that enables R users to query vast amounts of data.
+||- [Ruby-Druid](https://github.com/madvertise/ruby-druid) is an open source Ruby client for Druid
