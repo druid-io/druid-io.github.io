@@ -1,5 +1,6 @@
 ---
-title: Real&sup2;time Exploratory Analytics Layer
+published: true
+title: Real²time Exploratory Analytics Layer
 layout: default
 id: home
 ---
@@ -7,7 +8,7 @@ id: home
 +-- {.row-fluid}
 |+-- {.span10 .offset1}
 ||+-- {.index-content}
-|||Druid is open source infrastructure for Real&sup2;time Exploratory Analytics Layers. The system uses a distributed, shared-nothing architecture designed for real-time data ingestion. It leverages column-orientation and advanced indexing structures to allow for the arbitrary exploration of billion-row tables with sub-second latencies. 
+|||Druid is open source infrastructure for Real&sup2;time Exploratory Analytics on Large Data (REAL-Data). The system uses a distributed, shared-nothing architecture designed for real-time data ingestion. It leverages column-orientation and advanced indexing structures to allow for the arbitrary exploration of billion-row tables with sub-second latencies. 
 
 +-- {.row-fluid .third}
 |+-- {.span4 .third-item}
