@@ -51,24 +51,33 @@ Yes, to an extent.  An ANTLR grammar was written to support a limited set of SQL
 
 +-- {.text-item}
 ## How does Druid compare to Vertica? {#vertica}
+
+[https://github.com/metamx/druid/wiki/Druid-vs-vertica](https://github.com/metamx/druid/wiki/Druid-vs-vertica)
+
 =--
-https://github.com/metamx/druid/wiki/Druid-vs-vertica
+
 +-- {.text-item}
 ## How does Druid compare to Cassandra? {#cassandra}
 
+[https://github.com/metamx/druid/wiki/Druid-vs-Cassandra](https://github.com/metamx/druid/wiki/Druid-vs-Cassandra)
+
 =--
-https://github.com/metamx/druid/wiki/Druid-vs-Cassandra
+
 +-- {.text-item}
 ## How does Druid compare to Hadoop? {#hadoop}
 
+[https://github.com/metamx/druid/wiki/Druid-vs-Hadoop](https://github.com/metamx/druid/wiki/Druid-vs-Hadoop)
+
 =--
-https://github.com/metamx/druid/wiki/Druid-vs-Hadoop
+
 +-- {.text-item}
 
 ## How does Druid compare to Impala/Shark? {#impala}
 
+[https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark](https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark)
+
 =--
-https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark
+
 +-- {.text-item}
 
 ## What external dependencies does Druid have? {#external}
