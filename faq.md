@@ -1,4 +1,5 @@
 ---
+published: true
 title: FAQ
 layout: page
 sectionid: faq
@@ -44,70 +45,30 @@ Yes, to an extent.  An ANTLR grammar was written to support a limited set of SQL
 +-- {.text-item}
 ## How does Druid compare to Redshift? {#redshift}
 
-In terms of drawing a differentiation, Redshift is essentially ParAccel (Actian) which Amazon is licensing.
-
-Aside from potential performance differences, there are some functional differences:
-
-1. Real-time data ingestion
-
-    Because Druid is optimized to provide insight against massive quantities of streaming data; it is able to load and aggregate data in real-time.
-
-    Generally traditional data warehouses including column stores work only with batch ingestion and are not optimal for streaming data in regularly.
-
-1. Druid is a read oriented analytical data store
-
-    It's write semantics aren't as fluid and does not support joins. ParAccel is a full database with SQL support including joins and insert/update statements.
-
-1. Data distribution model
-
-    Druid's data distribution, is segment based which exists on highly available "deep" storage, like S3 or HDFS.  Scaling up (or down) does not require massive copy actions or downtime; in fact, losing any number of compute nodes does not result in data loss because new compute nodes can always be brought up by reading data from "deep" storage.
-
-    To contrast, ParAccel's data distribution model is hash-based.  Expanding the cluster requires re-hashing the data across the nodes, making it difficult to perform without taking downtime.  Amazon's Redshift works around this issue with a multi-step process:
-
-    a) set cluster into read-only mode  
-    b) copy data from cluster to new cluster that exists in parallel  
-    c) redirect traffic to new cluster
-
-1. Replication strategy
-
-    Druid employs segment-level data distribution meaning that more nodes can be added and rebalanced without having to perform a staged swap.  The replication strategy also makes all replicas available for querying.
-
-    ParAccel's hash-based distribution generally means that replication is conducted via hot spares. This puts a numerical limit on the number of nodes you can lose without losing data, and this replication strategy often does not allow the hot spare to help share query load.
-
-1. Indexing strategy
-
-    Along with column oriented structures, Druid uses indexing structures to speed up query execution when a filter is provided. Indexing structures do increase storage overhead (and make it more difficult to allow for mutation), but they can also significantly speed up queries.
-
-    ParAccel does not appear to employ indexing strategies.
 =--
-
+https://github.com/metamx/druid/wiki/Druid-vs-redshift
 +-- {.text-item}
 ## How does Druid compare to Vertica? {#vertica}
-
-Vertica is similar to ParAccel (RedShift) described above in that it wasn't built for real-time streaming data ingestion and it supports full SQL.
-
-The other big difference is that instead of employing indexing, Vertica tries to optimize processing by leveraging run-length encoding (RLE) and other compression techniques along with a "projection" system that creates materialized copies of the data in a different sort order (to maximize the effectiveness of RLE).
-
-We are unclear about how Vertica handles data distribution and replication, so we cannot speak to if/how Druid is different.
 =--
-
+https://github.com/metamx/druid/wiki/Druid-vs-vertica
 +-- {.text-item}
 ## How does Druid compare to Cassandra? {#cassandra}
 
-Druid is highly optimized for scans and aggregations, it supports arbitrarily deep drill downs into data sets without the need to pre-compute, and it can ingest event streams in real-time and allow users to query events as they come in. Cassandra is a great key-value store and it has some features that allow you to use it to do more interesting things than what you can do with a pure key-value store.  But, it is not built for the same use cases that Druid handles, namely regularly scanning over billions of entries per query.
-
-Furthermore, Druid is fully read-consistent. Druid breaks down a data set into immutable chunks known as segments. All replicants always present the exact same view for the piece of data they are holding and we don't have to worry about data synchronization. The tradeoff is that Druid has limited semantics for write and update operations. Cassandra, similar to Amazon's Dynamo, has an eventually consistent data model. Writes are always supported but updates to data may take some time before all replicas synch up (data reconciliation is done at read time). This model favors availability and scalability over consistency.
 =--
-
+https://github.com/metamx/druid/wiki/Druid-vs-Cassandra
 +-- {.text-item}
 ## How does Druid compare to Hadoop? {#hadoop}
 
-Druid is a complementary addition to Hadoop.  Hadoop is great at storing and making accessible large amounts of individually low-value data.  Unfortunately, Hadoop is not great at providing query speed guarantees on top of that data, nor does it have very good operational characteristics for a customer-facing production system.  Druid, on the other hand, excels at taking high-value summaries of the low-value data on Hadoop, making it available in a fast and always-on fashion, such that it could be exposed directly to a customer.
-
-Druid also requires some infrastructure to exist for "deep storage".  HDFS is one of the implemented options for this "deep storage".
 =--
-
+https://github.com/metamx/druid/wiki/Druid-vs-Hadoop
 +-- {.text-item}
+
+## How does Druid compare to Impala/Shark? {#impala}
+
+=--
+https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark
++-- {.text-item}
+
 ## What external dependencies does Druid have? {#external}
 
 Druid has three external dependencies that must be running in order for the Druid cluster to operate
