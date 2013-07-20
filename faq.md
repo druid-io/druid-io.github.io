@@ -46,7 +46,7 @@ Yes, to an extent.  An ANTLR grammar was written to support a limited set of SQL
 ## How does Druid compare to Redshift? {#redshift}
 
 =--
-https://github.com/metamx/druid/wiki/Druid-vs-redshift
+(https://github.com/metamx/druid/wiki/Druid-vs-redshift)
 +-- {.text-item}
 ## How does Druid compare to Vertica? {#vertica}
 =--
