@@ -8,7 +8,7 @@ id: home
 +-- {.row-fluid}
 |+-- {.span10 .offset1}
 ||+-- {.index-content}
-|||Druid is open source infrastructure for Real&sup2;time Exploratory Analytics on Large Datasets. The system uses a distributed, shared-nothing architecture designed for real-time data ingestion. It leverages column-orientation and advanced indexing structures to allow for the arbitrary exploration of billion-row tables with sub-second latencies. 
+|||Druid is open source infrastructure for Real&sup2;time Exploratory Analytics on Large Datasets. The system uses an always-on distributed, shared-nothing architecture designed for real-time querying and data ingestion. It leverages column-orientation and advanced indexing structures to allow for cost effective, arbitrary exploration of multi-billion-row tables with sub-second latencies. 
 
 +-- {.row-fluid .third}
 |+-- {.span4 .third-item}
