@@ -2,6 +2,7 @@
 title: Downloads
 layout: page
 sectionid: downloads
+published: true
 ---
 
 {% assign links-wiki = 'https://github.com/metamx/druid/wiki' %}
@@ -12,7 +13,7 @@ sectionid: downloads
 +-- {.text-part}
 |+-- {.text-item .indent}
 ||## Downloads
-||[Download a tarball]({{links-artifacts}}/druid-services-0.5.7-bin.tar.gz)
+||[Download a tarball]({{links-artifacts}}/druid-services-0.5.18-bin.tar.gz)
 ||
 ||Though, we recommend that you start with our Tutorial.  
 ||
