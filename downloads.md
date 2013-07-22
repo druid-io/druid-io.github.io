@@ -13,7 +13,7 @@ published: true
 +-- {.text-part}
 |+-- {.text-item .indent}
 ||## Downloads
-||[Download a tarball]({{links-artifacts}}/druid-services-0.5.18-bin.tar.gz)
+||[Download a tarball]({{links-artifacts}}/releases/druid-services-0.5.18-bin.tar.gz)
 ||
 ||Though, we recommend that you start with our Tutorial.  
 ||
