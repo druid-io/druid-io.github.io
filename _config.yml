@@ -5,7 +5,7 @@ permalink: /blog/:year/:month/:day/:title.html
 prose:
   metadata:
     siteurl: "http://druid.io"
-    media: "img"
+    media: "/img"
     _posts:
       - name: "title"
         field:
