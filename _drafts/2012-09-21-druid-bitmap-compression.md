@@ -138,13 +138,13 @@ To better understand how Druid stores dimension values, consider the following d
 
 Consider the publisher dimension (column) in the table above. For each unique publisher, we can form some representation indicating in which table rows a particular publisher is seen. We can store this information in a binary array where the array indices represent our rows. If a particular publisher is seen in a certain row, that array index is marked as ‘1’. For example:
 
-Bieberfever.com -&gt; [1, 2] -&gt; [1][1][0][0]
+Bieberfever.com -> `[1, 2]` -> `[1][1][0][0]`
 
-Ultratrimfast.com -&gt; [3, 4] -&gt; [0][0][1][1]
+Ultratrimfast.com -> `[3, 4]` -> `[0][0][1][1]`
 
-In the example above bieberfever.com is seen in rows 1 and 2. This mapping of dimension values to row indices forms an <a title="inverted index" href="http://en.wikipedia.org/wiki/Inverted_index" target="_blank">inverted index</a> and is in fact how we store dimension information in Druid. If we want to know which rows contain bieberfever.com OR ultratrimfast.com, we can OR together the bieberfever.com and ultratrimfast.com arrays.
+In the example above bieberfever.com is seen in rows 1 and 2. This mapping of dimension values to row indices forms an [inverted index](http://en.wikipedia.org/wiki/Inverted_index) and is in fact how we store dimension information in Druid. If we want to know which rows contain bieberfever.com OR ultratrimfast.com, we can OR together the bieberfever.com and ultratrimfast.com arrays.
 
-[0][1][0][1] OR [1][0][1][0] = [1][1][1][1]
+`[0][1][0][1] OR [1][0][1][0] = [1][1][1][1]`
 
 This idea forms the basis of how to perform Boolean operations on large bitmap sets. A challenge still remains in that if each array consisted of millions or billions of entries and if we had to OR together millions of such arrays, performance can potentially become a major issue. Thankfully for us, most bitmap indices are either very sparse or very dense, which is something that can be leveraged for compression.
 
@@ -154,29 +154,29 @@ Bit arrays, or bitmaps, are frequently employed in areas such as data warehousin
 
 Most word-aligned run-length encoding algorithms represent long sequences of ones and zeros in a single word. The word contains the length of the sequence and some information about whether it is a one fill or a zero fill. Sequences that contain a mixture of 0 and 1 bits are stored in 32 bit blocks known as literals. An example of word-aligned hybrid compression is shown below:
 
-Given a bitstream: [10110...1][000...010][010...011]
+Given a bitstream: `[10110...1][000...010][010...011]`
 
 There are three separate 32 bit sequences in the bitstream.
 
-1. [1]0110...1 - 31 "dirty" bits (a literal)
+1. `[1]0110...1` - 31 "dirty" bits (a literal)
 
-2. [00]0...010 - 31 x 2 zeros (a sequence of zeros)
+2. `[00]0...010` - 31 x 2 zeros (a sequence of zeros)
 
-3. [01]0...011 - 31 x 3 ones (a sequences of ones)
+3. `[01]0...011` - 31 x 3 ones (a sequences of ones)
 
 [Concise](http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf) bitmap compression introduces the concept of a mixed fill, where fills and literals can be represented in a single word. The author of the original Concise paper claims that Concise outperforms WAH by reducing the size of the compressed bitmaps by up to 50%. For mixed fill sequences, the first 2 bits indicate the type of fill (0 or 1). The next 5 bits can be used to indicate the position where bits flip from 0 to 1 or vice versa. An example of the Concise representation for the integer set {3, 5, 31-93, 1,024, 1,028, 1,040,187,422} is shown below:
 
-1. [1]0...101000
+1. `[1]0...101000`
 
-2. [01][00000]0...01
+2. `[01][00000]0...01`
 
-3. [00][00001]0...11101
+3. `[00][00001]0...11101`
 
-4. [1]0...100010
+4. `[1]0...100010`
 
-5. [00][00000]1...1011101
+5. `[00][00000]1...1011101`
 
-6. [1]10...0
+6. `[1]10...0`
 
 ##Efficiency at Scale
 
@@ -186,7 +186,7 @@ Consider ORing two sets where one set is a long sequence of ones and the other s
 
 ##Results
 
-The following results were generated on a cc2.8xlarge system with a single thread, 2G heap, 512m young gen, and a forced GC between each run. The data set is a single day's worth of data collected from the <a title="Twitter garden hose" href="https://dev.twitter.com/docs/streaming-apis/streams/public" target="_blank">Twitter garden hose</a> data stream. The data set contains 2, 272, 295 rows. The table below demonstrates a size comparison between Concise compressed sets and regular integer arrays for different dimensions.
+The following results were generated on a cc2.8xlarge system with a single thread, 2G heap, 512m young gen, and a forced GC between each run. The data set is a single day's worth of data collected from the [Twitter garden hose](https://dev.twitter.com/docs/streaming-apis/streams/public) data stream. The data set contains 2, 272, 295 rows. The table below demonstrates a size comparison between Concise compressed sets and regular integer arrays for different dimensions.
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
 <tr>
@@ -296,7 +296,6 @@ The following results were generated on a cc2.8xlarge system with a single threa
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 Total concise compressed size = 53, 451, 144 bytes
 
@@ -305,6 +304,7 @@ Total integer array size = 127, 248, 520 bytes
 Overall, Concise compressed sets are about 42.005317% less than integer arrays.
 
 We also resorted the rows of the data set to maximize compression to see how the results would be affected.
+
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
 <tr>
@@ -414,7 +414,6 @@ We also resorted the rows of the data set to maximize compression to see how the
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 Total concise compressed size = 43,832,884 bytes
 
@@ -424,10 +423,11 @@ What is interesting to note is that after sorting, global compression only incre
 
 To understand the performance implications of using Concise sets versus integer arrays, we choose several dimensions from our data set with varying cardinalities and generated Concise sets for every dimension value of every selected dimension. The histograms below indicate the size distribution of the generated Concise sets for a given dimension. Each test run randomly picked a given number of Concise sets and performed Boolean operations with them.  Integer array representations of these Concise sets were then created and the same Boolean operations were run on the integer arrays. There were 100 runs per test case and the average run time required to perform a Boolean operation is shown for each dimension in the first of two tables below. The second table shows the performance results when the sets used in the Boolean operation alway include the largest (size) set of the dimension.
 
-<span style="text-decoration: underline;">Dimension: User_time_zone</span>
+###Dimension: User_time_zone
 
 Cardinality: 142
-<p style="text-align: center;"><a href="http://metamarkets.com/wp-content/uploads/2012/09/user_time_zone1-1024x768.png"><img class="aligncenter size-full wp-image-4730" alt="user_time_zone1-1024x768" src="http://metamarkets.com/wp-content/uploads/2012/09/user_time_zone1-1024x768.png" width="1024" height="768" /></a></p>
+
+![user_time_zone](/http://metamarkets.com/wp-content/uploads/2012/09/user_time_zone1-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -515,6 +515,7 @@ Always including the largest Concise set of the dimension:
 ###Dimension: URL_domain
 
 Cardinality: 31,165
+
 ![url_domain](/http://metamarkets.com/wp-content/uploads/2012/09/url_domain-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
@@ -654,11 +655,11 @@ Always including the largest Concise set of the dimension:
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 ###Dimension: RT_name
 
 Cardinality: 182,704
+
 ![rt_name](/http://metamarkets.com/wp-content/uploads/2012/09/rt_name1-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
@@ -742,9 +743,11 @@ Cardinality: 182,704
 </tr>
 </tbody>
 </table>
-Note: for AND operations on 50,000+ items, our implementation of the array based approach produced StackOverflow exceptions.  Instead of changing the implementation to something that didn't, we just decided not to do comparisons beyond that point.
+
+**Note:** for AND operations on 50,000+ items, our implementation of the array based approach produced StackOverflow exceptions.  Instead of changing the implementation to something that didn't, we just decided not to do comparisons beyond that point.
 
 Always including the largest Concise set of the dimension:
+
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
 <tr>
@@ -819,11 +822,11 @@ Always including the largest Concise set of the dimension:
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 ###Dimension: User_location
 
 Cardinality: 637,774
+
 ![user_location](/http://metamarkets.com/wp-content/uploads/2012/09/user_location-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
