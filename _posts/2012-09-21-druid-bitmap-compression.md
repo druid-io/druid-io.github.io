@@ -1,6 +1,6 @@
 ---
-published: false
-title: ""
+published: true
+title: "Maximum Performance with Minimum Storage: Data Compression in Druid"
 layout: post
 author: Fangjin Yang
 image: "http://metamarkets.com/wp-content/uploads/2012/09/Computer_Chip-470x3401-470x288.jpeg"
@@ -27,110 +27,106 @@ To better understand how Druid stores dimension values, consider the following d
 <tr>
 <td valign="top" width="104">
 <pre>2011-01-01T01:00:00Z</pre>
-&nbsp;</td>
-<td valign="top" width="68">
-<pre>bieberfever.com</pre>
-&nbsp;</td>
-<td valign="top" width="52">
-<pre>google.com</pre>
-&nbsp;</td>
-<td valign="top" width="49">
-<pre>Male</pre>
-&nbsp;</td>
-<td valign="top" width="50">
-<pre>USA</pre>
-&nbsp;</td>
-<td valign="top" width="52">
-<pre>1800</pre>
-&nbsp;</td>
-<td valign="top" width="48">
-<pre>25</pre>
-&nbsp;</td>
-<td valign="top" width="50">
-<pre>15.70</pre>
-&nbsp;</td>
-</tr>
-<tr>
-<td valign="top" width="104">
-<pre>2011-01-01T01:00:00Z</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="68">
 <pre>bieberfever.com</pre>
 </td>
 <td valign="top" width="52">
 <pre>google.com</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="49">
 <pre>Male</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>USA</pre>
-&nbsp;</td>
+</td>
+<td valign="top" width="52">
+<pre>1800</pre>
+</td>
+<td valign="top" width="48">
+<pre>25</pre>
+</td>
+<td valign="top" width="50">
+<pre>15.70</pre>
+</td>
+</tr>
+<tr>
+<td valign="top" width="104">
+<pre>2011-01-01T01:00:00Z</pre>
+</td>
+<td valign="top" width="68">
+<pre>bieberfever.com</pre>
+</td>
+<td valign="top" width="52">
+<pre>google.com</pre>
+</td>
+<td valign="top" width="49">
+<pre>Male</pre>
+</td>
+<td valign="top" width="50">
+<pre>USA</pre>
+</td>
 <td valign="top" width="52">
 <pre>2912</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="48">
 <pre>42</pre>
-&nbsp;
-
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>29.18</pre>
-&nbsp;</td>
+</td>
 </tr>
 <tr>
 <td valign="top" width="104">
 <pre>2011-01-01T02:00:00Z</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="68">
 <pre>ultratrimfast.com</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="52">
 <pre>google.com</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="49">
 <pre>Male</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>USA</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="52">
 <pre>1953</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="48">
 <pre>17</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>17.31</pre>
-&nbsp;</td>
+</td>
 </tr>
 <tr>
 <td valign="top" width="104">
 <pre>2011-01-01T02:00:00Z</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="68">
 <pre>ultratrimfast.com</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="52">
 <pre>google.com</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="49">
 <pre>Male</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>USA</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="52">
 <pre>3194</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="48">
 <pre>170</pre>
-&nbsp;</td>
+</td>
 <td valign="top" width="50">
 <pre>34.01</pre>
-&nbsp;
-
-&nbsp;</td>
+</td>
 </tr>
 </tbody>
 </table>
