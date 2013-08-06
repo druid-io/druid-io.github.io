@@ -150,7 +150,7 @@ This idea forms the basis of how to perform Boolean operations on large bitmap s
 
 Bit arrays, or bitmaps, are frequently employed in areas such as data warehousing and data mining to significantly reduce storage costs. Bitmap compression algorithms are a well-defined area of research and often utilize run-length encoding. Well known algorithms include Byte-aligned Bitmap Code, Word-Aligned Hybrid (WAH) code, and Partitioned Word-Aligned Hybrid (PWAH) compression.
 
-<strong>A Concise Solution</strong>
+##A Concise Solution
 
 Most word-aligned run-length encoding algorithms represent long sequences of ones and zeros in a single word. The word contains the length of the sequence and some information about whether it is a one fill or a zero fill. Sequences that contain a mixture of 0 and 1 bits are stored in 32 bit blocks known as literals. An example of word-aligned hybrid compression is shown below:
 
@@ -158,33 +158,33 @@ Given a bitstream: [10110...1][000...010][010...011]
 
 There are three separate 32 bit sequences in the bitstream.
 
-1) [1]0110...1 - 31 "dirty" bits (a literal)
+1. [1]0110...1 - 31 "dirty" bits (a literal)
 
-2) [00]0...010 - 31 x 2 zeros (a sequence of zeros)
+2. [00]0...010 - 31 x 2 zeros (a sequence of zeros)
 
-3) [01]0...011 - 31 x 3 ones (a sequences of ones)
+3. [01]0...011 - 31 x 3 ones (a sequences of ones)
 
-<a title="Concise" href="http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf" target="_blank">Concise</a> bitmap compression introduces the concept of a mixed fill, where fills and literals can be represented in a single word. The author of the original Concise paper claims that Concise outperforms WAH by reducing the size of the compressed bitmaps by up to 50%. For mixed fill sequences, the first 2 bits indicate the type of fill (0 or 1). The next 5 bits can be used to indicate the position where bits flip from 0 to 1 or vice versa. An example of the Concise representation for the integer set {3, 5, 31-93, 1,024, 1,028, 1,040,187,422} is shown below:
+[Concise](http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf) bitmap compression introduces the concept of a mixed fill, where fills and literals can be represented in a single word. The author of the original Concise paper claims that Concise outperforms WAH by reducing the size of the compressed bitmaps by up to 50%. For mixed fill sequences, the first 2 bits indicate the type of fill (0 or 1). The next 5 bits can be used to indicate the position where bits flip from 0 to 1 or vice versa. An example of the Concise representation for the integer set {3, 5, 31-93, 1,024, 1,028, 1,040,187,422} is shown below:
 
-1) [1]0...101000
+1. [1]0...101000
 
-2) [01][00000]0...01
+2. [01][00000]0...01
 
-3) [00][00001]0...11101
+3. [00][00001]0...11101
 
-4) [1]0...100010
+4. [1]0...100010
 
-5)[00][00000]1...1011101
+5. [00][00000]1...1011101
 
-6)[1]10...0
+6. [1]10...0
 
-<strong>Efficiency at Scale</strong>
+##Efficiency at Scale
 
 Although Concise compression can greatly reduce the size of resulting bitmaps, we still have the problem of performing efficient Boolean operations on top of a large number of Concise sets. Luckily, Concise sets share a very important property with other bitmap compression schemes: they can be operated on in their compressed form.  The Boolean operations we care about are AND, OR, and NOT. The NOT operation is the most straightforward to implement. Literals are directly complemented and fills of zeros and ones are inverted. ANDing and ORing sets prove to be more challenging.
 
 Consider ORing two sets where one set is a long sequence of ones and the other set contains a shorter sequence of ones, a sequence of zeros, and some literals. If the sequence of ones in the first set is sufficiently long enough to encompass the second set, we don’t need to care about the second set at all (yay for Boolean logic!). Hence, when ORing sets, sequences of ones always have priority over sequences of zeros and literals. Similarly, a sequence of zeros can be ignored; the sequence contributes nothing to the overall Boolean logic. Extending this idea further with <em>n</em> sets, we can examine the first starting word of every set and determine if a one fill exists. If so, we can find the longest one fill and advance all the sets forward past this one fill. At this new stopping point, we repeat the search for the longest one fill. If no such fill exists, we search for all literals at that position, OR the literals together, and continue advancing forward. The same idea applies for ANDing sets, except now sequences of zeros have the highest priority. This pseudo-algorithm, combined with some additional logic to address mixed fills, was found to be sufficient to address our performance requirements.
 
-<strong>Results</strong>
+##Results
 
 The following results were generated on a cc2.8xlarge system with a single thread, 2G heap, 512m young gen, and a forced GC between each run. The data set is a single day's worth of data collected from the <a title="Twitter garden hose" href="https://dev.twitter.com/docs/streaming-apis/streams/public" target="_blank">Twitter garden hose</a> data stream. The data set contains 2, 272, 295 rows. The table below demonstrates a size comparison between Concise compressed sets and regular integer arrays for different dimensions.
 <table border="1" cellspacing="0" cellpadding="5px">
@@ -468,7 +468,9 @@ Cardinality: 142
 </tr>
 </tbody>
 </table>
+
 Always including the largest Concise set of the dimension:
+
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
 <tr>
@@ -510,10 +512,10 @@ Always including the largest Concise set of the dimension:
 </table>
 &nbsp;
 
-<span style="text-decoration: underline;">Dimension: URL_domain</span>
+###Dimension: URL_domain
 
 Cardinality: 31,165
-<p style="text-align: center;"><a href="http://metamarkets.com/2012/druid-bitmap-compression/url_domain/" rel="attachment wp-att-1588"><img class="size-large wp-image-1588 aligncenter" title="url_domain" alt="" src="http://metamarkets.com/wp-content/uploads/2012/09/url_domain-1024x768.png" width="640" height="480" /></a></p>
+![url_domain](/http://metamarkets.com/wp-content/uploads/2012/09/url_domain-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -582,9 +584,9 @@ Cardinality: 31,165
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 Always including the largest Concise set of the dimension:
+
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
 <tr>
@@ -654,10 +656,10 @@ Always including the largest Concise set of the dimension:
 </table>
 &nbsp;
 
-<span style="text-decoration: underline;">Dimension: RT_name</span>
+###Dimension: RT_name
 
 Cardinality: 182,704
-<p style="text-align: center;"><a href="http://metamarkets.com/2012/druid-bitmap-compression/rt_name-2/" rel="attachment wp-att-2608"><img class=" wp-image-2608 aligncenter" title="rt_name" alt="" src="http://metamarkets.com/wp-content/uploads/2012/09/rt_name1-1024x768.png" width="584" height="438" /></a></p>
+![rt_name](/http://metamarkets.com/wp-content/uploads/2012/09/rt_name1-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -819,10 +821,10 @@ Always including the largest Concise set of the dimension:
 </table>
 &nbsp;
 
-<span style="text-decoration: underline;">Dimension: User_location</span>
+###Dimension: User_location
 
 Cardinality: 637,774
-<p style="text-align: center;"><a href="http://metamarkets.com/2012/druid-bitmap-compression/user_location/" rel="attachment wp-att-1589"><img class="aligncenter size-large wp-image-1589" title="user_location" alt="" src="http://metamarkets.com/wp-content/uploads/2012/09/user_location-1024x768.png" width="640" height="480" /></a></p>
+![user_location](/http://metamarkets.com/wp-content/uploads/2012/09/user_location-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -919,7 +921,6 @@ Cardinality: 637,774
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 Always including the largest Concise set of the dimension:
 <table border="1" cellspacing="0" cellpadding="5px">
@@ -998,10 +999,11 @@ Always including the largest Concise set of the dimension:
 </table>
 &nbsp;
 
-<span style="text-decoration: underline;">Dimension: User_name</span>
+###Dimension: User_name
 
 Cardinality: 1,784,369
-<p style="text-align: center;"><a href="http://metamarkets.com/2012/druid-bitmap-compression/user_name/" rel="attachment wp-att-1590"><img class="aligncenter size-large wp-image-1590" title="user_name" alt="" src="http://metamarkets.com/wp-content/uploads/2012/09/user_name-1024x768.png" width="640" height="480" /></a></p>
+
+![user_name](/http://metamarkets.com/wp-content/uploads/2012/09/user_name-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -1126,7 +1128,6 @@ Cardinality: 1,784,369
 </tr>
 </tbody>
 </table>
-&nbsp;
 
 Always including the largest Concise set of the dimension:
 <table border="1" cellspacing="0" cellpadding="5px">
@@ -1203,5 +1204,3 @@ Always including the largest Concise set of the dimension:
 </tr>
 </tbody>
 </table>
-&nbsp;
-<h4><strong><i>Looking for more Druid information? <a href="http://metamarkets.com/product/technology/" target="_blank">Learn more about our core technology.</a></i></strong></h4>
