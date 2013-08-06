@@ -7,11 +7,6 @@ prose:
     siteurl: 'http://druid.io'
 
     _posts:
-      - name: "title"
-        field:
-          element: "text"
-          label: "Title"
-          value: ""
       - name: "author"
         field:
           element: "text"
