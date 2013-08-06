@@ -422,7 +422,7 @@ To understand the performance implications of using Concise sets versus integer 
 
 Cardinality: 142
 
-![user_time_zone](/http://metamarkets.com/wp-content/uploads/2012/09/user_time_zone1-1024x768.png)
+![user_time_zone](http://metamarkets.com/wp-content/uploads/2012/09/user_time_zone1-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -511,7 +511,7 @@ Always including the largest Concise set of the dimension:
 
 Cardinality: 31,165
 
-![url_domain](/http://metamarkets.com/wp-content/uploads/2012/09/url_domain-1024x768.png)
+![url_domain](http://metamarkets.com/wp-content/uploads/2012/09/url_domain-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -655,7 +655,7 @@ Always including the largest Concise set of the dimension:
 
 Cardinality: 182,704
 
-![rt_name](/http://metamarkets.com/wp-content/uploads/2012/09/rt_name1-1024x768.png)
+![rt_name](http://metamarkets.com/wp-content/uploads/2012/09/rt_name1-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -822,7 +822,7 @@ Always including the largest Concise set of the dimension:
 
 Cardinality: 637,774
 
-![user_location](/http://metamarkets.com/wp-content/uploads/2012/09/user_location-1024x768.png)
+![user_location](http://metamarkets.com/wp-content/uploads/2012/09/user_location-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
@@ -1001,7 +1001,7 @@ Always including the largest Concise set of the dimension:
 
 Cardinality: 1,784,369
 
-![user_name](/http://metamarkets.com/wp-content/uploads/2012/09/user_name-1024x768.png)
+![user_name](http://metamarkets.com/wp-content/uploads/2012/09/user_name-1024x768.png)
 
 <table border="1" cellspacing="0" cellpadding="5px">
 <tbody>
