@@ -1,8 +1,9 @@
 ---
-title: Real Real-Time. For Real.
+title: "Real Real-Time. For Realz."
 layout: post
 author: Eric Tschetter
-image: http://metamarkets.com/wp-content/uploads/2013/05/Clocks.jpg
+image: "http://metamarkets.com/wp-content/uploads/2013/05/Clocks.jpg"
+published: true
 ---
 
 _Danny Yuan, Cloud System Architect at Netflix, and I recently co-presented at
