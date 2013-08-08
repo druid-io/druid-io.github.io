@@ -7,9 +7,9 @@ sectionid: druid
 +-- {.span4 .bs-docs-sidebar}
 |- [<i class="icon-chevron-right"> </i>What is Druid?](#whatis)
 |- [<i class="icon-chevron-right"> </i>What does Real&sup2;time Mean?](#realrealtime)
-|- [<i class="icon-chevron-right"> </i>Where Did Druid Come From?](#where)
-|- [<i class="icon-chevron-right"> </i>What is Druid Used for?](#used)
-|- [<i class="icon-chevron-right"> </i>Who is Using Druid?](#whois)
+|- [<i class="icon-chevron-right"> </i>Where did Druid come from?](#where)
+|- [<i class="icon-chevron-right"> </i>What is Druid used for?](#used)
+|- [<i class="icon-chevron-right"> </i>Who is using Druid?](#whois)
 |{.nav .nav-list .bs-docs-sidenav .affix}
 
 +-- {.span8}
@@ -40,13 +40,13 @@ sectionid: druid
 ||"Real-time ingestion" refers to ingesting data and making it available for querying in real-time.  I.e. minimizing the latency between when an event occurs and when it is reflected in your query results.
 |
 |+-- {.text-item .indent}
-||#Where did Druid Come From? {#where}
+||#Where did Druid come from? {#where}
 ||Druid was created out of necessity by Metamarkets, a company focused on providing real-time interactive insight to the RTB (real time bidding) AdTech space with a full stack analytics service.  Metamarkets required a system that could ingest data in real-time, provide ad-hoc N-dimensional drill down and still provide sub-second responses.  As a hosted service, Metamarkets also required no downtime deployments, fault-tolerance and self-healing properties.
 ||
 ||Druid was [opened up]({% post_url 2012-10-24-introducing-druid %}) because Metamarkets is fully committed to the AdTech use case.  However, it was felt that Druid had more general applicability to other spaces and it was in Metamarket's best interests not to limit Druid's development solely to its own use cases.
 |
 |+-- {.text-item .indent}
-||# What is Druid Used For? {#used}
+||# What is Druid used for? {#used}
 ||Druid is purpose built infrastructure that provides for exploration of very large quantities of data as it is ingested into the system.  It is currently used for dashboarding of ad impression streams and operational monitoring of systems.  If you have a dataset that is too large for your current infrastructure, your data has a timestamp associated with every event and you want to arbitrarily filter into the data with your queries, then Druid can probably provide value for whatever your use case is as well.
 ||
 ||## Immediate insight to large quantities of data:
