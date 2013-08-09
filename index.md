@@ -43,4 +43,4 @@ id: home
 |
 |+-- {.span4 .offset1 .content}
 ||##Get Started
-||[Tutorial](https://github.com/metamx/druid/wiki/Tutorial) - Setup a toy example and expand
+||[Tutorial](https://github.com/metamx/druid/wiki/Tutorial%3A-A-First-Look-at-Druid) - Setup a toy example and expand
