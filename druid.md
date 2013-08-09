@@ -6,7 +6,7 @@ sectionid: druid
 
 +-- {.span4 .bs-docs-sidebar}
 |- [<i class="icon-chevron-right"> </i>What is Druid?](#whatis)
-|- [<i class="icon-chevron-right"> </i>What does Real&sup2;time Mean?](#realrealtime)
+|- [<i class="icon-chevron-right"> </i>What does Real&sup2;time mean?](#realrealtime)
 |- [<i class="icon-chevron-right"> </i>Where did Druid come from?](#where)
 |- [<i class="icon-chevron-right"> </i>What is Druid used for?](#used)
 |- [<i class="icon-chevron-right"> </i>Who is using Druid?](#whois)
