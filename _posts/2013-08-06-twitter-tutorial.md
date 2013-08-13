@@ -8,7 +8,7 @@ tags: "druid, bigdata, analytics, datastore,exploritory, kafka, storm, hadoop, z
 
 ## About Druid ##
 
-Druid is a rockin' exploritory analytical data store capable of offering interactive query on big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
+Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
 
 Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the [Twitter spritzer stream](https://dev.twitter.com/docs/streaming-apis/streams/public). If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
 
@@ -18,7 +18,7 @@ There are two ways to setup Druid: download a tarball, or build it from source.
 
 ### Download a Tarball ###
 
-We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/druid-services-0.5.6-SNAPSHOT-bin.tar.gz).
+We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-services-0.5.6-SNAPSHOT-bin.tar.gz).
 Download this to a directory of your choosing.
 
 You can extract the awesomeness within by issuing:
@@ -46,9 +46,9 @@ cd druid
 You should see a bunch of files: 
 
 ```
-DruidCorporateCLA.pdf	README			common			examples		indexer			pom.xml			server
-DruidIndividualCLA.pdf	build.sh		doc			group_by.body		install			publications		services
-LICENSE			client			eclipse_formatting.xml	index-common		merger			realtime
+DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
+DruidIndividualCLA.pdf  build.sh    doc     group_by.body   install     publications    services
+LICENSE     client      eclipse_formatting.xml  index-common    merger      realtime
 ```
 
 You can find the example executables in the examples/bin directory:
@@ -62,20 +62,12 @@ Let's start doing stuff. You can start a Druid Realtime node by issuing:
 
 Select "twitter". 
 
-You'll need to register a new application with the twitter API, which only takes a minute. Go to [https://twitter.com/oauth_clients/new](https://twitter.com/oauth_clients/new) and fill out the form and submit. Don't worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.
+You'll need to register a new application with the twitter API, which only takes a minute. Go to [https://dev.twitter.com/apps/new](https://dev.twitter.com/apps/new) and fill out the form and submit. Don't worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.
 
 Enter your credentials when prompted.
 
-Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below. If you see crazy exceptions, you probably typed in your login information incorrectly.
-<pre><code>
-2013-05-17 23:04:40,934 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8080
-2013-05-17 23:04:40,935 INFO [main] com.metamx.common.lifecycle.Lifecycle$AnnotationBasedHandler - Invoking start method[public void com.metamx.druid.http.FileRequestLogger.start()] on object[com.metamx.druid.http.FileRequestLogger@42bb0406].
-2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Connection established.
-2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] druid.examples.twitter.TwitterSpritzerFirehoseFactory - Connected_to_Twitter
-2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Receiving status stream.
-</code></pre>
+Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If you see crazy exceptions, you probably typed in your login information incorrectly. Eventually you will see a message like this that repeats periodically:
 
-Periodically, you'll also see messages of the form:
 <pre><code>
 2013-05-17 23:04:59,793 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
 </code></pre>
