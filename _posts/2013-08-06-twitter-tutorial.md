@@ -187,7 +187,7 @@ We get something like this JSON back:
 ```
 That's the result. What information do you think the result is conveying? 
 ...
-If you said the result is indicating the maximum and minimum timestamps we've seen thus far (summarized to a minutely granularity), you are absolutely correct. I can see you are a person legitimately interested in learning about Druid. Let's explore a bit further.
+If you said the result is indicating the maximum and minimum timestamps of the events ingested we've seen thus far (summarized to a minutely granularity), you are absolutely correct. I can see you are a person legitimately interested in learning about Druid. Let's explore a bit further.
 
 Return to your favorite editor and create the file:
 <pre>timeseries_query.body</pre>
