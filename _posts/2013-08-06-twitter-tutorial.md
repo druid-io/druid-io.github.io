@@ -66,7 +66,7 @@ You'll need to register a new application with the twitter API, which only takes
 
 Enter your credentials when prompted.
 
-Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If you see crazy exceptions, you probably typed in your login information incorrectly. Eventually you will see a message like this that repeats periodically:
+Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If you see crazy exceptions, you probably typed in your login information incorrectly. If the server started properly you will see a message like this that repeats periodically:
 
 <pre><code>
 2013-05-17 23:04:59,793 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
