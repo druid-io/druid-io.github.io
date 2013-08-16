@@ -6,8 +6,9 @@ author: Russell Jurney
 tags: "druid, bigdata, analytics, datastore,exploritory, kafka, storm, hadoop, zookeeper"
 ---
 
-## About Druid ##
 Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
+
+## About Druid ##
 
 Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we'll be working with is the [Twitter spritzer stream](https://dev.twitter.com/docs/streaming-apis/streams/public). If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!
 
