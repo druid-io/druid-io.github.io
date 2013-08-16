@@ -63,6 +63,6 @@ sectionid: druid
 ||## Netflix
 ||Netflix engineers use Druid to aggregate multiple data streams, ingesting up to two terabytes per hour, with the ability to query data as its being ingested. They use Druid to pinpoint anomalies within their infrastructure, endpoint activity and content flow.
 ||
-||## Madvertise  
+||## Madvertise
 ||Madvertise uses Druid for real-time drill-down reporting. Madvertise is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at <http://github.com/madvertise/ruby-druid>.
 |
