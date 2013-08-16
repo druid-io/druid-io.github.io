@@ -296,6 +296,10 @@ footer .span5 {
 .soc a.meet {
 	background-position:0 -68px;
 }
+.soc a.rss {
+        background-position:0 -102px;
+}
+
 .text-item {
 	margin:0 0 75px;
 }
