@@ -115,7 +115,7 @@ Select "twitter" once again. This script issues GroupByQuerys to the twitter dat
 }
 ```
 
-This is a **groupBy** query, which you may be familiar with from SQL. We are grouping, or aggregating, via the **dimensions** field: ["lang", "utc_offset"]. We are **filtering** via the **"lang"** dimension, to only look at english tweets. Our **aggregations** are what we are calculating: a row count, and the sum of the tweets in our data.
+This is a **groupBy** query, which you may be familiar with from SQL. We are grouping, or aggregating, via the **dimensions** field: \["lang", "utc_offset"\]. We are **filtering** via the **"lang"** dimension, to only look at english tweets. Our **aggregations** are what we are calculating: a row count, and the sum of the tweets in our data.
 
 The result looks something like this:
 
@@ -163,7 +163,7 @@ Druid queries are JSON blobs which are relatively painless to create programmati
 }
 </code></pre>
 
-The [[TimeBoundaryQuery]] is one of the simplest Druid queries. To run the query, you can issue:
+The [TimeBoundaryQuery](https://github.com/metamx/druid/wiki/TimeBoundaryQuery) is one of the simplest Druid queries. To run the query, you can issue:
 <pre><code> curl -X POST 'http://localhost:8080/druid/v2/?pretty' -H 'content-type: application/json'  -d @time_boundary_query.body</code></pre>
 
 We get something like this JSON back:
