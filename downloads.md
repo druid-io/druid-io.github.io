@@ -15,9 +15,7 @@ published: true
 ||## Downloads
 ||[Download a tarball]({{links-artifacts}}/releases/druid-services-0.5.18-bin.tar.gz)
 ||
-||Though, we recommend that you start with our Tutorial.  
-||
-||- [Tutorial]({{links-wiki}}/Tutorial)
+||Though, we recommend that you start with our [Tutorial]({{links-wiki}}/Tutorial%3A-A-First-Look-at-Druid).
 ||
 ||Or one of the other Getting Started pages on the wiki.
 ||- [Examples]({{links-wiki}}/Examples)
