@@ -27,7 +27,7 @@ published: true
 ||## Resources
 ||For setup, configuration, architecture and terminology please visit our [Github Wiki]({{links-wiki}}){: target=_blank}.  
 ||
-||Our [blog](blog.html) contains in-depth context around Druid and concepts around its technology.
+||Our [blog](/blog) contains in-depth context around Druid and concepts around its technology.
 |
 |+-- {.text-item .indent}
 ||## Connectors and Extensions
