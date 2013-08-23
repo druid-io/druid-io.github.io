@@ -1,6 +1,6 @@
 ---
 published: true
-title: Real²time Exploratory Analytics Layer
+title: Real²time Exploratory Analytics on Large Datasets
 layout: default
 id: home
 ---
