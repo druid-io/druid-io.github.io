@@ -6,7 +6,7 @@ permalink: /blog/:year/:month/:day/:title.html
 pygments: true
 
 title: 'Druid'
-description: 'Real²time Exploratory Analytics Layer'
+description: 'Real²time Exploratory Analytics on Large Datasets'
 
 prose:
   metadata:
