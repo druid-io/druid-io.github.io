@@ -34,7 +34,7 @@ Instructions for booting a Zookeeper and then Kafka cluster are available [here]
 1. Download Apache Kafka 0.7.2 from [http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz](http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz)
 ```bash
 wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
-tar -xvzf kafka-0.7.2-incubating-bin.tgz
+tar -xvzf kafka-0.7.2-incubating-bin.tar.gz
 cd kafka-0.7.2-incubating-bin
 ```
 2. Boot Zookeeper and Kafka
