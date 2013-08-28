@@ -131,7 +131,7 @@ com.metamx.druid.realtime.RealtimeMain
 {"utcdt": "2010-01-01T01:01:04", "wp": 4000, "gender": "female", "age": 30}
 {"utcdt": "2010-01-01T01:01:05", "wp": 5000, "gender": "male", "age": 40}
 ```
-5. Watch the events as they are ingested by Druid's realtime node
+5. Watch the events as they are ingested in the Druid realtime node console
 ```bash
 ...
 2013-06-17 21:41:55,569 INFO [Global--0] com.metamx.emitter.core.LoggingEmitter - Event [{"feed":"metrics","timestamp":"2013-06-17T21:41:55.569Z","service":"example","host":"127.0.0.1","metric":"events/processed","value":5,"user2":"druidtest"}]
