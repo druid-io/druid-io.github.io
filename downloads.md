@@ -33,3 +33,4 @@ published: true
 ||## Connectors and Extensions
 ||- [RDruid](https://github.com/metamx/RDruid) is an open source connector that enables R users to query vast amounts of data.
 ||- [Ruby-Druid](https://github.com/madvertise/ruby-druid) is an open source Ruby client for Druid
+||- [pydruid](https://github.com/metamx/pydruid) is an open source Python connector for Druid
