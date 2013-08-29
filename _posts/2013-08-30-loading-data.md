@@ -88,7 +88,9 @@ druid.database.password=diurd
 druid.database.connectURI=
 druid.host=127.0.0.1:8080
 ```
+
 * Create a valid realtime configuration file similar to this called realtime.spec in the current directory:
+
 ```json
 [{
   "schema" : { "dataSource":"druidtest",
