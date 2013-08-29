@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 layout: post
 title: "Understanding Druid Real-time Ingestion"
 author: Russell Jurney
