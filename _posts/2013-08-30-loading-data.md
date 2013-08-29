@@ -57,7 +57,6 @@ tar -xvzf druid-services-0.5.49-bin.tar.gz
 cd druid-services-0.5.49-bin
 ```
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
-
 ```bash
 druid.host=127.0.0.1
 druid.port=8080
@@ -89,7 +88,6 @@ druid.database.connectURI=
 druid.host=127.0.0.1:8080
 ```
 2. Create a valid realtime configuration file similar to this called realtime.spec in the current directory:
-
 ```json
 [{
   "schema" : { "dataSource":"druidtest",
