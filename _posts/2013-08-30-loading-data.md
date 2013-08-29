@@ -1,6 +1,8 @@
 ---
 published: true
 layout: post
+author: Russell Jurney
+tags: "druid, analytics, datastore, olap"
 ---
 
 ## About Druid ##
