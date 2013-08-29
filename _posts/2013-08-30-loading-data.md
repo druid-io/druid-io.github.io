@@ -47,18 +47,16 @@ bin/kafka-server-start.sh config/server.properties
 ```bash
 bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ```
+
 ### Launching a Realtime Node
 
 0. Download Druid
-
 ```bash
 wget http://static.druid.io/artifacts/releases/druid-services-0.5.49-bin.tar.gz
 tar -xvzf druid-services-0.5.49-bin.tar.gz
 cd druid-services-0.5.49-bin
 ```
-
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
-
 ```bash
 druid.host=127.0.0.1
 druid.port=8080
