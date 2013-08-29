@@ -1,6 +1,7 @@
 ---
 published: true
 layout: post
+title: Understanding Druid Real-time Ingestion
 author: Russell Jurney
 tags: "druid, analytics, datastore, olap"
 ---
