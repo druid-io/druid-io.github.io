@@ -30,33 +30,33 @@ mkdir config/realtime
 
 Instructions for booting a Zookeeper and then Kafka cluster are available [here](http://kafka.apache.org/07/quickstart.html).
 
-1. Download Apache Kafka 0.7.2 from [http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz](http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz)
+* Download Apache Kafka 0.7.2 from [http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz](http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz)
 ```bash
 wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
 tar -xvzf kafka-0.7.2-incubating-bin.tar.gz
 cd kafka-0.7.2-incubating-bin
 ```
-2. Boot Zookeeper and Kafka
+* Boot Zookeeper and Kafka
 ```bash
 cat config/zookeeper.properties
 bin/zookeeper-server-start.sh config/zookeeper.properties
 # in a new console
 bin/kafka-server-start.sh config/server.properties
 ```
-3. In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)
+* In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)
 ```bash
 bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ```
 
 ### Launching a Realtime Node
 
-0. Download Druid
+* Download Druid
 ```bash
 wget http://static.druid.io/artifacts/releases/druid-services-0.5.49-bin.tar.gz
 tar -xvzf druid-services-0.5.49-bin.tar.gz
 cd druid-services-0.5.49-bin
 ```
-1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
+* Create a valid configuration file similar to this called config/realtime/runtime.properties:
 
 ```bash
 druid.host=127.0.0.1
@@ -88,7 +88,7 @@ druid.database.password=diurd
 druid.database.connectURI=
 druid.host=127.0.0.1:8080
 ```
-2. Create a valid realtime configuration file similar to this called realtime.spec in the current directory:
+* Create a valid realtime configuration file similar to this called realtime.spec in the current directory:
 ```json
 [{
   "schema" : { "dataSource":"druidtest",
@@ -119,14 +119,14 @@ druid.host=127.0.0.1:8080
 
 }]
 ```
-3. Launch the realtime node
+* Launch the realtime node
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime \
 com.metamx.druid.realtime.RealtimeMain
 ```
-4. Paste data into the Kafka console producer
+* Paste data into the Kafka console producer
 ```json
 {"utcdt": "2010-01-01T01:01:01", "wp": 1000, "gender": "male", "age": 100}
 {"utcdt": "2010-01-01T01:01:02", "wp": 2000, "gender": "female", "age": 50}
@@ -134,13 +134,13 @@ com.metamx.druid.realtime.RealtimeMain
 {"utcdt": "2010-01-01T01:01:04", "wp": 4000, "gender": "female", "age": 30}
 {"utcdt": "2010-01-01T01:01:05", "wp": 5000, "gender": "male", "age": 40}
 ```
-5. Watch the events as they are ingested in the Druid realtime node console
+* Watch the events as they are ingested in the Druid realtime node console
 ```bash
 ...
 2013-06-17 21:41:55,569 INFO [Global--0] com.metamx.emitter.core.LoggingEmitter - Event [{"feed":"metrics","timestamp":"2013-06-17T21:41:55.569Z","service":"example","host":"127.0.0.1","metric":"events/processed","value":5,"user2":"druidtest"}]
 ...
 ```
-6. In a new console, edit a file called query.body:
+* In a new console, edit a file called query.body:
 ```json
 {
     "queryType": "groupBy",
@@ -155,12 +155,12 @@ com.metamx.druid.realtime.RealtimeMain
     "intervals": ["2010-01-01T00:00/2020-01-01T00"]
 }
 ```
-7. Submit the query via curl
+* Submit the query via curl
 ```bash
 curl -X POST "http://localhost:8080/druid/v2/?pretty" \
 -H 'content-type: application/json' -d @query.body
 ```
-8. View Result!
+* View Result!
 ```json
 [ {
   "timestamp" : "2010-01-01T01:01:00.000Z",
