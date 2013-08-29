@@ -4,7 +4,9 @@ layout: post
 ---
 
 ## About Druid ##
-Druid is a rockin' analytical data store capable of interactively querying big data as it updates in realtime. Druid drives the Metamarkets platform and Metamarkets is committed to developing Druid in open source.
+Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
+
+To learn more check out the first blog in this series [Understanding Druid Via Twitter Data](http://druid.io/blog/2013/08/06/twitter-tutorial.html)
 
 Checkout Druid at XLDB on Sept 9th https://conf-slac.stanford.edu/xldb-2013/tutorials#amC
 
