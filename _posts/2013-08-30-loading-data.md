@@ -13,7 +13,7 @@ Druid is a rockin' exploratory analytical data store capable of offering interac
 
 To learn more check out the first blog in this series [Understanding Druid Via Twitter Data](http://druid.io/blog/2013/08/06/twitter-tutorial.html)
 
-Checkout Druid at XLDB on Sept 9th https://conf-slac.stanford.edu/xldb-2013/tutorials#amC
+Checkout Druid at XLDB on Sept 9th [XLDB](https://conf-slac.stanford.edu/xldb-2013/tutorials#amC)
 
 Druid is available [here](https://github.com/metamx/druid).
 
