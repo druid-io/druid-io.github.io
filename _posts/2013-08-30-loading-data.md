@@ -57,6 +57,7 @@ tar -xvzf druid-services-0.5.49-bin.tar.gz
 cd druid-services-0.5.49-bin
 ```
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
+
 ```bash
 druid.host=127.0.0.1
 druid.port=8080
