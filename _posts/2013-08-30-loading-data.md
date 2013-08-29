@@ -3,7 +3,6 @@ published: false
 layout: post
 ---
 
-## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
 ## About Druid ##
 Druid is a rockin' analytical data store capable of interactively querying big data as it updates in realtime. Druid drives the Metamarkets platform and Metamarkets is committed to developing Druid in open source.
 
@@ -49,6 +48,14 @@ bin/kafka-server-start.sh config/server.properties
 bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 ```
 ### Launching a Realtime Node
+
+0. Download Druid
+
+```bash
+wget http://static.druid.io/artifacts/releases/druid-services-0.5.49-bin.tar.gz
+tar -xvzf druid-services-0.5.49-bin.tar.gz
+cd druid-services-0.5.49-bin
+```
 
 1. Create a valid configuration file similar to this called config/realtime/runtime.properties:
 
