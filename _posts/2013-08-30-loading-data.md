@@ -56,14 +56,14 @@ In a new console, launch the kafka console producer (so you can type in JSON kaf
 **Download Druid**
 
 
-    wget http://static.druid.io/artifacts/releases/druid-services-0.5.49-bin.tar.gz
-    tar -xvzf druid-services-0.5.49-bin.tar.gz
-    cd druid-services-0.5.49-bin
+    wget http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz
+    tar -xvzf druid-services-0.5.50-bin.tar.gz
+    cd druid-services-0.5.50-bin
 
 **Create a valid configuration file** similar to this called config/realtime/runtime.properties:
 
     druid.host=127.0.0.1
-    druid.port=8080
+    druid.port=8083
 
     com.metamx.emitter.logging=true
 
@@ -89,7 +89,7 @@ In a new console, launch the kafka console producer (so you can type in JSON kaf
     druid.database.user=user
     druid.database.password=diurd
     druid.database.connectURI=
-    druid.host=127.0.0.1:8080
+    druid.host=127.0.0.1:8083
 
 
 **Create a valid realtime configuration file** similar to this called realtime.spec in the current directory:
@@ -166,7 +166,7 @@ In a new console, edit a file called query.body:
 **Submit the query via curl**
 
 
-    curl -X POST "http://localhost:8080/druid/v2/?pretty" \
+    curl -X POST "http://localhost:8083/druid/v2/?pretty" \
     -H 'content-type: application/json' -d @query.body
 
 **View Result!**
