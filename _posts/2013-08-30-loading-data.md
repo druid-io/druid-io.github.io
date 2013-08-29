@@ -121,8 +121,8 @@ druid.host=127.0.0.1:8080
 
 }]
 ```
-
 3. Launch the realtime node
+
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
@@ -130,6 +130,7 @@ java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 com.metamx.druid.realtime.RealtimeMain
 ```
 4. Paste data into the Kafka console producer
+
 ```json
 {"utcdt": "2010-01-01T01:01:01", "wp": 1000, "gender": "male", "age": 100}
 {"utcdt": "2010-01-01T01:01:02", "wp": 2000, "gender": "female", "age": 50}
@@ -138,12 +139,14 @@ com.metamx.druid.realtime.RealtimeMain
 {"utcdt": "2010-01-01T01:01:05", "wp": 5000, "gender": "male", "age": 40}
 ```
 5. Watch the events as they are ingested in the Druid realtime node console
+
 ```bash
 ...
 2013-06-17 21:41:55,569 INFO [Global--0] com.metamx.emitter.core.LoggingEmitter - Event [{"feed":"metrics","timestamp":"2013-06-17T21:41:55.569Z","service":"example","host":"127.0.0.1","metric":"events/processed","value":5,"user2":"druidtest"}]
 ...
 ```
 6. In a new console, edit a file called query.body:
+
 ```json
 {
     "queryType": "groupBy",
@@ -159,11 +162,13 @@ com.metamx.druid.realtime.RealtimeMain
 }
 ```
 7. Submit the query via curl
+
 ```bash
 curl -X POST "http://localhost:8080/druid/v2/?pretty" \
 -H 'content-type: application/json' -d @query.body
 ```
 8. View Result!
+
 ```json
 [ {
   "timestamp" : "2010-01-01T01:01:00.000Z",
