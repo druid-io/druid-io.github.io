@@ -3,7 +3,6 @@ published: true
 layout: post
 ---
 
-## Upcoming Druid Events in 2013 ##
 Druid hits the road this fall, with presentations in the Bay Area, North Carolina and New York!
 
 ## About Druid ##
