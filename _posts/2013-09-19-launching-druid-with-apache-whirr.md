@@ -8,7 +8,7 @@ layout: post
 Recently we've created a way to launch Druid clusters using Apache Whirr!
 
 ## About Druid ##
-Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid cost effectively drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
+Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid cost effectively drives 10's of billions of events per day for the [Metamarkets](http://www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
 
 ## About Apache Whirr ##
 Apache Whirr is a set of libraries for running cloud services. It allows you to use simple commands to boot clusters of distributed systems for testing and experimentation. Apache Whirr makes booting clusters easy.
@@ -17,6 +17,7 @@ Apache Whirr is a set of libraries for running cloud services. It allows you to 
 Until Druid is part of an Apache release (a month or two from now) of Whirr, you'll need to clone the code from [https://github.com/rjurney/whirr/tree/trunk](https://github.com/rjurney/whirr/tree/trunk) and build Whirr.
 
     git clone git@github.com:rjurney/whirr.git
+    git checkout trunk
     cd whirr
     mvn clean install -Dmaven.test.failure.ignore=true
 
