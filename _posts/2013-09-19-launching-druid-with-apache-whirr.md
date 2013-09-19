@@ -3,7 +3,7 @@ published: false
 layout: post
 ---
 
-![apache_whirr](img/apache_whirr400.jpg)
+![apache_whirr](../img/apache_whirr400.jpg)
 
 Recently we've created a way to launch Druid clusters using Apache Whirr!
 
