@@ -17,8 +17,8 @@ Apache Whirr is a set of libraries for running cloud services. It allows you to 
 Until Druid is part of an Apache release (a month or two from now) of Whirr, you'll need to clone the code from [https://github.com/rjurney/whirr/tree/trunk](https://github.com/rjurney/whirr/tree/trunk) and build Whirr.
 
     git clone git@github.com:rjurney/whirr.git
-    git checkout trunk
     cd whirr
+    git checkout trunk
     mvn clean install -Dmaven.test.failure.ignore=true
 
 ## build.properties ##
