@@ -2,6 +2,12 @@ exclude:
 - CNAME
 
 permalink: /blog/:year/:month/:day/:title.html
+markdown: rdiscount
+rdiscount:
+  extensions:
+    - autolink
+    - smart
+
 
 pygments: true
 
