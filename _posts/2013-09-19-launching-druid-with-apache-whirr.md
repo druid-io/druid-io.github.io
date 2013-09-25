@@ -24,6 +24,14 @@ Until Druid is part of an Apache release (a month or two from now) of Whirr, you
     git checkout trunk
     mvn clean install -Dmaven.test.failure.ignore=true
 
+## Configuring your Cloud Provider ##
+
+You'll need to set these environment variables:
+
+    export WHIRR_PROVIDER=aws-ec2
+    export WHIRR_IDENTITY=$AWS_ACCESS_KEY_ID
+    export WHIRR_CREDENTIAL=$AWS_SECRET_ACCESS_KEY
+
 ## build.properties ##
 
     cat recipes/druid.properties
