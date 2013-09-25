@@ -16,7 +16,6 @@ html, body {
 	height:100%;	
 	color:#252525;
 	font:400 18px/26px 'Open Sans', Arial, Helvetica, sans-serif;
-	padding-top: 50px;
 	margin:0;
 	word-wrap:break-word;
 }
@@ -29,4 +28,26 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 h3, .h3 {
    font-size: 30px;
    font-weight: 300;
+}
+
+.text-indent {
+   padding-left: 50px;
+}
+
+.text-indent-2 {
+   padding-left: 100px;
+}
+
+.text-indent-p p {
+   padding-left: 50px;
+}
+
+code {
+   color: inherit;
+   background-color: transparent;
+}
+
+.page-header {
+   margin-bottom: 40px;
+   text-align: center;
 }
