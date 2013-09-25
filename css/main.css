@@ -51,3 +51,7 @@ code {
    margin-bottom: 40px;
    text-align: center;
 }
+
+.easter-egg {
+   color: transparent;
+}
