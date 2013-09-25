@@ -2,6 +2,7 @@ exclude:
 - CNAME
 
 permalink: /blog/:year/:month/:day/:title.html
+markdown: redcarpet
 
 pygments: true
 

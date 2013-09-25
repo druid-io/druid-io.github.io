@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    {% include common_header.html %}
+  </head>
+  <body>	
+    {% include page_header.html %}
+
+    {% if page.id == 'home' %}
+    <div class="container">
+      <div class="jumbotron text-center">
+	<h1>Druid</h1>
+	<h3>open-source infrastructure for real-time exploratory analytics on large datasets.</h3>
+	<p><a class="btn btn-primary" href="downloads.html">Download &raquo;</a></p>
+      </div>
+    </div>
+    {% endif %}
+    
+    {{ content }}
+    
+    {% include page_footer.html %}
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

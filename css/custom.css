@@ -217,69 +217,6 @@ h3 {
 	padding:20px 10px 130px;
 	color:#000;
 }
-footer {
-	text-align:center;
-	font-size:14px;
-	color:#000;
-	margin:-135px 0 0;
-}
-footer .container.custom {
-	border-top:1px solid #e1e1e1;
-	padding:20px 0 25px;
-}
-footer .span9 {
-	text-align:left;
-}
-footer .container.custom ul.unstyled {
-	display:inline-block;
-	margin:0 120px 30px 30px;
-	text-align:left;
-	vertical-align:top;
-}
-footer .container.custom ul.unstyled li {
-	font:300 14px/26px 'Open Sans', Arial, Helvetica, sans-serif;
-	margin:0;
-}
-footer .container.custom .unstyled li a {
-	color:#000;
-	font-weight:300;
-}
-footer .container.custom .unstyled li:first-child a {
-	font-weight:400;
-}
-footer ul li a:hover {
-	text-decoration:underline;
-	color:#fff;
-}
-footer .logo-block {
-	text-align:right;
-}
-footer .container.custom p {
-	display:inline-block;
-	margin:28px 0 0 10px;
-	text-align:left;
-}
-.contact-item {
-	margin:0 0 30px 30px;
-	text-align:left;
-	font-weight:300;
-}
-.contact-item a {
-	color:#000;
-}
-footer .contact-item span {
-	font-weight:400;
-	display:block;
-}
-footer .contact-item:first-child span {
-	text-transform:uppercase;
-}
-footer .span4 {
-	text-align:left;
-}
-footer .span5 {
-	padding-top: 75px;
-}
 .soc {
 	text-align:left;
 	margin:5px 0 0 0;
