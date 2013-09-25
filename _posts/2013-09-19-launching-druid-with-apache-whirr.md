@@ -13,6 +13,10 @@ Druid is a rockin' exploratory analytical data store capable of offering interac
 ## About Apache Whirr ##
 Apache Whirr is a set of libraries for running cloud services. It allows you to use simple commands to boot clusters of distributed systems for testing and experimentation. Apache Whirr makes booting clusters easy.
 
+## How Whirr Helps ##
+
+Without Whirr, to launch a Druid cluster, you'd have to provision machines yourself, and then install each node type manually. This process is outlined [here](https://github.com/metamx/druid/wiki/Tutorial%3A-The-Druid-Cluster). With Whirr, you can boot a druid cluster by editing a simple configuration file and then issuing a single command!
+
 ## Installing Whirr ##
 Until Druid is part of an Apache release (a month or two from now) of Whirr, you'll need to clone the code from [https://github.com/rjurney/whirr/tree/trunk](https://github.com/rjurney/whirr/tree/trunk) and build Whirr.
 
