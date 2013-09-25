@@ -14,7 +14,6 @@ Druid is a rockin' exploratory analytical data store capable of offering interac
 Apache Whirr is a set of libraries for running cloud services. It allows you to use simple commands to boot clusters of distributed systems for testing and experimentation. Apache Whirr makes booting clusters easy.
 
 ## How Whirr Helps ##
-
 Without Whirr, to launch a Druid cluster, you'd have to provision machines yourself, and then install each node type manually. This process is outlined [here](https://github.com/metamx/druid/wiki/Tutorial%3A-The-Druid-Cluster). With Whirr, you can boot a druid cluster by editing a simple configuration file and then issuing a single command!
 
 ## Installing Whirr ##
@@ -54,7 +53,7 @@ Note that you can change a cluster's configuration with the whirr.instance-templ
 
     bin/whirr launch-cluster --config recipes/druid.properties
 
-When the cluster is ready, ssh instructions will print and we can connect and use the cluster. To destroy a cluster when we're done, run:
+When the cluster is ready, ssh instructions will print and we can connect and use the cluster. For more instructions on using a Druid cluster, see [here](https://github.com/metamx/druid/wiki/Querying-your-data). To destroy a cluster when we're done, run:
 
 
     bin/whirr destroy-cluster --config recipes/druid.properties
