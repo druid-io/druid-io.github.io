@@ -4,9 +4,6 @@ layout: post
 author: Russell Jurney
 ---
 
-
-## Launching Druid clusters made easier with Apache Whirr!
-
 Without Whirr, to launch a Druid cluster, you'd have to provision machines yourself, and then install each node type manually. This process is outlined [here](https://github.com/metamx/druid/wiki/Tutorial%3A-The-Druid-Cluster). With Whirr, you can boot a druid cluster by editing a simple configuration file and then issuing a single command!
 
 ## About Druid ##
