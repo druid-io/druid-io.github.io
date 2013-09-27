@@ -55,13 +55,13 @@ id: home
     <div class="col-md-offset-1 col-md-7">
       <h2>Query using JSON:</h2>
 {% highlight json %}{
-  "queryType":"timeseries",
-    "dataSource":"twitterstream",
-    "intervals":["2013-07-20/2013-07-21"],
-    "granularity":"hour",
-    "aggregations":[
-    { "type":"count", "name":"rows"},
-    { "type":"doubleSum", "fieldName":"tweets", "name":"tweets"}
+  "queryType"   : "timeseries",
+  "dataSource"  : "twitterstream",
+  "intervals"   : [ "2013-07-20/2013-07-21" ],
+  "granularity" : "hour",
+  "aggregations": [
+    { "type":"count", "name":"rows" },
+    { "type":"doubleSum", "fieldName":"tweets", "name":"tweets" }
   ]
 }{% endhighlight %}
     </div>
