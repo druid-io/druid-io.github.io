@@ -1,20 +1,26 @@
 ---
 title: Blog
 sectionid: blog
-layout: page
+layout: html_page
 ---
 
-<h1 class="index">Latest News from Druid</h1>
+<link rel="stylesheet" href="/css/blogs.css">
 
-<div class="text-part">
-
-  {% for page in site.posts %}
-    <div class="text-item blog">
-      <h2 class="date"><a href="{{ page.url }}">{{ page.title }}</a>
-      <span>{{ page.date | date: "%B %e, %Y" }} by {{ page.author | upcase }}</span></h2>
-      <p>{{ page.excerpt }}</p>
-      <a href="{{ page.url }}">Continue Reading →</a>
+<div class="container">
+  <div class="page-header">
+    <h1>Latest News from Druid</h1>
+  </div>
+  
+  <div class="col-md-10 col-md-offset-1">
+    {% for page in site.posts %}
+    <div class="blog-listing">
+      <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
+      <p>{{ page.author | upcase }}, {{ page.date | date: "%B %e, %Y" }}</p>
+      <blockquote>
+	<p>{{ page.excerpt }}</p>
+	<a href="{{ page.url }}">Continue Reading →</a>
+      </blockquote>
     </div>
-  {% endfor %}
-
+    {% endfor %}
+  </div>
 </div>

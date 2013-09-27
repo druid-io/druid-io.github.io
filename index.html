@@ -1,0 +1,73 @@
+---
+published: true
+title: Real²time Exploratory Analytics on Large Datasets
+layout: html_page
+id: home
+---
+
+<link rel="stylesheet" href="/css/index.css">
+
+<div class="container">
+  <div class="jumbotron text-center">
+    <h1>Druid</h1>
+    <h3>open-source infrastructure for real-time exploratory analytics on large datasets.</h3>
+    <p><a class="btn btn-primary" href="downloads.html">Download &raquo;</a></p>
+  </div>
+</div>
+
+<div class="container sub-text">
+  <div class="row text-center">
+    <div class="col-md-10 col-md-offset-1">
+      <p>Druid is open source infrastructure for Real&sup2;time Exploratory Analytics on Large Datasets. The system uses an always-on, distributed, shared-nothing, architecture designed for real-time querying and data ingestion. It leverages column-orientation and advanced indexing structures to allow for cost effective, arbitrary exploration of multi-billion-row tables with sub-second latencies.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container main-marketing">
+  <div class="row-fluid text-center">
+    <div class="col-md-4">
+      <p><a href="druid.html#realtime"><img alt="meaningless markety image" src="img/realtime.jpg" /></a></p>
+      <p><a href="druid.html#realtime"><h2>Real-time Ingestion</h2></a></p>
+      <p class="text-left">Query data as it’s being read into Druid for insights into both immediate and historical data seamlessly.</p>
+    </div>
+    
+    <div class="col-md-4">
+      <p><a href="druid.html#scalable"><img alt="meaningless markety image" src="img/scalable.jpg" /></a></p> 
+      <p><a href="druid.html#scalable"><h2>Scalable</h2></a></p>
+      <p class="text-left">Scalable and available; consistent and predictable performance over large data sets. Scale up to increase computation power, scale down to save on costs.</p>
+    </div>
+    
+    <div class="col-md-4">
+      <p><a href="druid.html#hri"><img alt="meaningless markety image" src="img/responsive.jpg" /></a></p>
+      <p><a href="druid.html#hri"><h2>Real-time Queries</h2></a></p>
+      <p class="text-left">Ad-hoc slice-n-dice over N-dimensional data with consistent, fast response times.</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Get Started</h2>
+      <p><a href="https://github.com/metamx/druid/wiki/Tutorial%3A-A-First-Look-at-Druid">Tutorial</a> - Setup a toy example and expand</p>
+    </div>
+    <div class="col-md-offset-1 col-md-7">
+      <h2>Query using JSON:</h2>
+      <pre>
+	<code>
+  {
+    "queryType":"timeseries",
+    "dataSource":"twitterstream",
+    "intervals":["2013-07-20/2013-07-21"],
+    "granularity":"hour",
+    "aggregations":[
+      { "type":"count", "name":"rows"},
+      { "type":"doubleSum", "fieldName":"tweets", "name":"tweets"}
+    ]
+  }
+	</code>
+      </pre>
+    </div>
+  </div>
+</div>
