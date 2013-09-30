@@ -20,7 +20,10 @@ sectionid: blog
       <div class="blog-entry">
 	<h2 class="date">
           <span>{{ page.title }}</span>
-          <span>{{ page.date | date: "%B %e, %Y" }} · {{ page.author | upcase }}</span>
+          <span>{{ page.date | date: "%B %e, %Y" }}</span>
+          {% if page.author %}
+          <span> · {{ page.author | upcase }}</span>
+          {% endif %}
 	</h2>
 	
 	{% if page.image %}<img src="{{ page.image }}" alt="{{ page.title }}" class="text-img" />{% endif %}

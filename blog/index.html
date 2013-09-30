@@ -15,7 +15,7 @@ layout: html_page
     {% for page in site.posts %}
     <div class="blog-listing">
       <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
-      <p>{{ page.author | upcase }}, {{ page.date | date: "%B %e, %Y" }}</p>
+      <p>{% if page.author %}{{ page.author | upcase }}, {% endif %}{{ page.date | date: "%B %e, %Y" }}</p>
       <blockquote>
 	<p>{{ page.excerpt }}</p>
 	<a href="{{ page.url }}">Continue Reading →</a>
