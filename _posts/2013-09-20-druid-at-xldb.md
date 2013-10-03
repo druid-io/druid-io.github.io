@@ -3,6 +3,8 @@ published: false
 layout: post
 ---
 
+![](/_posts/druid_tutorial_xldb.jpg)
+
 ## Druid at XLDB
 
 Metamarkets' own Fangjin Yang and Xavier Leaute were on hand at Stanford XLDB on September 9th, to teach a class on Druid. Checkout the slides below, where we cover the basics of Druid and then how to build applications with Druid and R!
