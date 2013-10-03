@@ -1,6 +1,8 @@
 ---
 published: false
 layout: post
+author: Russell Jurney
+tags: "#xldb #druidio #analytics #olap"
 ---
 
 ![](/_posts/druid_tutorial_xldb.jpg)
