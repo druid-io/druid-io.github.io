@@ -1,4 +1,5 @@
 ---
+title: Druid at XLDB
 published: true
 layout: post
 author: Russell Jurney
