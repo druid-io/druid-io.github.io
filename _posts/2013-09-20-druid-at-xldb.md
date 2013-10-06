@@ -12,7 +12,7 @@ We attended XLDB to teach our very first Druid tutorial session. Battling an ala
 
 ![Druid Users at XLDB](http://distilleryimage3.ak.instagram.com/ce5ff7c4197111e3b2e322000a1f9a5c_7.jpg)
 
-The focus of our tutorial is to educate people on why we built Druid, how Druid is architected, and how to build applications on top of Druid. The tutorial has several hands on sections about how to spin up and load data into a Druid cluster. For [R](http://www.r-project.org/) enthusiasts out there, there is a section about building an R application for data analysis using Druid. Check out our slides below:
+The focus of our tutorial is to educate people on why we built Druid, how druid is architected, and how to build applications on top of Druid. The tutorial has several hands-on sections about how to spin up and load data into a Druid cluster. For [R](http://www.r-project.org/) enthusiasts out there, there is a section about building an R application for data analysis using Druid. Check out our slides below:
 
 <script async="" class="speakerdeck-embed" data-id="50c52830fc7301302f630ada113e7e19" data-ratio="1.72972972972973" src="//speakerdeck.com/assets/embed.js"></script>
 
