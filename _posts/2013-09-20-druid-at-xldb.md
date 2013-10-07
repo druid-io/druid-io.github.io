@@ -8,7 +8,7 @@ tags: "#xldb #druidio #analytics #olap"
 
 We recently attended [Stanford XLDB](http://www.xldb.org/) and the experience was a blast. Once a year, XLDB invites speakers from different organizations to discuss the challenges of and solutions to dealing with Xtreme (with an X!) data sets. This year, Jeff Dean dropped knowledge bombs about architecting scalable systems, Michael Stonebraker provided inspiring advice about growing open source projects, CERN explained how they found the Higgs Boson, and several organizations spoke about their technology. We definitely recommend checking out the [slides](https://conf-slac.stanford.edu/xldb-2013/conference-program) from the conference.
 
-We attended XLDB to teach our very first Druid tutorial session. Battling an alarm clock that went off far to early (for engineers anyway) and braving the insanity that is highway 101 morning traffic, most of us _almost_ managed to show up on time for our session.
+We attended XLDB to teach our very first Druid tutorial session. Battling an alarm clock that went off far too early (for engineers anyway) and braving the insanity that is highway 101 morning traffic, most of us _almost_ managed to show up on time for our session.
 
 ![Druid Users at XLDB](http://distilleryimage3.ak.instagram.com/ce5ff7c4197111e3b2e322000a1f9a5c_7.jpg)
 
