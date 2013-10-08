@@ -9,6 +9,8 @@ pygments: true
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
+druid_version: 0.5.48
+
 prose:
   metadata:
     siteurl: 'http://druid.io'
