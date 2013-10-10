@@ -1,6 +1,8 @@
 ---
 layout: doc_page
+published: true
 ---
+
 Greetings! This tutorial will help clarify some core Druid concepts. We will use a realtime dataset and issue some basic Druid queries. If you are ready to explore Druid, and learn a thing or two, read on!
 
 About the data
@@ -139,7 +141,7 @@ The result looks something like this:
 
 This groupBy query is a bit complicated and we'll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have [curl](http://curl.haxx.se/) installed. Control+C to break out of the client script.
 
-h2. Querying Druid
+## Querying Druid
 
 In your favorite editor, create the file:
 
