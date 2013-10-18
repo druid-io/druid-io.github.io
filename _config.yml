@@ -2,11 +2,14 @@ exclude:
 - CNAME
 
 permalink: /blog/:year/:month/:day/:title.html
+markdown: redcarpet
 
 pygments: true
 
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
+
+druid_version: 0.5.48
 
 prose:
   metadata:
