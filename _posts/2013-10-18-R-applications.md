@@ -41,5 +41,5 @@ Which results in:
 
 ![Druid GGPlot Time Series](/_posts/r_druid_ggplot.png)
   
-
+A more compliated Shiny web application is available on [github here](https://github.com/rjurney/druid-application-development/tree/master/R).
 
