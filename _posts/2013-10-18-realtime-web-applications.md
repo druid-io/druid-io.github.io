@@ -84,7 +84,73 @@ Our Ruby application using Sinatra and ruby-druid is similar.
 
 ## Javascript - D3.js
 
-The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. Commented code is below:
+The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. The complete code is [here](https://github.com/rjurney/druid-application-development/blob/master/python/templates/index.html). Commented code highlights are below:
 
+	var data = [];
+    var maxDataPoints = 20; // Max number of points to keep in the graph
+    var nextData = data;
+    var dataToShow = [];
+    setInterval(function() { 
+        data = nextData;
+
+        // Skip when nothing more to show
+        if (dataToShow.length == 0) return;
+
+        // Take on datum from the new data and add it to the data
+        // (pretend like the data is arriving one at a time)
+        data.push(dataToShow.shift());
+
+        // once we get too many things in data, remove some
+        // use nextData to train the scales but use the untrimmed data
+        // for rendering so that it looks smooth
+        nextData = data.length > maxDataPoints ? data.slice(data.length - maxDataPoints) : data;
+
+        // can not show area unless we gave min 2 points
+        if (data.length < 2) return;
+
+        // This is a key step that needs to be done because of the 
+        // paculiarity of area / line charts
+        // (they have one element that represnts N data points - unlike a bar chart) 
+        // reaply the old area function (with the old scale) to the new data
+        dPath.attr("d", area(data))        
+
+        // Update the scale domains
+        x.domain(d3.extent(nextData, function(d) { return d.date; }));
+        y.domain([0, d3.max(nextData, function(d) { return d.close; })]);
+
+        // reaply the axis selection (now that the scales have been updated)
+        // yay for transition!
+        xAxisSel.transition().duration(900).call(xAxis);        
+        yAxisSel.transition().duration(900).call(yAxis);
+
+        // reaply the updated area function to animate the area 
+        dPath.transition().duration(900).attr("d", area(data))
+
+    }, 1000);
+
+    function convert(ds) { 
+        return ds.map(function(d) {   
+            return {
+                date: new Date(d['timestamp']),
+                close: d['result']['count']
+            }
+        });
+    }
+
+    lastQueryTime = new Date(Date.now() - 60 * 1000) // start from one minute ago
+    lastQueryTime.setUTCMilliseconds(0)
+    function doQuery() {
+        now = new Date()
+        now.setUTCMilliseconds(0)
+        console.log('query!')
+        druidQuery(lastQueryTime, now, function(err, results) {
+            // add results to the data to be shown
+            lastQueryTime = now
+            dataToShow = dataToShow.concat(convert(results)) 
+            console.log('dataToShow length', dataToShow.length)
+        })
+    }
+    doQuery()
+    setInterval(doQuery, 10000)
 
 
