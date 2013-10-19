@@ -7,9 +7,9 @@ In this post, we will cover the creation of web applications with realtime visua
 
 For more information on the Ruby and Python Druid clients, see here and here. For more information on starting a Druid realtime node, see here.
 
-## Web App in Python
+## Web App in Python/Flask/pyDruid
 
-Our Python controller is simple enough. One route serves our HTML/CSS/Javascript, and another serves JSON to our chart.
+Our Python [Flask](http://flask.pocoo.org/) application is simple enough. One route serves our HTML/CSS/Javascript, and another serves JSON to our chart. The fetch_data method runs our Druid query via the [pyDruid package](https://github.com/metamx/pydruid).
 
 	from flask import Flask, render_template
 	import json
@@ -50,4 +50,36 @@ Our Python controller is simple enough. One route serves our HTML/CSS/Javascript
 	
 	if __name__ == "__main__":
 	    app.run(debug=True)
+
+## Web App in Ruby/Sinatra/ruby-druid
+
+Our Ruby application using Sinatra and ruby-druid is similar.
+
+	# index.rb
+	require 'sinatra'
+	require 'druid'
+	require 'json'
 	
+	set :public_folder, File.dirname(__FILE__) + '/static'
+	set :views, 'templates'
+	
+	client = Druid::Client.new('', {:static_setup => { 'realtime/webstream' => 'http://localhost:8083/druid/v2/' }})
+
+	def fetch_data(client, start_iso_date, end_iso_date)
+	  query = Druid::Query.new('realtime/webstream').time_series().double_sum(:rows).granularity(:second).interval(start_iso_date, end_iso_date)
+	  result = client.send(query)
+	  counts = result.map {|r| {'timestamp' => r.timestamp, 'result' => r.row}}
+	  json = JSON.generate(counts)
+	end
+
+	get '/time_series' do
+	  erb :index
+	end
+	
+	get '/time_series_data/:start_iso_date/:end_iso_date' do |start_iso_date, end_iso_date|
+	  fetch_data(client, start_iso_date, end_iso_date)
+	end
+
+## Javascript - D3.js
+
+
