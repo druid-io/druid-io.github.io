@@ -85,7 +85,7 @@ Our Ruby application using Sinatra and ruby-druid is similar.
 ## Javascript - D3.js
 
 The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. The complete code is [here](https://github.com/rjurney/druid-application-development/blob/master/python/templates/index.html). Commented code highlights are below:
-
+	// Made possible only with help from Vadim Ogeivetsky
 	var data = [];
     var maxDataPoints = 20; // Max number of points to keep in the graph
     var nextData = data;
@@ -152,5 +152,3 @@ The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/)
     }
     doQuery()
     setInterval(doQuery, 10000)
-
-
