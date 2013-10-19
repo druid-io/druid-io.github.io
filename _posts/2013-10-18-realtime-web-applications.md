@@ -7,6 +7,8 @@ In this post, we will cover the creation of web applications with realtime visua
 
 For more information on the Ruby and Python Druid clients, see here and here. For more information on starting a Druid realtime node, see here.
 
+![Druid Explorer Chart](/_images/druid_explorer_chart.png)
+
 ## Web App in Python/Flask/pyDruid
 
 Our Python [Flask](http://flask.pocoo.org/) application is simple enough. One route serves our HTML/CSS/Javascript, and another serves JSON to our chart. The fetch_data method runs our Druid query via the [pyDruid package](https://github.com/metamx/pydruid).
@@ -81,5 +83,8 @@ Our Ruby application using Sinatra and ruby-druid is similar.
 	end
 
 ## Javascript - D3.js
+
+The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. Commented code is below:
+
 
 
