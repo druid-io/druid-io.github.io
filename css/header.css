@@ -35,27 +35,6 @@
   margin-top: 15px;
 }
 
-.social-button {
-  display: inline-block;
-  padding: 5px 20px;
-  margin-left: 20px;
-  margin-top: 10px;
-  -webkit-border-radius: 2px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 2px;
-  -moz-background-clip: padding;
-  border-radius: 2px;
-  background-clip: padding-box;
-  background-color: #252525;
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.25);
-  -moz-box-shadow: 0 1px 1px rgba(0,0,0,.25);
-  box-shadow: 0 1px 1px rgba(0,0,0,.25);
-  color: #e1ddd1;
-  font-size: 11px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
 .social-button.twitter {
   background: 10px center no-repeat url('/img/twitter.png') #252525;
   padding-left: 40px;
