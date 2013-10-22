@@ -24,3 +24,13 @@
           box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
 
+.twitter-follow-button {
+  margin-top: 11px;
+  margin-left: 18px;
+  margin-right: 16px;
+}
+
+.fb-like {
+  margin-left: 16px;
+  margin-top: 15px;
+}
