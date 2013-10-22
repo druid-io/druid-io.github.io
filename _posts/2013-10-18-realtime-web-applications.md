@@ -55,7 +55,7 @@ Our Python [Flask](http://flask.pocoo.org/) application is simple enough. One ro
 
 ## Web App in Ruby/Sinatra/ruby-druid
 
-Our Ruby application using Sinatra and ruby-druid is similar.
+Our Ruby application using Sinatra and ruby-druid is similar. First we setup some Sinatra configuration variables, and then repeat the work above:
 
 	# index.rb
 	require 'sinatra'
@@ -84,7 +84,7 @@ Our Ruby application using Sinatra and ruby-druid is similar.
 
 ## Javascript - D3.js
 
-The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. The complete code is [here](https://github.com/rjurney/druid-application-development/blob/master/python/templates/index.html). Commented code highlights are below:
+The meat of our appliation is in Javascript, using the [d3.js](http://d3js.org/) library. The complete code is [here](https://github.com/rjurney/druid-application-development/blob/master/python/templates/index.html) and a working JSFiddle is [here](http://jsfiddle.net/CBsgU/). Commented code highlights are below:
 	// Made possible only with help from Vadim Ogeivetsky
 	var data = [];
     var maxDataPoints = 20; // Max number of points to keep in the graph
