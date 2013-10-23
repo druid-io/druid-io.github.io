@@ -14,15 +14,15 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if page.id == 'home' %} class="active"{% endif %}><a href="/">Home</a></li>
-            <li {% if page.sectionid == 'druid' %} class="active"{% endif %}><a href="/druid.html">What is Druid?</a></li>
-            <li {% if page.sectionid == 'downloads' %} class="active"{% endif %}><a href="/downloads.html">Downloads</a></li>
-            <li {% if page.sectionid == 'docs' %} class="active"{% endif %}><a href="/docs/{{ site.druid_version }}/Home.html">Documentation</a></li>
-            <li {% if page.sectionid == 'community' %} class="active"{% endif %}><a href="/community.html">Community</a></li>
-            <li {% if page.sectionid == 'faq' %} class="active"{% endif %}><a href="/faq.html">FAQ</a></li>
-            <li {% if page.sectionid == 'blog' %} class="active"{% endif %}><a href="/blog">Blog</a></li>
+            <li class="header-li{% if page.id == 'home' %} active{% endif %}"><a class="header-a" href="/">Home</a></li>
+            <li class="header-li{% if page.sectionid == 'druid' %} active{% endif %}"><a class="header-a" href="/druid.html">What is Druid?</a></li>
+            <li class="header-li{% if page.sectionid == 'downloads' %} active{% endif %}"><a class="header-a" href="/downloads.html">Downloads</a></li>
+            <li class="header-li{% if page.sectionid == 'docs' %} active{% endif %}"><a class="header-a" href="/docs/{{ site.druid_version }}/Home.html">Documentation</a></li>
+            <li class="header-li{% if page.sectionid == 'community' %} active{% endif %}"><a class="header-a" href="/community.html">Community</a></li>
+            <li class="header-li{% if page.sectionid == 'faq' %} active{% endif %}"><a class="header-a" href="/faq.html">FAQ</a></li>
+            <li class="header-li{% if page.sectionid == 'blog' %} active{% endif %}"><a class="header-a" style="margin-right: 10px;" href="/blog">Blog</a></li>
             <li>
-              <a class="social-button twitter" href="http://twitter.com/druidio">Follow on Twitter</a>
+              <a class="social-button twitter header-a" href="http://twitter.com/druidio">Follow</a>
             </li>
           </ul>
         </div>
