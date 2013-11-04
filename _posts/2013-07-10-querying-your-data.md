@@ -1,9 +1,10 @@
 ---
 published: false
 layout: post
+author: Russell Jurney
+tags: "#druidio #analytics #olap"
 ---
 
-## A New Post\n\nEnter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
 # Setup #
 
 Before we start querying druid, we're going to finish setting up a complete cluster on localhost. In our previous posts, we setup a Realtime node. In this tutorial we will also setup the other Druid node types: Compute, Master and Broker.
