@@ -1,7 +1,7 @@
 ---
 title: Licensing
-layout: page
-sectionid: faq
+layout: html_page
+sectionid: licensing
 ---
 
 # Licensing Druid
