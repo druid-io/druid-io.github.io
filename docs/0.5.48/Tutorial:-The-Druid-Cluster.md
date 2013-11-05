@@ -1,6 +1,8 @@
 ---
 layout: doc_page
+published: true
 ---
+
 Welcome back! In our first [tutorial](https://github.com/metamx/druid/wiki/Tutorial%3A-A-First-Look-at-Druid), we introduced you to the most basic Druid setup: a single realtime node. We streamed in some data and queried it. Realtime nodes collect very recent data and periodically hand that data off to the rest of the Druid cluster. Some questions about the architecture must naturally come to mind. What does the rest of Druid cluster look like? How does Druid load available static data?
 
 This tutorial will hopefully answer these questions!
@@ -11,7 +13,7 @@ In this tutorial, we will set up other types of Druid nodes as well as and exter
 
 If you followed the first tutorial, you should already have Druid downloaded. If not, let's go back and do that first.
 
-You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-services-0.5.54-bin.tar.gz)
+You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-services-0.5.58-bin.tar.gz)
 
 and untar the contents within by issuing:
 
