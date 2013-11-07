@@ -1,5 +1,6 @@
 ---
 title: Documentation
+sectionid: docs
 ---
 
 <!DOCTYPE html>
@@ -14,11 +15,18 @@ title: Documentation
 
     <div class="container">
       <div class="page-header">
-	<h1>Documentation</h1>
+        <h1>Documentation</h1>
       </div>
+      {% assign parts = (page.url | split: '/') %}
+      {% assign version = parts[2] %}
 
+      {% if version == site.druid_version %}
+      <p>Looking for older documentation? <a href="/docs/0.5.48/">0.5.48</a></p>
+      {% else %}
+      <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest documentation</a>?</p>
+      {% endif %}
       <div class="row">
-	<div class="col-md-3 toc" id="toc">
+        <div class="col-md-3 toc" id="toc">
 	</div>
 
 	<div class="col-md-9 doc-content">
