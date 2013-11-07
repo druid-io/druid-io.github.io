@@ -4,6 +4,9 @@ exclude:
 permalink: /blog/:year/:month/:day/:title.html
 markdown: redcarpet
 
+redcarpet:
+  extensions: ["tables", "no_intra_emphasis", "fenced_code_blocks"] 
+
 pygments: true
 
 title: 'Druid'
