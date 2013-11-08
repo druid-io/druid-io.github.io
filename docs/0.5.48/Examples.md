@@ -25,7 +25,7 @@ git checkout druid-0.4.30
 
 ### Downloading the DSK (Druid Standalone Kit)
 
-[Download](http://static.druid.io/data/examples/druid-services-0.4.6.tar.gz) a stand-alone tarball and run it:
+[Download](http://static.druid.io/data/examples/druid-services-0.5.58.tar.gz) a stand-alone tarball and run it:
 
 ``` bash
 tar -xzf druid-services-0.X.X-SNAPSHOT-bin.tar.gz
