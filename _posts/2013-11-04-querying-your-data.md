@@ -1,10 +1,3 @@
----
-published: true
-layout: post
-author: Russell Jurney
-tags: "#druidio #analytics #olap"
----
-
 Before we start querying druid, we're going to finish setting up a complete cluster on localhost. In our previous posts, we setup a Realtime node. In this tutorial we will also setup the other Druid node types: Compute, Master and Broker.
 
 ## Booting a Broker Node ##
@@ -53,7 +46,7 @@ com.metamx.druid.http.ComputeMain
 
 # Querying Your Data #
 
-Now that we have a complete cluster setup on localhost, we need to load data. To do so, refer to [Loading Your Data](previous post). Having done that, its time to query our data!
+Now that we have a complete cluster setup on localhost, we need to load data. To do so, refer to [Loading Your Data](http://druid.io/blog/2013/08/30/loading-data.html). Having done that, its time to query our data!
 
 ## Querying Different Nodes ##
 
