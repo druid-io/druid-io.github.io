@@ -1,16 +1,10 @@
----
-published: true
-layout: post
-author: Russell Jurney
-tags: "#druidio #analytics #olap"
----
-
 Before we start querying druid, we're going to finish setting up a complete cluster on localhost. In our previous posts, we setup a Realtime node. In this tutorial we will also setup the other Druid node types: Compute, Master and Broker.
 
 ## Booting a Broker Node ##
 
 1. Setup a config file at config/broker/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818837](https://gist.github.com/rjurney/5818837)
 2. Run the broker node:
+
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
@@ -22,6 +16,7 @@ com.metamx.druid.http.BrokerMain
 
 1. Setup a config file at config/master/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818870](https://gist.github.com/rjurney/5818870)
 2. Run the master node:
+
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/master \
@@ -34,6 +29,7 @@ com.metamx.druid.http.MasterMain
 
 2. Setup a realtime.spec file like this: [https://gist.github.com/rjurney/5818779](https://gist.github.com/rjurney/5818779)
 3. Run the realtime node:
+
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
@@ -45,6 +41,7 @@ com.metamx.druid.realtime.RealtimeMain
 
 1. Setup a config file at config/compute/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818885](https://gist.github.com/rjurney/5818885)
 2. Run the compute node:
+
 ```bash
 java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/compute \
@@ -62,6 +59,7 @@ As a shared-nothing system, there are three ways to query druid, against the Rea
 ### Construct a Query ###
 
 For constructing this query, see below at: Querying Against the realtime.spec
+
 ```json
 {
     "queryType": "groupBy",
@@ -80,11 +78,14 @@ For constructing this query, see below at: Querying Against the realtime.spec
 ### Querying the Realtime Node ###
 
 Run our query against port 8080:
+
 ```bash
 curl -X POST "http://localhost:8080/druid/v2/?pretty" \
 -H 'content-type: application/json' -d @query.body
 ```
+
 See our result:
+
 ```json
 [ {
   "version" : "v1",
@@ -99,11 +100,14 @@ See our result:
 
 ### Querying the Compute Node ###
 Run the query against port 8082:
+
 ```bash
 curl -X POST "http://localhost:8082/druid/v2/?pretty" \
 -H 'content-type: application/json' -d @query.body
 ```
+
 And get (similar to):
+
 ```json
 [ {
   "version" : "v1",
@@ -115,13 +119,17 @@ And get (similar to):
   }
 } ]
 ```
+
 ### Querying both Nodes via the Broker ###
 Run the query against port 8083:
+
 ```bash
 curl -X POST "http://localhost:8083/druid/v2/?pretty" \
 -H 'content-type: application/json' -d @query.body
 ```
+
 And get:
+
 ```json
 [ {
   "version" : "v1",
