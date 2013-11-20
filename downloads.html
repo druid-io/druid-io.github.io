@@ -11,24 +11,37 @@ published: true
   </div>
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <h2 id="downloads">Getting Started</h2>
+      <h2>Current Versions</h2>
+
       <div class="text-indent">
-        <p><a href="http://static.druid.io/artifacts/releases/druid-services-{{ site.druid_version }}-bin.tar.gz">Download a tarball</a></p>
-        <p>Though, we recommend that you start with our <a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Tutorial</a>.</p>
-	<p>Or one of the other Getting Started pages.</p>
+      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/Versioning.html">Versioning</a> section for how we describe software versions.</p>
+
+      <h4>Release Candidate</h4>
+
+      <p>The current release candidate is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-services-{{ site.druid_version }}-bin.tar.gz">{{site.druid_version}}</a>.</p>
+
+      <h4>Stable Release</h4>
+
+      <p>The current stable is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-services-{{ site.druid_stable_version }}-bin.tar.gz">{{site.druid_stable_version}}</a>.</p>
+      </div>
+        
+      <h2>First Time Users</h2>
+      <div class="text-indent">
+      <p>If you are a first time Druid user, we recommend that you start with our first <a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Tutorial</a>.</p>
+	    <p>Or one of the other Getting Started pages.</p>
 	
 	<ul>
-	  <li><a href="https://github.com/metamx/druid/wiki/Examples">Examples</a></li>
-	  <li><a href="https://github.com/metamx/druid/wiki/Loading-Your-Data">Loading Your Data</a></li>
-	  <li><a href="https://github.com/metamx/druid/wiki/Querying-Your-Data">Querying Your Data</a></li>
-	  <li><a href="https://github.com/metamx/druid/wiki/Booting-a-Production-Cluster">Booting a Production Cluster</a></li>
+	  <li><a href="/docs/{{site.druid_version}}/Tutorial:-The-Druid-Cluster.html">The Druid Cluster</a></li>
+	  <li><a href="/docs/{{site.druid_version}}/Tutorial:-Loading-Your-Data-Part-1.html">Loading Your Data Part 1</a></li>
+	  <li><a href="/docs/{{site.druid_version}}/Tutorial:-Loading-Your-Data-Part-2.html">Loading Your Data Part 2</a></li>
+	  <li><a href="/docs/{{site.druid_version}}/Tutorial:-All-About-Queries.html">All About Queries</a></li>
 	</ul>
       </div>
 	
       <h2>Resources</h2>
 	
       <div class="text-indent">
-	<p>For setup, configuration, architecture and terminology please visit our <a href="https://github.com/metamx/druid/wiki">Github Wiki</a>.</p>
+	<p>For setup, configuration, architecture and terminology please visit our <a href="/docs/{{site.druid_version}}/">docs section</a>.</p>
 	<p>Our <a href="/blog">blog</a> contains in-depth context around Druid and concepts around its technology.</p>
       </div>
 	
