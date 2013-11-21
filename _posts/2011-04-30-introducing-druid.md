@@ -1,10 +1,3 @@
----
-title: "Introducing Druid: Real-Time Analytics at a Billion Rows Per Second"
-layout: post
-author: Eric Tschetter
-image: http://metamarkets.com/wp-content/uploads/2011/04/fastcar-sized-470x288.jpg
----
-
 Here at Metamarkets we have developed a web-based analytics console that
 supports drill-downs and roll-ups of high dimensional data sets – comprising
 billions of events – in real-time.  This is the first of two blog posts
@@ -159,14 +152,11 @@ Stepping back from our two failures, let’s examine why these systems failed to
 scale for our needs:
 
 1. Relational Database Architectures
-
-    * Full table scans were slow, regardless of the storage engine used
-    * Maintaining proper dimension tables, indexes and aggregate tables was painful
-    * Parallelization of queries was not always supported or non-trivial
-
+  * Full table scans were slow, regardless of the storage engine used
+  * Maintaining proper dimension tables, indexes and aggregate tables was painful
+  * Parallelization of queries was not always supported or non-trivial
 2. Massive NOSQL With Pre-Computation
-
-    * Supporting high dimensional OLAP requires pre-computing an exponentially large amount of data
+  * Supporting high dimensional OLAP requires pre-computing an exponentially large amount of data
 
 Looking at the problems with these solutions, it looks like the first,
 RDBMS-style architecture has a simpler issue to tackle: namely, how to scan
@@ -200,5 +190,3 @@ leave you with a benchmark:
 
 
 [CONTINUE TO PART II…](http://metamarkets.com/2011/druid-part-deux-three-principles-for-fast-distributed-olap/)
-
-
