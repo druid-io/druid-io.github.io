@@ -146,7 +146,7 @@ Now that we know what nodes can be queried (although you should usually use the 
 
 ## Querying Against the realtime.spec ##
 
-How are we to know what queries we can run? Although [Querying](https://github.com/metamx/druid/wiki/Querying) is a helpful index, to get a handle on querying our data we need to look at our Realtime node's realtime.spec file:
+How are we to know what queries we can run? Although [Querying](http://druid.io/docs/latest/Tutorial:-All-About-Queries.html) is a helpful index, to get a handle on querying our data we need to look at our Realtime node's realtime.spec file:
 
 ```json
 [{
@@ -326,4 +326,4 @@ Check out [Filters](https://github.com/metamx/druid/wiki/Filters) for more.
 
 ## Learn More ##
 
-Finally, you can learn more about querying at [Querying](https://github.com/metamx/druid/wiki/Querying)!
+Finally, you can learn more about querying at [Querying](http://druid.io/docs/latest/Tutorial:-All-About-Queries.html)!
