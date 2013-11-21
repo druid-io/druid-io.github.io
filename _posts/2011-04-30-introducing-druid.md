@@ -1,10 +1,9 @@
-----
- -title: "Introducing Druid: Real-Time Analytics at a Billion Rows Per Second"
- -layout: post
- -author: Eric Tschetter
- -image: http://metamarkets.com/wp-content/uploads/2011/04/fastcar-sized-470x288.jpg
- ----
- -
+---
+title: "Introducing Druid: Real-Time Analytics at a Billion Rows Per Second"
+layout: post
+author: Eric Tschetter
+image: http://metamarkets.com/wp-content/uploads/2011/04/fastcar-sized-470x288.jpg
+---
 
 Here at Metamarkets we have developed a web-based analytics console that
 supports drill-downs and roll-ups of high dimensional data sets – comprising
