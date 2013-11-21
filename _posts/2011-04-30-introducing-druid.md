@@ -160,14 +160,11 @@ Stepping back from our two failures, let’s examine why these systems failed to
 scale for our needs:
 
 1. Relational Database Architectures
-
-    * Full table scans were slow, regardless of the storage engine used
-    * Maintaining proper dimension tables, indexes and aggregate tables was painful
-    * Parallelization of queries was not always supported or non-trivial
-
+  * Full table scans were slow, regardless of the storage engine used
+  * Maintaining proper dimension tables, indexes and aggregate tables was painful
+  * Parallelization of queries was not always supported or non-trivial
 2. Massive NOSQL With Pre-Computation
-
-    * Supporting high dimensional OLAP requires pre-computing an exponentially large amount of data
+  * Supporting high dimensional OLAP requires pre-computing an exponentially large amount of data
 
 Looking at the problems with these solutions, it looks like the first,
 RDBMS-style architecture has a simpler issue to tackle: namely, how to scan
@@ -201,5 +198,3 @@ leave you with a benchmark:
 
 
 [CONTINUE TO PART II…](http://metamarkets.com/2011/druid-part-deux-three-principles-for-fast-distributed-olap/)
-
-
