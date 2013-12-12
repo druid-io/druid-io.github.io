@@ -16,7 +16,8 @@ description: 'Real²time Exploratory Analytics on Large Datasets'
 
 druid_version: 0.6.30
 
-druid_stable_version: 0.5.58
+druid_rc_version: 0.6.31
+druid_stable_version: 0.6.30
 
 prose:
   metadata:
