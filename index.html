@@ -10,15 +10,15 @@ id: home
 <div class="container">
   <div class="jumbotron text-center">
     <h1>Druid</h1>
-    <h3>open-source infrastructure for real-time exploratory analytics on large datasets.</h3>
+    <h3>Open-source infrastructure for Real-time Exploratory Analytics on Large datasets.</h3>
     <p><a class="btn btn-primary" href="downloads.html">Download &raquo;</a></p>
   </div>
 </div>
 
 <div class="container sub-text">
-  <div class="row text-center">
+  <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <p>Druid is open source infrastructure for Real&sup2;time Exploratory Analytics on Large Datasets. The system uses an always-on, distributed, shared-nothing, architecture designed for real-time querying and data ingestion. It leverages column-orientation and advanced indexing structures to allow for cost effective, arbitrary exploration of multi-billion-row tables with sub-second latencies.</p>
+    <p>Our tag line isn't very insightful about what Druid is good for, but we really wanted our marketing message to say that Druid is for R.E.A.L. datasets. Seriously though, Druid is designed for fast aggregation, ingestion, and exploration of log data. Druid makes loading data, adding numbers, and filtering data really fast. Druid is used in production at awesome companies and since it is free to use, take it for a spin and maybe it can help you out as well.</p>
     </div>
   </div>
 </div>
@@ -50,18 +50,22 @@ id: home
   <div class="row">
     <div class="col-md-4">
       <h2>Get Started</h2>
-      <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Tutorial</a> - Setup a toy example and expand</p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Try out Druid for the first time</a></p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-The-Druid-Cluster.html">Learn about the Druid cluster</a></p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-Loading-Your-Data-Part-1.html">Ingest some simple data</a></p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-Loading-Your-Data-Part-2.html">Ingest more complex data</a></p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-All-About-Queries.html">All about queries</a></p>
     </div>
     <div class="col-md-offset-1 col-md-7">
       <h2>Query using JSON:</h2>
 {% highlight json %}{
   "queryType"   : "timeseries",
-  "dataSource"  : "twitterstream",
-  "intervals"   : [ "2013-07-20/2013-07-21" ],
+  "dataSource"  : "wikipedia",
+  "intervals"   : [ "2013-08-31/2013-09-01" ],
   "granularity" : "hour",
   "aggregations": [
     { "type":"count", "name":"rows" },
-    { "type":"doubleSum", "fieldName":"tweets", "name":"tweets" }
+    { "type":"doubleSum", "fieldName":"edit_count", "name":"edit_count" }
   ]
 }{% endhighlight %}
     </div>
