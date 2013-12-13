@@ -17,7 +17,7 @@ published: true
       <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/Versioning.html">Versioning</a> section for how we describe software versions.</p>
 
       <h4>Release Candidate</h4>
-      {% if site.druid_rc_version.length == 0 %}
+      {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
       <p>There is no release candidate at this time.</p>
       {% else %}
       <p>The current release candidate is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-services-{{ site.druid_rc_version }}-bin.tar.gz">{{site.druid_rc_version}}</a>.</p>
