@@ -153,7 +153,7 @@ Now that we know what nodes can be queried (although you should usually use the 
 
 ## Querying Against the realtime.spec ##
 
-How are we to know what queries we can run? Although [Querying](https://github.com/metamx/druid/wiki/Querying) is a helpful index, to get a handle on querying our data we need to look at our Realtime node's realtime.spec file:
+How are we to know what queries we can run? Although [Querying](http://druid.io/docs/latest/Querying.html) is a helpful index, to get a handle on querying our data we need to look at our Realtime node's realtime.spec file:
 
 ```json
 [{
@@ -195,7 +195,7 @@ Our dataSource tells us the name of the relation/table, or 'source of data', to 
 
 ### aggregations ###
 
-Note the [Aggregations](https://github.com/metamx/druid/wiki/Aggregations) in our query:
+Note the [aggregations](http://druid.io/docs/latest/Aggregations.html) in our query:
 
 ```json
     "aggregations": [
@@ -214,7 +214,7 @@ this matches up to the aggregators in the schema of our realtime.spec!
 
 ### dimensions ###
 
-Lets look back at our actual records (from [Loading Your Data](add link):
+Lets look back at our actual records (from [Loading Your Data](http://druid.io/blog/2013/08/30/loading-data.html):
 
 ```json
 {"utcdt": "2010-01-01T01:01:01", "wp": 1000, "gender": "male", "age": 100}
@@ -329,8 +329,8 @@ Which gets us just people aged 40:
 } ]
 ```
 
-Check out [Filters](https://github.com/metamx/druid/wiki/Filters) for more.
+Check out [Filters](http://druid.io/docs/latest/Filters.html) for more.
 
 ## Learn More ##
 
-Finally, you can learn more about querying at [Querying](https://github.com/metamx/druid/wiki/Querying)!
+Finally, you can learn more about querying at [Querying](http://druid.io/docs/latest/Querying.html)!
