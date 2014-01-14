@@ -20,7 +20,7 @@ sectionid: docs
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
 
-      {% if version == site.druid_version %}
+      {% if version == site.druid_version || or version == 'latest' %}
       <p>Looking for <a href="/docs/0.5.48/">0.5.x documentation</a>?</p>
       {% else %}
       <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest documentation</a>?</p>
