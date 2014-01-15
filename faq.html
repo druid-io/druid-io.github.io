@@ -35,23 +35,23 @@ sectionid: faq
       
       <p>Yes, to an extent. An ANTLR grammar was written to support a limited set of SQL on top of Druid. It is available in the repository but has not been exposed yet via any of the normal mechanisms, and so it really only accessible to individuals comfortable with building and running Java.</p>
 
-      <p><a href='https://github.com/metamx/druid/blob/master/client/src/main/java/com/metamx/druid/sql/SQLRunner.java'>https://github.com/metamx/druid/blob/master/client/src/main/java/com/metamx/druid/sql/SQLRunner.java</a></p>
+      <p><a href='https://github.com/metamx/druid/blob/master/server/src/main/java/io/druid/server/sql/SQLRunner.java'>SQLRunner</a></p>
 
       <h2 id='redshift'>How does Druid compare to Redshift?</h2>
 
-      <p><a href='https://github.com/metamx/druid/wiki/Druid-vs-redshift'>https://github.com/metamx/druid/wiki/Druid-vs-redshift</a></p>
+      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Redshift.html'>Druid vs Redshift</a></p>
 
       <h2 id='vertica'>How does Druid compare to Vertica?</h2>
-      <p><a href='https://github.com/metamx/druid/wiki/Druid-vs-vertica'>https://github.com/metamx/druid/wiki/Druid-vs-vertica</a></p>
+      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Vertica.html'>Druid vs Vertica</a></p>
 
       <h2 id='cassandra'>How does Druid compare to Cassandra?</h2>
-      <p><a href='https://github.com/metamx/druid/wiki/Druid-vs-Cassandra'>https://github.com/metamx/druid/wiki/Druid-vs-Cassandra</a></p>
+      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Cassandra.html'>Druid vs Cassandra</a></p>
       
       <h2 id='hadoop'>How does Druid compare to Hadoop?</h2>
-      <p><a href='https://github.com/metamx/druid/wiki/Druid-vs-Hadoop'>https://github.com/metamx/druid/wiki/Druid-vs-Hadoop</a></p>
+      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Hadoop.html'>Druid vs Hadoop</a></p>
 
       <h2 id='impala'>How does Druid compare to Impala/Shark?</h2>
-      <p><a href='https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark'>https://github.com/metamx/druid/wiki/Druid-vs-Impala-or-Shark</a></p>
+      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Impala-or-Shark.html'>Druid vs Impala or Shark</a></p>
 
       <h2 id='external'>What external dependencies does Druid have?</h2>
       <p>Druid has three external dependencies that must be running in order for the Druid cluster to operate</p>
@@ -66,14 +66,14 @@ sectionid: faq
       <h2 id='what_is_deep_storage'>What is &#8220;deep storage&#8221;?</h2>
       <p>Simply put, deep storage is some storage infrastructure that Druid depends on for data availability. If this infrastructure goes down, then Druid cannot load new data into the system, nor can it recover from failures in the cluster. As long as this infrastructure is operational, Druid Historical nodes cannot lose data.</p>
 
-	  <p>A more technical description of Deep Storage and the options available exists on our wiki.<br /><a href='https://github.com/metamx/druid/wiki/Deep-Storage'>https://github.com/metamx/druid/wiki/Deep-Storage</a></p>
+	  <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
 
 	  <h2 id='deep-storage'>Can anything other than S3 be used for &#8220;deep storage&#8221;?</h2>
-	  <p>Yes. Options include HFDS and any shared mountable file system. More details are availabe on our wiki.<br /><a href='https://github.com/metamx/druid/wiki/Deep-Storage'>https://github.com/metamx/druid/wiki/Deep-Storage</a></p>
+	  <p>Yes. Options include HFDS and any shared mountable file system. More details are available on our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
 
 	  <h2 id='queries'>Where can I find a set of simple queries to run?</h2>
-	  <p>We recommend started with our tutorials on the wiki:</p>
-	  <p><a href='https://github.com/metamx/druid/wiki/Tutorial'>https://github.com/metamx/druid/wiki/Tutorial</a></p>
+	  <p>We recommend started with our tutorials in our docs:</p>
+	  <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Try out Druid for the first time</a></p>
 
 	  <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
 	  <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
@@ -101,8 +101,8 @@ sectionid: faq
 	  <h2 id='ind-serv'>What is the IndexingService, do I need that?</h2>
 	  <p>The IndexingService is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
 	  <p>It is not a requirement yet, but will become one as time goes on.</p>
-	  <p>More information can be found on the wiki:</p>
-	  <p><a href='https://github.com/metamx/druid/wiki/Indexing-Service'>https://github.com/metamx/druid/wiki/Indexing-Service</a></p>
+	  <p>More information can be found in the docs:</p>
+	  <p><a href="/docs/{{site.druid_version}}/Indexing-Service.html">Indexing Service</a></p>
     </div>
       
   </div>
