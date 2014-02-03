@@ -1,8 +1,9 @@
 ---
+published: true
 layout: post
+author: Igal Levy
+tags: #R #druid #analytics #querying
 ---
-
-# Realtime Analytics: Combining the Druid Database with the R Programming Language
 
 What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You'd be able to draw conclusions from analyzing data streams at the speed of now. That's what combining the prowess of a [Druid database](http://druid.io) with the power of [R](http://www.r-project.org) can do.
 
