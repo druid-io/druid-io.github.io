@@ -1,4 +1,5 @@
 ---
+title: RDruid and Twitterstream
 published: true
 layout: post
 author: Igal Levy
