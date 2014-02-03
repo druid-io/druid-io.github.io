@@ -14,10 +14,10 @@ pygments: true
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_version: 0.6.51
+druid_version: 0.6.52
 
-druid_rc_version: 0.6.51
-druid_stable_version: 0.6.39
+druid_rc_version:
+druid_stable_version: 0.6.52
 
 prose:
   metadata:

@@ -305,7 +305,7 @@ Examining the contents of the file, you should find:
   }
   ```
 
-If you are curious about what all this configuration means, see [here](Tasks.html).
+If you are curious about what all this configuration means, see [here](Task.html).
 
 To submit the task:
 
