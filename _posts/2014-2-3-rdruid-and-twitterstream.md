@@ -252,7 +252,7 @@ Then create the chart:
 
     ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat="identity")
 
-You can refine to this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:
+You can refine this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:
 
 ```
 druid.query.groupBy(druid, dataSource="twitterstream", 
