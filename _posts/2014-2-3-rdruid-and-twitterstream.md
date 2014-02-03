@@ -239,7 +239,7 @@ Content-Length: 489
 42 2014-01-25     34 zh-tw
 ```
 
-This gives an idea of what languages dominate Twitter (at least for the given time range), but it might be nice to see a visual representation. You can use the ggplot2 `geom_bar` function to create a basic bar chart of the data. First, send the query above to a dataframe using the query, called `tweet_langs` in this example, then subset it to take languages with more than a thousand tweets:
+This gives an idea of what languages dominate Twitter (at least for the given time range). For visualization, you can use a library like ggplot2. Try the `geom_bar` function to quickly produce a basic bar chart of the data. First, send the query above to a dataframe (let's call it `tweet_langs` in this example), then subset it to take languages with more than a thousand tweets:
 
     major_tweet_langs <- subset(tweet_langs, tweets > 1000)
 
@@ -259,7 +259,8 @@ druid.query.groupBy(druid, dataSource="twitterstream",
                     verbose="true")
 ```
 
-How do you find out what metrics and dimensions are available? You can find the metrics in `$DRUID_HOME/examples/twitter/twitter_realtime.spec`. The dimensions are not as apparent. There's an easy way to query for them from a certain type of Druid node, but not from a Realtime node, which leaves the less-appetizing approach of digging through [code](https://github.com/metamx/druid/blob/druid-0.5.x/examples/src/main/java/druid/examples/twitter/TwitterSpritzerFirehoseFactory.java). To allow for further experimentation, we list some here:
+## Metrics and Dimensions
+How do you find out what metrics and dimensions are available to query? You can find the metrics in `$DRUID_HOME/examples/twitter/twitter_realtime.spec`. The dimensions are not as apparent. There's an easy way to query for them from a certain type of Druid node, but not from a Realtime node, which leaves the less-appetizing approach of digging through [code](https://github.com/metamx/druid/blob/druid-0.5.x/examples/src/main/java/druid/examples/twitter/TwitterSpritzerFirehoseFactory.java). To allow for further experimentation, we list some here:
 
 * "first_hashtag"
 * "user_time_zone"
@@ -281,3 +282,5 @@ druid.query.groupBy(druid, dataSource="twitterstream",
 ```
 
 See the [RDruid wiki](https://github.com/metamx/RDruid/wiki/Examples) for more examples.
+
+The point to remember is that this data is being streamed into Druid and brought into R via RDruid in realtime. For example, with an R script the data could be continuously queried, updated, and analyzed. 
