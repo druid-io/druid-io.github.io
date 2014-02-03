@@ -10,9 +10,9 @@ In this blog, we'll look at how to bring streamed realtime data into R using not
 
 ## What You'll Need
 
-You'll need the [Druid Database](http://static.druid.io/artifacts/releases/druid-services-0.6.52-bin.tar.gz)) and unpack it.
+You'll need to download and unpack [Druid](http://static.druid.io/artifacts/releases/druid-services-0.6.52-bin.tar.gz).
 
-Get [R application](http://www.r-project.org/) for your platform.
+Get the [R application](http://www.r-project.org/) for your platform.
 We also recommend using [RStudio](http://www.rstudio.com/) as the R IDE, which is what we used to run R.
     
 You'll also need a free Twitter account to be able to get a sample of streamed Twitter data.
