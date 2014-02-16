@@ -1,8 +1,9 @@
 ---
+title: RDruid and Twitterstream
 published: true
 layout: post
 author: Igal Levy
-tags: #R #druid #analytics #querying
+tags: #R #druid #analytics #querying #bigdata, #datastore
 ---
 
 What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You'd be able to draw conclusions from analyzing data streams at the speed of now. That's what combining the prowess of a [Druid database](http://druid.io) with the power of [R](http://www.r-project.org) can do.
@@ -252,7 +253,7 @@ Then create the chart:
 
     ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat="identity")
 
-You can refine to this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:
+You can refine this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:
 
 ```
 druid.query.groupBy(druid, dataSource="twitterstream", 
