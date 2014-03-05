@@ -82,10 +82,10 @@ The interval is the [ISO8601 interval](http://en.wikipedia.org/wiki/ISO_8601#Tim
   "segmentOutputPath": "s3n:\/\/billy-bucket\/the\/segments\/go\/here",
   "leaveIntermediate": "false",
   "partitionsSpec": {
-    "type": "random"
+    "type": "hashed"
     "targetPartitionSize": 5000000
   },
-  "updaterJobSpec": {
+  "metadataUpdateSpec": {
     "type": "db",
     "connectURI": "jdbc:mysql:\/\/localhost:7980\/test_db",
     "user": "username",
@@ -110,7 +110,7 @@ The interval is the [ISO8601 interval](http://en.wikipedia.org/wiki/ISO_8601#Tim
 |segmentOutputPath|the path to dump segments into.|yes|
 |leaveIntermediate|leave behind files in the workingPath when job completes or fails (debugging tool).|no|
 |partitionsSpec|a specification of how to partition each time bucket into segments, absence of this property means no partitioning will occur.|no|
-|updaterJobSpec|a specification of how to update the metadata for the druid cluster these segments belong to.|yes|
+|metadataUpdateSpec|a specification of how to update the metadata for the druid cluster these segments belong to.|yes|
 
 ### Path specification
 
@@ -147,13 +147,15 @@ The indexing process has the ability to roll data up as it processes the incomin
 ### Partitioning specification
 
 Segments are always partitioned based on timestamp (according to the granularitySpec) and may be further partitioned in some other way depending on partition type.
-Druid supports two types of partitions spec - singleDimension and random.
+Druid supports two types of partitions spec - singleDimension and hashed.
 
 In SingleDimension partition type data is partitioned based on the values in that dimension.
 For example, data for a day may be split by the dimension "last\_name" into two segments: one with all values from A-M and one with all values from N-Z.
 
-In random partition type, the number of partitions is determined based on the targetPartitionSize and cardinality of input set and the data is partitioned based on the hashcode of the row.
-Random partition type is more efficient and gives better distribution of data.
+In hashed partition type, the number of partitions is determined based on the targetPartitionSize and cardinality of input set and the data is partitioned based on the hashcode of the row.
+
+It is recommended to use Hashed partition as it is more efficient than singleDimension since it does not need to determine the dimension for creating partitions.
+Hashing also gives better distribution of data resulting in equal sized partitons and improving query performance
 
 To use this option, the indexer must be given a target partition size. It can then find a good set of partition ranges on its own.
 
@@ -242,7 +244,7 @@ The schema of the Hadoop Index Task contains a task "type" and a Hadoop Index Co
 |config|A Hadoop Index Config (see above).|yes|
 |hadoopCoordinates|The Maven `<groupId>:<artifactId>:<version>` of Hadoop to use. The default is "org.apache.hadoop:hadoop-core:1.0.3".|no|
 
-The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the `HadoopBatchIndexer` except that three fields must be omitted: `segmentOutputPath`, `workingPath`, `updaterJobSpec`. The Indexing Service takes care of setting these fields internally.
+The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the `HadoopBatchIndexer` except that three fields must be omitted: `segmentOutputPath`, `workingPath`, `metadataUpdateSpec`. The Indexing Service takes care of setting these fields internally.
 
 To run the task:
 
