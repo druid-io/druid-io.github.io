@@ -10,7 +10,7 @@ id: home
 <div class="container">
   <div class="jumbotron text-center">
     <h1>Druid</h1>
-    <h3>Open-source infrastructure for Real-time Exploratory Analytics on Large datasets.</h3>
+    <h3>Open-source infrastructure for Real-time Exploratory Analytics on Large datasets</h3>
     <p><a class="btn btn-primary" href="downloads.html">Download &raquo;</a></p>
   </div>
 </div>
@@ -18,7 +18,7 @@ id: home
 <div class="container sub-text">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-    <p>Druid is designed for fast aggregation, ingestion, and exploration of log data. Druid loads data, adds numbers, and filters data really quickly. If you are tired of waiting for your queries to return in MySQL or PostgreSQL, or if you have headaches with precomputation in Cassandra or HBase, Druid will be able to help you out. The system supports arbitrary data exploration, scales to meet your growing data volumes, and stays up in the face of different failures. Druid is used in production at a bunch of awesome companies. Check it out for yourself!</p>
+    <p>Druid is an open-source analytics data store designed for real-time exploratory queries on large-scale event data. Druid provides cost-effective, highly-available real-time data ingestion and arbitrary data exploration.</p>
     </div>
   </div>
 </div>
@@ -27,8 +27,8 @@ id: home
   <div class="row-fluid text-center">
     <div class="col-md-4">
       <p><a href="druid.html#realtime"><img alt="meaningless markety image" src="img/realtime.jpg" /></a></p>
-      <p><a href="druid.html#realtime"><h2>Real-time Ingestion</h2></a></p>
-      <p class="text-left">Query data as it’s being read into Druid for insights into both immediate and historical data seamlessly.</p>
+      <p><a href="druid.html#realtime"><h2>Interactive</h2></a></p>
+      <p class="text-left">Query data as it’s being ingested for both immediate and historical insights. Issue ad-hoc slice-n-dice queries over N-dimensional data with consistent, fast response times.</p>
     </div>
     
     <div class="col-md-4">
@@ -39,12 +39,11 @@ id: home
     
     <div class="col-md-4">
       <p><a href="druid.html#hri"><img alt="meaningless markety image" src="img/responsive.jpg" /></a></p>
-      <p><a href="druid.html#hri"><h2>Real-time Queries</h2></a></p>
-      <p class="text-left">Ad-hoc slice-n-dice over N-dimensional data with consistent, fast response times.</p>
+      <p><a href="druid.html#hri"><h2>Built for Analytics</h2></a></p>
+      <p class="text-left">Druid excels at aggregations and supports a variety of filters, calculations, and query types.</p>
     </div>
   </div>
 </div>
-
 
 <div class="container">
   <div class="row">
@@ -57,10 +56,10 @@ id: home
       <p><a href="/docs/{{site.druid_version}}/Tutorial:-All-About-Queries.html">All about queries</a></p>
     </div>
     <div class="col-md-offset-1 col-md-7">
-      <h2>Query using JSON:</h2>
+      <h2>Easy to Use</h2>
 {% highlight json %}{
   "queryType"   : "timeseries",
-  "dataSource"  : "wikipedia",
+  "dataSource"  : "myData",
   "intervals"   : [ "2013-08-31/2013-09-01" ],
   "granularity" : "hour",
   "aggregations": [
@@ -68,6 +67,7 @@ id: home
     { "type":"doubleSum", "fieldName":"edit_count", "name":"edit_count" }
   ]
 }{% endhighlight %}
+      <p>A simple aggregation query. Druid supports RESTful APIs.</p>
     </div>
   </div>
 </div>
