@@ -13,7 +13,7 @@ The United States Geological Survey (USGS) has millions of sensors for all types
 
 We used this map to get the sensor info for the Napa River in Napa County, California.
 
-<img src="img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information" style="width: 700px; height: 374px">
+<img src="{{ relative }}../img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information" style="width: 700px; height: 374px">
 
 We decided to first import the data into [R (the statistical programming language)](http://www.r-project.org/) for two reasons:
 
@@ -48,7 +48,7 @@ You can now analyse and visualize the streamflow data. For example, we ran:
 
 to get:
 
-![map-usgs-napa.png]
+![Napa River streamflow historical data](../img/map-usgs-napa.png "Napa River streamflow historical data")
 
 Reflected in the flow of the Napa River, you can see the severe drought California experienced in the late 1970s, the very wet years that followed, a less severe drought beginning in the late 1980s, and the beginning of the current drought.
 
