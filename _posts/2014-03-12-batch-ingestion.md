@@ -1,6 +1,6 @@
 ---
 title: Batch-Loading Sensor Data into Druid
-published: false
+published: true
 layout: post 
 author: Igal Levy
 tags: #sensors #usgs #druid #analytics #querying #bigdata, #datastore
@@ -13,12 +13,12 @@ The United States Geological Survey (USGS) has millions of sensors for all types
 
 We used this map to get the sensor info for the Napa River in Napa County, California.
 
-<img src="{{ relative }}../img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information" style="width: 700px; height: 374px">
+<img src="{{ relative }}/img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information" style="width: 700px; height: 374px">
 
 We decided to first import the data into [R (the statistical programming language)](http://www.r-project.org/) for two reasons:
 
 * The R package `waterData` from USGS. This package allows us to retrieve and analyze hydrologic data from USGS. We can then export that data from within the R environment, then set up Druid to ingest it.
-* The R package `RDruid` which we've [blogged about before](2014-2-3-rdruid-and-twitterstream.html). This package allows us to query Druid from within the R environment.
+* The R package `RDruid` which we've [blogged about before](http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html). This package allows us to query Druid from within the R environment.
 
 ## Extracting the Streamflow Data
 In R, load the waterData package, then run `importDVs()`:
@@ -48,7 +48,7 @@ You can now analyse and visualize the streamflow data. For example, we ran:
 
 to get:
 
-![Napa River streamflow historical data](../img/map-usgs-napa.png "Napa River streamflow historical data")
+<img src="{{ relative }}/img/napa_streamflow_plot.png" alt="Napa River streamflow historical data" title="Napa River streamflow historical data" >
 
 Reflected in the flow of the Napa River, you can see the severe drought California experienced in the late 1970s, the very wet years that followed, a less severe drought beginning in the late 1980s, and the beginning of the current drought.
 
@@ -72,7 +72,7 @@ We don't have any use for the qualcode (the [Daily Value Qualification Code](htt
 > napa_flow_subset <- napa_flow[,c(1:3)]
 ```
 
-It may look like we also don't need the staid column, either, since it's all the same sensor ID. However, we'll keep it because at some later time we may want similar data from other sensors.
+It may look like we also don't need the staid column, either, since it's all the same sensor ID. However, we'll keep it because at some later time we may want to load similar data from other sensors.
 
 Now we can export the data to a file, removing the header and row names:
 
