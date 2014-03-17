@@ -2,7 +2,7 @@
 title: Benchmarking Druid
 layout: post
 author: Xavier LÉAUTÉ
-published: false
+published: true
 ---
 
 We often get asked how fast Druid is. Despite having published some benchmark
@@ -20,8 +20,8 @@ of workload it was designed for. We chose to benchmark Druid against MySQL
 mainly because of its popularity, and to provide a point of comparison with
 a storage engine that most users will be familiar with.
 
-All the code to run the benchmarks as well as the raw result data is available on
-GitHub in the [druid-benchmark][] repository.
+All the code to run the benchmarks as well as the [raw result data][results] are
+available on GitHub in the [druid-benchmark][] repository.
 
 > We would like to encourage our readers to run the benchmarks themselves and
 > share results for different data stores and hardware setups, as well as any
@@ -133,10 +133,13 @@ and always run fully parallelized.
 > Interval chunking can be disabled by setting `druid.query.chunkPeriod` and
 > `druid.query.topN.chunkPeriod` to a very large value compared to the time
 > range of the data (in this case we used `P10Y`).
- 
+
 Besides those settings, no other particular performance optimizations have been
 made, and segment replication has been turned off in the datasource [load
 rules][load-rules].
+
+Complete [Druid and JVM configuration parameters][configs] are published in our
+[repository][druid-benchmark].
 
 ### MySQL
 
@@ -158,16 +161,17 @@ performance significantly, so our results are with memory mapping turned off.
 We use the [Druid indexing service][druid-indexing-service] configured to use
 an Amazon EMR Hadoop cluster to load the data and create the necessary Druid
 segments. The data is being loaded off of S3, so you will have to adjust the
-input paths in the [task descriptor files][lineitem.task.json] to point to your own hadoop input path, as well
-as provide your own hadoop coordinates artifact.
+input paths in the [task descriptor files][lineitem.task.json] to point to your
+own hadoop input path, as well as provide your own hadoop coordinates artifact.
 
 <script src="https://gist.github.com/xvrl/9552286.js?file=load-druid.sh"></script>
 
-For the larger data set we configure the hadoop index task to create monthly
-segments, each of which is sharded into partitions of at most 5,000,000 rows if
-necessary.  We chose those settings in order to achieve similar segment sizes
-for both data sets, thus giving us roughly constant segment scan time which
-gives us good scaling properties and makes comparison easier.
+For the larger data set we configure the [hadoop index task][index-task] to
+create monthly segments, each of which is sharded into partitions of at most
+5,000,000 rows if necessary.  We chose those settings in order to achieve
+similar segment sizes for both data sets, thus giving us roughly constant
+segment scan time which gives us good scaling properties and makes comparison
+easier.
 
 The resulting Druid segments consist of:
 
@@ -343,11 +347,14 @@ will address those questions more directly.
 [scaling-druid]: /blog/2012/01/19/scaling-the-druid-data-store.html
 [talks]: https://speakerdeck.com/druidio/
 [druid-benchmark]: https://github.com/druid-io/druid-benchmark
+[configs]: https://github.com/druid-io/druid-benchmark/tree/master/config
+[results]: https://github.com/druid-io/druid-benchmark/tree/master/results
 [TPC-H benchmark]: http://www.tpc.org/tpch/
 [TPC-H tools]: http://www.tpc.org/tpch/spec/tpch_2_16_1.zip
 [RDruid]: https://github.com/metamx/RDruid/
 [druid-indexing-service]: /docs/latest/Indexing-Service.html
 [R]: http://cran.rstudio.com/
 [load-rules]: /docs/latest/Rule-Configuration.html
+[index-task]: http://druid.io/docs/latest/Tasks.html
 
 
