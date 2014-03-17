@@ -121,7 +121,7 @@ well as the default 1GB compute buffer, and 6GB of JVM heap. That leaves about
 15GB of memory for memory mapping segment data, if we allow about 1GB for the
 operating system and other overhead.
 
-Broker nodes are configure with 12GB of JVM heap, and query chunking has been
+Broker nodes are configured with 12GB of JVM heap, and query chunking has been
 disabled. This ensures queries do not get split up into sequential queries
 and always run fully parallelized.
 
@@ -163,11 +163,11 @@ as provide your own hadoop coordinates artifact.
 
 <script src="https://gist.github.com/xvrl/9552286.js?file=load-druid.sh"></script>
 
-For the larger data set we configure the index task to create monthly segments,
-each of which is sharded into partitions of at most 5,000,000 rows if
-necessary.  We chose those settings in order to achieve similar segment
-sizes for both data sets, thus giving us roughly constant segment scan time
-which gives us good scaling properties and makes comparison easier.
+For the larger data set we configure the hadoop index task to create monthly
+segments, each of which is sharded into partitions of at most 5,000,000 rows if
+necessary.  We chose those settings in order to achieve similar segment sizes
+for both data sets, thus giving us roughly constant segment scan time which
+gives us good scaling properties and makes comparison easier.
 
 The resulting Druid segments consist of:
 
@@ -175,7 +175,7 @@ The resulting Druid segments consist of:
 -  161 segments totaling 83.4GB (average segment size of 530MB) for the 100GB
    data set.
 
-In our case the indexing service took about 25minutes per segment for both
+In our case the indexing service took about 25 minutes per segment for both
 datasets.  The additional sharding step for the larger data set only adds a few
 minutes, so with the right amount of Hadoop resources, loading could take as
 little as half an hour.
@@ -190,14 +190,14 @@ files prior to loading them.
 
 <script src="https://gist.github.com/xvrl/9552286.js?file=load-mysql.sh"></script>
 
-Getting the data itseft is relatively fast, but it may take several hours to
+Loading the data itself is relatively fast, but it may take several hours to
 create the necessary indices and optimizing the table on the larger data set.
 In our case it took several attempts to complete the indexing and table
 optimization steps.
 
 ## Running the Benchmarks
 ### Druid
-Running the Druid benchmark requires [R][], as well as a couple fo packages,
+Running the Druid benchmark requires [R][], as well as a couple of packages,
 including [`RDruid`][RDruid], `microbenchmark`, as well as `ggplot2` if you would
 like to generate the plots.
 
@@ -222,7 +222,7 @@ queries it achieves scan rates of 53,539,211 rows/second, and 36,246,533
 rows/second for aggregate `select sum(float)` queries.
 
 Since Druid uses column-oriented storage, it performs better on queries using
-fewer colums, and as more columns become part of the query it is expected to
+fewer columns, and as more columns become part of the query it is expected to
 lose some of its advantage compared to row-oriented storage engines.
 
 ```
@@ -293,7 +293,7 @@ few minutes, the workload will be distributed, without requiring any downtime.
 We see that Druid scales almost linearly for queries that involve mainly column
 scans, with queries performing 5x to 6x faster than on a single core.
 
-For top-n queries the speedup is less, between 4x and 5x, which is expected,
+For Top-N queries the speedup is less, between 4x and 5x, which is expected,
 since a fair amount of merging work has to be done at the broker level to merge
 results for those type of queries on high-cardinality dimensions.
 
@@ -332,10 +332,10 @@ cores and large amounts of memory. Its ability to quickly scale horizontally
 allows to adapt to various workloads, with query performance scaling almost
 linearly for typical production workloads.
 
-That being said, Druid still requires a fair amount of knowledge to optimally
-tune its configuration parameters and pick good segment size/sharding
-properties.  We are planning to write a blog post dedicated to performance to
-address those questions more directly.
+That being said, Druid still requires a fair amount of knowledge to choose
+optimal configuration settings and pick good segment size/sharding properties.
+We are planning to write a blog post dedicated to performance tuning where we
+will address those questions more directly.
 
 [generate-data.sh]: https://github.com/druid-io/druid-benchmark/blob/master/generate-data.sh
 [benchmarking script]: https://github.com/druid-io/druid-benchmark/blob/master/benchmark-druid.R
