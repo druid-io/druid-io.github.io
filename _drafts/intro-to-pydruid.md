@@ -91,7 +91,7 @@ The results should appear similar to the following:
 Here's that same query in Python:
 
 ```python
-from pydruid import client
+from pydruid.client import *
 
 query = PyDruid('http://localhost:8083', 'druid/v2/')
 
@@ -105,6 +105,8 @@ top_langs = query.topn(
     metric = "edit_count",
     threshold = 4
 )
+
+print top_langs  # Do this if you want to see the raw JSON
 ```
 Let's break this query down:
 
@@ -124,19 +126,19 @@ See the [pydruid documentation](https://pythonhosted.org/pydruid/) for more info
 Now that Druid is returning data, we'll pass that data to a Pandas dataframe, which allows us to analyze and visualize it:
 
 ```python
-from pydruid import client
+from pydruid.client import *
 
-from pylab import plt
+from pylab import plt  # Need to have matplotlib installed
 
-query = client.PyDruid('http://localhost:8083', 'druid/v2/')
+query = PyDruid('http://localhost:8083', 'druid/v2/')
 
 top_langs = query.topn(
     datasource = "wikipedia",
     granularity = "all",
     intervals = "2013-06-01T00:00/2020-01-01T00",
     dimension = "language",
-    filter = client.Dimension("namespace") == "article",
-    aggregations = {"edit_count": client.longsum("count")},
+    filter = Dimension("namespace") == "article",
+    aggregations = {"edit_count": longsum("count")},
     metric = "edit_count",
     threshold = 4
 )
@@ -165,6 +167,7 @@ Printing the results gives:
 3         185       fr
 4          38       ja
 ```
+
 The bar graph will look something like this:
 
 <img src="{{ relative }}/img/wiki-edit-lang-plot.png" alt="Bar graph showing Wikipedia edits by language" title="Wikipedia Edits by Language" width="65%" height="auto">
