@@ -4,7 +4,7 @@ author: IGAL LEVY
 layout: post
 ---
 
-We've already written about pairing [R with DRuid](http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html), but Python has powerful and free open-source analysis tools too. Collectively, these are often referred to as the [SciPy Stack](http://www.scipy.org/stackspec.html). To pair SciPy's analytic power with the advantages of querying time-series data in Druid, we created the pydruid connector. This allows Python users to query Druid&mdash;and export the results to useful formats&mdash;in a way that makes sense to them.
+We've already written about pairing [R with RDruid](http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html), but Python has powerful and free open-source analysis tools too. Collectively, these are often referred to as the [SciPy Stack](http://www.scipy.org/stackspec.html). To pair SciPy's analytic power with the advantages of querying time-series data in Druid, we created the pydruid connector. This allows Python users to query Druid&mdash;and export the results to useful formats&mdash;in a way that makes sense to them.
 
 ## Getting Started
 pydruid should run with Python 2.x, and is known to run with Python 2.7.5.
@@ -15,11 +15,13 @@ Install pydruid in the same way as you'd install any other Python module on your
 pip install pydruid
 ```
 
-You should also install Pandas to execute the simple examples below.:
+You should also install Pandas to execute the simple examples below:
 
 ```bash
 pip install pandas
 ```
+
+When you import pydruid into your example, it will try to load Pandas as well.
 
 ## Run the Druid Wikipedia Example
 [Download Druid](http://druid.io/downloads.html) and unpack Druid. If you are not familiar with Druid, see this [introductory tutorial](http://druid.io/docs/latest/Tutorial:-A-First-Look-at-Druid.html).
@@ -37,14 +39,14 @@ When prompted, choose the "wikipedia" example. After the Druid realtime node is 
 These messages confirm that the realtime node is ingesting data from the Wikipedia edit stream, and that data can be queried.
 
 ## Write, Execute, and Submit a pydruid Query
-Let's say we want to see what Wikipedia articles in our data set had the most edits, by language. This is how we'd query Druid directly:
+Let's say we want to see the top few languages for Wikipedia articles, in terms of number of edits. This is the query we could post directly to Druid:
 
 ```json
 {
   "queryType": "topN",
   "dataSource": "wikipedia",
   "dimension": "language",
-  "threshold": 10,
+  "threshold": 4,
   "metric": "edit_count",
   "granularity": "all",
   "filter": {
@@ -84,27 +86,29 @@ The results should appear similar to the following:
 } ]
 ```
 
+**NOTE:** Due to limitations in the way the wikipedia example is set up, you may see a limited number of results appear.
+
 Here's that same query in Python:
 
 ```python
-import pydruid.client
+from pydruid import client
 
-query = pydruid.client.PyDruid('http://localhost:8083', 'druid/v2/')
+query = PyDruid('http://localhost:8083', 'druid/v2/')
 
 top_langs = query.topn(
     datasource = "wikipedia",
     granularity = "all",
     intervals = "2013-06-01T00:00/2020-01-01T00",
     dimension = "language",
-    filter = pydruid.client.Dimension("namespace") == "article",
-    aggregations = {"edit_count": pydruid.client.longsum("count")},
+    filter = Dimension("namespace") == "article",
+    aggregations = {"edit_count": longsum("count")},
     metric = "edit_count",
-    threshold = 10
+    threshold = 4
 )
 ```
 Let's break this query down:
 
-* query &ndash; The `query` object is instantiated with the location of the Druid realtime node. `qeury` has a type, which is set to `topn` in the next line.
+* query &ndash; The `query` object is instantiated with the location of the Druid realtime node. `query` exposes various querying methods, including `topn`.
 * datasource &ndash; This identifies the datasource. If Druid were ingesting from more than one datasource, this ID would identify the one we want.
 * granularity &ndash; The rollup granularity, which could be set to a specific value such as `minute` or `hour`. We want to see the sum count across the entire interval, and so we choose `all`.
 * intervals &ndash; The interval of time we're interested in. The value given is extended beyond our actual endpoints to make sure we cover all of the data.
@@ -120,61 +124,53 @@ See the [pydruid documentation](https://pythonhosted.org/pydruid/) for more info
 Now that Druid is returning data, we'll pass that data to a Pandas dataframe, which allows us to analyze and visualize it:
 
 ```python
-import pydruid.client
+from pydruid import client
 
-query = pydruid.client.PyDruid('http://localhost:8083', 'druid/v2/')
+from pylab import plt
+
+query = client.PyDruid('http://localhost:8083', 'druid/v2/')
 
 top_langs = query.topn(
     datasource = "wikipedia",
     granularity = "all",
     intervals = "2013-06-01T00:00/2020-01-01T00",
     dimension = "language",
-    filter = pydruid.client.Dimension("namespace") == "article",
-    aggregations = {"edit_count": pydruid.client.longsum("count")},
+    filter = client.Dimension("namespace") == "article",
+    aggregations = {"edit_count": client.longsum("count")},
     metric = "edit_count",
-    threshold = 10
+    threshold = 4
 )
 
-df = query.export_pandas()
+print top_langs  # Do this if you want to see the raw JSON
+
+df = query.export_pandas() # Client will import Pandas, no need to do so separately.
 
 df = df.drop('timestamp', axis=1)  # Don't need the timestamp column here
 
 df.index = range(1, len(df)+1)  # Get a naturally numbered index
 
 print df
+
+df.plot(x='language', kind='bar')
+
+plt.show()
 ```
 
 Printing the results gives:
 
 ```
    edit_count language
-1        4726       en
-2        1273       fr
-3         857       de
-4         176       ja
+1         834       en
+2         256       de
+3         185       fr
+4          38       ja
 ```
+The bar graph will look something like this:
 
-WHY ONLY 4? WHY ARE RESULTS SAME EVERY TIME? NUMBERS SHOULD CHANGE?
+<img src="{{ relative }}/img/wiki-edit-lang-plot.png" alt="Bar graph showing Wikipedia edits by language" title="Wikipedia Edits by Language" width="65%" height="auto">
 
-Cover getting started with PyDruid same way as for RDruid. Something like:
-1. Install PyDruid and Pandas.
-2. Set up druid realtime node with twitter example
-3. Create a TopN query (add comments later):
-import pydruid.client
-query = pydruid.client.PyDruid('http://localhost:8083', 'druid/v2/')
-top_langs = query.topn(
-datasource = "twitterstream",
-granularity = "all",
-intervals = "2014-01-01/2015-01-01",
-dimension = "lang",
-aggregations =
-{"tweets": pydruid.client.doublesum("tweets")}
-,
-metric = "tweets",
-threshold = 10
-)
-df = query.export_pandas()
-df = df.drop('timestamp', axis=1)
-df.index = range(1, len(df)+1)
-print df
+If you were to repeat the query, you should see larger numbers under edit_count, since the Druid realtime node is continuing to ingest data from Wikipedia.
+
+## Conclusions
+In this blog, we showed how you can run ad-hoc queries against a data set that is being streamed into Druid. And while this is only a small example of pydruid and the power of Python, it serves as an effective introductory demonstration of the  benefits of pairing Druid's ability to make data available in real-time with SciPi's powerful analytics tools.
 
