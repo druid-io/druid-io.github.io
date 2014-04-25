@@ -123,6 +123,6 @@ below shows the benchmark results for a loop that ran from 0 to
 HyperLogLog.  For this particular benchmark, the average error rate was found
 to be 1.202526%.
 
-![](http://metamarkets.com/wp-content/uploads/2012/05/plot1-1024x1024.png)
+![](/assets/hll-cardinality-error.png)
 
 #### Looking for more Druid information? [Learn more about our core technology.](http://metamarkets.com/product/technology/)
