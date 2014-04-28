@@ -1,5 +1,5 @@
 ---
-title: 
+title: Introducing Druid
 layout: post
 author: Eric Tschetter
 image: http://metamarkets.com/wp-content/uploads/2012/10/Druid.jpg
