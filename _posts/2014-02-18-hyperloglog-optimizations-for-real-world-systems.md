@@ -16,7 +16,7 @@ Approximation algorithms are rapidly gaining traction as the preferred way to
 determine the unique number of elements in high cardinality sets. In the space
 of cardinality estimation algorithms, HyperLogLog has quickly emerged as the
 de-facto standard. Widely discussed by [technology companies][pub40671] and
-[popular blogs][highscalability-count] popular blogs, HyperLogLog trades
+[popular blogs][highscalability-count], HyperLogLog trades
 accuracy in data and query results for massive reductions in data storage and
 vastly improved [system performance][strata-talk].
 
