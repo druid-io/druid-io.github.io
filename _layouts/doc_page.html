@@ -9,6 +9,28 @@ sectionid: docs
     {% include site_head.html %}
 
     <link rel="stylesheet" href="css/docs.css">
+    <script>
+      (function() {
+        var cx = '004325268462231820898:e4htgtatbkg';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+      })();
+    </script>
+    <style>
+      /* Remove the x from search */
+      div.gsc-clear-button {
+        display:none; 
+      }
+      
+      td.gsc-input input {
+        background-image: none !important;
+      }
+    </style>
   </head>
   <body>
     {% include page_header.html %}
@@ -20,11 +42,13 @@ sectionid: docs
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
 
-      {% if version == site.druid_version || or version == 'latest' %}
-      <p>Looking for <a href="/docs/0.5.48/">0.5.x documentation</a>?</p>
-      {% else %}
+ <!--     if version != site.druid_version or version != 'latest' %} -->
+      {% if version != site.druid_version and version != 'latest' %}
       <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest documentation</a>?</p>
       {% endif %}
+        <div class="searchbox" style="position:relative; width:280px;">
+          <gcse:searchbox-only></gcse:searchbox-only>
+        </div>
       <div class="row">
         <div class="col-md-3 toc" id="toc">
 	</div>
