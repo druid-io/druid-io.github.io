@@ -4,6 +4,7 @@ published: true
 author: Fangjin Yang and Gian Merlino
 layout: post
 tags: #druid #analytics #kafka #spark #storm #hadoop
+image: http://metamarkets.com/wp-content/uploads/2014/05/Data-legos.jpg
 ---
 
 In February we were honored to speak at the O’Reilly Strata conference about
