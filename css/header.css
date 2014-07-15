@@ -1,32 +1,119 @@
+.druid-masthead {
+  border-top: 1px solid #3b3b50;
+  padding: 50px 0;
+  color: #fff;
+  background-color: #1C1C26;
+  text-align: center;
+}
+
+.druid-footer {
+  padding: 40px 0;
+  background-color: #eee;
+}
+
+.druid-header {
+  padding: 30px 0;
+  color: #fff;
+  background-color: #3b3b50;
+  text-align: center;
+}
+
+.blog h2 {
+  font-family: 'Open Sans Condensed';
+  font-weight: 300;
+}
+
+.druid-masthead {
+  margin: 0 auto 30px;
+}
+
+.druid-logo {
+  display: block;
+  width: 120px;
+  height: 22px;
+  background-position:center;
+  background-image: url('/img/druid_nav.png');
+  background-size: 69px 19px;
+  background-repeat: no-repeat;
+}
+
+.druid-bootlogo {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+  height: 279px;
+  background-image: url('/img/druid.png');
+  background-image: -webkit-image-set(
+    url('/img/druid.png') 1x,
+    url('/img/druid_2x.png') 2x
+  );
+}
+
+.druid-booticon {
+  display: block;
+  text-align: center;
+  width: 340px;
+  height: 144px;
+  line-height: 140px;
+  font-size: 64px;
+  border-radius: 20px;
+  /* border: 1px solid #fff; */
+}
+
+.druid-mark {
+  color: #2ceefb;
+  font-size: 1.69em;
+  line-height: 30%;
+  font-weight: 100;
+}
+.druid-logotype {
+  color: #fff;
+  font-family: 'Open Sans';
+  letter-spacing: .05em;
+  font-style: italic;
+  font-weight: 100;
+}
+
+.btn-outline-inverse {
+  color: #fff;
+  border-color: #fff;
+}
+
+.btn-outline-inverse:hover {
+  background-color: #fff;
+}
+
+.druid-nav {
+  margin-bottom: 0;
+  background-color: #1C1C26;
+}
+
+
+/* bootstrap overrides */
+
 .navbar {
-   margin: 10px auto 25px;
    font-size: 14px;
    line-height: 20px;
    font-weight: 300;
-   border-bottom-width: 0;
 }
 
 .navbar-collapse {
    padding-left: 20px;
    padding-right: 5px;
-   //margin-left: 15px;
+   margin-left: 15px;
 }
 
 .navbar-brand {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 300;
 }
 
-.navbar-wrapper .navbar {
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+.navbar-inverse .navbar-brand:hover {
+  color: #2ceefb
 }
 
 .social-button.twitter {
-  background: 10px center no-repeat url('/img/twitter.png') #252525;
+  background: 10px center no-repeat url('/img/twitter.png');
   padding-left: 40px;
 }
 
