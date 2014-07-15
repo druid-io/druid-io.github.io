@@ -1,26 +1,31 @@
 .druid-masthead {
   border-top: 1px solid #3b3b50;
-  padding: 50px 0;
+  padding: 0 0 30px;
   color: #fff;
   background-color: #1C1C26;
   text-align: center;
 }
 
+.druid-masthead .btn-lg {
+  min-width: 145px;
+}
+
 .druid-footer {
   padding: 40px 0;
   background-color: #eee;
+  border-top: 1px solid white;
 }
 
 .druid-header {
   padding: 30px 0;
-  color: #fff;
-  background-color: #3b3b50;
+  color: #1c1c26;
+  background-color: #eee;
   text-align: center;
 }
 
 .blog h2 {
-  font-family: 'Open Sans Condensed';
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 24px;
 }
 
 .druid-masthead {
@@ -40,8 +45,10 @@
 .druid-bootlogo {
   display: block;
   margin: 0 auto;
-  width: 600px;
-  height: 279px;
+  width: 450px;
+  height: 209px;
+  background-size: 450px 209px;
+  background-repeat: no-repeat;
   background-image: url('/img/druid.png');
   background-image: -webkit-image-set(
     url('/img/druid.png') 1x,
@@ -86,8 +93,16 @@
 .druid-nav {
   margin-bottom: 0;
   background-color: #1C1C26;
+  border: 0px;
 }
 
+.druid-nav .navbar-inverse{
+  border-color: transparent;
+}
+
+.druid-nav .navbar-nav>.active>a {
+  border-bottom: 3px solid #2ceefb;
+}
 
 /* bootstrap overrides */
 
