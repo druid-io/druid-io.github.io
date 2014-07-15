@@ -58,3 +58,12 @@
 td, th {
   padding: 5px;
 }
+
+/* Remove the x from search */
+div.gsc-clear-button {
+  display:none;
+}
+
+td.gsc-input input {
+  background-image: none !important;
+}
