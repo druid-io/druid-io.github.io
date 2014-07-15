@@ -11,10 +11,8 @@
       <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
     </div>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="{% if page.sectionid == 'druid' %} active{% endif %}"><a href="/druid.html">Overview</a></li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li class="{% if page.sectionid == 'druid' %} active{% endif %}"><a href="/druid.html">Overview</a></li>
         <li class="{% if page.sectionid == 'docs' %} active{% endif %}"><a href="/docs/{{ site.druid_version }}/">Documentation</a></li>
         <li class="{% if page.sectionid == 'community' %} active{% endif %}"><a href="/community.html">Community</a></li>
         <li class="{% if page.sectionid == 'blog' %} active{% endif %}"><a href="/blog">Blog</a></li>
