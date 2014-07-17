@@ -5,16 +5,17 @@ layout: html_page
 sectionid: faq
 ---
 
+<div class="druid-header">
+  <div class="container">
+    <h1 class='index' id='frequently_asked_questions'>Frequently Asked Questions</h1>
+    <h3 id='dont_see_your_question_here_ask_us_on_the_druid_mailing_list'>Don&#8217;t see your question here? <a href='/community.html#converse'>Ask us</a>.</h3>
+  </div>
+</div>
+
+
 <div class="container">
-
   <div class="row">
-    <div class="col-md-10 col-md-offset-1 text-indent-p">
-
-      <div class="page-header">
-	<h1 class='index' id='frequently_asked_questions'>Frequently Asked Questions</h1>
-	<h3 id='dont_see_your_question_here_ask_us_on_the_druid_mailing_list'>Don&#8217;t see your question here? Ask us on the <a href='/community.html#converse'>Druid mailing list</a>.</h3>
-      </div>
-
+    <div class="col-md-10 col-md-offset-1">
       <h2 id='why'>Why did Metamarkets Open Source Druid?</h2>
 
       <p>Originally built by Metamarkets as a component of its analytics service as a platform to provide immediate insight against live data feeds for the <a href='http://metamarkets.com/product/'>on-line advertising space</a>, we realized Druid itself was broadly applicable for real-time and n-dimensional drill down use cases. Presenting Druid to the community helps evolve Druid as a horizontal platform, and over time, helps Metamarkets understand requirements from adjacent verticals.</p>
@@ -58,7 +59,7 @@ sectionid: faq
       <div class="text-indent">
 	<ol>
 	  <li>Deep Storage</li>
-	  <li>An RDBMS Database (MySQL or Postgres)</li>
+	  <li>Metadata Storage (MySQL or Postgres)</li>
 	  <li>ZooKeeper</li>
 	</ol>
       </div>
@@ -66,45 +67,43 @@ sectionid: faq
       <h2 id='what_is_deep_storage'>What is &#8220;deep storage&#8221;?</h2>
       <p>Simply put, deep storage is some storage infrastructure that Druid depends on for data availability. If this infrastructure goes down, then Druid cannot load new data into the system, nor can it recover from failures in the cluster. As long as this infrastructure is operational, Druid Historical nodes cannot lose data.</p>
 
-	  <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
+      <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
 
-	  <h2 id='deep-storage'>Can anything other than S3 be used for &#8220;deep storage&#8221;?</h2>
-	  <p>Yes. Options include HFDS and any shared mountable file system. More details are available on our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
+      <h2 id='deep-storage'>Can anything other than S3 be used for &#8220;deep storage&#8221;?</h2>
+      <p>Yes. Options include HFDS and any shared mountable file system. More details are available on our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
 
-	  <h2 id='queries'>Where can I find a set of simple queries to run?</h2>
-	  <p>We recommend started with our tutorials in our docs:</p>
-	  <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Try out Druid for the first time</a></p>
+      <h2 id='queries'>Where can I find a set of simple queries to run?</h2>
+      <p>We recommend started with our tutorials in our docs:</p>
+      <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Try out Druid for the first time</a></p>
 
-	  <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
-	  <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
+      <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
+      <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
 
-	  <h2 id='time-series'>Does Druid only accept data with a timestamp?</h2>
-	  <p>Yes. Data that is ingested into Druid <em>must</em> have a timestamp.</p>
+      <h2 id='time-series'>Does Druid only accept data with a timestamp?</h2>
+      <p>Yes. Data that is ingested into Druid <em>must</em> have a timestamp.</p>
 
-	  <h2 id='zookeeper'>Isn&#8217;t Zookeeper a single point of failure?</h2>
-	  <p>No, Zookeeper can be deployed to withstand a configurable number of individual node failures. Also, if ZooKeeper goes down, the cluster will continue to operate.</p>
-	  <p>Losing ZooKeeper does, however, mean that the cluster cannot add new data segments, nor can it effectively react to the lose of one of the nodes. So, while it is safe to lose access to ZooKeeper, it is definitely a degraded state.</p>
+      <h2 id='zookeeper'>Isn&#8217;t Zookeeper a single point of failure?</h2>
+      <p>No, Zookeeper can be deployed to withstand a configurable number of individual node failures. Also, if ZooKeeper goes down, the cluster will continue to operate.</p>
+      <p>Losing ZooKeeper does, however, mean that the cluster cannot add new data segments, nor can it effectively react to the lose of one of the nodes. So, while it is safe to lose access to ZooKeeper, it is definitely a degraded state.</p>
 
-	  <h2 id='master'>Isn&#8217;t the Master a single point of failure?</h2>
-	  <p>No, the &#8220;Master&#8221; or &#8220;Coordinator&#8221; node is merely a coordinator. It is <strong><em>not</em></strong> involved in the query path. Losing all coordinators means that new segments will not be loaded by the Historical nodes, i.e. no new data will enter the cluster. Also, segment balancing decisions will not be made, so it stops the cluster from being able to effectively scale up and down. Just like ZooKeeper, losing the coordinators puts the cluster in a degraded state, but it will keep operating just fine.</p>
-	  <p>Also, there can be multiple coordinator nodes deployed. Extra coordinators will act as &#8220;hot spares&#8221; in case the active coordinator is lost.</p>
+      <h2 id='master'>Isn&#8217;t the Master a single point of failure?</h2>
+      <p>No, the &#8220;Master&#8221; or &#8220;Coordinator&#8221; node is merely a coordinator. It is <strong><em>not</em></strong> involved in the query path. Losing all coordinators means that new segments will not be loaded by the Historical nodes, i.e. no new data will enter the cluster. Also, segment balancing decisions will not be made, so it stops the cluster from being able to effectively scale up and down. Just like ZooKeeper, losing the coordinators puts the cluster in a degraded state, but it will keep operating just fine.</p>
+      <p>Also, there can be multiple coordinator nodes deployed. Extra coordinators will act as &#8220;hot spares&#8221; in case the active coordinator is lost.</p>
 
-	  <h2 id='mas-queries'>Do all queries go through the master?</h2>
-	  <p>Queries <strong><em>never</em></strong> touch the master. Ever.</p>
+      <h2 id='mas-queries'>Do all queries go through the master?</h2>
+      <p>Queries <strong><em>never</em></strong> touch the master. Ever.</p>
 
-	  <h2 id='mas-dies'>Can I query Druid even after the master dies?</h2>
-	  <p>Yes, the Master has no impact on queries.</p>
+      <h2 id='mas-dies'>Can I query Druid even after the master dies?</h2>
+      <p>Yes, the Master has no impact on queries.</p>
 
-	  <h2 id='update'>How do I update data?</h2>
-	  <p>Updating data means that you have to re-generate the segments for the time period that you need to update. This can be done by reindexing the data for that time period. Once the indexer finishes, the Druid cluster will swap the new segment in and stop serving the old segment.</p>
+      <h2 id='update'>How do I update data?</h2>
+      <p>Updating data means that you have to re-generate the segments for the time period that you need to update. This can be done by reindexing the data for that time period. Once the indexer finishes, the Druid cluster will swap the new segment in and stop serving the old segment.</p>
 
-	  <h2 id='ind-serv'>What is the IndexingService, do I need that?</h2>
-	  <p>The IndexingService is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
-	  <p>It is not a requirement yet, but will become one as time goes on.</p>
-	  <p>More information can be found in the docs:</p>
-	  <p><a href="/docs/{{site.druid_version}}/Indexing-Service.html">Indexing Service</a></p>
+      <h2 id='ind-serv'>What is the IndexingService, do I need that?</h2>
+      <p>The IndexingService is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
+      <p>It is not a requirement yet, but will become one as time goes on.</p>
+      <p>More information can be found in the docs:</p>
+      <p><a href="/docs/{{site.druid_version}}/Indexing-Service.html">Indexing Service</a></p>
     </div>
-      
   </div>
 </div>
-

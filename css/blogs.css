@@ -2,6 +2,10 @@
    margin-bottom: 70px;
 }
 
+.blog-listing h2 {
+  color: #333;
+}
+
 .blog-entry {
    margin-bottom: 70px;
 }

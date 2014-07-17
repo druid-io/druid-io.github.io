@@ -14,15 +14,13 @@ layout: html_page
 </div>
   
 <div class="container blog">
-  <div class="col-md-10 col-md-offset-1">
+  <div class="col-md-8 col-md-offset-2">
     {% for page in site.posts %}
     <div class="blog-listing">
-      <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
-      <p>{% if page.author %}{{ page.author | upcase }}, {% endif %}{{ page.date | date: "%B %e, %Y" }}</p>
-      <blockquote>
-	<p>{{ page.excerpt }}</p>
-	<a href="{{ page.url }}">Continue Reading →</a>
-      </blockquote>
+      <h2>{{ page.title }}</h2>
+      <p class="text-muted">{% if page.author %}{{ page.author | upcase }}, {% endif %}{{ page.date | date: "%B %e, %Y" }}</p>
+      <p>{{ page.excerpt }}</p>
+      <a class="btn btn-default btn-xs" href="{{ page.url }}">Read More</a>
     </div>
     {% endfor %}
   </div>
