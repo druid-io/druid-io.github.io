@@ -1,7 +1,7 @@
 ---
 published: true
 title: "Druid, R, Pizza and massively large data sets (Video)"
-author: Xavier LÉAUTÉ
+author: Xavier Léauté
 tags: meetup R druid
 layout: post
 ---
