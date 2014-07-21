@@ -4,7 +4,8 @@
   border-image: radial-gradient(#2ceefb, #2ceefb 10%, #1c1c26) 100% 1;
   border-width: 1px 0 0 0;
   padding: 0 0 30px;
-  color: #fff;
+  /* color: #fff; */
+  color: #c3c3c5;
   background-color: #1C1C26;
   text-align: center;
   margin: 0 auto 30px;
@@ -16,6 +17,7 @@
 
 .druid-masthead .text-muted {
   color: rgba(177,186,198,.7);
+  /* color: #c3c3c5; */
 }
 
 .druid-footer {
@@ -143,6 +145,16 @@
 }
 
 /* bootstrap overrides */
+
+a {
+  color: #2576CC;
+}
+
+a:hover {
+  /* color: #1a5491; */
+  color: #b1bac6;
+  text-decoration: none;
+}
 
 .navbar {
    font-weight: 300;
