@@ -39,6 +39,7 @@
 
 .druid-header.blog {
   padding: 0;
+  overflow: hidden;
 }
 
 .blog .title-spacer {

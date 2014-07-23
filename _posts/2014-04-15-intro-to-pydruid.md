@@ -172,7 +172,7 @@ Printing the results gives:
 
 The bar graph will look something like this:
 
-<img src="{{ relative }}/img/wiki-edit-lang-plot.png" alt="Bar graph showing Wikipedia edits by language" title="Wikipedia Edits by Language" width="65%" height="auto">
+<img src="{{ relative }}/img/wiki-edit-lang-plot.png" alt="Bar graph showing Wikipedia edits by language" title="Wikipedia Edits by Language">
 
 If you were to repeat the query, you should see larger numbers under edit_count, since the Druid realtime node is continuing to ingest data from Wikipedia.
 
