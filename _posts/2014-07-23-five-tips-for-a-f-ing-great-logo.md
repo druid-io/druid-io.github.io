@@ -1,6 +1,6 @@
 ---
 title: "Five Tips for a F’ing Great Logo"
-author: Fangjin Yang &amp; David Hertog
+author: David Hertog
 layout: post
 tags: #druid #logo
 image: /assets/2014-07-23-logo/image01.jpg
