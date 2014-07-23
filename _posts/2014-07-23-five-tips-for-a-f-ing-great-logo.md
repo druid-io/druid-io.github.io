@@ -9,7 +9,7 @@ image: /assets/2014-07-23-logo/image01.jpg
 Everyone wants a great logo, but it’s notoriously difficult work—prone to
 miscommunications, heated debates and countless revisions. Still, after three
 years we couldn’t put it off any longer. Druid needed a visual identity, so we
-partnered with the talented folks at [Focus Labs](http://focuslabllc.com/) for
+partnered with the talented folks at [Focus Lab](http://focuslabllc.com/) for
 help.
 
 ![](/assets/2014-07-23-logo/image00.png)
