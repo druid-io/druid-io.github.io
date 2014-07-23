@@ -13,9 +13,9 @@ footer a {
    color: #000000;
 }
 
-footer address {
-   margin: 0 0 30px 30px;
-}
+/* footer address { */
+/*    margin: 0 0 30px 30px; */
+/* } */
 
 footer .soc {
 	text-align:left;

@@ -1,7 +1,7 @@
 ---
 title: Benchmarking Druid
 layout: post
-author: Xavier LÉAUTÉ
+author: Xavier Léauté
 published: true
 ---
 

@@ -1,25 +1,25 @@
-
 <!-- Start page_header include -->
-<div class="navbar-wrapper">
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
-    <div class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="header-li{% if page.id == 'home' %} active{% endif %}"><a class="header-a" href="/">Home</a></li>
-            <li class="header-li{% if page.sectionid == 'druid' %} active{% endif %}"><a class="header-a" href="/druid.html">What is Druid?</a></li>
-            <li class="header-li{% if page.sectionid == 'downloads' %} active{% endif %}"><a class="header-a" href="/downloads.html">Downloads</a></li>
-            <li class="header-li{% if page.sectionid == 'docs' %} active{% endif %}"><a class="header-a" href="/docs/{{ site.druid_version }}/">Documentation</a></li>
-            <li class="header-li{% if page.sectionid == 'community' %} active{% endif %}"><a class="header-a" href="/community.html">Community</a></li>
-            <li class="header-li{% if page.sectionid == 'faq' %} active{% endif %}"><a class="header-a" href="/faq.html">FAQ</a></li>
-            <li class="header-li{% if page.sectionid == 'blog' %} active{% endif %}"><a class="header-a" style="margin-right: 10px;" href="/blog">Blog</a></li>
-            <li>
-              <a class="social-button twitter header-a" href="http://twitter.com/druidio">Follow</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="{% if page.sectionid == 'druid' %} active{% endif %}"><a href="/druid.html">Overview</a></li>
+        <li class="{% if page.sectionid == 'docs' %} active{% endif %}"><a href="/docs/{{ site.druid_version }}/">Documentation</a></li>
+        <li class="{% if page.sectionid == 'community' %} active{% endif %}"><a href="/community.html">Community</a></li>
+        <li class="{% if page.sectionid == 'blog' %} active{% endif %}"><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/metamx/druid/" class="fa fa-github"></a></li>
+      </ul>
     </div>
   </div>
 </div>
-<!-- Stop page_header include --->
+<!-- Stop page_header include -->

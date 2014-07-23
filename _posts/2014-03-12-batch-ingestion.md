@@ -13,7 +13,7 @@ The United States Geological Survey (USGS) has millions of sensors for all types
 
 We used this map to get the sensor info for the Napa River in Napa County, California.
 
-<img src="{{ relative }}/img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information" style="width: 700px; height: 374px">
+<img src="{{ relative }}/img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information">
 
 We decided to first import the data into [R (the statistical programming language)](http://www.r-project.org/) for two reasons:
 

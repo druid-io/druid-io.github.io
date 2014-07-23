@@ -8,7 +8,6 @@ sectionid: docs
   <head>
     {% include site_head.html %}
 
-    <link rel="stylesheet" href="css/docs.css">
     <script>
       (function() {
         var cx = '004325268462231820898:e4htgtatbkg';
@@ -21,52 +20,43 @@ sectionid: docs
         s.parentNode.insertBefore(gcse, s);
       })();
     </script>
-    <style>
-      /* Remove the x from search */
-      div.gsc-clear-button {
-        display:none; 
-      }
-      
-      td.gsc-input input {
-        background-image: none !important;
-      }
-    </style>
   </head>
+
   <body>
     {% include page_header.html %}
 
-    <div class="container">
-      <div class="page-header">
+    <div class="druid-header">
+      <div class="container">
         <h1>Documentation</h1>
+        <h4></h4>
       </div>
+    </div>
+
+    <div class="container">
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
 
- <!--     if version != site.druid_version or version != 'latest' %} -->
       {% if version != site.druid_version and version != 'latest' %}
       <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest documentation</a>?</p>
       {% endif %}
-        <div class="searchbox" style="position:relative; width:280px;">
-          <gcse:searchbox-only></gcse:searchbox-only>
-        </div>
-      <div class="row">
-        <div class="col-md-3 toc" id="toc">
-	</div>
 
-	<div class="col-md-9 doc-content">
-	  {{ content }}
-	</div>
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          {{ content }}
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox" style="position:relative">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div class="nav toc hidden-print hidden-xs hidden-sm">
+          </div>
+
+        </div>
       </div>
     </div>
-    
+
     {% include page_footer.html %}
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script>
-      $(function(){
-        $("#toc").load("toc.html");
-      });
-    </script>
+
+    <script>$(function() { $(".toc").load("toc.html"); });</script>
   </body>
 </html>
-

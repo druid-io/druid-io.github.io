@@ -1,7 +1,7 @@
 ---
 title: Open Source Leaders Sound Off on the Rise of the Real-Time Data Stack
 published: true
-author: Fangjin Yang and Gian Merlino
+author: Fangjin Yang &amp; Gian Merlino
 layout: post
 tags: #druid #analytics #kafka #spark #storm #hadoop
 image: http://metamarkets.com/wp-content/uploads/2014/05/Data-legos.jpg
@@ -21,7 +21,7 @@ Matei Zaharia ([Spark](http://spark.apache.org/)). It was moderated by
 VentureBeat Staff Writer Jordan Novet and hosted by Zack Bogue of the [Founders
 Den](http://www.foundersden.com/) and [Data Collective](http://dcvc.com/).
 
-<img src="{{ relative }}/img/oss-panel.png" alt="Panelists discuss their projects" title="OSS Panel" width="612px" height="414px">
+![Panelists discuss their projects]({{ relative }}/img/oss-panel.png "OSS Panel")
 
 _From left to right: Jordan Novet, Andy Feng, Zack Bogue, Eric Tschetter, Jun Rao, Matei Zaharia. [Photo credit: Xavier Léauté]_
 

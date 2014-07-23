@@ -1,8 +1,6 @@
 ---
 ---
 
-<link rel="stylesheet" href="css/toc.css">
-
 h2. Introduction
 * "About Druid":./
 * "Concepts and Terminology":./Concepts-and-Terminology.html
