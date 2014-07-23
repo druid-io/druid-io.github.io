@@ -25,6 +25,7 @@
   /* background-color: #eee; */
   background-color: #f3f3f3;
   border-top: 1px solid white;
+  margin-top: 50px;
 }
 
 .druid-header {
@@ -35,7 +36,7 @@
   background-image: url('/img/druid_watermark_30.png');
   background-size: 400px 400px;
   background-repeat: no-repeat;
-  background-position: 100px -90px;
+  background-position: 10% -90px;
   background-color: #f3f3f3;
   /* background-color: #eee; */
   /* background-color: #B6B5AD; */
@@ -45,16 +46,23 @@
 
 .druid-panel {
   background-color: #2e2e2e;
+  background-color: #1C1C26;
   color: #fff;
   padding: 30px 0;
+  margin-bottom: -50px;
+}
+
+.druid-panel a {
+  color: rgba(177,186,198,.7)
+}
+
+.druid-panel h3 {
+  color: #2ceefb
 }
 
 .blog h2 {
   font-weight: 400;
   font-size: 24px;
-}
-
-.druid-masthead {
 }
 
 .druid-logo {

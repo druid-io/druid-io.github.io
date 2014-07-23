@@ -1,5 +1,5 @@
 ---
-title: Blog
+title: Druid Blog
 sectionid: blog
 layout: html_page
 ---
@@ -8,20 +8,22 @@ layout: html_page
 
 <div class="druid-header">
   <div class="container">
-    <h1>Blog</h1>
-    <h3>Latest News from Druid</h3>
+    <h1>Druid Blog</h1>
+    <h4></h4>
   </div>
 </div>
   
 <div class="container blog">
-  <div class="col-md-8 col-md-offset-2">
-    {% for page in site.posts %}
-    <div class="blog-listing">
-      <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
-      <p class="text-muted">{% if page.author %}{{ page.author | upcase }}, {% endif %}{{ page.date | date: "%B %e, %Y" }}</p>
-      <p>{{ page.excerpt }}</p>
-      <a class="btn btn-default btn-xs" href="{{ page.url }}">Read More</a>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      {% for page in site.posts %}
+      <div class="blog-listing">
+        <h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
+        <p class="author text-uppercase text-muted">{% if page.author %}{{ page.author }} · {% endif %}{{ page.date | date: "%B %e, %Y" }}</p>
+        <p>{{ page.excerpt }}</p>
+        <a class="btn btn-default btn-xs" href="{{ page.url }}">Read More</a>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 </div>

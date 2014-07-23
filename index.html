@@ -1,6 +1,6 @@
 ---
 published: true
-title: Real²time Exploratory Analytics on Large Datasets
+title: Real-time Exploratory Analytics on Large Datasets
 layout: html_page
 id: home
 ---
@@ -9,29 +9,40 @@ id: home
 
 <main class="druid-masthead">
   <div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
     <span class="druid-bootlogo"></span>
-    <p class="lead">Open-source infrastructure for Real-time Exploratory Analytics on Large datasets</p>
+    <!-- <p class="lead">Open&#45;source infrastructure for Real&#45;time Exploratory Analytics on Large datasets</p> -->
+    <p class="lead">An open-source infrastructure designed for <span style="white-space: nowrap;">real-time</span>, exploratory analytics on large-scale event data.</p>
     <p><a class="btn btn-lg btn-outline-inverse" href="downloads.html"><span class="fa fa-download"></span> Download</a>
     <a class="btn btn-lg btn-outline-inverse" href="https://github.com/metamx/druid/"><span class="fa fa-github"></span> GitHub</a></p>
     <p class="small text-muted">latest stable release {{ site.druid_stable_version }}</p>
   </div>
+  </div>
+  </div>
 </main>
 
-<div class="container main-marketing">
-  <div class="row-fluid text-center">
-    <div class="col-md-4">
-      <p><a href="druid.html#realtime" class="fa fa-rocket fa-4x"></a></p>
-      <!-- <p><a href="druid.html#realtime" class="fa&#45;stack fa&#45;2x"><span class="fa fa&#45;spinner fa&#45;spin fa&#45;stack&#45;1x"></span><span class="fa fa&#45;ban fa&#45;stack&#45;2x text&#45;danger"></span></a></p> -->
-      <p><a href="druid.html#realtime"><h2>Interactive</h2></a></p>
-      <p class="text-justify">Query data as it is being ingested for both immediate and historical insights. Issue ad-hoc slice-n-dice queries over N-dimensional data with consistent, fast response times.</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+      <!-- <p class="lead">Druid is an open&#45;source analytics data store designed for <span style="white&#45;space: nowrap;">real&#45;time</span> exploratory queries on large&#45;scale event data.</p> -->
+      <!-- <p class="text&#45;muted">cost&#45;effective · highly&#45;available · real&#45;time data ingestion · arbitrary data exploration</p> -->
     </div>
-    
+  </div>
+  <div class="row text-center main-marketing">
     <div class="col-md-4">
-      <p><a href="druid.html#scalable" class="fa fa-database fa-4x"></a></p> 
+      <p><a href="druid.html#realtime" class="fa fa-fighter-jet fa-4x"></a></p>
+      <!-- <p><a href="druid.html#realtime" class="fa&#45;stack fa&#45;2x"><span class="fa fa&#45;spinner fa&#45;spin fa&#45;stack&#45;1x"></span><span class="fa fa&#45;ban fa&#45;stack&#45;2x text&#45;danger"></span></a></p> -->
+      <p><a href="druid.html#realtime"><h2>Fast</h2></a></p>
+      <p class="text-justify">Query data as it is being ingested for both immediate and historical insights. Issue interactive slice-n-dice queries over N-dimensional data with consistent, fast response times.</p>
+    </div>
+
+    <div class="col-md-4">
+      <p><a href="druid.html#scalable" class="fa fa-magic fa-4x"></a></p> 
       <p><a href="druid.html#scalable"><h2>Scalable</h2></a></p>
       <p class="text-justify">Scalable and available; consistent and predictable performance over large data sets. Scale up to increase computation power, scale down to save on costs.</p>
     </div>
-    
+
     <div class="col-md-4">
       <p><a href="druid.html#hri" class="fa fa-bar-chart-o fa-4x"></a></p>
       <p><a href="druid.html#hri"><h2>Built for Analytics</h2></a></p>
@@ -42,21 +53,18 @@ id: home
 
 <div class="druid-panel">
   <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h2>Druid is an open-source analytics data store designed for real-time exploratory queries on large-scale event data.</h2>
-        <!-- <p class="lead">Druid provides cost&#45;effective, highly&#45;available real&#45;time data ingestion and arbitrary data exploration.</p> -->
-        <p>cost-effective, highly-available real-time data ingestion and arbitrary data exploration</p>
-      </div>
-    </div>
-    <div class="row">
+    <div class="row-fluid text-center">
       <div class="col-sm-4 col-sm-offset-2">
-        <h2>get started</h2>
+        <h3>Get Started</h3>
         <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Druid 101</a></p>
-        <p><a href="/docs/{{site.druid_version}}/Tutorial:-The-Druid-Cluster.html">Learn about the Druid cluster</a></p>
+        <p><a href="/docs/{{site.druid_version}}/Tutorial:-Loading-Your-Data-Part-1.html"</a>Load Data</p>
+        <p><a href="/docs/{{site.druid_version}}/Querying.html">Querying</a></p>
       </div>
       <div class="col-sm-4">
-        <h2>who uses Druid?</h2>
+        <h3>Learn More</h3>
+        <p><a href="/druid-powered.html">Who is using Druid?</a></p>
+        <p><a href="/docs/{{site.druid_version}}/Design.html">Architecture</a></p>
+        <p><a href="http://static.druid.io/docs/druid.pdf">Whitepaper</a></p>
       </div>
     </div>
   </div>

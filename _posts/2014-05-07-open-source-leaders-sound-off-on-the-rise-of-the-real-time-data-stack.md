@@ -1,7 +1,7 @@
 ---
 title: Open Source Leaders Sound Off on the Rise of the Real-Time Data Stack
 published: true
-author: Fangjin Yang and Gian Merlino
+author: Fangjin Yang &amp; Gian Merlino
 layout: post
 tags: #druid #analytics #kafka #spark #storm #hadoop
 image: http://metamarkets.com/wp-content/uploads/2014/05/Data-legos.jpg

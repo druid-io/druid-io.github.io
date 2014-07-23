@@ -5,18 +5,25 @@ sectionid: blog
 
 <link rel="stylesheet" href="/css/blogs.css">
 
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        {% if page.image %}
+        <div class="title-spacer"></div>
+        <img class="title-image" src="{{ page.image }}" alt="{{ page.title }}"/>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container blog">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8 col-md-offset-2">
       <div class="blog-entry">
-        <h2>{{ page.title }}
-          {% if page.author %}
-          <span class="author small text-uppercase">{{ page.author }}</span>
-          {% endif %}
-          <span class="small"> · {{ page.date | date: "%Y-%m-%d" }}</span>
-        </h2>
-
-        {% if page.image %}<img src="{{ page.image }}" alt="{{ page.title }}" class="text-img" />{% endif %}
+        <h1>{{ page.title }}</h1>
+        <p class="text-muted">{% if page.author %}by <span class="author text-uppercase">{{ page.author }}</span>{% endif %} · {{ page.date | date: "%B %e, %Y" }}</p>
 
         {{ content }}
       </div>
@@ -31,17 +38,6 @@ sectionid: blog
       </script>
       <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-
-    <div class="col-md-3">
-      <div class="recents hidden-print hidden-xs hidden-sm">
-        <h3>Recent posts</h3>
-        <ul class="list-unstyled">
-          {% for post in site.posts limit: 5 %}
-          <li{% if page.title == post.title %} class="active"{% endif %}><a href="{{ post.url }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
     </div>
   </div>
 </div>
