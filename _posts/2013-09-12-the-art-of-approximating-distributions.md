@@ -142,7 +142,7 @@ Here we illustrate the B-H/T-T summarization process for the integers 1 through
 10, 15 and 20, and 12 and 25 each repeated 3 times, for 3 different choices of
 the number of (count, centroid) pairs.
 
-<img src="http://metamarkets.com/wp-content/uploads/2013/06/histogram_pairs-1024x614.png" alt="Histogram Pairs" style="width: 1024px; height: 614px;"/>
+<img src="http://metamarkets.com/wp-content/uploads/2013/06/histogram_pairs-1024x614.png" alt="Histogram Pairs"/>
 
 There 4 salient operations on these approximate histogram objects:
 
@@ -182,7 +182,7 @@ to its left and multiply the sum of 7 by the ratio of areas to come up with our
 estimate of 5.05 in this region (the exact answer is 5). Therefore, we estimate
 that there are 10.05 values less than or equal to 10.
 
-<img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_trapezoid.png" alt="AH Trapezoid" style="width: 1024px; height: 614px;"/>
+<img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_trapezoid.png" alt="AH Trapezoid"/>
 
 ## Improvements
 
@@ -257,14 +257,14 @@ limits are suboptimal, as they include prices ~$100. In addition, there are
 even negative bid prices (which could be erroneous or a way of expressing
 uninterest in the auction)!
 
-<img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_skew-1024x614.png" alt="Histogram Skew" style="width: 1024px; height: 614px;"/>
+<img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_skew-1024x614.png" alt="Histogram Skew"/>
 
 Below, we set our resolution limits to $0 and $1 and vary the number of (count,
 centroid) pairs in our approximate histogram datastructure. The accuracy using
 only 5 pairs is abysmal and doesn’t even capture the second mode in the $.20 to
 $.25 bucket. 50 pairs fare much better, and 200 are very accurate.
 
-<img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_accuracy-1024x614.png" alt="Histogram Accuracy" style="width: 1024px; height: 614px;"/>
+<img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_accuracy-1024x614.png" alt="Histogram Accuracy"/>
 
 ## Speed
 
@@ -282,11 +282,11 @@ week from Wikipedia, and the benchmarks over the full 32 week period cover 84M
 rows. There appears to be a roughly linear relationship between the query time
 and the quantity of data:
 
-<img src="https://metamarkets.com/wp-content/uploads/2013/06/ah_speed-1024x614.png" alt="AH Speed" style="width: 1024px; height: 614px;"/>
+<img src="https://metamarkets.com/wp-content/uploads/2013/06/ah_speed-1024x614.png" alt="AH Speed"/>
 
 Indeed, the cluster scan rates tend to flatten out once we hit enough data:
 
-<img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_scan_rate.png" alt="AH Scan Rate" style="width: 1024px; height: 614px;"/>
+<img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_scan_rate.png" alt="AH Scan Rate"/>
 
 We previously obtained cluster scan rates of [26B rows per second](http://metamarkets.com/2012/scaling-druid/) on a beefier
 cluster. Very roughly speaking, the approximate histogram aggregator is 1/10
