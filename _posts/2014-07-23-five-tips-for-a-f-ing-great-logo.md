@@ -31,7 +31,7 @@ including our
 preferred style. We figured this out by asking each team member to pick a few
 logos they like and talk about why. Though we didn’t agree on everything, we
 did find common ground: logos that were simple, modern, and polished. Focus
-Labs took this and created a mood board (below), which served as a directional
+Lab took this and created a mood board (below), which served as a directional
 guide for the project’s aesthetic.
 
 ![](/assets/2014-07-23-logo/image03.png)
