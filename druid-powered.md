@@ -3,6 +3,8 @@ title: Powered by Druid
 layout: simple_page
 ---
 
+There are ~10 companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
+
 ## Metamarkets
 Druid is the primary data store for Metamarkets’ full stack visual analytics
 service for the RTB (real time bidding) space. Ingesting over 30 billion events
