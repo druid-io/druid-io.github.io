@@ -16,31 +16,30 @@ sectionid: druid
     <div class="col-md-9">
       <h1 id="whatis">What is Druid?</h1>
 
-      <p class="lead">Druid is open source infrastructure for real-time exploratory analytics that supports fast ad-hoc queries on large-scale data sets.</p>
-
-      <h2 id="realtime">Real-time Ingestion</h2>
+      <hr id="realrealtime">
+      <h2 id="realtime">Real-time Ingestion and Queries</h2>
 
       <p><strong>Real-time data</strong> Typical analytics databases ingest data via batches. Ingesting an event at a time is often accompanied with transactional locks and other overhead that slows down the ingestion rate. Druid's real-time nodes employ lock-free ingestion of append-only data sets to allow for simultaneous ingestion and querying of 10,000+ events per second. Simply put, the latency between when an event happens and when it is visible is limited only by how quickly the event can be delivered to Druid.</p>
-
-      <h2 id="scalable">Scalable</h2>
-
-      <p><strong>In-memory or on-disk.</strong> Druid leverages the memory mapping capabilities of modern operating systems to allow for only relevant data to be loaded into memory while the rest can live on disk. This means that if your performance requirements dictate that the data must be in memory, then you can configure each node to only accept an amount of data that is equivalent to the available memory and it will all be in-memory. If you are ok with only having the working set in memory, each node can hold more than just the working set on a given machine and the requisite data will be swapped into memory on demand.</p>
-
-      <p><strong>Highly Available.</strong> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on &#8220;hot segments.&#8221; And, because of replication, Druid supports rolling deployments and restarts. Scale up or scale down just by adding or remove nodes, it&#8217;s that easy and no data has to be re-processed or re-indexed, just re-replicated.</p>
-
-      <h2 id="hri">Real-time Queries</h2>
 
       <p><strong>Ad hoc, multi-dimensional filtering.</strong> Druid maintains bitmap indexes compressed using <a href="http://ricerca.mat.uniroma3.it/users/colanton/concise.html">CONCISE</a> to determine what data it has to look at before it ever starts looking at data. This significantly speeds up ad hoc filtered queries, even allowing for fast OR queries which are traditionally slow. All this <a href="http://metamarkets.com/2012/druid-bitmap-compression/">without a significant impact on data footprint</a></p>
 
       <p><strong>Column-oriented for speed.</strong> Data is laid out in columns so that scans are limited to the specific data being searched. <a href="/blog/2011/05/20/druid-part-deux.html">Compression decreases overall data footprint.</a></p>
 
+      <p><strong>Power dashboards.</strong> Druid can aggregate billions of events in real-time and in a multi-tenant environment and is often used to power interactive dashboards. Data in Druid is mostly immutable and Druid is designed to support numerous concurrent reads.</p>
+
       <hr id="realrealtime">
+      <h2 id="scalable">Scalable and Available</h2>
 
-      <h1>What does Real&#178;time mean?</h1>
+      <p><strong>In-memory or on-disk.</strong> Druid leverages the memory mapping capabilities of modern operating systems to allow for only relevant data to be loaded into memory while the rest can live on disk. This means that if your performance requirements dictate that the data must be in memory, then you can configure each node to only accept an amount of data that is equivalent to the available memory and it will all be in-memory. If you are ok with only having the working set in memory, each node can hold more than just the working set on a given machine and the requisite data will be swapped into memory on demand.</p>
 
-      <p>Real&#178;time reflects the fact that Druid encompasses both of the common definitions of real-time in the data processing space.</p>      
-      <p>&#8220;Real-time queries&#8221; refers to responsive or interactive queries. I.e. you have your data and want to be able to ask questions of the data quickly.</p>      
-      <p>&#8220;Real-time ingestion&#8221; refers to ingesting data and making it available for querying in real-time. I.e. minimizing the latency between when an event occurs and when it is reflected in your query results.</p>
+      <p><strong>Highly Available.</strong> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on &#8220;hot segments.&#8221; And, because of replication, Druid supports rolling deployments and restarts. Scale up or scale down just by adding or remove nodes, it&#8217;s that easy and no data has to be re-processed or re-indexed, just re-replicated.</p>
+
+      <hr id="realrealtime">
+      <h2 id="hri">Built for Analytics</h2>
+
+      <p><strong>Approximate and exact calculations.</strong> Druid supports approximate cardinality estimation, and approximate histogram and quantile calculation. Druid also supports a variety of exact aggregations.</p>
+
+      <p><strong>Extendable architecture.</strong> Write your own sketch algorithms or aggregators and plug them in directly into Druid.</p>
 
       <hr id="where">
       <h1>Where did Druid come from?</h1>
@@ -51,7 +50,7 @@ sectionid: druid
       <hr id="used">
       <h1>What is Druid used for?</h1>
 
-      <p>Druid is purpose built infrastructure that provides for exploration of very large quantities of data as it is ingested into the system. It is currently used for dashboarding of ad impression streams and operational monitoring of systems. If you have a dataset that is too large for your current infrastructure, your data has a timestamp associated with every event and you want to arbitrarily filter into the data with your queries, then Druid can probably provide value for whatever your use case is as well.</p>
+      <p>Druid is purpose built infrastructure that provides for exploration of very large quantities of data as it is ingested into the system. It is generally used for dashboarding of event streams. Druid is used for production in various spaces such as ad-tech, telecommunications, social media, and operations. If you have a dataset that is too large for your current infrastructure, your data has a timestamp associated with every event and you want to arbitrarily filter into the data with your queries, then Druid can probably provide value for whatever your use case is as well.</p>
 
       <h2 id="immediate_insight_to_large_quantities_of_data">Immediate insight to large quantities of data:</h2>
       <p>The low time latency between when data is ingested into Druid and when that data is reflected in queries allows users understand what is going on &#8220;right now&#8221; instead of a few minutes ago.</p>
