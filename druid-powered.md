@@ -1,5 +1,6 @@
 ---
 title: Powered by Druid
+subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md">Add Your Company</a>
 layout: simple_page
 ---
 
@@ -27,3 +28,7 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
 entertainment network. It uses Druid analytics both to optimize user
 experiences and to guide the evolution of its product.
+
+<hr/>
+
+[Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
