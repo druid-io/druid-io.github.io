@@ -6,6 +6,10 @@ layout: simple_page
 
 There are ~10 companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
+## LiquidM
+
+LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid](). 
+ 
 ## Metamarkets
 Druid is the primary data store for Metamarkets’ full stack visual analytics
 service for the RTB (real time bidding) space. Ingesting over 30 billion events
@@ -19,15 +23,16 @@ two terabytes per hour, with the ability to query data as its being ingested.
 They use Druid to pinpoint anomalies within their infrastructure, endpoint
 activity and content flow.
 
-## LiquidM
-
-LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid]().
-
 ## N3twork
 
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
 entertainment network. It uses Druid analytics both to optimize user
 experiences and to guide the evolution of its product.
+
+## YeahMobi
+
+YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues. 
+
 
 <hr/>
 
