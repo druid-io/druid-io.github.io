@@ -33,6 +33,10 @@ experiences and to guide the evolution of its product.
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues. 
 
+## ViralGains
+
+ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations. 
+
 
 <hr/>
 
