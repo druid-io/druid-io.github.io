@@ -22,6 +22,11 @@ sectionid: docs
     <div class="container">
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
+      {% if version == 'latest' %}
+         {% assign apiversion = site.druid_rc_version %}
+      {% else %}
+         {% assign apiversion = version %}
+      {% endif %}
 
       {% if version != site.druid_version and version != 'latest' %}
       <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest documentation</a>?</p>
@@ -29,15 +34,16 @@ sectionid: docs
 
       <div class="row">
         <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="/api/{{ apiversion }}">API documentation</a></p>
           {{ content }}
         </div>
         <div class="col-md-3">
           <div class="searchbox" style="position:relative">
             <gcse:searchbox-only></gcse:searchbox-only>
           </div>
-          <div class="nav toc hidden-print hidden-xs hidden-sm">
+          <div id="toc" class="nav toc hidden-print">
           </div>
-
         </div>
       </div>
     </div>
