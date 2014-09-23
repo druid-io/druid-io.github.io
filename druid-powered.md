@@ -4,7 +4,7 @@ subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/master/dr
 layout: simple_page
 ---
 
-There are ~10 companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
+There are 10+ companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
 ## LiquidM
 
