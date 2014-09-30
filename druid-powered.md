@@ -6,6 +6,10 @@ layout: simple_page
 
 There are 10+ companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
+## DripStat
+
+DripStat uses Druid as a SAAS timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
+
 ## LiquidM
 
 LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid](). 
