@@ -8,7 +8,7 @@ There are 10+ companies of various sizes in production with Druid. This list is 
 
 ## DripStat
 
-DripStat uses Druid as a SAAS timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
+DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
 
 ## LiquidM
 
