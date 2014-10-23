@@ -10,6 +10,10 @@ There are 10+ companies of various sizes in production with Druid. This list is 
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
 
+## LDMobile
+
+LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in order to propose to our customers a real-time dashboard showing performance indicators of their campaigns. 
+
 ## LiquidM
 
 LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid](). 
