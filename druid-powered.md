@@ -6,6 +6,10 @@ layout: simple_page
 
 There are 10+ companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
+## Archive-It.org
+
+Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
+
 ## DripStat
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
