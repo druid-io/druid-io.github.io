@@ -41,6 +41,10 @@ N3TWORK uses Druid for real-time analysis of its Internet of Interests social
 entertainment network. It uses Druid analytics both to optimize user
 experiences and to guide the evolution of its product.
 
+## Streamlyzer
+
+Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
+
 ## YeahMobi
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues. 
