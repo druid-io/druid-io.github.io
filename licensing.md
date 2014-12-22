@@ -7,7 +7,7 @@ layout: simple_page
 ### [Email info@druid.io](mailto:info@druid.io) for questions not covered here.
 
 ## What is the license for Druid?
-Druid is provided under the GNU General Public License, version 2. That means you can download, reuse, modify and distribute any files hosted in Druid’s GIT repository under the terms of GPL version 2. <a href="https://github.com/metamx/druid/blob/master/LICENSE">Our license file is here</a>.
+Druid is provided under the GNU General Public License, version 2. That means you can download, reuse, modify and distribute any files hosted in Druid’s GIT repository under the terms of GPL version 2. <a href="https://github.com/druid-io/druid/blob/master/LICENSE">Our license file is here</a>.
 
 ## Who holds the copyright for Druid?
 Metamarkets is the copyright holder for Druid.
