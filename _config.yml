@@ -18,6 +18,7 @@ druid_version: 0.6.160
 
 druid_rc_version:
 druid_stable_version: 0.6.160
+druid_latest_version: 0.6.169
 
 prose:
   metadata:

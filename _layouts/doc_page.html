@@ -23,7 +23,7 @@ sectionid: docs
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
       {% if version == 'latest' %}
-         {% assign apiversion = site.druid_rc_version %}
+         {% assign apiversion = site.druid_latest_version %}
       {% else %}
          {% assign apiversion = version %}
       {% endif %}
