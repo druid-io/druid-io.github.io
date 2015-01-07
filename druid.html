@@ -32,7 +32,7 @@ sectionid: druid
 
       <p><strong>In-memory or on-disk.</strong> Druid leverages the memory mapping capabilities of modern operating systems to allow for only relevant data to be loaded into memory while the rest can live on disk. This means that if your performance requirements dictate that the data must be in memory, then you can configure each node to only accept an amount of data that is equivalent to the available memory and it will all be in-memory. If you are ok with only having the working set in memory, each node can hold more than just the working set on a given machine and the requisite data will be swapped into memory on demand.</p>
 
-      <p><strong>Highly Available.</strong> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on &#8220;hot segments.&#8221; And, because of replication, Druid supports rolling deployments and restarts. Scale up or scale down just by adding or remove nodes, it&#8217;s that easy and no data has to be re-processed or re-indexed, just re-replicated.</p>
+      <p><strong>Highly Available.</strong> Scaling up or down, replicating nodes, or recovering from failure typically impacts availability and performance. Druid uses a distributed architecture that allows replication at the segment level – relieving the load on &#8220;hot segments.&#8221; And, because of replication, Druid supports rolling deployments and restarts. Scale up or scale down just by adding or removing nodes, it&#8217;s that easy and no data has to be re-processed or re-indexed, just re-replicated.</p>
 
       <hr id="realrealtime">
       <h2 id="hri">Built for Analytics</h2>
