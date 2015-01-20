@@ -1,13 +1,25 @@
 ---
 layout: doc_page
 ---
-# MySQL Database
-MySQL is an external dependency of Druid. We use it to store various metadata about the system, but not to store the actual data. There are a number of tables used for various purposes described below.
+# Metadata Storage
+
+The Metadata Storage is an external dependency of Druid. We use it to store various metadata about the system, but not to store the actual data. There are a number of tables used for various purposes described below.
+
+Supported Metadata Storages
+---------------------------
+
+The following metadata storages are supported:
+
+* Derby (default - only works if you have all processes running on the same node)
+* MySQL (io.druid.extensions:mysql-metadata-storage)
+* PostgreSQL (io.druid.extensions:postgresql-metadata-storage)
+
+To choose a metadata storage to use, set the `druid.extensions` config to include the module for the metadata storage.
 
 Segments Table
 --------------
 
-This is dictated by the `druid.db.tables.segments` property.
+This is dictated by the `druid.metadata.storage.tables.segments` property.
 
 This table stores metadata about the segments that are available in the system. The table is polled by the [Coordinator](Coordinator.html) to determine the set of segments that should be available for querying in the system. The table has two main functional columns, the other columns are for indexing purposes.
 
