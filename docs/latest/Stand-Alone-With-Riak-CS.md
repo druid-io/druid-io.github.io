@@ -58,7 +58,7 @@ This just walks through getting the relevant software installed and running.  Yo
 
 1. Install necessary software with yum
 
-        yum install -y java-1.7.0-openjdk-devel git wget metadata storage-server
+        yum install -y java-1.7.0-openjdk-devel git wget mysql-server
 
 1. Install maven
 
@@ -110,7 +110,7 @@ This just walks through getting the relevant software installed and running.  Yo
 
 1. Clone the git repository for druid, checkout a "stable" tag and build 
 
-        git clone https://github.com/druid-io/druid.git druid
+        git clone https://github.com/metamx/druid.git druid
         pushd druid
         git checkout druid-0.4.12
         export LANGUAGE=C
@@ -204,11 +204,11 @@ This just walks through getting the relevant software installed and running.  Yo
 
         s3cmd ls
 
-1. Start metadata storage server
+1. Start MySQL server
 
-        service metadata storaged start
-        chkconfig metadata storaged on
-        /usr/bin/metadata storageadmin -u root password 'riakdruid'
+        service mysqld start
+        chkconfig mysqld on
+        /usr/bin/mysqladmin -u root password 'riakdruid'
 
     NOTE: If you don't like "riakdruid" as your password, feel free to change it around.
     NOTE: If you have used root user to connect to database. It should be changed by other user but I have used this one to simplify it

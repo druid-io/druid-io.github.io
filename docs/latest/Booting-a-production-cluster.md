@@ -6,7 +6,7 @@ layout: doc_page
 [Loading Your Data](Tutorial%3A-Loading-Your-Data-Part-2.html) and [All About Queries](Tutorial%3A-All-About-Queries.html) contain recipes to boot a small druid cluster on localhost. However, when it's time to run a more realistic setup&mdash;for production or just for testing production&mdash;you'll want to find a way to start the cluster on multiple hosts. This document describes two different ways to do this: manually, or as a cloud service via Apache Whirr.
 
 ## Manually Booting a Druid Cluster
-You can provision individual servers, loading Druid onto each machine (or building it) and setting the required configuration for each type of node. You'll also have to set up required external dependencies. Then you'll have to start each node. This process is outlined in [Tutorial: The Druid Cluster](Tutorial%3A-The-Druid-Cluster.html).
+You can provision individual servers, loading Druid onto each machine (or building it) and setting the required configuration for each type of node. You'll also have to set up required external dependencies. Then you'll have to start each node. This process is outlined in [Tutorial: The Druid Cluster](Tutorial:-The-Druid-Cluster.html).
 
 ## Apache Whirr
 
@@ -25,7 +25,7 @@ Clone the code from [https://github.com/druid-io/whirr](https://github.com/druid
     git checkout trunk
     mvn clean install -Dmaven.test.failure.ignore=true
 
-In order to run the test below, you'll also need two files that available only from a [standard install of Druid](http://druid.io/downloads.html) or the [Druid repo](https://github.com/druid-io/druid/tree/master/examples/bin/examples):
+In order to run the test below, you'll also need two files that available only from a [standard install of Druid](http://druid.io/downloads.html) or the [Druid repo](https://github.com/metamx/druid/tree/master/examples/bin/examples):
 
 * `druid/examples/bin/examples/wikipedia/wikipedia_realtime.spec`
 * `druid/examples/bin/examples/indexing/wikipedia_realtime_task.json`
