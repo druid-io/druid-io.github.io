@@ -44,6 +44,12 @@ p {
   line-height: 1.7em;
 }
 
+blockquote {
+  font-size: 14px;
+  font-style: italic;
+  color: #777;
+}
+
 li {
   line-height: 1.7em;
 }

@@ -20,12 +20,12 @@ Jolata leverages Druid as the analytics data store for the realtime network perf
 
 ## LDMobile
 
-LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in order to propose to our customers a real-time dashboard showing performance indicators of their campaigns. 
+LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in order to propose to our customers a real-time dashboard showing performance indicators of their campaigns.
 
 ## LiquidM
 
-LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid](). 
- 
+LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid]().
+
 ## Metamarkets
 Druid is the primary data store for Metamarkets’ full stack visual analytics
 service for the RTB (real time bidding) space. Ingesting over 30 billion events
@@ -47,30 +47,34 @@ experiences and to guide the evolution of its product.
 
 ## Paypal
 
-Around early Feb, 2014, the Paypal Tracking Platform team, lead by Suresh Kumar, stumbled upon an article talking about a new 
-upcoming kid in Real Time Analytics world. After first glance it seemed just like any other
-new cool looking technology. But after reading little deeper into the papers(they had 
-referred) and few blogs, it was clear it is different. The fundamental approach to query 
-the data itself looked very different and refreshing. 
+The Druid production deployment at PayPal processes a very large volume of data
+and is used for internal exploratory analytics by business analytic teams. Here
+is what they have to say:
 
-Coincidently, at the same time, the team was struggling to create a very high volume real-time data 
-query system. We had already explored Drill, Hive, Cassandra, TSDB, Shark etc.
-Dating back at least a year, none of these technologies were fulfilling our low latency needs for very high 
-volumes of data.
-
-So, as an option we started the Druid prototype and within couple of weeks it was looking like 
-a very promising alternate. Very soon with great help from Core Druid development team
-our prototype was doing great.
-
-We then started the prototype with large 7-10 billion records and see the response time for 
-query. It was quite amazing.
-
-Today our Druid implementation in PayPal processes a very large volume of Data and is 
-used for our internal exploratory analytics by business analytic teams.
-
-The thing we liked the most was amazing support provided by core Druid team. I have never 
-seen a Open Source Community providing such a very high level of responsiveness for ANY 
-issue related to Druid setup and tuning.
+> Around early Feb, 2014, the Paypal Tracking Platform team, lead by Suresh Kumar, stumbled upon an article talking about a new
+> upcoming kid in Real Time Analytics world. After first glance it seemed just like any other
+> new cool looking technology. But after reading little deeper into the papers(they had
+> referred) and few blogs, it was clear it is different. The fundamental approach to query
+> the data itself looked very different and refreshing.
+>
+> Coincidently, at the same time, the team was struggling to create a very high volume real-time data
+> query system. We had already explored Drill, Hive, Cassandra, TSDB, Shark etc.
+> Dating back at least a year, none of these technologies were fulfilling our low latency needs for very high
+> volumes of data.
+>
+> So, as an option we started the Druid prototype and within couple of weeks it was looking like
+> a very promising alternate. Very soon with great help from Core Druid development team
+> our prototype was doing great.
+>
+> We then started the prototype with large 7-10 billion records and see the response time for
+> query. It was quite amazing.
+>
+> Today our Druid implementation in PayPal processes a very large volume of Data and is
+> used for our internal exploratory analytics by business analytic teams.
+>
+> The thing we liked the most was amazing support provided by core Druid team. I have never
+> seen a Open Source Community providing such a very high level of responsiveness for ANY
+> issue related to Druid setup and tuning.
 
 ## Streamlyzer
 
@@ -78,11 +82,11 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 ## YeahMobi
 
-YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues. 
+YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
 
 ## ViralGains
 
-ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations. 
+ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
 
 
 <hr/>
