@@ -4,7 +4,7 @@ subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/master/dr
 layout: simple_page
 ---
 
-There are 10+ companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
+There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
 ## Archive-It.org
 
@@ -44,6 +44,33 @@ activity and content flow.
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
 entertainment network. It uses Druid analytics both to optimize user
 experiences and to guide the evolution of its product.
+
+## Paypal
+
+Around early Feb, 2014, the Paypal Tracking Platform team, lead by Suresh Kumar, stumbled upon an article talking about a new 
+upcoming kid in Real Time Analytics world. After first glance it seemed just like any other
+new cool looking technology. But after reading little deeper into the papers(they had 
+referred) and few blogs, it was clear it is different. The fundamental approach to query 
+the data itself looked very different and refreshing. 
+
+Coincidently, at the same time, the team was struggling to create a very high volume real-time data 
+query system. We had already explored Drill, Hive, Cassandra, TSDB, Shark etc.
+Dating back at least a year, none of these technologies were fulfilling our low latency needs for very high 
+volumes of data.
+
+So, as an option we started the Druid prototype and within couple of weeks it was looking like 
+a very promising alternate. Very soon with great help from Core Druid development team
+our prototype was doing great.
+
+We then started the prototype with large 7-10 billion records and see the response time for 
+query. It was quite amazing.
+
+Today our Druid implementation in PayPal processes a very large volume of Data and is 
+used for our internal exploratory analytics by business analytic teams.
+
+The thing we liked the most was amazing support provided by core Druid team. I have never 
+seen a Open Source Community providing such a very high level of responsiveness for ANY 
+issue related to Druid setup and tuning.
 
 ## Streamlyzer
 
