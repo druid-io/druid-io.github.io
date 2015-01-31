@@ -7,9 +7,9 @@ permalink: /blog/:year/:month/:day/:title.html
 markdown: redcarpet
 
 redcarpet:
-  extensions: ["tables", "no_intra_emphasis", "fenced_code_blocks"] 
+  extensions: ["tables", "no_intra_emphasis", "fenced_code_blocks", "with_toc_data"]
 
-pygments: true
+highlighter: pygments
 
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
