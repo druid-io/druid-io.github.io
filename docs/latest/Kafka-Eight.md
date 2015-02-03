@@ -8,14 +8,13 @@ The previous examples are for Kafka 7. To support Kafka 8, a couple changes need
 
 - Update realtime node's configs for Kafka 8 extensions
   - e.g.
-    - `druid.extensions.coordinates=[...,"io.druid.extensions:druid-kafka-seven:0.6.171",...]`
+    - `druid.extensions.coordinates=[...,"io.druid.extensions:druid-kafka-seven",...]`
     - becomes
-    - `druid.extensions.coordinates=[...,"io.druid.extensions:druid-kafka-eight:0.6.171",...]`
+    - `druid.extensions.coordinates=[...,"io.druid.extensions:druid-kafka-eight",...]`
 - Update realtime task config for changed keys
   - `firehose.type`, `plumber.rejectionPolicyFactory`, and all of `firehose.consumerProps` changes.
 
 ```json
-
     "firehose" : {
         "type" : "kafka-0.8",
         "consumerProps" : {
@@ -28,27 +27,9 @@ The previous examples are for Kafka 7. To support Kafka 8, a couple changes need
             "auto.offset.reset": "largest",
             "auto.commit.enable": "false"
         },
-        "feed" : "druidtest",
-        "parser" : {
-            "timestampSpec" : {
-                "column" : "utcdt",
-                "format" : "iso"
-            },
-            "data" : {
-                "format" : "json"
-            },
-            "dimensionExclusions" : [
-                "wp"
-            ]
-        }
+        "feed" : "druidtest"
     },
     "plumber" : {
-        "type" : "realtime",
-        "windowPeriod" : "PT10m",
-        "segmentGranularity":"hour",
-        "basePersistDirectory" : "/tmp/realtime/basePersist",
-        "rejectionPolicyFactory": {
-            "type": "messageTime"
-        }
+        "type" : "realtime"
     }
 ```
