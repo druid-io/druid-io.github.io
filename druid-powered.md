@@ -32,18 +32,18 @@ service for the RTB (real time bidding) space. Ingesting over 30 billion events
 per day, Metamarkets is able to provide insight to its customers using complex
 ad-hoc queries at a 95th percentile query time of around 1 second.
 
+## N3twork
+
+N3TWORK uses Druid for real-time analysis of its Internet of Interests social
+entertainment network. It uses Druid analytics both to optimize user
+experiences and to guide the evolution of its product.
+
 ## Netflix
 
 Netflix engineers use Druid to aggregate multiple data streams, ingesting up to
 two terabytes per hour, with the ability to query data as its being ingested.
 They use Druid to pinpoint anomalies within their infrastructure, endpoint
 activity and content flow.
-
-## N3twork
-
-N3TWORK uses Druid for real-time analysis of its Internet of Interests social
-entertainment network. It uses Druid analytics both to optimize user
-experiences and to guide the evolution of its product.
 
 ## Paypal
 
@@ -80,14 +80,13 @@ is what they have to say:
 
 Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
 
-## YeahMobi
-
-YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
-
 ## ViralGains
 
 ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
 
+## YeahMobi
+
+YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
 
 <hr/>
 
