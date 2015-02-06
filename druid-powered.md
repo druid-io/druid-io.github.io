@@ -14,6 +14,10 @@ Druid is used to power dynamic analytics and charting in Archive-It Reports. Rep
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
 
+## eBay
+
+eBay uses Druid to aggregate multiple data streams for real-time user behavior analytics by ingesting up at a very high rate(over 100,000 events/sec), with the ability to query or aggregate data by any random combination of dimensions, and support over 100 concurrent queries without impacting ingest rate and query latencies.
+
 ## Jolata
 
 Jolata leverages Druid as the analytics data store for the realtime network perfomance managment platform. Injesting over 35 billion events per day, Jolata calculates a billion metrics every minute to visualize precise network metrics in real-time, and enable operators to quickly drill down and perform root cause analysis.
