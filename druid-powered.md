@@ -28,7 +28,7 @@ LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in 
 
 ## LiquidM
 
-LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at [http://github.com/liquidm/ruby-druid]().
+LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at <http://github.com/liquidm/ruby-druid>.
 
 ## Metamarkets
 Druid is the primary data store for Metamarkets’ full stack visual analytics
