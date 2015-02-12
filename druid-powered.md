@@ -86,6 +86,8 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 ## Time Warner Cable
 
+TWC uses Druid for exploratory analytics.
+
 ## ViralGains
 
 ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
