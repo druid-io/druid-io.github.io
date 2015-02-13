@@ -17,7 +17,7 @@ io.druid.cli.Main server router
 Example Production Configuration
 --------------------------------
 
-In this example, we have two tiers in our production cluster: `hot` and `_default_tier`. Queries for the `hot` tier are routed through the `broker-hot` set of brokers, and queries for the `_default_tier` are routed through the `broker-cold` set of brokers. If any exceptions or network problems occur, queries are routed to the `broker-cold` set of brokers. In our example, we are running with a c3.2xlarge EC2 node. 
+In this example, we have two tiers in our production cluster: `hot` and `_default_tier`. Queries for the `hot` tier are routed through the `broker-hot` set of brokers, and queries for the `_default_tier` are routed through the `broker-cold` set of brokers. If any exceptions or network problems occur, queries are routed to the `broker-cold` set of brokers. In our example, we are running with a c3.2xlarge EC2 node. We assume a `common.runtime.properties` already exists.
 
 JVM settings:
 
@@ -49,15 +49,6 @@ druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/router
 
-druid.extensions.remoteRepositories=[]
-druid.extensions.localRepository=lib
-druid.extensions.coordinates=["io.druid.extensions:druid-histogram:0.6.171"]
-
-druid.zk.service.host=#{ZK_IPs}
-druid.zk.paths.base=/druid/prod
-
-druid.discovery.curator.path=/prod/discovery
-
 druid.processing.numThreads=1
 druid.router.defaultBrokerServiceName=druid:prod:broker-cold
 druid.router.coordinatorServiceName=druid:prod:coordinator
@@ -66,16 +57,6 @@ druid.router.http.numConnections=50
 druid.router.http.readTimeout=PT5M
 
 druid.server.http.numThreads=100
-
-druid.request.logging.type=emitter
-druid.request.logging.feed=druid_requests
-
-druid.monitoring.monitors=["com.metamx.metrics.SysMonitor","com.metamx.metrics.JvmMonitor"]
-
-druid.emitter=http
-druid.emitter.http.recipientBaseUrl=#{URL}
-
-druid.curator.compress=true
 ```
 
 Runtime Configuration
@@ -131,3 +112,30 @@ Allows defining arbitrary routing rules using a JavaScript function. The functio
   "function" : "function (config, query) { if (query.getAggregatorSpecs && query.getAggregatorSpecs().size() >= 3) { var size = config.getTierToBrokerMap().values().size(); if (size > 0) { return config.getTierToBrokerMap().values().toArray()[size-1] } else { return config.getDefaultBrokerServiceName() } } else { return null } }"
 }
 ```
+
+HTTP Endpoints
+--------------
+
+The router node exposes several HTTP endpoints for interactions.
+
+### GET
+
+* `/status`
+
+Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.
+
+* `/druid/v2/datasources`
+
+Returns a list of queryable datasources.
+
+* `/druid/v2/datasources/{dataSourceName}`
+
+Returns the dimensions and metrics of the datasource.
+
+* `/druid/v2/datasources/{dataSourceName}/dimensions`
+
+Returns the dimensions of the datasource.
+
+* `/druid/v2/datasources/{dataSourceName}/metrics`
+
+Returns the metrics of the datasource.
