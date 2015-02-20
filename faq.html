@@ -15,10 +15,6 @@ layout: html_page
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <h2 id='why'>Why did Metamarkets Open Source Druid?</h2>
-
-      <p>Originally built by Metamarkets as a component of its analytics service as a platform to provide immediate insight against live data feeds for the <a href='http://metamarkets.com/product/'>on-line advertising space</a>, we realized Druid itself was broadly applicable for real-time and n-dimensional drill down use cases. Presenting Druid to the community helps evolve Druid as a horizontal platform, and over time, helps Metamarkets understand requirements from adjacent verticals.</p>
-
       <h2 id='memory'>Is Druid in-memory?</h2>
       
       <p>Given that it is impossible to process data with a modern processor without first loading the data into memory, yes, it is in-memory. The earliest iterations of Druid didn&#8217;t allow for data to be paged in from and out to disk, so we often called it an &#8220;in-memory&#8221; system. However, we very quickly realized that RAM hasn&#8217;t become cheap enough to actually store all data in RAM and sell a product at a price-point that customers are willing to pay. Since the Summer of 2011, we have leveraged memory-mapping to allow us to page data between disk and memory and extend the amount of data a single node can load up to the size of its disks.</p>
