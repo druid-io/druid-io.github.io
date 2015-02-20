@@ -2,7 +2,7 @@
 title: Towards a Community Led Druid
 published: true
 layout: post
-author: Fangjin Yang
+author: Fangjin Yang, Xavier Léauté, and Eric Tschetter
 tags: "#druidio #analytics #olap #license #strata"
 ---
 
