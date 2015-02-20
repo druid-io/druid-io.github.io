@@ -22,6 +22,7 @@ Metamarkets is the copyright holder for Druid.
 ## Does Druid use or embed any other open source software?
 
 Druid uses 
+
 - Hadoop
 - Kafka
 - MySQL
