@@ -23,7 +23,7 @@ layout: html_page
 
       <h2 id='no-sql'>Is Druid a NoSql database?</h2>
 
-      <p>No. Druid&#8217;s write support is very limited, so it is best not thought of as a database of any kind. Similar to other NoSQL stores, the query interface is not SQL and it is fault-tolerant with hands-off scaling operations, but NoSQL stores are generally extensions of a key-value store and Druid is a horrible key-value store.</p>
+      <p>No. Druid&#8217;s editing and deleting capabilities are very limited, so it is best not thought of as a database of any kind. Similar to other NoSQL stores, the query interface is not SQL and it is fault-tolerant with hands-off scaling operations, but NoSQL stores are generally extensions of a key-value store and Druid is a horrible key-value store.</p>
 
       <p>In general, we prefer to not try to group Druid into the cluster of NoSQL stores because it is used to solve a different problem than NoSQL stores generally do. NoSQL stores are generally not good at doing what Druid does and vice versa.</p>
 
@@ -81,21 +81,21 @@ layout: html_page
       <p>No, Zookeeper can be deployed to withstand a configurable number of individual node failures. Also, if ZooKeeper goes down, the cluster will continue to operate.</p>
       <p>Losing ZooKeeper does, however, mean that the cluster cannot add new data segments, nor can it effectively react to the lose of one of the nodes. So, while it is safe to lose access to ZooKeeper, it is definitely a degraded state.</p>
 
-      <h2 id='master'>Isn&#8217;t the Master a single point of failure?</h2>
-      <p>No, the &#8220;Master&#8221; or &#8220;Coordinator&#8221; node is merely a coordinator. It is <strong><em>not</em></strong> involved in the query path. Losing all coordinators means that new segments will not be loaded by the Historical nodes, i.e. no new data will enter the cluster. Also, segment balancing decisions will not be made, so it stops the cluster from being able to effectively scale up and down. Just like ZooKeeper, losing the coordinators puts the cluster in a degraded state, but it will keep operating just fine.</p>
+      <h2 id='master'>Isn&#8217;t the Coordinator a single point of failure?</h2>
+      <p>No, the &#8220;Coordinator&#8221; node is merely for coordination. It is <strong><em>not</em></strong> involved in the query path. Losing all coordinators means that new segments will not be loaded by the Historical nodes, i.e. no new data will enter the cluster. Also, segment balancing decisions will not be made, so it stops the cluster from being able to effectively scale up and down. Just like ZooKeeper, losing the coordinators puts the cluster in a degraded state, but it will keep operating just fine.</p>
       <p>Also, there can be multiple coordinator nodes deployed. Extra coordinators will act as &#8220;hot spares&#8221; in case the active coordinator is lost.</p>
 
-      <h2 id='mas-queries'>Do all queries go through the master?</h2>
-      <p>Queries <strong><em>never</em></strong> touch the master. Ever.</p>
+      <h2 id='mas-queries'>Do all queries go through the coordinator?</h2>
+      <p>Queries <strong><em>never</em></strong> touch the coordinator. Ever.</p>
 
-      <h2 id='mas-dies'>Can I query Druid even after the master dies?</h2>
-      <p>Yes, the Master has no impact on queries.</p>
+      <h2 id='mas-dies'>Can I query Druid even after the coordinator dies?</h2>
+      <p>Yes, the coordinator has no impact on queries.</p>
 
       <h2 id='update'>How do I update data?</h2>
       <p>Updating data means that you have to re-generate the segments for the time period that you need to update. This can be done by reindexing the data for that time period. Once the indexer finishes, the Druid cluster will swap the new segment in and stop serving the old segment.</p>
 
-      <h2 id='ind-serv'>What is the IndexingService, do I need that?</h2>
-      <p>The IndexingService is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
+      <h2 id='ind-serv'>What is the Indexing Service, do I need that?</h2>
+      <p>The Indexing Service is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
       <p>It is not a requirement yet, but will become one as time goes on.</p>
       <p>More information can be found in the docs:</p>
       <p><a href="/docs/{{site.druid_version}}/Indexing-Service.html">Indexing Service</a></p>
