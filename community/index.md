@@ -19,7 +19,7 @@ work with engineers everywhere on everything from fixes, new connectors, and
 core projects.
 
 Of course, there are more ways to contribute than writing code; feature
-suggestions, reporting bugs, [documentation](/documentation.html) and
+suggestions, reporting bugs, [documentation](/docs/{{ site.druid_version }}/) and
 usability feedback all matter immensely. If you have any questions or
 concerns around contributions, please direct them at the [google
 group](https://groups.google.com/d/forum/druid-development).
