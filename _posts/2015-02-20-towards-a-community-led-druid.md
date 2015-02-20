@@ -10,8 +10,8 @@ We are very happy to announce that Druid has changed its license to Apache 2.0.
 We believe this is a change the community will welcome. As engineers, we love
 to see the things we make get used and attempt to provide value to the broader
 open source world that we have benefitted from for so long. By switching to the
-Apache license, we believe this will better promote the growth of the Druid
-community.  By switching to Apache 2.0 we are sending a clear message that we
+Apache license, we believe this change will better promote the growth of the Druid
+community.  We hope to send a clear message that we
 are all equal participants in the Druid community, a sentiment that is very
 important to us.
 
