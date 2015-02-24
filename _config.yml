@@ -17,11 +17,11 @@ gems:
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_version: 0.6.171
+druid_version: 0.6.172
 
 druid_rc_version: 0.7.0-rc3
-druid_stable_version: 0.6.171
-druid_latest_version: 0.6.171
+druid_stable_version: 0.6.172
+druid_latest_version: 0.6.172
 
 prose:
   metadata:
