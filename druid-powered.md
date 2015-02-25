@@ -92,6 +92,10 @@ TWC uses Druid for exploratory analytics.
 
 ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
 
+## Yahoo!
+
+Yahoo uses Druid to power various customer-facing audience and advertising analytics products.
+
 ## YeahMobi
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
