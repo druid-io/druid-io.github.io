@@ -124,7 +124,8 @@
   /* border-color: #fff; */
 }
 
-.btn-outline-inverse:hover {
+.btn-outline-inverse:hover,
+.btn-outline-inverse:focus {
   background-color: #fff;
 }
 
@@ -159,7 +160,7 @@ a {
   color: #2576CC;
 }
 
-a:hover {
+a:hover, a:focus {
   /* color: #1a5491; */
   color: #b1bac6;
   text-decoration: none;
