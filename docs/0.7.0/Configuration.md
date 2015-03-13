@@ -8,11 +8,12 @@ This describes the common configuration shared by all Druid nodes. These configu
 
 ## JVM Configuration Best Practices
 
-There are three JVM parameters that we set on all of our processes:
+There are four JVM parameters that we set on all of our processes:
 
 1.  `-Duser.timezone=UTC` This sets the default timezone of the JVM to UTC. We always set this and do not test with other default timezones, so local timezones might work, but they also might uncover weird and interesting bugs.
 2.  `-Dfile.encoding=UTF-8` This is similar to timezone, we test assuming UTF-8. Local encodings might work, but they also might result in weird and interesting bugs.
 3.  `-Djava.io.tmpdir=<a path>` Various parts of the system that interact with the file system do it via temporary files, and these files can get somewhat large. Many production systems are set up to have small (but fast) `/tmp` directories, which can be problematic with Druid so we recommend pointing the JVM’s tmp directory to something with a little more meat.
+4.  `-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager` This allows log4j2 to handle logs for non-log4j2 components (like jetty) which use standard java logging.
 
 ### Extensions
 
@@ -32,7 +33,44 @@ We recommend just setting the base ZK path and the ZK service host, but all ZK p
 |`druid.zk.paths.base`|Base Zookeeper path.|`/druid`|
 |`druid.zk.service.host`|The ZooKeeper hosts to connect to. This is a REQUIRED property and therefore a host address must be supplied.|none|
 
-See the [Zookeeper](ZooKeeper.html) page for more information on configuration options for ZK integration.
+#### Zookeeper Behavior
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.zk.service.sessionTimeoutMs`|ZooKeeper session timeout, in milliseconds.|`30000`|
+|`druid.curator.compress`|Boolean flag for whether or not created Znodes should be compressed.|`true`|
+
+#### Path Configuration
+Druid interacts with ZK through a set of standard path configurations. We recommend just setting the base ZK path, but all ZK paths that Druid uses can be overwritten to absolute paths.
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.zk.paths.base`|Base Zookeeper path.|`/druid`|
+|`druid.zk.paths.propertiesPath`|Zookeeper properties path.|`${druid.zk.paths.base}/properties`|
+|`druid.zk.paths.announcementsPath`|Druid node announcement path.|`${druid.zk.paths.base}/announcements`|
+|`druid.zk.paths.liveSegmentsPath`|Current path for where Druid nodes announce their segments.|`${druid.zk.paths.base}/segments`|
+|`druid.zk.paths.loadQueuePath`|Entries here cause historical nodes to load and drop segments.|`${druid.zk.paths.base}/loadQueue`|
+|`druid.zk.paths.coordinatorPath`|Used by the coordinator for leader election.|`${druid.zk.paths.base}/coordinator`|
+|`druid.zk.paths.servedSegmentsPath`|@Deprecated. Legacy path for where Druid nodes announce their segments.|`${druid.zk.paths.base}/servedSegments`|
+
+The indexing service also uses its own set of paths. These configs can be included in the common configuration.
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.zk.paths.indexer.base`|Base zookeeper path for |`${druid.zk.paths.base}/indexer`|
+|`druid.zk.paths.indexer.announcementsPath`|Middle managers announce themselves here.|`${druid.zk.paths.indexer.base}/announcements`|
+|`druid.zk.paths.indexer.tasksPath`|Used to assign tasks to middle managers.|`${druid.zk.paths.indexer.base}/tasks`|
+|`druid.zk.paths.indexer.statusPath`|Parent path for announcement of task statuses.|`${druid.zk.paths.indexer.base}/status`|
+|`druid.zk.paths.indexer.leaderLatchPath`|Used for Overlord leader election.|`${druid.zk.paths.indexer.base}/leaderLatchPath`|
+
+If `druid.zk.paths.base` and `druid.zk.paths.indexer.base` are both set, and none of the other `druid.zk.paths.*` or `druid.zk.paths.indexer.*` values are set, then the other properties will be evaluated relative to their respective `base`.
+For example, if `druid.zk.paths.base` is set to `/druid1` and `druid.zk.paths.indexer.base` is set to `/druid2` then `druid.zk.paths.announcementsPath` will default to `/druid1/announcements` while `druid.zk.paths.indexer.announcementsPath` will default to `/druid2/announcements`.
+
+The following path is used service discovery and are **not** affected by `druid.zk.paths.base` and **must** be specified separately.
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.discovery.curator.path`|Services announce themselves under this ZooKeeper path.|`/druid/discovery`|
 
 ### Request Logging
 
@@ -65,21 +103,17 @@ Druid nodes periodically emit metrics and different metrics monitors can be incl
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.monitoring.emissionPeriod`|How often metrics are emitted.|PT1m|
-|`druid.monitoring.monitors`|Sets list of Druid monitors used by a node. Each monitor is specified as `com.metamx.metrics.<monitor-name>` (see below for names and more information). For example, you can specify monitors for a Broker with `druid.monitoring.monitors=["com.metamx.metrics.SysMonitor","com.metamx.metrics.JvmMonitor"]`.|none (no monitors)|
+|`druid.monitoring.monitors`|Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with `druid.monitoring.monitors=["com.metamx.metrics.SysMonitor","com.metamx.metrics.JvmMonitor"]`.|none (no monitors)|
 
 The following monitors are available:
 
-* CacheMonitor &ndash; Emits metrics (to logs) about the segment results cache
-  for Historical and Broker nodes. Reports typical cache statistics include
-  hits, misses, rates, and size (bytes and number of entries), as well as
-  timeouts and and errors.
-* SysMonitor &ndash; This uses the [SIGAR library](http://www.hyperic.com/products/sigar)
-  to report on various system activities and statuses. Make sure to add the
-  [sigar library jar](https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132.jar)
-  to your classpath if using this monitor.
-* ServerMonitor &ndash; Reports statistics on Historical nodes.
-* JvmMonitor &ndash; Reports JVM-related statistics.
-* RealtimeMetricsMonitor &ndash; Reports statistics on Realtime nodes.
+|Name|Description|
+|----|-----------|
+|`io.druid.client.cache.CacheMonitor`|Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and and errors.|
+|`com.metamx.metrics.SysMonitor`|This uses the [SIGAR library](http://www.hyperic.com/products/sigar) to report on various system activities and statuses. Make sure to add the [sigar library jar](https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132.jar) to your classpath if using this monitor.|
+|`io.druid.server.metrics.ServerMonitor`|Reports statistics on Historical nodes.|
+|`com.metamx.metrics.JvmMonitor`|Reports JVM-related statistics.|
+|`io.druid.segment.realtime.RealtimeMetricsMonitor`|Reports statistics on Realtime nodes.|
 
 ### Emitting Metrics
 
@@ -87,7 +121,7 @@ The Druid servers emit various metrics and alerts via something we call an Emitt
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`druid.emitter`|Setting this value to "noop", "logging", or "http" will instantialize one of the emitter modules.|logging|
+|`druid.emitter`|Setting this value to "noop", "logging", or "http" will instantialize one of the emitter modules.|noop|
 
 #### Logging Emitter Module
 

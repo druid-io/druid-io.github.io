@@ -43,11 +43,17 @@ Metrics (things to aggregate over):
 Setting Up
 ----------
 
-There are two ways to setup Druid: download a tarball, or [Build From Source](Build-from-source.html). You only need to do one of these.
+To start, we need to get our hands on a Druid build. There are two ways to get Druid: download a tarball, or [Build From Source](Build-from-source.html). You only need to do one of these.
 
 ### Download a Tarball
 
 We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-0.7.0-bin.tar.gz). Download this file to a directory of your choosing.
+
+### Build From Source
+
+Follow the [Build From Source](Build-from-source.html) guide to build from source. Then grab the tarball from services/target/druid-0.7.0-bin.tar.gz.
+
+### Unpack the Tarball
 
 You can extract the content within by issuing:
 
@@ -67,16 +73,36 @@ You should see a bunch of files:
 * run_example_client.sh
 * LICENSE, config, examples, lib directories
 
+
+## External Dependencies
+
+Druid requires 3 external dependencies. A "deep storage" that acts as a backup data repository, a "metadata storage" such as MySQL to hold configuration and metadata information, and [Apache Zookeeper](http://zookeeper.apache.org/) for coordination among different pieces of the cluster. For this tutorial, we only need the zookeeper dependency.
+
+#### Set up Zookeeper
+
+```bash
+Download zookeeper from [http://www.apache.org/dyn/closer.cgi/zookeeper/](http://www.apache.org/dyn/closer.cgi/zookeeper/)
+Install zookeeper.
+
+e.g.
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+tar xzf zookeeper-3.4.6.tar.gz
+cd zookeeper-3.4.6
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
+cd ..
+```
+
 Running Example Scripts
 -----------------------
 
-Let's start doing stuff. You can start a Druid [Realtime](Realtime.html) node by issuing:
+Let's start doing stuff. You can start an example Druid [Realtime](Realtime.html) node by issuing:
 
 ```
 ./run_example_server.sh
 ```
 
-Select "wikipedia".
+Select "2" for the "wikipedia" example.
 
 Note that the first time you start the example, it may take some extra time due to its fetching various dependencies. Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.
 
@@ -168,7 +194,7 @@ If you issue the query again, you should notice your results updating.
 
 Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis?
 
-We can change granularity our the results to minute. To specify different granularities to bucket our results, we change our query like so:
+We can change granularity for the results to "minute". To specify different granularities to bucket our results, we change our query like so:
 
 ```json
 {
@@ -256,7 +282,7 @@ You should see an answer to our question. As an example, some results are shown 
 ]
 ```
 
-Feel free to tweak other query parameters to answer other questions you may have about the data. Druid also includes more complex query types such as [groupBy queries](GroupByQuery.html).
+Feel free to tweak other query parameters to answer other questions you may have about the data. Druid also includes more complex query types such as [groupBy queries](GroupByQuery.html). For more information on querying, see this [link](Querying.html).
 
 Next Steps
 ----------
@@ -272,4 +298,4 @@ Additional Information
 
 This tutorial is merely showcasing a small fraction of what Druid can do. If you are interested in more information about Druid, including setting up a more sophisticated Druid cluster, read more of the Druid documentation and blogs found on druid.io.
 
-Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our [google groups page](https://groups.google.com/forum/#!forum/druid-development).
+Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our [google groups page](https://groups.google.com/forum/#!forum/druid-user).
