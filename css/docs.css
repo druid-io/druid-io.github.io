@@ -47,7 +47,9 @@
 }
 
 .doc-content table > tbody > tr:hover > td,
-.doc-content table > tbody > tr:hover > th {
+.doc-content table > tbody > tr:hover > th,
+.doc-content table > tbody > tr:focus > td,
+.doc-content table > tbody > tr:focus > th {
    background-color: #d5d5d5;
 }
 

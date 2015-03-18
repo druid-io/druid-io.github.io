@@ -11,7 +11,8 @@
   color: #575B61;
 }
 
-.blog-listing h2 a:hover {
+.blog-listing h2 a:hover,
+.blog-listing h2 a:focus {
   color: #b1bac6;
   text-decoration: none;
 }
@@ -26,7 +27,8 @@
   color: #2576CC;
 }
 
-.blog-listing .btn-default:hover {
+.blog-listing .btn-default:hover,
+.blog-listing .btn-default:focus {
   /* background-color: #b1b1ac; */
   background-color: #2C90FB;
   background-color: #2576CC;
