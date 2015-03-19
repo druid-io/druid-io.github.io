@@ -19,7 +19,7 @@ description: 'Real²time Exploratory Analytics on Large Datasets'
 
 druid_version: 0.7.0
 
-druid_rc_version:
+druid_rc_version: 0.7.1-rc1
 druid_stable_version: 0.7.0
 druid_latest_version: 0.7.0
 
