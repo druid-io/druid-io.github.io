@@ -63,16 +63,15 @@ Druid is partially inspired existing analytic data stores such as Google's
 [BigQuery/Dremel](http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf),
 Google's
 [PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf), and
-search infrastructure. Druid creates (indexes) mostly immutable views of data
+search infrastructure. Druid creates mostly immutable views of data
 and stores the data in data structures highly optimized for aggregations and
 filters. A Druid cluster is composed of various types of nodes, each designed
 to do a small set of things very well.
 
-
 ## Druid vs Other Systems
 
 The data infrastructure space has many options for different problems. Each
-system is catered to solve certain problems very well. Below, we describe how
+system is catered for a particular set of use cases. Below, we describe how
 Druid compares to some common systems:
 
 - [Druid vs Hive/Impala/Shark/Presto](/docs/latest/Druid-vs-Impala-or-Shark.html)
