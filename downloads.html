@@ -14,7 +14,7 @@ layout: html_page
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/Versioning.html">Versioning</a> section for how we describe software versions. If you are starting a new project, we recommend that you start with the latest {% if site.druid_rc_version != null && site.druid_rc_version.length != 0 %} release candidate {{site.druid_rc_version}}. {% else %} stable {{site.druid_stable_version}}. {% endif %}</p>
+      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/Versioning.html">Versioning</a> section for how we describe software versions. If you are starting a new project, we recommend that you start with the latest stable {{site.druid_stable_version}}.</p>
 
       <h4>Release Candidate</h4>
       {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
