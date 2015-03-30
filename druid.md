@@ -59,7 +59,7 @@ good fit if you have the following requirements:
 
 ## Architecture Overview
 
-Druid is partially inspired existing analytic data stores such as Google's
+Druid is partially inspired by existing analytic data stores such as Google's
 [BigQuery/Dremel](http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf),
 Google's
 [PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf), and
@@ -70,8 +70,8 @@ to do a small set of things very well.
 
 ## Druid vs Other Systems
 
-The data infrastructure space has many options for different problems. Each
-system is catered for a particular set of use cases. Below, we describe how
+The data infrastructure space has many different options for various problems.
+Below, we describe how
 Druid compares to some common systems:
 
 - [Druid vs Hive/Impala/Shark/Presto](/docs/latest/Druid-vs-Impala-or-Shark.html)
@@ -83,6 +83,5 @@ Druid compares to some common systems:
 - [Druid vs Elasticsearch](/docs/latest/Druid-vs-Elasticsearch.html)
 
 The data infrastructure world is vast, confusing and constantly in flux. This
-page is meant to help potential evaluators decide whether Druid is a good fit
-for the problem one needs to solve. If you see anything incorrect in here,
-[please let us know](/community/).
+page is meant to help potential evaluators decide if Druid is right for them.
+If you see anything incorrect in here, [please let us know](/community/).
