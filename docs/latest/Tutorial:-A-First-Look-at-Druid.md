@@ -47,7 +47,7 @@ To start, we need to get our hands on a Druid build. There are two ways to get D
 
 ### Download a Tarball
 
-We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-0.7.1-rc1-bin.tar.gz). Download this file to a directory of your choosing.
+We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-0.7.1-bin.tar.gz). Download this file to a directory of your choosing.
 
 ### Build From Source
 
