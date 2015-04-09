@@ -92,6 +92,7 @@ JVM Configuration:
 -XX:+PrintGCTimeStamps
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
+-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 -Djava.io.tmpdir=/mnt/tmp
 ```
 
@@ -147,6 +148,7 @@ JVM Configuration:
 -XX:+PrintGCTimeStamps
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
+-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 -Djava.io.tmpdir=/mnt/tmp
 ```
 
@@ -210,6 +212,7 @@ JVM Configuration:
 -XX:+PrintGCTimeStamps
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
+-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 -Djava.io.tmpdir=/mnt/tmp
 ```
 
@@ -249,6 +252,7 @@ JVM Configuration:
 -XX:+PrintGCTimeStamps
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
+-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 -Djava.io.tmpdir=/mnt/tmp
 ```
 
@@ -301,6 +305,7 @@ JVM Configuration:
 -XX:+PrintGCTimeStamps
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
+-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 -Djava.io.tmpdir=/mnt/tmp
 
 -Dcom.sun.management.jmxremote.port=17071
@@ -318,7 +323,7 @@ druid.service=druid/prod/broker
 druid.broker.http.numConnections=20
 druid.broker.http.readTimeout=PT5M
 
-druid.processing.buffer.sizeBytes=2147483648
+druid.processing.buffer.sizeBytes=2147483647
 druid.processing.numThreads=31
 
 druid.server.http.numThreads=50
