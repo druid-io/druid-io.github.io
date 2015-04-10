@@ -75,8 +75,8 @@ Below, we describe how
 Druid compares to some common systems:
 
 - [Druid vs Hive/Impala/Shark/Presto](/docs/latest/Druid-vs-Impala-or-Shark.html)
-- [Druid vs Redshift](/docs/latest/Druid-vs-Redshift.html)
-- [Druid vs Vertica](/docs/latest/Druid-vs-Vertica.html)
+- [Druid vs Redshift](/docs/latest/Druid-vs-redshift.html)
+- [Druid vs Vertica](/docs/latest/Druid-vs-vertica.html)
 - [Druid vs Cassandra](/docs/latest/Druid-vs-Cassandra.html)
 - [Druid vs Hadoop](/docs/latest/Druid-vs-Hadoop.html)
 - [Druid vs Spark](/docs/latest/Druid-vs-Spark.html)
