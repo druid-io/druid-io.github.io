@@ -65,7 +65,7 @@ Extensions are added to the system via an implementation of `io.druid.initializa
 
 ### Creating a Druid Module
 
-The DruidModule class is has two methods
+The DruidModule class has two methods
 
 1. A `configure(Binder)` method 
 2. A `getJacksonModules()` method
