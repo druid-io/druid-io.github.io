@@ -94,7 +94,7 @@ The `parser` entry for the `dataSchema` should be changed to describe the csv fo
             "column" : "timestamp"
           },
           "columns" : ["timestamp","page","language","user","unpatrolled","newPage","robot","anonymous","namespace","continent","country","region","city"],
-          "type" : "csv",
+          "format" : "csv",
           "dimensionsSpec" : {
             "dimensions" : ["page","language","user","unpatrolled","newPage","robot","anonymous","namespace","continent","country","region","city"]
           }
@@ -122,7 +122,7 @@ The `parser` entry for the `dataSchema` should be changed to describe the tsv fo
             "column" : "timestamp"
           },
           "columns" : ["timestamp","page","language","user","unpatrolled","newPage","robot","anonymous","namespace","continent","country","region","city"],
-          "type" : "tsv",
+          "format" : "tsv",
           "delimiter":"|",
           "dimensionsSpec" : {
             "dimensions" : ["page","language","user","unpatrolled","newPage","robot","anonymous","namespace","continent","country","region","city"]
