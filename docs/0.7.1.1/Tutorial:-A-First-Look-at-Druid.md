@@ -100,7 +100,7 @@ Let's start doing stuff. You can start an example Druid [Realtime](Realtime.html
 ./run_example_server.sh
 ```
 
-Select "2" for the "wikipedia" example.
+Select "1" for the "wikipedia" example.
 
 Note that the first time you start the example, it may take some extra time due to its fetching various dependencies. Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.
 
