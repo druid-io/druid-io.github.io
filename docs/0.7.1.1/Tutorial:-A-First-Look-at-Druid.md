@@ -79,12 +79,10 @@ You should see a bunch of files:
 Druid requires 3 external dependencies. A "deep storage" that acts as a backup data repository, a "metadata storage" such as MySQL to hold configuration and metadata information, and [Apache Zookeeper](http://zookeeper.apache.org/) for coordination among different pieces of the cluster. For this tutorial, we only need the zookeeper dependency.
 
 #### Set up Zookeeper
-
+* Download zookeeper from [http://www.apache.org/dyn/closer.cgi/zookeeper/](http://www.apache.org/dyn/closer.cgi/zookeeper/)
+* Install zookeeper.
 ```bash
-Download zookeeper from [http://www.apache.org/dyn/closer.cgi/zookeeper/](http://www.apache.org/dyn/closer.cgi/zookeeper/)
-Install zookeeper.
 
-e.g.
 curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
 tar xzf zookeeper-3.4.6.tar.gz
 cd zookeeper-3.4.6
@@ -102,7 +100,7 @@ Let's start doing stuff. You can start an example Druid [Realtime](Realtime.html
 ./run_example_server.sh
 ```
 
-Select "2" for the "wikipedia" example.
+Select "1" for the "wikipedia" example.
 
 Note that the first time you start the example, it may take some extra time due to its fetching various dependencies. Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.
 
