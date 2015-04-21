@@ -11,8 +11,8 @@ first two tutorials.
 
 ## About the Data
 
-We will be working with the same Wikipedia edits data schema [from out previous
-tutorials](http://localhost:4000/content/Tutorial:-A-First-Look-at-Druid.html#about-the-data).
+We will be working with the same Wikipedia edits data schema [from our previous
+tutorials](Tutorial%3A-A-First-Look-at-Druid.html#about-the-data).
 
 ## Set Up
 
