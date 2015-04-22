@@ -92,6 +92,10 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 TWC uses Druid for exploratory analytics.
 
+## Vigiglobe
+
+Vigiglobe turns the noise of Social Media into real-time Smart Content. To this end, Druid enables us to maintain high request throughput coupled with huge data absorption capacity.
+
 ## ViralGains
 
 ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
