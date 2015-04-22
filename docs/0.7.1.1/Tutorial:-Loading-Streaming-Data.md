@@ -12,7 +12,7 @@ first two tutorials.
 ## About the Data
 
 We will be working with the same Wikipedia edits data schema [from out previous
-tutorials](Tutorial%3A-A-First-Look-at-Druid.html#about-the-data).
+tutorials](http://localhost:4000/content/Tutorial:-A-First-Look-at-Druid.html#about-the-data).
 
 ## Set Up
 
@@ -81,7 +81,7 @@ cluster were adapted from the [Apache Kafka quickstart guide](http://kafka.apach
 
 The realtime spec for the data source in this tutorial is available under
 `examples/indexing/wikipedia.spec` from the [Druid
-download](http://static.druid.io/artifacts/releases/druid-services-0.7.1.1-bin.tar.gz)
+download](http://static.druid.io/artifacts/releases/druid-services-0.7.1-bin.tar.gz)
 
 1. Launch the realtime node
 

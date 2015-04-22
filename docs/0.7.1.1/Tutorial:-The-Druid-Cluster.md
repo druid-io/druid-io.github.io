@@ -13,13 +13,13 @@ In this tutorial, we will set up other types of Druid nodes and external depende
 
 If you followed the first tutorial, you should already have Druid downloaded. If not, let's go back and do that first.
 
-You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-0.7.1.1-bin.tar.gz). You can also [Build From Source](Build-from-source.html) and grab the tarball from services/target/druid-0.7.1.1-bin.tar.gz.
+You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-0.7.1-bin.tar.gz). You can also [Build From Source](Build-from-source.html) and grab the tarball from services/target/druid-0.7.1-bin.tar.gz.
 
 Either way, once you have the tarball, untar the contents within by issuing:
 
 ```bash
-tar -zxvf druid-0.7.1.1-bin.tar.gz
-cd druid-0.7.1.1
+tar -zxvf druid-0.7.1-bin.tar.gz
+cd druid-0.7.1
 ```
 
 ## External Dependencies
@@ -60,7 +60,7 @@ cd ..
 
 ## The Data
 
-Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a [segment](Segments.html). Segments contain data over some span of time. We've prebuilt a segment for this tutorial and will cover making your own segments in other [pages](Tutorial%3A-Loading-Streaming-Data.html).The segment we are going to work with has the following format:
+Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a [segment](Segments.html). Segments contain data over some span of time. We've prebuilt a segment for this tutorial and will cover making your own segments in other [pages](Tutorial%3A-Loading-Your-Data-Part-1.html).The segment we are going to work with has the following format:
 
 Dimensions (things to filter on):
 
