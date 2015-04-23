@@ -14,7 +14,7 @@ layout: html_page
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
-      <p><a class="btn btn-lg btn-outline" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz"><span class="fa fa-download"></span> Download Latest Stable</a><br>
+      <p><a class="btn btn-lg btn-outline" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="fastrack({D01:'download',D02:'stable',D03:'button'})"><span class="fa fa-download"></span> Download Latest Stable</a><br>
 
       <h2>Current Versions</h2>
       <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/Versioning.html">Versioning</a> section for how we describe releases.
@@ -23,12 +23,12 @@ layout: html_page
       {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
       <p>There is no release candidate at this time.</p>
       {% else %}
-      <p>The current release candidate is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz">{{site.druid_rc_version}}</a>.</p>
+      <p>The current release candidate is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz" onclick="fastrack({D01:'download',D02:'rc',D03:'link'})">{{site.druid_rc_version}}</a>.</p>
       {% endif %}
 
       <h4>Stable Release</h4>
 
-      <p>The current stable is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz">{{site.druid_stable_version}}</a>.</p>
+      <p>The current stable is tagged at version <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="fastrack({D01:'download',D02:'stable',D03:'link'})">{{site.druid_stable_version}}</a>.</p>
 
       <h2>Release Notes</h2>
 
