@@ -193,6 +193,11 @@ a:hover, a:focus {
   letter-spacing: 0.15em
 }
 
+.nav>li>a {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 /* .navbar-collapse { */
 /*    padding-left: 20px; */
 /*    padding-right: 5px; */
