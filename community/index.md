@@ -9,7 +9,7 @@ layout: simple_page
 
 Numerous engineers work on Druid full-time. If you any questions about usage or code, feel free to contact any of us.
 
-* **NEW User Google Group** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user). The old user discussions can be still found in the development forum.
+* **User Google Group** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user). The old user discussions can be still found in the development forum.
 * **Development Google Group** [druid-development@googlegroups.com](https://groups.google.com/d/forum/druid-development)
 * **IRC** `#druid-dev` on irc.freenode.net
 
