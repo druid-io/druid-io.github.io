@@ -10,6 +10,11 @@ There are numerous companies of various sizes in production with Druid. This lis
 
 Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
 
+## Criteo
+
+Criteo is using druid to provide its customers with user-centric analytics & reporting. 
+With more than 1 billion unique users reached per month, 3 billion ads displayed per day, and a 70% growth in 2014, Criteo's previous stack was hard pressed keeping with the load. Replacing it with druid helped us achieved linear scalability while letting our customers explore their data in new and interactive ways.
+
 ## DripStat
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
