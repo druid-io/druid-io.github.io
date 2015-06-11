@@ -45,6 +45,16 @@ updates. Scale up or down without data loss.
 **Scalable** Existing Druid deployments handle billions of events and terabytes
 of data per day.
 
+## Scale
+
+Large Druid production clusters have scaled to following:
+
+- 3+ trillion events/month
+- 1M+ events/sec through Druid's real-time ingestion
+- 100+ PB of raw data
+- 30+ trillion events
+- Hundreds of queries per second for applications used by thousands of users
+
 ## Is Druid Right for Me?
 
 Organizations have deployed Druid to analyze ad-tech, dev ops, network,
