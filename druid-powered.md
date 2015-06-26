@@ -89,6 +89,10 @@ is what they have to say:
 > seen a Open Source Community providing such a very high level of responsiveness for ANY
 > issue related to Druid setup and tuning.
 
+## Redborder
+
+redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
+
 ## Streamlyzer
 
 Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
