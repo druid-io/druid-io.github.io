@@ -10,6 +10,10 @@ There are numerous companies of various sizes in production with Druid. This lis
 
 Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
 
+## Cisco
+
+Cisco uses Druid to power a real-time analytics platform for network flow data.
+
 ## Criteo
 
 Criteo is using druid to provide its customers with user-centric analytics & reporting. 
