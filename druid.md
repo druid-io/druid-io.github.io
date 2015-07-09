@@ -6,7 +6,7 @@ sectionid: druid
 
 Druid is an open-source analytics data store designed for business intelligence
 ([OLAP](http://en.wikipedia.org/wiki/Online_analytical_processing))
-queries on timeseries data. Druid provides low latency (real-time) data
+queries on event data. Druid provides low latency (real-time) data
 ingestion, flexible data exploration, and fast data aggregation. Existing Druid
 deployments have scaled to trillions of events and petabytes of data. Druid is
 best used to power analytic dashboards and applications.
@@ -24,19 +24,18 @@ provides a framework for plugging in new functionality. Druid also supports
 approximate algorithms for cardinality estimation, and histogram and quantile
 calculations.
 
-**Interactive Queries** Druid’s query latency is optimized by reading and
-scanning only exactly what is needed. Aggregate and filter on data without
-sitting around waiting for results. Druid is ideal for powering analytic
-dashboards. Druid is a column-oriented data store and supports ad-hoc,
-  multi-dimensional filtering.
+**Sub-second Queries** Druid’s column orientation and inverted indexes enables
+complex multi-dimensional filtering and scanning exactly what is needed for a
+query. Aggregate and filter on data in milliseconds. Druid is ideal for
+powering interactive analytic applications. 
 
-**Real-time Data** Typical analytics databases ingest data via batches.
+**Real-time Ingestion** Typical analytics databases ingest data via batches.
 Ingesting an event at a time is often accompanied with transactional locks and
-other overhead that slows down the ingestion rate. Druid's real-time nodes
-employ lock-free ingestion of append-heavy data sets to allow for simultaneous
-ingestion and querying of 10,000+ events per second. Simply put, the latency
-between when an event happens and when it is visible is limited only by how
-quickly the event can be delivered to Druid.
+other overhead that slows down the ingestion rate. Druid employs lock-free
+ingestion of append-heavy data sets to allow for simultaneous ingestion and
+querying of 10,000+ events per second per node. Simply put, the latency between
+when an event happens and when it is visible is limited only by how quickly the
+event can be delivered to Druid.
 
 **Highly Available** Druid is used to back SaaS implementations that need to be
 up all the time. Your data is still available and queryable during system
@@ -54,12 +53,13 @@ Large Druid production clusters have scaled to following:
 - 100+ PB of raw data
 - 30+ trillion events
 - Hundreds of queries per second for applications used by thousands of users
+- Tens of thousands of cores
 
 ## Is Druid Right for Me?
 
-Organizations have deployed Druid to analyze ad-tech, dev ops, network,
-activity stream (website), finance, and sensor data. In particular, Druid is a
-good fit if you have the following requirements:
+Organizations have deployed Druid to analyze ad-tech, dev-ops, network traffic,
+website traffic, finance, and sensor data. In particular, Druid is a good fit
+if you have the following requirements:
 
 - You need to do interactive aggregations and fast exploration on large amounts of data
 - You need ad-hoc analytic queries (not a key-value store)
