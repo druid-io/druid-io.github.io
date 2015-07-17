@@ -46,7 +46,7 @@ of data per day.
 
 ## Scale
 
-Large Druid production clusters have scaled to following:
+Large Druid production clusters have scaled to the following:
 
 - 3+ trillion events/month
 - 1M+ events/sec through Druid's real-time ingestion
