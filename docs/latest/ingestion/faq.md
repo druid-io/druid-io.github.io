@@ -20,6 +20,12 @@ If you are trying to batch load historical data but no events are being loaded, 
 
 Druid can ingest JSON, CSV, TSV and other delimited data out of the box. Druid supports single dimension values, or multiple dimension values (an array of strings). Druid supports long and float numeric columns.
 
+## Not all of my events were ingested
+
+Druid will reject events outside of a window period. The best way to see if events are being rejected is to check the [Druid ingest metrics](../operations/metrics.html).
+
+If the number of ingested events seem correct, make sure your query is correctly formed. If you included a `count` aggregator in your ingestion spec, you will need to query for the results of this aggregate with a `longSum` aggregator. Issuing a query with a count aggregator will count the number of Druid rows, which includes [roll-up](../design/index.html).
+
 ## Where do my Druid segments end up after ingestion?
 
 Depending on what `druid.storage.type` is set to, Druid will upload segments to some [Deep Storage](../dependencies/deep-storage.html). Local disk is used as the default deep storage.
@@ -40,7 +46,7 @@ Other common reasons that hand-off fails are as follows:
 
 ## How do I get HDFS to work?
 
-Make sure to include the `druid-hdfs-storage` module as one of your extensions and set `druid.storage.type=hdfs`. You may also need to include hadoop configs on the classpath.
+Make sure to include the `druid-hdfs-storage` and all the hadoop configuration, dependencies (that can be obtained by running command `hadoop classpath` on a machine where hadoop has been setup) in the classpath. And, provide necessary HDFS settings as described in [Deep Storage](../dependencies/deep-storage.html) .
 
 ## I don't see my Druid segments on my historical nodes
 You can check the coordinator console located at `<COORDINATOR_IP>:<PORT>`. Make sure that your segments have actually loaded on [historical nodes](../design/historical.html). If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):

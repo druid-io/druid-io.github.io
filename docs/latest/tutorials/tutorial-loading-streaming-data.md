@@ -18,8 +18,8 @@ tutorials](tutorial-a-first-look-at-druid.html#about-the-data).
 
 At this point, you should already have Druid downloaded and be comfortable
 running a Druid cluster locally. If not, [have a look at our second
-tutorial](../tutorials/tutorial-the-druid-cluster.html). If Zookeeper and MySQL are not
-running, you will have to start them as described in [The Druid
+tutorial](../tutorials/tutorial-the-druid-cluster.html). If Zookeeper is not
+running, you will have to start it as described in [The Druid
 Cluster](../tutorials/tutorial-the-druid-cluster.html).
 
 With real-world data, we recommend having a message bus such as [Apache
@@ -81,7 +81,7 @@ cluster were adapted from the [Apache Kafka quickstart guide](http://kafka.apach
 
 The realtime spec for the data source in this tutorial is available under
 `examples/indexing/wikipedia.spec` from the [Druid
-download](http://static.druid.io/artifacts/releases/druid-services-0.7.1-bin.tar.gz)
+download](http://druid.io/downloads.html)
 
 1. Launch the realtime node
 
