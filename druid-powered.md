@@ -31,6 +31,10 @@ eBay uses Druid to aggregate multiple data streams for real-time user behavior a
 
 Druid powers a dashboard used internally to visualize real-time analytics on GumGum's Real Time Bidding platform. GumGum runs Druid on Amazon EC2 and can ingest up to 300,000 events per second at peak time.
 
+## Imply
+
+Imply uses Druid to power public demos and to power our internal monitoring and metrics.
+
 ## Jolata
 
 Jolata leverages Druid as the analytics data store for the realtime network perfomance managment platform. Injesting over 35 billion events per day, Jolata calculates a billion metrics every minute to visualize precise network metrics in real-time, and enable operators to quickly drill down and perform root cause analysis.
