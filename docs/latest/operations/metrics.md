@@ -42,6 +42,7 @@ Available Metrics
 |`query/wait/time`|Milliseconds spent waiting for a segment to be scanned.|id, segment.|< several hundred milliseconds|
 |`segment/scan/pending`|Number of segments in queue waiting to be scanned.||Close to 0|
 |`query/segmentAndCache/time`|Milliseconds taken to query individual segment or hit the cache (if it is enabled on the historical node).|id, segment.|several hundred milliseconds|
+|`query/cpu/time`|Microseconds of CPU time taken to complete a query|Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.|Varies|
 
 ### Real-time
 
@@ -70,6 +71,14 @@ Available Metrics
 |`*/averageByte`|Average cache entry byte size.||Varies.|
 |`*/timeouts`|Number of cache timeouts.||0|
 |`*/errors`|Number of cache errors.||0|
+
+#### Memcached only metrics
+Memcached client metrics are reported as per the following. These metrics come directly from the client as opposed to from the cache retrieval layer.
+|Metric|Description|Dimensions|Normal Value|
+|------|-----------|----------|------------|
+|`query/cache/memcached/total`|Cache metrics unique to memcached (only if `druid.cache.type=memcached`) as their actual values|Variable|N/A|
+|`query/cache/memcached/delta`|Cache metrics unique to memcached (only if `druid.cache.type=memcached`) as their delta from the prior event emission|Variable|N/A|
+
 
 ## Ingestion Metrics
 

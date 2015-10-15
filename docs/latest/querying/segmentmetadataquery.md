@@ -25,10 +25,11 @@ There are several main parts to a segment metadata query:
 |--------|-----------|---------|
 |queryType|This String should always be "segmentMetadata"; this is the first thing Druid looks at to figure out how to interpret the query|yes|
 |dataSource|A String or Object defining the data source to query, very similar to a table in a relational database. See [DataSource](../querying/datasource.html) for more information.|yes|
-|intervals|A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.|yes|
+|intervals|A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.|no|
 |toInclude|A JSON Object representing what columns should be included in the result. Defaults to "all".|no|
 |merge|Merge all individual segment metadata results into a single result|no|
 |context|See [Context](../querying/query-context.html)|no|
+|analysisTypes|A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to ["cardinality", "size"]. See section [analysisTypes](#analysistypes) for more details.|no|
 
 The format of the result is:
 
@@ -51,6 +52,13 @@ Metric columns will have type `FLOAT` or `LONG` or name of the underlying comple
 Timestamp column will have type `LONG`.
 
 Only columns which are dimensions (ie, have type `STRING`) will have any cardinality. Rest of the columns (timestamp and metric columns) will show cardinality as `null`.
+
+### intervals
+
+If an interval is not specified, the query will use a default interval that spans a configurable period before the end time of the most recent segment.
+
+The length of this default time period is set in the broker configuration via:
+  druid.query.segmentMetadata.defaultHistory
 
 ### toInclude
 
@@ -79,3 +87,21 @@ The grammar is as follows:
 ``` json
 "toInclude": { "type": "list", "columns": [<string list of column names>]}
 ```
+
+### analysisTypes
+
+This is a list of properties that determines the amount of information returned about the columns, i.e. analyses to be performed on the columns.
+
+By default, all analysis types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.
+
+There are 2 types of column analyses:
+
+#### cardinality
+
+* Estimated floor of cardinality for each column. Only relevant for dimension columns.
+
+#### size
+
+* Estimated byte size for the segment columns if they were stored in a flat format
+
+* Estimated total segment byte size in if it was stored in a flat format
