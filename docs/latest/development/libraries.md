@@ -2,6 +2,15 @@
 layout: doc_page
 ---
 
+#### Python
+
+* [druid-io/pydruid](https://github.com/druid-io/pydruid) - A python client for Druid
+
+#### R
+
+* [druid-io/RDruid](https://github.com/druid-io/RDruid) - An R connector for Druid
+
+
 Community Query Libraries
 -------------------------
 
@@ -18,14 +27,6 @@ Some great folks have written their own libraries to interact with Druid
 #### Clojure
 
 * [y42/clj-druid](https://github.com/y42/clj-druid) - A Clojure client for Druid
-
-#### Python
-
-* [metamx/pydruid](https://github.com/metamx/pydruid) - A python client for Druid
-
-#### R
-
-* [metamx/RDruid](https://github.com/metamx/RDruid) - Druid connector for R
 
 #### Ruby
 
@@ -54,3 +55,4 @@ UIs
 
 * [mistercrunch/panoramix](https://github.com/mistercrunch/panoramix) - A web application to slice, dice and visualize data out of Druid
 * [grafana](https://github.com/Quantiply/grafana-plugins/tree/master/features/druid) - A plugin for [Grafana](http://grafana.org/)
+* [Pivot](https://github.com/implydata/pivot) - An exploratory analytics UI for Druid
