@@ -36,3 +36,11 @@ footer .soc a.meet {
 footer .soc a.rss {
         background-position:0 -102px;
 }
+footer .license {
+  font-size: 10px;
+  line-height: 3em;
+  color: #aaa;
+}
+footer .license a {
+  color: #aaa;
+}
