@@ -6,7 +6,7 @@ By contributing to this repository you agree to license your contribution under 
 
 When submitting a pull request (PR), please use the following guidelines:
 
-- Verify the webpage works by running `jekyll -w serve`
+- Verify the webpage works by running `jekyll serve -w`
 - Try to keep pull requests short and submit separate ones for unrelated
   features, but feel free to combine simple bugfixes/tests into one pull
   request.
