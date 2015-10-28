@@ -18,22 +18,6 @@ Most discussion about Druid happens over email, github, and IRC.
 Druid is a community-led project and we are delighted to receive contributions
 of anything from minor fixes to big new features.
 
-### Committers
-
-Committers are collectively responsible for Druid's technical management. This involves
-setting the direction of the project, contributing code, and reviewing code contributed
-by others.
-
-| Name                                                  | Organization           |
-| ----------------------------------------------------- | ---------------------- |
-| [Charles Allen](https://github.com/drcrallen)         | Metamarkets            |
-| [Eric Tschetter](https://github.com/cheddar)          | Yahoo!                 |
-| [Fangjin Yang](https://github.com/fjy)                | Imply                  |
-| [Gian Merlino](https://github.com/gianm)              | Imply                  |
-| [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
-| [Nishant Bangarwa](https://github.com/nishantmonu51)  | Metamarkets            |
-| [Xavier Léauté](https://github.com/xvrl)              | Metamarkets            |
-
 ### What to work on
 
 If you have an itch to scratch, then by all means do that! Fixing bugs you run
@@ -64,6 +48,24 @@ possible.
 For code contributions, we require that you agree to a Contributor License
 Agreement (CLA) before we can accept your code. You can find our CLA on and
 sign it directly on our [CLA page](/community/cla.html)
+
+### Committers
+
+Committers are collectively responsible for Druid's technical management. This involves
+setting the direction of the project, contributing code, and reviewing code contributed
+by others.
+
+You don't need to be a committer to contribute- pull requests are welcome from anyone.
+
+| Name                                                  | Organization           |
+| ----------------------------------------------------- | ---------------------- |
+| [Charles Allen](https://github.com/drcrallen)         | Metamarkets            |
+| [Eric Tschetter](https://github.com/cheddar)          | Yahoo!                 |
+| [Fangjin Yang](https://github.com/fjy)                | Imply                  |
+| [Gian Merlino](https://github.com/gianm)              | Imply                  |
+| [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
+| [Nishant Bangarwa](https://github.com/nishantmonu51)  | Metamarkets            |
+| [Xavier Léauté](https://github.com/xvrl)              | Metamarkets            |
 
 ### Becoming a committer
 
