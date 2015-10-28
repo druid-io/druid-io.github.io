@@ -1,5 +1,5 @@
 ---
-title: Join the Druid Community
+title: Druid Community
 sectionid: community
 layout: simple_page
 ---
