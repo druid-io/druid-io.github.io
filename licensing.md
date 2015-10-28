@@ -1,5 +1,5 @@
 ---
-title: Licensing
+title: License
 layout: simple_page
 ---
 
