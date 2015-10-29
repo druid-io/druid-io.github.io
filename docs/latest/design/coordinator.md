@@ -76,8 +76,6 @@ Returns the number of segments to load and drop, as well as the total segment lo
 
 * `/druid/coordinator/v1/loadqueue?full`
 
-Returns the serialized JSON of segments to load and drop for each historical node.
-
 #### Metadata store information
 
 * `/druid/coordinator/v1/metadata/datasources`
