@@ -12,7 +12,7 @@ id: home
   <div class="row">
     <div class="col-md-8 col-md-offset-2 text-center">
     <span class="druid-bootlogo"></span>
-    <p class="lead">Open Source Streaming Data Store for Interactive Analytics at Scale</p>
+    <p class="lead">Druid is a fast column-oriented distributed data store</p>
     <p><a class="btn btn-lg btn-outline-inverse" href="downloads.html"><span class="fa fa-download"></span> Download</a>
     <a class="btn btn-lg btn-outline-inverse" href="https://github.com/druid-io/druid/"><span class="fa fa-github"></span> GitHub</a></p>
     <p class="small text-muted">latest stable release {{ site.druid_stable_version }}</p>
@@ -23,36 +23,96 @@ id: home
 
 <div class="container">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2 text-center">
-    </div>
-  </div>
-  <div class="row text-center main-marketing">
-    <div class="col-md-4">
-      <p><a href="druid.html">
-        <span class="fa fa-fighter-jet fa-4x"></span><br>
-        <h2>Fast</h2>
-      </a></p>
-      <p class="text-justify">Immediately query events after they occur and unify real-time and historical insights. Aggregate, drill-down, and slice-n-dice N-dimensional data with consistent, sub-second response times.</p>
+
+    <div class="col-md-9">
+      <div class="top-news">
+        {% include news-list.html %}
+      </div>
+      <div class="features">
+        <h2>Key Features</h2>
+
+        <span class="fa fa-rocket fa"></span><br>
+        <h3>Sub-Second Queries</h3>
+        <p>
+          Druid supports fast aggregations and sub-second OLAP queries. It is also designed for
+          multi-tenancy and is ideal for powering user-facing analytic applications. 
+        </p>
+
+        <span class="fa fa-feed fa"></span><br>
+        <h3>Real-time Streams</h3>
+        <p>
+          Druid supports streaming data ingestion and offers insights on events
+          immediately after they occur. Retain events indefinitely and 
+          unify real-time and historical views.
+        </p>
+
+        <span class="fa fa-database fa"></span><br>
+        <h3>Scalable to Petabytes</h3>
+        <p>
+          Existing Druid clusters have scaled to petabytes of data and
+          trillions of events, ingesting millions of events every second. 
+        </p>
+
+        <span class="fa fa-gears fa"></span><br>
+        <h3>Deploy Anywhere</h3>
+        <p>
+          Druid runs on commodity hardware. Deploy it in the cloud or
+          on-premise. Integrate with existing data systems such as
+          Hadoop, Spark, Kafka, Storm, and Samza.
+        </p>
+
+        <span class="fa fa-comments fa"></span><br>
+        <h3>Vibrant Community</h3>
+        <p>
+          Druid is a community led project. <a href="/community">Join the fast growing community</a> and
+          work with developers from across the world.
+        </p>
+
+      </div>
+      <div class="features learn">
+        <h2>Learn More</h2>
+
+        <span class="fa fa-flag-checkered fa"></span><br>
+        <h3>Quickstart</h3>
+        <p>
+          Try out the <a href="/docs/{{site.druid_version}}/tutorials/tutorial-a-first-look-at-druid.html">quickstart</a> and get started in minutes with the system. Load your own data and query it.
+        </p>
+
+        <span class="fa fa-book fa"></span><br>
+        <h3>Introduction</h3>
+        <p>
+          <a href="/docs/{{site.druid_version}}/design/index.html">Learn more</a> about the high level architecture and concepts behind Druid.
+        </p>
+
+        <span class="fa fa-smile-o fa"></span><br>
+        <h3>Who is using Druid?</h3>
+        <p>
+          <a href="/druid-powered.html">Learn more</a> about how different organizations use Druid in production.
+        </p>
+
+        <span class="fa fa-bar-chart fa"></span><br>
+        <h3>Open Source UIs and Rich Client Libraries</h3>
+        <p>
+          Try <a href="https://github.com/implydata/pivot">Pivot</a> or <a
+          href="https://github.com/mistercrunch/panoramix">Panoramix</a> for visualizing data.
+          Query Druid using <a href="/docs/{{site.druid_version}}/development/libraries.html">many different languages</a>.
+        </p>
+
+      </div>
     </div>
 
-    <div class="col-md-4">
-      <p><a href="druid.html">
-        <span class="fa fa-database fa-4x"></span><br>
-        <h2>Scalable</h2>
-      </a></p>
-      <p class="text-justify">Scalable and available; consistent and predictable performance in multi-tenant environments. Existing clusters have scaled to petabytes of data and trillions of events, ingesting over 1M events/second.</p>
+    <div class="col-md-3">
+      <div class="bottom-news">
+        {% include news-list.html %}
+      </div>
+      {% include event-list.html %}
+      {% include featured-list.html %}
     </div>
 
-    <div class="col-md-4">
-      <p><a href="druid.html">
-        <span class="fa fa-bar-chart-o fa-4x"></span><br>
-        <h2>Built for Analytics</h2>
-      </a></p>
-      <p class="text-justify">Druid is built for OLAP. It excels at aggregations and supports a variety of filters and calculations. Leverage approximate algorithms to improve performance, and use exact algorithms when correctness matters.</p>
-    </div>
   </div>
 </div>
 
+<!--
 <div class="druid-panel">
   <div class="container">
     <div class="row-fluid text-center">
@@ -71,3 +131,4 @@ id: home
     </div>
   </div>
 </div>
+-->

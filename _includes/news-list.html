@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/news-list.css">
+
+<div class="item-list">
+  <div class="list-title">
+    News & Updates
+  </div>
+  {% for item in site.data.news %}
+  <p>
+    <a href="{{ item.link }}">
+      <span>{{ item.name }}</span><br>
+      <span class="text-muted">{{ item.date | date: "%b %e %Y" }}</span>
+    </a>
+  </p>
+  {% endfor %}
+</div>

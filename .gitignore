@@ -1,2 +1,5 @@
 _site
 Gemfile.lock
+.DS_store
+.idea
+.jekyll-metadata

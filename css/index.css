@@ -3,10 +3,56 @@
 }
 
 .main-marketing a {
-   color: #333;
+  color: #333;
 }
 
 .main-marketing h2 {
-   margin-top: 20px;
-   font-weight: 400;
+  margin-top: 20px;
+  font-weight: 400;
+}
+
+.features .fa {
+  position: absolute;
+  margin-top: 20px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 40px;
+  text-align: center;
+  font-size: 1.7em;
+  background: #51BFC4;
+  color: #FFF;
+}
+
+.features.learn .fa {
+  background: #9B9FE9;
+}
+
+.features h3 {
+  margin-top: 0;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.features h3,
+.features p {
+  margin-left: 70px;
+}
+
+.top-news {
+  display: none;
+}
+
+.bottom-news {
+  display: block;
+}
+
+@media screen and (max-width: 991px) {
+  .top-news {
+    display: block;
+  }
+
+  .bottom-news {
+    display: none;
+  }
 }

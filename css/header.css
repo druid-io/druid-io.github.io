@@ -3,21 +3,28 @@
   border-top: 1px solid rgba(44,238,251, .7);
   border-image: radial-gradient(#2ceefb, #2ceefb 10%, #1c1c26) 100% 1;
   border-width: 1px 0 0 0;
-  padding: 0 0 30px;
+  padding: 0 0 24px;
   /* color: #fff; */
   color: #c3c3c5;
   background-color: #1C1C26;
   text-align: center;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
 }
 
 .druid-masthead .btn-lg {
   min-width: 145px;
+  margin: 3px 6px;
+  font-size: 1.2em;
+  padding: 9px;
 }
 
 .druid-masthead .text-muted {
   color: rgba(177,186,198,.7);
   /* color: #c3c3c5; */
+}
+
+.druid-masthead .lead {
+  font-size: 1.5em;
 }
 
 .druid-footer {
@@ -49,7 +56,8 @@
   background-color: #2e2e2e;
   background-color: #1C1C26;
   color: #fff;
-  padding: 30px 0;
+  padding: 30px 0 40px 0;
+  margin-top: 50px;
   margin-bottom: -50px;
 }
 
@@ -72,16 +80,16 @@
   height: 22px;
   background-position:center;
   background-image: url('/img/druid_nav.png');
-  background-size: 69px 19px;
+  background-size: 73px 21px;
   background-repeat: no-repeat;
 }
 
 .druid-bootlogo {
   display: block;
-  margin: 0 auto;
+  margin: 3px auto 0 auto;
   width: 270px;
-  height: 209px;
-  background-size: 450px 209px;
+  height: 140px;
+  background-size: 430px;
   background-repeat: no-repeat;
   background-position: center;
   background-image: url('/img/druid.png');
