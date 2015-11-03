@@ -1,0 +1,29 @@
+  - date: 2015-10-26
+    title: "Pivot: An Open Source Data Exploration UI for Druid"
+    name: Vadim Ogievetksy
+    company: Imply
+    link: http://imply.io/post/2015/10/26/hello-pivot.html
+ 
+  - date: 2015-10-19
+    title: "Announcing Imply: An Enterprise Solution for Druid and Interactive Analytics at Scale"
+    name: Fangjin Yang
+    company: Imply
+    link: http://imply.io/post/2015/10/19/announcing-imply.html
+
+  - date: 2015-09-18
+    title: "Combining Druid and Spark: Interactive and Flexible Analytics at Scale"
+    name: Harish Butani
+    company: Sparkline Data
+    link: https://www.linkedin.com/pulse/combining-druid-spark-interactive-flexible-analytics-scale-butani
+
+  - date: 2015-08-11
+    title: Realtime Analytics Powered by Druid
+    name: Kiran Patchigolla
+    company: Jolata
+    link: https://www.linkedin.com/pulse/realtime-analytics-powered-druid-kiran-patchigolla
+
+  - date: 2015-07-28
+    title: "Complementing Hadoop at Yahoo: Interactive Analytics with Druid"
+    name: Yahoo Engineering
+    company: Yahoo
+    link: http://yahooeng.tumblr.com/post/125287346011/complementing-hadoop-at-yahoo-interactive
