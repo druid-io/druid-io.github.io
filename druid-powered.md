@@ -101,6 +101,10 @@ is what they have to say:
 
 redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
 
+## Skyport Systems
+
+Skyport Systems provides zero-effort, low-touch secure servers that help organizations to rapidly deploy and compartmentalize security-critical workloads. We use Druid as part of our analytics backend to provide real-time insight to our customers about their workload behavior.
+
 ## Smyte
 
 Smyte provides an API and UI for detecting and blocking bad actors on the internet. Druid powers the analytics portion of our user interface providing insight into what users are doing on the website, and specifically which features are unique between different sets of users.
