@@ -68,7 +68,7 @@ activity and content flow.
 
 ## OneAPM
 
-OneAPM <http://oneapm.com> is a SaaS company focusing on Application Performance Management (APM). In OneAPM, Druid is used to power interactive queries on performance data from clients' applications in realtime.
+OneAPM <http://oneapm.com> is a IT service compmay focusing on Application Performance Management (APM). In OneAPM, Druid is used to power clients' interactive queries on performance data collected from their applications in realtime.
 
 ## Paypal
 
