@@ -20,14 +20,14 @@
   border-radius: 40px;
   text-align: center;
   font-size: 1.7em;
-  background: #3FCFD6;
+  background: #33C8D0;
   color: #FFF;
 }
 
 .features h3 {
   margin-top: 0;
   font-weight: 600;
-  font-size: 21px;
+  font-size: 20px;
   color: #195C8C;
   margin-bottom: 8px;
 }
@@ -43,7 +43,7 @@
 
 h3.more {
   font-weight: 600;
-  font-size: 21px;
+  font-size: 20px;
   color: #999;
   margin-top: 40px;
 }

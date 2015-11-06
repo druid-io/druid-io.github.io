@@ -26,7 +26,7 @@
 }
 
 .druid-masthead .lead {
-  font-size: 1.6em;
+  font-size: 1.5em;
   font-weight: 400;
   margin-top: 8px;
   margin-bottom: 26px;
@@ -187,10 +187,6 @@ a:hover, a:focus {
   padding-right: 10px;
 }
 
-.navbar-collapse li a {
-  padding-left: 25px;
-}
-
 /* .navbar-collapse { */
 /*    padding-left: 20px; */
 /*    padding-right: 5px; */
@@ -210,3 +206,10 @@ a:hover, a:focus {
   margin-right: 0px;
   margin-left: -12px;
 }
+
+@media only screen and (max-width : 767px) {
+  .navbar-collapse li a {
+    padding-left: 25px;
+  }
+}
+
