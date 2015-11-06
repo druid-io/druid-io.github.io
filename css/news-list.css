@@ -1,15 +1,14 @@
 .item-list {
-  margin-top: 14px;
+  margin-top: 4px;
   padding: 10px;
-  background: #F0F0F0;
-  box-shadow: 0px 2px 9px rgba(0,0,0,.2);
-  margin-bottom: 24px;
+  margin-bottom: 6px;
 }
 
 .list-title {
   border-bottom: 1px solid #BBB;
   padding-bottom: 6px;
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .item-list a {
@@ -28,7 +27,7 @@
 
 .item-list .event {
   position: relative;
-  padding-left: 46px;
+  padding-left: 42px;
   margin-bottom: 12px;
 }
 
@@ -36,9 +35,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: #1C1C26;
+  background: #2477B3;
   padding: 2px;
-  width: 36px;
+  width: 32px;
   text-align: center;
   border-radius: 2px;
   padding-top: 14px;
@@ -50,7 +49,7 @@
   left: 0;
   right: 0;
   padding: 1px;
-  background: #1C1C26;
+  background: #2477B3;
   border-radius: 2px;
   color: white;
   font-size: 10px;
@@ -59,9 +58,10 @@
 
 .item-list .date-day {
   background: white;
-  color: #444;
-  font-size: 14px;
+  color: #195C8C;
+  font-size: 13px;
   font-weight: 600;
+  line-height: 19px;
 }
 
 .item-list .btn-default {

@@ -1,12 +1,6 @@
 .druid-masthead {
-  /* border-top: 1px solid #3b3b50; */
-  border-top: 1px solid rgba(44,238,251, .7);
-  border-image: radial-gradient(#2ceefb, #2ceefb 10%, #1c1c26) 100% 1;
-  border-width: 1px 0 0 0;
-  padding: 0 0 24px;
-  /* color: #fff; */
-  color: #c3c3c5;
-  background-color: #1C1C26;
+  padding: 44px 0 24px;
+  background-color: #EEE;
   text-align: center;
   margin: 0 auto 20px;
 }
@@ -15,7 +9,15 @@
   min-width: 145px;
   margin: 3px 6px;
   font-size: 1.2em;
-  padding: 9px;
+  padding: 8px;
+  color: white;
+  background: #1776BB;
+  transition: background-color 0.1s ease;
+}
+
+.druid-masthead .btn-lg:hover,
+.druid-masthead .btn-lg:active {
+  background: #0C62A0;
 }
 
 .druid-masthead .text-muted {
@@ -24,7 +26,14 @@
 }
 
 .druid-masthead .lead {
-  font-size: 1.5em;
+  font-size: 1.6em;
+  font-weight: 400;
+  margin-top: 8px;
+  margin-bottom: 26px;
+}
+
+.druid-masterhead b {
+  font-weight: 700;
 }
 
 .druid-footer {
@@ -44,12 +53,15 @@
   background-size: 400px 400px;
   background-repeat: no-repeat;
   background-position: 10% -90px;
-  background-color: #f3f3f3;
-  /* background-color: #eee; */
-  /* background-color: #B6B5AD; */
-  /* background-color: #EDECE2; */
-  box-shadow: 0px 2px 9px rgba(0,0,0,.2);
+  background-color: #EEE;
+  /*box-shadow: 0px 2px 9px rgba(0,0,0,.2);*/
   overflow: hidden;
+}
+
+.druid-header h1 {
+  font-size: 34px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .druid-panel {
@@ -77,26 +89,12 @@
 .druid-logo {
   display: block;
   width: 120px;
-  height: 22px;
+  height: 25px;
   background-position:center;
   background-image: url('/img/druid_nav.png');
-  background-size: 73px 21px;
+  background-size: 88px 25px;
   background-repeat: no-repeat;
-}
-
-.druid-bootlogo {
-  display: block;
-  margin: 3px auto 0 auto;
-  width: 270px;
-  height: 140px;
-  background-size: 430px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('/img/druid.png');
-  background-image: -webkit-image-set(
-    url('/img/druid.png') 1x,
-    url('/img/druid_2x.png') 2x
-  );
+  margin-top: -2px;
 }
 
 .druid-booticon {
@@ -124,32 +122,20 @@
   font-weight: 100;
 }
 
-.btn-outline {
+.btn.download {
   display: block;
   width: 260px;
   margin: auto;
-  color: #000;
-  border-color: #000;
+  color: white;
+  background: #1776BB;
   text-align: center;
   background-position: center;
+  transition: background-color 0.1s ease;
 }
 
-.btn-outline:hover,
-.btn-outline:focus {
-  background-color: #F0F0F0;
-}
-
-.btn-outline-inverse {
-  /* color: rgba(255,255,255,0.7); */
-  color: #fff;
-  /* border-color: rgba(255,255,255,0.7); */
-  border-color: rgba(177,186,198,.7);
-  /* border-color: #fff; */
-}
-
-.btn-outline-inverse:hover,
-.btn-outline-inverse:focus {
-  background-color: #fff;
+.btn.download:hover,
+.btn.download:active {
+  background: #0C62A0;
 }
 
 .druid-nav {
@@ -189,14 +175,9 @@ a:hover, a:focus {
   text-decoration: none;
 }
 
-.navbar {
-   font-weight: 300;
-}
-
 .navbar-inverse .navbar-nav>li>a {
   color: rgba(177,186,198,.7);
   transition: color 0.1s ease;
-  font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.15em
 }
@@ -204,6 +185,10 @@ a:hover, a:focus {
 .nav>li>a {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.navbar-collapse li a {
+  padding-left: 25px;
 }
 
 /* .navbar-collapse { */

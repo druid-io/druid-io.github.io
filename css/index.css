@@ -13,30 +13,39 @@
 
 .features .fa {
   position: absolute;
-  margin-top: 20px;
+  margin-top: 16px;
   width: 50px;
   height: 50px;
   line-height: 50px;
   border-radius: 40px;
   text-align: center;
   font-size: 1.7em;
-  background: #4F9FD8;
+  background: #3FCFD6;
   color: #FFF;
-}
-
-.features.learn .fa {
-  background: #48D1CC;
 }
 
 .features h3 {
   margin-top: 0;
-  font-weight: 400;
-  font-size: 22px;
+  font-weight: 600;
+  font-size: 21px;
+  color: #195C8C;
+  margin-bottom: 8px;
 }
 
 .features h3,
 .features p {
   margin-left: 70px;
+}
+
+.features.learn .fa {
+  background: #F9A956;
+}
+
+h3.more {
+  font-weight: 600;
+  font-size: 21px;
+  color: #999;
+  margin-top: 40px;
 }
 
 .top-news {
@@ -54,5 +63,9 @@
 
   .bottom-news {
     display: none;
+  }
+
+  .features.learn {
+    margin-bottom: 40px;
   }
 }
