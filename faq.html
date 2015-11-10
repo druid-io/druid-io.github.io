@@ -34,7 +34,7 @@ layout: html_page
       <h2 id='what_is_deep_storage'>What is &#8220;deep storage&#8221;?</h2>
       <p>Simply put, deep storage is some storage infrastructure that Druid depends on for data availability. If this infrastructure goes down, then Druid cannot load new data into the system, nor can it recover from failures in the cluster. As long as this infrastructure is operational, Druid Historical nodes cannot lose data.</p>
 
-      <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
+      <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/latest/dependencies/deep-storage.html'>Deep Storage</a></p>
 
       <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
       <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
@@ -63,7 +63,26 @@ layout: html_page
       <p>The Indexing Service is a job scheduling service with tasks that operate on Segments. Long-term, we intend to move indexing activities to be fronted by this service.</p>
       <p>It is not a requirement yet, but will become one as time goes on.</p>
       <p>More information can be found in the docs:</p>
-      <p><a href="/docs/{{site.druid_version}}/Indexing-Service.html">Indexing Service</a></p>
+      <p><a href="/docs/latest/design/indexing-service.html">Indexing Service</a></p>
+
+      <h2 id='elasticsearch'>How does Druid compare to Elasticsearch?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-elasticsearch.html'>Druid vs Elasticsearch</a></p>
+
+      <h2 id='key-value'>How does Druid compare to Key/Value Stores (HBase/Cassandra)?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-key-value.html'>Druid vs Key/Value Stores</a></p>
+
+      <h2 id='kudu'>How does Druid compare to Kudu?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-kudu.html'>Druid vs Kudu</a></p>
+
+      <h2 id='redshift'>How does Druid compare to Redshift?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-redshift.html'>Druid vs Redshift</a></p>
+
+      <h2 id='spark'>How does Druid compare to Spark?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-spark.html'>Druid vs Spark</a></p>
+
+      <h2 id='sql-on-hadoop'>How does Druid compare to SQL-on-Hadoop (Impala/Drill/Spark SQL/Presto)?</h2>
+      <p><a href='/docs/latest/comparisons/druid-vs-sql-on-hadoop.html'>Druid vs SQL-on-Hadoop</a></p>
+
     </div>
   </div>
 </div>

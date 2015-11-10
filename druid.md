@@ -65,11 +65,11 @@ For a comprehensive look at Druid architecture, please read our [white paper](ht
 
 ## Comparisons
 
-- [Druid vs SQL-on-Hadoop (Hive/Impala/Drill/Spark SQL/Presto)](/docs/latest/druid-vs-sql-on-hadoop.html)
-- [Druid vs Key/Value Stores (HBase/Cassandra)](/docs/latest/druid-vs-key-value.html)
-- [Druid vs Search Systems (Elasticsearch/Solr)](/docs/latest/Druid-vs-search-systems.html)
-- [Druid vs General Computing Frameworks (Spark/Hadoop)](/docs/latest/druid-vs-computing-frameworks.html)
-- [Druid vs Proprietary Commercial Solutions (Vertica/Redshift)](/docs/latest/druid-vs-commercial-solutions.html)
+- [Druid vs Elasticsearch](/docs/latest/comparisons/druid-vs-elasticsearch.html)
+- [Druid vs Key/Value Stores (HBase/Cassandra)](/docs/latest/comparisons/druid-vs-key-value.html)
+- [Druid vs Redshift](/docs/latest/comparisons/druid-vs-redshift.html)
+- [Druid vs Spark](/docs/latest/comparisons/druid-vs-spark.html)
+- [Druid vs SQL-on-Hadoop (Hive/Impala/Drill/Spark SQL/Presto)](/docs/latest/comparisons/druid-vs-sql-on-hadoop.html)
 
 ## Scale
 
