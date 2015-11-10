@@ -21,34 +21,6 @@ layout: html_page
 
       <p>That said, as we made the shift, we didn&#8217;t want to compromise on the ability to configure the system to run such that everything is essentially in memory. To this end, individual Historical nodes can be configured with the maximum amount of data they should be given. Couple that with the Coordinator&#8217;s ability to assign data blocks to different &#8220;tiers&#8221; based on differing query requirements and Druid essentially becomes a system that can be configured across the whole spectrum of performance requirements. Configuration can be such that all data can be in memory and processed, it can be such that data is heavily over-committed compared to the amount of memory available, and it can also be that the most recent month of data is in memory, while everything else is over-committed.</p>
 
-      <h2 id='no-sql'>Is Druid a NoSql database?</h2>
-
-      <p>No. Druid&#8217;s editing and deleting capabilities are very limited, so it is best not thought of as a database of any kind. Similar to other NoSQL stores, the query interface is not SQL and it is fault-tolerant with hands-off scaling operations, but NoSQL stores are generally extensions of a key-value store and Druid is a horrible key-value store.</p>
-
-      <p>In general, we prefer to not try to group Druid into the cluster of NoSQL stores because it is used to solve a different problem than NoSQL stores generally do. NoSQL stores are generally not good at doing what Druid does and vice versa.</p>
-
-      <h2 id='sql-client'>Does Druid speak SQL?</h2>
-      
-      <p>Yes, to an extent. An ANTLR grammar was written to support a limited set of SQL on top of Druid. It is available in the repository but has not been exposed yet via any of the normal mechanisms, and so it really only accessible to individuals comfortable with building and running Java.</p>
-
-      <p><a href='https://github.com/druid-io/druid/blob/master/server/src/main/java/io/druid/server/sql/SQLRunner.java'>SQLRunner</a></p>
-
-      <h2 id='redshift'>How does Druid compare to Redshift?</h2>
-
-      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Redshift.html'>Druid vs Redshift</a></p>
-
-      <h2 id='vertica'>How does Druid compare to Vertica?</h2>
-      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Vertica.html'>Druid vs Vertica</a></p>
-
-      <h2 id='cassandra'>How does Druid compare to Cassandra?</h2>
-      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Cassandra.html'>Druid vs Cassandra</a></p>
-      
-      <h2 id='hadoop'>How does Druid compare to Hadoop?</h2>
-      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Hadoop.html'>Druid vs Hadoop</a></p>
-
-      <h2 id='impala'>How does Druid compare to Impala/Shark?</h2>
-      <p><a href='/docs/{{site.druid_version}}/Druid-vs-Impala-or-Shark.html'>Druid vs Impala or Shark</a></p>
-
       <h2 id='external'>What external dependencies does Druid have?</h2>
       <p>Druid has three external dependencies that must be running in order for the Druid cluster to operate</p>
       <div class="text-indent">
@@ -63,13 +35,6 @@ layout: html_page
       <p>Simply put, deep storage is some storage infrastructure that Druid depends on for data availability. If this infrastructure goes down, then Druid cannot load new data into the system, nor can it recover from failures in the cluster. As long as this infrastructure is operational, Druid Historical nodes cannot lose data.</p>
 
       <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
-
-      <h2 id='deep-storage'>Can anything other than S3 be used for &#8220;deep storage&#8221;?</h2>
-      <p>Yes. Options include HFDS and any shared mountable file system. More details are available on our docs.<br /><a href='/docs/{{site.druid_version}}/Deep-Storage.html'>Deep Storage</a></p>
-
-      <h2 id='queries'>Where can I find a set of simple queries to run?</h2>
-      <p>We recommend started with our tutorials in our docs:</p>
-      <p><a href="/docs/{{site.druid_version}}/Tutorial:-A-First-Look-at-Druid.html">Try out Druid for the first time</a></p>
 
       <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
       <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
