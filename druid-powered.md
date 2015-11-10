@@ -130,6 +130,10 @@ Vigiglobe turns the noise of Social Media into real-time Smart Content. To this 
 
 ViralGains uses Druid for real-time analysis of millions of viral video views, shares, and conversations.
 
+## Xiaomi
+
+Xiaomi uses Druid as an analytics tool to analyze online advertising data.
+
 ## Yahoo
 
 Yahoo uses Druid to power various customer-facing audience and advertising analytics products.
