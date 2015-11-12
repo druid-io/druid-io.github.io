@@ -122,6 +122,10 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 TWC uses Druid for exploratory analytics.
 
+## TripleLift
+
+TripleLift uses Druid to provide insights into performance aspects of its native programmatic exchange for sales/business development opportunities, and to provide reporting used by advertisers and publishers.
+
 ## Vigiglobe
 
 Vigiglobe turns the noise of Social Media into real-time Smart Content. To this end, Druid enables us to maintain high request throughput coupled with huge data absorption capacity.
