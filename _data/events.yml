@@ -1,8 +1,3 @@
-  - date: 2015-11-17
-    name: QCon SF
-    info: Architecting Distributed Databases for Failure
-    link: https://qconsf.com/sf2015/presentation/architecting-distributed-databases-failure
-
   - date: 2015-11-19
     name: SF Data Mining Meetup
     info: "Druid: Fast Interactive Analytics at Scale"
