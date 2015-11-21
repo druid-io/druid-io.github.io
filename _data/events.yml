@@ -1,8 +1,3 @@
-  - date: 2015-11-19
-    name: SF Data Mining Meetup
-    info: "Druid: Fast Interactive Analytics at Scale"
-    link: http://www.meetup.com/Data-Mining/events/226089654/
-
   - date: 2015-12-01
     name: SF Big Analytics Meetup
     info: "Druid: Interactive Exploratory Analytics at Scale"
@@ -17,3 +12,8 @@
     name: Strata + Hadoop World Singapore
     info: "Druid: Power Applications to Analyze Sensor Data"
     link: http://conferences.oreilly.com/strata/big-data-conference-sg-2015/public/schedule/detail/44516
+
+  - date: 2015-12-04
+    name: Productionizing Data Science at Scale
+    info: "Druid Lightning Talk"
+    link: http://www.meetup.com/DataScience-SG-Singapore/events/226456676/
