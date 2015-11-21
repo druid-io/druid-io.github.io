@@ -43,6 +43,10 @@ Jolata leverages Druid as the analytics data store for the realtime network perf
 
 LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in order to propose to our customers a real-time dashboard showing performance indicators of their campaigns.
 
+## LifeBuzz
+
+LifeBuzz is a popular web property that serves tens of millions of pageviews per day. We use Druid for all our advanced analytics needs, including in-house analysis and professional realtime analytics for our sponsored media partners.
+
 ## LiquidM
 
 LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at <http://github.com/liquidm/ruby-druid>.
