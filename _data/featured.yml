@@ -10,12 +10,6 @@
     company: Imply
     link: http://imply.io/post/2015/10/26/hello-pivot.html
  
-  - date: 2015-10-19
-    title: "Announcing Imply: An Enterprise Solution for Druid and Interactive Analytics at Scale"
-    name: Fangjin Yang
-    company: Imply
-    link: http://imply.io/post/2015/10/19/announcing-imply.html
-
   - date: 2015-09-18
     title: "Combining Druid and Spark: Interactive and Flexible Analytics at Scale"
     name: Harish Butani

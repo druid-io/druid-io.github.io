@@ -1,19 +1,15 @@
-  - date: 2015-12-01
-    name: SF Big Analytics Meetup
-    info: "Druid: Interactive Exploratory Analytics at Scale"
-    link: http://www.meetup.com/SF-Big-Analytics/events/225675052/
+  - date: 2015-01-16
+    name: Data Day Texas
+    info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
+    link: http://datadaytexas.com/
 
-  - date: 2015-12-03
-    name: San Francisco Bay Area Big Data and Scalable Systems
-    info: "Programmatic Bidding Data Streams & Druid"
-    link: http://www.meetup.com/San-Francisco-Bay-Area-Big-Data-and-Scalable-Systems/events/226733785/
-
-  - date: 2015-12-04
-    name: Strata + Hadoop World Singapore
-    info: "Druid: Power Applications to Analyze Sensor Data"
-    link: http://conferences.oreilly.com/strata/big-data-conference-sg-2015/public/schedule/detail/44516
+  - date: 2015-03-30
+    name: Strata San Jose
+    info: "Architecting Distributed Databases For Failure: A Case Study with Druid"
+    link: http://conferences.oreilly.com/strata/hadoop-big-data-ca
 
   - date: 2015-12-04
-    name: Productionizing Data Science at Scale
-    info: "Druid Lightning Talk"
-    link: http://www.meetup.com/DataScience-SG-Singapore/events/226456676/
+    name: Predictive Analytics World
+    info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
+    link: http://www.predictiveanalyticsworld.com/sanfrancisco/2016/agenda.php#day2_1005a
+
