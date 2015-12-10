@@ -31,6 +31,10 @@ eBay uses Druid to aggregate multiple data streams for real-time user behavior a
 
 Druid powers a dashboard used internally to visualize real-time analytics on GumGum's Real Time Bidding platform. GumGum runs Druid on Amazon EC2 and can ingest up to 300,000 events per second at peak time.
 
+## Hulu
+
+At Hulu, we use Druid to power our analytics platform that enables us to interactively deep dive into the behaviors of our users and applications in real-time.
+
 ## Imply
 
 Imply uses Druid to power public demos and to power our internal monitoring and metrics.
@@ -52,6 +56,7 @@ LifeBuzz is a popular web property that serves tens of millions of pageviews per
 LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at <http://github.com/liquidm/ruby-druid>.
 
 ## Metamarkets
+
 Druid is the primary data store for Metamarkets’ full stack visual analytics
 service for the RTB (real time bidding) space. Ingesting over 30 billion events
 per day, Metamarkets is able to provide insight to its customers using complex
