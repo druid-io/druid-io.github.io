@@ -3,6 +3,11 @@
     info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
     link: http://datadaytexas.com/
 
+  - date: 2015-01-28
+    name: Los Angeles High Scalability Meetup
+    info: "Real Time Analytics at Scale with Druid"
+    link: http://www.meetup.com/scalela/events/227559808/
+
   - date: 2015-03-30
     name: Strata San Jose
     info: "Architecting Distributed Databases For Failure: A Case Study with Druid"
