@@ -59,12 +59,20 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 
 | Name                                                  | Organization           |
 | ----------------------------------------------------- | ---------------------- |
+| [Bingkun Guo](https://github.com/guobingkun)          | Yahoo!                 |
 | [Charles Allen](https://github.com/drcrallen)         | Metamarkets            |
+| [David Lim](https://github.com/dclim)                 | Imply                  |
 | [Eric Tschetter](https://github.com/cheddar)          | Yahoo!                 |
 | [Fangjin Yang](https://github.com/fjy)                | Imply                  |
 | [Gian Merlino](https://github.com/gianm)              | Imply                  |
 | [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
+| [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
+| [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
+| [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Yahoo!                 |
+| [Navis Ryu](https://github.com/navis)                 | SKTelecom              |
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Metamarkets            |
+| [Parag Jain](https://github.com/pjain1)               | Yahoo                  |
+| [Robin Sahner](https://github.com/rasahner)           | Yahoo                  |
 | [Xavier Léauté](https://github.com/xvrl)              | Metamarkets            |
 
 ### Becoming a committer
@@ -84,4 +92,3 @@ aspects of the Druid project. The responsibilities of the PMC include:
   mailing lists, websites, social media channels, etc.
 - Maintaining guidelines for the project
 
-Currently all committers are also PMC members.
