@@ -23,6 +23,10 @@ With more than 1 billion unique users reached per month, 3 billion ads displayed
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
 
+## Easemob
+
+Easemob Technologies, Inc. is the leading provider of open IM platform, cloud computing customer services. We enable PaaS services for Instant Messaging and SaaS services for Mobile Customer Service.
+
 ## eBay
 
 eBay uses Druid to aggregate multiple data streams for real-time user behavior analytics by ingesting up at a very high rate(over 100,000 events/sec), with the ability to query or aggregate data by any random combination of dimensions, and support over 100 concurrent queries without impacting ingest rate and query latencies.
@@ -158,10 +162,6 @@ Yahoo uses Druid to power various customer-facing audience and advertising analy
 ## YeahMobi
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
-
-## Easemob
-
-Easemob Technologies, Inc. is the leading provider of open IM platform, cloud computing customer services. We enable PaaS services for Instant Messaging and SaaS services for Mobile Customer Service.
 
 <hr/>
 
