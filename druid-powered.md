@@ -159,6 +159,10 @@ Yahoo uses Druid to power various customer-facing audience and advertising analy
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
 
+## Easemob
+
+Easemob Technologies, Inc. is the leading provider of open IM platform, cloud computing customer services. We enable PaaS services for Instant Messaging and SaaS services for Mobile Customer Service.
+
 <hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
