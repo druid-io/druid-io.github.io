@@ -81,6 +81,28 @@ If you'd like to become a committer, that's great! Please contact one of the
 existing committers for a walk through the process. Basically, what we're
 looking for is an interest in ongoing contributions to Druid.
 
+### General committer guidelines
+If you are an official Druid committer then congratulations! You are part of a fantastic group of people. Here are some guidelines to follow to help ensure the Druid project continues to grow and improve:
+
+1. You can merge your own pull request if it fits the rest of the criteria. A common thing to see is "+1 after travis" from other committers.
+1. A pull request should have two +1's who are not the author.
+1. Travis-CI should pass or have some **very** good reason why it won't pass for a pull request.
+1. You reasonably believe that all comments have been addressed.
+1. Enough time has passed to give folks a reasonable chance to indicate a desire to comment on the pull request. AKA: don't merge a pull request that was submitted Friday evening until at least 1~2 regular work days have passed. (use good judgement here)
+1. You are expected to be the champion for your own pull requests.
+1. Being a champion on a pull request can be a significant undertaking depending on the size of the code change and what parts of the code it touches. It may require communicating with other developers, reconciling differences, organizing community feedback, and/or following up with people who have commented in a pull request to ensure comments have been addressed.
+1. Sometimes code is presented as a work-in-progress or as a point of discussion. Use the `Discuss` tag on a pull request in such a case.
+1. If a pull request you are championing is taking longer than expected to merge, be sure to raise the issue in the developer sync.
+1. Limit the number of pull requests you are championing at the same time.
+1. Prioritize code reviews to look at pull requests that are blockers for the next release (see the Milestone marker on the pull request)
+1. Help serve as champion for pull requests that originate from new committers.
+1. If you feel a pull request is required for the next release, mark it as such in the Milestone of the pull request.
+1. Do not comment on a pull request unless you are willing to follow up on the edits.
+1. Give priority to getting older pull requests merged. (Either as their champion or as an active commenter)
+1. And most importantly.. the PMC desires to ensure a positive and effective developer experience! If you find that things are not functioning to your expectations, pleaes raise the issue.
+
+Remember, we all want to see this project thrive!
+
 ## Governance
 
 The PMC (Project Management Committee) is responsible for the administrative
