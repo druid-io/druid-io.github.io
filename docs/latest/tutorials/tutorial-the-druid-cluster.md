@@ -12,7 +12,7 @@ In this tutorial, we will set up other types of Druid nodes and external depende
 ## Downloading Druid
 If you followed the first tutorial, you should already have Druid downloaded. If not, let's go back and do that first.
 
-You can download the latest version of druid [here](http://druid.io/downloads.html). You can also [Build From Source](../development/build.html) and grab the tarball from services/target/druid-<version>-bin.tar.gz.
+You can download the latest version of druid [here](http://druid.io/downloads.html). You can also [Build From Source](../development/build.html) and grab the tarball from distribution/target/druid-<version>-bin.tar.gz.
 
 Either way, once you have the tarball, untar the contents within by issuing:
 
@@ -95,7 +95,7 @@ In the directory, there should be a `common.runtime.properties` file with the fo
 
 ```
 # Extensions
-druid.extensions.coordinates=["io.druid.extensions:druid-examples","io.druid.extensions:druid-kafka-eight"]
+druid.extensions.loadList=["druid-examples","druid-kafka-eight"]
 
 # Zookeeper
 druid.zk.service.host=localhost
@@ -136,7 +136,7 @@ In the directory, there should be a `runtime.properties` file with the following
 ```
 druid.host=localhost
 druid.port=8081
-druid.service=coordinator
+druid.service=druid/coordinator
 
 # The coordinator begins assignment operations after the start delay.
 # We override the default here to start things up faster for examples.
@@ -167,7 +167,7 @@ In the directory we just created, we should have the file `runtime.properties` w
 ```
 druid.host=localhost
 druid.port=8083
-druid.service=historical
+druid.service=druid/historical
 
 # We can only 1 scan segment in parallel with these configs.
 # Our intermediate buffer is also very small so longer topNs will be slow.
@@ -200,7 +200,7 @@ In the directory, there should be a `runtime.properties` file with the following
 ```
 druid.host=localhost
 druid.port=8082
-druid.service=broker
+druid.service=druid/broker
 
 druid.broker.cache.useCache=true
 druid.broker.cache.populateCache=true
@@ -267,7 +267,7 @@ The configurations are located in `config/realtime/runtime.properties` and shoul
 ```
 druid.host=localhost
 druid.port=8084
-druid.service=realtime
+druid.service=druid/realtime
 
 # We can only 1 scan segment in parallel with these configs.
 # Our intermediate buffer is also very small so longer topNs will be slow.

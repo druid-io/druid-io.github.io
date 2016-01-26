@@ -119,11 +119,11 @@ The indexSpec is optional and default parameters will be used if not specified.
 
 |property|description|possible values|default|required?|
 |--------|-----------|---------------|-------|---------|
-|bitmap|type of bitmap compression to use for inverted indices.|`"concise"`, `"roaring"`|`"concise"` or the value of `druid.processing.bitmap.type`, if specified|no|
+|bitmap|type of bitmap compression to use for inverted indices.|`"concise"`, `"roaring"`|`"concise"`|no|
 |dimensionCompression|compression format for dimension columns (currently only affects single-value dimensions, multi-value dimensions are always uncompressed)|`"uncompressed"`, `"lz4"`, `"lzf"`|`"lz4"`|no|
 |metricCompression|compression format for metric columns, defaults to LZ4|`"lz4"`, `"lzf"`|`"lz4"`|no|
 
-### Index Hadoop Task
+### Hadoop Index Task
 
 The Hadoop Index Task is used to index larger data sets that require the parallelization and processing power of a Hadoop cluster.
 
@@ -138,14 +138,17 @@ The Hadoop Index Task is used to index larger data sets that require the paralle
 |--------|-----------|---------|
 |type|The task type, this should always be "index_hadoop".|yes|
 |spec|A Hadoop Index Spec. See [Batch Ingestion](../ingestion/batch-ingestion.html)|yes|
-|hadoopCoordinates|The Maven \<groupId\>:\<artifactId\>:\<version\> of Hadoop to use. The default is "org.apache.hadoop:hadoop-client:2.3.0".|no|
+|hadoopDependencyCoordinates|A JSON array of Hadoop dependency coordinates that Druid will use, this property will override the default Hadoop coordinates. Once specified, Druid will look for those Hadoop dependencies from the location specified by `druid.extensions.hadoopDependenciesDir`|no|
+|classpathPrefix|Classpath that will be pre-appended for the peon process.|no|
 
+The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the `HadoopDruidIndexer` except that three fields must be omitted: `segmentOutputPath`, `workingPath`, `metadataUpdateSpec`. The Indexing Service takes care of setting these fields internally.
 
-The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the `HadoopDruidIndexer` except that three fields must be omitted: `segmentOutputPath`, `workingPath`, `updaterJobSpec`. The Indexing Service takes care of setting these fields internally.
+Note: Before using Hadoop Index Task, please make sure to include Hadoop dependencies so that Druid knows where to pick them up during runtime, see [Include Hadoop Dependencies](../operations/other-hadoop.html).
+Druid uses hadoop-client 2.3.0 as the default Hadoop version, you can get it from the released Druid tarball(under folder ```hadoop_dependencies```) or use [pull-deps](../pull-deps.html).
 
 #### Using your own Hadoop distribution
 
-Druid is compiled against Apache hadoop-client 2.3.0. However, if you happen to use a different flavor of hadoop that is API compatible with hadoop-client 2.3.0, you should only have to change the hadoopCoordinates property to point to the maven artifact used by your distribution. For non-API compatible versions, please see [here](../operations/other-hadoop.html).
+Druid is compiled against Apache hadoop-client 2.3.0. However, if you happen to use a different flavor of Hadoop that is API compatible with hadoop-client 2.3.0, you should first make sure Druid knows where to pick it up, then you should only have to change the `hadoopDependencyCoordinates` property to point to the list of maven artifact used by your distribution. For non-API compatible versions and more information, please see [here](../operations/other-hadoop.html).
 
 #### Resolving dependency conflicts running HadoopIndexTask
 
@@ -281,7 +284,8 @@ Append tasks append a list of segments together into a single segment (one after
     "type": "append",
     "id": <task_id>,
     "dataSource": <task_datasource>,
-    "segments": <JSON list of DataSegment objects to append>
+    "segments": <JSON list of DataSegment objects to append>,
+    "aggregations": <optional list of aggregators>
 }
 ```
 
@@ -301,19 +305,6 @@ Merge tasks merge a list of segments together. Any common timestamps are merged.
 
 Segment Destroying Tasks
 ------------------------
-
-### Delete Task
-
-Delete tasks create empty segments with no data. The grammar is:
-
-```json
-{
-    "type": "delete",
-    "id": <task_id>,
-    "dataSource": <task_datasource>,
-    "segments": <JSON list of DataSegment objects to delete>
-}
-```
 
 ### Kill Task
 
