@@ -11,13 +11,28 @@ a number of tables used for various purposes described below.
 
 The following metadata storage engines are supported:
 
-* Derby (default - only works if you have all processes running on the same node)
-* MySQL (io.druid.extensions:mysql-metadata-storage)
-* PostgreSQL (io.druid.extensions:postgresql-metadata-storage)
+* Derby (default, but not suitable for production)
+* MySQL
+* PostgreSQL
 
-To choose a metadata storage, set the `druid.extensions` configuration to
-include the extension for the metadata storage you plan to use.
+Even though Derby is the default, it works only if you have all Druid
+processes running on the same host, and should be used only for experimentation.
+For production, MySQL or PostgreSQL should be used.
 
+To choose the metadata storage type, set `druid.metadata.storage.type` to
+`mysql`, `postgres` or `derby`.
+Set other `druid.metadata.storage` configuration
+keywords as shown below to give Druid information about how to connect to
+the database.
+
+As discussed in [Including Extensions](../operations/including-extensions.html),
+there are two ways for giving Druid the extension files it needs for the
+database you are using.
+The first is to put the extension files in the classpath.  The second is to
+put the extension files in a subdirectory of
+`druid.extensions.directory` (by default `extensions` under the Druid working directory) and list the subdirectory name in
+`druid.extensions.loadList`.  The example properties below show the second
+way.
 
 ## Setting up MySQL
 
@@ -52,15 +67,20 @@ include the extension for the metadata storage you plan to use.
 3. Configure your Druid metadata storage extension:
 
   Add the following parameters to your Druid configuration, replacing `<host>`
-  with the hostname of the database.
+  with the location (host name and port) of the database.
 
   ```properties
-  druid.extensions.coordinates=[\"io.druid.extensions:mysql-metadata-storage"]
+  druid.extensions.loadList=["mysql-metadata-storage"]
   druid.metadata.storage.type=mysql
-  druid.metadata.storage.connector.connectURI=jdbc:mysql://<host>/druid_test
+  druid.metadata.storage.connector.connectURI=jdbc:mysql://<host>/druid
   druid.metadata.storage.connector.user=druid
   druid.metadata.storage.connector.password=diurd
   ```
+
+  Note: the metadata storage extension is not packaged within the main Druid tarball; it is
+  packaged in a separate tarball that can be downloaded from [here](http://druid.io/downloads.html).
+  You can also get it using [pull-deps](../pull-deps.html), or you can build
+  it from source code; see [Build from Source](../development/build.html).
 
 ## Setting up PostgreSQL
 
@@ -94,14 +114,23 @@ include the extension for the metadata storage you plan to use.
 3. Configure your Druid metadata storage extension:
 
   Add the following parameters to your Druid configuration, replacing `<host>`
-  with the hostname of the database.
+  with the location (host name and port) of the database.
 
   ```properties
-  druid.extensions.coordinates=[\"io.druid.extensions:postgresql-metadata-storage"]
+  druid.extensions.loadList=["postgresql-metadata-storage"]
   druid.metadata.storage.type=postgresql
-  druid.metadata.storage.connector.connectURI=jdbc:postgresql://<host>/druid_test
+  druid.metadata.storage.connector.connectURI=jdbc:postgresql://<host>/druid
   druid.metadata.storage.connector.user=druid
   druid.metadata.storage.connector.password=diurd
+  ```
+
+## Using derby
+
+  Add the following to your Druid configuration.
+
+  ```properties
+  druid.metadata.storage.type=derby
+  druid.metadata.storage.connector.connectURI=jdbc:derby://localhost:1527//home/y/var/druid_state/derby;create=true
   ```
 
 ## Metadata Storage Tables
@@ -167,3 +196,14 @@ Service](../design/indexing-service.html) in the course of its work.
 The Audit table is used to store the audit history for configuration changes
 e.g rule changes done by [Coordinator](../design/coordinator.html) and other
 config changes.
+
++
++##Accessed By: ##
++
++The Metadata Storage is accessed only by:
++
++1. Realtime Nodes
+ 2. Indexing Service Nodes (if any)
++3. Coordinator Nodes
++
++Thus you need to give permissions (eg in AWS Security Groups)  only for these machines to access the Metadata storage.

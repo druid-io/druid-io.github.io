@@ -5,16 +5,16 @@ layout: doc_page
 # Tutorial: A First Look at Druid
 Greetings! This tutorial will help clarify some core Druid concepts. We will use a real-time dataset and issue some basic Druid queries. If you are ready to explore Druid, and learn a thing or two, read on!
 
-Note: If you are behind a corporate firewall, please see our additional [instructions](../tutorials/firewall.html) for running this tutorial. 
+Note: If you are behind a corporate firewall, please see our additional [instructions](../tutorials/firewall.html) for running this tutorial.
 
 About the data
 --------------
 
 The data source we'll be working with is Wikipedia edits. Each time an edit is made in Wikipedia, an event gets pushed to an IRC channel associated with the language of the Wikipedia page. We scrape IRC channels for several different languages and load this data into Druid.
 
-Each event has a timestamp indicating the time of the edit (in UTC time), a list of dimensions indicating various metadata about the event (such as information about the user editing the page and where the user is a bot), and a list of metrics associated with the event (such as the number of characters added and deleted).
+Each event has a timestamp indicating the time of the edit (in UTC time), a list of dimensions indicating various metadata about the event (such as information about the user editing the page and whether the user is a bot), and a list of metrics associated with the event (such as the number of characters added and deleted).
 
-Specifically. the data schema looks like so:
+Specifically. the data schema looks like this:
 
 Dimensions (things to filter on):
 
@@ -53,7 +53,7 @@ We've built a tarball that contains everything you'll need. You'll find it [here
 
 ### Build From Source
 
-Follow the [Build From Source](../development/build.html) guide to build from source. Then grab the tarball from services/target/druid-<version>-bin.tar.gz.
+Follow the [Build From Source](../development/build.html) guide to build from source. Then grab the tarball from distribution/target/druid-<version>-bin.tar.gz.
 
 ### Unpack the Tarball
 
@@ -74,6 +74,8 @@ You should see a bunch of files:
 * run_example_server.sh
 * run_example_client.sh
 * LICENSE, config, examples, lib directories
+* extensions (This folder contains all the extensions that could be loaded by Druid. Note that extension `mysql-metadata-storage` is packaged in a separate tarball that can be downloaded from [here](http://druid.io/downloads.html). See [Including Extensions](../operations/including-extensions.html) for more information about loading extensions.
+* hadoop_dependencies (This folder contains hadoop-client:2.3.0, see [Different Hadoop Versions](../operations/other-hadoop.html) for more information about how Druid picks up Hadoop dependencies)
 
 ## External Dependencies
 
@@ -89,17 +91,20 @@ This tutorial only requires Zookeeper be set up.
 
 #### Set up Zookeeper
 
-* Download zookeeper from [http://www.apache.org/dyn/closer.cgi/zookeeper/](http://www.apache.org/dyn/closer.cgi/zookeeper/). 
+* Download zookeeper from [http://www.apache.org/dyn/closer.cgi/zookeeper/](http://www.apache.org/dyn/closer.cgi/zookeeper/).
 * Install zookeeper.
 
 ```bash
-curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
-tar xzf zookeeper-3.4.6.tar.gz
-cd zookeeper-3.4.6
+ZOOKEPER_VERSION=zookeeper-3.4.6
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/$ZOOKEPER_VERSION/$ZOOKEPER_VERSION.tar.gz -o $ZOOKEPER_VERSION.tar.gz
+tar xzf $ZOOKEPER_VERSION.tar.gz
+cd $ZOOKEPER_VERSION
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 cd ..
 ```
+
+Note you might update zookeper version. (see [here](http://www.gtlib.gatech.edu/pub/apache/zookeeper/)).
 
 Running Example Scripts
 -----------------------
@@ -171,12 +176,12 @@ We are going to make a slightly more complicated query, the [TimeseriesQuery](..
 
 ```json
 {
-    "queryType": "timeseries", 
-    "dataSource": "wikipedia", 
-    "intervals": [ "2010-01-01/2020-01-01" ], 
-    "granularity": "all", 
+    "queryType": "timeseries",
+    "dataSource": "wikipedia",
+    "intervals": [ "2010-01-01/2020-01-01" ],
+    "granularity": "all",
     "aggregations": [
-        {"type": "longSum", "fieldName": "count", "name": "edit_count"}, 
+        {"type": "longSum", "fieldName": "count", "name": "edit_count"},
         {"type": "doubleSum", "fieldName": "added", "name": "chars_added"}
     ]
 }
@@ -206,12 +211,12 @@ We can change granularity for the results to "minute". To specify different gran
 
 ```json
 {
-  "queryType": "timeseries", 
-  "dataSource": "wikipedia", 
-  "intervals": [ "2010-01-01/2020-01-01" ], 
-  "granularity": "minute", 
+  "queryType": "timeseries",
+  "dataSource": "wikipedia",
+  "intervals": [ "2010-01-01/2020-01-01" ],
+  "granularity": "minute",
   "aggregations": [
-     {"type": "longSum", "fieldName": "count", "name": "edit_count"}, 
+     {"type": "longSum", "fieldName": "count", "name": "edit_count"},
      {"type": "doubleSum", "fieldName": "added", "name": "chars_added"}
   ]
 }
@@ -224,11 +229,11 @@ This gives us results like the following:
  {
    "timestamp" : "2013-09-04T21:44:00.000Z",
    "result" : { "chars_added" : 30665.0, "edit_count" : 128 }
- }, 
+ },
  {
    "timestamp" : "2013-09-04T21:45:00.000Z",
    "result" : { "chars_added" : 122637.0, "edit_count" : 167 }
- }, 
+ },
  {
    "timestamp" : "2013-09-04T21:46:00.000Z",
    "result" : { "chars_added" : 78938.0, "edit_count" : 159 }
@@ -253,15 +258,15 @@ and put the following in there:
 ```json
 {
   "queryType": "topN",
-  "dataSource": "wikipedia", 
-  "granularity": "all", 
+  "dataSource": "wikipedia",
+  "granularity": "all",
   "dimension": "page",
   "metric": "edit_count",
   "threshold" : 10,
   "aggregations": [
     {"type": "longSum", "fieldName": "count", "name": "edit_count"}
-  ], 
-  "filter": { "type": "selector", "dimension": "country", "value": "United States" }, 
+  ],
+  "filter": { "type": "selector", "dimension": "country", "value": "United States" },
   "intervals": ["2012-10-01T00:00/2020-01-01T00"]
 }
 ```

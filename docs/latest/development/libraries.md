@@ -30,7 +30,8 @@ Some great folks have written their own libraries to interact with Druid
 
 #### Ruby
 
-* [madvertise/ruby-druid](https://github.com/madvertise/ruby-druid) - A ruby client for Druid
+* [ruby-druid/ruby-druid](https://github.com/ruby-druid/ruby-druid) - A ruby client for Druid
+* [redBorder/druid_config](https://github.com/redBorder/druid_config) - A ruby client to configure and check the status of a Druid Cluster
 
 #### SQL
 
@@ -56,3 +57,8 @@ UIs
 * [mistercrunch/panoramix](https://github.com/mistercrunch/panoramix) - A web application to slice, dice and visualize data out of Druid
 * [grafana](https://github.com/Quantiply/grafana-plugins/tree/master/features/druid) - A plugin for [Grafana](http://grafana.org/)
 * [Pivot](https://github.com/implydata/pivot) - An exploratory analytics UI for Druid
+
+Tools
+---
+
+* [Insert Segments](../../operations/insert-segment-to-db.html) - A tool that can insert segments' metadata into Druid metadata storage.
