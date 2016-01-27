@@ -118,6 +118,7 @@ The following monitors are available:
 |`io.druid.server.metrics.HistoricalMetricsMonitor`|Reports statistics on Historical nodes.|
 |`com.metamx.metrics.JvmMonitor`|Reports JVM-related statistics.|
 |`io.druid.segment.realtime.RealtimeMetricsMonitor`|Reports statistics on Realtime nodes.|
+|`io.druid.server.metrics.EventReceiverFirehoseMonitor`|Reports how many events have been queued in the EventReceiverFirehose.|
 
 ### Emitting Metrics
 
@@ -256,6 +257,16 @@ This config is used to find the [Indexing Service](../design/indexing-service.ht
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.selectors.indexing.serviceName`|The druid.service name of the indexing service Overlord node. To start the Overlord with a different name, set it with this property. |druid/overlord|
+
+
+### Coordinator Discovery
+
+This config is used to find the [Coordinator](../design/coordinator.html) using Curator service discovery. This config is used by the realtime indexing nodes to get information about the segments loaded in the cluster.
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.selectors.coordinator.serviceName`|The druid.service name of the coordinator node. To start the Coordinator with a different name, set it with this property. |druid/coordinator|
+
 
 ### Announcing Segments
 

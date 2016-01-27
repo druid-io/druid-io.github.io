@@ -34,7 +34,7 @@ Querying for your data through the broker will yield correct results.
 
 The problem arises if you want to replicate your data by creating real-time nodes 3 & 4. These new real-time nodes also
 have linear shard specs 1 & 2, and they will consume data from Kafka using a different consumer group. In this case,
-real-time node 3 may consume data from partitions 1 & 2, and real-time node 4 may consume data from partition 3.
+real-time node 3 may consume data from partitions 1 & 2, and real-time node 4 may consume data from partition 2.
 From Druid's perspective, the segments hosted by real-time nodes 1 and 3 are the same, and the data hosted by real-time nodes
 2 and 4 are the same, although they are reading from different Kafka partitions. Querying for the data will yield inconsistent
 results.

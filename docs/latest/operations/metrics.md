@@ -89,10 +89,15 @@ Memcached client metrics are reported as per the following. These metrics come d
 |`ingest/events/processed`|Number of events successfully processed.|dataSource.|Equal to your # of events.|
 |`ingest/rows/output`|Number of Druid rows persisted.|dataSource.|Your # of events with rollup.|
 |`ingest/persists/count`|Number of times persist occurred.|dataSource.|Depends on configuration.|
-|`ingest/persists/time`|Milliseconds spent doing intermediate persist.|dataSource.|Depends on configuration.|Generally a few minutes at most.|
+|`ingest/persists/time`|Milliseconds spent doing intermediate persist.|dataSource.|Depends on configuration. Generally a few minutes at most.|
+|`ingest/persists/cpu`|Cpu time in Nanoseconds spent on doing intermediate persist.|dataSource.|Depends on configuration. Generally a few minutes at most.|
 |`ingest/persists/backPressure`|Number of persists pending.|dataSource.|0|
 |`ingest/persists/failed`|Number of persists that failed.|dataSource.|0|
 |`ingest/handoff/failed`|Number of handoffs that failed.|dataSource.|0|
+|`ingest/merge/time`|Milliseconds spent merging intermediate segments|dataSource.|Depends on configuration. Generally a few minutes at most.|
+|`ingest/merge/cpu`|Cpu time in Nanoseconds spent on merging intermediate segments.|dataSource.|Depends on configuration. Generally a few minutes at most.|
+
+Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0. 
 
 ### Indexing Service
 
@@ -155,6 +160,14 @@ These metrics are only available if the JVMMonitor module is included.
 |`jvm/mem/committed`|Committed memory.|memKind.|close to max memory|
 |`jvm/gc/count`|Garbage collection count.|gcName.|< 100|
 |`jvm/gc/time`|Garbage collection time.|gcName.|< 1s|	
+
+### EventReceiverFirehose
+
+The following metric is only available if the EventReceiverFirehoseMonitor module is included.
+
+|Metric|Description|Dimensions|Normal Value|
+|------|-----------|----------|------------|
+|`ingest/events/buffered`|Number of events queued in the EventReceiverFirehose's buffer|serviceName, bufferCapacity.|Equal to current # of events in the buffer queue.|
 
 ## Sys
 
