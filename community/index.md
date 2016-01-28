@@ -35,11 +35,10 @@ to include it in the list.
 
 ### Getting your changes accepted
 
-Patches to Druid are done through GitHub pull requests. Most pull requests
-will be merged after two committers have reviewed it and given a +1. The one
+Patches to Druid are done through GitHub pull requests. Most documentation or unit-test-only pull requests require a single +1 from an established committer. Most code pull requests will be merged after two committers have reviewed it and given a +1. The
 exception is major architectural changes or API changes, which often warrant
 additional review. For those, it can help to discuss things on the [druid-development
-list](https://groups.google.com/d/forum/druid-development) beforehand.
+list](https://groups.google.com/d/forum/druid-development) or a github issue beforehand.
 
 In general please follow the [contributing guidelines](https://github.com/druid-io/druid/blob/master/CONTRIBUTING.md)
 when sending in pull requests. This will help review proceed as quickly as
