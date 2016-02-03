@@ -73,7 +73,7 @@ For a comprehensive look at Druid architecture, please read our [white paper](ht
 
 ## Scale
 
-Existing production Druid clusters have scaled to the following:
+[Existing production Druid clusters](http://www.marketwired.com/press-release/metamarkets-clients-analyzing-100-billion-programmatic-events-daily-on-track-surpass-2061596.htm) have scaled to the following:
 
 - 3+ trillion events/month
 - 3M+ events/sec through Druid's real-time ingestion
