@@ -57,6 +57,40 @@
    background-color: transparent;
 }
 
+.doc-content .note {
+  position: relative;
+  display: block;
+  padding: 10px 14px 10px 42px;
+  margin: 35px 0 35px 0;
+  background: light-gray;
+  border-radius: 3px;
+}
+.doc-content .note:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 42px;
+  background-position: 10px 9px;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+}
+.doc-content .note.info {
+  background: rgba(51, 200, 208, 0.26);
+  border-left: 2px solid rgba(51, 200, 208, 0.5);
+}
+.doc-content .note.info:after {
+  background-image: url(/img/note-info.svg);
+}
+.doc-content .note.caution {
+  background: rgba(249, 169, 86, 0.26);
+  border-left: 2px solid rgba(249, 169, 86, 0.5);
+}
+.doc-content .note.caution:after {
+  background-image: url(/img/note-caution.svg);
+}
+
 td, th {
   padding: 5px;
 }
