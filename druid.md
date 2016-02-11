@@ -40,7 +40,7 @@ of data, and thousands of queries every second.
 
 ## Is Druid Right for Me?
 
-Organizations have deployed Druid to analyze ad-tech, dev-ops, network traffic,
+Organizations have deployed Druid to analyze ad-tech, dev-ops, network traffic, cloud security, 
 website traffic, finance, and sensor data. Druid is a good fit
 if you have the following requirements:
 
