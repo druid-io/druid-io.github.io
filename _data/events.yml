@@ -1,13 +1,3 @@
-  - date: 2015-01-16
-    name: Data Day Texas
-    info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
-    link: http://datadaytexas.com/
-
-  - date: 2015-01-28
-    name: Los Angeles High Scalability Meetup
-    info: "Real Time Analytics at Scale with Druid"
-    link: http://www.meetup.com/scalela/events/227559808/
-
   - date: 2015-03-30
     name: Strata San Jose
     info: "Architecting Distributed Databases For Failure: A Case Study with Druid"
@@ -17,4 +7,14 @@
     name: Predictive Analytics World
     info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
     link: http://www.predictiveanalyticsworld.com/sanfrancisco/2016/agenda.php#day2_1005a
+
+  - date: 2016-06-03
+    name: Strata London
+    info: "Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid"
+    link: http://conferences.oreilly.com/strata/hadoop-big-data-eu/public/schedule/detail/49606
+
+  - date: 2016-07-23
+    name: Data Day Seattle
+    info: "Building an Open Source Streaming Stack with Druid and Kafka"
+    link: http://datadayseattle.com/
 

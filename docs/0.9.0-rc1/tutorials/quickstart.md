@@ -28,9 +28,9 @@ OSes](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.htm
 To install Druid, issue the following commands in your terminal:
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-bin.tar.gz
-tar -xzf druid-0.9.0-bin.tar.gz
-cd druid-0.9.0
+curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-rc1-bin.tar.gz
+tar -xzf druid-0.9.0-rc1-bin.tar.gz
+cd druid-0.9.0-rc1
 ```
 
 In the package, you should find:
