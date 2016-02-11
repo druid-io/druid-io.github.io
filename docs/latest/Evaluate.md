@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: misc/evaluate.html
+layout: redirect_page
+redirect_target: misc/evaluate.html
 ---

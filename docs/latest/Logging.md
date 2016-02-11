@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: configuration/logging.html
+layout: redirect_page
+redirect_target: configuration/logging.html
 ---
