@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: misc/cluster-setup.html
+layout: redirect_page
+redirect_target: misc/cluster-setup.html
 ---
