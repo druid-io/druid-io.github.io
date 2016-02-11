@@ -59,9 +59,9 @@ since you will be editing the configurations and then copying the modified distr
 of your servers.
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-bin.tar.gz
-tar -xzf druid-0.9.0-bin.tar.gz
-cd druid-0.9.0
+curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-rc1-bin.tar.gz
+tar -xzf druid-0.9.0-rc1-bin.tar.gz
+cd druid-0.9.0-rc1
 ```
 
 In this package, you'll find:
