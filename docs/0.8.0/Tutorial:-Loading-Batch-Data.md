@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: tutorials/tutorial-loading-batch-data.html
+layout: redirect_page
+redirect_target: tutorials/tutorial-loading-batch-data.html
 ---

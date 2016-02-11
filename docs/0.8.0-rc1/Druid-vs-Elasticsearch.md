@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: comparisons/druid-vs-elasticsearch.html
+layout: redirect_page
+redirect_target: comparisons/druid-vs-elasticsearch.html
 ---

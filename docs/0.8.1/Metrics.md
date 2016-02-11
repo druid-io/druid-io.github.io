@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: operations/metrics.html
+layout: redirect_page
+redirect_target: operations/metrics.html
 ---

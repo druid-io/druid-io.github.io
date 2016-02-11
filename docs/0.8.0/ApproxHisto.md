@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: development/approximate-histograms.html
+layout: redirect_page
+redirect_target: development/approximate-histograms.html
 ---

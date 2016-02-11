@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: design/design.html
+layout: redirect_page
+redirect_target: design/design.html
 ---

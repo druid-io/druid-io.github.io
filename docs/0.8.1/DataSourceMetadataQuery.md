@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: querying/datasourcemetadataquery.html
+layout: redirect_page
+redirect_target: querying/datasourcemetadataquery.html
 ---
