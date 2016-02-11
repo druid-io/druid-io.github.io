@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: operations/rule-configuration.html
+layout: redirect_page
+redirect_target: operations/rule-configuration.html
 ---

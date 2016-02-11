@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: operations/including-extensions.html
+layout: redirect_page
+redirect_target: operations/including-extensions.html
 ---

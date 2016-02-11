@@ -11,9 +11,6 @@ redcarpet:
 
 highlighter: pygments
 
-gems:
-  - jekyll-redirect-from
-
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 

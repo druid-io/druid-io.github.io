@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: ingestion/batch-ingestion.html
+layout: redirect_page
+redirect_target: ingestion/batch-ingestion.html
 ---

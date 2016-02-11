@@ -1,5 +1,4 @@
 ---
-title: this page has moved.
-layout: simple_page
-redirect_to: operations/rolling-updates.html
+layout: redirect_page
+redirect_target: operations/rolling-updates.html
 ---
