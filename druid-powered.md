@@ -163,6 +163,10 @@ Yahoo uses Druid to power various customer-facing audience and advertising analy
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
 
+## Youku Tudou
+
+Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
+
 <hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
