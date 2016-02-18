@@ -6,6 +6,10 @@ layout: simple_page
 
 There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
+## Alibaba
+
+At Alibaba Search Group, we use Druid for real-time analytics of users' interaction with its popular e-commerce site.
+
 ## Archive-It.org
 
 Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
