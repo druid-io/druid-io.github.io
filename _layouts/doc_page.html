@@ -39,7 +39,7 @@ sectionid: docs
           {{ content }}
         </div>
         <div class="col-md-3">
-          <div class="searchbox" style="position:relative">
+          <div class="searchbox">
             <gcse:searchbox-only></gcse:searchbox-only>
           </div>
           <div id="toc" class="nav toc hidden-print">
@@ -50,6 +50,22 @@ sectionid: docs
 
     {% include page_footer.html %}
 
-    <script>$(function() { $(".toc").load("/docs/{{ version }}/toc.html"); });</script>
+    <script>
+    $(function() {
+      $(".toc").load("/docs/{{ version }}/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
   </body>
 </html>
