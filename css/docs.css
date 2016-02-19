@@ -95,17 +95,43 @@ td, th {
   padding: 5px;
 }
 
-/* Remove the x from google search */
-.gsc-clear-button {
-  display:none;
-}
-
-.gsc-input input {
-  background-image: none !important;
-}
-
 .toc ul {
    list-style: none;
    list-style-position: inside;
    padding-left: 15px;
+}
+
+/* Fix styling on the Google Custom Search */
+.searchbox {
+  position: relative;
+  height: 26px;
+}
+
+.searchbox .gsc-search-button, .searchbox .gsib_b {
+  display: none;
+}
+
+.searchbox input {
+  background: white !important;
+  border-radius: 1px !important;
+  width: 100% !important;
+  padding: 5px 8px !important;
+  font-size: 13px !important;
+  border: 1px solid #dfdfdf !important;
+  height: 26px !important;
+}
+
+.searchbox input:hover {
+  border-color: #c4c4c4 !important;
+}
+
+.searchbox input:focus {
+  border-color: #c4c4c4 !important;
+}
+
+.searchbox form, .searchbox table, .searchbox tbody, .searchbox tr, .searchbox td, .searchbox .gsc-input-box {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
 }
