@@ -70,6 +70,13 @@ service for the RTB (real time bidding) space. Ingesting over 30 billion events
 per day, Metamarkets is able to provide insight to its customers using complex
 ad-hoc queries at a 95th percentile query time of around 1 second.
 
+## Monetate
+
+Druid is a critical component in Monetate's personalization platform, where it 
+acts as the serving layer of a lambda architecture.  As such, Druid powers 
+numerous real-time dashboards that provide marketers valuable insights into
+campaign performance and customer behavior.
+
 ## N3twork
 
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
