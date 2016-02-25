@@ -47,6 +47,13 @@ At Hulu, we use Druid to power our analytics platform that enables us to interac
 
 Imply uses Druid to power public demos and to power our internal monitoring and metrics.
 
+## Italiaonline
+
+Italiaonline exploits Druid for Internet trends and analytics management inside its new [Data-Driven Contents Management System](http://www.italiaonline.it/en/supereva-a-new-online-publishing-experience/).
+Italiaonline is the first Italian internet company, with the two most visited web portals, Libero and Virgilio, and the most used email service of the country @libero.it. Italiaonline features 16.8 million unique users per month&ast;, 4.8 billion impressions per month&ast;&ast;,  10.2 million active email accounts&ast;&ast; and a 58% active reach&ast;.
+
+*&ast; Source: Audiweb View, powered by Nielsen, TDA 2H 2015 &ast;&ast; Internal data, December 2015*
+
 ## Jolata
 
 Jolata leverages Druid as the analytics data store for the realtime network perfomance managment platform. Injesting over 35 billion events per day, Jolata calculates a billion metrics every minute to visualize precise network metrics in real-time, and enable operators to quickly drill down and perform root cause analysis.
