@@ -1,11 +1,11 @@
   - date: 2016-02-24
-    title: Fast ETL pipelines for Big Data With Kafka, Flink and Druid
-    name: Luis Claudio Silveira
-    company:Data On Scale
+    title: "Fast ETL pipelines for Big Data With Kafka, Flink and Druid"
+    name: Luis Claudio Rodrigues da Silveira
+    company: Paraná Electoral Regional Court 
     link: http://dataonscale.com/2016/02/24/fast-etl-pipelines-for-big-data-with-kafka-flink-and-druid/
 
   - date: 2016-02-18
-    title: Real Time Metrics on Tracker Calls
+    title: "Real Time Metrics on Tracker Calls"
     name: Camille Coueslant, Benoit Jehanno
     company: Criteo
     link: http://labs.criteo.com/2016/02/real-time-metrics-on-tracker-calls/
