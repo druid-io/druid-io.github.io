@@ -10,6 +10,10 @@ There are numerous companies of various sizes in production with Druid. This lis
 
 At Alibaba Search Group, we use Druid for real-time analytics of users' interaction with its popular e-commerce site.
 
+## Appsflyer
+
+Druid is the major player in the real-time analytics pipeline at Appsflyer, and it serves as customer facing analytics database for dashboard reporting.
+
 ## Archive-It.org
 
 Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
