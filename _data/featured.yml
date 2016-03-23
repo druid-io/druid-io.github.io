@@ -1,3 +1,9 @@
+  - date: 2016-03-09
+    title: "Architecting Druid for Failure"
+    name: Fangjin Yang
+    company: Imply 
+    link: https://www.oreilly.com/learning/architecting-druid-for-failure?cmp=tw-data-na-article-lgen_beta_post_tweet
+
   - date: 2016-02-24
     title: "Fast ETL pipelines for Big Data With Kafka, Flink and Druid"
     name: Luis Claudio Rodrigues da Silveira

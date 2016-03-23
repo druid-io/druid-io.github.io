@@ -23,6 +23,8 @@ Cisco uses Druid to power a real-time analytics platform for network flow data.
 Criteo is using druid to provide its customers with user-centric analytics & reporting. 
 With more than 1 billion unique users reached per month, 3 billion ads displayed per day, and a 70% growth in 2014, Criteo's previous stack was hard pressed keeping with the load. Replacing it with druid helped us achieved linear scalability while letting our customers explore their data in new and interactive ways.
 
+* [Real Time Metrics on Tracker Calls](http://labs.criteo.com/2016/02/real-time-metrics-on-tracker-calls/)
+
 ## DripStat
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
@@ -35,9 +37,14 @@ Easemob Technologies, Inc. is the leading provider of open IM platform, cloud co
 
 eBay uses Druid to aggregate multiple data streams for real-time user behavior analytics by ingesting up at a very high rate(over 100,000 events/sec), with the ability to query or aggregate data by any random combination of dimensions, and support over 100 concurrent queries without impacting ingest rate and query latencies.
 
+* [Druid and Pulsar](http://blog.csdn.net/ebay/article/details/50205611)
+* [embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications](http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/)
+
 ## GumGum
 
 Druid powers a dashboard used internally to visualize real-time analytics on GumGum's Real Time Bidding platform. GumGum runs Druid on Amazon EC2 and can ingest up to 300,000 events per second at peak time.
+
+* [Lambda Architecture with Druid at GumGum](http://whynosql.com/2015/11/06/lambda-architecture-with-druid-at-gumgum/)
 
 ## Hulu
 
@@ -46,6 +53,10 @@ At Hulu, we use Druid to power our analytics platform that enables us to interac
 ## Imply
 
 Imply uses Druid to power public demos and to power our internal monitoring and metrics.
+
+* [Pivot: An Open Source Data Exploration UI for Druid](http://imply.io/post/2015/10/26/hello-pivot.html)
+* [A Tour Through the "Big Data" Zoo](http://imply.io/post/2015/11/04/big-data-zoo.html)
+* [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
 
 ## Italiaonline
 
@@ -57,6 +68,8 @@ Italiaonline is the first Italian internet company, with the two most visited we
 ## Jolata
 
 Jolata leverages Druid as the analytics data store for the realtime network perfomance managment platform. Injesting over 35 billion events per day, Jolata calculates a billion metrics every minute to visualize precise network metrics in real-time, and enable operators to quickly drill down and perform root cause analysis.
+
+* [Realtime Analytics Powered by Druid](https://www.linkedin.com/pulse/realtime-analytics-powered-druid-kiran-patchigolla)
 
 ## LDMobile
 
@@ -84,6 +97,10 @@ acts as the serving layer of a lambda architecture.  As such, Druid powers
 numerous real-time dashboards that provide marketers valuable insights into
 campaign performance and customer behavior.
 
+* [Gone Monetate : Personalizing Marketing at 100K events/second](http://brianoneill.blogspot.com/2015/09/gone-monetate-personalizing-marketing.html)
+* [Druid : Vagrant Up (and Tranquility!)](http://brianoneill.blogspot.com/2015/09/druid-vagrant-up-and-tranquility.html)
+* [Kinesis -> Druid : Options Analysis (to Push? to Pull? to Firehose? to Nay Nay?)](http://brianoneill.blogspot.com/2015/09/kinesis-druid-options-analysis-to-push.html)
+
 ## N3twork
 
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
@@ -97,6 +114,8 @@ two terabytes per hour, with the ability to query data as its being ingested.
 They use Druid to pinpoint anomalies within their infrastructure, endpoint
 activity and content flow.
 
+* [Announcing Suro: Backbone of Netflix's Data Pipeline](http://techblog.netflix.com/2013/12/announcing-suro-backbone-of-netflixs.html)
+
 ## OneAPM
 
 OneAPM <http://oneapm.com> is an IT service compmay focusing on Application Performance Management (APM). In OneAPM, Druid is used to power clients' interactive queries on performance data collected from their applications in realtime.
@@ -104,6 +123,9 @@ OneAPM <http://oneapm.com> is an IT service compmay focusing on Application Perf
 ## Optimizely
 
 Optimizely uses Druid to power the results dashboard for Optimizely Personalization. Druid enables Optimizely to provide our customers with in-depth, customizable metrics in real time, allowing them to monitor, test and improve their Personalization campaigns with greater ease and flexibility than before.
+
+* [Slicing and dicing data with druid](https://medium.com/engineers-optimizely/slicing-and-dicing-data-with-druid-f61cca8a63d2)
+* [The anatomy of a Druid segment file](https://medium.com/engineers-optimizely/the-anatomy-of-a-druid-segment-file-bed89a93af1e)
 
 ## Paypal
 
@@ -152,7 +174,6 @@ Skyport Systems provides zero-effort, low-touch secure servers that help organiz
 
 Smyte provides an API and UI for detecting and blocking bad actors on the internet. Druid powers the analytics portion of our user interface providing insight into what users are doing on the website, and specifically which features are unique between different sets of users.
 
-
 ## Streamlyzer
 
 Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
@@ -180,6 +201,8 @@ Xiaomi uses Druid as an analytics tool to analyze online advertising data.
 ## Yahoo
 
 Yahoo uses Druid to power various customer-facing audience and advertising analytics products.
+
+* [Complementing Hadoop at Yahoo: Interactive Analytics with Druid](http://yahooeng.tumblr.com/post/125287346011/complementing-hadoop-at-yahoo-interactive)
 
 ## YeahMobi
 
