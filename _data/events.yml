@@ -1,18 +1,3 @@
- - date: 2015-03-29
-   name: Apache Kafka Meetup
-   info: "Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid"
-   link: http://www.meetup.com/http-kafka-apache-org/events/229424437/
-
- - date: 2015-03-30
-   name: Strata San Jose
-   info: "Analyzing billions of users with Druid and Theta Sketches"
-   link: http://conferences.oreilly.com/strata/hadoop-big-data-ca/public/schedule/detail/47078
-
- - date: 2016-03-30
-    name: Strata San Jose
-    info: "Architecting Distributed Databases For Failure: A Case Study with Druid"
-    link: http://conferences.oreilly.com/strata/hadoop-big-data-ca
-
   - date: 2016-04-05
     name: Predictive Analytics World
     info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
