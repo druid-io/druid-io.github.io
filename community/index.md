@@ -58,7 +58,7 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 
 | Name                                                  | Organization           |
 | ----------------------------------------------------- | ---------------------- |
-| [Bingkun Guo](https://github.com/guobingkun)          | Yahoo!                 |
+| [Bingkun Guo](https://github.com/guobingkun)          | Google                 |
 | [Charles Allen](https://github.com/drcrallen)         | Metamarkets            |
 | [David Lim](https://github.com/dclim)                 | Imply                  |
 | [Eric Tschetter](https://github.com/cheddar)          | Yahoo!                 |
