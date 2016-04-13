@@ -9,7 +9,7 @@ tags: "druid, analytics, datastore, olap"
 In our last post, we got a realtime node working with example Twitter data. Now it's time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [Firehose](https://github.com/metamx/druid/wiki/Firehose). In this post we'll outline how to ingest data from Kafka in realtime using the Kafka Firehose.
 
 ## About Druid ##
-Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
+Druid is a rockin' exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10's of billions of events per day for the [Metamarkets](http://www.metamarkets.com) platform, and Metamarkets is committed to building Druid in open source.
 
 To learn more check out the first blog in this series [Understanding Druid Via Twitter Data](http://druid.io/blog/2013/08/06/twitter-tutorial.html)
 
