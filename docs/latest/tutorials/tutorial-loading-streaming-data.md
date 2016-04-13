@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: tutorials/tutorial-streams.html
+redirect_target: tutorial-streams.html
 ---

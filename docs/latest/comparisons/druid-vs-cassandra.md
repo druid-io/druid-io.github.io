@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: comparisons/druid-vs-key-value.html
+redirect_target: druid-vs-key-value.html
 ---
