@@ -26,6 +26,7 @@ Cleaning Up Segments
 --------------------
 
 Each run, the Druid coordinator compares the list of available database segments in the database with the current segments in the cluster. Segments that are not in the database but are still being served in the cluster are flagged and appended to a removal list. Segments that are overshadowed (their versions are too old and their data has been replaced by newer segments) are also dropped.
+Note that if all segments in database are deleted(or marked unused), then coordinator will not drop anything from the historicals. This is done to prevent a race condition in which the coordinator would drop all segments if it started running cleanup before it finished polling the database for available segments for the first time and believed that there were no segments.
 
 Segment Availability
 --------------------
@@ -76,6 +77,8 @@ Returns the number of segments to load and drop, as well as the total segment lo
 
 * `/druid/coordinator/v1/loadqueue?full`
 
+Returns the serialized JSON of segments to load and drop for each historical node.
+
 #### Metadata store information
 
 * `/druid/coordinator/v1/metadata/datasources`
@@ -101,6 +104,14 @@ Returns a list of all segments for a datasource as stored in the metadata store.
 * `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full`
 
 Returns a list of all segments for a datasource with the full segment metadata as stored in the metadata store.
+
+* POST `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments`
+
+Returns a list of all segments, overlapping with any of given intervals,  for a datasource as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000", "2012-01-05T00:00:00.000/2012-01-07T00:00:00.000"]
+
+* POST `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full`
+
+Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000", "2012-01-05T00:00:00.000/2012-01-07T00:00:00.000"]
 
 * `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}`
 
@@ -142,7 +153,7 @@ Returns a map of an interval to a map of segment metadata to a set of server nam
 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}`
 
-Returns a set of segment ids for an ISO8601 interval.
+Returns a set of segment ids for an ISO8601 interval. Note that the interval is delimited by a `_` instead of a `/`
 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?simple`
 
@@ -151,6 +162,10 @@ Returns a map of segment intervals contained within the specified interval to a 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?full`
 
 Returns a map of segment intervals contained within the specified interval to a map of segment metadata to a set of server names that contain the segment for an interval.
+
+* `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}/serverview`
+
+Returns a map of segment intervals contained within the specified interval to information about the servers that contain the segment for an interval.
 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/segments`
 
@@ -187,9 +202,35 @@ Returns all rules for a specified datasource and includes default datasource.
 
  Returns audit history of rules for all datasources. default value of interval can be specified by setting `druid.audit.manager.auditHistoryMillis` (1 week if not configured) in coordinator runtime.properties
 
+* `/druid/coordinator/v1/rules/history?count=<n>`
+
+ Returns last <n> entries of audit history of rules for all datasources.
+
 * `/druid/coordinator/v1/rules/{dataSourceName}/history?interval=<interval>`
 
  Returns audit history of rules for a specified datasource. default value of interval can be specified by setting `druid.audit.manager.auditHistoryMillis` (1 week if not configured) in coordinator runtime.properties
+
+* `/druid/coordinator/v1/rules/{dataSourceName}/history?count=<n>`
+
+ Returns last <n> entries of audit history of rules for a specified datasource.
+
+#### Intervals
+
+* `/druid/coordinator/v1/intervals`
+
+Returns all intervals for all datasources with total size and count.
+
+* `/druid/coordinator/v1/intervals/{interval}`
+
+Returns aggregated total size and count for all intervals that intersect given isointerval.
+
+* `/druid/coordinator/v1/intervals/{interval}?simple`
+
+Returns total size and count for each interval within given isointerval.
+
+* `/druid/coordinator/v1/intervals/{interval}?full`
+
+Returns total size and count for each datasource for each interval within given isointerval.
 
 
 ### POST
@@ -225,9 +266,10 @@ Optional Header Parameters for auditing the config change can also be specified.
 
 Disables a datasource.
 
-* `/druid/coordinator/v1/datasources/{dataSourceName}?kill=true&interval={myISO8601Interval}>`
+* `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}`
+* `@Deprecated. /druid/coordinator/v1/datasources/{dataSourceName}?kill=true&interval={myISO8601Interval}`
 
-Runs a [Kill task](../misc/tasks.html) for a given interval and datasource.
+Runs a [Kill task](../ingestion/tasks.html) for a given interval and datasource.
 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}`
 
