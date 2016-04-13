@@ -8,8 +8,8 @@ A Druid ingestion spec consists of 3 components:
 
 ```json
 {
-  "dataSchema" : {...}
-  "ioConfig" : {...}
+  "dataSchema" : {...},
+  "ioConfig" : {...},
   "tuningConfig" : {...}
 }
 ```
@@ -75,33 +75,41 @@ An example dataSchema is shown below:
 
 ## Parser
 
-If `type` is not included, the parser defaults to `string`.
+If `type` is not included, the parser defaults to `string`. For additional data formats, please see our [extensions list](../development/extensions.html).
 
 ### String Parser
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
-| type | String | This should say `string`. | no |
-| parseSpec | JSON Object | Specifies the format of the data. | yes |
+| type | String | This should say `string` in general, or `hadoopyString` when used in a Hadoop indexing job. | no |
+| parseSpec | JSON Object | Specifies the format, timestamp, and dimensions of the data. | yes |
 
 ### Protobuf Parser
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
 | type | String | This should say `protobuf`. | no |
-| parseSpec | JSON Object | Specifies the format of the data. | yes |
+| parseSpec | JSON Object | Specifies the timestamp and dimensions of the data. Should be a timeAndDims parseSpec. | yes |
 
 ### ParseSpec
+
+ParseSpecs serve two purposes:
+
+- The String Parser use them to determine the format (i.e. JSON, CSV, TSV) of incoming rows.
+- All Parsers use them to determine the timestamp and dimensions of incoming rows.
 
 If `format` is not included, the parseSpec defaults to `tsv`.
 
 #### JSON ParseSpec
+
+Use this with the String Parser to load JSON.
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
 | format | String | This should say `json`. | no |
 | timestampSpec | JSON Object | Specifies the column and format of the timestamp. | yes |
 | dimensionsSpec | JSON Object | Specifies the dimensions of the data. | yes |
+| flattenSpec | JSON Object | Specifies flattening configuration for nested JSON data. See [Flattening JSON](./flatten-json.html) for more info. | no |
 
 #### JSON Lowercase ParseSpec
 
@@ -113,8 +121,9 @@ This is a special variation of the JSON ParseSpec that lower cases all the colum
 | timestampSpec | JSON Object | Specifies the column and format of the timestamp. | yes |
 | dimensionsSpec | JSON Object | Specifies the dimensions of the data. | yes |
 
-
 #### CSV ParseSpec
+
+Use this with the String Parser to load CSV. Strings are parsed using the net.sf.opencsv library.
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
@@ -124,7 +133,10 @@ This is a special variation of the JSON ParseSpec that lower cases all the colum
 | listDelimiter | String | A custom delimiter for multi-value dimensions. | no (default == ctrl+A) |
 | columns | JSON array | Specifies the columns of the data. | yes |
 
-#### TSV ParseSpec
+#### TSV / Delimited ParseSpec
+
+Use this with the String Parser to load any delimited text that does not require special escaping. By default,
+the delimiter is a tab, so this will load TSV.
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
@@ -135,7 +147,18 @@ This is a special variation of the JSON ParseSpec that lower cases all the colum
 | listDelimiter | String | A custom delimiter for multi-value dimensions. | no (default == ctrl+A) |
 | columns | JSON String array | Specifies the columns of the data. | yes |
 
-### Timestamp Spec
+#### TimeAndDims ParseSpec
+
+Use this with non-String Parsers to provide them with timestamp and dimensions information. Non-String Parsers
+handle all formatting decisions on their own, without using the ParseSpec.
+
+| Field | Type | Description | Required |
+|-------|------|-------------|----------|
+| format | String | This should say `timeAndDims`. | yes |
+| timestampSpec | JSON Object | Specifies the column and format of the timestamp. | yes |
+| dimensionsSpec | JSON Object | Specifies the dimensions of the data. | yes |
+
+### TimestampSpec
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
@@ -177,12 +200,14 @@ This spec is used to generate segments with arbitrary intervals (it tries to cre
 
 # IO Config
 
-Real-time Ingestion: See [Real-time ingestion](../ingestion/realtime-ingestion.html).
+Stream Push Ingestion: Stream push ingestion with Tranquility does not require an IO Config.
+Stream Pull Ingestion: See [Stream pull ingestion](../ingestion/stream-pull.html).
 Batch Ingestion: See [Batch ingestion](../ingestion/batch-ingestion.html)
 
-# Ingestion Spec
+# Tuning Config
 
-Real-time Ingestion: See [Real-time ingestion](../ingestion/realtime-ingestion.html).
+Stream Push Ingestion: See [Stream push ingestion](../ingestion/stream-push.html).
+Stream Pull Ingestion: See [Stream pull ingestion](../ingestion/stream-pull.html).
 Batch Ingestion: See [Batch ingestion](../ingestion/batch-ingestion.html)
 
 # Evaluating Timestamp, Dimensions and Metrics
