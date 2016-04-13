@@ -1,13 +1,3 @@
-  - date: 2016-04-05
-    name: Predictive Analytics World
-    info: "Open Source Lambda Architecture with Kafka, Samza, Hadoop, and Druid"
-    link: http://www.predictiveanalyticsworld.com/sanfrancisco/2016/agenda.php#day2_1005a
-
-  - date: 2016-04-07
-    name: Druid Meetup
-    info: "Druid at Paypal"
-    link: http://www.meetup.com/druidio/events/229473210/
-
   - date: 2016-04-21
     name: Percona Live
     info: "Druid: Power Interactive Applications at Scale"

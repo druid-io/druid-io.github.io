@@ -14,13 +14,13 @@ highlighter: pygments
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_version: 0.8.3
+druid_version: 0.9.0
 
-druid_rc_version: 0.9.0-rc3
-druid_stable_version: 0.8.3
-druid_latest_version: 0.8.3
+druid_rc_version:
+druid_stable_version: 0.9.0
+druid_latest_version: 0.9.0
 
-tranquility_stable_version: 0.7.3
+tranquility_stable_version: 0.7.4
 
 prose:
   metadata:
