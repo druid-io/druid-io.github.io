@@ -10,7 +10,7 @@ This describes the common configuration shared by all Druid nodes. These configu
 
 There are four JVM parameters that we set on all of our processes:
 
-1.  `-Duser.timezone=UTC` This sets the default timezone of the JVM to UTC. We always set this and do not test with other default timezones, so local timezones might work, but they also might uncover weird and interesting bugs.
+1.  `-Duser.timezone=UTC` This sets the default timezone of the JVM to UTC. We always set this and do not test with other default timezones, so local timezones might work, but they also might uncover weird and interesting bugs. To issue queries in a non-UTC timezone, see [query granularities](../querying/granularities.html#period-granularities)
 2.  `-Dfile.encoding=UTF-8` This is similar to timezone, we test assuming UTF-8. Local encodings might work, but they also might result in weird and interesting bugs.
 3.  `-Djava.io.tmpdir=<a path>` Various parts of the system that interact with the file system do it via temporary files, and these files can get somewhat large. Many production systems are set up to have small (but fast) `/tmp` directories, which can be problematic with Druid so we recommend pointing the JVM’s tmp directory to something with a little more meat.
 4.  `-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager` This allows log4j2 to handle logs for non-log4j2 components (like jetty) which use standard java logging.
@@ -21,10 +21,10 @@ Many of Druid's external dependencies can be plugged in as modules. Extensions c
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`druid.extensions.remoteRepositories`|This is a JSON Array list of remote repositories to load dependencies from. If this is not set to '[]', Druid will try to download extensions at the specified remote repository.|["http://repo1.maven.org/maven2/", "https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local"]|
-|`druid.extensions.localRepository`|.  The way maven gets dependencies is that it downloads them to a "local repository" on your local disk and then collects the paths to each of the jars.  This specifies the directory to consider the "local repository". If this is set, remoteRepositories is not required.|`~/.m2/repository`|
-|`druid.extensions.coordinates`|This is a JSON array of "groupId:artifactId[:version]" maven coordinates. For artifacts without version specified, Druid will append the default version. Notice: extensions explicitly specified in this property will have precedence over ones included in the classpath when Druid loads extensions. If there are duplicate extensions, Druid will only load ones explicitly specified here|[]|
-|`druid.extensions.defaultVersion`|Version to use for extension artifacts without version information.|`druid-server` artifact version.|
+|`druid.extensions.directory`|The root extension directory where user can put extensions related files. Druid will load extensions stored under this directory.|`extensions` (This is a relative path to Druid's working directory)|
+|`druid.extensions.hadoopDependenciesDir`|The root hadoop dependencies directory where user can put hadoop related dependencies files. Druid will load the dependencies based on the hadoop coordinate specified in the hadoop index task.|`hadoop-dependencies` (This is a relative path to Druid's working directory|
+|`druid.extensions.hadoopContainerDruidClasspath`|Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.|null|
+|`druid.extensions.loadList`|A JSON array of extensions to load from extension directories by Druid. If it is not specified, its value will be `null` and Druid will load all the extensions under `druid.extensions.directory`. If its value is empty list `[]`, then no extensions will be loaded at all.|null|
 |`druid.extensions.searchCurrentClassloader`|This is a boolean flag that determines if Druid will search the main classloader for extensions.  It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath.|true|
 
 ### Zookeeper
@@ -40,7 +40,8 @@ We recommend just setting the base ZK path and the ZK service host, but all ZK p
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.zk.service.sessionTimeoutMs`|ZooKeeper session timeout, in milliseconds.|`30000`|
-|`druid.curator.compress`|Boolean flag for whether or not created Znodes should be compressed.|`true`|
+|`druid.zk.service.compress`|Boolean flag for whether or not created Znodes should be compressed.|`true`|
+|`druid.zk.service.acl`|Boolean flag for whether or not to enable ACL security for ZooKeeper. If ACL is enabled, zNode creators will have all permissions.|`false`|
 
 #### Path Configuration
 Druid interacts with ZK through a set of standard path configurations. We recommend just setting the base ZK path, but all ZK paths that Druid uses can be overwritten to absolute paths.
@@ -73,6 +74,16 @@ The following path is used for service discovery. It is **not** affected by `dru
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.discovery.curator.path`|Services announce themselves under this ZooKeeper path.|`/druid/discovery`|
+
+### Startup Logging
+
+All nodes can log debugging information on startup.
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|`druid.startup.logging.logProperties`|Log all properties on startup (from common.runtime.properties, runtime.properties, and the JVM command line).|false|
+
+Note that some sensitive information may be logged if these settings are enabled.
 
 ### Request Logging
 
@@ -140,8 +151,8 @@ The Druid servers emit various metrics and alerts via something we call an Emitt
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.emitter.http.timeOut`|The timeout for data reads.|PT5M|
-|`druid.emitter.http.flushMillis`|How often to internal message buffer is flushed (data is sent).|60000|
-|`druid.emitter.http.flushCount`|How many messages can the internal message buffer hold before flushing (sending).|500|
+|`druid.emitter.http.flushMillis`|How often the internal message buffer is flushed (data is sent).|60000|
+|`druid.emitter.http.flushCount`|How many messages the internal message buffer can hold before flushing (sending).|500|
 |`druid.emitter.http.recipientBaseUrl`|The base URL to emit messages to. Druid will POST JSON to be consumed at the HTTP endpoint specified by this property.|none|
 
 #### Composing Emitter Module
@@ -150,9 +161,14 @@ The Druid servers emit various metrics and alerts via something we call an Emitt
 |--------|-----------|-------|
 |`druid.emitter.composing.emitters`|List of emitter modules to load e.g. ["logging","http"].|[]|
 
+#### Graphite Emitter
+
+To use graphite as emitter set `druid.emitter=graphite`. For configuration details please follow this [link](https://github.com/druid-io/druid/tree/master/extensions/graphite-emitter/README.md).
+
+
 ### Metadata Storage
 
-These properties specify the jdbc connection and other configuration around the metadata storage. The only processes that connect to the metadata storage with these properties are the [Coordinator](../design/coordinator.html) and [Indexing service](../design/indexing-service.html).
+These properties specify the jdbc connection and other configuration around the metadata storage. The only processes that connect to the metadata storage with these properties are the [Coordinator](../design/coordinator.html), [Indexing service](../design/indexing-service.html) and [Realtime Nodes](../design/realtime.html).
 
 |Property|Description|Default|
 |--------|-----------|-------|
@@ -223,14 +239,14 @@ This deep storage is used to interface with Cassandra.
 
 ### Caching
 
-You can enable caching of results at the broker/historical using following configurations.
+You can enable caching of results at the broker, historical, or realtime level using following configurations.
 
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.cache.type`|`local`, `memcached`|The type of cache to use for queries.|`local`|
-|`druid.(broker/historical).cache.unCacheable`|All druid query types|All query types to not cache.|["groupBy", "select"]|
-|`druid.(broker/historical).cache.useCache`|Whether to use cache for getting query results.|false|
-|`druid.(broker/historical).cache.populateCache`|Whether to populate cache.|false|
+|`druid.(broker|historical|realtime).cache.unCacheable`|All druid query types|All query types to not cache.|["groupBy", "select"]|
+|`druid.(broker|historical|realtime).cache.useCache`|Whether to use cache for getting query results.|false|
+|`druid.(broker|historical|realtime).cache.populateCache`|Whether to populate cache.|false|
 
 #### Local Cache
 
@@ -270,19 +286,7 @@ This config is used to find the [Coordinator](../design/coordinator.html) using 
 
 ### Announcing Segments
 
-You can optionally configure how to announce and unannounce Znodes in ZooKeeper (using Curator). For normal operations you do not need to override any of these configs.
-
-#### Data Segment Announcer
-
-Data segment announcers are used to announce segments.
-
-|Property|Description|Default|
-|--------|-----------|-------|
-|`druid.announcer.type`|Choices: legacy or batch. The type of data segment announcer to use.|batch|
-
-##### Single Data Segment Announcer
-
-In legacy Druid, each segment served by a node would be announced as an individual Znode.
+You can configure how to announce and unannounce Znodes in ZooKeeper (using Curator). For normal operations you do not need to override any of these configs.
 
 ##### Batch Data Segment Announcer
 

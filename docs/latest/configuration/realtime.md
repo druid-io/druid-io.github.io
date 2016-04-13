@@ -1,6 +1,7 @@
 ---
 layout: doc_page
 ---
+
 Realtime Node Configuration
 ==============================
 For general Realtime Node information, see [here](../design/realtime.html).
@@ -59,5 +60,14 @@ The realtime node uses several of the global configs in [Configuration](../confi
 |--------|-----------|-------|
 |`druid.query.search.maxSearchLimit`|Maximum number of search results to return.|1000|
 
+### Caching
 
+You can optionally configure caching to be enabled on the realtime node by setting caching configs here.
 
+|Property|Possible Values|Description|Default|
+|--------|---------------|-----------|-------|
+|`druid.realtime.cache.useCache`|true, false|Enable the cache on the realtime.|false|
+|`druid.realtime.cache.populateCache`|true, false|Populate the cache on the realtime.|false|
+|`druid.realtime.cache.unCacheable`|All druid query types|All query types to not cache.|`["groupBy", "select"]`|
+
+See [cache configuration](caching.html) for how to configure cache settings.
