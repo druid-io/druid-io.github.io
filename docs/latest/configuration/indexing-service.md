@@ -82,7 +82,6 @@ The following configs only apply if the overlord is running in remote mode:
 |`druid.indexer.runner.maxZnodeBytes`|The maximum size Znode in bytes that can be created in Zookeeper.|524288|
 |`druid.indexer.runner.taskCleanupTimeout`|How long to wait before failing a task after a middle manager is disconnected from Zookeeper.|PT15M|
 |`druid.indexer.runner.taskShutdownLinkTimeout`|How long to wait on a shutdown request to a middle manager before timing out|PT1M|
-|`druid.indexer.runner.pendingTasksRunnerNumThreads`|Number of threads to allocate pending-tasks to workers, must be at least 1.|3|
 
 There are additional configs for autoscaling (if it is enabled):
 
@@ -125,8 +124,8 @@ A sample worker config spec is shown below:
     "type": "fillCapacityWithAffinity",
     "affinityConfig": {
       "affinity": {
-        "datasource1": ["host1:port", "host2:port"],
-        "datasource2": ["host3:port"]
+        "datasource1": ["ip1:port", "ip2:port"],
+        "datasource2": ["ip3:port"]
       }
     }
   },
@@ -159,7 +158,7 @@ Issuing a GET request at the same URL will return the current worker config spec
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`selectStrategy`|How to assign tasks to middle managers. Choices are `fillCapacity`, `fillCapacityWithAffinity`, `equalDistribution` and `javascript`.|fillCapacity|
+|`selectStrategy`|How to assign tasks to middlemanagers. Choices are `fillCapacity`, `fillCapacityWithAffinity`, `equalDistribution` and `javascript`.|fillCapacity|
 |`autoScaler`|Only used if autoscaling is enabled. See below.|null|
 
 To view the audit history of worker config issue a GET request to the URL -
@@ -170,12 +169,6 @@ http://<OVERLORD_IP>:<port>/druid/indexer/v1/worker/history?interval=<interval>
 
 default value of interval can be specified by setting `druid.audit.manager.auditHistoryMillis` (1 week if not configured) in overlord runtime.properties.
 
-To view last <n> entries of the audit history of worker config issue a GET request to the URL -
-
-```
-http://<OVERLORD_IP>:<port>/druid/indexer/v1/worker/history?count=<n>
-```
-
 #### Worker Select Strategy
 
 ##### Fill Capacity
@@ -184,7 +177,7 @@ Workers are assigned tasks until capacity.
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`type`|`fillCapacity`.|required; must be `fillCapacity`|
+|`type`|`fillCapacity`.|fillCapacity|
 
 ##### Fill Capacity With Affinity
 
@@ -192,8 +185,8 @@ An affinity config can be provided.
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`type`|`fillCapacityWithAffinity`.|required; must be `fillCapacityWithAffinity`|
-|`affinity`|JSON object mapping a datasource String name to a list of indexing service middle manager host:port String values. Druid doesn't perform DNS resolution, so the 'host' value must match what is configured on the middle manager and what the middle manager announces itself as (examine the Overlord logs to see what your middle manager announces itself as).|{}|
+|`type`|`fillCapacityWithAffinity`.|fillCapacityWithAffinity|
+|`affinity`|A map to String to list of String host names.|{}|
 
 Tasks will try to be assigned to preferred workers. Fill capacity strategy is used if no preference for a datasource specified.
 
@@ -203,7 +196,7 @@ The workers with the least amount of tasks is assigned the task.
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`type`|`equalDistribution`.|required; must be `equalDistribution`|
+|`type`|`equalDistribution`.|fillCapacity|
 
 ##### Javascript
 
@@ -216,7 +209,7 @@ its better to write a druid extension module with extending current worker selec
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`type`|`javascript`.|required; must be `javascript`|
+|`type`|`javascript`.|javascript|
 |`function`|String representing javascript function||
 
 Example: a function that sends batch_index_task to workers 10.0.0.1 and 10.0.0.2 and all other tasks to other available workers.
@@ -255,18 +248,17 @@ Middle managers pass their configurations down to their child peons. The middle 
 |`druid.indexer.runner.compressZnodes`|Indicates whether or not the middle managers should compress Znodes.|true|
 |`druid.indexer.runner.classpath`|Java classpath for the peon.|System.getProperty("java.class.path")|
 |`druid.indexer.runner.javaCommand`|Command required to execute java.|java|
-|`druid.indexer.runner.javaOpts`|*DEPRECATED* A string of -X Java options to pass to the peon's JVM. Quotable parameters or parameters with spaces are encouraged to use javaOptsArray|""|
-|`druid.indexer.runner.javaOptsArray`|A json array of strings to be passed in as options to the peon's jvm. This is additive to javaOpts and is recommended for properly handling arguments which contain quotes or spaces like `["-XX:OnOutOfMemoryError=kill -9 %p"]`|`[]`|
+|`druid.indexer.runner.javaOpts`|-X Java options to run the peon in its own JVM.|""|
 |`druid.indexer.runner.maxZnodeBytes`|The maximum size Znode in bytes that can be created in Zookeeper.|524288|
 |`druid.indexer.runner.startPort`|The port that peons begin running on.|8100|
-|`druid.indexer.runner.separateIngestionEndpoint`|*Deprecated.* Use separate server and consequently separate jetty thread pool for ingesting events|false|
+|`druid.indexer.runner.separateIngestionEndpoint`|Use separate server and consequently separate jetty thread pool for ingesting events|false|
 |`druid.worker.ip`|The IP of the worker.|localhost|
 |`druid.worker.version`|Version identifier for the middle manager.|0|
 |`druid.worker.capacity`|Maximum number of tasks the middle manager can accept.|Number of available processors - 1|
 
 
 #### Peon Configs
-Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middle manager can be set by prefixing them with:
+Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middlemanager can be set by prefixing them with:
 
 ```
 druid.indexer.fork.property
@@ -276,28 +268,26 @@ Additional peon configs include:
 |Property|Description|Default|
 |--------|-----------|-------|
 |`druid.peon.mode`|Choices are "local" and "remote". Setting this to local means you intend to run the peon as a standalone node (Not recommended).|remote|
-|`druid.indexer.task.baseDir`|Base temporary working directory.|`System.getProperty("java.io.tmpdir")`|
-|`druid.indexer.task.baseTaskDir`|Base temporary working directory for tasks.|`${druid.indexer.task.baseDir}/persistent/tasks`|
+|`druid.indexer.task.baseDir`|Base temporary working directory.|/tmp|
+|`druid.indexer.task.baseTaskDir`|Base temporary working directory for tasks.|/tmp/persistent/tasks|
+|`druid.indexer.task.hadoopWorkingPath`|Temporary working directory for Hadoop tasks.|/tmp/druid-indexing|
+|`druid.indexer.task.defaultRowFlushBoundary`|Highest row count before persisting to disk. Used for indexing generating tasks.|50000|
 |`druid.indexer.task.defaultHadoopCoordinates`|Hadoop version to use with HadoopIndexTasks that do not request a particular version.|org.apache.hadoop:hadoop-client:2.3.0|
-|`druid.indexer.task.defaultRowFlushBoundary`|Highest row count before persisting to disk. Used for indexing generating tasks.|75000|
-|`druid.indexer.task.directoryLockTimeout`|Wait this long for zombie peons to exit before giving up on their replacements.|PT10M|
-|`druid.indexer.task.gracefulShutdownTimeout`|Wait this long on middleManager restart for restorable tasks to gracefully exit.|PT5M|
-|`druid.indexer.task.hadoopWorkingPath`|Temporary working directory for Hadoop tasks.|`/tmp/druid-indexing`|
 |`druid.indexer.task.restoreTasksOnRestart`|If true, middleManagers will attempt to stop tasks gracefully on shutdown and restore them on restart.|false|
-|`druid.indexer.server.maxChatRequests`|Maximum number of concurrent requests served by a task's chat handler. Set to 0 to disable limiting.|0|
+|`druid.indexer.task.gracefulShutdownTimeout`|Wait this long on middleManager restart for restorable tasks to gracefully exit.|PT5M|
+|`druid.indexer.task.directoryLockTimeout`|Wait this long for zombie peons to exit before giving up on their replacements.|PT10M|
 
-If the deprecated `druid.indexer.runner.separateIngestionEndpoint` property is set to true then following configurations
-are available for the ingestion server at peon:
+If `druid.indexer.runner.separateIngestionEndpoint` is set to true then following configurations are available for the ingestion server at peon:
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`druid.indexer.server.chathandler.http.numThreads`|*Deprecated.* Number of threads for HTTP requests.|Math.max(10, (Number of available processors * 17) / 16 + 2) + 30|
-|`druid.indexer.server.chathandler.http.maxIdleTime`|*Deprecated.* The Jetty max idle time for a connection.|PT5m|
+|`druid.indexer.server.chathandler.http.numThreads`|Number of threads for HTTP requests.|Math.max(10, (Number of available processors * 17) / 16 + 2) + 30|
+|`druid.indexer.server.chathandler.http.maxIdleTime`|The Jetty max idle time for a connection.|PT5m|
 
 If the peon is running in remote mode, there must be an overlord up and running. Peons in remote mode can set the following configurations:
 
 |Property|Description|Default|
 |--------|-----------|-------|
-|`druid.peon.taskActionClient.retry.minWait`|The minimum retry time to communicate with overlord.|PT5S|
-|`druid.peon.taskActionClient.retry.maxWait`|The maximum retry time to communicate with overlord.|PT1M|
-|`druid.peon.taskActionClient.retry.maxRetryCount`|The maximum number of retries to communicate with overlord.|60|
+|`druid.peon.taskActionClient.retry.minWait`|The minimum retry time to communicate with overlord.|PT1M|
+|`druid.peon.taskActionClient.retry.maxWait`|The maximum retry time to communicate with overlord.|PT10M|
+|`druid.peon.taskActionClient.retry.maxRetryCount`|The maximum number of retries to communicate with overlord.|10|

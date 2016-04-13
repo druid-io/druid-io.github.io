@@ -17,7 +17,7 @@ All Druid metrics share a common set of fields:
 
 Metrics may have additional dimensions beyond those listed above.
 
-Most metric values reset each emission period. By default druid emission period is 1 minute, this can be changed by setting the property `druid.monitoring.emissionPeriod`.
+Most metric values reset each emission period.
 
 Available Metrics
 -----------------
@@ -29,9 +29,7 @@ Available Metrics
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
 |`query/time`|Milliseconds taken to complete a query.|Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.|< 1s|
-|`query/bytes`|number of bytes returned in query response.|Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.| |
 |`query/node/time`|Milliseconds taken to query individual historical/realtime nodes.|id, status, server.|< 1s|
-|`query/node/bytes`|number of bytes returned from querying individual historical/realtime nodes.|id, status, server.| |
 |`query/node/ttfb`|Time to first byte. Milliseconds elapsed until broker starts receiving the response from individual historical/realtime nodes.|id, status, server.|< 1s|
 |`query/intervalChunk/time`|Only emitted if interval chunking is enabled. Milliseconds required to query an interval chunk.|id, status, chunkInterval (if interval chunking is enabled).|< 1s|
 
@@ -75,9 +73,7 @@ Available Metrics
 |`*/errors`|Number of cache errors.||0|
 
 #### Memcached only metrics
-
 Memcached client metrics are reported as per the following. These metrics come directly from the client as opposed to from the cache retrieval layer.
-
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
 |`query/cache/memcached/total`|Cache metrics unique to memcached (only if `druid.cache.type=memcached`) as their actual values|Variable|N/A|
@@ -86,13 +82,11 @@ Memcached client metrics are reported as per the following. These metrics come d
 
 ## Ingestion Metrics
 
-These metrics are only available if the RealtimeMetricsMonitor is included in the monitors list for the Realtime node. These metrics are deltas for each emission period.
-
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
 |`ingest/events/thrownAway`|Number of events rejected because they are outside the windowPeriod.|dataSource.|0|
 |`ingest/events/unparseable`|Number of events rejected because the events are unparseable.|dataSource.|0|
-|`ingest/events/processed`|Number of events successfully processed per emission period.|dataSource.|Equal to your # of events per emission period.|
+|`ingest/events/processed`|Number of events successfully processed.|dataSource.|Equal to your # of events.|
 |`ingest/rows/output`|Number of Druid rows persisted.|dataSource.|Your # of events with rollup.|
 |`ingest/persists/count`|Number of times persist occurred.|dataSource.|Depends on configuration.|
 |`ingest/persists/time`|Milliseconds spent doing intermediate persist.|dataSource.|Depends on configuration. Generally a few minutes at most.|
@@ -102,7 +96,6 @@ These metrics are only available if the RealtimeMetricsMonitor is included in th
 |`ingest/handoff/failed`|Number of handoffs that failed.|dataSource.|0|
 |`ingest/merge/time`|Milliseconds spent merging intermediate segments|dataSource.|Depends on configuration. Generally a few minutes at most.|
 |`ingest/merge/cpu`|Cpu time in Nanoseconds spent on merging intermediate segments.|dataSource.|Depends on configuration. Generally a few minutes at most.|
-|`ingest/handoff/count`|Number of handoffs that happened.|dataSource.|Varies. Generally greater than 0 once every segment granular period if cluster operating normally|
 
 Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0. 
 
@@ -121,7 +114,7 @@ These metrics are for the Druid coordinator and are reset each time the coordina
 
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
-|`segment/assigned/count`|Number of segments assigned to be loaded in the cluster.|tier.|Varies.|
+|`segment/added/count`|Number of segments added to the cluster.|tier.|Varies.|
 |`segment/moved/count`|Number of segments moved in the cluster.|tier.|Varies.|
 |`segment/dropped/count`|Number of segments dropped due to being overshadowed.|tier.|Varies.|
 |`segment/deleted/count`|Number of segments dropped due to rules.|tier.|Varies.|
@@ -174,8 +167,7 @@ The following metric is only available if the EventReceiverFirehoseMonitor modul
 
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
-|`ingest/events/buffered`|Number of events queued in the EventReceiverFirehose's buffer|serviceName, dataSource, taskId, bufferCapacity.|Equal to current # of events in the buffer queue.|
-|`ingest/bytes/received`|Number of bytes received by the EventReceiverFirehose.|serviceName, dataSource, taskId.|Varies.|
+|`ingest/events/buffered`|Number of events queued in the EventReceiverFirehose's buffer|serviceName, bufferCapacity.|Equal to current # of events in the buffer queue.|
 
 ## Sys
 

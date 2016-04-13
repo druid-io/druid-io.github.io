@@ -2,24 +2,16 @@
 layout: doc_page
 ---
 # Aggregations
-
-Aggregations can be provided at ingestion time as part of the ingestion spec as a way of summarizing data before it enters Druid. 
-Aggregations can also be specified as part of many queries at query time.
-
+Aggregations are specifications of processing over metrics available in Druid.
 Available aggregations are:
 
 ### Count aggregator
 
-`count` computes the count of Druid rows that match the filters.
+`count` computes the row count that match the filters
 
 ```json
 { "type" : "count", "name" : <output_name> }
 ```
-
-Please note the count aggregator counts the number of Druid rows, which does not always reflect the number of raw events ingested. 
-This is because Druid rolls up data at ingestion time. To 
-count the number of ingested rows of data, include a count aggregator at ingestion time, and a longSum aggregator at 
-query time.
 
 ### Sum aggregators
 
@@ -82,9 +74,6 @@ Computes an arbitrary JavaScript function over a set of columns (both metrics an
 
 All JavaScript functions must return numerical values.
 
-JavaScript aggregators are much slower than native Java aggregators and if performance is critical, you should implement 
-your functionality as a native Java aggregator.
-
 ```json
 { "type": "javascript",
   "name": "<output_name>",
@@ -111,17 +100,9 @@ your functionality as a native Java aggregator.
 }
 ```
 
-The javascript aggregator is recommended for rapidly prototyping features. This aggregator will be much slower in production 
-use than a native Java aggregator.
-
-## Approximate Aggregations
-
 ### Cardinality aggregator
 
-Computes the cardinality of a set of Druid dimensions, using HyperLogLog to estimate the cardinality. Please note that this 
-aggregator will be much slower than indexing a column with the hyperUnique aggregator. This aggregator also runs over a dimension column, which 
-means the string dimension cannot be removed from the dataset to improve rollup. In general, we strongly recommend using the hyperUnique aggregator 
-instead of the cardinality aggregator if you do not care about the individual values of a dimension.
+Computes the cardinality of a set of Druid dimensions, using HyperLogLog to estimate the cardinality.
 
 ```json
 {
@@ -186,6 +167,8 @@ Determine the number of distinct people (i.e. combinations of first and last nam
 }
 ```
 
+## Complex Aggregations
+
 ### HyperUnique aggregator
 
 Uses [HyperLogLog](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf) to compute the estimated cardinality of a dimension that has been aggregated as a "hyperUnique" metric at indexing time.
@@ -194,8 +177,6 @@ Uses [HyperLogLog](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf) to
 { "type" : "hyperUnique", "name" : <output_name>, "fieldName" : <metric_name> }
 ```
 
-For more approximate aggregators, please see [theta sketches](../development/datasketches-aggregators.html).
-
 ## Miscellaneous Aggregations
 
 ### Filtered Aggregator
@@ -203,6 +184,8 @@ For more approximate aggregators, please see [theta sketches](../development/dat
 A filtered aggregator wraps any given aggregator, but only aggregates the values for which the given dimension filter matches.
 
 This makes it possible to compute the results of a filtered and an unfiltered aggregation simultaneously, without having to issue multiple queries, and use both results as part of post-aggregations.
+
+*Limitations:* The filtered aggregator currently only supports 'or', 'and', 'selector', 'not' and 'Extraction' filters, i.e. matching one or multiple dimensions against a single value.
 
 *Note:* If only the filtered results are required, consider putting the filter on the query itself, which will be much faster since it does not require scanning all the data.
 

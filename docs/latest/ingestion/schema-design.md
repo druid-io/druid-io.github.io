@@ -10,7 +10,6 @@ known in Druid). This follows the [standard naming convention](https://en.wikipe
 of OLAP data.
 
 For more detailed information:
-
 * Every row in Druid must have a timestamp. Data is always partitioned by time, and every query has a time filter. Query results can also be broken down by time buckets like minutes, hours, days, and so on.
 * Dimensions are fields that can be filtered on or grouped by. They are always either single Strings or arrays of Strings.
 * Metrics are fields that can be aggregated. They are often stored as numbers (integers or floats) but can also be stored as complex objects like HyperLogLog sketches or approximate histogram sketches.
@@ -49,7 +48,7 @@ A count aggregator at ingestion time can be used to count the number of events i
 that when you query for this metric, you should use a `longSum` aggregator. A `count` aggregator at query time will return 
 the number of Druid rows for the time interval, which can be used to determine what the roll-up ratio was.
 
-To clarify with an example, if your ingestion spec contains:
+To clarify with an example, if you ingestion spec contains:
 
 ```
 ...

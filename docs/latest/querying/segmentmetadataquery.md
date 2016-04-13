@@ -2,12 +2,10 @@
 layout: doc_page
 ---
 # Segment Metadata Queries
-Segment metadata queries return per-segment information about:
+Segment metadata queries return per segment information about:
 
 * Cardinality of all columns in the segment
-* Min/max values of string type columns in the segment
 * Estimated byte size for the segment columns if they were stored in a flat format
-* Number of rows stored inside the segment
 * Interval the segment covers
 * Column type of all the columns in the segment
 * Estimated total segment byte size in if it was stored in a flat format
@@ -31,8 +29,7 @@ There are several main parts to a segment metadata query:
 |toInclude|A JSON Object representing what columns should be included in the result. Defaults to "all".|no|
 |merge|Merge all individual segment metadata results into a single result|no|
 |context|See [Context](../querying/query-context.html)|no|
-|analysisTypes|A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to ["cardinality", "size", "interval", "minmax"]. See section [analysisTypes](#analysistypes) for more details.|no|
-|lenientAggregatorMerge|If true, and if the "aggregators" analysisType is enabled, aggregators will be merged leniently. See below for details.|no|
+|analysisTypes|A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to ["cardinality", "size"]. See section [analysisTypes](#analysistypes) for more details.|no|
 
 The format of the result is:
 
@@ -41,25 +38,18 @@ The format of the result is:
   "id" : "some_id",
   "intervals" : [ "2013-05-13T00:00:00.000Z/2013-05-14T00:00:00.000Z" ],
   "columns" : {
-    "__time" : { "type" : "LONG", "hasMultipleValues" : false, "size" : 407240380, "cardinality" : null, "errorMessage" : null },
-    "dim1" : { "type" : "STRING", "hasMultipleValues" : false, "size" : 100000, "cardinality" : 1944, "errorMessage" : null },
-    "dim2" : { "type" : "STRING", "hasMultipleValues" : true, "size" : 100000, "cardinality" : 1504, "errorMessage" : null },
-    "metric1" : { "type" : "FLOAT", "hasMultipleValues" : false, "size" : 100000, "cardinality" : null, "errorMessage" : null }
+    "__time" : { "type" : "LONG", "size" : 407240380, "cardinality" : null },
+    "dim1" : { "type" : "STRING", "size" : 100000, "cardinality" : 1944 },
+    "dim2" : { "type" : "STRING", "size" : 100000, "cardinality" : 1504 },
+    "metric1" : { "type" : "FLOAT", "size" : 100000, "cardinality" : null }
   },
-  "aggregators" : {
-    "metric1" : { "type" : "longSum", "name" : "metric1", "fieldName" : "metric1" }
-  },
-  "size" : 300000,
-  "numRows" : 5000000
+  "size" : 300000
 } ]
 ```
 
-Dimension columns will have type `STRING`.
+Dimension columns will have type `STRING`.  
 Metric columns will have type `FLOAT` or `LONG` or name of the underlying complex type such as `hyperUnique` in case of COMPLEX metric.
 Timestamp column will have type `LONG`.
-
-If the `errorMessage` field is non-null, you should not trust the other fields in the response. Their contents are
-undefined.
 
 Only columns which are dimensions (ie, have type `STRING`) will have any cardinality. Rest of the columns (timestamp and metric columns) will show cardinality as `null`.
 
@@ -102,45 +92,16 @@ The grammar is as follows:
 
 This is a list of properties that determines the amount of information returned about the columns, i.e. analyses to be performed on the columns.
 
-By default, the "cardinality", "size", "interval", and "minmax" types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.
+By default, all analysis types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.
 
-There are five types of column analyses:
+There are 2 types of column analyses:
 
 #### cardinality
 
-* `cardinality` in the result will return the estimated floor of cardinality for each column. Only relevant for
-dimension columns.
-
-#### minmax
-
-* Estimated min/max values for each column. Only relevant for dimension columns.
+* Estimated floor of cardinality for each column. Only relevant for dimension columns.
 
 #### size
 
-* `size` in the result will contain the estimated total segment byte size as if the data were stored in text format
+* Estimated byte size for the segment columns if they were stored in a flat format
 
-#### interval
-
-* `intervals` in the result will contain the list of intervals associated with the queried segments.
-
-#### aggregators
-
-* `aggregators` in the result will contain the list of aggregators usable for querying metric columns. This may be
-null if the aggregators are unknown or unmergeable (if merging is enabled).
-
-* Merging can be strict or lenient. See *lenientAggregatorMerge* below for details.
-
-* The form of the result is a map of column name to aggregator.
-
-### lenientAggregatorMerge
-
-Conflicts between aggregator metadata across segments can occur if some segments have unknown aggregators, or if
-two segments use incompatible aggregators for the same column (e.g. longSum changed to doubleSum).
-
-Aggregators can be merged strictly (the default) or leniently. With strict merging, if there are any segments
-with unknown aggregators, or any conflicts of any kind, the merged aggregators list will be `null`. With lenient
-merging, segments with unknown aggregators will be ignored, and conflicts between aggregators will only null out
-the aggregator for that particular column.
-
-In particular, with lenient merging, it is possible for an invidiual column's aggregator to be `null`. This will not
-occur with strict merging.
+* Estimated total segment byte size in if it was stored in a flat format
