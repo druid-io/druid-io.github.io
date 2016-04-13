@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: tutorials/quickstart.html
+redirect_target: quickstart.html
 ---
