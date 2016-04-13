@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: tutorials/booting-a-production-cluster.html
+redirect_target: tutorials/cluster.html
 ---

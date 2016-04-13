@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: development/select-query.html
+redirect_target: querying/select-query.html
 ---

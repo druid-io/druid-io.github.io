@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: misc/evaluate.html
+redirect_target: tutorials/cluster.html
 ---

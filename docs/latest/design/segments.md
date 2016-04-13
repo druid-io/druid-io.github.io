@@ -4,7 +4,6 @@ layout: doc_page
 Segments
 ========
 
-
 Druid stores its index in *segment files*, which are partitioned by
 time. In a basic setup, one segment file is created for each time
 interval, where the time inteval is configurable in the
@@ -43,18 +42,19 @@ group-by operations, so each dimension requires the following
 three data structures:
 
 1. A dictionary that maps values (which are always treated as strings) to integer IDs,
-2. For each distinct value in the column, a bitmap that indicates which rows contain that value, and
-3. A list of the column’s values, encoded using the dictionary in 1.
+2. A list of the column’s values, encoded using the dictionary in 1, and
+3. For each distinct value in the column, a bitmap that indicates which rows contain that value.
+
 
 Why these three data structures? The dictionary simply maps string
 values to integer ids so that the values in 2 and 3 can be
-represented compactly. The bitmaps in 2 -- also known as *inverted
+represented compactly. The bitmaps in 3 -- also known as *inverted
 indexes* allow for quick filtering operations (specifically, bitmaps
 are convenient for quickly applying AND and OR operators). Finally,
-the list of values in 3 are needed for *group by* and *TopN*
+the list of values in 2 is needed for *group by* and *TopN*
 queries. In other words, queries that solely aggregate metrics based
 on filters do not need to touch the list of dimension values stored in
-3.
+2.
 
 To get a concrete sense of these data structures, consider the ‘page’
 column from the example data above.  The three data structures that
@@ -163,17 +163,23 @@ Each column is stored as two parts:
 1.  A Jackson-serialized ColumnDescriptor
 2.  The rest of the binary for the column
 
-A ColumnDescriptor is essentially an object that allows us to use jackson’s polymorphic deserialization to add new and interesting methods of serialization with minimal impact to the code. It consists of some metadata about the column (what type is it, is it multi-valued, etc.) and then a list of serde logic that can deserialize the rest of the binary.
+A ColumnDescriptor is essentially an object that allows us to use jackson’s polymorphic deserialization to add new and interesting methods of serialization with minimal impact to the code. It consists of some metadata about the column (what type is it, is it multi-value, etc.) and then a list of serde logic that can deserialize the rest of the binary.
 
 Sharding Data to Create Segments
 --------------------------------
 
-### Sharding Data by Dimension
+### Sharding
 
-If the cumulative total number of rows for the different values of a
-given column exceed some configurable threshold, multiple segments
-representing the same time interval for the same datasource may be
-created. These segments will contain some partition number as part of
-their identifier. Sharding by dimension reduces some of the the costs
-associated with operations over high cardinality dimensions. For more
-information on sharding, see the ingestion documentation.
+Multiple segments may exist for the same interval of time for the same datasource. These segments form a `block` for an interval.
+Depending on the type of `shardSpec` that is used to shard the data, Druid queries may only complete if a `block` is complete. That is to say, if a block consists of 3 segments, such as:
+
+`sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0`
+
+`sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_1`
+
+`sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_2`
+
+All 3 segments must be loaded before a query for the interval `2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z` completes.
+
+The exception to this rule is with using linear shard specs. Linear shard specs do not force 'completeness' and queries can complete even if shards are not loaded in the system.
+For example, if your real-time ingestion creates 3 segments that were sharded with linear shard spec, and only two of the segments were loaded in the system, queries would return results only for those 2 segments.

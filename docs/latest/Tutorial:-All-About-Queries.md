@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: tutorials/tutorial-all-about-queries.html
+redirect_target: tutorials/quickstart.html
 ---
