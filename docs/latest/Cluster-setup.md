@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: misc/cluster-setup.html
+redirect_target: tutorials/cluster.html
 ---

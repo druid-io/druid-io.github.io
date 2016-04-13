@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: tutorials/tutorial-loading-batch-data.html
+redirect_target: tutorials/tutorial-batch.html
 ---

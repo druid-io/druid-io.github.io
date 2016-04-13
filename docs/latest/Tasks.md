@@ -1,4 +1,4 @@
 ---
 layout: redirect_page
-redirect_target: misc/tasks.html
+redirect_target: ingestion/tasks.html
 ---
