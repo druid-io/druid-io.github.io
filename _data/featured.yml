@@ -1,5 +1,5 @@
   - date: 2016-04-25
-    title: Druid Query Optimization with FIFO: Lessons from Our 5000-Core Cluster
+    title: "Druid Query Optimization with FIFO: Lessons from Our 5000-Core Cluster"
     name: Charles Allen
     company: Metamarkets
     link: https://metamarkets.com/2016/impact-on-query-speed-from-forced-processing-ordering-in-druid
