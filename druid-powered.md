@@ -29,7 +29,7 @@ With more than 1 billion unique users reached per month, 3 billion ads displayed
 
 * [Real Time Metrics on Tracker Calls](http://labs.criteo.com/2016/02/real-time-metrics-on-tracker-calls/)
 
-## DiDi
+## Didi Chuxing
 
 Didi Chuxing is the world’s largest mobile transportation platform, offering a full range of commuting options to 400 cities in China.
 Didi uses Druid as a core component of our real-time bigdata processing pipeline. Druid powers Didi's real-time monitor system which has hundreds of key business metrics. We are deep impressed by Druid's fast aggregations and sub-second OLAP queries. With Druid, we can get insights from data in real-time.
