@@ -218,6 +218,10 @@ Yahoo uses Druid to power various customer-facing audience and advertising analy
 
 YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impression and conversion tracking, unique IP statistics, and aggregating metrics such as costs and revenues.
 
+## Sina Weibo
+
+Weibo UVE(Unified Value Evaluation) team of Advertising Platform is using Druid as the realtime analysis tool of the data insight system, which processing billions events everyday.
+
 ## Youku Tudou
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
