@@ -200,6 +200,10 @@ TWC uses Druid for exploratory analytics.
 
 TripleLift uses Druid to provide insights into performance aspects of its native programmatic exchange for sales/business development opportunities, and to provide reporting used by advertisers and publishers.
 
+##VideoAmp
+
+At VideoAmp, Druid is a key component of our Big Data stack. It powers our real-time video advertising analytics at low granularity and huge scale. Druid has helped us minimized the time between event, insight and action.
+
 ## Vigiglobe
 
 Vigiglobe turns the noise of Social Media into real-time Smart Content. To this end, Druid enables us to maintain high request throughput coupled with huge data absorption capacity.
