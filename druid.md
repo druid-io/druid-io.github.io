@@ -4,35 +4,24 @@ layout: simple_page
 sectionid: druid
 ---
 
-Druid is an open-source analytics data store designed for business intelligence
-([OLAP](http://en.wikipedia.org/wiki/Online_analytical_processing))
-queries on event data. Druid提供低延时（实时）数据接入， 灵活的数据探索， 以及高速的数据聚合。现存的Druid
-部署已经扩展至万亿级事件以及PB级数据。 Druid is
-most commonly used to power user-facing analytic applications.
+Druid是一个开源的分析型数据存储， 用于支持事件数据之上的BI
+([OLAP](http://en.wikipedia.org/wiki/Online_analytical_processing))查询。
+Druid提供低延时（实时）数据接入， 灵活的数据探索， 以及高速的数据聚合。现存的Druid
+部署已经扩展至万亿级事件以及PB级数据。 Druid最常用于驱动面向用户的分析型应用。
 
 ## 关键特性
 
-**次秒级OLAP查询** Druid’s column orientation and inverted indexes enable
-complex multi-dimensional filtering and scanning exactly what is needed for a
-query. 聚合和过滤都在毫秒级。
+**次秒级OLAP查询** Druid的列式特性以及倒排索引使得它能够支持复杂的多维度过滤， 仅需要扫描查询所需要的数据。 聚合和过滤都在毫秒级。
 
-**实时流接入** 通常的分析数据库通过批处理接入数据。
-Ingesting an event at a time is often accompanied with transactional locks and
-other overhead that slows down the ingestion rate. Druid employs lock-free
-ingestion of append-heavy data sets to allow for simultaneous ingestion and
-querying of 10,000+ events per second per node. Simply put, the latency between
-when an event happens and when it is visible is limited only by how quickly the
-event can be delivered to Druid.
+**实时流接入** 通常的分析数据库通过批处理接入数据。一次接入一个事件往往需要使用通过事务锁或者其他可能降低接入性能的方式实现。
+Druid对数据集采用追加式无锁接入，支持单节点同时每秒10,000+事件的接入和查询。简而言之， 一个事件从发生到可以查询之间的延迟，
+仅仅受限于事件被发送到Druid的速度。
 
-**Power Analytic Applications** Druid has numerous features built in for multi-tenancy. Power user-facing analytic applications designed to be used by
-thousands of concurrent users.
+**驱动分析型应用** Druid有数个内置的针对多租户的特性， 能够驱动支持数千用户使用的分析型应用。
 
-**Cost Effective** Druid is extremely cost effective at scale and has numerous features built in for cost reduction.
-Trade off cost and performance with simple configuration knobs.
+**高性价比** Druid在大规模场景下具有极高的性价比， 同时有数个内置的用于降低成本的特性。可以通过简单的配置权衡成本和性能。
 
-**高可用** Druid is used to back SaaS implementations that need to be
-up all the time. Druid supports rolling updates so your data is still available and queryable during software
-updates. Scale up or down without data loss.
+**高可用** Druid被用于支撑需要永久在线的SaaS应用。 Druid支持滚动更新，因此在软件更新过程中你的数据依旧可用且可查。 扩容和缩容无数据丢失。
 
 **可扩展** 现存的Druid集群每秒处理万亿级事件，PB级数据以及数千查询。
 
@@ -43,19 +32,19 @@ updates. Scale up or down without data loss.
 
 - 你正在构建一个需要快速聚合和探索分析的应用
 - 你需要基于正在发生的数据进行分析（实时）
-- 你拥有大量的数据（万亿级事件，PB级数据
+- 你拥有大量的数据（万亿级事件，PB级数据）
 - 你需要一个无单点问题，始终可用的数据存储
 
 ## 高级架构
 Druid一定程度上是受已有的分析型数据存储启发，例如Google的
-[BigQuery/Dremel](http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf),
-Google的[PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf)以及搜索架构。 Druid indexes data to create mostly immutable views,
-and stores the data in a custom column format highly optimized for aggregations and
-filters. Druid由多种不同类型的节点组成， 它们各自只完成一小部分工作。这些节点并不需要完全独立部署，许多不同类型的节点在生产环境可以合布。
+[BigQuery/Dremel](http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf)，
+Google的[PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf)以及搜索框架。 Druid索引数据用于创建不变的视图，
+同时将这些数据存储于针对聚合和过滤操作高度优化的自定义列格式中。
+Druid由多种不同类型的节点组成， 它们各自只完成一小部分工作。这些节点并不需要完全独立部署，不同类型的节点在生产环境可以合布。
 
 ## 全面架构
 
-需要对Druid架构有全面认识的话，请阅读我们的[白皮书](http://static.druid.io/docs/druid.pdf).
+需要全面认识Druid架构的话，请阅读我们的[白皮书](http://static.druid.io/docs/druid.pdf).
 
 ## 对比
 
