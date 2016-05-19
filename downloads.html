@@ -1,12 +1,12 @@
 ---
-title: Downloads
+title: 下载
 layout: html_page
 sectionid: download
 ---
 
 <div class="druid-header">
   <div class="container">
-    <h1>Download</h1>
+    <h1>下载</h1>
     <h4></h4>
   </div>
 </div>
@@ -17,34 +17,34 @@ sectionid: download
 
       <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} Stable</a><br>
 
-      <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/development/versioning.html">Versioning</a> section for how we describe releases.
+      <h2>当前版本</h2>
+      <p>一个版本如果在相当规模的生成集群部署之后， 才会成为发布候选版本。 当我们相对确定发布候选版本版本没有重大bug时， 才会声明该版本为稳定版本。 查阅<a href="/docs/{{site.druid_version}}/development/versioning.html">版本</a> 一节了解我们如何描述发布版本。
 
-      <h4>Release Candidate</h4>
+      <h4>发布候选版本</h4>
       {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
-      <p>There is no release candidate at this time.</p>
+      <p>目前没有发布候选版本</p>
       {% else %}
-      <p>The current release candidate is tagged at version {{site.druid_rc_version}}.</p>
+      <p>当前的发布候选版本的版本标签为 {{site.druid_rc_version}}.</p>
 
       <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz');return false;">druid-{{site.druid_rc_version}}-bin.tar.gz</a>.</p>
 
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_rc_version}}.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/{{site.druid_rc_version}}/operations/including-extensions.html">Include Extensions</a>)</p>
+      <p>MySQL元数据存储扩展： <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_rc_version}}.tar.gz</a>. （由于协议原因， 我们将MySQL元数据存储扩展从Druid发布本中分隔出来。 如果你需要使用它， 请解压tar包， 遵循<a href="/docs/{{site.druid_rc_version}}/operations/including-extensions.html">引入扩展</a>中的步骤操作）</p>
 
       {% endif %}
 
-      <h4>Stable Release</h4>
+      <h4>稳定版本</h4>
 
-      <p>The current stable is tagged at version {{site.druid_stable_version}}.</p>
+      <p>当前的稳定版本的版本标签为 {{site.druid_stable_version}}.</p>
 
       <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;">druid-{{site.druid_stable_version}}-bin.tar.gz</a>.</p>
 
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_stable_version}}.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/{{site.druid_stable_version}}/operations/including-extensions.html">Include Extensions</a>)
+      <p>MySQL元数据存储扩展: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_stable_version}}.tar.gz</a>. （由于协议原因， 我们将MySQL元数据存储扩展从Druid发布本中分隔出来。 如果你需要使用它， 请解压tar包， 遵循<a href="/docs/{{site.druid_stable_version}}/operations/including-extensions.html">引入扩展</a>中的步骤操作）
 
       <p>Tranquility: <a href="http://static.druid.io/artifacts/releases/tranquility-distribution-{{ site.tranquility_stable_version }}.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-{{ site.tranquility_stable_version }}.tgz');return false;">tranquility-distribution-{{ site.tranquility_stable_version }}.tgz</a>.</p>
 
-      <h2>Release Notes</h2>
+      <h2>版本说明</h2>
 
-      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+      <p>稳定版本的版本说明位于<a href="https://github.com/druid-io/druid/releases">github</a>上。</p>
     </div>
   </div>
 </div>
