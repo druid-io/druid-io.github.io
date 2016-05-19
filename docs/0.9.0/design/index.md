@@ -21,7 +21,7 @@ Druid是一个开源的数据存储,为[OLAP](http://en.wikipedia.org/wiki/Onlin
 
 这个数据集有三部分组成。如果你比较熟悉OLAP的术语的话,应该会很熟悉下面的概念。
 
-* **Timestamp列**: 我们将timestamp区别开是以为我们所有的查询都以时间为中心。
+* **Timestamp列**: 我们将timestamp区别开是因为我们所有的查询都以时间为中心。
 
 * **Dimension列**: Dimensions对应事件的维度,通常用于筛选过滤数据。
 在我们例子中的数据有四个dimensions: publisher, advertiser, gender, and country。
@@ -56,7 +56,7 @@ Druid也是通过这种方式来减少数据的存储。
 
 ## 数据Sharding
 
-Druid以`segments`的形式就行分片,并且以事件作为第一级分片。在上面我们合并的数据集中,我们可以每小时一个,创建两个segments。
+Druid以`segments`的形式就行分片,并且以时间作为第一级分片。在上面我们合并的数据集中,我们可以每小时一个,创建两个segments。
 
 例如:
 
@@ -71,7 +71,7 @@ Segment `sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0` 包含
      2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
      2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
 
-Segments是自包含容器,包含着一个时间段内段数据。Segments存储段内容包括基于列压缩段存储,以及这些列的索引。Druid只需要清楚如何扫描这些segments就可以查询。
+Segments是自包含容器,包含着一个时间段内的数据。Segments包括基于列的压缩,以及这些列的索引。Druid只需要清楚如何扫描这些segments就可以查询。
 
 Segments通过datasource, interval, version, 和一个可选的partition number来区分。查看下例子中的segments,名称的格式如下: `dataSource_interval_version_partitionNumber`。
 
