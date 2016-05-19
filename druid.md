@@ -1,23 +1,22 @@
 ---
-title: About Druid
+title: 关于Druid
 layout: simple_page
 sectionid: druid
 ---
 
 Druid is an open-source analytics data store designed for business intelligence
 ([OLAP](http://en.wikipedia.org/wiki/Online_analytical_processing))
-queries on event data. Druid provides low latency (real-time) data
-ingestion, flexible data exploration, and fast data aggregation. Existing Druid
-deployments have scaled to trillions of events and petabytes of data. Druid is
+queries on event data. Druid提供低延时（实时）数据接入， 灵活的数据探索， 以及高速的数据聚合。现存的Druid
+部署已经扩展至万亿级事件以及PB级数据。 Druid is
 most commonly used to power user-facing analytic applications.
 
 ## 关键特性
 
 **次秒级OLAP查询** Druid’s column orientation and inverted indexes enable
 complex multi-dimensional filtering and scanning exactly what is needed for a
-query. Aggregate and filter on data in milliseconds.
+query. 聚合和过滤都在毫秒级。
 
-**实时流接入** Typical analytics databases ingest data via batches.
+**实时流接入** 通常的分析数据库通过批处理接入数据。
 Ingesting an event at a time is often accompanied with transactional locks and
 other overhead that slows down the ingestion rate. Druid employs lock-free
 ingestion of append-heavy data sets to allow for simultaneous ingestion and
@@ -35,14 +34,12 @@ Trade off cost and performance with simple configuration knobs.
 up all the time. Druid supports rolling updates so your data is still available and queryable during software
 updates. Scale up or down without data loss.
 
-**可扩展** Existing Druid deployments handle trillions of events, petabytes
-of data, and thousands of queries every second.
+**可扩展** 现存的Druid集群每秒处理万亿级事件，PB级数据以及数千查询。
 
 ## Druid是否适合我？
 
-Organizations have deployed Druid to analyze ad-tech, dev-ops, network traffic, cloud security, 
-website traffic, finance, and sensor data. Druid is a good fit
-如果你存在一下需求：
+许多组织部署Druid用于分析广告技术、 运维、 网络流量、 云安全、 网站流量、 金融， 以及传感器数据。
+如果你存在以下需求，那么Druid会是不错的选择：
 
 - 你正在构建一个需要快速聚合和探索分析的应用
 - 你需要基于正在发生的数据进行分析（实时）
@@ -50,18 +47,15 @@ website traffic, finance, and sensor data. Druid is a good fit
 - 你需要一个无单点问题，始终可用的数据存储
 
 ## 高级架构
-Druid is partially inspired by existing analytic data stores such as Google's
+Druid一定程度上是受已有的分析型数据存储启发，例如Google的
 [BigQuery/Dremel](http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf),
-Google's [PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf), and
-search infrastructure. Druid indexes data to create mostly immutable views,
+Google的[PowerDrill](http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf)以及搜索架构。 Druid indexes data to create mostly immutable views,
 and stores the data in a custom column format highly optimized for aggregations and
-filters. A Druid cluster is composed of various types of nodes, each designed
-to do a small set of things very well. Nodes do not need to be deployed on individual hardware,
-and many node types can be colocated in production.
+filters. Druid由多种不同类型的节点组成， 它们各自只完成一小部分工作。这些节点并不需要完全独立部署，许多不同类型的节点在生产环境可以合布。
 
-## Comprehensive Architecture
+## 全面架构
 
-For a comprehensive look at Druid architecture, please read our [白皮书](http://static.druid.io/docs/druid.pdf).
+需要对Druid架构有全面认识的话，请阅读我们的[白皮书](http://static.druid.io/docs/druid.pdf).
 
 ## 对比
 
