@@ -18,7 +18,7 @@ sectionid: download
       <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} Stable</a><br>
 
       <h2>当前版本</h2>
-      <p>一个版本如果在相当规模的生成集群部署之后， 才会成为发布候选版本。 当我们相对确定发布候选版本版本没有重大bug时， 才会声明该版本为稳定版本。 查阅<a href="/docs/{{site.druid_version}}/development/versioning.html">版本</a> 一节了解我们如何描述发布版本。
+      <p>一个版本只有在一定规模的生产集群部署之后， 才会成为发布候选版本。 当我们相对确定发布候选版本版本没有重大bug时， 才会声明该版本为稳定版本。 查阅<a href="/docs/{{site.druid_version}}/development/versioning.html">版本</a>一节了解我们如何描述发布版本。
 
       <h4>发布候选版本</h4>
       {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
