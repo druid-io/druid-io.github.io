@@ -56,7 +56,7 @@ Druid由多种不同类型的节点组成， 它们各自只完成一小部分�
 
 ## 扩展
 
-[现存的生产Druid集群](http://www.marketwired.com/press-release/metamarkets-clients-analyzing-100-billion-programmatic-events-daily-on-track-surpass-2061596.htm) 已扩展至如下规模：
+[现存的生产Druid集群](http://www.marketwired.com/press-release/metamarkets-clients-analyzing-100-billion-programmatic-events-daily-on-track-surpass-2061596.htm)已扩展至如下规模：
 
 - 3+ 万亿事件/月
 - 3M+ 事件/秒，通过实时流接入
