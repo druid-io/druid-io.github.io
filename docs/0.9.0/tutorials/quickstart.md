@@ -2,30 +2,27 @@
 layout: doc_page
 ---
 
-# Druid Quickstart
+# Druid快速入门
 
-In this quickstart, we will download Druid, set up it up on a single machine, load some data, and query the data.
+此文主要讲述的内容包括: 下载Druid, 单机环境下安装, 加载一些数据, 并查询这些数据。
 
-## Prerequisites
+## 先决条件
 
-You will need:
+你需要准备好以下环境:
 
-  * Java 7 or higher
-  * Linux, Mac OS X, or other Unix-like OS (Windows is not supported)
-  * 8G of RAM
-  * 2 vCPUs
+  * Java 7 以上
+  * Linux, Mac OS X, 或者其他Unix系的操作系统 (不支持Windows)
+  * 8G 以上内存
+  * 2核以上cpu
 
-On Mac OS X, you can use [Oracle's JDK
-8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) to install
-Java.
+在Mac OS X 系统上, 你可以使用 [Oracle's JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 。
 
-On Linux, your OS package manager should be able to help for Java. If your Ubuntu-
-based OS does not have a recent enough version of Java, WebUpd8 offers [packages for those
-OSes](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html).
+在Linux 系统上, 你可以很轻松的获取Java。如果你的操作系统是Ubuntu,
+你可以通过 [安装包](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html) 来升级一个新版本的Java环境。
 
-## Getting started
+## 开始入门
 
-To install Druid, issue the following commands in your terminal:
+可以用下面命令行的方式来安装Druid:
 
 ```bash
 curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-bin.tar.gz
@@ -33,21 +30,20 @@ tar -xzf druid-0.9.0-bin.tar.gz
 cd druid-0.9.0
 ```
 
-In the package, you should find:
+你可以看到以下目录:
 
-* `LICENSE` - the license files.
-* `bin/` - scripts useful for this quickstart.
-* `conf/*` - template configurations for a clustered setup.
-* `conf-quickstart/*` - configurations for this quickstart.
-* `extensions/*` - all Druid extensions.
-* `hadoop-dependencies/*` - Druid Hadoop dependencies.
-* `lib/*` - all included software packages for core Druid.
-* `quickstart/*` - files useful for this quickstart.
+* `LICENSE` - 许可文件。
+* `bin/` - 用于快速启动的脚本。
+* `conf/*` - 以集群方式启动的配置模板。
+* `conf-quickstart/*` - 快速启动的配置文件。
+* `extensions/*` - 所有Druid的扩展概念。
+* `hadoop-dependencies/*` - Druid的hadoop依赖
+* `lib/*` - Druid核心功能所需的包。
+* `quickstart/*` - 用于快速启动的文件。
 
-## Start up Zookeeper
+## 启动Zookeeper
 
-Druid currently has a dependency on [Apache ZooKeeper](http://zookeeper.apache.org/) for distributed coordination. You'll
-need to download and run Zookeeper.
+目前,Druid需要依赖 [Apache ZooKeeper](http://zookeeper.apache.org/) 进行分布式协调。你需要下载核运行Zookeeper。
 
 ```bash
 curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
@@ -57,17 +53,16 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 ```
 
-## Start up Druid services
+## 启动Druid的服务
 
-With Zookeeper running, return to the druid-0.9.0 directory. In that directory, issue the command:
+Zookeeper成功启动后, 回到druid-0.9.0目录, 执行:
 
 ```bash
 bin/init
 ```
 
-This will setup up some directories for you. Next, you can start up the Druid processes in different terminal windows.
-This tutorial runs every Druid process on the same system. In a large distributed production cluster,
-many of these Druid processes can still be co-located together.
+如此, 可以创建一些Druid所需的初始化目录。 然后, 你就可以在不同的终端窗口启动Druid相关的服务进程。
+这些命令可以在同一个节点启动。在大型的分布式集群中, Druid的进程也可以很好的在同一个节点协同运行。
 
 ```bash
 java `cat conf-quickstart/druid/historical/jvm.config | xargs` -cp conf-quickstart/druid/_common:conf-quickstart/druid/historical:lib/* io.druid.cli.Main server historical
@@ -77,25 +72,24 @@ java `cat conf-quickstart/druid/overlord/jvm.config | xargs` -cp conf-quickstart
 java `cat conf-quickstart/druid/middleManager/jvm.config | xargs` -cp conf-quickstart/druid/_common:conf-quickstart/druid/middleManager:lib/* io.druid.cli.Main server middleManager
 ```
 
-You should see a log message printed out for each service that starts up.
+每个任务启动后, 你都应该可以看到打印出来都日志信息。
 
-Later on, if you'd like to stop the services, CTRL-C to exit from the running java processes. If you
-want a clean start after stopping the services, delete the `var` directory and run the `init` script again.
+如果你想停止服务, CTRL-C可以退出正在运行的进程。如果你想在停止服务后重新清理, 删除 `var` 目录,然后重新运行 `init` 脚本。
 
-Once every service has started, you are now ready to load data.
+当所有当服务都启动后, 你就可以开始加载数据了。
 
-## Load batch data
+## 批量加载数据
 
-We've included a sample of Wikipedia edits from September 12, 2015 to get you started.
+为了便于你能很好的开始加载数据, 我们从维基百科2015年9月12日的修改日志中抽取了一个样本数据。
 
 <div class="note info">
-This section shows you how to load data in batches, but you can skip ahead to learn how to <a href="quickstart.html#load-streaming-data">load
-streams in real-time</a>. Druid's streaming ingestion can load data
-with virtually no delay between events occurring and being available for queries.
+该部分主要让你了解怎么批量加载数据, 你也可以直接跳过该部分, 而去了解怎么
+<a href="quickstart.html#load-streaming-data">加载实时流数据</a>
+Druid流的方式加载数据几乎可以做到在事件加载的同时就可查。
 </div>
 
-The [dimensions](https://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29) (attributes you can
-filter and split on) in the Wikipedia dataset, other than time, are:
+维基百科抽样的数据集中的 [dimensions](https://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29) (可以过滤和拆分的属性) ,
+排除time外,还有:
 
   * channel
   * cityName
@@ -114,8 +108,8 @@ filter and split on) in the Wikipedia dataset, other than time, are:
   * regionName
   * user
 
-The [measures](https://en.wikipedia.org/wiki/Measure_%28data_warehouse%29), or *metrics* as they are known in Druid (values you can aggregate)
-in the Wikipedia dataset are:
+在维基百科抽样的数据集中 [measures](https://en.wikipedia.org/wiki/Measure_%28data_warehouse%29),
+或者在Druid中可以叫做 *metrics* (可以聚合的值)的有:
 
   * count
   * added
@@ -123,29 +117,28 @@ in the Wikipedia dataset are:
   * delta
   * user_unique
 
-To load this data into Druid, you can submit an *ingestion task* pointing to the file. We've included
-a task that loads the `wikiticker-2015-09-12-sampled.json` file included in the archive. To submit
-this task, POST it to Druid in a new terminal window from the druid-0.9.0 directory:
+你可以提交一个*ingestion task*, 并指定数据文件的位置, 来把数据加载到Druid。
+在我们的目录中已经包含了一个可以加载 `wikiticker-2015-09-12-sampled.json`的任务。
+你可以在一个新的终端界面中, 在druid-0.9.0目录提交这个任务:
 
 ```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/wikiticker-index.json localhost:8090/druid/indexer/v1/task
 ```
 
-Which will print the ID of the task if the submission was successful:
+如果任务成功, 你可以看到打印出的任务ID:
 
 ```bash
 {"task":"index_hadoop_wikipedia_2013-10-09T21:30:32.802Z"}
 ```
 
-To view the status of your ingestion task, go to your overlord console:
-[http://localhost:8090/console.html](http://localhost:8090/console.html). You can refresh the console periodically, and after
-the task is successful, you should see a "SUCCESS" status for the task.
+你可以去overlord控制台页面来查看任务的状态:
+[http://localhost:8090/console.html](http://localhost:8090/console.html).
+你可以周期性的刷新页面, 当任务成功后, 你可以看到这个任务的状态是"SUCCESS"。
 
-After your ingestion task finishes, the data will be loaded by historical nodes and available for
-querying within a minute or two. You can monitor the progress of loading your data in the
-coordinator console, by checking whether there is a datasource "wikiticker" with a blue circle
-indicating "fully available": [http://localhost:8081/#/](http://localhost:8081/#/).
+任务完成一两分钟后, 数据将会被historical节点加载并可查询。 你可以在coordinator的控制台监控到加载数据到进程,
+如果数据源 "wikiticker" 前面有一个蓝色到圆圈, 说明 "完全可用": [http://localhost:8081/#/](http://localhost:8081/#/)。
 
+一旦数据完全可用, 你就可以立马查询&mdash; 想具体了解, 可以直接跳到 [数据查询](#数据查询)。或者继续 [加载数据](#load-your-own-data)
 Once the data is fully available, you can immediately query it&mdash; to see how, skip to the [Query
 data](#query-data) section below. Or, continue to the [Load your own data](#load-your-own-data)
 section if you'd like to load a different dataset.
