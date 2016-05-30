@@ -3,3 +3,6 @@ Gemfile.lock
 .DS_store
 .idea
 .jekyll-metadata
+.project
+.settings/
+.gitignore
