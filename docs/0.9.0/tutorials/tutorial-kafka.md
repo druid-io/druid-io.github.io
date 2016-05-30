@@ -2,28 +2,21 @@
 layout: doc_page
 ---
 
-# Tutorial: Load from Kafka
+# 教程：从Kafka加载数据
 
-## Getting started
+## 新手入门
 
-This tutorial shows you how to load data from Kafka into Druid.
+这个教程将指导你如何从Kafka加载数据到Druid。
 
-For this tutorial, we'll assume you've already downloaded Druid and Tranquility as described in
-the [single-machine quickstart](quickstart.html) and have it running on your local machine. You
-don't need to have loaded any data yet.
+在这个教程中, 我们将假设你已经下载了Druid，就像 [单机快速开始](quickstart.html)中描述的一样 ，并且已经在本地机器运行。当前你不需要加载任何数据。
 
 <div class="note info">
-This tutorial will show you how to load data from Kafka into Druid, but Druid additionally supports
-a wide variety of batch and streaming loading methods. See the <a href="../ingestion/batch-ingestion.html">Loading files</a>
-and <a href="../ingestion/stream-ingestion.html">Loading streams</a> pages for more information about other options,
-including from Hadoop, HTTP, Storm, Samza, Spark Streaming, and your own JVM apps.
+这个教程将指导你如何从Kafka加载数据到Druid，但是Druid也支持各种的批量和实时数据加载方式。请看<a href="../ingestion/batch-ingestion.html">加载文件</a>和<a href="../ingestion/stream-ingestion.html">加载数据流</a> 获取更多信息，包括从Hadoop、 HTTP、Storm、Samza、Spark Streaming和JVM apps.
 </div>
 
-## Start Kafka
+## 启动Kafka
 
-[Apache Kafka](http://kafka.apache.org/) is a high throughput message bus that works well with
-Druid.  For this tutorial, we will use Kafka 0.9.0.0. To download Kafka, issue the following
-commands in your terminal:
+[Apache Kafka](http://kafka.apache.org/)是一个高吞量的消息总线，并且与Druid整合良好。这个教程中，我们使用Kafka 0.9.0.0。下载Kafka，在你的终端执行以下命令：
 
 ```bash
 curl -O http://www.us.apache.org/dist/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz
@@ -31,7 +24,7 @@ tar -xzf kafka_2.11-0.9.0.0.tgz
 cd kafka_2.11-0.9.0.0
 ```
 
-Start a Kafka broker by running the following command in a new terminal:
+启动1个Kafka节点，在新的终端执行以下命令：
 
 ```bash
 ./bin/kafka-server-start.sh config/server.properties
@@ -43,11 +36,11 @@ Run this command to create a Kafka topic called *metrics*, to which we'll send d
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic metrics
 ```
 
-## Send example data
+## 发送数据
 
-Let's launch a console producer for our topic and send some data!
+让我们为topic启动1个控制台producer并发送一些数据！
 
-In your Druid directory, generate some metrics by running:
+在Druid目录中，产生一些新的metrics,通过执行以下命令：
 
 ```bash
 bin/generate-example-metrics
@@ -59,59 +52,50 @@ In your Kafka directory, run:
 ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic metrics
 ```
 
-The *kafka-console-producer* command is now awaiting input. Copy the generated example metrics,
-paste them into the *kafka-console-producer* terminal, and press enter. If you like, you can also
-paste more messages into the producer, or you can press CTRL-D to exit the console producer.
+*kafka-console-producer*命令等待输入。复制产生的metrics，把它们粘贴到*kafka-console-producer*终端，并键入enter。如果你喜欢，你也可以粘贴更多信息到producer，或者你使用CTRL-D退出控制台producer。
 
-You can immediately query this data, or you can skip ahead to the
-[Loading your own data](#loading-your-own-data) section if you'd like to load your own dataset.
+你可以立即查询这个数据，或者如果你愿意加载你自己的数据集，请看[加载你自己的数据](#loading-your-own-data)部分。
 
-## Querying your data
+## 查询数据
 
-After sending data, you can immediately query it using any of the
-[supported query methods](../querying/querying.html).
+发送数据后，你可以立即使用任何[支持的查询方法](../querying/querying.html)进行查询。
 
-## Loading your own data
+## 加载你自己的数据
 
-So far, you've loaded data into Druid from Kafka using an ingestion spec that we've included in the
-distribution. Each ingestion spec is designed to work with a particular dataset. You load your own
-data types into Imply by writing a custom ingestion spec.
+目前，你已经使用我们在发行版本提供的加载规格，从Kafka加载数据到Druid。每一个加载规格被设计用来与特定的数据集使用。你可以编写定制的加载规格，加载数据类型到Imply。
 
-You can write a custom ingestion spec by starting from the bundled configuration in
-`conf-quickstart/tranquility/kafka.json` and modifying it for your own needs.
+你可以通过自带的配置`conf-quickstart/tranquility/kafka.json`并根据自己的需求进行修改，来定制自己折加载规格。
 
-The most important questions are:
+最重要的问题是：
 
-  * What should the dataset be called? This is the "dataSource" field of the "dataSchema".
-  * Which field should be treated as a timestamp? This belongs in the "column" of the "timestampSpec".
-  * Which fields should be treated as dimensions? This belongs in the "dimensions" of the "dimensionsSpec".
-  * Which fields should be treated as measures? This belongs in the "metricsSpec".
+  * 数据集应该被什么调用？它应该是"dataSchema"的"dataSource"字段。
+  * 什么字段作为时间戳？它应该是"timestampSpec"的"column"。
+  * 什么字段作为维度？它应该是"dimensionsSpec"的"dimensions"。
+  * 什么字段作为度量？它应该是"metricsSpec"。
 
-Let's use a small JSON pageviews dataset in the topic *pageviews* as an example, with records like:
+让我们在topic *pageviews*中使用JSON pageviews数据集作为样例，包含以下记录：
 
 ```json
 {"time": "2000-01-01T00:00:00Z", "url": "/foo/bar", "user": "alice", "latencyMs": 32}
 ```
 
-First, create the topic:
+首先，创建topic：
 
 ```bash
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic pageviews
 ```
 
-Next, edit `conf-quickstart/tranquility/kafka.json`:
+然后，编辑`conf-quickstart/tranquility/kafka.json`:
 
-  * Let's call the dataset "pageviews-kafka".
-  * The timestamp is the "time" field.
-  * Good choices for dimensions are the string fields "url" and "user".
-  * Good choices for measures are a count of pageviews, and the sum of "latencyMs". Collecting that
-sum when we load the data will allow us to compute an average at query time as well.
+  * 调用数据集"pageviews-kafka"。
+  * 时间戳就是"time"字段。
+  * 维度可以选择"url"和"user"字符串字段。
+  * 度量可以选择pageviews的count，"latencyMs"的sum。统计当我们加载数据的sum，将允许我们在查询的时候计算平均值。
 
-You can edit the existing `conf-quickstart/tranquility/kafka.json` file by altering these
-sections:
+你可以编辑已有的`conf-quickstart/tranquility/kafka.json`文件并修改以下部分：
 
-  1. Change the key `"metrics-kafka"` under `"dataSources"` to `"pageviews-kafka"`
-  2. Alter these sections under the new `"pageviews-kafka"` key:
+  1. 修改`"dataSources"`下的key`"metrics-kafka"`为 `"pageviews-kafka"`
+  2. 在新的`"pageviews-kafka"` key中，修改以下部分：
   ```json
   "dataSource": "pageviews-kafka"
   ```
@@ -144,16 +128,15 @@ sections:
   }
   ```
 
-Next, start Druid Kafka ingestion:
+然后，启动Druid Kafka加载数据：
 
 ```bash
 bin/tranquility kafka -configFile ../druid-0.9.0/conf-quickstart/tranquility/kafka.json
 ```
 
-- If your Tranquility server or Kafka is already running, stop it (CTRL-C) and
-start it up again.
+- 如果Tranquility server或者Kafka已经在运行，停止它（CTRL-C）并再次启动。
 
-Finally, send some data to the Kafka topic. Let's start with these messages:
+最后，发送一些数据到Kafka topic。通过以下消息开始：
 
 ```json
 {"time": "2000-01-01T00:00:00Z", "url": "/foo/bar", "user": "alice", "latencyMs": 32}
@@ -161,25 +144,20 @@ Finally, send some data to the Kafka topic. Let's start with these messages:
 {"time": "2000-01-01T00:00:00Z", "url": "/foo/bar", "user": "bob", "latencyMs": 45}
 ```
 
-Druid streaming ingestion requires relatively current messages (relative to a slack time controlled by the
-[windowPeriod](../ingestion/stream-ingestion.html#segmentgranularity-and-windowperiod) value), so you should
-replace `2000-01-01T00:00:00Z` in these messages with the current time in ISO8601 format. You can
-get this by running:
+Druid实时数据流加载需要关联当前消息 （关联[窗口时间](../ingestion/stream-ingestion.html#segmentgranularity-and-windowperiod)控制的松弛时间值）, 你需要用ISO8601格式的当前时间替换消息中的`2000-01-01T00:00:00Z`。通过执行以下命令：
 
 ```bash
 python -c 'import datetime; print(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))'
 ```
 
-Update the timestamps in the JSON above, then copy and paste these messages into this console
-producer and press enter:
+更新上面的JSON时间戳，然后复制并粘贴这些消息到控制台producer并键入enter：
 
 ```bash
 ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pageviews
 ```
 
-That's it, your data should now be in Druid. You can immediately query it using any of the
-[supported query methods](../querying/querying.html).
+好了，你的数据现在应该在Druid里了。你可以使用任何[支持的查询方法](../querying/querying.html)立即进行查询。
 
-## Further reading
+## 进一步了解
 
-To read more about loading streams, see our [streaming ingestion documentation](../ingestion/stream-ingestion.html).
+要了解实时加载数据的更多信息，请看[实时数据流加载文档](../ingestion/stream-ingestion.html)。
