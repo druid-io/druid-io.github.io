@@ -1,13 +1,3 @@
-  - date: 2016-04-21
-    name: Percona Live
-    info: "Druid: Power Interactive Applications at Scale"
-    link: https://www.percona.com/live/data-performance-conference-2016/sessions/druid-power-interactive-applications-scale
-
-  - date: 2016-05-09
-    name: Apache Big Data North America
-    info: "Druid: Interactive Exploratory Analytics at Scale"
-    link: http://events.linuxfoundation.org/events/apache-big-data-north-america/program/schedule
-
   - date: 2016-06-03
     name: Strata London
     info: "Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid"
@@ -18,3 +8,12 @@
     info: "Building an Open Source Streaming Stack with Druid and Kafka"
     link: http://datadayseattle.com/
 
+  - date: 2016-08-04
+    name: Strata Beijing
+    info: "Druid: Power Interactive Applications at Scale"
+    link: http://strata.oreilly.com.cn/hadoop-big-data-cn/public/schedule/detail/51906
+
+  - date: 2016-09-27
+    name: Strata New York
+    info: "Beyond Hadoop at Yahoo: Interactive Analytics with Druid"
+    link: http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51640
