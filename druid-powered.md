@@ -6,6 +6,9 @@ layout: simple_page
 
 There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
+## Airbnb
+Druid powers slice and dice analytics on both historical and realtime-time metrics. It significantly reduces latency of analytic queries and help people to get insights more interactively.
+
 ## Alibaba
 
 At Alibaba Search Group, we use Druid for real-time analytics of users' interaction with its popular e-commerce site.
