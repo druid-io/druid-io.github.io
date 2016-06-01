@@ -96,6 +96,8 @@ LifeBuzz is a popular web property that serves tens of millions of pageviews per
 
 LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contributing back to the community by creating and maintaining a ruby client library for interacting with Druid located at <http://github.com/liquidm/ruby-druid>.
 
+* [Reporting at LiquidM](http://liquidm.com/reporting-at-liquidm/)
+
 ## Metamarkets
 
 Druid is the primary data store for Metamarkets’ full stack visual analytics
