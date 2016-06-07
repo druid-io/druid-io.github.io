@@ -96,8 +96,6 @@
     * [Datasketches](/docs/0.9.0/development/extensions-core/datasketches-aggregators.html)       
     * [Geographic Queries](/docs/0.9.0/development/geo.html)
     * [Router](/docs/0.9.0/development/router.html)
-    * [Kafka Indexing Service](/docs/0.9.0/development/extensions-core/kafka-ingestion.html)
-
 
 ## Misc
   * [Papers & Talks](/docs/0.9.0/misc/papers-and-talks.html)
