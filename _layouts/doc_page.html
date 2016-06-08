@@ -52,7 +52,12 @@ sectionid: docs
 
     <script>
     $(function() {
-      $(".toc").load("/docs/{{ version }}/toc.html");
+      $toc = $(".toc");
+      $toc.load("/docs/{{ version }}/toc.html", function () {
+        $toc.find('a').each(function(idx, el) {
+          el.href = el.href.replace('replace-with-version', '{{ version }}');
+        });
+      });
 
       // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
       var tries = 0;
