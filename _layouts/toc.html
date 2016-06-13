@@ -1,0 +1,7 @@
+---
+---
+
+{% assign parts = (page.url | split: '/') %}
+{% assign version = parts[2] %}
+
+{{ content | replace:'VERSION',version }}
