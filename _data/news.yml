@@ -1,10 +1,10 @@
-  - date: 2016-05-31
-    name: Druid 0.9.1-rc1 Released
-    link: 'https://groups.google.com/d/msg/druid-user/IFZR7G3SDwk/eU4gXPOsAgAJ'
+  - date: 2016-06-14
+    name: Druid 0.9.1-rc4 Released
+    link: 'https://groups.google.com/d/msg/druid-user/LEZI5Az_aiA/soyBGm9EAAAJ'
 
   - date: 2016-04-13
     name: Druid 0.9.0 Released
-    link: 'https://groups.google.com/forum/#!topic/druid-user/nqqb5RIdBbs'
+    link: 'https://github.com/druid-io/druid/releases/tag/druid-0.9.0'
 
   - date: 2016-01-26
     name: Druid 0.8.3 Released
