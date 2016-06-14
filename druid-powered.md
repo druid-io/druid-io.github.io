@@ -32,6 +32,10 @@ With more than 1 billion unique users reached per month, 3 billion ads displayed
 
 * [Real Time Metrics on Tracker Calls](http://labs.criteo.com/2016/02/real-time-metrics-on-tracker-calls/)
 
+## Condé Nast
+
+Condé Nast uses Druid to track billions of events across our two dozen brands, both in real time and historically. Druid helps power dashboards, site performance trackers, and many other internal applications.
+
 ## Didi Chuxing
 
 Didi Chuxing is the world’s largest mobile transportation platform, offering a full range of commuting options to 400 cities in China.
