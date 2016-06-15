@@ -1,3 +1,9 @@
+  - date: 2016-06-15
+    title: "Building a Streaming Analytics Stack with Apache Kafka and Druid"
+    name: Fangjin Yang
+    company: Imply
+    link: http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid
+
   - date: 2016-06-01
     title: "Reporting at LiquidM"
     name: Hagen Rother

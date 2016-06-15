@@ -1,8 +1,3 @@
-  - date: 2016-06-03
-    name: Strata London
-    info: "Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid"
-    link: http://conferences.oreilly.com/strata/hadoop-big-data-eu/public/schedule/detail/49606
-
   - date: 2016-07-23
     name: Data Day Seattle
     info: "Building an Open Source Streaming Stack with Druid and Kafka"
