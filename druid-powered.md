@@ -244,6 +244,10 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
 
+## Wikimedia Analytics
+
+We're serving pageview data via Druid and Pivot.  Our internal customers are loving it and we're working on allowing public access to sanitized data, both editing and pageview.  We like Druid because it's open source, the folks that work on it have built a good community, and it's about five times faster for us right now without any tuning or optimization.  We just dumped lots of data into it and Pivot was immediately useful to our analysts.  We wrote a [puppet](https://github.com/wikimedia/operations-puppet/tree/production/modules/druid) module that others might find helpful.
+
 <hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
