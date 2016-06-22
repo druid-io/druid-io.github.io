@@ -1,3 +1,8 @@
+  - date: 2016-06-29
+    name: Hadoop Summit San Jose
+    info: "Scalable Realtime Analytics using Druid"
+    link: http://hadoopsummit.org/san-jose/agenda/
+
   - date: 2016-07-23
     name: Data Day Seattle
     info: "Building an Open Source Streaming Stack with Druid and Kafka"
@@ -7,6 +12,11 @@
     name: Strata Beijing
     info: "Druid: Power Interactive Applications at Scale"
     link: http://strata.oreilly.com.cn/hadoop-big-data-cn/public/schedule/detail/51906
+
+  - date: 2016-09-16
+    name: Strange Loop
+    info: "Druid: Powering Interactive Data Applications at Scale"
+    link: http://www.thestrangeloop.com/2016/druid-powering-interactive-data-applications-at-scale.html
 
   - date: 2016-09-27
     name: Strata New York
