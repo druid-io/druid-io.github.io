@@ -89,6 +89,10 @@ Jolata leverages Druid as the analytics data store for the realtime network perf
 
 * [Realtime Analytics Powered by Druid](https://www.linkedin.com/pulse/realtime-analytics-powered-druid-kiran-patchigolla)
 
+## KT NexR
+
+KT NexR is the leading provider of the data analytics platform. We use Druid as a real-time analysis tool to help our customers to analyze multidimensional data in interactive ways.
+
 ## LDMobile
 
 LDMobile is a mobile DSP for the RTB. We use Druid to aggregate some metrics in order to propose to our customers a real-time dashboard showing performance indicators of their campaigns.
