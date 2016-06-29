@@ -43,6 +43,7 @@ layout: toc
     * [Context](/docs/VERSION/querying/query-context.html)
   * [Multi-value dimensions](/docs/VERSION/querying/multi-value-dimensions.html)
   * [SQL](/docs/VERSION/querying/sql.html)
+  * [Lookups](/docs/VERSION/querying/lookups.html)
   * [Joins](/docs/VERSION/querying/joins.html)
   * [Multitenancy](/docs/VERSION/querying/multitenancy.html)
   * [Caching](/docs/VERSION/querying/caching.html)
@@ -97,8 +98,9 @@ layout: toc
     * [Datasketches](/docs/VERSION/development/extensions-core/datasketches-aggregators.html)
     * [Geographic Queries](/docs/VERSION/development/geo.html)
     * [Router](/docs/VERSION/development/router.html)
+    * [Kafka Indexing Service](/docs/VERSION/development/extensions-core/kafka-ingestion.html)
+
 
 ## Misc
   * [Papers & Talks](/docs/VERSION/misc/papers-and-talks.html)
   * [Thanks](/thanks.html)
-

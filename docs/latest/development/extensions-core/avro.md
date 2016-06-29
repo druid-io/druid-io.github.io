@@ -33,7 +33,7 @@ For example, using Avro stream parser with schema repo Avro bytes decoder:
     }
   },
   "parseSpec" : {
-    "type": "timeAndDims",
+    "format": "timeAndDims",
     "timestampSpec": <standard timestampSpec>,
     "dimensionsSpec": <standard dimensionsSpec>
   }
@@ -90,7 +90,7 @@ For example, using Avro Hadoop parser with custom reader's schema file:
       "parser" : {
         "type" : "avro_hadoop",
         "parseSpec" : {
-          "type": "timeAndDims",
+          "format": "timeAndDims",
           "timestampSpec": <standard timestampSpec>,
           "dimensionsSpec": <standard dimensionsSpec>
         }
@@ -106,7 +106,7 @@ For example, using Avro Hadoop parser with custom reader's schema file:
     },
     "tuningConfig" : {
        "jobProperties" : {
-          "avro.schema.path.input.value" : "/path/to/my/schema.avsc",
+          "avro.schema.path.input.value" : "/path/to/my/schema.avsc"
       }
     }
   }

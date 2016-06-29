@@ -28,7 +28,7 @@ There are several main parts to a select query:
 |intervals|A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.|yes|
 |descending|Whether to make descending ordered result. Default is `false`(ascending). When this is `true`, page identifier and offsets will be negative value.|no|
 |filter|See [Filters](../querying/filters.html)|no|
-|dimensions|A String array of dimensions to select. If left empty, all dimensions are returned.|no|
+|dimensions|A JSON list of dimensions to select; or see [DimensionSpec](../querying/dimensionspecs.html) for ways to extract dimensions. If left empty, all dimensions are returned.|no|
 |metrics|A String array of metrics to select. If left empty, all metrics are returned.|no|
 |pagingSpec|A JSON object indicating offsets into different scanned segments. Query results will return a `pagingIdentifiers` value that can be reused in the next query for pagination.|yes|
 |context|An additional JSON Object which can be used to specify certain flags.|no|
@@ -167,5 +167,15 @@ This can be used with the next query's pagingSpec:
    "pagingSpec":{"pagingIdentifiers": {"wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9" : 5}, "threshold":5}
       
  }
+```
 
-Note that in the second query, an offset is specified and that it is 1 greater than the largest offset found in the initial results. To return the next "page", this offset must be incremented by 1 (should be decremented by 1 for descending query), with each new query. When an empty results set is received, the very last page has been returned.
+Note that in the second query, an offset is specified and that it is 1 greater than the largest offset found in the initial results. To return the next "page", this offset must be incremented by 1 (should be decremented by 1 for descending query), with each new query, but with option `fromNext` enabled, this operation is not needed. When an empty results set is received, the very last page has been returned.
+
+`fromNext` options is in pagingSpec:
+
+```json
+  {
+    ...
+    "pagingSpec":{"pagingIdentifiers": {}, "threshold":5, "fromNext": true}
+  }
+```
