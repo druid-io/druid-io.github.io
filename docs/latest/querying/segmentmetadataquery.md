@@ -2,9 +2,10 @@
 layout: doc_page
 ---
 # Segment Metadata Queries
-Segment metadata queries return per segment information about:
+Segment metadata queries return per-segment information about:
 
 * Cardinality of all columns in the segment
+* Min/max values of string type columns in the segment
 * Estimated byte size for the segment columns if they were stored in a flat format
 * Number of rows stored inside the segment
 * Interval the segment covers
@@ -30,7 +31,7 @@ There are several main parts to a segment metadata query:
 |toInclude|A JSON Object representing what columns should be included in the result. Defaults to "all".|no|
 |merge|Merge all individual segment metadata results into a single result|no|
 |context|See [Context](../querying/query-context.html)|no|
-|analysisTypes|A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to ["cardinality", "size", "interval"]. See section [analysisTypes](#analysistypes) for more details.|no|
+|analysisTypes|A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to ["cardinality", "size", "interval", "minmax"]. See section [analysisTypes](#analysistypes) for more details.|no|
 |lenientAggregatorMerge|If true, and if the "aggregators" analysisType is enabled, aggregators will be merged leniently. See below for details.|no|
 
 The format of the result is:
@@ -47,6 +48,9 @@ The format of the result is:
   },
   "aggregators" : {
     "metric1" : { "type" : "longSum", "name" : "metric1", "fieldName" : "metric1" }
+  },
+  "queryGranularity" : {
+    "type": "none"
   },
   "size" : 300000,
   "numRows" : 5000000
@@ -101,14 +105,18 @@ The grammar is as follows:
 
 This is a list of properties that determines the amount of information returned about the columns, i.e. analyses to be performed on the columns.
 
-By default, all analysis types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.
+By default, the "cardinality", "size", "interval", and "minmax" types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.
 
-There are four types of column analyses:
+Types of column analyses are described below:
 
 #### cardinality
 
 * `cardinality` in the result will return the estimated floor of cardinality for each column. Only relevant for
 dimension columns.
+
+#### minmax
+
+* Estimated min/max values for each column. Only relevant for dimension columns.
 
 #### size
 
@@ -117,6 +125,10 @@ dimension columns.
 #### interval
 
 * `intervals` in the result will contain the list of intervals associated with the queried segments.
+
+#### queryGranularity
+
+* `queryGranularity` in the result will contain query granularity of data stored in segments. this can be null if query granularity of segments was unknown or unmergeable (if merging is enabled).
 
 #### aggregators
 
