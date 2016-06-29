@@ -27,3 +27,8 @@
     name: Strata New York
     info: "Beyond Hadoop at Yahoo: Interactive Analytics with Druid"
     link: http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51640
+
+  - date: 2016-09-29
+    name: Strata New York
+    info: "Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid"
+    link: http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51152
