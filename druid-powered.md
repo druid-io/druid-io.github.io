@@ -210,6 +210,10 @@ Smyte provides an API and UI for detecting and blocking bad actors on the intern
 
 Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
 
+## Sugo
+
+Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on druid, and developed our own extensions to make it more powerful.
+
 ## Time Warner Cable
 
 TWC uses Druid for exploratory analytics.
