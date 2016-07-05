@@ -232,7 +232,7 @@ ViralGains uses Druid for real-time analysis of millions of viral video views, s
 
 ## Virool
 
-Druid powers Virool’s real time analytics of over 1 billion raw events per minute. We query this data to gain a deep understanding of all of our inventory sources, from exchanges to direct partners, everything is available with lightning fast query times. Druid puts the power and flexibility of big data in each of our Viroolian’s hands.
+Druid powers Virool’s real time analytics of over 1 billion raw events per day. We query this data to gain a deep understanding of all of our inventory sources, from exchanges to direct partners, everything is available with lightning fast query times. Druid puts the power and flexibility of big data in each of our Viroolian’s hands.
 
 ## Wikimedia Foundation
 
