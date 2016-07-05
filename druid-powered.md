@@ -7,6 +7,7 @@ layout: simple_page
 There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
 
 ## Airbnb
+
 Druid powers slice and dice analytics on both historical and realtime-time metrics. It significantly reduces latency of analytic queries and help people to get insights more interactively.
 
 ## Alibaba
@@ -24,6 +25,8 @@ Druid is used to power dynamic analytics and charting in Archive-It Reports. Rep
 ## Cisco
 
 Cisco uses Druid to power a real-time analytics platform for network flow data.
+
+* [Under the hood of Cisco’s Tetration Analytics platform](http://www.networkworld.com/article/3086250/cisco-subnet/under-the-hood-of-cisco-s-tetration-analytics-platform.html)
 
 ## Criteo
 
@@ -212,7 +215,7 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 ## Sugo
 
-Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on druid, and developed our own extensions to make it more powerful.
+Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
 ## Time Warner Cable
 
