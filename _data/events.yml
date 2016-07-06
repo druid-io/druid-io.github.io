@@ -1,8 +1,3 @@
-  - date: 2016-06-29
-    name: Hadoop Summit San Jose
-    info: "Scalable Realtime Analytics using Druid"
-    link: http://hadoopsummit.org/san-jose/agenda/
-
   - date: 2016-07-20
     name: SF Metrics Meetup
     info: "Druid: Realtime Analytics for Metrics Data "
