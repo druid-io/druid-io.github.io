@@ -1,8 +1,14 @@
-  - date: 2016-07-05
+  - date: 2016-07-06
     title: "Distributing Data in Druid at Petabyte Scale"
     name: "Xavier Léauté"
     company: Metamarkets
     link: https://metamarkets.com/2016/distributing-data-in-druid-at-petabyte-scale/
+
+  - date: 2016-07-05
+    title: "Exactly-Once Streaming Ingestion in Druid"
+    name: "David Lim"
+    company: Imply
+    link: http://imply.io/post/2016/07/05/exactly-once-streaming-ingestion.html
 
   - date: 2016-06-15
     title: "Building a Streaming Analytics Stack with Apache Kafka and Druid"
