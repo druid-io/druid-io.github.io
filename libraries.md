@@ -34,6 +34,10 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [implydata/plyql](https://github.com/implydata/plyql) - A command line and HTTP interface for issuing SQL queries to Druid
 
+#### PHP
+
+* [pixelfederation/druid-php](https://github.com/pixelfederation/druid-php) - A PHP client for Druid
+
 Other Druid Distributions
 -------------------------
 
