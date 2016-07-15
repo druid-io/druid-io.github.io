@@ -8,6 +8,11 @@
     info: "Building an Open Source Streaming Stack with Druid and Kafka"
     link: http://datadayseattle.com/
 
+  - date: 2016-07-28
+    name: The Fifth Elephant, India
+    info: "Scalable Realtime Analytics using Druid"
+    link: https://fifthelephant.talkfunnel.com/2016/71-scalable-realtime-analytics-using-druid
+
   - date: 2016-08-04
     name: Strata Beijing
     info: "Druid: Power Interactive Applications at Scale"
