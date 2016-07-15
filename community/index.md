@@ -67,9 +67,9 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
 | [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
-| [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Yahoo!                 |
+| [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
 | [Navis Ryu](https://github.com/navis)                 | SKTelecom              |
-| [Nishant Bangarwa](https://github.com/nishantmonu51)  | Metamarkets            |
+| [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
 | [Parag Jain](https://github.com/pjain1)               | Yahoo                  |
 | [Robin Sahner](https://github.com/rasahner)           | Yahoo                  |
 | [Xavier Léauté](https://github.com/xvrl)              | Metamarkets            |
