@@ -79,6 +79,10 @@ Imply uses Druid to power public demos and to power our internal monitoring and 
 * [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
 * [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid) 
 
+## Interactive Intelligence
+
+At ININ we're using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend. 
+
 ## Italiaonline
 
 Italiaonline exploits Druid for Internet trends and analytics management inside its new [Data-Driven Contents Management System](http://www.italiaonline.it/en/supereva-a-new-online-publishing-experience/).
