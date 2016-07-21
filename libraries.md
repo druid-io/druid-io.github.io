@@ -32,6 +32,7 @@ Some great folks have written their own libraries to interact with Druid.
 
 #### SQL
 
+* [Apache Calcite](http://calcite.apache.org/) - SQL parser, planner and query engine whose [Druid adapter](http://calcite.apache.org/docs/druid_adapter.html) can query data residing in Druid, and combine it with data in other locations; has local and remote JDBC drivers [powered by Avatica](http://calcite.apache.org/avatica/)
 * [implydata/plyql](https://github.com/implydata/plyql) - A command line and HTTP interface for issuing SQL queries to Druid
 
 #### PHP
