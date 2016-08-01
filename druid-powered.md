@@ -258,6 +258,7 @@ Xiaomi uses Druid as an analytics tool to analyze online advertising data.
 Yahoo uses Druid to power various customer-facing audience and advertising analytics products.
 
 * [Complementing Hadoop at Yahoo: Interactive Analytics with Druid](http://yahooeng.tumblr.com/post/125287346011/complementing-hadoop-at-yahoo-interactive)
+* [Combining Druid and DataSketches for Real-time, Robust Behavioral Analytics](https://yahooeng.tumblr.com/post/147711922956/combining-druid-and-datasketches-for-real-time)
 
 ## YeahMobi
 
