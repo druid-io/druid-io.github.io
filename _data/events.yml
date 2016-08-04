@@ -3,6 +3,11 @@
     info: "Druid: Power Interactive Applications at Scale"
     link: http://strata.oreilly.com.cn/hadoop-big-data-cn/public/schedule/detail/51906
 
+  - date: 2016-08-23
+    name: Druid Bay Area Meetup
+    info: "Druid Bay Area August Meetup at Opendoor"
+    link: http://www.meetup.com/druidio/events/233073994/
+
   - date: 2016-09-16
     name: Strange Loop
     info: "Druid: Powering Interactive Data Applications at Scale"
