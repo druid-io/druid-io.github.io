@@ -22,6 +22,10 @@ Druid is the major player in the real-time analytics pipeline at Appsflyer, and 
 
 Druid is used to power dynamic analytics and charting in Archive-It Reports. Reports help Archive-It partners understand what content they captured, why some content did not get captured, and assists with quality assurance and crawl scoping to ensure they are building the highest quality collections.
 
+## Atomx
+
+Atomx is a new media exchange that connects networks, DSPs, SSPs, and other parties. Atomx uses Druid for it's advanced realtime reporting system. Using the Google Cloud modifications Atomx contributed to Druid, it can easily scale Druid with the fast growing platform.
+
 ## Cisco
 
 Cisco uses Druid to power a real-time analytics platform for network flow data.
