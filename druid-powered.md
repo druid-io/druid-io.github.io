@@ -83,6 +83,10 @@ Imply uses Druid to power public demos and to power our internal monitoring and 
 * [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
 * [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid) 
 
+## Inmobi
+
+Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies. 
+
 ## Interactive Intelligence
 
 At ININ we're using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend. 
@@ -271,10 +275,6 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 ## Youku Tudou
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
-
-## Inmobi
-
-Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies. 
 
 <hr/>
 
