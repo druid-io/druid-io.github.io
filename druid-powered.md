@@ -272,6 +272,10 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
 
+## Inmobi
+
+Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we also use Druid as a Datastore for faster ingestion of large amount of data as well as for the sub second latencies it provides for user queries.
+
 <hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
