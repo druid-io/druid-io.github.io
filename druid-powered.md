@@ -274,7 +274,7 @@ Youku Tudou employs Druid for real-time advertising analysis of huge volumes of 
 
 ## Inmobi
 
-Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we also use Druid as a Datastore for faster ingestion of large amount of data as well as for the sub second latencies it provides for user queries.
+Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and the sub second latencies it provides for user queries.
 
 <hr/>
 
