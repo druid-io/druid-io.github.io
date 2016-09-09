@@ -1,6 +1,10 @@
 .druid-masthead {
-  padding: 44px 0 24px;
-  background-color: #EEE;
+  border-top: 1px solid rgba(44,238,251, .7);
+  border-image: radial-gradient(#2ceefb, #2ceefb 10%, #1c1c26) 100% 1;
+  border-width: 1px 0 0 0;
+  padding: 0 0 24px;
+  background-color: #1C1C26;
+  color: #c3c3c5;
   text-align: center;
   margin: 0 auto 20px;
 }
@@ -11,8 +15,8 @@
   font-size: 1.2em;
   padding: 8px;
   color: white;
-  background: #1776BB;
   transition: background-color 0.1s ease;
+  border-color: rgba(177,186,198,.7);
 }
 
 .druid-masthead .btn-lg:hover,
@@ -27,8 +31,6 @@
 
 .druid-masthead .lead {
   font-size: 1.5em;
-  font-weight: 400;
-  margin-top: 8px;
   margin-bottom: 26px;
 }
 
@@ -95,6 +97,25 @@
   background-size: 88px 25px;
   background-repeat: no-repeat;
   margin-top: -2px;
+}
+
+.home .druid-logo {
+  background-image: none;
+}
+
+.druid-bootlogo {
+  display: block;
+  margin: 3px auto 0 auto;
+  width: 270px;
+  height: 140px;
+  background-size: 430px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('/img/druid.png');
+  background-image: -webkit-image-set(
+    url('/img/druid.png') 1x,
+    url('/img/druid_2x.png') 2x
+  );
 }
 
 .druid-booticon {

@@ -3,7 +3,7 @@
   <head>	
     {% include site_head.html %}
   </head>
-  <body>	
+  <body {% if page.id == 'home' %}class="home"{% endif %}>
     {% include page_header.html %}
 
     {{ content }}
