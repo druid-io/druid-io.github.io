@@ -4,4 +4,3 @@
 
 User-agent: *
 Disallow: /docs/0*/
-
