@@ -1,6 +1,0 @@
-# robots.txt for http://druid.io
-
-# Keep robots from crawling old Druid doc versions
-
-User-agent: *
-Disallow: /docs/0*/
