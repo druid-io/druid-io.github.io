@@ -1,0 +1,81 @@
+.item-list {
+  margin-top: 4px;
+  padding: 10px;
+  margin-bottom: 6px;
+}
+
+.list-title {
+  border-bottom: 1px solid #BBB;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.item-list a {
+  display: block;
+  line-height: 1.3em;
+}
+
+.item-list p a:hover,
+.item-list p a:focus {
+  color: #1a5491;
+}
+
+.text-muted {
+  color: #999;
+}
+
+.item-list .event {
+  position: relative;
+  padding-left: 42px;
+  margin-bottom: 12px;
+}
+
+.item-list .mini-cal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #2477B3;
+  padding: 2px;
+  width: 32px;
+  text-align: center;
+  border-radius: 2px;
+  padding-top: 14px;
+}
+
+.item-list .date-month {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1px;
+  background: #2477B3;
+  border-radius: 2px;
+  color: white;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.item-list .date-day {
+  background: white;
+  color: #195C8C;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 19px;
+}
+
+.item-list .btn-default {
+  border-color: #2576CC;
+  color: #2576CC;
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+}
+
+.item-list .btn-default:hover,
+.item-list .btn-default:focus {
+  background-color: #2576CC;
+  border-color: #2576CC;
+  color: #fff;
+}

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Interactive Analytics at Scale</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/index.css">
+
+<main class="druid-masthead">
+  <div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+    <p class="lead"><b>Druid</b> is a high-performance, column-oriented, distributed data store.</p>
+    <p><a class="btn btn-lg" href="downloads.html"><span class="fa fa-download"></span> Download</a>
+    <a class="btn btn-lg" href="https://github.com/druid-io/druid/"><span class="fa fa-github"></span> GitHub</a></p>
+  </div>
+  </div>
+  </div>
+</main>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-9">
+      <div class="top-news">
+        <link rel="stylesheet" href="/css/news-list.css">
+
+<div class="item-list">
+  <div class="list-title">
+    News & Updates
+  </div>
+  
+  <p>
+    <a href="/blog/2016/06/28/druid-0-9-1.html">
+      <span>Druid 0.9.1.1 Released</span><br>
+      <span class="text-muted">Jun 28 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="https://github.com/druid-io/druid/releases/tag/druid-0.9.0">
+      <span>Druid 0.9.0 Released</span><br>
+      <span class="text-muted">Apr 13 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="https://github.com/druid-io/druid/releases/tag/druid-0.8.3">
+      <span>Druid 0.8.3 Released</span><br>
+      <span class="text-muted">Jan 26 2016</span>
+    </a>
+  </p>
+  
+</div>
+
+      </div>
+      <div class="features">
+
+        <span class="fa fa-rocket fa"></span><br>
+        <h3>Sub-Second Queries</h3>
+        <p>
+          Druid supports fast aggregations and sub-second OLAP queries. Druid is designed for
+          multi-tenancy and is ideal for powering user-facing analytic applications. 
+        </p>
+
+        <span class="fa fa-feed fa"></span><br>
+        <h3>Real-time Streams</h3>
+        <p>
+          Druid supports streaming data ingestion and offers insights on events
+          immediately after they occur. Retain events indefinitely and 
+          unify real-time and historical views.
+        </p>
+
+        <span class="fa fa-database fa"></span><br>
+        <h3>Scalable to Petabytes</h3>
+        <p>
+          Existing Druid clusters have scaled to petabytes of data and
+          trillions of events, ingesting millions of events every second. Druid is
+          extremely cost effective, even at scale. 
+        </p>
+
+        <span class="fa fa-gears fa"></span><br>
+        <h3>Deploy Anywhere</h3>
+        <p>
+          Druid runs on commodity hardware. Deploy it in the cloud or
+          on-premise. Integrate with existing data systems such as
+          Hadoop, Spark, Kafka, Storm, Flink, and Samza.
+        </p>
+
+        <span class="fa fa-comments fa"></span><br>
+        <h3>Vibrant Community</h3>
+        <p>
+          Druid is a community led project. <a href="/community">Join the fast growing community</a> and
+          work with developers from across the world.
+        </p>
+
+      </div>
+
+      <h3 class="more">Learn More:</h3>
+
+      <div class="features learn">
+
+        <span class="fa fa-smile-o fa"></span><br>
+        <h3>Powered by Druid</h3>
+        <p>
+          <a href="/druid-powered.html">Learn more</a> about how many different organizations use Druid in production.
+        </p>
+
+        <span class="fa fa-flag-checkered fa"></span><br>
+        <h3>Quickstart</h3>
+        <p>
+          Try the <a href="/docs/0.9.1.1/tutorials/quickstart.html">quickstart</a> and get started in minutes. Load your own data and query it.
+        </p>
+
+        <span class="fa fa-book fa"></span><br>
+        <h3>Introduction</h3>
+        <p>
+          <a href="/docs/0.9.1.1/design/index.html">Learn more</a> about the high level architecture and concepts behind Druid.
+        </p>
+
+        <span class="fa fa-bar-chart fa"></span><br>
+        <h3>Open Source UIs and Rich Client Libraries</h3>
+        <p>
+          Visualize data with <a href="https://github.com/implydata/pivot">Pivot</a> and <a
+          href="https://github.com/airbnb/caravel">Caravel</a>.
+          Query data in <a href="/libraries.html">many different languages</a>.
+        </p>
+
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="bottom-news">
+        <link rel="stylesheet" href="/css/news-list.css">
+
+<div class="item-list">
+  <div class="list-title">
+    News & Updates
+  </div>
+  
+  <p>
+    <a href="/blog/2016/06/28/druid-0-9-1.html">
+      <span>Druid 0.9.1.1 Released</span><br>
+      <span class="text-muted">Jun 28 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="https://github.com/druid-io/druid/releases/tag/druid-0.9.0">
+      <span>Druid 0.9.0 Released</span><br>
+      <span class="text-muted">Apr 13 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="https://github.com/druid-io/druid/releases/tag/druid-0.8.3">
+      <span>Druid 0.8.3 Released</span><br>
+      <span class="text-muted">Jan 26 2016</span>
+    </a>
+  </p>
+  
+</div>
+
+      </div>
+      <link rel="stylesheet" href="/css/news-list.css">
+
+<div class="item-list">
+  <div class="list-title">
+    Upcoming Events
+  </div>
+  
+  <div class="event">
+    <div class="mini-cal">
+      <div class="date-month">
+        Sep
+      </div>
+      <div class="date-day">
+        16
+      </div>
+    </div>
+    <p>
+      <a href="http://www.thestrangeloop.com/2016/druid-powering-interactive-data-applications-at-scale.html">
+        Strange Loop<br>
+        <span class="text-muted">Druid: Powering Interactive Data Applications at Scale</span>
+      </a>
+    </p>
+  </div>
+  
+  <div class="event">
+    <div class="mini-cal">
+      <div class="date-month">
+        Sep
+      </div>
+      <div class="date-day">
+        27
+      </div>
+    </div>
+    <p>
+      <a href="http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51640">
+        Strata New York<br>
+        <span class="text-muted">Beyond Hadoop at Yahoo: Interactive Analytics with Druid</span>
+      </a>
+    </p>
+  </div>
+  
+  <div class="event">
+    <div class="mini-cal">
+      <div class="date-month">
+        Sep
+      </div>
+      <div class="date-day">
+        29
+      </div>
+    </div>
+    <p>
+      <a href="http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51152">
+        Strata New York<br>
+        <span class="text-muted">Streaming Analytics at 300 billion events/day with Kafka, Samza, and Druid</span>
+      </a>
+    </p>
+  </div>
+  
+  <div class="event">
+    <div class="mini-cal">
+      <div class="date-month">
+        Sep
+      </div>
+      <div class="date-day">
+        29
+      </div>
+    </div>
+    <p>
+      <a href="http://conferences.oreilly.com/strata/hadoop-big-data-ny/public/schedule/detail/51274">
+        Strata New York<br>
+        <span class="text-muted">An Introduction to Druid</span>
+      </a>
+    </p>
+  </div>
+  
+  <a class="btn btn-default btn-xs" href="http://www.meetup.com/druidio/">Join Our Meetup Group!</a>
+</div>
+
+      <link rel="stylesheet" href="/css/news-list.css">
+
+<div class="item-list">
+  <div class="list-title">
+    Featured Content
+  </div>
+  
+  <p>
+    <a href="https://yahooeng.tumblr.com/post/147711922956/combining-druid-and-datasketches-for-real-time">
+      Combining Druid and DataSketches for Real-time, Robust Behavioral Analytics<br>
+      <span class="text-muted">Himanshu Gupta - </span>
+      <span class="text-muted">Yahoo</span><br>
+      <span class="text-muted">Jul 21 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="https://metamarkets.com/2016/distributing-data-in-druid-at-petabyte-scale/">
+      Distributing Data in Druid at Petabyte Scale<br>
+      <span class="text-muted">Xavier Léauté - </span>
+      <span class="text-muted">Metamarkets</span><br>
+      <span class="text-muted">Jul  6 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="http://imply.io/post/2016/07/05/exactly-once-streaming-ingestion.html">
+      Exactly-Once Streaming Ingestion in Druid<br>
+      <span class="text-muted">David Lim - </span>
+      <span class="text-muted">Imply</span><br>
+      <span class="text-muted">Jul  5 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid">
+      Building a Streaming Analytics Stack with Apache Kafka and Druid<br>
+      <span class="text-muted">Fangjin Yang - </span>
+      <span class="text-muted">Imply</span><br>
+      <span class="text-muted">Jun 15 2016</span>
+    </a>
+  </p>
+  
+  <p>
+    <a href="http://liquidm.com/reporting-at-liquidm/">
+      Reporting at LiquidM<br>
+      <span class="text-muted">Hagen Rother - </span>
+      <span class="text-muted">LiquidM</span><br>
+      <span class="text-muted">Jun  1 2016</span>
+    </a>
+  </p>
+  
+</div>
+    </div>
+
+  </div>
+</div>
+
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

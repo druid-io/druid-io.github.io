@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.143">API documentation</a></p>
+          <h1 id="tutorial-loading-your-data-part-1">Tutorial: Loading Your Data (Part 1)</h1>
+
+<p>In our last <a href="Tutorial%3A-The-Druid-Cluster.html">tutorial</a>, we set up a complete Druid cluster. We created all the Druid dependencies and loaded some batched data. Druid shards data into self-contained chunks known as <a href="Segments.html">segments</a>. Segments are the fundamental unit of storage in Druid and all Druid nodes only understand segments.</p>
+
+<p>In this tutorial, we will learn about batch ingestion (as opposed to real-time ingestion) and how to create segments using the final piece of the Druid Cluster, the <a href="Indexing-Service.html">indexing service</a>. The indexing service is a standalone service that accepts <a href="Tasks.html">tasks</a> in the form of POST requests. The output of most tasks are segments.</p>
+
+<p>If you are interested more about ingesting your own data into Druid, skip to the next <a href="Tutorial%3A-Loading-Your-Data-Part-2.html">tutorial</a>.</p>
+
+<h2 id="about-the-data">About the data</h2>
+
+<p>The data source we&#39;ll be working with is Wikipedia edits once again. The data schema is the same as the previous tutorials:</p>
+
+<p>Dimensions (things to filter on):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<span class="s2">&quot;language&quot;</span>
+<span class="s2">&quot;user&quot;</span>
+<span class="s2">&quot;unpatrolled&quot;</span>
+<span class="s2">&quot;newPage&quot;</span>
+<span class="s2">&quot;robot&quot;</span>
+<span class="s2">&quot;anonymous&quot;</span>
+<span class="s2">&quot;namespace&quot;</span>
+<span class="s2">&quot;continent&quot;</span>
+<span class="s2">&quot;country&quot;</span>
+<span class="s2">&quot;region&quot;</span>
+<span class="s2">&quot;city&quot;</span>
+</code></pre></div>
+<p>Metrics (things to aggregate over):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<span class="s2">&quot;added&quot;</span>
+<span class="s2">&quot;delta&quot;</span>
+<span class="s2">&quot;deleted&quot;</span>
+</code></pre></div>
+<h2 id="setting-up">Setting Up</h2>
+
+<p>At this point, you should already have Druid downloaded and are comfortable with running a Druid cluster locally. If you are not, see <a href="Tutorial%3A-The-Druid-Cluster.html">here</a>.</p>
+
+<p>Let&#39;s start from our usual starting point in the tarball directory.</p>
+
+<p>Segments require data, so before we can build a Druid segment, we are going to need some raw data. Make sure that the following file exists:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">examples/indexing/wikipedia_data.json
+</code></pre></div>
+<p>Open the file and make sure the following events exist:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Gypsy Danger&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;North America&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Bay Area&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">57</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-143</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Striker Eureka&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Cantebury&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Syndey&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T07:11:21Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Cherno Alpha&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;masterYi&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Russia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Oblast&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Moscow&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T11:58:39Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Crimson Typhoon&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Shanxi&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Taiyuan&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">905</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">900</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Coyote Tango&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringer&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Kanto&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-9</span><span class="p">}</span>
+</code></pre></div>
+<p>There are five data points spread across the day of 2013-08-31. Talk about big data right? Thankfully, we don&#39;t need a ton of data to introduce how batch ingestion works.</p>
+
+<p>In order to ingest and query this data, we are going to need to run a historical node, a coordinator node, and an indexing service to run the batch ingestion.</p>
+
+<p>Note: If Zookeeper and MySQL aren&#39;t running, you&#39;ll have to start them again as described in <a href="Tutorial%3A-The-Druid-Cluster.html">The Druid Cluster</a>.</p>
+
+<h4 id="starting-a-local-indexing-service">Starting a Local Indexing Service</h4>
+
+<p>The simplest indexing service we can start up is to run an <a href="Indexing-Service.html">overlord</a> node in local mode. You can do so by issuing:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx2g -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/overlord io.druid.cli.Main server overlord
+</code></pre></div>
+<p>The overlord configurations should already exist in:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">config/overlord/runtime.properties
+</code></pre></div>
+<p>The configurations for the overlord node are as follows:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">druid.host<span class="o">=</span>localhost
+druid.port<span class="o">=</span>8087
+druid.service<span class="o">=</span>overlord
+
+druid.zk.service.host<span class="o">=</span>localhost
+
+druid.extensions.coordinates<span class="o">=[</span><span class="s2">&quot;io.druid.extensions:druid-kafka-seven:0.6.143&quot;</span><span class="o">]</span>
+
+druid.db.connector.connectURI<span class="o">=</span>jdbc:mysql://localhost:3306/druid
+druid.db.connector.user<span class="o">=</span>druid
+druid.db.connector.password<span class="o">=</span>diurd
+
+druid.selectors.indexing.serviceName<span class="o">=</span>overlord
+druid.indexer.queue.startDelay<span class="o">=</span>PT0M
+druid.indexer.runner.javaOpts<span class="o">=</span><span class="s2">&quot;-server -Xmx256m&quot;</span>
+druid.indexer.fork.property.druid.processing.numThreads<span class="o">=</span>1
+druid.indexer.fork.property.druid.computation.buffer.size<span class="o">=</span>100000000
+</code></pre></div>
+<p>If you are interested in reading more about these configurations, see <a href="Indexing-Service.html">here</a>.</p>
+
+<p>When the overlord node is ready for tasks, you should see a message like the following:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">2013-10-09 21:30:32,817 INFO <span class="o">[</span>Thread-14<span class="o">]</span> io.druid.indexing.overlord.TaskQueue - Waiting <span class="k">for</span> work...
+</code></pre></div>
+<h4 id="starting-other-nodes">Starting Other Nodes</h4>
+
+<p>Just in case you forgot how, let&#39;s start up the other nodes we require:</p>
+
+<p>Coordinator node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/coordinator io.druid.cli.Main server coordinator
+</code></pre></div>
+<p>Historical node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/historical io.druid.cli.Main server historical
+</code></pre></div>
+<p>Note: Historical, real-time and broker nodes share the same query interface. Hence, we do not explicitly need a broker node for this tutorial. All queries can go against the historical node directly.</p>
+
+<p>Once all the nodes are up and running, we are ready to index some data.</p>
+
+<h2 id="indexing-the-data">Indexing the Data</h2>
+
+<p>To index the data and build a Druid segment, we are going to need to submit a task to the indexing service. This task should already exist:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">examples/indexing/wikipedia_index_task.json
+</code></pre></div>
+<p>Open up the file to see the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;gran&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregators&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">},</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+    <span class="p">},</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+    <span class="p">},</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+  <span class="p">}],</span>
+  <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/indexing&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia_data.json&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Okay, so what is happening here? The &quot;type&quot; field indicates the type of task we plan to run. In this case, it is a simple &quot;index&quot; task. The &quot;granularitySpec&quot; indicates that we are building a daily segment for 2013-08-31 to 2013-09-01. Next, the &quot;aggregators&quot; indicate which fields in our data set we plan to build metric columns for. The &quot;fieldName&quot; corresponds to the metric name in the raw data. The &quot;name&quot; corresponds to what our metric column is actually going to be called in the segment. Finally, we have a local &quot;firehose&quot; that is going to read data from disk. We tell the firehose where our data is located and the types of files we are looking to ingest. In our case, we only have a single data file.</p>
+
+<p>Let&#39;s send our task to the indexing service now:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/indexing/wikipedia_index_task.json localhost:8087/druid/indexer/v1/task
+</code></pre></div>
+<p>Issuing the request should return a task ID like so:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/indexing/wikipedia_index_task.json localhost:8087/druid/indexer/v1/task
+<span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2013-10-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+<span class="err">$</span>
+</code></pre></div>
+<p>In your indexing service logs, you should see the following:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">2013-10-09 21:41:41,150 INFO <span class="o">[</span>qtp300448720-21<span class="o">]</span> io.druid.indexing.overlord.HeapMemoryTaskStorage - Inserting task index_wikipedia_2013-10-09T21:41:41.147Z with status: TaskStatus<span class="o">{</span><span class="nv">id</span><span class="o">=</span>index_wikipedia_2013-10-09T21:41:41.147Z, <span class="nv">status</span><span class="o">=</span>RUNNING, <span class="nv">duration</span><span class="o">=</span>-1<span class="o">}</span>
+2013-10-09 21:41:41,151 INFO <span class="o">[</span>qtp300448720-21<span class="o">]</span> io.druid.indexing.overlord.TaskLockbox - Created new TaskLockPosse: TaskLockPosse<span class="o">{</span><span class="nv">taskLock</span><span class="o">=</span>TaskLock<span class="o">{</span><span class="nv">groupId</span><span class="o">=</span>index_wikipedia_2013-10-09T21:41:41.147Z, <span class="nv">dataSource</span><span class="o">=</span>wikipedia, <span class="nv">interval</span><span class="o">=</span>2013-08-31T00:00:00.000Z/2013-09-01T00:00:00.000Z, <span class="nv">version</span><span class="o">=</span>2013-10-09T21:41:41.151Z<span class="o">}</span>, <span class="nv">taskIds</span><span class="o">=[]}</span>
+...
+013-10-09 21:41:41,215 INFO <span class="o">[</span>pool-6-thread-1<span class="o">]</span> io.druid.indexing.overlord.ForkingTaskRunner - Logging task index_wikipedia_2013-10-09T21:41:41.147Z_generator_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_0 output to: /tmp/persistent/index_wikipedia_2013-10-09T21:41:41.147Z_generator_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_0/b5099fdb-d6b0-4b81-9053-b2af70336a7e/log
+2013-10-09 21:41:45,017 INFO <span class="o">[</span>qtp300448720-22<span class="o">]</span> io.druid.indexing.common.actions.LocalTaskActionClient - Performing action <span class="k">for</span> task<span class="o">[</span>index_wikipedia_2013-10-09T21:41:41.147Z_generator_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_0<span class="o">]</span>: LockListAction<span class="o">{}</span>
+</code></pre></div>
+<p>After a few seconds, the task should complete and you should see in the indexing service logs:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">2013-10-09 21:41:45,765 INFO <span class="o">[</span>pool-6-thread-1<span class="o">]</span> io.druid.indexing.overlord.exec.TaskConsumer - Received SUCCESS status <span class="k">for</span> task: IndexGeneratorTask<span class="o">{</span><span class="nv">id</span><span class="o">=</span>index_wikipedia_2013-10-09T21:41:41.147Z_generator_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_0, <span class="nb">type</span><span class="o">=</span>index_generator, <span class="nv">dataSource</span><span class="o">=</span>wikipedia, <span class="nv">interval</span><span class="o">=</span>Optional.of<span class="o">(</span>2013-08-31T00:00:00.000Z/2013-09-01T00:00:00.000Z<span class="o">)}</span>
+</code></pre></div>
+<p>Congratulations! The segment has completed building. Once a segment is built, a segment metadata entry is created in your MySQL table. The coordinator compares what is in the segment metadata table with what is in the cluster. A new entry in the metadata table will cause the coordinator to load the new segment in a minute or so.</p>
+
+<p>You should see the following logs on the coordinator:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">2013-10-09 21:41:54,368 INFO <span class="o">[</span>Coordinator-Exec--0<span class="o">]</span> io.druid.server.coordinator.helper.DruidCoordinatorLogger - <span class="o">[</span>_default_tier<span class="o">]</span> : Assigned <span class="m">1</span> segments among <span class="m">1</span> servers
+2013-10-09 21:41:54,369 INFO <span class="o">[</span>Coordinator-Exec--0<span class="o">]</span> io.druid.server.coordinator.helper.DruidCoordinatorLogger - Load Queues:
+2013-10-09 21:41:54,369 INFO <span class="o">[</span>Coordinator-Exec--0<span class="o">]</span> io.druid.server.coordinator.helper.DruidCoordinatorLogger - Server<span class="o">[</span>localhost:8081, historical, _default_tier<span class="o">]</span> has <span class="m">1</span> left to load, <span class="m">0</span> left to drop, 4,477 bytes queued, 4,477 bytes served.
+</code></pre></div>
+<p>These logs indicate that the coordinator has assigned our new segment to the historical node to download and serve. If you look at the historical node logs, you should see:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">2013-10-09 21:41:54,369 INFO <span class="o">[</span>ZkCoordinator-0<span class="o">]</span> io.druid.server.coordination.ZkCoordinator - Loading segment wikipedia_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_2013-10-09T21:41:41.151Z
+2013-10-09 21:41:54,369 INFO <span class="o">[</span>ZkCoordinator-0<span class="o">]</span> io.druid.segment.loading.LocalDataSegmentPuller - Unzipping <span class="nb">local </span>file<span class="o">[</span>/tmp/druid/localStorage/wikipedia/2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z/2013-10-09T21:41:41.151Z/0/index.zip<span class="o">]</span> to <span class="o">[</span>/tmp/druid/indexCache/wikipedia/2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z/2013-10-09T21:41:41.151Z/0<span class="o">]</span>
+2013-10-09 21:41:54,370 INFO <span class="o">[</span>ZkCoordinator-0<span class="o">]</span> io.druid.utils.CompressionUtils - Unzipping file<span class="o">[</span>/tmp/druid/localStorage/wikipedia/2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z/2013-10-09T21:41:41.151Z/0/index.zip<span class="o">]</span> to <span class="o">[</span>/tmp/druid/indexCache/wikipedia/2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z/2013-10-09T21:41:41.151Z/0<span class="o">]</span>
+2013-10-09 21:41:54,380 INFO <span class="o">[</span>ZkCoordinator-0<span class="o">]</span> io.druid.server.coordination.SingleDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_2013-10-09T21:41:41.151Z<span class="o">]</span> to path<span class="o">[</span>/druid/servedSegments/localhost:8081/wikipedia_2013-08-31T00:00:00.000Z_2013-09-01T00:00:00.000Z_2013-10-09T21:41:41.151Z<span class="o">]</span>
+</code></pre></div>
+<p>Once the segment is announced the segment is queryable. Now you should be able to query the data.</p>
+
+<p>Issuing a <a href="TimeBoundaryQuery.html">TimeBoundaryQuery</a> should yield:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;maxTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27.000Z&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<h2 id="console">Console</h2>
+
+<p>The indexing service overlord has a console located at:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">localhost:8087/console.html
+</code></pre></div>
+<p>On this console, you can look at statuses and logs of recently submitted and completed tasks.</p>
+
+<p>If you decide to reuse the local firehose to ingest your own data and if you run into problems, you can use the console to read the individual task logs.</p>
+
+<p>Task logs can be stored locally or uploaded to <a href="Deep-Storage.html">Deep Storage</a>. More information about how to configure this is <a href="Configuration.html">here</a>.</p>
+
+<p>Most common data ingestion problems are around timestamp formats and other malformed data issues.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>This tutorial covered ingesting a small batch data set and loading it into Druid. In <a href="Tutorial%3A-Loading-Your-Data-Part-2.html">Loading Your Data Part 2</a>, we will cover how to ingest data using Hadoop for larger data sets.</p>
+
+<p>Note: The index task and local firehose can be used to ingest your own data if the size of that data is relatively small (&lt; 1G). The index task is fairly slow and we highly recommend using the Hadoop Index Task for ingesting larger quantities of data.</p>
+
+<h2 id="additional-information">Additional Information</h2>
+
+<p>Getting data into Druid can definitely be difficult for first time users. Please don&#39;t hesitate to ask questions in our IRC channel or on our <a href="https://groups.google.com/forum/#!forum/druid-development">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.143/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

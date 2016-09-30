@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.146">API documentation</a></p>
+          <h1 id="tutorial-loading-your-data-part-2">Tutorial: Loading Your Data (Part 2)</h1>
+
+<p>In this tutorial we will cover more advanced/real-world ingestion topics.</p>
+
+<p>Druid can ingest streaming or batch data. Streaming data is ingested via the real-time node, and batch data is ingested via the Hadoop batch indexer. Druid also has a standalone ingestion service called the <a href="Indexing-Service.html">indexing service</a>.</p>
+
+<h2 id="the-data">The Data</h2>
+
+<p>The data source we&#39;ll be using is (surprise!) Wikipedia edits. The data schema is still:</p>
+
+<p>Dimensions (things to filter on):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<span class="s2">&quot;language&quot;</span>
+<span class="s2">&quot;user&quot;</span>
+<span class="s2">&quot;unpatrolled&quot;</span>
+<span class="s2">&quot;newPage&quot;</span>
+<span class="s2">&quot;robot&quot;</span>
+<span class="s2">&quot;anonymous&quot;</span>
+<span class="s2">&quot;namespace&quot;</span>
+<span class="s2">&quot;continent&quot;</span>
+<span class="s2">&quot;country&quot;</span>
+<span class="s2">&quot;region&quot;</span>
+<span class="s2">&quot;city&quot;</span>
+</code></pre></div>
+<p>Metrics (things to aggregate over):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<span class="s2">&quot;added&quot;</span>
+<span class="s2">&quot;delta&quot;</span>
+<span class="s2">&quot;deleted&quot;</span>
+</code></pre></div>
+<h2 id="streaming-event-ingestion">Streaming Event Ingestion</h2>
+
+<p>With real-world data, we recommend having a message bus such as <a href="http://kafka.apache.org/">Apache Kafka</a> sit between the data stream and the real-time node. The message bus provides higher availability for production environments. <a href="Firehose.html">Firehoses</a> are the key abstraction for real-time ingestion.</p>
+
+<p><a id="set-up-kafka"></a></p>
+
+<h4 id="setting-up-kafka">Setting up Kafka</h4>
+
+<p><a href="Firehose.html">KafkaFirehoseFactory</a> is how druid communicates with Kafka. Using this <a href="Firehose.html">Firehose</a> with the right configuration, we can import data into Druid in real-time without writing any code. To load data to a real-time node via Kafka, we&#39;ll first need to initialize Zookeeper and Kafka, and then configure and initialize a <a href="Realtime.html">Realtime</a> node.</p>
+
+<p>The following quick-start instructions for booting a Zookeeper and then Kafka cluster were taken from the <a href="http://kafka.apache.org/07/quickstart.html">Kafka website</a>.</p>
+
+<ol>
+<li>Download Apache Kafka 0.7.2 from <a href="http://kafka.apache.org/downloads.html">http://kafka.apache.org/downloads.html</a></li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  wget http://archive.apache.org/dist/kafka/old_releases/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
+  tar -xvzf kafka-0.7.2-incubating-src.tgz
+  <span class="nb">cd </span>kafka-0.7.2-incubating-src
+</code></pre></div>
+<ol>
+<li>Build Kafka</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  ./sbt update
+  ./sbt package
+</code></pre></div>
+<ol>
+<li>Boot Kafka</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  cat config/zookeeper.properties
+  bin/zookeeper-server-start.sh config/zookeeper.properties
+
+  <span class="c"># in a new console</span>
+  bin/kafka-server-start.sh config/server.properties
+</code></pre></div>
+<ol>
+<li>Launch the console producer (so you can type in JSON kafka messages in a bit)</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic wikipedia
+</code></pre></div>
+<p>When things are ready, you should see log messages such as:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  [2013-10-09 22:03:07,802] INFO zookeeper state changed (SyncConnected) (org.I0Itec.zkclient.ZkClient)
+</code></pre></div>
+<h4 id="launch-a-realtime-node">Launch a Realtime Node</h4>
+
+<p>You should be comfortable starting Druid nodes at this point. If not, it may be worthwhile to revisit the first few tutorials.</p>
+
+<ol>
+<li>Real-time nodes can be started with:</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -Ddruid.realtime.specFile<span class="o">=</span>examples/indexing/wikipedia.spec -classpath lib/*:config/realtime io.druid.cli.Main server realtime
+</code></pre></div>
+<ol>
+<li>A realtime.spec should already exist for the data source in the Druid tarball. You should be able to find it at:</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  examples/indexing/wikipedia.spec
+</code></pre></div>
+<p>The contents of the file should match:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;aggregators&quot;</span> <span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;indexGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+        <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka-0.7.2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;consumerProps&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;zk.connect&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:2181&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zk.connectiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zk.sessiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zk.synctime.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;groupid&quot;</span><span class="p">:</span> <span class="s2">&quot;druid-example&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fetch.size&quot;</span><span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;autooffset.reset&quot;</span><span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;autocommit.enable&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;feed&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;plumber&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basePersistDirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;\/tmp\/realtime\/basePersist&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;rejectionPolicy&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+</code></pre></div>
+<p>Note: This config uses a &quot;test&quot; <a href="Plumber.html">rejection policy</a> which will accept all events and timely hand off, however, we strongly recommend you do not use this in production. Using this rejection policy, segments for events for the same time range will be overridden.</p>
+
+<ol>
+<li>Let&#39;s copy and paste some data into the Kafka console producer</li>
+</ol>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Gypsy Danger&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;North America&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Bay Area&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">57</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-143</span><span class="p">}</span>
+  <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Striker Eureka&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Cantebury&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Syndey&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">}</span>
+  <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T07:11:21Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Cherno Alpha&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;masterYi&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Russia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Oblast&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Moscow&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">}</span>
+  <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T11:58:39Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Crimson Typhoon&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Shanxi&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Taiyuan&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">905</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">900</span><span class="p">}</span>
+  <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Coyote Tango&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringer&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Kanto&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-9</span><span class="p">}</span>
+</code></pre></div>
+<p>Disclaimer: We recognize the timestamps of these events aren&#39;t actually recent.</p>
+
+<ol>
+<li>Watch the events as they are ingested by Druid&#39;s real-time node:</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  ...
+  2013-10-10 05:13:18,976 INFO <span class="o">[</span>chief-wikipedia<span class="o">]</span> io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T01:00:00.000Z_2013-08-31T02:00:00.000Z_2013-08-31T01:00:00.000Z<span class="o">]</span> at path<span class="o">[</span>/druid/segments/localhost:8083/2013-10-10T05:13:18.972Z0<span class="o">]</span>
+  2013-10-10 05:13:18,992 INFO <span class="o">[</span>chief-wikipedia<span class="o">]</span> io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T03:00:00.000Z_2013-08-31T04:00:00.000Z_2013-08-31T03:00:00.000Z<span class="o">]</span> at path<span class="o">[</span>/druid/segments/localhost:8083/2013-10-10T05:13:18.972Z0<span class="o">]</span>
+  2013-10-10 05:13:18,997 INFO <span class="o">[</span>chief-wikipedia<span class="o">]</span> io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T07:00:00.000Z_2013-08-31T08:00:00.000Z_2013-08-31T07:00:00.000Z<span class="o">]</span> at path<span class="o">[</span>/druid/segments/localhost:8083/2013-10-10T05:13:18.972Z0<span class="o">]</span>
+  2013-10-10 05:13:19,003 INFO <span class="o">[</span>chief-wikipedia<span class="o">]</span> io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T11:00:00.000Z_2013-08-31T12:00:00.000Z_2013-08-31T11:00:00.000Z<span class="o">]</span> at path<span class="o">[</span>/druid/segments/localhost:8083/2013-10-10T05:13:18.972Z0<span class="o">]</span>
+  2013-10-10 05:13:19,008 INFO <span class="o">[</span>chief-wikipedia<span class="o">]</span> io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment<span class="o">[</span>wikipedia_2013-08-31T12:00:00.000Z_2013-08-31T13:00:00.000Z_2013-08-31T12:00:00.000Z<span class="o">]</span> at path<span class="o">[</span>/druid/segments/localhost:8083/2013-10-10T05:13:18.972Z0<span class="o">]</span>
+  ...
+</code></pre></div>
+<p>Issuing a <a href="TimeBoundaryQuery.html">TimeBoundaryQuery</a> to the real-time node should yield valid results:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;maxTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27.000Z&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h2 id="batch-ingestion">Batch Ingestion</h2>
+
+<p>Druid is designed for large data volumes, and most real-world data sets require batch indexing be done through a Hadoop job. </p>
+
+<p>For this tutorial, we used <a href="https://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/">Hadoop 1.0.3</a>. There are many pages on the Internet showing how to set up a single-node (standalone) Hadoop cluster, which is all that&#39;s needed for this example. </p>
+
+<p>For the purposes of this tutorial, we are going to use our very small and simple Wikipedia data set. This data can directly be ingested via other means as shown in the previous <a href="Tutorial%3A-Loading-Your-Data-Part-1.html">tutorial</a>, but we are going to use Hadoop here for demonstration purposes.</p>
+
+<p>Our data is located at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">examples/indexing/wikipedia_data.json
+</code></pre></div>
+<p>The following events should exist in the file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Gypsy Danger&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;North America&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Bay Area&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">57</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-143</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Striker Eureka&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Cantebury&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Syndey&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T07:11:21Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Cherno Alpha&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;masterYi&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Russia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Oblast&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Moscow&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T11:58:39Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Crimson Typhoon&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Shanxi&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Taiyuan&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">905</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">900</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Coyote Tango&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringer&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Kanto&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-9</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="set-up-a-druid-cluster">Set Up a Druid Cluster</h4>
+
+<p>To index the data, we are going to need an indexing service, a historical node, and a coordinator node.</p>
+
+<p>Note: If Zookeeper and MySQL aren&#39;t running, you&#39;ll have to start them again as described in <a href="Tutorial%3A-The-Druid-Cluster.html">The Druid Cluster</a>.</p>
+
+<p>To start the Indexing Service:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx2g -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:&lt;hadoop_config_path&gt;:config/overlord io.druid.cli.Main server overlord
+</code></pre></div>
+<p>To start the Coordinator Node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/coordinator io.druid.cli.Main server coordinator
+</code></pre></div>
+<p>To start the Historical Node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/historical io.druid.cli.Main server historical
+</code></pre></div>
+<h4 id="index-the-data">Index the Data</h4>
+
+<p>Before indexing the data, make sure you have a valid Hadoop cluster running. To build our Druid segment, we are going to submit a <a href="Tasks.html">Hadoop index task</a> to the indexing service. The grammar for the Hadoop index task is very similar to the index task of the last tutorial. The tutorial Hadoop index task should be located at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">examples/indexing/wikipedia_index_hadoop_task.json
+</code></pre></div>
+<p>Examining the contents of the file, you should find:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dataSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;gran&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;pathSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/indexing/wikipedia_data.json&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;rollupSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;aggs&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;rollupGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>If you are curious about what all this configuration means, see <a href="Tasks.html">here</a>.</p>
+
+<p>To submit the task:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/indexing/wikipedia_index_hadoop_task.json localhost:8087/druid/indexer/v1/task
+</code></pre></div>
+<p>After the task is completed, the segment should be assigned to your historical node. You should be able to query the segment.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>We demonstrated using the indexing service as a way to ingest data into Druid. Previous versions of Druid used the <a href="Batch-ingestion.html">HadoopDruidIndexer</a> to ingest batch data. The <code>HadoopDruidIndexer</code> still remains a valid option for batch ingestion, however, we recommend using the indexing service as the preferred method of getting batch data into Druid.</p>
+
+<p>For more information on querying, check out this <a href="Tutorial%3A-All-About-Queries.html">tutorial</a>.</p>
+
+<h2 id="additional-information">Additional Information</h2>
+
+<p>Getting data into Druid can definitely be difficult for first time users. Please don&#39;t hesitate to ask questions in our IRC channel or on our <a href="https://groups.google.com/forum/#!forum/druid-development">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.146/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

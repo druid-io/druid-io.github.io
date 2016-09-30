@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Introducing Druid</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+        <div class="title-spacer"></div>
+        <img class="title-image" src="http://metamarkets.com/wp-content/uploads/2012/10/Druid.jpg" alt="Introducing Druid"/>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>Introducing Druid</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Eric Tschetter</span> · October 24, 2012</p>
+
+        <p>In <a href="http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/">April 2011</a>,
+we introduced Druid, our distributed, real-time data store.  Today I am
+extremely proud to announce that we are releasing the Druid data store to the
+community as an open source project. To mark this special occasion, I wanted to
+recap why we built Druid, and why we believe there is broader utility for Druid
+beyond <a href="http://metamarkets.com/2012/metamarkets-open-sources-druid/metamarkets.com/product">Metamarkets&#39; analytical SaaS offering</a>.</p>
+
+<p>When we started to build Metamarkets’ analytics solution, we tried several
+commercially available data stores. Our requirements were driven by our online
+advertising customers who have data volumes often upwards of hundreds of
+billions of events per month, and need highly interactive queries on the latest
+data as well as an ability to arbitrarily filter across any dimension – with
+data sets that contain 30 dimensions or more.  For example, a typical query
+might be “find me how many advertisements were seen by female executives, aged
+35 to 44, from the US, UK, and Canada, reading sports blogs on weekends.”</p>
+
+<p>First, we went the traditional database route. Companies have successfully used
+data warehouses to manage the cost and overhead of querying historical data,
+and the architecture aligned with our goals of data aggregation and drill down.
+For our data volumes (reaching billions of records), we found that the scan
+rates were not fast enough to support our interactive dashboard, and caching
+could not be used to reliably speed up queries due to the arbitrary drill-downs
+we need to support. In addition, because RDBMS data updates are inherently
+batch, updates made via inserts lead to locking of rows for queries.</p>
+
+<p>Next, we investigated a NoSQL architecture. To support our use case of allowing
+users to drill down on arbitrary dimensions, we pre-computed dimensional
+aggregations and wrote them into a NoSQL key-value store.  While this approach
+provided fast query times, pre-aggregations required hours of processing time
+for just millions of records (on a ~10-node Hadoop cluster).  More
+problematically, as the number of dimensions increased, the aggregation and
+processing time increased exponentially, exceeding 24 hours.  Beyond its cost,
+this time created an unacceptably high latency between when events occurred and
+when they were available for querying – negating any possibility of supporting
+our customers’ desire for real-time visibility into their data.</p>
+
+<p>We thus decided to build Druid, to better meet the needs of analytics workloads
+requiring fast, real-time access to data at scale.</p>
+
+<p>Druid’s key features are:</p>
+
+<ul>
+<li><p><strong>Distributed architecture.</strong> Swappable read-only data segments using an MVCC
+swapping protocol. Per-segment replication relieves load on hot segments.
+Supports both in-memory and memory-mapped versions.</p></li>
+<li><p><strong>Real-time ingestion.</strong> Real-time ingestion coupled with broker servers to
+query across real-time and historical data. Automated migration of real-time to
+historical as it ages.</p></li>
+<li><p><strong>Column-oriented for speed.</strong>  Data is laid out in columns so that scans are
+limited to specific data being searched. Compression decreases overall data
+footprint.</p></li>
+<li><p><strong>Fast filtering.</strong> Bitmap indices with CONCISE compression.</p></li>
+<li><p><strong>Operational simplicity.</strong> Fault tolerant due to replication. Supports
+rolling deployments and restarts. Allows simple scale up and scale down – just
+add or remove nodes.</p></li>
+</ul>
+
+<p>From a query perspective, Druid supports arbitrary Boolean filters as well as
+Group By, time series roll-ups, aggregation functions and regular expression
+searches.</p>
+
+<p>In terms of performance, Druid’s scan speed is 33M rows per second per core,
+and can ingest up to 10K incoming records per second per node. We have
+horizontally scaled Druid to support <a href="http://metamarkets.com/2012/scaling-druid/">scan speeds of 26B records per
+second</a>.</p>
+
+<p>Now that more people have hands-on experience with Hadoop, there is a
+broadening realization that while it is ideal for batch processing of large
+data volumes, tools for real-time data queries are lacking. Hence there is
+growing interest in tools like Google’s Dremel and PowerDrill, as evidenced by
+the new Apache Drill project. We believe that Druid addresses a gap in the
+existing big data ecosystem for a real-time analytical data store, and we are
+excited to make it available to the open source community.</p>
+
+<p>Metamarkets has engaged with multiple large internet properties like Netflix,
+providing early access to the code for evaluation purposes. Netflix is
+assessing Druid for operational monitoring of real-time metrics across their
+streaming media business.</p>
+
+<p>Sudhir Tonse, Manager, Cloud Platform Infrastructure says, “Netflix manages
+billions of streaming events each day, so we need a highly scalable data store
+for operational reporting. We are so far impressed with the speed and
+scalability of Druid, and are continuing to evaluate it for providing critical
+real-time transparency into our operational metrics.”</p>
+
+<p>Metamarkets anticipates that open sourcing Druid will also help other
+organizations solve their real-time data analysis and processing needs. We are
+excited to see how the open source community benefits from using Druid in their
+own applications, and hopeful that Druid improves through their feedback and
+usage.</p>
+
+<p>Druid is available for download on GitHub at <a href="https://github.com/metamx/druid">https://github.com/metamx/druid</a>,
+and more information can be found on the <a href="http://metamarkets.com/druid">Druid project
+website</a>.</p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

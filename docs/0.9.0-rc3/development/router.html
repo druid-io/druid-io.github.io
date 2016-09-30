@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.0-rc3">API documentation</a></p>
+          <h1 id="router-node">Router Node</h1>
+
+<p>You should only ever need the router node if you have a Druid cluster well into the terabyte range. The router node can be used to route queries to different broker nodes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
+
+<h2 id="running">Running</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server router
+</code></pre></div>
+<h2 id="example-production-configuration">Example Production Configuration</h2>
+
+<p>In this example, we have two tiers in our production cluster: <code>hot</code> and <code>_default_tier</code>. Queries for the <code>hot</code> tier are routed through the <code>broker-hot</code> set of brokers, and queries for the <code>_default_tier</code> are routed through the <code>broker-cold</code> set of brokers. If any exceptions or network problems occur, queries are routed to the <code>broker-cold</code> set of brokers. In our example, we are running with a c3.2xlarge EC2 node. We assume a <code>common.runtime.properties</code> already exists.</p>
+
+<p>JVM settings:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx13g
+-Xms13g
+-XX:NewSize=256m
+-XX:MaxNewSize=256m
+-XX:+UseConcMarkSweepGC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-XX:+UseLargePages
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=/mnt/galaxy/deploy/current/
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+
+-Dcom.sun.management.jmxremote.port=17071
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/router
+
+druid.processing.numThreads=1
+druid.router.defaultBrokerServiceName=druid:broker-cold
+druid.router.coordinatorServiceName=druid:coordinator
+druid.router.tierToBrokerMap={&quot;hot&quot;:&quot;druid:broker-hot&quot;,&quot;_default_tier&quot;:&quot;druid:broker-cold&quot;}
+druid.router.http.numConnections=50
+druid.router.http.readTimeout=PT5M
+
+# Number of threads used by the router proxy http client
+druid.router.http.numMaxThreads=100
+
+druid.server.http.numThreads=100
+</code></pre></div>
+<h2 id="runtime-configuration">Runtime Configuration</h2>
+
+<p>The router module uses several of the default modules in <a href="../configuration/index.html">Configuration</a> and has the following set of configurations as well:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.router.defaultBrokerServiceName</code></td>
+<td>Any string.</td>
+<td>The default broker to connect to in case service discovery fails.</td>
+<td>druid/broker</td>
+</tr>
+<tr>
+<td><code>druid.router.tierToBrokerMap</code></td>
+<td>An ordered JSON map of tiers to broker names. The priority of brokers is based on the ordering.</td>
+<td>Queries for a certain tier of data are routed to their appropriate broker.</td>
+<td>{&quot;_default&quot;: &quot;<defaultBrokerServiceName>&quot;}</td>
+</tr>
+<tr>
+<td><code>druid.router.defaultRule</code></td>
+<td>Any string.</td>
+<td>The default rule for all datasources.</td>
+<td>&quot;_default&quot;</td>
+</tr>
+<tr>
+<td><code>druid.router.rulesEndpoint</code></td>
+<td>Any string.</td>
+<td>The coordinator endpoint to extract rules from.</td>
+<td>&quot;/druid/coordinator/v1/rules&quot;</td>
+</tr>
+<tr>
+<td><code>druid.router.coordinatorServiceName</code></td>
+<td>Any string.</td>
+<td>The service discovery name of the coordinator.</td>
+<td>druid/coordinator</td>
+</tr>
+<tr>
+<td><code>druid.router.pollPeriod</code></td>
+<td>Any ISO8601 duration.</td>
+<td>How often to poll for new rules.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.router.strategies</code></td>
+<td>An ordered JSON array of objects.</td>
+<td>All custom strategies to use for routing.</td>
+<td>[{&quot;type&quot;:&quot;timeBoundary&quot;},{&quot;type&quot;:&quot;priority&quot;}]</td>
+</tr>
+</tbody></table>
+
+<h2 id="router-strategies">Router Strategies</h2>
+
+<p>The router has a configurable list of strategies for how it selects which brokers to route queries to. The order of the strategies matter because as soon as a strategy condition is matched, a broker is selected.</p>
+
+<h3 id="timeboundary">timeBoundary</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;timeBoundary&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Including this strategy means all timeBoundary queries are always routed to the highest priority broker.</p>
+
+<h3 id="priority">priority</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;minPriority&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;maxPriority&quot;</span><span class="p">:</span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Queries with a priority set to less than minPriority are routed to the lowest priority broker. Queries with priority set to greater than maxPriority are routed to the highest priority broker. By default, minPriority is 0 and maxPriority is 1. Using these default values, if a query with priority 0 (the default query priority is 0) is sent, the query skips the priority selection logic.</p>
+
+<h3 id="javascript">JavaScript</h3>
+
+<p>Allows defining arbitrary routing rules using a JavaScript function. The function is passed the configuration and the query to be executed, and returns the tier it should be routed to, or null for the default tier.</p>
+
+<p><em>Example</em>: a function that sends queries containing more than three aggregators to the lowest priority broker.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function (config, query) { if (query.getAggregatorSpecs &amp;&amp; query.getAggregatorSpecs().size() &gt;= 3) { var size = config.getTierToBrokerMap().values().size(); if (size &gt; 0) { return config.getTierToBrokerMap().values().toArray()[size-1] } else { return config.getDefaultBrokerServiceName() } } else { return null } }&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="http-endpoints">HTTP Endpoints</h2>
+
+<p>The router node exposes several HTTP endpoints for interactions.</p>
+
+<h3 id="get">GET</h3>
+
+<ul>
+<li><code>/status</code></li>
+</ul>
+
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
+
+<ul>
+<li><code>/druid/v2/datasources</code></li>
+</ul>
+
+<p>Returns a list of queryable datasources.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Returns the dimensions and metrics of the datasource.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}/dimensions</code></li>
+</ul>
+
+<p>Returns the dimensions of the datasource.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}/metrics</code></li>
+</ul>
+
+<p>Returns the metrics of the datasource.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.0-rc3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

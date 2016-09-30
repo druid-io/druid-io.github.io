@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.165">API documentation</a></p>
+          <h1 id="booting-a-druid-cluster">Booting a Druid Cluster</h1>
+
+<p><a href="Tutorial%3A-Loading-Your-Data-Part-2.html">Loading Your Data</a> and <a href="Tutorial%3A-All-About-Queries.html">All About Queries</a> contain recipes to boot a small druid cluster on localhost. However, when it&#39;s time to run a more realistic setup&mdash;for production or just for testing production&mdash;you&#39;ll want to find a way to start the cluster on multiple hosts. This document describes two different ways to do this: manually, or as a cloud service via Apache Whirr.</p>
+
+<h2 id="manually-booting-a-druid-cluster">Manually Booting a Druid Cluster</h2>
+
+<p>You can provision individual servers, loading Druid onto each machine (or building it) and setting the required configuration for each type of node. You&#39;ll also have to set up required external dependencies. Then you&#39;ll have to start each node. This process is outlined in <a href="Tutorial:-The-Druid-Cluster.html">Tutorial: The Druid Cluster</a>.</p>
+
+<h2 id="apache-whirr">Apache Whirr</h2>
+
+<p><a href="http://whirr.apache.org/">Apache Whirr</a> is a set of libraries for launching cloud services. For Druid, Whirr serves as an easy way to launch a cluster in Amazon AWS by using simple commands and configuration files (called <em>recipes</em>).</p>
+
+<p><strong>NOTE:</strong> Whirr will install Druid 0.6.115 (an older version of Druid). Also, it doesn&#39;t work with JDK1.7.0_55. JDK1.7.0_45 recommended.</p>
+
+<p>You&#39;ll need an AWS account, S3 Bucket and an EC2 key pair from that account so that Whirr can connect to the cloud via the EC2 API. If you haven&#39;t generated a key pair, see the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">AWS documentation</a> or see this <a href="http://whirr.apache.org/faq.html#how-do-i-find-my-cloud-credentials">Whirr FAQ</a>.</p>
+
+<h3 id="install-whirr">Install Whirr</h3>
+
+<p>Clone the code from <a href="https://github.com/druid-io/whirr">https://github.com/druid-io/whirr</a> and build Whirr:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:druid-io/whirr.git
+cd whirr
+git checkout trunk
+mvn clean install -Dmaven.test.failure.ignore=true
+</code></pre></div>
+<p>In order to run the test below, you&#39;ll also need two files that available only from a <a href="http://druid.io/downloads.html">standard install of Druid</a> or the <a href="https://github.com/metamx/druid/tree/master/examples/bin/examples">Druid repo</a>:</p>
+
+<ul>
+<li><code>druid/examples/bin/examples/wikipedia/wikipedia_realtime.spec</code></li>
+<li><code>druid/examples/bin/examples/indexing/wikipedia_realtime_task.json</code></li>
+</ul>
+
+<h3 id="configure-whirr">Configure Whirr</h3>
+
+<p>The Whirr recipe for Druid is the configuration file <code>$WHIRR_HOME/recipies/druid.properties</code>. You can edit this file to suit your needs; it is annotated and self-explanatory. Here are some hints about that file:</p>
+
+<ul>
+<li>Set <code>whirr.location-id</code> to a specific AWS region if desired. If this is left blank, a region is chosen for you. The default value is <code>us-east-1</code>.</li>
+<li>You can choose the hardware used with <code>whirr.hardware-id</code> to a specific instance type (e.g., m1.large). By default druid.properties, m3.2xlarge (broker, historical, middle manager), m1.xlarge (coordinator, overlord), and m1.small (zookeeper, mysql) are used.</li>
+<li>If you don&#39;t choose an image via <code>whirr.image-id</code> (image must be compatible with hardware), you&#39;ll get plain vanilla Linux. Default druid.properties uses ami-018c9568 (Ubuntu 12.04).</li>
+<li>SSH keys (not password protected) must exist for the local user. If they are in the default locations, <code>${sys:user.home}/.ssh/id_rsa</code> and <code>${sys:user.home}/.ssh/id_rsa.pub</code>, Whirr will find them. Otherwise, you&#39;ll have to specify them with <code>whirr.private-key-file</code> and <code>whirr.public-key-file</code>.</li>
+<li>Two Druid cluster templates (see <code>whirr.instance-templates</code>) are provided: a small cluster running on a single EC2 instance, and a larger cluster running on multiple instances.</li>
+<li>You must specify the path to an S3 bucket. Otherwise the cluster won&#39;t be able to process tasks.</li>
+<li>To successfully submit the test task below, you&#39;ll need to specify the location of the <code>wikipedia_realtime.spec</code> in the property <code>whirr.druid.realtime.spec.path</code>.</li>
+<li>Specify Druid version only if <a href="Modules.html">Druid extenions</a> are being used.</li>
+</ul>
+
+<p>The following AWS information must be set in <code>druid.properties</code>, as environment variables, or in the file <code>$WHIRR_HOME/conf/credentials</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">PROVIDER=aws-ec2
+IDENTITY=&lt;aws-id-key&gt;
+CREDENTIAL=&lt;aws-private-key&gt;
+</code></pre></div>
+<p>How to get the IDENTITY and CREDENTIAL keys is discussed above.</p>
+
+<p>In order to configure each node, you can edit <code>services/druid/src/main/resources/functions/start_druid.sh</code> for JVM configuration and <code>services/druid/src/main/resources/functions/configure_[NODE_NAME].sh</code> for specific node configuration. For more information on configuration, see the <a href="Configuration.html">Druid configuration documentation</a>.</p>
+
+<h3 id="start-a-test-cluster-with-whirr">Start a Test Cluster With Whirr</h3>
+
+<p>Run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">% <span class="nv">$WHIRR_HOME</span>/bin/whirr launch-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
+</code></pre></div>
+<p>If Whirr starts without any errors, you should see the following message:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Running on provider aws-ec2 using identity &lt;your-aws-id-here&gt;
+</code></pre></div>
+<p>You can then use the EC2 dashboard to locate the instances and confirm that they have started up.</p>
+
+<p>If both the instances and the Druid cluster launch successfully, a few minutes later other messages to STDOUT should follow with information returned from EC2, including the instance ID:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Started cluster of 8 instances
+Cluster{instances=[Instance{roles=[zookeeper, druid-mysql, druid-coordinator, druid-broker, druid-historical, druid-realtime], publicIp= ...
+</code></pre></div>
+<p>The final message will contain login information for the instances.</p>
+
+<p>Note that Whirr will return an exception if any of the nodes fail to launch, and the cluster will be destroyed. To destroy the cluster manually, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">% <span class="nv">$WHIRR_HOME</span>/bin/whirr destroy-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
+</code></pre></div>
+<h3 id="testing-the-cluster">Testing the Cluster</h3>
+
+<p>Now you can run an indexing task and a simple query to see if all the nodes have launched correctly. We are going to use a Wikipedia example again. For a realtime indexing task, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @#<span class="o">{</span>PATH_TO<span class="o">}</span>/wikipedia_realtime_task.json <span class="c">#{OVERLORD_PUBLIC_IP_ADDR}:#{PORT}/druid/indexer/v1/task</span>
+</code></pre></div>
+<p>where OVERLORD_PUBLIC_IP_ADDR should be available from the EC2 information logged to STDOUT, the Overlord port is 8080 by default, and <code>wikipedia_realtime_task.json</code> is discussed above. </p>
+
+<p>Issuing this request should return a task ID.</p>
+
+<p>To check the state of the overlord, open up your browser and go to <code>#{OVERLORD_PUBLIC_IP_ADDR}:#{PORT}/console.html</code>.</p>
+
+<p>Next, go to <code>#{COORDINATOR_PUBLIC_IP_ADDR}:#{PORT}</code>. Click &quot;View Information about the Cluster&quot;-&gt;&quot;Full Cluster View.&quot; You should now see the information about servers and segments. If the cluster runs correctly, Segment dimensions and Segment binaryVersion fields should be filled up. Allow few minutes for the segments to be processed.</p>
+
+<p>Now you should be able to query the data using broker&#39;s public IP address.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.165/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

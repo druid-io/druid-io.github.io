@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.2">API documentation</a></p>
+          <h1 id="lookups">Lookups</h1>
+
+<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with a new value. See <a href="../querying/dimensionspecs.html">dimension specs</a> for more information. For the purpose of these documents, a &quot;key&quot; refers to a dimension value to match, and a &quot;value&quot; refers to its replacement. So if you wanted to rename <code>appid-12345</code> to <code>Super Mega Awesome App</code> then the key would be <code>appid-12345</code> and the value would be <code>Super Mega Awesome App</code>. </p>
+
+<p>It is worth noting that lookups support use cases where keys map to unique values (injective) as per a country code and a country name, and also supports use cases where multiple IDs map to the same value as per multiple app-ids belonging to a single account manager.</p>
+
+<p>Lookups do not have history. They always use the current data. This means that if the chief account manager for a particular app-id changes, and you issue a query with a lookup to store the app-id to account manager relationship, it will return the current account manager for that app-id REGARDLESS of the time range over which you query.</p>
+
+<p>If you require data timerange sensitive lookups, such a use case is not currently supported dynamically at query time, and such data belongs in the raw denormalized data for use in Druid.</p>
+
+<p>Very small lookups (count of keys on the order of a few dozen to a few hundred) can be passed at query time as a map lookup as per <a href="../querying/dimensionspecs.html">dimension specs</a>.</p>
+
+<p>Namespaced lookups are appropriate for lookups which are not possible to pass at query time due to their size, or are not desired to be passed at query time because the data is to reside in and be handled by the Druid servers. Namespaced lookups can be specified as part of the runtime properties file. The property is a list of the namespaces described as per the sections on this page.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"> <span class="err">druid.query.extraction.namespaceList=\</span>
+   <span class="p">[{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_uri_lookup&quot;</span><span class="p">,</span><span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;file:/tmp/prefix/&quot;</span><span class="p">,</span><span class="err">\</span>
+   <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:</span><span class="err">\</span>
+     <span class="p">{</span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span><span class="nt">&quot;columns&quot;</span><span class="p">:[</span><span class="s2">&quot;key&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">]},</span><span class="err">\</span>
+   <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="s2">&quot;PT5M&quot;</span><span class="p">},</span><span class="err">\</span>
+   <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_jdbc_lookup&quot;</span><span class="p">,</span><span class="err">\</span>
+   <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:{</span><span class="nt">&quot;createTables&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="nt">&quot;connectURI&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc:mysql://localhost:3306/druid&quot;</span><span class="p">,</span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;druid&quot;</span><span class="p">,</span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="s2">&quot;diurd&quot;</span><span class="p">},</span><span class="err">\</span>
+   <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span> <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;mykeyColumn&quot;</span><span class="p">,</span> <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;MyValueColumn&quot;</span><span class="p">,</span> <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span><span class="p">}]</span>
+</code></pre></div>
+<p>Proper funcitonality of Namespaced lookups requires the following extension to be loaded on the broker, peon, and historical nodes:
+<code>io.druid.extensions:namespace-lookup</code></p>
+
+<h2 id="cache-settings">Cache Settings</h2>
+
+<p>The following are settings used by the nodes which service queries when setting namespaces (broker, peon, historical)</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.extraction.namespace.cache.type</code></td>
+<td>Specifies the type of caching to be used by the namespaces. May be one of [<code>offHeap</code>, <code>onHeap</code>]. <code>offHeap</code> uses a temporary file for off-heap storage of the namespace (memory mapped files). <code>onHeap</code> stores all cache on the heap in standard java map types.</td>
+<td><code>onHeap</code></td>
+</tr>
+</tbody></table>
+
+<p>The cache is populated in different ways depending on the settings below. In general, most namespaces employ a <code>pollPeriod</code> at the end of which time they poll the remote resource of interest for updates. The notable exception being the kafka namespace lookup as defined below.</p>
+
+<h2 id="uri-namespace-update">URI namespace update</h2>
+
+<p>The remapping values for each namespaced lookup can be specified by json as per</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/some/key/prefix/&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;columns&quot;</span><span class="p">:[</span><span class="s2">&quot;key&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="s2">&quot;PT5M&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;versionRegex&quot;</span><span class="p">:</span> <span class="s2">&quot;renames-[0-9]*\\.gz&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>The namespace to define</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pollPeriod</code></td>
+<td>Period between polling for updates</td>
+<td>No</td>
+<td>0 (only once)</td>
+</tr>
+<tr>
+<td><code>versionRegex</code></td>
+<td>Regex to help find newer versions of the namespace data</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>namespaceParseSpec</code></td>
+<td>How to interpret the data at the URI</td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>The <code>pollPeriod</code> value specifies the period in ISO 8601 format between checks for updates. If the source of the lookup is capable of providing a timestamp, the lookup will only be updated if it has changed since the prior tick of <code>pollPeriod</code>. A value of 0, an absent parameter, or <code>null</code> all mean populate once and do not attempt to update. Whenever an update occurs, the updating system will look for a file with the most recent timestamp and assume that one with the most recent data.</p>
+
+<p>The <code>versionRegex</code> value specifies a regex to use to determine if a filename in the parent path of the uri should be considered when trying to find the latest version. Omitting this setting or setting it equal to <code>null</code> will match to all files it can find (equivalent to using <code>&quot;.*&quot;</code>). The search occurs in the most significant &quot;directory&quot; of the uri.</p>
+
+<p>The <code>namespaceParseSpec</code> can be one of a number of values. Each of the examples below would rename foo to bar, baz to bat, and buck to truck. All parseSpec types assumes each input is delimited by a new line. See below for the types of parseSpec supported.</p>
+
+<h3 id="csv-lookupparsespec">csv lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>columns</code></td>
+<td>The list of columns in the csv file</td>
+<td>yes</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The name of the column containing the key</td>
+<td>no</td>
+<td>The first column</td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The name of the column containing the value</td>
+<td>no</td>
+<td>The second column</td>
+</tr>
+</tbody></table>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">bar,something,foo
+bat,something2,baz
+truck,something3,buck
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="tsv-lookupparsespec">tsv lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>columns</code></td>
+<td>The list of columns in the csv file</td>
+<td>yes</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The name of the column containing the key</td>
+<td>no</td>
+<td>The first column</td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The name of the column containing the value</td>
+<td>no</td>
+<td>The second column</td>
+</tr>
+<tr>
+<td><code>delimiter</code></td>
+<td>The delimiter in the file</td>
+<td>no</td>
+<td>tab (<code>\t</code>)</td>
+</tr>
+</tbody></table>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">bar|something,1|foo
+bat|something,2|baz
+truck|something,3|buck
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;|&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="customjson-lookupparsespec">customJson lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>keyFieldName</code></td>
+<td>The field name of the key</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>valueFieldName</code></td>
+<td>The field name of the value</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;buck&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span><span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;customJson&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;keyFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="simplejson-lookupparsespec">simpleJson lookupParseSpec</h3>
+
+<p>The <code>simpleJson</code> lookupParseSpec does not take any parameters. It is simply a line delimited json file where the field is the key, and the field&#39;s value is the value.</p>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;baz&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;buck&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;simpleJson&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="jdbc-namespaced-lookup">JDBC namespaced lookup</h2>
+
+<p>The JDBC lookups will poll a database to populate its local cache. If the <code>tsColumn</code> is set it must be able to accept comparisons in the format <code>&#39;2015-01-01 00:00:00&#39;</code>. For example, the following must be valid sql for the table <code>SELECT * FROM some_lookup_table WHERE timestamp_column &gt;  &#39;2015-01-01 00:00:00&#39;</code>. If <code>tsColumn</code> is set, the caching service will attempt to only poll values that were written <em>after</em> the last sync. If <code>tsColumn</code> is not set, the entire table is pulled every time.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>The namespace to define</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>connectorConfig</code></td>
+<td>The connector config to use</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td>The table which contains the key value pairs</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The column in <code>table</code> which contains the keys</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The column in <code>table</code> which contains the values</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>tsColumn</code></td>
+<td>The column in <code>table</code> which contains when the key was updated</td>
+<td>No</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td><code>pollPeriod</code></td>
+<td>How often to poll the DB</td>
+<td>No</td>
+<td>0 (only once)</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;createTables&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc:mysql://localhost:3306/druid&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="s2">&quot;diurd&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup_table&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;the_old_dim_value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span><span class="s2">&quot;the_new_dim_value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span><span class="s2">&quot;timestamp_column&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="mi">600000</span>
+<span class="p">}</span>
+</code></pre></div>
+<h1 id="kafka-namespaced-lookup">Kafka namespaced lookup</h1>
+
+<p>If you need updates to populate as promptly as possible, it is possible to plug into a kafka topic whose key is the old value and message is the desired new value (both in UTF-8). This requires the following extension: &quot;io.druid.extensions:kafka-extraction-namespace&quot;</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;kafka&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;testTopic&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;kafkaTopic&quot;</span><span class="p">:</span><span class="s2">&quot;testTopic&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>The namespace to define</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>kafkaTopic</code></td>
+<td>The kafka topic to read the data from</td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="kafka-renames">Kafka renames</h2>
+
+<p>The extension <code>kafka-extraction-namespace</code> enables reading from a kafka feed which has name/key pairs to allow renaming of dimension values. An example use case would be to rename an ID to a human readable format.</p>
+
+<p>Currently the historical node caches the key/value pairs from the kafka feed in an ephemeral memory mapped DB via MapDB.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>The following options are used to define the behavior and should be included wherever the extension is included (all query servicing nodes):</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.rename.kafka.properties</code></td>
+<td>A json map of kafka consumer properties. See below for special properties.</td>
+<td>See below</td>
+</tr>
+</tbody></table>
+
+<p>The following are the handling for kafka consumer properties in <code>druid.query.rename.kafka.properties</code></p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>zookeeper.connect</code></td>
+<td>Zookeeper connection string</td>
+<td><code>localhost:2181/kafka</code></td>
+</tr>
+<tr>
+<td><code>group.id</code></td>
+<td>Group ID, auto-assigned for publish-subscribe model and cannot be overridden</td>
+<td><code>UUID.randomUUID().toString()</code></td>
+</tr>
+<tr>
+<td><code>auto.offset.reset</code></td>
+<td>Setting to get the entire kafka rename stream. Cannot be overridden</td>
+<td><code>smallest</code></td>
+</tr>
+</tbody></table>
+
+<h2 id="testing-the-kafka-rename-functionality">Testing the kafka rename functionality</h2>
+
+<p>To test this setup, you can send key/value pairs to a kafka stream via the following producer console:</p>
+
+<p><code>./bin/kafka-console-producer.sh --property parse.key=true --property key.separator=&quot;-&gt;&quot; --broker-list localhost:9092 --topic testTopic</code></p>
+
+<p>Renames can then be published as <code>OLD_VAL-&gt;NEW_VAL</code> followed by newline (enter or return)</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.8.2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

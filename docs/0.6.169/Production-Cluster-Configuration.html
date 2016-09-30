@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.169">API documentation</a></p>
+          <h1 id="production-cluster-configuration">Production Cluster Configuration</h1>
+
+<p><strong>This configuration is an example of what a production cluster could look like. Many other hardware combinations are possible! Cheaper hardware is absolutely possible.</strong></p>
+
+<p>This production Druid cluster assumes that MySQL and Zookeeper are already set up. The deep storage that is used for examples is S3 and memcached is used for a distributed cache.</p>
+
+<p>The nodes that respond to queries (Historical, Broker, and Middle manager nodes) will use as many cores as are available, depending on usage, so it is best to keep these on dedicated machines. The upper limit of effectively utilized cores is not well characterized yet and would depend on types of queries, query load, and the schema. Historical daemons should have a heap a size of at least 1GB per core for normal usage, but could be squeezed into a smaller heap for testing. Since in-memory caching is essential for good performance, even more RAM is better. Broker nodes will use RAM for caching, so they do more than just route queries. SSDs are highly recommended for Historical nodes not all data is loaded in available memory.</p>
+
+<p>The nodes that are responsible for coordination (Coordinator and Overlord nodes) require much less processing.</p>
+
+<p>The effective utilization of cores by Zookeeper, MySQL, and Coordinator nodes is likely to be between 1 and 2 for each process/daemon, so these could potentially share a machine with lots of cores. These daemons work with heap a size between 500MB and 1GB.</p>
+
+<p>We&#39;ll use r3.8xlarge nodes for query facing nodes and m1.xlarge nodes for coordination nodes. The following examples work relatively well in production, however, a more optimized tuning for the nodes we selected and more optimal hardware for a Druid cluster are both definitely possible.</p>
+
+<p>For general purposes of high availability, there should be at least 2 of every node type.</p>
+
+<p>To setup a local Druid cluster, see <a href="Simple-Cluster-Configuration.html">Simple Cluster Configuration</a>.</p>
+
+<h3 id="overlord-node">Overlord Node</h3>
+
+<p>Run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server overlord
+</code></pre></div>
+<p>Hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+</code></pre></div>
+<p>JVM Configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx4g
+-Xms4g
+-XX:NewSize=256m
+-XX:MaxNewSize=256m
+-XX:+UseConcMarkSweepGC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/prod/overlord
+
+druid.extensions.coordinates=[&quot;io.druid.extensions:druid-s3-extensions:0.6.169&quot;]
+
+druid.zk.service.host=#{ZK_IPs}
+druid.zk.paths.base=/druid/prod
+
+druid.discovery.curator.path=/prod/discovery
+
+druid.s3.accessKey=#{ACCESS_KEY}
+druid.s3.secretKey=#{SECRET_KEY}
+
+druid.db.connector.connectURI=jdbc:mysql://#{MYSQL_URL}:3306/druid
+druid.db.connector.user=#{MYSQL_USER}
+druid.db.connector.password=#{MYSQL_PW}
+druid.db.connector.useValidationQuery=true
+druid.db.tables.base=prod
+
+# Only required if you are autoscaling middle managers
+druid.indexer.autoscale.doAutoscale=true
+druid.indexer.autoscale.strategy=ec2
+druid.indexer.autoscale.workerIdleTimeout=PT90m
+druid.indexer.autoscale.terminatePeriod=PT5M
+druid.indexer.autoscale.workerVersion=#{WORKER_VERSION}
+
+# Upload all task logs to deep storage
+druid.indexer.logs.type=s3
+druid.indexer.logs.s3Bucket=#{LOGS_BUCKET}
+druid.indexer.logs.s3Prefix=prod/logs/v1
+
+# Run in remote mode
+druid.indexer.runner.type=remote
+druid.indexer.runner.compressZnodes=true
+druid.indexer.runner.minWorkerVersion=#{WORKER_VERSION}
+
+# Store all task state in MySQL
+druid.indexer.storage.type=db
+
+druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]
+
+# Emit metrics over http
+druid.emitter=http
+druid.emitter.http.recipientBaseUrl=#{EMITTER_URL}
+
+# If you choose to compress ZK announcements, you must do so for every node type
+druid.announcer.type=batch
+druid.curator.compress=true
+</code></pre></div>
+<h3 id="middlemanager-node">MiddleManager Node</h3>
+
+<p>Run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server middleManager
+</code></pre></div>
+<p>Hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+</code></pre></div>
+<p>JVM Configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx64m
+-Xms64m
+-XX:+UseConcMarkSweepGC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/prod/middlemanager
+
+druid.extensions.coordinates=[&quot;io.druid.extensions:druid-s3-extensions:0.6.169&quot;,&quot;io.druid.extensions:druid-kafka-seven:0.6.169&quot;]
+
+druid.zk.service.host=#{ZK_IPs}
+druid.zk.paths.base=/druid/prod
+
+druid.discovery.curator.path=/prod/discovery
+
+druid.s3.accessKey=#{ACCESS_KEY}
+druid.s3.secretKey=#{SECRET_KEY}
+
+# Store task logs in deep storage
+druid.indexer.logs.type=s3
+druid.indexer.logs.s3Bucket=#{LOGS_BUCKET}
+druid.indexer.logs.s3Prefix=prod/logs/v1
+
+# Dedicate more resources to peons
+druid.indexer.runner.javaOpts=-server -Xmx3g -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps
+druid.indexer.task.baseTaskDir=/mnt/persistent/task/
+druid.indexer.task.chathandler.type=announce
+
+druid.indexer.fork.property.druid.indexer.hadoopWorkingPath=/tmp/druid-indexing
+druid.indexer.fork.property.druid.computation.buffer.size=536870912
+druid.indexer.fork.property.druid.processing.numThreads=3
+druid.indexer.fork.property.druid.request.logging.type=file
+druid.indexer.fork.property.druid.request.logging.dir=request_logs/
+druid.indexer.fork.property.druid.segmentCache.locations=[{&quot;path&quot;: &quot;/mnt/persistent/zk_druid&quot;, &quot;maxSize&quot;: 0}]
+druid.indexer.fork.property.druid.server.http.numThreads=50
+druid.indexer.fork.property.druid.storage.type=s3
+druid.indexer.fork.property.druid.storage.baseKey=prod/v1
+druid.indexer.fork.property.druid.storage.bucket=#{LOGS_BUCKET}
+
+druid.worker.capacity=10
+druid.worker.ip=#{IP_ADDR}
+druid.worker.version=#{WORKER_VERSION}
+
+druid.selectors.indexing.serviceName=druid:prod:overlord
+
+druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]
+
+# Emit metrics over http
+druid.emitter=http
+druid.emitter.http.recipientBaseUrl=#{EMITTER_URL}
+
+# If you choose to compress ZK announcements, you must do so for every node type
+druid.announcer.type=batch
+druid.curator.compress=true
+</code></pre></div>
+<h3 id="coordinator-node">Coordinator Node</h3>
+
+<p>Run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+</code></pre></div>
+<p>Hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+</code></pre></div>
+<p>JVM Configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx10g
+-Xms10g
+-XX:NewSize=512m
+-XX:MaxNewSize=512m
+-XX:+UseG1GC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/prod/coordinator
+
+druid.zk.service.host=#{ZK_IPs}
+druid.zk.paths.base=/druid/prod
+
+druid.discovery.curator.path=/prod/discovery
+
+druid.db.connector.connectURI=jdbc:mysql://#{MYSQL_URL}:3306/druid
+druid.db.connector.user=#{MYSQL_USER}
+druid.db.connector.password=#{MYSQL_PW}
+druid.db.connector.useValidationQuery=true
+druid.db.tables.base=prod
+
+druid.selectors.indexing.serviceName=druid:prod:overlord
+
+druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;, &quot;com.metamx.metrics.JvmMonitor&quot;]
+
+# Emit metrics over http
+druid.emitter=http
+druid.emitter.http.recipientBaseUrl=#{EMITTER_URL}
+
+# If you choose to compress ZK announcements, you must do so for every node type
+druid.announcer.type=batch
+druid.curator.compress=true
+</code></pre></div>
+<h3 id="historical-node">Historical Node</h3>
+
+<p>Run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server historical
+</code></pre></div>
+<p>Hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+</code></pre></div>
+<p>JVM Configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx12g
+-Xms12g
+-XX:NewSize=6g
+-XX:MaxNewSize=6g
+-XX:MaxDirectMemorySize=32g
+-XX:+UseConcMarkSweepGC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/prod/historical
+
+druid.extensions.coordinates=[&quot;io.druid.extensions:druid-s3-extensions:0.6.169&quot;]
+
+druid.zk.service.host=#{ZK_IPs}
+druid.zk.paths.base=/druid/prod
+
+druid.s3.accessKey=#{ACCESS_KEY}
+druid.s3.secretKey=#{SECRET_KEY}
+
+druid.server.maxSize=300000000000
+druid.server.http.numThreads=50
+
+druid.processing.buffer.sizeBytes=1073741824
+druid.processing.numThreads=31
+
+druid.segmentCache.locations=[{&quot;path&quot;: &quot;/mnt/persistent/zk_druid&quot;, &quot;maxSize&quot;: 300000000000}]
+
+druid.request.logging.type=file
+druid.request.logging.dir=request_logs/
+
+druid.monitoring.monitors=[&quot;io.druid.server.metrics.ServerMonitor&quot;, &quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]
+
+# Emit metrics over http
+druid.emitter=http
+druid.emitter.http.recipientBaseUrl=#{EMITTER_URL}
+
+# If you choose to compress ZK announcements, you must do so for every node type
+druid.announcer.type=batch
+druid.curator.compress=true
+</code></pre></div>
+<h3 id="broker-node">Broker Node</h3>
+
+<p>Run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server broker
+</code></pre></div>
+<p>Hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+</code></pre></div>
+<p>JVM Configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx50g
+-Xms50g
+-XX:NewSize=6g
+-XX:MaxNewSize=6g
+-XX:MaxDirectMemorySize=64g
+-XX:+UseConcMarkSweepGC
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+-Djava.io.tmpdir=/mnt/tmp
+
+-Dcom.sun.management.jmxremote.port=17071
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+</code></pre></div>
+<p>Runtime.properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+druid.port=8080
+druid.service=druid/prod/broker
+
+druid.zk.service.host=#{ZK_IPs}
+druid.zk.paths.base=/druid/prod
+
+druid.discovery.curator.path=/prod/discovery
+
+druid.broker.cache.type=memcached
+druid.broker.cache.hosts=#{MC_HOST1}:11211,#{MC_HOST2}:11211,#{MC_HOST3}:11211
+druid.broker.cache.expiration=2147483647
+druid.broker.cache.memcachedPrefix=d1
+druid.broker.http.numConnections=20
+druid.broker.http.readTimeout=PT5M
+
+druid.processing.buffer.sizeBytes=2147483648
+druid.processing.numThreads=31
+
+druid.server.http.numThreads=50
+
+druid.request.logging.type=emitter
+druid.request.logging.feed=druid_requests
+
+druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]
+
+# Emit metrics over http
+druid.emitter=http
+druid.emitter.http.recipientBaseUrl=#{EMITTER_URL}
+
+# If you choose to compress ZK announcements, you must do so for every node type
+druid.announcer.type=batch
+druid.curator.compress=true
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.169/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.33">API documentation</a></p>
+          <h2 id="middle-manager-node">Middle Manager Node</h2>
+
+<p>The middle manager node is a worker node that executes submitted tasks. Middle Managers forward tasks to peons that run in separate JVMs.
+The reason we have separate JVMs for tasks is for log isolation. Each <a href="Peons.html">Peon</a> is capable of running only one task at a time, however, a middle manager may have multiple peons.</p>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h4 id="running">Running</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server middleManager
+</code></pre></div>
+<p>With the following JVM configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-Duser.timezone=UTC
+-Dfile.encoding=UTF-8
+
+-Ddruid.host=localhost
+-Ddruid.port=8091
+-Ddruid.service=middleManager
+
+-Ddruid.zk.service.host=localhost
+
+-Ddruid.db.connector.connectURI=jdbc:mysql://localhost:3306/druid
+-Ddruid.db.connector.user=druid
+-Ddruid.db.connector.password=diurd
+-Ddruid.selectors.indexing.serviceName=overlord
+-Ddruid.indexer.runner.startPort=8092
+-Ddruid.indexer.fork.property.druid.computation.buffer.size=268435456
+</code></pre></div>
+<h4 id="jvm-configuration">JVM Configuration</h4>
+
+<p>Middle managers pass their configurations down to their child peons. The middle manager module requires the following configs:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.worker.ip</code></td>
+<td>The IP of the worker.</td>
+<td>localhost</td>
+</tr>
+<tr>
+<td><code>druid.worker.version</code></td>
+<td>Version identifier for the middle manager.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.worker.capacity</code></td>
+<td>Maximum number of tasks the middle manager can accept.</td>
+<td>Number of available processors - 1</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.compressZnodes</code></td>
+<td>Indicates whether or not the middle managers should compress Znodes.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxZnodeBytes</code></td>
+<td>The maximum size Znode in bytes that can be created in Zookeeper.</td>
+<td>524288</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.taskDir</code></td>
+<td>Temporary intermediate directory used during task execution.</td>
+<td>/tmp/persistent</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.javaCommand</code></td>
+<td>Command required to execute java.</td>
+<td>java</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.javaOpts</code></td>
+<td>-X Java options to run the peon in its own JVM.</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.classpath</code></td>
+<td>Java classpath for the peon.</td>
+<td>System.getProperty(&quot;java.class.path&quot;)</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.startPort</code></td>
+<td>The port that peons begin running on.</td>
+<td>8080</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.allowedPrefixes</code></td>
+<td>Whitelist of prefixes for configs that can be passed down to child peons.</td>
+<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;io.druid&quot;, &quot;user.timezone&quot;,&quot;file.encoding&quot;</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.33/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

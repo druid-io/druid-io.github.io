@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.165">API documentation</a></p>
+          <h1 id="tasks">Tasks</h1>
+
+<p>Tasks are run on middle managers and always operate on a single data source. Tasks are submitted using <a href="Indexing-Service.html">POST requests</a>.</p>
+
+<p>There are several different types of tasks.</p>
+
+<h2 id="segment-creation-tasks">Segment Creation Tasks</h2>
+
+<h3 id="index-task">Index Task</h3>
+
+<p>The Index Task is a simpler variation of the Index Hadoop task that is designed to be used for smaller data sets. The task executes within the indexing service and does not require an external Hadoop setup to use. The grammar of the index task is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;gran&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2010/2020&quot;</span> <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregators&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+   <span class="p">},</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+  <span class="p">}</span> <span class="p">],</span>
+  <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;/tmp/data/json&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;sample_data.json&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;dim1&quot;</span><span class="p">,</span> <span class="s2">&quot;dim2&quot;</span><span class="p">,</span> <span class="s2">&quot;dim3&quot;</span> <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>id</td>
+<td>The task ID. If this is not explicitly specified, Druid generates the task ID using the name of the task file and date-time stamp.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>granularitySpec</td>
+<td>Specifies the segment chunks that the task will process. <code>type</code> is always &quot;uniform&quot;; <code>gran</code> sets the granularity of the chunks (&quot;DAY&quot; means all segments containing timestamps in the same day), while <code>intervals</code> sets the interval that the chunks will cover.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>spatialDimensions</td>
+<td>Dimensions to build spatial indexes over. See <a href="GeographicQueries.html">Geographic Queries</a>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>aggregators</td>
+<td>The metrics to aggregate in the data set. For more info, see <a href="Aggregations.html">Aggregations</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>indexGranularity</td>
+<td>The rollup granularity for timestamps. See <a href="Realtime-ingestion.html">Realtime Ingestion</a> for more information.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>targetPartitionSize</td>
+<td>Used in sharding. Determines how many rows are in each segment.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>firehose</td>
+<td>The input source of data. For more info, see <a href="Firehose.html">Firehose</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>rowFlushBoundary</td>
+<td>Used in determining when intermediate persist should occur to disk.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="index-hadoop-task">Index Hadoop Task</h3>
+
+<p>The Hadoop Index Task is used to index larger data sets that require the parallelization and processing power of a Hadoop cluster.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  &quot;type&quot; : &quot;index_hadoop&quot;,
+  &quot;config&quot;: &lt;Hadoop index config&gt;
+}
+</code></pre></div>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index_hadoop&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>config</td>
+<td>A Hadoop Index Config. See <a href="Batch-ingestion.html">Batch Ingestion</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>hadoopCoordinates</td>
+<td>The Maven &lt;groupId&gt;:&lt;artifactId&gt;:&lt;version&gt; of Hadoop to use. The default is &quot;org.apache.hadoop:hadoop-client:2.3.0&quot;.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the <code>HadoopBatchIndexer</code> except that three fields must be omitted: <code>segmentOutputPath</code>, <code>workingPath</code>, <code>updaterJobSpec</code>. The Indexing Service takes care of setting these fields internally.</p>
+
+<h4 id="using-your-own-hadoop-distribution">Using your own Hadoop distribution</h4>
+
+<p>Druid is compiled against Apache hadoop-client 2.3.0. However, if you happen to use a different flavor of hadoop that is API compatible with hadoop-client 2.3.0, you should only have to change the hadoopCoordinates property to point to the maven artifact used by your distribution.</p>
+
+<h4 id="resolving-dependency-conflicts-running-hadoopindextask">Resolving dependency conflicts running HadoopIndexTask</h4>
+
+<p>Currently, the HadoopIndexTask creates a single classpath to run the HadoopDruidIndexerJob, which can lead to version conflicts between various dependencies of Druid, extension modules, and Hadoop&#39;s own dependencies.</p>
+
+<p>The Hadoop index task will put Druid&#39;s dependencies first on the classpath, followed by any extensions dependencies, and any Hadoop dependencies last.</p>
+
+<p>If you are having trouble with any extensions in HadoopIndexTask, it may be the case that Druid, or one of its dependencies, depends on a different version of a library than what you are using as part of your extensions, but Druid&#39;s version overrides the one in your extension. In that case you probably want to build your own Druid version and override the offending library by adding an explicit dependency to the pom.xml of each druid sub-module that depends on it.</p>
+
+<h3 id="realtime-index-task">Realtime Index Task</h3>
+
+<p>The indexing service can also run real-time tasks. These tasks effectively transform a middle manager into a real-time node. We introduced real-time tasks as a way to programmatically add new real-time data sources without needing to manually add nodes. The grammar for the real-time task is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_realtime&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;availabilityGroup&quot;</span> <span class="p">:</span> <span class="s2">&quot;someGroup&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;requiredCapacity&quot;</span> <span class="p">:</span> <span class="mi">1</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;dataSourceName&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregators&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;events&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;outColumn&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;inColumn&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;indexGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;shardSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka-0.7.2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;consumerProps&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;zk.connect&quot;</span><span class="p">:</span> <span class="s2">&quot;zk_connect_string&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;zk.connectiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;zk.sessiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;zk.synctime.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;groupid&quot;</span><span class="p">:</span> <span class="s2">&quot;consumer-group&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fetch.size&quot;</span><span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;autooffset.reset&quot;</span><span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;autocommit.enable&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;feed&quot;</span><span class="p">:</span> <span class="s2">&quot;your_kafka_topic&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;value&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;fireDepartmentConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+    <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;hour&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>The ID of the task.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>JSON object</td>
+<td>Used for high availability purposes.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>availabilityGroup</td>
+<td>String</td>
+<td>An uniqueness identifier for the task. Tasks with the same availability group will always run on different middle managers. Used mainly for replication.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>requiredCapacity</td>
+<td>Integer</td>
+<td>How much middle manager capacity this task will take.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For schema, windowPeriod, segmentGranularity, and other configuration information, see <a href="Realtime-ingestion.html">Realtime Ingestion</a>. For firehose configuration, see <a href="Firehose.html">Firehose</a>.</p>
+
+<h2 id="segment-merging-tasks">Segment Merging Tasks</h2>
+
+<h3 id="append-task">Append Task</h3>
+
+<p>Append tasks append a list of segments together into a single segment (one after the other). The grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="merge-task">Merge Task</h3>
+
+<p>Merge tasks merge a list of segments together. Any common timestamps are merged. The grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;merge&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="segment-destroying-tasks">Segment Destroying Tasks</h2>
+
+<h3 id="delete-task">Delete Task</h3>
+
+<p>Delete tasks create empty segments with no data. The grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="kill-task">Kill Task</h3>
+
+<p>Kill tasks delete all information about a segment and removes it from deep storage. Killable segments must be disabled (used==0) in the Druid segment table. The available grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kill&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;all_segments_in_this_interval_will_die!&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="misc-tasks">Misc. Tasks</h2>
+
+<h3 id="version-converter-task">Version Converter Task</h3>
+
+<p>These tasks convert segments from an existing older index version to the latest index version. The available grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;version_converter&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;groupId&quot;</span> <span class="p">:</span> <span class="err">&lt;task_group_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;segment_interval&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segment&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">DataSegment</span> <span class="err">object</span> <span class="err">to</span> <span class="err">convert&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="noop-task">Noop Task</h3>
+
+<p>These tasks start, sleep for a time and are used only for testing. The available grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;noop&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;optional_task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_segment_interval&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;runTime&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_millis_to_sleep&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="err">&lt;optional_firehose_to_test_connect&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="locking">Locking</h2>
+
+<p>Once an overlord node accepts a task, a lock is created for the data source and interval specified in the task. Tasks do not need to explicitly release locks, they are released upon task completion. Tasks may potentially release locks early if they desire. Tasks ids are unique by naming them using UUIDs or the timestamp in which the task was created. Tasks are also part of a &quot;task group&quot;, which is a set of tasks that can share interval locks.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.165/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.7.1.1">API documentation</a></p>
+          <h1 id="example-production-hadoop-configuration">Example Production Hadoop Configuration</h1>
+
+<p>The following configuration should work relatively well for Druid indexing and Hadoop. In the example, we are using Hadoop 2.4 with EC2 m1.xlarge nodes for NameNodes and cc2.8xlarge nodes for DataNodes.</p>
+
+<h3 id="core-site-xml">Core-site.xml</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+
+  &lt;!-- Temporary directory on HDFS (but also sometimes local!) --&gt;
+  &lt;property&gt;
+    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- S3 --&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.defaultFS&lt;/name&gt;
+    &lt;value&gt;hdfs://#{IP}:9000&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3.impl&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.fs.s3native.NativeS3FileSystem&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3.awsAccessKeyId&lt;/name&gt;
+    &lt;value&gt;#{S3_ACCESS_KEY}&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3.awsSecretAccessKey&lt;/name&gt;
+    &lt;value&gt;#{S3_SECRET_KEY}&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3.buffer.dir&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop-s3n&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3n.awsAccessKeyId&lt;/name&gt;
+    &lt;value&gt;#{S3N_ACCESS_KEY}&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.s3n.awsSecretAccessKey&lt;/name&gt;
+    &lt;value&gt;#{S3N_SECRET_KEY}&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Compression --&gt;
+  &lt;property&gt;
+    &lt;name&gt;io.compression.codecs&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.Lz4Codec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- JBOD --&gt;
+  &lt;property&gt;
+    &lt;name&gt;io.seqfile.local.dir&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop/io/local&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/configuration&gt;
+</code></pre></div>
+<h3 id="mapred-site-xml">Mapred-site.xml</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+    &lt;value&gt;yarn&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobtracker.address&lt;/name&gt;
+    &lt;value&gt;#{JT_ADDR}:9001&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobtracker.http.address&lt;/name&gt;
+    &lt;value&gt;#{JT_HTTP_ADDR}:9100&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+    &lt;value&gt;#{JH_ADDR}:10020&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+    &lt;value&gt;#{JH_WEBAPP_ADDR}:19888&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.tasktracker.http.address&lt;/name&gt;
+    &lt;value&gt;#{TT_ADDR}:9103&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Memory and concurrency tuning --&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.job.reduces&lt;/name&gt;
+    &lt;value&gt;21&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.job.jvm.numtasks&lt;/name&gt;
+    &lt;value&gt;20&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.map.memory.mb&lt;/name&gt;
+    &lt;value&gt;2048&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.map.java.opts&lt;/name&gt;
+    &lt;value&gt;-server -Xmx1536m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.reduce.memory.mb&lt;/name&gt;
+    &lt;value&gt;6144&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.reduce.java.opts&lt;/name&gt;
+    &lt;value&gt;-server -Xmx2560m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.reduce.shuffle.parallelcopies&lt;/name&gt;
+    &lt;value&gt;50&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.reduce.shuffle.input.buffer.percent&lt;/name&gt;
+    &lt;value&gt;0.5&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.task.io.sort.mb&lt;/name&gt;
+    &lt;value&gt;256&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.task.io.sort.factor&lt;/name&gt;
+    &lt;value&gt;100&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobtracker.handler.count&lt;/name&gt;
+    &lt;value&gt;64&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.tasktracker.http.threads&lt;/name&gt;
+    &lt;value&gt;20&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- JBOD --&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.cluster.local.dir&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop/mapred/local&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Job history server persistent state --&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobhistory.recovery.enable&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobhistory.recovery.store.class&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.mapreduce.v2.hs.HistoryServerFileSystemStateStoreService&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.jobhistory.recovery.store.fs.uri&lt;/name&gt;
+    &lt;value&gt;file://${hadoop.tmp.dir}/mapred-jobhistory-state&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Compression --&gt;
+  &lt;property&gt;
+    &lt;!-- Off by default, because it breaks Druid indexing (at least, it does it druid-0.6.10+). Jobs should turn
+         it on if they need it. --&gt;
+    &lt;name&gt;mapreduce.output.fileoutputformat.compress&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.map.output.compress&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.output.fileoutputformat.compress.type&lt;/name&gt;
+    &lt;value&gt;BLOCK&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.map.output.compress.codec&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.io.compress.Lz4Codec&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.output.fileoutputformat.compress.codec&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.io.compress.GzipCodec&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;!-- Speculative execution would violate various assumptions we&#39;ve made in our system design --&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.map.speculative&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.reduce.speculative&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Sometimes jobs take a long time to run, but really, they&#39;re okay. Examples: Long index persists,
+       hadoop reading lots of empty files into a single mapper. Let&#39;s increase the timeout to 30 minutes. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.task.timeout&lt;/name&gt;
+    &lt;value&gt;1800000&lt;/value&gt;
+  &lt;/property&gt;  
+
+&lt;/configuration&gt;
+</code></pre></div>
+<h3 id="yarn-site-xml">Yarn-site.xml</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+    &lt;value&gt;#{RM_HOSTNAME}&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.scheduler.class&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+    &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.log-aggregation-enable&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.log.server.url&lt;/name&gt;
+    &lt;value&gt;http://#{IP_LOG_SERVER}:19888/jobhistory/logs/&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.hostname&lt;/name&gt;
+    &lt;value&gt;#{IP_ADDR}&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;/name&gt;
+    &lt;value&gt;512&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;
+    &lt;value&gt;1024&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.resource.cpu-vcores&lt;/name&gt;
+    &lt;value&gt;1&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- JBOD --&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.local-dirs&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop/nm-local-dir&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- ResourceManager persistent state doesn&#39;t work well in tests yet, so disable it --&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.recovery.enabled&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.store.class&lt;/name&gt;
+    &lt;value&gt;org.apache.hadoop.yarn.server.resourcemanager.recovery.FileSystemRMStateStore&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.fs.state-store.uri&lt;/name&gt;
+    &lt;value&gt;file://${hadoop.tmp.dir}/yarn-resourcemanager-state&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- Ability to exclude hosts --&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.nodes.exclude-path&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop/yarn-exclude.txt&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/configuration&gt;
+</code></pre></div>
+<h3 id="hdfs-site-xml">HDFS-site.xml</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;dfs.replication&lt;/name&gt;
+    &lt;value&gt;3&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.namenode.datanode.registration.ip-hostname-check&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.hosts.exclude&lt;/name&gt;
+    &lt;value&gt;/mnt/persistent/hadoop/hdfs-exclude.txt&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- JBOD --&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+    &lt;value&gt;file:///mnt/persistent/hadoop/dfs/data&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/configuration&gt;
+</code></pre></div>
+<h3 id="capacity-scheduler-xml">Capacity-scheduler.xml</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.maximum-am-resource-percent&lt;/name&gt;
+    &lt;value&gt;0.1&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.queues&lt;/name&gt;
+    &lt;value&gt;default&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.capacity&lt;/name&gt;
+    &lt;value&gt;100&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.user-limit-factor&lt;/name&gt;
+    &lt;value&gt;1&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.queues&lt;/name&gt;
+    &lt;value&gt;default&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.maximum-capacity&lt;/name&gt;
+    &lt;value&gt;100&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.state&lt;/name&gt;
+    &lt;value&gt;RUNNING&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.acl_submit_applications&lt;/name&gt;
+    &lt;value&gt;*&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.root.default.acl_administer_queue&lt;/name&gt;
+    &lt;value&gt;*&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.scheduler.capacity.node-locality-delay&lt;/name&gt;
+    &lt;value&gt;-1&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/configuration&gt;
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.7.1.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

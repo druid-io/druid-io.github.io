@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.1">API documentation</a></p>
+          <h2 id="what-to-do-when-you-have-a-firewall">What to Do When You Have a Firewall</h2>
+
+<p>When you are behind a firewall, the Maven Druid dependencies will not be accessible, as well as the IRC wikipedia channels that feed realtime data into Druid. To workaround those two challenges, you will need to:</p>
+
+<ol>
+<li>Make the Maven Druid dependencies available offline</li>
+<li>Make the Wikipedia example GeoLite DB dependency available offline</li>
+</ol>
+
+<h2 id="making-maven-druid-dependencies-available-offline">Making Maven Druid Dependencies Available Offline</h2>
+
+<ol>
+<li>Extract Druid to a machine that has internet access; e.g. <code>/Users/foo/druid-&lt;version&gt;</code></li>
+<li>Create a repository directory to download the dependencies to; e.g. <code>/Users/foo/druid-&lt;version&gt;\repo</code></li>
+<li>Create property <code>druid.extensions.localRepository=</code><em><code>path to repo directory</code></em> in the <em><code>Druid Directory</code></em><code>\config\_common/common.runtime.properties</code> file; e.g. <code>druid.extensions.localRepository=/Users/foo/druid-&lt;version&gt;/repo</code></li>
+<li><p>From within Druid directory, run the <code>pull-deps</code> command to download all Druid dependencies to the repository specified in the <code>common.runtime.properties</code> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">java -classpath &quot;config\_common;lib\*&quot; io.druid.cli.Main tools pull-deps
+</code></pre></div></li>
+<li><p>Once all dependencies have been downloaded successfully, replicate the <code>repo</code> directory to the machine behind the firewall; e.g. <code>/opt/druid-&lt;version&gt;/repo</code></p></li>
+<li><p>Create property <code>druid.extensions.localRepository=</code><em><code>path to repo directory</code></em> in the <em><code>Druid Directory</code></em><code>/config/_common/common.runtime.properties</code> file; e.g. <code>druid.extensions.localRepository=/opt/druid-&lt;version&gt;/repo</code></p></li>
+</ol>
+
+<h2 id="making-the-wikipedia-example-geolite-db-dependency-available-offline">Making the Wikipedia Example GeoLite DB Dependency Available Offline</h2>
+
+<ol>
+<li>Download GeoLite2 City DB from http://dev.maxmind.com/geoip/geoip2/geolite2/</li>
+<li><p>Copy and extract the DB to <em><code>java.io.tmpdir</code></em><code>/io.druid.segment.realtime.firehose.WikipediaIrcDecoder.GeoLite2-City.mmdb</code>; e.g. <code>/tmp/io.druid.segment.realtime.firehose.WikipediaIrcDecoder.GeoLite2-City.mmdb</code></p>
+
+<p><strong>Note</strong>: depending on the machine&#39;s reboot policy, if the <code>java.io.tmpdir</code> resolves to the <code>/tmp</code> directory, you may have to create this file again in the <code>tmp</code> directory after a machine reboot</p></li>
+</ol>
+
+<h2 id="loading-the-data-into-druid-directly-from-kafka">Loading the Data into Druid directly from Kafka</h2>
+
+<p>As an alternative to reading the data from the IRC channels, which is a challenge to try to do it from behind a firewall, we will use Kafka to stream the data to Druid. To do so, we will need to:</p>
+
+<ol>
+<li>Configure the Wikipedia example to read streaming data from Kafka</li>
+<li>Set up and configure Kafka</li>
+</ol>
+
+<h4 id="wikipedia-example-configuration">Wikipedia Example Configuration</h4>
+
+<ol>
+<li>In your favorite editor, open the file <code>druid-&lt;version&gt;/examples/wikipedia/wikipedia_realtime.spec</code></li>
+<li><p>Backup the file, if necessary, then replace the file content with the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+   <span class="p">{</span>
+       <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                       <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+                       <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+                   <span class="p">},</span>
+                   <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                       <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                           <span class="s2">&quot;page&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;language&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;newPage&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;robot&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;continent&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;country&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;region&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;city&quot;</span>
+                       <span class="p">],</span>
+                       <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                       <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+                   <span class="p">}</span>
+               <span class="p">}</span>
+           <span class="p">},</span>
+           <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="p">{</span>
+                   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+               <span class="p">},</span>
+               <span class="p">{</span>
+                   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+               <span class="p">},</span>
+               <span class="p">{</span>
+                   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+               <span class="p">},</span>
+               <span class="p">{</span>
+                   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+               <span class="p">}</span>
+           <span class="p">],</span>
+           <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span>
+           <span class="p">}</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka-0.8&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;consumerProps&quot;</span><span class="p">:</span> <span class="p">{</span>
+                   <span class="nt">&quot;zookeeper.connect&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:2181&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;zookeeper.connection.timeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;zookeeper.session.timeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;zookeeper.sync.time.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;group.id&quot;</span><span class="p">:</span> <span class="s2">&quot;druid-example&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;fetch.message.max.bytes&quot;</span><span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;auto.offset.reset&quot;</span><span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;auto.commit.enable&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+               <span class="p">},</span>
+               <span class="nt">&quot;feed&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span>
+           <span class="p">},</span>
+           <span class="nt">&quot;plumber&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span>
+           <span class="p">}</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+           <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;basePersistDirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;/tmp/realtime/basePersist&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;rejectionPolicy&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;messageTime&quot;</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></li>
+<li><p>Refer to the <a href="#running-example-scripts">Running Example Scripts</a> section to start the example Druid Realtime node by issuing the following from within your Druid directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">./run_example_server.sh
+</code></pre></div></li>
+</ol>
+
+<h4 id="kafka-setup-and-configuration">Kafka Setup and Configuration</h4>
+
+<ol>
+<li><p>Download Kafka</p>
+
+<p>For this tutorial we will <a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/0.8.2.1/kafka_2.10-0.8.2.1.tgz">download Kafka 0.8.2.1</a></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -xzf kafka_2.10-0.8.2.1.tgz
+<span class="nb">cd </span>kafka_2.10-0.8.2.1
+</code></pre></div></li>
+<li><p>Start Kafka</p>
+
+<p><strong>First, launch ZooKeeper</strong> (refer to the <a href="#set-up-zookeeper">Set up Zookeeper</a> section for details), then start the Kafka server (in a separate console):</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-server-start.sh config/server.properties
+</code></pre></div></li>
+<li><p>Create a topic named <code>wikipedia</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic wikipedia
+</code></pre></div></li>
+<li><p>Launch a console producer for the topic <code>wikipedia</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic wikipedia
+</code></pre></div></li>
+<li><p>Copy and paste the following data into the terminal where we launched the Kafka console producer in the previous step:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Gypsy Danger&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;North America&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Bay Area&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">57</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-143</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Striker Eureka&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Cantebury&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Syndey&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T07:11:21Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Cherno Alpha&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;masterYi&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Russia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Oblast&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Moscow&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T11:58:39Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Crimson Typhoon&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Shanxi&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Taiyuan&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">905</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">900</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Coyote Tango&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringer&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Kanto&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-9</span><span class="p">}</span>
+</code></pre></div></li>
+</ol>
+
+<h4 id="finally">Finally</h4>
+
+<p>Now, that data has been fed into Druid, refer to the <a href="#running-example-scripts">Running Example Scripts</a> section to query the real-time node by issuing the following from within the Druid directory:
+<code>bash
+./run_example_client.sh
+</code></p>
+
+<p>The <a href="../querying/querying.md">Querying Druid</a> section also has further querying examples.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.8.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

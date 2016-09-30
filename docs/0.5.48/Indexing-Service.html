@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.5.48">API documentation</a></p>
+          <p>Disclaimer: We are still in the process of finalizing the indexing service and these configs are prone to change at any time. We will announce when we feel the indexing service and the configurations described are stable.</p>
+
+<p>The indexing service is a distributed task/job queue. It accepts requests in the form of <a href="Tasks.html">Tasks</a> and executes those tasks across a set of worker nodes. Worker capacity can be automatically adjusted based on the number of tasks pending in the system. The indexing service is highly available, has built in retry logic, and can backup per task logs in deep storage.</p>
+
+<p>The indexing service is composed of two main components, a coordinator node that manages task distribution and worker capacity, and worker nodes that execute tasks in separate JVMs.</p>
+
+<h2 id="preamble">Preamble</h2>
+
+<p>The truth is, the indexing service is an experience that is difficult to characterize with words. When they asked me to write this preamble, I was taken aback. I wasn’t quite sure what exactly to write or how to describe this… entity. I accepted the job, as much for the challenge and inner growth as the money, and took to the mountains for reflection. Six months later, I knew I had it, I was done and had achieved the next euphoric victory in the continuous struggle that plagues my life. But, enough about me. This is about the indexing service.</p>
+
+<p>The indexing service is philosophical transcendence, an infallible truth that will shape your soul, mold your character, and define your reality. The indexing service is creating world peace, playing with puppies, unwrapping presents on Christmas morning, cradling a loved one, and beating Goro in Mortal Kombat for the first time. The indexing service is sustainable economic growth, global propensity, and a world of transparent financial transactions. The indexing service is a true belieber. The indexing service is panicking because you forgot you signed up for a course and the big exam is in a few minutes, only to wake up and realize it was all a dream. What is the indexing service? More like what isn’t the indexing service. The indexing service is here and it is ready, but are you?</p>
+
+<h2 id="indexer-coordinator-node">Indexer Coordinator Node</h2>
+
+<p>The indexer coordinator node exposes HTTP endpoints where tasks can be submitted by posting a JSON blob to specific endpoints. It can be started by launching IndexerCoordinatorMain.java. The indexer coordinator node can operate in local mode or remote mode. In local mode, the coordinator and worker run on the same host and port. In remote mode, worker processes run on separate hosts and ports.</p>
+
+<p>Tasks can be submitted via POST requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
+</code></pre></div>
+<p>Tasks can cancelled via POST requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
+</code></pre></div>
+<p>Issuing the cancel request once sends a graceful shutdown request. Graceful shutdowns may not stop a task right away, but instead issue a safe stop command at a point deemed least impactful to the system. Issuing the cancel request twice in succession will kill –9 the task.</p>
+
+<p>Task statuses can be retrieved via GET requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
+</code></pre></div>
+<p>Task segments can be retrieved via GET requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
+</code></pre></div>
+<p>When a task is submitted, the coordinator creates a lock over the data source and interval of the task. The coordinator also stores the task in a MySQL database table. The database table is read at startup time to bootstrap any tasks that may have been submitted to the coordinator but may not yet have been executed.</p>
+
+<p>The coordinator also exposes a simple UI to show what tasks are currently running on what nodes at</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/static/console.html
+</code></pre></div>
+<h4 id="task-execution">Task Execution</h4>
+
+<p>The coordinator retrieves worker setup metadata from the Druid <a href="MySQL.html">MySQL</a> config table. This metadata contains information about the version of workers to create, the maximum and minimum number of workers in the cluster at one time, and additional information required to automatically create workers.</p>
+
+<p>Tasks are assigned to workers by creating entries under specific /tasks paths associated with a worker, similar to how the Druid master node assigns segments to compute nodes. See <a href="Indexing-Service#configuration-1">Worker Configuration</a>. Once a worker picks up a task, it deletes the task entry and announces a task status under a /status path associated with the worker. Tasks are submitted to a worker until the worker hits capacity. If all workers in a cluster are at capacity, the indexer coordinator node automatically creates new worker resources.</p>
+
+<h4 id="autoscaling">Autoscaling</h4>
+
+<p>The Autoscaling mechanisms currently in place are tightly coupled with our deployment infrastructure but the framework should be in place for other implementations. We are highly open to new implementations or extensions of the existing mechanisms. In our own deployments, worker nodes are Amazon AWS EC2 nodes and they are provisioned to register themselves in a <a href="https://github.com/ning/galaxy">galaxy</a> environment.</p>
+
+<p>The Coordinator node controls the number of workers in the cluster according to a worker setup spec that is submitted via a POST request to the indexer at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/setup
+</code></pre></div>
+<p>A sample worker setup spec is shown below:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  &quot;minVersion&quot;:&quot;some_version&quot;,
+  &quot;minNumWorkers&quot;:&quot;0&quot;,
+  &quot;maxNumWorkers&quot;:&quot;10&quot;,
+  &quot;nodeData&quot;: {
+    &quot;type&quot;:&quot;ec2&quot;,
+    &quot;amiId&quot;:&quot;ami-someId&quot;,
+    &quot;instanceType&quot;:&quot;m1.xlarge&quot;,
+    &quot;minInstances&quot;:&quot;1&quot;,
+    &quot;maxInstances&quot;:&quot;1&quot;,
+    &quot;securityGroupIds&quot;:[&quot;securityGroupIds&quot;],
+    &quot;keyName&quot;:&quot;keyName&quot;
+  },
+  &quot;userData&quot;:{
+    &quot;classType&quot;:&quot;galaxy&quot;,
+    &quot;env&quot;:&quot;druid&quot;,
+    &quot;version&quot;:&quot;druid_version&quot;,
+    &quot;type&quot;:&quot;sample_cluster/worker&quot;
+  }
+}
+</code></pre></div>
+<p>Issuing a GET request at the same URL will return the current worker setup spec that is currently in place. The worker setup spec list above is just a sample and it is possible to write worker setup specs for other deployment environments. A description of the worker setup spec is shown below.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>minVersion</code></td>
+<td>The coordinator only assigns tasks to workers with a version greater than the minVersion. If this is not specified, the minVersion will be the same as the coordinator version.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>minNumWorkers</code></td>
+<td>The minimum number of workers that can be in the cluster at any given time.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>maxNumWorkers</code></td>
+<td>The maximum number of workers that can be in the cluster at any given time.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>nodeData</code></td>
+<td>A JSON object that contains metadata about new nodes to create.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>userData</code></td>
+<td>A JSON object that contains metadata about how the node should register itself on startup. This data is sent with node creation requests.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<p>For more information about configuring Auto-scaling, see <a href="https://github.com/metamx/druid/wiki/Indexing-Service#auto-scaling-configuration">Auto-Scaling Configuration</a>.</p>
+
+<h4 id="running">Running</h4>
+
+<p>Indexer Coordinator nodes can be run using the <code>com.metamx.druid.indexing.coordinator.http.IndexerCoordinatorMain</code> class.</p>
+
+<h4 id="configuration">Configuration</h4>
+
+<p>Indexer Coordinator nodes require <a href="https://github.com/metamx/druid/wiki/Configuration#basic-service-configuration">basic service configuration</a>. In addition, there are several extra configurations that are required.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.zk.paths.indexer.announcementsPath=/druid/indexer/announcements
+-Ddruid.zk.paths.indexer.leaderLatchPath=/druid/indexer/leaderLatchPath
+-Ddruid.zk.paths.indexer.statusPath=/druid/indexer/status
+-Ddruid.zk.paths.indexer.tasksPath=/druid/demo/indexer/tasks
+
+-Ddruid.indexer.runner=remote
+-Ddruid.indexer.taskDir=/mnt/persistent/task/
+-Ddruid.indexer.configTable=sample_config
+-Ddruid.indexer.workerSetupConfigName=worker_setup
+-Ddruid.indexer.strategy=ec2
+-Ddruid.indexer.hadoopWorkingPath=/tmp/druid-indexing
+-Ddruid.indexer.logs.s3bucket=some_bucket
+-Ddruid.indexer.logs.s3prefix=some_prefix
+</code></pre></div>
+<p>The indexing service requires some additional Zookeeper configs.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.zk.paths.indexer.announcementsPath</code></td>
+<td>The base path where workers announce themselves.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.leaderLatchPath</code></td>
+<td>The base that coordinator nodes use to determine a leader.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.statusPath</code></td>
+<td>The base path where workers announce task statuses.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.tasksPath</code></td>
+<td>The base path where the coordinator assigns new tasks.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<p>There’s several additional configs that are required to run tasks.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.runner</code></td>
+<td>Indicates whether tasks should be run locally or in a distributed environment. &quot;local&quot; or &quot;remote&quot;.</td>
+<td>local</td>
+</tr>
+<tr>
+<td><code>druid.indexer.taskDir</code></td>
+<td>Intermediate temporary directory that tasks may use.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.configTable</code></td>
+<td>The MySQL config table where misc configs live.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.strategy</code></td>
+<td>The autoscaling strategy to use.</td>
+<td>noop</td>
+</tr>
+<tr>
+<td><code>druid.indexer.hadoopWorkingPath</code></td>
+<td>Intermediate temporary hadoop working directory that certain index tasks may use.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.s3bucket</code></td>
+<td>S3 bucket to store logs.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.s3prefix</code></td>
+<td>S3 key prefix to store logs.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="console">Console</h4>
+
+<p>The indexer console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:8080/static/console.html
+</code></pre></div>
+<h2 id="worker-node">Worker Node</h2>
+
+<p>The worker node executes submitted tasks. Workers run tasks in separate JVMs.</p>
+
+<h4 id="running">Running</h4>
+
+<p>Worker nodes can be run using the <code>com.metamx.druid.indexing.worker.http.WorkerMain</code> class. Worker nodes can automatically be created by the Indexer Coordinator as part of autoscaling.</p>
+
+<h4 id="configuration">Configuration</h4>
+
+<p>Worker nodes require <a href="https://github.com/metamx/druid/wiki/Configuration#basic-service-configuration">basic service configuration</a>. In addition, there are several extra configurations that are required.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.worker.version=0
+-Ddruid.worker.capacity=3
+
+-Ddruid.indexer.threads=3
+-Ddruid.indexer.taskDir=/mnt/persistent/task/
+-Ddruid.indexer.hadoopWorkingPath=/tmp/druid-indexing
+
+-Ddruid.worker.masterService=druid:sample_cluster:indexer
+
+-Ddruid.indexer.fork.hostpattern=&lt;IP&gt;:%d
+-Ddruid.indexer.fork.startport=8080
+-Ddruid.indexer.fork.main=com.metamx.druid.indexing.worker.executor.ExecutorMain
+-Ddruid.indexer.fork.opts=&quot;-server -Xmx1g -Xms1g -XX:NewSize=256m -XX:MaxNewSize=256m&quot;
+-Ddruid.indexer.fork.property.druid.service=druid/sample_cluster/executor
+
+# These configs are the same configs you would set for basic service configuration, just with a different prefix
+-Ddruid.indexer.fork.property.druid.monitoring.monitorSystem=false
+-Ddruid.indexer.fork.property.druid.computation.buffer.size=268435456
+-Ddruid.indexer.fork.property.druid.indexer.taskDir=/mnt/persistent/task/
+-Ddruid.indexer.fork.property.druid.processing.formatString=processing-%s
+-Ddruid.indexer.fork.property.druid.processing.numThreads=1
+-Ddruid.indexer.fork.property.druid.server.maxSize=0
+-Ddruid.indexer.fork.property.druid.request.logging.dir=request_logs/
+</code></pre></div>
+<p>Many of the configurations for workers are similar to those for basic service configuration&quot;:https://github.com/metamx/druid/wiki/Configuration#basic-service-configuration, but with a different config prefix. Below we describe the unique worker configs.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.worker.version</code></td>
+<td>Version identifier for the worker.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.worker.capacity</code></td>
+<td>Maximum number of tasks the worker can accept.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>druid.indexer.threads</code></td>
+<td>Number of processing threads per worker.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>druid.worker.masterService</code></td>
+<td>Name of the indexer coordinator used for service discovery.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.fork.hostpattern</code></td>
+<td>The format of the host name.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.fork.startport</code></td>
+<td>Port in which child JVM starts from.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.fork.opts</code></td>
+<td>JVM options for child JVMs.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.5.48/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

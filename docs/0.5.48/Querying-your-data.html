@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.5.48">API documentation</a></p>
+          <h1 id="setup">Setup</h1>
+
+<p>Before we start querying druid, we&#39;re going to finish setting up a complete cluster on localhost. In <a href="Loading-Your-Data.html">Loading Your Data</a> we setup a <a href="Realtime.html">Realtime</a>, <a href="Compute.html">Compute</a> and <a href="Master.html">Master</a> node. If you&#39;ve already completed that tutorial, you need only follow the directions for &#39;Booting a Broker Node&#39;.</p>
+
+<h2 id="booting-a-broker-node">Booting a Broker Node</h2>
+
+<ol>
+<li><p>Setup a config file at config/broker/runtime.properties that looks like this: </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=0.0.0.0:8083
+druid.port=8083
+
+com.metamx.emitter.logging=true
+
+druid.processing.formatString=processing_%s
+druid.processing.numThreads=1
+druid.processing.buffer.sizeBytes=10000000
+
+#emitting, opaque marker
+druid.service=example
+
+druid.request.logging.dir=/tmp/example/log
+druid.realtime.specFile=realtime.spec
+com.metamx.emitter.logging=true
+com.metamx.emitter.logging.level=debug
+
+# below are dummy values when operating a realtime only node
+druid.processing.numThreads=3
+
+com.metamx.aws.accessKey=dummy_access_key
+com.metamx.aws.secretKey=dummy_secret_key
+druid.pusher.s3.bucket=dummy_s3_bucket
+
+druid.zk.service.host=localhost
+druid.server.maxSize=300000000000
+druid.zk.paths.base=/druid
+druid.database.segmentTable=prod_segments
+druid.database.user=druid
+druid.database.password=diurd
+druid.database.connectURI=jdbc:mysql://localhost:3306/druid
+druid.zk.paths.discoveryPath=/druid/discoveryPath
+druid.database.ruleTable=rules
+druid.database.configTable=config
+
+# Path on local FS for storage of segments; dir will be created if needed
+druid.paths.indexCache=/tmp/druid/indexCache
+# Path on local FS for storage of segment metadata; dir will be created if needed
+druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+druid.pusher.local.storageDirectory=/tmp/druid/localStorage
+druid.pusher.local=true
+
+# thread pool size for servicing queries
+druid.client.http.connections=30
+</code></pre></div></li>
+<li><p>Run the broker node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+-Ddruid.realtime.specFile<span class="o">=</span>realtime.spec <span class="se">\</span>
+-classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/broker <span class="se">\</span>
+com.metamx.druid.http.BrokerMain
+</code></pre></div></li>
+</ol>
+
+<h2 id="booting-a-master-node">Booting a Master Node</h2>
+
+<ol>
+<li><p>Setup a config file at config/master/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818870">https://gist.github.com/rjurney/5818870</a></p></li>
+<li><p>Run the master node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+-classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/master <span class="se">\</span>
+com.metamx.druid.http.MasterMain
+</code></pre></div></li>
+</ol>
+
+<h2 id="booting-a-realtime-node">Booting a Realtime Node</h2>
+
+<ol>
+<li><p>Setup a config file at config/realtime/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818774">https://gist.github.com/rjurney/5818774</a></p></li>
+<li><p>Setup a realtime.spec file like this: <a href="https://gist.github.com/rjurney/5818779">https://gist.github.com/rjurney/5818779</a></p></li>
+<li><p>Run the realtime node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+-Ddruid.realtime.specFile<span class="o">=</span>realtime.spec <span class="se">\</span>
+-classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/realtime <span class="se">\</span>
+com.metamx.druid.realtime.RealtimeMain
+</code></pre></div></li>
+</ol>
+
+<h2 id="booting-a-compute-node">Booting a Compute Node</h2>
+
+<ol>
+<li>Setup a config file at config/compute/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818885">https://gist.github.com/rjurney/5818885</a></li>
+<li><p>Run the compute node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+-classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/compute <span class="se">\</span>
+com.metamx.druid.http.ComputeMain
+</code></pre></div></li>
+</ol>
+
+<h1 id="querying-your-data">Querying Your Data</h1>
+
+<p>Now that we have a complete cluster setup on localhost, we need to load data. To do so, refer to <a href="Loading-Your-Data.html">Loading Your Data</a>. Having done that, its time to query our data! For a complete specification of queries, see <a href="Querying.html">Querying</a>.</p>
+
+<h2 id="querying-different-nodes">Querying Different Nodes</h2>
+
+<p>As a shared-nothing system, there are three ways to query druid, against the <a href="Realtime.html">Realtime</a>, <a href="Compute.html">Compute</a> or <a href="Broker.html">Broker</a> node. Querying a Realtime node returns only realtime data, querying a compute node returns only historical segments. Querying the broker will query both realtime and compute segments and compose an overall result for the query. This is the normal mode of operation for queries in druid.</p>
+
+<h3 id="construct-a-query">Construct a Query</h3>
+
+<p>For constructing this query, see: Querying against the realtime.spec</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2010-01-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="querying-the-realtime-node">Querying the Realtime Node</h3>
+
+<p>Run our query against port 8080:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8080/druid/v2/?pretty&quot;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
+</code></pre></div>
+<p>See our result:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">15000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<h3 id="querying-the-compute-node">Querying the Compute Node</h3>
+
+<p>Run the query against port 8082:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8082/druid/v2/?pretty&quot;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
+</code></pre></div>
+<p>And get (similar to):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">27</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">77000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">9</span> <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<h3 id="querying-both-nodes-via-the-broker">Querying both Nodes via the Broker</h3>
+
+<p>Run the query against port 8083:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8083/druid/v2/?pretty&quot;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
+</code></pre></div>
+<p>And get:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">15000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Now that we know what nodes can be queried (although you should usually use the broker node), lets learn how to know what queries are available.</p>
+
+<h2 id="querying-against-the-realtime-spec">Querying Against the realtime.spec</h2>
+
+<p>How are we to know what queries we can run? Although <a href="Querying.html">Querying</a> is a helpful index, to get a handle on querying our data we need to look at our <a href="Realtime.html">Realtime</a> node&#39;s realtime.spec file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[{</span>
+  <span class="nt">&quot;schema&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+                               <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}],</span>
+               <span class="nt">&quot;indexGranularity&quot;</span><span class="p">:</span><span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;shardSpec&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span> <span class="p">}</span> <span class="p">},</span>
+  <span class="nt">&quot;config&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+               <span class="nt">&quot;intermediatePersistPeriod&quot;</span> <span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span> <span class="p">},</span>
+  <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;kafka-0.7.2&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;consumerProps&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;zk.connect&quot;</span> <span class="p">:</span> <span class="s2">&quot;localhost:2181&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;zk.connectiontimeout.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;zk.sessiontimeout.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;zk.synctime.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;groupid&quot;</span> <span class="p">:</span> <span class="s2">&quot;topic-pixel-local&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;fetch.size&quot;</span> <span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;autooffset.reset&quot;</span> <span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+                                     <span class="nt">&quot;autocommit.enable&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span> <span class="p">},</span>
+                 <span class="nt">&quot;feed&quot;</span> <span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;utcdt&quot;</span><span class="p">,</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span> <span class="p">},</span>
+                              <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span> <span class="p">},</span>
+                              <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wp&quot;</span><span class="p">]</span> <span class="p">}</span> <span class="p">},</span>
+  <span class="nt">&quot;plumber&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;windowPeriod&quot;</span> <span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;basePersistDirectory&quot;</span> <span class="p">:</span> <span class="s2">&quot;/tmp/realtime/basePersist&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;rejectionPolicy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;messageTime&quot;</span><span class="p">}</span> <span class="p">}</span>
+
+<span class="p">}]</span>
+</code></pre></div>
+<h3 id="datasource">dataSource</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;druidtest&quot;</span>
+</code></pre></div>
+<p>Our dataSource tells us the name of the relation/table, or &#39;source of data&#39;, to query in both our realtime.spec and query.body!</p>
+
+<h3 id="aggregations">aggregations</h3>
+
+<p>Note the <a href="Aggregations.html">Aggregations</a> in our query:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;aggregations&quot;</span><span class="err">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
+    <span class="p">]</span><span class="err">,</span>
+</code></pre></div>
+<p>this matches up to the aggregators in the schema of our realtime.spec!</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;aggregators&quot;</span><span class="err">:</span><span class="p">[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+                <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}]</span><span class="err">,</span>
+</code></pre></div>
+<h3 id="dimensions">dimensions</h3>
+
+<p>Lets look back at our actual records (from <a href="Loading%20Your%20Data.html">Loading Your Data</a>):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:02&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:03&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:04&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:05&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
+</code></pre></div>
+<p>Note that we have two dimensions to our data, other than our primary metric, wp. They are &#39;gender&#39; and &#39;age&#39;. We can specify these in our query! Note that we have added a dimension: age, below.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2010-01-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Which gets us grouped data in return!</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span> <span class="p">:</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span> <span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">3000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span> <span class="p">:</span> <span class="s2">&quot;30&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">4000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span> <span class="p">:</span> <span class="s2">&quot;40&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">5000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span> <span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">2000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<h3 id="filtering">filtering</h3>
+
+<p>Now that we&#39;ve observed our dimensions, we can also filter:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span> <span class="p">},</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2010-01-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Which gets us just people aged 40:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span> <span class="p">:</span> <span class="mf">9000.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">3</span> <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Check out <a href="Filters.html">Filters</a> for more.</p>
+
+<h2 id="learn-more">Learn More</h2>
+
+<p>You can learn more about querying at <a href="Querying.html">Querying</a>! Now check out <a href="Booting-a-production-cluster.html">Booting a production cluster</a>!</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.5.48/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

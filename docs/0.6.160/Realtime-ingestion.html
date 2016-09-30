@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.160">API documentation</a></p>
+          <h1 id="realtime-data-ingestion">Realtime Data Ingestion</h1>
+
+<p>For general Real-time Node information, see <a href="Realtime.html">here</a>.</p>
+
+<p>For Real-time Node Configuration, see <a href="Realtime-Config.html">Realtime Configuration</a>.</p>
+
+<p>For writing your own plugins to the real-time node, see <a href="Firehose.html">Firehose</a>.</p>
+
+<p>Much of the configuration governing Realtime nodes and the ingestion of data is set in the Realtime spec file, discussed on this page.</p>
+
+<p><a id="realtime-specfile"></a></p>
+
+<h2 id="realtime-quot-specfile-quot">Realtime &quot;specFile&quot;</h2>
+
+<p>The property <code>druid.realtime.specFile</code> has the path of a file (absolute or relative path and file name) with realtime specifications in it. This &quot;specFile&quot; should be a JSON Array of JSON objects like the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;dataSourceName&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;aggregators&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;events&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;outColumn&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;inColumn&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;indexGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;shardSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+      <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka-0.7.2&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;consumerProps&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;zk.connect&quot;</span><span class="p">:</span> <span class="s2">&quot;zk_connect_string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;zk.connectiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;zk.sessiontimeout.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;zk.synctime.ms&quot;</span><span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;groupid&quot;</span><span class="p">:</span> <span class="s2">&quot;consumer-group&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fetch.size&quot;</span><span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;autooffset.reset&quot;</span><span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;autocommit.enable&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;feed&quot;</span><span class="p">:</span> <span class="s2">&quot;your_kafka_topic&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;value&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;plumber&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;basePersistDirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;\/tmp\/realtime\/basePersist&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>This is a JSON Array so you can give more than one realtime stream to a given node. The number you can put in the same process depends on the exact configuration. In general, it is best to think of each realtime stream handler as requiring 2-threads: 1 thread for data consumption and aggregation, 1 thread for incremental persists and other background tasks.</p>
+
+<p>There are four parts to a realtime stream specification, <code>schema</code>, <code>config</code>, <code>firehose</code> and <code>plumber</code> which we will go into here.</p>
+
+<h3 id="schema">Schema</h3>
+
+<p>This describes the data schema for the output Druid segment. More information about concepts in Druid and querying can be found at <a href="Concepts-and-Terminology.html">Concepts-and-Terminology</a> and <a href="Querying.html">Querying</a>.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>aggregators</td>
+<td>Array of Objects</td>
+<td>The list of aggregators to use to aggregate colliding rows together.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dataSource</td>
+<td>String</td>
+<td>The name of the dataSource that the segment belongs to.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>indexGranularity</td>
+<td>String</td>
+<td>The granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>shardSpec</td>
+<td>Object</td>
+<td>This describes the shard that is represented by this server. This must be specified properly in order to have multiple realtime nodes indexing the same data stream in a sharded fashion.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="config">Config</h3>
+
+<p>This provides configuration for the data processing portion of the realtime stream processor.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>intermediatePersistPeriod</td>
+<td>ISO8601 Period String</td>
+<td>The period that determines the rate at which intermediate persists occur. These persists determine how often commits happen against the incoming realtime stream. If the realtime data loading process is interrupted at time T, it should be restarted to re-read data that arrived at T minus this period.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>Number</td>
+<td>The number of rows to aggregate before persisting. This number is the post-aggregation rows, so it is not equivalent to the number of input events, but the number of aggregated rows that those events result in. This is used to manage the required JVM heap size.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="firehose">Firehose</h3>
+
+<p>Firehoses describe the data stream source. See <a href="Firehose.html">Firehose</a> for more information on firehose configuration.</p>
+
+<h3 id="plumber">Plumber</h3>
+
+<p>The Plumber handles generated segments both while they are being generated and when they are &quot;done&quot;. The configuration parameters in the example are:</p>
+
+<ul>
+<li><code>type</code> specifies the type of plumber in terms of configuration schema. The Plumber configuration in the example is for the often-used RealtimePlumber.</li>
+<li><code>windowPeriod</code> is the amount of lag time to allow events. The example configures a 10 minute window, meaning that any event more than 10 minutes ago will be thrown away and not included in the segment generated by the realtime server.</li>
+<li><code>segmentGranularity</code> specifies the granularity of the segment, or the amount of time a segment will represent.</li>
+<li><code>basePersistDirectory</code> is the directory to put things that need persistence. The plumber is responsible for the actual intermediate persists and this tells it where to store those persists.</li>
+<li><code>rejectionPolicy</code> determines what events are rejected upon ingestion.</li>
+</ul>
+
+<p>See <a href="Plumber.html">Plumber</a> for a fuller discussion of Plumber configuration.</p>
+
+<h2 id="constraints">Constraints</h2>
+
+<p>The following table summarizes constraints between settings in the spec file for the Realtime subsystem.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Effect</th>
+<th>Minimum</th>
+<th>Recommended</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>windowPeriod</td>
+<td>when reading an InputRow, events with timestamp older than now minus this window are discarded</td>
+<td>time jitter tolerance</td>
+<td>use this to reject outliers</td>
+</tr>
+<tr>
+<td>segmentGranularity</td>
+<td>time granularity (minute, hour, day, week, month) for loading data at query time</td>
+<td>equal to indexGranularity</td>
+<td>more than indexGranularity</td>
+</tr>
+<tr>
+<td>indexGranularity</td>
+<td>time granularity (minute, hour, day, week, month) of indexes</td>
+<td>less than segmentGranularity</td>
+<td>minute, hour, day, week, month</td>
+</tr>
+<tr>
+<td>intermediatePersistPeriod</td>
+<td>the max real time (ISO8601 Period) between flushes of InputRows from memory to disk</td>
+<td>avoid excessive flushing</td>
+<td>number of un-persisted rows in memory also constrained by maxRowsInMemory</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>the max number of InputRows to hold in memory before a flush to disk</td>
+<td>number of un-persisted post-aggregation rows in memory is also constrained by intermediatePersistPeriod</td>
+<td>use this to avoid running out of heap if too many rows in an intermediatePersistPeriod</td>
+</tr>
+</tbody></table>
+
+<p>The normal, expected use cases have the following overall constraints: <code>indexGranularity &lt; intermediatePersistPeriod =&lt; windowPeriod  &lt; segmentGranularity</code></p>
+
+<p>If the Realtime Node process runs out of heap, try adjusting druid.computation.buffer.size property which specifies a size in bytes that must fit into the heap.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.160/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.172">API documentation</a></p>
+          <p>Greetings! This tutorial will help clarify some core Druid concepts. We will use a realtime dataset and issue some basic Druid queries. If you are ready to explore Druid, and learn a thing or two, read on!</p>
+
+<h2 id="about-the-data">About the data</h2>
+
+<p>The data source we&#39;ll be working with is the Bit.ly USA Government website statistics stream. You can see the stream <a href="http://developer.usa.gov/1usagov">here</a>, and read about the stream <a href="http://www.usa.gov/About/developer-resources/1usagov.shtml">here</a> . This is a feed of json data that gets updated whenever anyone clicks a bit.ly shortened USA.gov website. A typical event might look something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;user_agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;known_user&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+  <span class="nt">&quot;timezone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/New_York&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;geo_region&quot;</span><span class="p">:</span> <span class="s2">&quot;DC&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;global_bitly_hash&quot;</span><span class="p">:</span> <span class="s2">&quot;17ctAFs&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;encoding_user_bitly_hash&quot;</span><span class="p">:</span> <span class="s2">&quot;17ctAFr&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;encoding_user_login&quot;</span><span class="p">:</span> <span class="s2">&quot;senrubiopress&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;aaccept_language&quot;</span><span class="p">:</span> <span class="s2">&quot;en-US&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;short_url_cname&quot;</span><span class="p">:</span> <span class="s2">&quot;1.usa.gov&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;referring_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://t.co/4Av4NUFAYq&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;long_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.rubio.senate.gov/public/index.cfm/fighting-for-florida?ID=c8357d12-9da8-4e9d-b00d-7168e1bf3599&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1372190407</span><span class="p">,</span> 
+  <span class="nt">&quot;timestamp of time hash was created&quot;</span><span class="p">:</span> <span class="mi">1372190097</span><span class="p">,</span> 
+  <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Washington&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;latitude_longitude&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">38.893299</span><span class="p">,</span>  <span class="mf">-77.014603</span> <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The &quot;known_user&quot; field is always 1 or 0. It is 1 if the user is known to the server, and 0 otherwise. We will use this field extensively in this demo.</p>
+
+<p>h2. Setting Up</p>
+
+<p>There are two ways to setup Druid: download a tarball, or <a href="Build-From-Source.html">Build From Source</a>. You only need to do one of these.</p>
+
+<p>h3. Download a Tarball</p>
+
+<p>We&#39;ve built a tarball that contains everything you&#39;ll need. You&#39;ll find it <a href="http://static.druid.io/artifacts/releases/druid-services-0.6.172-bin.tar.gz">here</a>
+Download this file to a directory of your choosing.
+You can extract the awesomeness within by issuing:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">tar zxvf druid-services-*-bin.tar.gz
+</code></pre></div>
+<p>Not too lost so far right? That&#39;s great! If you cd into the directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cd druid-services-0.6.172
+</code></pre></div>
+<p>You should see a bunch of files:</p>
+
+<ul>
+<li>run_example_server.sh</li>
+<li>run_example_client.sh</li>
+<li>LICENSE, config, examples, lib directories</li>
+</ul>
+
+<p>h2. Running Example Scripts
+Let&#39;s start doing stuff. You can start a Druid <a href="Realtime.html">Realtime</a> node by issuing:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_server.sh
+</code></pre></div>
+<p>Select &quot;webstream&quot;.
+Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Jul 19, 2013 21:54:05 PM com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
+INFO: Binding io.druid.server.StatusResource to GuiceManagedComponentProvider with the scope &quot;Undefined&quot;
+2013-07-19 21:54:05,246 INFO org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8083
+</code></pre></div>
+<p>The Druid real time-node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. If you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our <a href="http://static.druid.io/docs/druid.pdf">White Paper</a>.
+Okay, things are about to get real. To query the real-time node you&#39;ve spun up, you can issue:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_client.sh
+</code></pre></div>
+<p>Select &quot;webstream&quot; once again. This script issues <a href="GroupByQuery.html">GroupByQueries</a> to the data we&#39;ve been ingesting. The query looks like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;webstream&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;timezone&quot;</span> <span class="p">],</span> 
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">},</span> 
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span> <span class="p">}</span>
+  <span class="p">],</span> 
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span>  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span> <span class="p">},</span> 
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span> <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is a <code>groupBy</code> query, which you may be familiar with from SQL. We are grouping, or aggregating, via the <code>dimensions</code> field: . We are <strong>filtering</strong> via the <code>&quot;country&quot;</code> dimension, to only look at website hits in the US. Our <strong>aggregations</strong> are what we are calculating: a row count, and the sum of the number of known users in our data.</p>
+
+<p>The result looks something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;timezone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/Chicago&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">15</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;timezone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span>
+  <span class="p">},</span>
+<span class="err">...</span>
+</code></pre></div>
+<p>This groupBy query is a bit complicated and we&#39;ll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have <a href="http://curl.haxx.se/">curl</a> installed. Control+C to break out of the client script.</p>
+
+<p>h2. Querying Druid</p>
+
+<p>In your favorite editor, create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">time_boundary_query.body
+</code></pre></div>
+<p>Druid queries are JSON blobs which are relatively painless to create programmatically, but an absolute pain to write by hand. So anyway, we are going to create a Druid query by hand. Add the following to the file you just created:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  &quot;queryType&quot;: &quot;timeBoundary&quot;, 
+  &quot;dataSource&quot;: &quot;webstream&quot;
+}
+</code></pre></div>
+<p>The <a href="TimeBoundaryQuery.html">TimeBoundaryQuery</a> is one of the simplest Druid queries. To run the query, you can issue:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d time_boundary_query.body
+</code></pre></div>
+<p>We get something like this JSON back:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;minTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span> 
+          <span class="nt">&quot;maxTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:46:00.000Z&quot;</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>As you can probably tell, the result is indicating the maximum and minimum timestamps we&#39;ve seen thus far (summarized to a minutely granularity). Let&#39;s explore a bit further.</p>
+
+<p>Return to your favorite editor and create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">timeseries_query.body
+</code></pre></div>
+<p>We are going to make a slightly more complicated query, the <a href="TimeseriesQuery.html">TimeseriesQuery</a>. Copy and paste the following into the file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;webstream&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2010-01-01/2020-01-01&quot;</span> <span class="p">],</span> 
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">},</span> 
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You are probably wondering, what are these <a href="Granularities.html">Granularities</a> and <a href="Aggregations.html">Aggregations</a> things? What the query is doing is aggregating some metrics over some span of time. 
+To issue the query and get some results, run the following in your command line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d timeseries_query.body
+</code></pre></div>
+<p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;known_users&quot;</span> <span class="p">:</span> <span class="mf">787.0</span><span class="p">,</span> <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">2004</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>If you issue the query again, you should notice your results updating.</p>
+
+<p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?</p>
+
+<p>If you loudly exclaimed &quot;we can change granularity to minute&quot;, you are absolutely correct! We can specify different granularities to bucket our results, like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span>
+      <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;webstream&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2010-01-01/2020-01-01&quot;</span> <span class="p">],</span> 
+      <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">},</span> 
+          <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span><span class="p">,</span>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;known_users&quot;</span> <span class="p">}</span>
+      <span class="p">]</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>This gives us something like the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:39:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">76</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:40:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">105</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">221</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-07-18T19:41:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">167</span> <span class="p">}</span>
+  <span class="p">},</span>
+<span class="err">...</span>
+</code></pre></div>
+<h2 id="solving-a-problem">Solving a Problem</h2>
+
+<p>One of Druid&#39;s main powers is to provide answers to problems, so let&#39;s pose a problem. What if we wanted to know what the top states in the US are, ordered by the number of visits by known users over the last few minutes? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the <a href="GroupByQuery.html">GroupByQuery</a>. It would be nice if we could group by results by dimension value and somehow sort those results… and it turns out we can!</p>
+
+<p>Let&#39;s create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">group_by_query.body
+</code></pre></div>
+<p>and put the following in there:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;queryType&quot;: &quot;groupBy&quot;, 
+    &quot;dataSource&quot;: &quot;webstream&quot;, 
+    &quot;granularity&quot;: &quot;all&quot;, 
+    &quot;dimensions&quot;: [ &quot;geo_region&quot; ], 
+    &quot;limitSpec&quot;: {
+        &quot;type&quot;: &quot;default&quot;, 
+        &quot;columns&quot;: [
+            { &quot;dimension&quot;: &quot;known_users&quot;,  &quot;direction&quot;: &quot;DESCENDING&quot; }
+        ], 
+        &quot;limit&quot;: 10
+    }, 
+    &quot;aggregations&quot;: [
+        { &quot;type&quot;: &quot;count&quot;,  &quot;name&quot;: &quot;rows&quot; }, 
+        { &quot;type&quot;: &quot;doubleSum&quot;,  &quot;fieldName&quot;: &quot;known_users&quot;,  &quot;name&quot;: &quot;known_users&quot; }
+    ], 
+    &quot;filter&quot;: { &quot;type&quot;: &quot;selector&quot;,  &quot;dimension&quot;: &quot;country&quot;,  &quot;value&quot;: &quot;US&quot; }, 
+    &quot;intervals&quot;: [ &quot;2012-10-01T00:00/2020-01-01T00&quot; ]
+}
+</code></pre></div>
+<p>Woah! Our query just got a way more complicated. Now we have these <a href="Filters.html">Filters</a> things and this <a href="LimitSpec.html">LimitSpec</a> thing. Fear not, it turns out the new objects we&#39;ve introduced to our query can help define the format of our results and provide an answer to our question.</p>
+
+<p>If you issue the query:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
+</code></pre></div>
+<p>You should see an answer to our question. For my stream, it looks like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;geo_region&quot;</span><span class="p">:</span> <span class="s2">&quot;RI&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">359</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">143</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;geo_region&quot;</span><span class="p">:</span> <span class="s2">&quot;NY&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">187</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">322</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;geo_region&quot;</span><span class="p">:</span> <span class="s2">&quot;CA&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">145</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">466</span> <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;geo_region&quot;</span><span class="p">:</span> <span class="s2">&quot;IL&quot;</span><span class="p">,</span>  <span class="nt">&quot;known_users&quot;</span><span class="p">:</span> <span class="mi">121</span><span class="p">,</span>  <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">185</span> <span class="p">}</span>
+  <span class="p">},</span>
+<span class="err">...</span>
+</code></pre></div>
+<p>Feel free to tweak other query parameters to answer other questions you may have about the data.</p>
+
+<h2 id="additional-information">Additional Information</h2>
+
+<p>This tutorial is merely showcasing a small fraction of what Druid can do. If you are interested in more information about Druid, including setting up a more sophisticated Druid cluster, please read the other links in our wiki.</p>
+
+<p>And thus concludes our journey! Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our <a href="https://groups.google.com/forum/#!forum/druid-development">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.172/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

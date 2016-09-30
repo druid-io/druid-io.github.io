@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1">API documentation</a></p>
+          <h1 id="tutorial-load-your-own-streaming-data">Tutorial: Load your own streaming data</h1>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>This tutorial shows you how to load your own streams into Druid.</p>
+
+<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid and Tranquility as described in
+the <a href="quickstart.html">single-machine quickstart</a> and have it running on your local machine. You
+don&#39;t need to have loaded any data yet.</p>
+
+<p>Once that&#39;s complete, you can load your own dataset by writing a custom ingestion spec.</p>
+
+<h2 id="writing-an-ingestion-spec">Writing an ingestion spec</h2>
+
+<p>When loading streams into Druid, we recommend using the <a href="../ingestion/stream-push.html">stream push</a>
+process. In this tutorial we&#39;ll be using <a href="../ingestion/stream-ingestion.html#server">Tranquility Server</a> to push
+data into Druid over HTTP.</p>
+
+<div class="note info">
+This tutorial will show you how to push streams to Druid using HTTP, but Druid additionally supports
+a wide variety of batch and streaming loading methods. See the <a href="../ingestion/batch-ingestion.html">Loading files</a>
+and <a href="../ingestion/stream-ingestion.html">Loading streams</a> pages for more information about other options,
+including from Hadoop, Kafka, Storm, Samza, Spark Streaming, and your own JVM apps.
+</div>
+
+<p>You can prepare for loading a new dataset over HTTP by writing a custom Tranquility Server
+configuration. The bundled configuration is in <code>conf-quickstart/tranquility/server.json</code>, which
+you can modify for your own needs.</p>
+
+<p>The most important questions are:</p>
+
+<ul>
+<li>What should the dataset be called? This is the &quot;dataSource&quot; field of the &quot;dataSchema&quot;.</li>
+<li>Which field should be treated as a timestamp? This belongs in the &quot;column&quot; field of the &quot;timestampSpec&quot;.</li>
+<li>Which fields should be treated as dimensions? This belongs in the &quot;dimensions&quot; field of the &quot;dimensionsSpec&quot;.</li>
+<li>Which fields should be treated as measures? This belongs in the &quot;metricsSpec&quot; field.</li>
+</ul>
+
+<p>Let&#39;s use a small JSON pageviews dataset as an example, with records like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+</code></pre></div>
+<p>So the answers to the questions above are:</p>
+
+<ul>
+<li>Let&#39;s call the dataset &quot;pageviews&quot;.</li>
+<li>The timestamp is the &quot;time&quot; field.</li>
+<li>Good choices for dimensions are the string fields &quot;url&quot; and &quot;user&quot;.</li>
+<li>Good choices for measures are a count of pageviews, and the sum of &quot;latencyMs&quot;. Collecting that
+sum when we load the data will allow us to compute an average at query time as well.</li>
+</ul>
+
+<p>Now, edit the existing <code>conf-quickstart/tranquility/server.json</code> file by altering these
+sections:</p>
+
+<ol>
+<li>Change the key <code>&quot;metrics&quot;</code> under <code>&quot;dataSources&quot;</code> to <code>&quot;pageviews&quot;</code></li>
+<li>Alter these sections under the new <code>&quot;pageviews&quot;</code> key:
+<code>json
+&quot;dataSource&quot;: &quot;pageviews&quot;
+</code></li>
+</ol>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+       <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
+  <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+       <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
+  <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
+       <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
+       <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
+  <span class="p">]</span>
+</code></pre></div>
+<h2 id="restarting-the-server">Restarting the server</h2>
+
+<p>Restart the server to pick up the new configuration file by stopping Tranquility (CTRL-C) and starting it up again.</p>
+
+<h2 id="sending-data">Sending data</h2>
+
+<p>Let&#39;s send some data! We&#39;ll start with these three records:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
+</code></pre></div>
+<p>Druid streaming ingestion requires relatively current messages (relative to a slack time controlled by the
+<a href="../ingestion/stream-push.html#segmentgranularity-and-windowperiod">windowPeriod</a> value), so you should
+replace <code>2000-01-01T00:00:00Z</code> in these messages with the current time in ISO8601 format. You can
+get this by running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
+</code></pre></div>
+<p>Update the timestamps in the JSON above, and save it to a file named <code>pageviews.json</code>. Then send
+it to Druid by running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> --data-binary @pageviews.json http://localhost:8200/v1/post/pageviews
+</code></pre></div>
+<p>This will print something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;result&quot;:{&quot;received&quot;:3,&quot;sent&quot;:3}}
+</code></pre></div>
+<p>This indicates that the HTTP server received 3 events from you, and sent 3 to Druid. Note that
+this may take a few seconds to finish the first time you run it, as Druid resources must be
+allocated to the ingestion task. Subsequent POSTs should complete quickly.</p>
+
+<p>If you see <code>&quot;sent&quot;:0</code> this likely means that your timestamps are not recent enough. Try adjusting
+your timestamps and re-sending your data.</p>
+
+<h2 id="querying-your-data">Querying your data</h2>
+
+<p>After sending data, you can immediately query it using any of the
+<a href="../querying/querying.html">supported query methods</a>.</p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<p>To read more about loading streams, see our <a href="../ingestion/stream-ingestion.html">streaming ingestion documentation</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

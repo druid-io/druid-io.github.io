@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.0-rc2">API documentation</a></p>
+          <h1 id="historical-node-configuration">Historical Node Configuration</h1>
+
+<p>For general Historical Node information, see <a href="../design/historical.html">here</a>.</p>
+
+<h2 id="runtime-configuration">Runtime Configuration</h2>
+
+<p>The historical node uses several of the global configs in <a href="../configuration/index.html">Configuration</a> and has the following set of configurations as well:</p>
+
+<h3 id="node-configs">Node Configs</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.host</code></td>
+<td>The host for the current node. This is used to advertise the current processes location as reachable from another node and should generally be specified such that <code>http://${druid.host}/</code> could actually talk to this process</td>
+<td>InetAddress.getLocalHost().getCanonicalHostName()</td>
+</tr>
+<tr>
+<td><code>druid.port</code></td>
+<td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
+<td>8083</td>
+</tr>
+<tr>
+<td><code>druid.service</code></td>
+<td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
+<td>druid/historical</td>
+</tr>
+</tbody></table>
+
+<h3 id="general-configuration">General Configuration</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.server.maxSize</code></td>
+<td>The maximum number of bytes-worth of segments that the node wants assigned to it. This is not a limit that Historical nodes actually enforces, just a value published to the Coordinator node so it can plan accordingly.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.server.tier</code></td>
+<td>A string to name the distribution tier that the storage node belongs to. Many of the <a href="../operations/rule-configuration.html">rules Coordinator nodes use</a> to manage segments can be keyed on tiers.</td>
+<td><code>_default_tier</code></td>
+</tr>
+<tr>
+<td><code>druid.server.priority</code></td>
+<td>In a tiered architecture, the priority of the tier, thus allowing control over which nodes are queried. Higher numbers mean higher priority. The default (no priority) works for architecture with no cross replication (tiers that have no data-storage overlap). Data centers typically have equal priority.</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<h3 id="storing-segments">Storing Segments</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.segmentCache.locations</code></td>
+<td>Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides.</td>
+<td>none (no caching)</td>
+</tr>
+<tr>
+<td><code>druid.segmentCache.deleteOnRemove</code></td>
+<td>Delete segment files from cache once a node is no longer serving a segment.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.segmentCache.dropSegmentDelayMillis</code></td>
+<td>How long a node delays before completely dropping segment.</td>
+<td>30000 (30 seconds)</td>
+</tr>
+<tr>
+<td><code>druid.segmentCache.infoDir</code></td>
+<td>Historical nodes keep track of the segments they are serving so that when the process is restarted they can reload the same segments without waiting for the Coordinator to reassign. This path defines where this metadata is kept. Directory will be created if needed.</td>
+<td>${first_location}/info_dir</td>
+</tr>
+<tr>
+<td><code>druid.segmentCache.announceIntervalMillis</code></td>
+<td>How frequently to announce segments while segments are loading from cache. Set this value to zero to wait for all segments to be loaded before announcing.</td>
+<td>5000 (5 seconds)</td>
+</tr>
+<tr>
+<td><code>druid.segmentCache.numLoadingThreads</code></td>
+<td>How many segments to load concurrently from from deep storage.</td>
+<td>1</td>
+</tr>
+</tbody></table>
+
+<h3 id="query-configs">Query Configs</h3>
+
+<h4 id="concurrent-requests">Concurrent Requests</h4>
+
+<p>Druid uses Jetty to serve HTTP requests.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.server.http.numThreads</code></td>
+<td>Number of threads for HTTP requests.</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxIdleTime</code></td>
+<td>The Jetty max idle time for a connection.</td>
+<td>PT5m</td>
+</tr>
+</tbody></table>
+
+<h4 id="processing">Processing</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.processing.buffer.sizeBytes</code></td>
+<td>This specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.</td>
+<td>1073741824 (1GB)</td>
+</tr>
+<tr>
+<td><code>druid.processing.buffer.poolCacheMaxCount</code></td>
+<td>processing buffer pool caches the buffers for later use, this is the maximum count cache will grow to. note that pool can create more buffers than it can cache if necessary.</td>
+<td>Integer.MAX_VALUE</td>
+</tr>
+<tr>
+<td><code>druid.processing.formatString</code></td>
+<td>Realtime and historical nodes use this format string to name their processing threads.</td>
+<td>processing-%s</td>
+</tr>
+<tr>
+<td><code>druid.processing.numThreads</code></td>
+<td>The number of processing threads to have available for parallel processing of segments. Our rule of thumb is <code>num_cores - 1</code>, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments. If only one core is available, this property defaults to the value <code>1</code>.</td>
+<td>Number of cores - 1 (or 1)</td>
+</tr>
+<tr>
+<td><code>druid.processing.columnCache.sizeBytes</code></td>
+<td>Maximum size in bytes for the dimension value lookup cache. Any value greater than <code>0</code> enables the cache. It is currently disabled by default. Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values). Enabling it may also require additional garbage collection tuning to avoid long GC pauses.</td>
+<td><code>0</code> (disabled)</td>
+</tr>
+<tr>
+<td><code>druid.processing.fifo</code></td>
+<td>If the processing queue should treat tasks of equal priority in a FIFO manner</td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="general-query-configuration">General Query Configuration</h4>
+
+<h5 id="groupby-query-config">GroupBy Query Config</h5>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.singleThreaded</code></td>
+<td>Run single threaded group By queries.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.maxIntermediateRows</code></td>
+<td>Maximum number of intermediate rows.</td>
+<td>50000</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.maxResults</code></td>
+<td>Maximum number of results.</td>
+<td>500000</td>
+</tr>
+</tbody></table>
+
+<h5 id="search-query-config">Search Query Config</h5>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.search.maxSearchLimit</code></td>
+<td>Maximum number of search results to return.</td>
+<td>1000</td>
+</tr>
+</tbody></table>
+
+<h3 id="caching">Caching</h3>
+
+<p>You can optionally only configure caching to be enabled on the historical by setting caching configs here.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.historical.cache.useCache</code></td>
+<td>true, false</td>
+<td>Enable the cache on the historical.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.historical.cache.populateCache</code></td>
+<td>true, false</td>
+<td>Populate the cache on the historical.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.historical.cache.unCacheable</code></td>
+<td>All druid query types</td>
+<td>All query types to not cache.</td>
+<td>[&quot;groupBy&quot;, &quot;select&quot;]</td>
+</tr>
+</tbody></table>
+
+<p>See <a href="caching.html">cache configuration</a> for how to configure cache settings.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.0-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

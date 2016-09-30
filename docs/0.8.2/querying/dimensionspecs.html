@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.2">API documentation</a></p>
+          <h1 id="transforming-dimension-values">Transforming Dimension Values</h1>
+
+<p>The following JSON fields can be used in a query to operate on dimension values.</p>
+
+<h2 id="dimensionspec">DimensionSpec</h2>
+
+<p><code>DimensionSpec</code>s define how dimension values get transformed prior to aggregation.</p>
+
+<h3 id="default-dimensionspec">Default DimensionSpec</h3>
+
+<p>Returns dimension values as is and optionally renames the dimension.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="extraction-dimensionspec">Extraction DimensionSpec</h3>
+
+<p>Returns dimension values transformed using the given <a href="#extraction-functions">extraction function</a>.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">&lt;extraction_function&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="extraction-functions">Extraction Functions</h2>
+
+<p>Extraction functions define the transformation applied to each dimension value.</p>
+
+<p>Transformations can be applied to both regular (string) dimensions, as well
+as the special <code>__time</code> dimension, which represents the current time bucket
+according to the query <a href="../querying/granularities.html">aggregation granularity</a>.</p>
+
+<p><strong>Note</strong>: for functions taking string values (such as regular expressions),
+<code>__time</code> dimension values will be formatted in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601 format</a>
+before getting passed to the extraction function.</p>
+
+<h3 id="regular-expression-extraction-function">Regular Expression Extraction Function</h3>
+
+<p>Returns the first matching group for the given regular expression.
+If there is no match, it returns the dimension value as is.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<p>For example, using <code>&quot;expr&quot; : &quot;(\\w\\w\\w).*&quot;</code> will transform
+<code>&#39;Monday&#39;</code>, <code>&#39;Tuesday&#39;</code>, <code>&#39;Wednesday&#39;</code> into <code>&#39;Mon&#39;</code>, <code>&#39;Tue&#39;</code>, <code>&#39;Wed&#39;</code>.</p>
+
+<h3 id="partial-extraction-function">Partial Extraction Function</h3>
+
+<p>Returns the dimension value unchanged if the regular expression matches, otherwise returns null.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="search-query-extraction-function">Search Query Extraction Function</h3>
+
+<p>Returns the dimension value unchanged if the given <a href="../querying/searchqueryspec.html"><code>SearchQuerySpec</code></a>
+matches, otherwise returns null.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="time-format-extraction-function">Time Format Extraction Function</h3>
+
+<p>Returns the dimension value formatted according to the given format string, time zone, and locale.</p>
+
+<p>For <code>__time</code> dimension values, this formats the time value bucketed by the
+<a href="../querying/granularities.html">aggregation granularity</a></p>
+
+<p>For a regular dimension, it assumes the string is formatted in
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601 date and time format</a>.</p>
+
+<ul>
+<li><code>format</code> : date time format for the resulting dimension value, in <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda Time DateTimeFormat</a>.</li>
+<li><code>locale</code> : locale (language and country) to use, given as a <a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text">IETF BCP 47 language tag</a>, e.g. <code>en-US</code>, <code>en-GB</code>, <code>fr-FR</code>, <code>fr-CA</code>, etc.</li>
+<li><code>timeZone</code> : time zone to use in <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA tz database format</a>, e.g. <code>Europe/Berlin</code> (this can possibly be different than the aggregation time-zone)</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;time_zone&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
+  <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional)</span> <span class="p">}</span>
+</code></pre></div>
+<p>For example, the following dimension spec returns the day of the week for Montréal in French:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;dayOfWeek&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;EEEE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="s2">&quot;America/Montreal&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="s2">&quot;fr&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="time-parsing-extraction-function">Time Parsing Extraction Function</h3>
+
+<p>Parses dimension values as timestamps using the given input format,
+and returns them formatted using the given output format.</p>
+
+<p>Note, if you are working with the <code>__time</code> dimension, you should consider using the
+<a href="#time-format-extraction-function">time extraction function instead</a> instead,
+which works on time value directly as opposed to string values.</p>
+
+<p>Time formats are described in the
+<a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="javascript-extraction-function">Javascript Extraction Function</h3>
+
+<p>Returns the dimension value, as transformed by the given JavaScript function.</p>
+
+<p>For regular dimensions, the input value is passed as a string.</p>
+
+<p>For the <code>__time</code> dimension, the input value is passed as a number
+representing the number of milliseconds since January 1, 1970 UTC.</p>
+
+<p>Example for a regular dimension</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str.substr(0, 3); }&quot;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str + &#39;!!!&#39;; }&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A property of <code>injective</code> specifies if the javascript function preserves uniqueness. The default value is <code>false</code> meaning uniqueness is not preserved</p>
+
+<p>Example for the <code>__time</code> dimension:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(t) { return &#39;Second &#39; + Math.floor((t % 60000) / 1000); }&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="lookup-lookup-extraction-function">Lookup lookup extraction function</h3>
+
+<p>Explicit lookups allow you to specify a set of keys and values to use when performing the extraction</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;MISSING&quot;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A lookup can be of type <code>namespace</code> or <code>map</code>. A <code>map</code> lookup is passed as part of the query. A <code>namespace</code> lookup is populated on all the nodes which handle queries as per <a href="../querying/lookups.html">lookups</a></p>
+
+<p>A property of <code>retainMissingValue</code> and <code>replaceMissingValueWith</code> can be specified at query time to hint how to handle missing values. Setting <code>replaceMissingValueWith</code> to <code>&quot;&quot;</code> has the same effect of setting it to <code>null</code> or omitting the property. Setting <code>retainMissingValue</code> to true will use the dimension&#39;s original value if it is not found in the lookup. The default values are <code>replaceMissingValueWith = null</code> and <code>retainMissingValue = false</code> which causes missing values to be treated as missing.</p>
+
+<p>It is illegal to set <code>retainMissingValue = true</code> and also specify a <code>replaceMissingValueWith</code></p>
+
+<p>A property of <code>injective</code> specifies if optimizations can be used which assume there is no combining of multiple names into one. For example: If ABC123 is the only key that maps to SomeCompany, that can be optimized since it is a unique lookup. But if both ABC123 and DEF456 BOTH map to SomeCompany, then that is NOT a unique lookup. Setting this value to true and setting <code>retainMissingValue</code> to FALSE (the default) may cause undesired behavior.</p>
+
+<p>A null dimension value can be mapped to a specific value by specifying the empty string as the key.
+This allows distinguishing between a null dimension and a lookup resulting in a null.
+For example, specifying <code>{&quot;&quot;:&quot;bar&quot;,&quot;bat&quot;:&quot;baz&quot;}</code> with dimension values <code>[null, &quot;foo&quot;, &quot;bat&quot;]</code> and replacing missing values with <code>&quot;oof&quot;</code> will yield results of <code>[&quot;bar&quot;, &quot;oof&quot;, &quot;baz&quot;]</code>.
+Omitting the empty string key will cause the missing value to take over. For example, specifying <code>{&quot;bat&quot;:&quot;baz&quot;}</code> with dimension values <code>[null, &quot;foo&quot;, &quot;bat&quot;]</code> and replacing missing values with <code>&quot;oof&quot;</code> will yield results of <code>[&quot;oof&quot;, &quot;oof&quot;, &quot;baz&quot;]</code>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.8.2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.7.0-rc1">API documentation</a></p>
+          <h1 id="aggregations">Aggregations</h1>
+
+<p>Aggregations are specifications of processing over metrics available in Druid.
+Available aggregations are:</p>
+
+<h3 id="count-aggregator">Count aggregator</h3>
+
+<p><code>count</code> computes the row count that match the filters</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="sum-aggregators">Sum aggregators</h3>
+
+<h4 id="longsum-aggregator"><code>longSum</code> aggregator</h4>
+
+<p>computes the sum of values as a 64-bit, signed integer</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<p><code>name</code> – output name for the summed value
+<code>fieldName</code> – name of the metric column to sum over</p>
+
+<h4 id="doublesum-aggregator"><code>doubleSum</code> aggregator</h4>
+
+<p>Computes the sum of values as 64-bit floating point value. Similar to <code>longSum</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="min-max-aggregators">Min / Max aggregators</h3>
+
+<h4 id="min-aggregator"><code>min</code> aggregator</h4>
+
+<p><code>min</code> computes the minimum metric value</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="max-aggregator"><code>max</code> aggregator</h4>
+
+<p><code>max</code> computes the maximum metric value</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="javascript-aggregator">JavaScript aggregator</h3>
+
+<p>Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions).</p>
+
+<p>All JavaScript functions must return numerical values.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span>  <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;column</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;column</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
+  <span class="nt">&quot;fnAggregate&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(current, column1, column2, ...) {</span>
+<span class="s2">                     &lt;updates partial aggregate (current) based on the current row values&gt;</span>
+<span class="s2">                     return &lt;updated partial aggregate&gt;</span>
+<span class="s2">                   }&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fnCombine&quot;</span>   <span class="p">:</span> <span class="s2">&quot;function(partialA, partialB) { return &lt;combined partial results&gt;; }&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fnReset&quot;</span>     <span class="p">:</span> <span class="s2">&quot;function()                   { return &lt;initial value&gt;; }&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sum(log(x)/y) + 10&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;fnAggregate&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(current, a, b)      { return current + (Math.log(a) * b); }&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fnCombine&quot;</span>   <span class="p">:</span> <span class="s2">&quot;function(partialA, partialB) { return partialA + partialB; }&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fnReset&quot;</span>     <span class="p">:</span> <span class="s2">&quot;function()                   { return 10; }&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="cardinality-aggregator">Cardinality aggregator</h3>
+
+<p>Computes the cardinality of a set of Druid dimensions, using HyperLogLog to estimate the cardinality.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
+  <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="cardinality-by-value">Cardinality by value</h4>
+
+<p>When setting <code>byRow</code> to <code>false</code> (the default) it computes the cardinality of the set composed of the union of all dimension values for all the given dimensions.</p>
+
+<ul>
+<li>For a single dimension, this is equivalent to</li>
+</ul>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">DISCTINCT</span><span class="p">(</span><span class="n">dimension</span><span class="p">))</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
+</code></pre></div>
+<ul>
+<li>For multiple dimensions, this is equivalent to something akin to</li>
+</ul>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="k">FROM</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">dim_1</span> <span class="k">as</span> <span class="n">value</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="n">dim_2</span> <span class="k">as</span> <span class="n">value</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="n">dim_3</span> <span class="k">as</span> <span class="n">value</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h4 id="cardinality-by-row">Cardinality by row</h4>
+
+<p>When setting <code>byRow</code> to <code>true</code> it computes the cardinality by row, i.e. the cardinality of distinct dimension combinations
+This is equivalent to something akin to</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span> <span class="k">SELECT</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span>
+</code></pre></div>
+<p><strong>Example</strong></p>
+
+<p>Determine the number of distinct categories items are assigned to.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_values&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;main_category&quot;</span><span class="p">,</span> <span class="s2">&quot;secondary_category&quot;</span> <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Determine the number of distinct   are assigned to.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_values&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;secondary_category&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;byRow&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="complex-aggregations">Complex Aggregations</h2>
+
+<h3 id="hyperunique-aggregator">HyperUnique aggregator</h3>
+
+<p>Uses <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a> to compute the estimated cardinality of a dimension that has been aggregated as a &quot;hyperUnique&quot; metric at indexing time.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h2 id="miscellaneous-aggregations">Miscellaneous Aggregations</h2>
+
+<h3 id="filtered-aggregator">Filtered Aggregator</h3>
+
+<p>A filtered aggregator wraps any given aggregator, but only aggregates the values for which the given dimension filter matches.</p>
+
+<p>This makes it possible to compute the results of a filtered and an unfiltered aggregation simultaneously, without having to issue multiple queries, and use both results as part of post-aggregations.</p>
+
+<p><em>Limitations:</em> The filtered aggregator currently only supports &#39;or&#39;, &#39;and&#39;, &#39;selector&#39; and &#39;not&#39; filters, i.e. matching one or multiple dimensions against a single value.</p>
+
+<p><em>Note:</em> If only the filtered results are required, consider putting the filter on the query itself, which will be much faster since it does not require scanning all the data.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filtered&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension</span> <span class="err">value&gt;</span>
+  <span class="p">}</span>
+  <span class="s2">&quot;aggregator&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregation&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.7.0-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

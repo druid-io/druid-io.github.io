@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+        <div class="title-spacer"></div>
+        <img class="title-image" src="http://metamarkets.com/wp-content/uploads/2012/05/cardinality1.jpg" alt="Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data"/>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Fangjin Yang</span> · May  4, 2012</p>
+
+        <p>The nascent era of big data brings new challenges, which in turn require new
+tools and algorithms. At Metamarkets, one such challenge focuses on cardinality
+estimation: efficiently determining the number of distinct elements within a
+dimension of a large-scale data set. Cardinality estimations have a wide range
+of applications from monitoring network traffic to data mining. If leveraged
+correctly, these algorithms can also be used to provide insights into user
+engagement and growth, via metrics such as “daily active users.”</p>
+
+<h3 id="the-hyperloglog-algorithm-every-bit-is-great">The HyperLogLog Algorithm:  Every Bit is Great</h3>
+
+<p>It is well known that the cardinality of a large data set can be precisely
+calculated if the storage complexity is proportional to the number of elements
+in the data set. However, given the scale and complexity of some Druid data
+sets (with record counts routinely in the billions), the data ensemble is often
+far too large to be kept in core memory. Furthermore, because Druid data sets
+can be arbitrarily queried with varying time granularities and filter sets, we
+needed the ability to estimate dimension cardinalities on the fly across
+multiple granular buckets. To address our requirements, we opted to implement
+the <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>
+algorithm, originally described by Flajolet and colleagues in 2007. The
+HyperLogLog algorithm can estimate cardinalities well beyond 10^9 with a
+relative accuracy (standard error) of 2% while only using 1.5kb of memory.
+Other <a href="http://www.addthis.com/blog/2012/03/26/probabilistic-counting/#.T5nYl8SpnIZ">companies</a> have
+also leveraged variations of this algorithm in their cardinality estimations.</p>
+
+<p>HyperLogLog takes advantage of the randomized distribution of bits from hashing
+functions in order to estimate how many things you would’ve needed to see in
+order to experience a specific phenomenon.  But as that sentence probably made
+little sense to any reader, let’s try a simple example to explain what it does.</p>
+
+<h3 id="an-example-making-a-hash-of-things">An Example:  Making a Hash of Things</h3>
+
+<p>First, there’s a fundamental mental model shift that is important to realize. 
+A hash function is generally understood as a function that maps a value from
+one (larger) space onto another (smaller) space.  In order to randomly hash on
+a computer system, which is binary at its core, you can view the input value as
+a series of bits. The hash function acts to contort the input value in some
+meaningful way such that an output value that is N bits long is produced. A
+good hash function should assure that the bits of the output value are
+independent and each have an equal probability (50%) of occurring.</p>
+
+<p>Given a random uniform distribution for likelihoods of N 0s and 1s, you can
+extract a probability distribution for the likelihood of a specific
+phenomenon.  The phenomenon we care about is the maximum index of a 1 bit. 
+Specifically, we expect the following to be true:</p>
+
+<p>50% of hashed values will look like this: 1xxxxxxx…x<br>
+25% of hashed values will look like this: 01xxxxxx…x<br>
+12.5% of hashed values will look like this: 001xxxxxxxx…x<br>
+6.25% of hashed values will look like this: 0001xxxxxxxx…x<br>
+…</p>
+
+<p>So, naively speaking, we expect that if we were to hash 8 unique things, one of
+them will start with 001.  If we were to hash 4 unique things, we would expect
+one to start with 01.  This expectation can also be inverted: if the “highest”
+index of a 1 is 2 (we start counting with index 1 as the leftmost bit
+location), then we probably saw ~4 unique values.  If the highest index is
+4, we probably saw ~16 unique values.  This level of approximation is pretty
+coarse and it is pretty easy to see that it is only approximate at best, but it
+is the basic idea behind HyperLogLog.</p>
+
+<h3 id="buckets-and-bits-tuning-precision-and-scale">Buckets and Bits:  Tuning Precision and Scale</h3>
+
+<p>The adjustment HyperLogLog makes is that it essentially takes the above
+algorithm and introduces multiple “buckets”.  That is, you can take the first k
+bits of the hashed value and use that as a bucket index, then you keep track of
+the max(index of 1) for the remaining bits in that bucket.  The authors then
+provide some math for converting the values in all of the buckets back into an
+approximate cardinality.</p>
+
+<p>Another interesting thing about this algorithm is that it introduces two
+parameters to adjust the accuracy of the approximation:</p>
+
+<ul>
+<li>Increasing the number of buckets (the k) increases the accuracy of the approximation</li>
+<li>Increasing the number of bits of your hash increases the highest possible number you can accurately approximate</li>
+</ul>
+
+<h3 id="now-do-it-in-parallel">Now, Do it in Parallel</h3>
+
+<p>So how exactly is all of this useful?  When working with large data sets, it is
+common to maintain a summarization of the data set inside of a data warehouse
+and run analytical queries against that summarization.  Often, including
+information like user ids, user cookies or IP addresses (things that are used
+to compute unique users) in these summarizations results in a tradeoff with
+the potential reduction of data volume seen in the summarization and the
+ability to compute cardinalities.  We wanted to be able to take advantage of
+the space savings and row reduction of summarization while still being able to
+compute cardinalities:  this is where HyperLogLog comes in.</p>
+
+<p>In <a href="http://druid.io/">Druid</a>, our summarization process applies the hash
+function (<a href="http://sites.google.com/site/murmurhash/">Murmur 128</a>) and computes
+the intermediate HyperLogLog format (i.e. the list of buckets of
+<code>max(index of 1)</code>) and stores that in a column.  Thus, for every row in our
+summarized dataset, we have a HyperLogLog “sketch” of the unique users that
+were seen in the original event rows comprising that summarized line.  These
+sketches are combinable in an additive/commutative way, just like sum, max, and
+min.  In other words, this intermediate format fits in perfectly with the
+hierarchical scatter/gather query distribution and processing paradigm employed
+by Druid, allowing us to provide granular time-series and top lists of unique
+users, with the full arbitrary slicing and dicing power of Druid.</p>
+
+<p>We don’t just end there though.  We also further optimize the storage format of
+the intermediate data structure depending on whether the set of buckets is
+sparse or dense. Stored densely, the data structure is just n buckets of 1 byte
+(or an array of n bytes, generally, k is less than 256, so it can be
+represented in one byte).  However, in the sparse case, we only need to store
+buckets with valid index values in them.  This means that instead of storing n
+buckets of 1 byte apiece, we can just store the (index, value) pairs.</p>
+
+<h3 id="we-are-the-99-ok-the-98-5">We Are the 99% (ok, the 98.5%)</h3>
+
+<p>Given our implementation of the algorithm, the theoretical average amount of
+error is 1.5% (i.e. the values will be off by an average of 1.5%). The graph
+below shows the benchmark results for a loop that ran from 0 to
+<code>Integer.MAX_VALUE</code> and added the result of a <code>Random.nextLong()</code> to the
+HyperLogLog.  For this particular benchmark, the average error rate was found
+to be 1.202526%.</p>
+
+<p><img src="/assets/hll-cardinality-error.png" alt=""></p>
+
+<h4 id="looking-for-more-druid-information-learn-more-about-our-core-technology">Looking for more Druid information? <a href="http://metamarkets.com/product/technology/">Learn more about our core technology.</a></h4>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

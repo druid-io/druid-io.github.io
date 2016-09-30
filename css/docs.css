@@ -1,0 +1,137 @@
+.doc-content pre, .doc-content pre code {
+   overflow: auto;
+   white-space: pre;
+   word-wrap: normal;
+}
+
+.doc-content p {
+   margin: 18px 0 18px 0;
+}
+
+/*** HACK: This is a horrible hack, but I have no clue why images don't want to stay in the container **/
+.doc-content img {
+   max-width: 847.5px;
+}
+
+.doc-content code {
+   background-color: #e0e0e0;
+}
+
+.doc-content pre code {
+   background-color: transparent;
+}
+
+.doc-content table,
+.doc-content pre {
+   margin: 35px 0 35px 0;
+}
+
+.doc-content table,
+.doc-content table > thead > tr > th,
+.doc-content table > tbody > tr > th,
+.doc-content table > tfoot > tr > th,
+.doc-content table > thead > tr > td,
+.doc-content table > tbody > tr > td,
+.doc-content table > tfoot > tr > td {
+   border: 1px solid #dddddd;
+}
+
+.doc-content table > thead > tr > th,
+.doc-content table > thead > tr > td {
+   border-bottom-width: 2px;
+}
+
+.doc-content table > tbody > tr:nth-child(odd) > td,
+.doc-content table > tbody > tr:nth-child(odd) > th {
+   background-color: #f9f9f9;
+}
+
+.doc-content table > tbody > tr:hover > td,
+.doc-content table > tbody > tr:hover > th,
+.doc-content table > tbody > tr:focus > td,
+.doc-content table > tbody > tr:focus > th {
+   background-color: #d5d5d5;
+}
+
+.doc-content table code {
+   background-color: transparent;
+}
+
+.doc-content .note {
+  position: relative;
+  display: block;
+  padding: 10px 14px 10px 42px;
+  margin: 35px 0 35px 0;
+  background: light-gray;
+  border-radius: 3px;
+}
+.doc-content .note:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 42px;
+  background-position: 10px 9px;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+}
+.doc-content .note.info {
+  background: rgba(51, 200, 208, 0.26);
+  border-left: 2px solid rgba(51, 200, 208, 0.5);
+}
+.doc-content .note.info:after {
+  background-image: url(/img/note-info.svg);
+}
+.doc-content .note.caution {
+  background: rgba(249, 169, 86, 0.26);
+  border-left: 2px solid rgba(249, 169, 86, 0.5);
+}
+.doc-content .note.caution:after {
+  background-image: url(/img/note-caution.svg);
+}
+
+td, th {
+  padding: 5px;
+}
+
+.toc ul {
+   list-style: none;
+   list-style-position: inside;
+   padding-left: 15px;
+}
+
+/* Fix styling on the Google Custom Search */
+.searchbox {
+  position: relative;
+  height: 26px;
+}
+
+.searchbox .gsc-search-button, .searchbox .gsib_b {
+  display: none;
+}
+
+.searchbox input {
+  background: white !important;
+  border-radius: 1px !important;
+  width: 100% !important;
+  padding: 5px 8px !important;
+  font-size: 13px !important;
+  border: 1px solid #dfdfdf !important;
+  height: 26px !important;
+}
+
+.searchbox input:hover {
+  border-color: #c4c4c4 !important;
+}
+
+.searchbox input:focus {
+  border-color: #c4c4c4 !important;
+}
+
+.searchbox form, .searchbox table, .searchbox tbody, .searchbox tr, .searchbox td, .searchbox .gsc-input-box {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
+}

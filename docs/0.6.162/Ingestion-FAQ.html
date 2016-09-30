@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.162">API documentation</a></p>
+          <h2 id="what-types-of-data-does-druid-support">What types of data does Druid support?</h2>
+
+<p>Druid can ingest JSON, CSV, TSV and other delimited data out of the box. Druid supports single dimension values, or multiple dimension values (an array of strings). Druid supports long and float numeric columns.</p>
+
+<h2 id="where-do-my-druid-segments-end-up-after-ingestion">Where do my Druid segments end up after ingestion?</h2>
+
+<p>Depending on what <code>druid.storage.type</code> is set to, Druid will upload segments to some <a href="Deep-Storage.html">Deep Storage</a>. Local disk is used as the default deep storage.</p>
+
+<h2 id="my-realtime-node-is-not-handing-segments-off">My realtime node is not handing segments off</h2>
+
+<p>Make sure that the <code>druid.publish.type</code> on your real-time nodes is set to &quot;db&quot;. Also make sure that <code>druid.storage.type</code> is set to a deep storage that makes sense. Some example configs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.publish.type=db
+
+druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
+druid.db.connector.user=druid
+druid.db.connector.password=diurd
+
+druid.storage.type=s3
+druid.storage.bucket=druid
+druid.storage.baseKey=sample
+</code></pre></div>
+<p>Other common reasons that hand-off fails are as follows:</p>
+
+<p>1) Historical nodes are out of capacity and cannot download any more segments. You&#39;ll see exceptions in the coordinator logs if this occurs.</p>
+
+<p>2) Segments are corrupt and cannot download. You&#39;ll see exceptions in your historical nodes if this occurs.</p>
+
+<p>3) Deep storage is improperly configured. Make sure that your segment actually exists in deep storage and that the coordinator logs have no errors.</p>
+
+<h2 id="how-do-i-get-hdfs-to-work">How do I get HDFS to work?</h2>
+
+<p>Make sure to include the <code>druid-hdfs-storage</code> module as one of your extensions and set <code>druid.storage.type=hdfs</code>.</p>
+
+<h2 id="i-don-39-t-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
+
+<p>You can check the coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/cluster.html</code>. Make sure that your segments have actually loaded on <a href="Historical.html">historical nodes</a>. If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
+-Ddruid.server.maxSize=500000000000
+</code></pre></div>
+<h2 id="my-queries-are-returning-empty-results">My queries are returning empty results</h2>
+
+<p>You can check <code>&lt;BROKER_IP&gt;:&lt;PORT&gt;/druid/v2/datasources/&lt;YOUR_DATASOURCE&gt;?interval=0/3000</code> for the dimensions and metrics that have been created for your datasource. Make sure that the name of the aggregators you use in your query match one of these metrics. Also make sure that the query interval you specify match a valid time range where data exists. Note: the broker endpoint will only return valid results on historical segments and not segments served by real-time nodes.</p>
+
+<h2 id="how-can-i-reindex-existing-data-in-druid-with-schema-changes">How can I Reindex existing data in Druid with schema changes?</h2>
+
+<p>You can use IngestSegmentFirehose with index task to ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
+See <a href="Firehose.html">Firehose</a> for more details on IngestSegmentFirehose.</p>
+
+<h2 id="how-can-i-change-the-granularity-of-existing-data-in-druid">How can I change the granularity of existing data in Druid?</h2>
+
+<p>In a lot of situations you may want to lower the granularity of older data. Example, any data older than 1 month has only hour level granularity but newer data has minute level granularity. </p>
+
+<p>To do this use the IngestSegmentFirehose and run an indexer task. The IngestSegment firehose will allow you to take in existing segments from Druid and aggregate them and feed them back into druid. It will also allow you to filter the data in those segments while feeding it back in. This means if there are rows you want to delete, you can just filter them away during re-ingestion.</p>
+
+<p>Typically the above will be run as a batch job to say everyday feed in a chunk of data and aggregate it.</p>
+
+<h2 id="real-time-ingestion-seems-to-be-stuck">Real-time ingestion seems to be stuck</h2>
+
+<p>There are a few ways this can occur. Druid will throttle ingestion to prevent out of memory problems if the intermediate persists are taking too long or if hand-off is taking too long. If your node logs indicate certain columns are taking a very long time to build (for example, if your segment granularity is hourly, but creating a single column takes 30 minutes), you should re-evaluate your configuration or scale up your real-time ingestion. </p>
+
+<h2 id="more-information">More information</h2>
+
+<p>Getting data into Druid can definitely be difficult for first time users. Please don&#39;t hesitate to ask questions in our IRC channel or on our <a href="https://groups.google.com/forum/#!forum/druid-development">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.162/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

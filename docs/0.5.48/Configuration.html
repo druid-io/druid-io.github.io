@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.5.48">API documentation</a></p>
+          <p>This describes the basic server configuration that is loaded by all the server processes; the same file is loaded by all. See also the json &quot;specFile&quot; descriptions in <a href="Realtime.html">Realtime</a> and <a href="Batch-ingestion.html">Batch-ingestion</a>.</p>
+
+<h1 id="jvm-configuration-best-practices">JVM Configuration Best Practices</h1>
+
+<p>There are three JVM parameters that we set on all of our processes:</p>
+
+<ol>
+<li> <code>-Duser.timezone=UTC</code> This sets the default timezone of the JVM to UTC. We always set this and do not test with other default timezones, so local timezones might work, but they also might uncover weird and interesting bugs</li>
+<li> <code>-Dfile.encoding=UTF-8</code> This is similar to timezone, we test assuming UTF-8. Local encodings might work, but they also might result in weird and interesting bugs</li>
+<li> <code>-Djava.io.tmpdir=&lt;a path&gt;</code> Various parts of the system that interact with the file system do it via temporary files, these files can get somewhat large. Many production systems are setup to have small (but fast) <code>/tmp</code> directories, these can be problematic with Druid so we recommend pointing the JVM’s tmp directory to something with a little more meat.</li>
+</ol>
+
+<h1 id="basic-service-configuration">Basic Service Configuration</h1>
+
+<p>Configuration of the various nodes is done via Java properties. These can either be provided as <code>-D</code> system properties on the java command line or they can be passed in via a file called <code>runtime.properties</code> that exists on the classpath. Note: as a future item, I’d like to consolidate all of the various configuration into a yaml/JSON based configuration files.</p>
+
+<p>The periodic time intervals (like &quot;PT1M&quot;) are <a href="http://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO8601 intervals</a></p>
+
+<p>An example runtime.properties is as follows:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># S3 access
+com.metamx.aws.accessKey=&lt;S3 access key&gt;
+com.metamx.aws.secretKey=&lt;S3 secret_key&gt;
+
+# thread pool size for servicing queries
+druid.client.http.connections=30
+
+# JDBC connection string for metadata database
+druid.database.connectURI=
+druid.database.user=user
+druid.database.password=password
+# time between polling for metadata database
+druid.database.poll.duration=PT1M
+druid.database.segmentTable=prod_segments
+
+# Path on local FS for storage of segments; dir will be created if needed
+druid.paths.indexCache=/tmp/druid/indexCache
+# Path on local FS for storage of segment metadata; dir will be created if needed
+druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+
+druid.request.logging.dir=/tmp/druid/log
+
+druid.server.maxSize=300000000000
+
+# ZK quorum IPs
+druid.zk.service.host=
+# ZK path prefix for Druid-usage of zookeeper, Druid will create multiple paths underneath this znode
+druid.zk.paths.base=/druid
+# ZK path for discovery, the only path not to default to anything
+druid.zk.paths.discoveryPath=/druid/discoveryPath
+
+# the host:port as advertised to clients
+druid.host=someHostOrIPaddrWithPort
+# the port on which to listen, this port should line up with the druid.host value
+druid.port=8080
+
+com.metamx.emitter.logging=true
+com.metamx.emitter.logging.level=debug
+
+druid.processing.formatString=processing_%s
+druid.processing.numThreads=3
+
+
+druid.computation.buffer.size=100000000
+
+# S3 dest for realtime indexer
+druid.pusher.s3.bucket=
+druid.pusher.s3.baseKey=
+
+druid.bard.cache.sizeInBytes=40000000
+druid.master.merger.service=blah_blah
+</code></pre></div>
+<h2 id="configuration-groupings">Configuration groupings</h2>
+
+<h3 id="s3-access">S3 Access</h3>
+
+<p>These properties are for connecting with S3 and using it to pull down segments. In the future, we plan on being able to use other deep storage file systems as well, like HDFS. The file system is actually only accessed by the <a href="Compute.html">Compute</a>, <a href="Realtime.html">Realtime</a> and <a href="Indexing%20service.html">Indexing service</a> nodes.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>com.metamx.aws.accessKey</code></td>
+<td>The access key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>com.metamx.aws.secretKey</code></td>
+<td>The secret key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.pusher.s3.bucket</code></td>
+<td>The bucket to store segments, this is used by Realtime and the Indexing service.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.pusher.s3.baseKey</code></td>
+<td>The base key to use when storing segments, this is used by Realtime and the Indexing service</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="jdbc-connection">JDBC connection</h3>
+
+<p>These properties specify the jdbc connection and other configuration around the &quot;segments table&quot; database. The only processes that connect to the DB with these properties are the <a href="Master.html">Master</a> and <a href="Indexing-service.html">Indexing service</a>. This is tested on MySQL.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.database.connectURI</code></td>
+<td>The jdbc connection uri</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.database.user</code></td>
+<td>The username to connect with</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.database.password</code></td>
+<td>The password to connect with</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.database.poll.duration</code></td>
+<td>The duration between polls the Master does for updates to the set of active segments. Generally defines the amount of lag time it can take for the master to notice new segments</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.database.segmentTable</code></td>
+<td>The table to use to look for segments.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.database.ruleTable</code></td>
+<td>The table to use to look for segment load/drop rules.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.database.configTable</code></td>
+<td>The table to use to look for configs.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="master-properties">Master properties</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.master.period</code></td>
+<td>The run period for the master. The master’s operates by maintaining the current state of the world in memory and periodically looking at the set of segments available and segments being served to make decisions about whether any changes need to be made to the data topology. This property sets the delay between each of these runs</td>
+<td>PT60S</td>
+</tr>
+<tr>
+<td><code>druid.master.removedSegmentLifetime</code></td>
+<td>When a node disappears, the master can provide a grace period for how long it waits before deciding that the node really isn’t going to come back and it really should declare that all segments from that node are no longer available. This sets that grace period in number of runs of the master.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>druid.master.startDelay</code></td>
+<td>The operation of the Master works on the assumption that it has an up-to-date view of the state of the world when it runs, the current ZK interaction code, however, is written in a way that doesn’t allow the Master to know for a fact that it’s done loading the current state of the world. This delay is a hack to give it enough time to believe that it has all the data</td>
+<td>PT600S</td>
+</tr>
+</tbody></table>
+
+<h3 id="zk-properties">Zk properties</h3>
+
+<p>See <a href="ZooKeeper.html">ZooKeeper</a> for a description of these properties.</p>
+
+<h3 id="service-properties">Service properties</h3>
+
+<p>These are properties that define various service/HTTP server aspects</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.client.http.connections</code></td>
+<td>Size of connection pool for the Broker to connect to compute nodes. If there are more queries than this number that all need to speak to the same node, then they will queue up.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.paths.indexCache</code></td>
+<td>Segments assigned to a compute node are first stored on the local file system and then served by the compute node. This path defines where that local cache resides. Directory will be created if needed</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.paths.segmentInfoCache</code></td>
+<td>Compute nodes keep track of the segments they are serving so that when the process is restarted they can reload the same segments without waiting for the master to reassign. This path defines where this metadata is kept. Directory will be created if needed</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.http.numThreads</code></td>
+<td>The number of HTTP worker threads.</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>druid.http.maxIdleTimeMillis</code></td>
+<td>The amount of time a connection can remain idle before it is terminated</td>
+<td>300000 (5 min)</td>
+</tr>
+<tr>
+<td><code>druid.request.logging.dir</code></td>
+<td>Compute, Realtime and Broker nodes maintain request logs of all of the requests they get (interacton is via POST, so normal request logs don’t generally capture information about the actual query), this specifies the directory to store the request logs in</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.host</code></td>
+<td>The host for the current node. This is used to advertise the current processes location as reachable from another node and should generally be specified such that <code>http://${druid.host}/</code> could actually talk to this process</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.port</code></td>
+<td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.processing.formatString</code></td>
+<td>Realtime and Compute nodes use this format string to name their processing threads.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.processing.numThreads</code></td>
+<td>The number of processing threads to have available for parallel processing of segments. Our rule of thumb is <code>num_cores - 1</code>, this means that even under heavy load there will still be one core available to do background tasks like talking with ZK and pulling down segments.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.computation.buffer.size</code></td>
+<td>This specifies a buffer size for the storage of intermediate results. The computation engine in both the Compute and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.</td>
+<td>1073741824 (1GB)</td>
+</tr>
+<tr>
+<td><code>druid.service</code></td>
+<td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.bard.cache.sizeInBytes</code></td>
+<td>The Broker (called Bard internally) instance has the ability to store results of queries in an in-memory cache. This specifies the number of bytes to use for that cache</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="compute-properties">Compute Properties</h3>
+
+<p>These are properties that the compute nodes use</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.server.maxSize</code></td>
+<td>The maximum number of bytes worth of segment that the node wants assigned to it. This is not a limit that the compute nodes actually enforce, they just publish it to the master and trust the master to do the right thing</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.server.type</code></td>
+<td>Specifies the type of the node. This is published via ZK and depending on the value the node will be treated specially by the Master/Broker. Allowed values are &quot;realtime&quot; or &quot;historical&quot;. This is a configuration parameter because the plan is to allow for a more configurable cluster composition. At the current time, all realtime nodes should just be &quot;realtime&quot; and all compute nodes should just be &quot;compute&quot;</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="emitter-properties">Emitter Properties</h3>
+
+<p>The Druid servers emit various metrics and alerts via something we call an <a href="Emitter.html">Emitter</a>. There are two emitter implementations included with the code, one that just logs to log4j and one that does POSTs of JSON events to a server. More information can be found on the <a href="Emitter.html">Emitter</a> page. The properties for using the logging emitter are described below.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>com.metamx.emitter.logging</code></td>
+<td>Set to &quot;true&quot; to use the logging emitter</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>com.metamx.emitter.logging.level</code></td>
+<td>Sets the level to log at</td>
+<td>debug</td>
+</tr>
+<tr>
+<td><code>com.metamx.emitter.logging.class</code></td>
+<td>Sets the class to log at</td>
+<td>com.metamx.emiter.core.LoggingEmitter</td>
+</tr>
+</tbody></table>
+
+<h3 id="realtime-properties">Realtime Properties</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.realtime.specFile</code></td>
+<td>The file with realtime specifications in it. See <a href="Realtime.html">Realtime</a>.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.5.48/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

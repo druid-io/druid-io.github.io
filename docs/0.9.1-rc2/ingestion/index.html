@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1-rc2">API documentation</a></p>
+          <h1 id="ingestion-spec">Ingestion Spec</h1>
+
+<p>A Druid ingestion spec consists of 3 components:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">},</span>
+  <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">},</span>
+  <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataSchema</td>
+<td>JSON Object</td>
+<td>Specifies the the schema of the incoming data. All ingestion specs can share the same dataSchema.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>ioConfig</td>
+<td>JSON Object</td>
+<td>Specifies where the data is coming from and where the data is going. This object will vary with the ingestion method.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>tuningConfig</td>
+<td>JSON Object</td>
+<td>Specifies how to tune various ingestion parameters. This object will vary with the ingestion method.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h1 id="dataschema">DataSchema</h1>
+
+<p>An example dataSchema is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+  <span class="p">}],</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataSource</td>
+<td>String</td>
+<td>The name of the ingested datasource. Datasources can be thought of as tables.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>parser</td>
+<td>JSON Object</td>
+<td>Specifies how ingested data can be parsed.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>metricsSpec</td>
+<td>JSON Object array</td>
+<td>A list of <a href="../querying/aggregations.html">aggregators</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>granularitySpec</td>
+<td>JSON Object</td>
+<td>Specifies how to create segments and roll up data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="parser">Parser</h2>
+
+<p>If <code>type</code> is not included, the parser defaults to <code>string</code>. For additional data formats, please see our <a href="../development/extensions.html">extensions list</a>.</p>
+
+<h3 id="string-parser">String Parser</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>string</code> in general, or <code>hadoopyString</code> when used in a Hadoop indexing job.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the format, timestamp, and dimensions of the data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="protobuf-parser">Protobuf Parser</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>protobuf</code>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data. Should be a timeAndDims parseSpec.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="parsespec">ParseSpec</h3>
+
+<p>ParseSpecs serve two purposes:</p>
+
+<ul>
+<li>The String Parser use them to determine the format (i.e. JSON, CSV, TSV) of incoming rows.</li>
+<li>All Parsers use them to determine the timestamp and dimensions of incoming rows.</li>
+</ul>
+
+<p>If <code>format</code> is not included, the parseSpec defaults to <code>tsv</code>.</p>
+
+<h4 id="json-parsespec">JSON ParseSpec</h4>
+
+<p>Use this with the String Parser to load JSON.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>This should say <code>json</code>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>timestampSpec</td>
+<td>JSON Object</td>
+<td>Specifies the column and format of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>JSON Object</td>
+<td>Specifies the dimensions of the data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>flattenSpec</td>
+<td>JSON Object</td>
+<td>Specifies flattening configuration for nested JSON data. See <a href="./flatten-json.html">Flattening JSON</a> for more info.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h4 id="json-lowercase-parsespec">JSON Lowercase ParseSpec</h4>
+
+<p>This is a special variation of the JSON ParseSpec that lower cases all the column names in the incoming JSON data. This parseSpec is required if you are updating to Druid 0.7.x from Druid 0.6.x, are directly ingesting JSON with mixed case column names, do not have any ETL in place to lower case those column names, and would like to make queries that include the data you created using 0.6.x and 0.7.x.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>This should say <code>jsonLowercase</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>timestampSpec</td>
+<td>JSON Object</td>
+<td>Specifies the column and format of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>JSON Object</td>
+<td>Specifies the dimensions of the data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="csv-parsespec">CSV ParseSpec</h4>
+
+<p>Use this with the String Parser to load CSV. Strings are parsed using the net.sf.opencsv library.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>This should say <code>csv</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>timestampSpec</td>
+<td>JSON Object</td>
+<td>Specifies the column and format of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>JSON Object</td>
+<td>Specifies the dimensions of the data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>listDelimiter</td>
+<td>String</td>
+<td>A custom delimiter for multi-value dimensions.</td>
+<td>no (default == ctrl+A)</td>
+</tr>
+<tr>
+<td>columns</td>
+<td>JSON array</td>
+<td>Specifies the columns of the data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="tsv-delimited-parsespec">TSV / Delimited ParseSpec</h4>
+
+<p>Use this with the String Parser to load any delimited text that does not require special escaping. By default,
+the delimiter is a tab, so this will load TSV.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>This should say <code>tsv</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>timestampSpec</td>
+<td>JSON Object</td>
+<td>Specifies the column and format of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>JSON Object</td>
+<td>Specifies the dimensions of the data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>delimiter</td>
+<td>String</td>
+<td>A custom delimiter for data values.</td>
+<td>no (default == \t)</td>
+</tr>
+<tr>
+<td>listDelimiter</td>
+<td>String</td>
+<td>A custom delimiter for multi-value dimensions.</td>
+<td>no (default == ctrl+A)</td>
+</tr>
+<tr>
+<td>columns</td>
+<td>JSON String array</td>
+<td>Specifies the columns of the data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="timeanddims-parsespec">TimeAndDims ParseSpec</h4>
+
+<p>Use this with non-String Parsers to provide them with timestamp and dimensions information. Non-String Parsers
+handle all formatting decisions on their own, without using the ParseSpec.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>This should say <code>timeAndDims</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>timestampSpec</td>
+<td>JSON Object</td>
+<td>Specifies the column and format of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>JSON Object</td>
+<td>Specifies the dimensions of the data.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="timestampspec">TimestampSpec</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>column</td>
+<td>String</td>
+<td>The column of the timestamp.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>format</td>
+<td>String</td>
+<td>iso, millis, posix, auto or any <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html">Joda time</a> format.</td>
+<td>no (default == &#39;auto&#39;</td>
+</tr>
+</tbody></table>
+
+<h3 id="dimensionsspec">DimensionsSpec</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dimensions</td>
+<td>JSON String array</td>
+<td>The names of the dimensions. If this is an empty array, Druid will treat all columns that are not timestamp or metric columns as dimension columns.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionExclusions</td>
+<td>JSON String array</td>
+<td>The names of dimensions to exclude from ingestion.</td>
+<td>no (default == []</td>
+</tr>
+<tr>
+<td>spatialDimensions</td>
+<td>JSON Object array</td>
+<td>An array of <a href="../development/geo.html">spatial dimensions</a></td>
+<td>no (default == []</td>
+</tr>
+</tbody></table>
+
+<h2 id="granularityspec">GranularitySpec</h2>
+
+<p>The default granularity spec is <code>uniform</code>.</p>
+
+<h3 id="uniform-granularity-spec">Uniform Granularity Spec</h3>
+
+<p>This spec is used to generated segments with uniform intervals.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>The type of granularity spec.</td>
+<td>no (default == &#39;uniform&#39;)</td>
+</tr>
+<tr>
+<td>segmentGranularity</td>
+<td>string</td>
+<td>The granularity to create segments at.</td>
+<td>no (default == &#39;DAY&#39;)</td>
+</tr>
+<tr>
+<td>queryGranularity</td>
+<td>string</td>
+<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
+<td>no (default == &#39;NONE&#39;)</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>string</td>
+<td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
+<td>yes for batch, no for real-time</td>
+</tr>
+</tbody></table>
+
+<h3 id="arbitrary-granularity-spec">Arbitrary Granularity Spec</h3>
+
+<p>This spec is used to generate segments with arbitrary intervals (it tries to create evenly sized segments). This spec is not supported for real-time processing.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>The type of granularity spec.</td>
+<td>no (default == &#39;uniform&#39;)</td>
+</tr>
+<tr>
+<td>queryGranularity</td>
+<td>string</td>
+<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
+<td>no (default == &#39;NONE&#39;)</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>string</td>
+<td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
+<td>yes for batch, no for real-time</td>
+</tr>
+</tbody></table>
+
+<h1 id="io-config">IO Config</h1>
+
+<p>Stream Push Ingestion: Stream push ingestion with Tranquility does not require an IO Config.
+Stream Pull Ingestion: See <a href="../ingestion/stream-pull.html">Stream pull ingestion</a>.
+Batch Ingestion: See <a href="../ingestion/batch-ingestion.html">Batch ingestion</a></p>
+
+<h1 id="tuning-config">Tuning Config</h1>
+
+<p>Stream Push Ingestion: See <a href="../ingestion/stream-push.html">Stream push ingestion</a>.
+Stream Pull Ingestion: See <a href="../ingestion/stream-pull.html">Stream pull ingestion</a>.
+Batch Ingestion: See <a href="../ingestion/batch-ingestion.html">Batch ingestion</a></p>
+
+<h1 id="evaluating-timestamp-dimensions-and-metrics">Evaluating Timestamp, Dimensions and Metrics</h1>
+
+<p>Druid will interpret dimensions, dimension exclusions, and metrics in the following order:</p>
+
+<ul>
+<li>Any column listed in the list of dimensions is treated as a dimension.</li>
+<li>Any column listed in the list of dimension exclusions is excluded as a dimension.</li>
+<li>The timestamp column and columns/fieldNames required by metrics are excluded by default.</li>
+<li>If a metric is also listed as a dimension, the metric must have a different name than the dimension name.</li>
+</ul>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

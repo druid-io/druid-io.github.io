@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.3">API documentation</a></p>
+          <h1 id="evaluate-druid">Evaluate Druid</h1>
+
+<p>This page is meant to help you in evaluating Druid by answering common questions that come up.</p>
+
+<h2 id="evaluating-on-a-single-machine">Evaluating on a Single Machine</h2>
+
+<p>Most of the tutorials focus on running multiple Druid services on a single machine in an attempt to teach basic Druid concepts, and work out kinks in data ingestion. The configurations in the tutorials are
+ very poor choices for an actual production cluster.</p>
+
+<h2 id="capacity-and-cost-planning">Capacity and Cost Planning</h2>
+
+<p>The best way to understand what your cluster will cost is to first understand how much data reduction you will get when you create segments.
+We recommend indexing and creating segments from 1G of your data and evaluating the resultant segment size. This will allow you to see how much your data rolls up, and how many segments will be able
+to be loaded on the hardware you have at your disposal.</p>
+
+<p>Most of the cost of a Druid cluster is in historical nodes, followed by real-time indexing nodes if you have a high data intake. For high availability, you should have backup
+coordination nodes (coordinators and overlords). Coordination nodes should require much cheaper hardware than nodes that serve queries.</p>
+
+<h2 id="selecting-hardware">Selecting Hardware</h2>
+
+<p>Druid is designed to run on commodity hardware and we&#39;ve tried to provide some general guidelines on <a href="">how things should be tuned</a> for various deployments. We&#39;ve also provided
+some <a href="../configuration/production-cluster.html">example specs</a> for hardware for a production cluster.</p>
+
+<h2 id="benchmarking-druid">Benchmarking Druid</h2>
+
+<p>The best resource to benchmark Druid is to follow the steps outlined in our <a href="http://druid.io/blog/2014/03/17/benchmarking-druid.html">blog post</a> about the topic.
+The code to reproduce the results in the blog post are all open source. The blog post covers Druid queries on TPC-H data, but you should be able to customize
+ configuration parameters to your data set. The blog post is a little outdated and uses an older version of Druid, but is still mostly relevant to demonstrate performance.</p>
+
+<h2 id="colocating-druid-processes-for-a-poc">Colocating Druid Processes for a POC</h2>
+
+<p>Not all Druid node processes need to run on separate machines. You can set up a small cluster with colocated processes to load several gigabytes of data. Please note this cluster is not highly available.</p>
+
+<p>It is recommended you follow the <a href="../configuration/production-cluster.html">example production configuration</a> for an actual production setup.</p>
+
+<p>The deep storage to use in this POC example can be S3 or HDFS.</p>
+
+<ol>
+<li>node1: <a href="../design/coordinator.html">Coordinator</a> + metadata store + zookeeper. 
+Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz and 15GB of RAM).</li>
+</ol>
+
+<p>See <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Some example JVM configs for this hardware:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx6g
+-Xms6g
+-XX:NewSize=512m
+-XX:MaxNewSize=512m
+-XX:+UseConcMarkSweepGC
+</code></pre></div>
+<ol>
+<li><p>node2: <a href="../design/broker.html">Broker</a>
+Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz and 15GB of RAM). 
+<a href="https://github.com/druid-io/druid-benchmark/tree/master/config">Example configs</a> (see broker-* files).  </p></li>
+<li><p>node3: <a href="../design/historical.html">Historical</a>.
+Example hardware: EC2 m3.2xlarge instances (8 cores, Intel Xeon E5-2670 v2 @ 2.50GHz with 160GB SSD and 30GB of RAM)
+<a href="https://github.com/druid-io/druid-benchmark/tree/master/config">Example configs</a> (see compute-* files).</p></li>
+<li><p>node4 (optional): <a href="../design/realtime.html">Real-time</a> node or <a href="../design/indexing-service.html">Overlord</a> (depending on how you choose to ingest data).
+Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz and 15GB of RAM).</p></li>
+</ol>
+
+<p>For the real-time node, see <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Use with the following JVM configs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx8g
+-Xms8g
+-XX:NewSize=1g
+-XX:MaxNewSize=1g
+-XX:+UseConcMarkSweepGC
+</code></pre></div>
+<p>For the overlord running in local mode to do all ingestion, see <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Use with the following JVM configs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+-Xmx2g
+-Xms2g
+-XX:NewSize=256m
+-XX:MaxNewSize=256m
+</code></pre></div>
+<p>The size of the runner javaOpts can be bumped up:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.indexer.runner.javaOpts=&quot;-server -Xmx6g -Xms6g -XX:NewSize=256m -XX:MaxNewSize=256m&quot;
+</code></pre></div>
+<p>The coordination pieces (coordinator, metadata store, ZK) can be colocated on the same node. These processes do not require many resources, even for reasonably large clusters.</p>
+
+<p>You can add more historical nodes if your data doesn&#39;t fit on a single machine.</p>
+
+<p>For small ingest workloads, you can run the overlord in local mode to load your data.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.8.3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1-rc4">API documentation</a></p>
+          <h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
+
+<p>Druid uses a module system that allows for the addition of extensions at runtime.</p>
+
+<h2 id="writing-your-own-extensions">Writing your own extensions</h2>
+
+<p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of a few things.</p>
+
+<ol>
+<li>Add a new deep storage implementation</li>
+<li>Add a new Firehose</li>
+<li>Add Aggregators</li>
+<li>Add Complex metrics</li>
+<li>Add new Query types</li>
+<li>Add new Jersey resources</li>
+<li>Bundle your extension with all the other Druid extensions</li>
+</ol>
+
+<p>Extensions are added to the system via an implementation of <code>io.druid.initialization.DruidModule</code>.</p>
+
+<h3 id="creating-a-druid-module">Creating a Druid Module</h3>
+
+<p>The DruidModule class is has two methods</p>
+
+<ol>
+<li>A <code>configure(Binder)</code> method </li>
+<li>A <code>getJacksonModules()</code> method</li>
+</ol>
+
+<p>The <code>configure(Binder)</code> method is the same method that a normal Guice module would have.</p>
+
+<p>The <code>getJacksonModules()</code> method provides a list of Jackson modules that are used to help initialize the Jackson ObjectMapper instances used by Druid.  This is how you add extensions that are instantiated via Jackson (like AggregatorFactory and Firehose objects) to Druid.</p>
+
+<h3 id="registering-your-druid-module">Registering your Druid Module</h3>
+
+<p>Once you have your DruidModule created, you will need to package an extra file in the <code>META-INF/services</code> directory of your jar.  This is easiest to accomplish with a maven project by creating files in the <code>src/main/resources</code> directory.  There are examples of this in the Druid code under the <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules, for examples.</p>
+
+<p>The file that should exist in your jar is</p>
+
+<p><code>META-INF/services/io.druid.initialization.DruidModule</code></p>
+
+<p>It should be a text file with a new-line delimited list of package-qualified classes that implement DruidModule like</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.storage.cassandra.CassandraDruidModule
+</code></pre></div>
+<p>If your jar has this file, then when it is added to the classpath or as an extension, Druid will notice the file and will instantiate instances of the Module.  Your Module should have a default constructor, but if you need access to runtime configuration properties, it can have a method with @Inject on it to get a Properties object injected into it from Guice.</p>
+
+<h3 id="adding-a-new-deep-storage-implementation">Adding a new deep storage implementation</h3>
+
+<p>Check the <code>azure-storage</code>, <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
+
+<p>The basic idea behind the extension is that you need to add bindings for your DataSegmentPusher and DataSegmentPuller objects.  The way to add them is something like (taken from HdfsStorageDruidModule)</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPuller</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPusherBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPusher</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+<p><code>Binders.dataSegment*Binder()</code> is a call provided by the druid-api jar which sets up a Guice multibind &quot;MapBinder&quot;.  If that doesn&#39;t make sense, don&#39;t worry about it, just think of it as a magical incantation.</p>
+
+<p><code>addBinding(&quot;hdfs&quot;)</code> for the Puller binder creates a new handler for loadSpec objects of type &quot;hdfs&quot;.  For the Pusher binder it creates a new type value that you can specify for the <code>druid.storage.type</code> parameter.</p>
+
+<p><code>to(...).in(...);</code> is normal Guice stuff.</p>
+
+<p>In addition to DataSegmentPusher and DataSegmentPuller, you can also bind:</p>
+
+<ul>
+<li>DataSegmentKiller: Removes segments, used as part of the Kill Task to delete unused segments, i.e. perform garbage collection of segments that are either superseded by newer versions or that have been dropped from the cluster. </li>
+<li>DataSegmentMover: Allow migrating segments from one place to another, currently this is only used as part of the MoveTask to move unused segments to a different S3 bucket or prefix, typically to reduce storage costs of unused data (e.g. move to glacier or cheaper storage) </li>
+<li>DataSegmentArchiver: Just a wrapper around Mover, but comes with a pre-configured target bucket/path, so it doesn&#39;t have to be specified at runtime as part of the ArchiveTask. </li>
+</ul>
+
+<h3 id="validating-your-deep-storage-implementation">Validating your deep storage implementation</h3>
+
+<p><strong>WARNING!</strong> This is not a formal procedure, but a collection of hints to validate if your new deep storage implementation is able do push, pull and kill segments.</p>
+
+<p>It&#39;s recommended to use batch ingestion tasks to validate your implementation.
+The segment will be automatically rolled up to historical note after ~20 seconds. 
+In this way, you can validate both push (at realtime node) and pull (at historical node) segments.</p>
+
+<ul>
+<li>DataSegmentPusher</li>
+</ul>
+
+<p>Wherever your data storage (cloud storage service, distributed file system, etc.) is, you should be able to see two new files: <code>descriptor.json</code> and <code>index.zip</code> after your ingestion task ends.</p>
+
+<ul>
+<li>DataSegmentPuller</li>
+</ul>
+
+<p>After ~20 secs your ingestion task ends, you should be able to see your historical node trying to load the new segment.</p>
+
+<p>The following example was retrieved from a historical node configured to use Azure for deep storage:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
+.000Z_2015-04-14T02:41:09.484Z] with zNode[/druid/dev/loadQueue/192.168.33.104:8081/dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.
+484Z].
+2015-04-14T02:42:33,451 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - Loading segment dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.0
+00Z_2015-04-14T02:41:09.484Z
+2015-04-14T02:42:33,463 INFO [ZkCoordinator-0] io.druid.guice.JsonConfigurator - Loaded class[class io.druid.storage.azure.AzureAccountConfig] from props[drui
+d.azure.] as [io.druid.storage.azure.AzureAccountConfig@759c9ad9]
+2015-04-14T02:49:08,275 INFO [ZkCoordinator-0] com.metamx.common.CompressionUtils - Unzipping file[/opt/druid/tmp/compressionUtilZipCache1263964429587449785.z
+ip] to [/opt/druid/zk_druid/dde/2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z/2015-04-14T02:41:09.484Z/0]
+2015-04-14T02:49:08,276 INFO [ZkCoordinator-0] io.druid.storage.azure.AzureDataSegmentPuller - Loaded 1196 bytes from [dde/2015-01-02T00:00:00.000Z_2015-01-03
+T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde/2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z/2015-04-14T02:41:09.484Z/0]
+2015-04-14T02:49:08,277 WARN [ZkCoordinator-0] io.druid.segment.loading.SegmentLoaderLocalCacheManager - Segment [dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] is different than expected size. Expected [0] found [1196]
+2015-04-14T02:49:08,282 INFO [ZkCoordinator-0] io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment[dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] at path[/druid/dev/segments/192.168.33.104:8081/192.168.33.104:8081_historical__default_tier_2015-04-14T02:49:08.282Z_7bb87230ebf940188511dd4a53ffd7351]
+2015-04-14T02:49:08,292 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - Completed request [LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z]
+</code></pre></div>
+<ul>
+<li>DataSegmentKiller</li>
+</ul>
+
+<p>The easiest way of testing the segment killing is marking a segment as not used and then starting a killing task through the old Coordinator console.</p>
+
+<p>To mark a segment as not used, you need to connect to your metadata storage and update the <code>used</code> column to <code>false</code> on the segment table rows.</p>
+
+<p>To start a segment killing task, you need to access the old Coordinator console <code>http://&lt;COODRINATOR_IP&gt;:&lt;COORDINATOR_PORT/old-console/kill.html</code> then select the appropriate datasource and then input a time range (e.g. <code>2000/3000</code>).</p>
+
+<p>After the killing task ends, both <code>descriptor.json</code> and <code>index.zip</code> files should be deleted from the data storage.</p>
+
+<h3 id="adding-a-new-firehose">Adding a new Firehose</h3>
+
+<p>There is an example of this in the <code>s3-extensions</code> module with the StaticS3FirehoseFactory.</p>
+
+<p>Adding a Firehose is done almost entirely through the Jackson Modules instead of Guice.  Specifically, note the implementation</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Module</span><span class="o">&gt;</span> <span class="nf">getJacksonModules</span><span class="o">()</span>
+<span class="o">{</span>
+  <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+          <span class="k">new</span> <span class="nf">SimpleModule</span><span class="o">().</span><span class="na">registerSubtypes</span><span class="o">(</span><span class="k">new</span> <span class="nf">NamedType</span><span class="o">(</span><span class="n">StaticS3FirehoseFactory</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;static-s3&quot;</span><span class="o">))</span>
+  <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>This is registering the FirehoseFactory with Jackson&#39;s polymorphic serde layer.  More concretely, having this will mean that if you specify a <code>&quot;firehose&quot;: { &quot;type&quot;: &quot;static-s3&quot;, ... }</code> in your realtime config, then the system will load this FirehoseFactory for your firehose.</p>
+
+<p>Note that inside of Druid, we have made the @JacksonInject annotation for Jackson deserialized objects actually use the base Guice injector to resolve the object to be injected.  So, if your FirehoseFactory needs access to some object, you can add a @JacksonInject annotation on a setter and it will get set on instantiation.</p>
+
+<h3 id="adding-aggregators">Adding Aggregators</h3>
+
+<p>Adding AggregatorFactory objects is very similar to Firehose objects.  They operate purely through Jackson and thus should just be additions to the Jackson modules returned by your DruidModule.</p>
+
+<h3 id="adding-complex-metrics">Adding Complex Metrics</h3>
+
+<p>Adding ComplexMetrics is a little ugly in the current version.  The method of getting at complex metrics is through registration with the <code>ComplexMetrics.registerSerde()</code> method.  There is no special Guice stuff to get this working, just in your <code>configure(Binder)</code> method register the serde.</p>
+
+<h3 id="adding-new-query-types">Adding new Query types</h3>
+
+<p>Adding a new Query type requires the implementation of three interfaces.</p>
+
+<ol>
+<li><code>io.druid.query.Query</code></li>
+<li><code>io.druid.query.QueryToolChest</code></li>
+<li><code>io.druid.query.QueryRunnerFactory</code></li>
+</ol>
+
+<p>Registering these uses the same general strategy as a deep storage mechanism does.  You do something like</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryToolChestBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryQueryToolChest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryRunnerFactoryBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryRunnerFactory</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+<p>The first one binds the SegmentMetadataQueryQueryToolChest for usage when a SegmentMetadataQuery is used.  The second one does the same thing but for the QueryRunnerFactory instead.</p>
+
+<h3 id="adding-new-jersey-resources">Adding new Jersey resources</h3>
+
+<p>Adding new Jersey resources to a module requires calling the following code to bind the resource in the module:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+<h3 id="bundle-your-extension-with-all-the-other-druid-extensions">Bundle your extension with all the other Druid extensions</h3>
+
+<p>When you do <code>mvn install</code>, Druid extensions will be packaged within the Druid tarball and <code>extensions</code> directory, which are both underneath <code>distribution/target/</code>.</p>
+
+<p>If you want your extension to be included, you can add your extension&#39;s maven coordinate as an argument at
+<a href="https://github.com/druid-io/druid/blob/master/distribution/pom.xml#L95">distribution/pom.xml</a></p>
+
+<p>During <code>mvn install</code>, maven will install your extension to the local maven repository, and then call <a href="../operations/pull-deps.html">pull-deps</a> to pull your extension from
+there. In the end, you should see your extension underneath <code>distribution/target/extensions</code> and within Druid tarball.</p>
+
+<h3 id="managing-dependencies">Managing dependencies</h3>
+
+<p>Managing library collisions can be daunting for extensions which draw in commonly used libraries. Here is a list of group IDs for libraries that are suggested to be specified with a <code>provided</code> scope to prevent collision with versions used in druid:
+<code>
+&quot;io.druid&quot;,
+&quot;com.metamx.druid&quot;,
+&quot;asm&quot;,
+&quot;org.ow2.asm&quot;,
+&quot;org.jboss.netty&quot;,
+&quot;com.google.guava&quot;,
+&quot;com.google.code.findbugs&quot;,
+&quot;com.google.protobuf&quot;,
+&quot;com.esotericsoftware.minlog&quot;,
+&quot;log4j&quot;,
+&quot;org.slf4j&quot;,
+&quot;commons-logging&quot;,
+&quot;org.eclipse.jetty&quot;,
+&quot;org.mortbay.jetty&quot;,
+&quot;com.sun.jersey&quot;,
+&quot;com.sun.jersey.contribs&quot;,
+&quot;common-beanutils&quot;,
+&quot;commons-codec&quot;,
+&quot;commons-lang&quot;,
+&quot;commons-cli&quot;,
+&quot;commons-io&quot;,
+&quot;javax.activation&quot;,
+&quot;org.apache.httpcomponents&quot;,
+&quot;org.apache.zookeeper&quot;,
+&quot;org.codehaus.jackson&quot;,
+&quot;com.fasterxml.jackson&quot;,
+&quot;com.fasterxml.jackson.core&quot;,
+&quot;com.fasterxml.jackson.dataformat&quot;,
+&quot;com.fasterxml.jackson.datatype&quot;,
+&quot;org.roaringbitmap&quot;,
+&quot;net.java.dev.jets3t&quot;
+</code>
+See the documentation in <code>io.druid.cli.PullDependencies</code> for more information.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1-rc4/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

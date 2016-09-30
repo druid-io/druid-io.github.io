@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Batch-Loading Sensor Data into Druid</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>Batch-Loading Sensor Data into Druid</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Igal Levy</span> · March 12, 2014</p>
+
+        <p>Sensors are everywhere these days, and that means sensor data is big data. Ingesting and analyzing sensor data at speed is an interesting problem, especially when scale is desired. In this post, we&#39;ll access some real-world sensor data, and show how Druid can be used to store that data and make it available for immediate querying.</p>
+
+<h2 id="finding-sensor-data">Finding Sensor Data</h2>
+
+<p>The United States Geological Survey (USGS) has millions of sensors for all types of physical and natural phenomena, many of which concern water. If you live anywhere where water is a concern, which is pretty much everywhere (considering that both too little or too much H<sub>2</sub>O can be an issue), this is interesting data. You can learn about USGS sensors in a variety of ways, one of which is an <a href="http://maps.waterdata.usgs.gov/mapper/index.html">interactive map</a>.</p>
+
+<p>We used this map to get the sensor info for the Napa River in Napa County, California.</p>
+
+<p><img src="/img/map-usgs-napa.png"  alt"USGS map showing Napa River sensor location and information" title="USGS Napa River Sensor Information"></p>
+
+<p>We decided to first import the data into <a href="http://www.r-project.org/">R (the statistical programming language)</a> for two reasons:</p>
+
+<ul>
+<li>The R package <code>waterData</code> from USGS. This package allows us to retrieve and analyze hydrologic data from USGS. We can then export that data from within the R environment, then set up Druid to ingest it.</li>
+<li>The R package <code>RDruid</code> which we&#39;ve <a href="http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html">blogged about before</a>. This package allows us to query Druid from within the R environment.</li>
+</ul>
+
+<h2 id="extracting-the-streamflow-data">Extracting the Streamflow Data</h2>
+
+<p>In R, load the waterData package, then run <code>importDVs()</code>:</p>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;waterData&quot;</span><span class="p">)</span>
+<span class="kc">...</span>
+<span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span>waterData<span class="p">)</span>
+<span class="kc">...</span>
+<span class="o">&gt;</span> napa_flow <span class="o">&lt;-</span> importDVs<span class="p">(</span><span class="s">&quot;11458000&quot;</span><span class="p">,</span> code<span class="o">=</span><span class="s">&quot;00060&quot;</span><span class="p">,</span> stat<span class="o">=</span><span class="s">&quot;00003&quot;</span><span class="p">,</span> sdate<span class="o">=</span><span class="s">&quot;1963-01-01&quot;</span><span class="p">,</span> edate<span class="o">=</span><span class="s">&quot;2013-12-31&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>The last line uses the function <code>waterData.importDVs()</code> to get sensor (or &quot;streamgage&quot;) data directly from the USGS datasource. This function has the following arguments:</p>
+
+<ul>
+<li>staid, or site identification number, which is entered as a string due to the fact that some IDs have leading 0s. This value was obtained from the interactive map discussed above.</li>
+<li>code, which specifies the type of sensor data we&#39;re interested in (if available). Our chosen code specifies measurement of discharge, in cubic feet per second. You can learn about codes at the <a href="http://nwis.waterdata.usgs.gov/usa/nwis/pmcodes">USGS Water Resources site</a>.</li>
+<li>stat, which specifies the type of statistic we&#39;re looking for&mdash;in this case, the mean daily flow (mean is the default statistic). The USGS provides <a href="http://help.waterdata.usgs.gov/codes-and-parameters">a page summarizing various types of codes and parameters</a>.</li>
+<li>start and end dates. </li>
+</ul>
+
+<p>The information on the specific site and sensor should provide information on the type of data available and the start-end dates for the full historical record.</p>
+
+<p>You can now analyse and visualize the streamflow data. For example, we ran:</p>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> myWater.plot <span class="o">&lt;-</span> plotParam<span class="p">(</span>napa_flow<span class="p">)</span>
+<span class="o">&gt;</span> <span class="kp">print</span><span class="p">(</span>myWater.plot<span class="p">)</span>
+</code></pre></div>
+<p>to get:</p>
+
+<p><img src="/img/napa_streamflow_plot.png" alt="Napa River streamflow historical data" title="Napa River streamflow historical data" ></p>
+
+<p>Reflected in the flow of the Napa River, you can see the severe drought California experienced in the late 1970s, the very wet years that followed, a less severe drought beginning in the late 1980s, and the beginning of the current drought.</p>
+
+<h2 id="transforming-the-data-for-druid">Transforming the Data for Druid</h2>
+
+<p>We first want to have a look at the content of the data frame:</p>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>napa_flow<span class="p">)</span>
+     staid val      dates qualcode
+<span class="m">1</span> <span class="m">11458000</span>  <span class="m">90</span> <span class="m">1963-01-01</span>        A
+<span class="m">2</span> <span class="m">11458000</span>  <span class="m">87</span> <span class="m">1963-01-02</span>        A
+<span class="m">3</span> <span class="m">11458000</span>  <span class="m">85</span> <span class="m">1963-01-03</span>        A
+<span class="m">4</span> <span class="m">11458000</span>  <span class="m">80</span> <span class="m">1963-01-04</span>        A
+<span class="m">5</span> <span class="m">11458000</span>  <span class="m">76</span> <span class="m">1963-01-05</span>        A
+<span class="m">6</span> <span class="m">11458000</span>  <span class="m">75</span> <span class="m">1963-01-06</span>        A
+</code></pre></div>
+<p>We don&#39;t have any use for the qualcode (the <a href="http://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd">Daily Value Qualification Code</a>), column:</p>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> napa_flow_subset <span class="o">&lt;-</span> napa_flow<span class="p">[,</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
+</code></pre></div>
+<p>It may look like we also don&#39;t need the staid column, either, since it&#39;s all the same sensor ID. However, we&#39;ll keep it because at some later time we may want to load similar data from other sensors.</p>
+
+<p>Now we can export the data to a file, removing the header and row names:</p>
+<div class="highlight"><pre><code class="language-r" data-lang="r">write.table<span class="p">(</span>napa_flow_subset<span class="p">,</span> file<span class="o">=</span><span class="s">&quot;~/napa-flow.tsv&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">,</span> col.names <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> row.names <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+</code></pre></div>
+<p>And here&#39;s our file:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>head ~/napa-flow.tsv 
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">90</span>  1963-01-01
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">87</span>  1963-01-02
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">85</span>  1963-01-03
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">80</span>  1963-01-04
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">76</span>  1963-01-05
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">75</span>  1963-01-06
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">73</span>  1963-01-07
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">71</span>  1963-01-08
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">65</span>  1963-01-09
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">59</span>  1963-01-10
+</code></pre></div>
+<h2 id="loading-the-data-into-druid">Loading the Data into Druid</h2>
+
+<p>Loading the data into Druid involves setting up Druid&#39;s indexing service to ingest the data into the Druid cluster, where specialized nodes will manage it.</p>
+
+<h3 id="configure-the-indexing-task">Configure the Indexing Task</h3>
+
+<p>Druid has an indexing service that can load data. Since there&#39;s a relatively small amount of data to ingest, we&#39;re going to use the <a href="http://druid.io/docs/latest/Batch-ingestion.html">basic Druid indexing service</a> to ingest it. (Another option to ingest data uses a Hadoop cluster and is set up in a similar way, but that is more than we need for this job.) We must create a task (in JSON format) that specifies the work the indexing service will do:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;usgs&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;gran&quot;</span> <span class="p">:</span> <span class="s2">&quot;MONTH&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;1963-01-01/2013-12-31&quot;</span> <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregators&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">},</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;avgFlowCuFtsec&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;val&quot;</span>
+  <span class="p">}],</span>
+  <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/usgs/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;napa-flow-subset.tsv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;dates&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;staid&quot;</span><span class="p">,</span><span class="s2">&quot;val&quot;</span><span class="p">,</span><span class="s2">&quot;dates&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;staid&quot;</span><span class="p">,</span><span class="s2">&quot;val&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The taks is saved to a file, <code>usgs_index_task.json</code>. Note a few things about this task:</p>
+
+<ul>
+<li><p>granularitySpec sets <a href="http://druid.io/docs/latest/Concepts-and-Terminology.html">segment</a> granularity to MONTH, rather than using the default DAY, even though each row of our data is a daily reading. We do this to avoid having Druid create a segment per row of data. That&#39;s a lot of extra work (note the interval is &quot;1963-01-01/2013-12-31&quot;), and we simply don&#39;t need that much granularity to make sense of this data for a broad view. Setting the granularity to MONTH causes Druid to roll up data into monthly segments that each provide a monthly average of the flow value.</p>
+
+<p>A different granularity setting for the data itself (<a href="http://druid.io/docs/latest/Tasks.html">indexGranularity</a>) controls how the data is rolled up before it is chunked into segments. This granularity, which defaults to &quot;MINUTE&quot;, won&#39;t affect our data, which consists of daily values.</p></li>
+<li><p>We specify aggregators that Druid will use as <em>metrics</em> to summarize the data. &quot;count&quot; is a built-in metric that counts the raw number of rows on ingestion, and the Druid rows (after rollups) after processing. We&#39;ve added a metric to summarize &quot;val&quot; from our water data.</p></li>
+<li><p>The firehose section specifies out data source, which in this case is a file. If our data existed in multiple files, we could have set &quot;filter&quot; to &quot;*.tsv&quot;.</p></li>
+<li><p>We have to specify the timestamp column so Druid knows.</p></li>
+<li><p>We also specify the format of the data (&quot;tsv&quot;), what the columns are, and which to treat as dimensions. Dimensions are the values that describe our data.</p></li>
+</ul>
+
+<h2 id="start-a-druid-cluster-and-post-the-task">Start a Druid Cluster and Post the Task</h2>
+
+<p>Before submitting this task, we must start a small Druid cluster consisting of the indexing service, a Coordinator node, and a Historical node. Instructions on how to set up and start a Druid cluster are in the <a href="http://druid.io/docs/latest/Tutorial:-Loading-Your-Data-Part-1.html">Druid documentation</a>.</p>
+
+<p>Once the cluster is ready, the task is submitted to the indexer&#39;s REST service (showing the relative path to the task file):</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/usgs/usgs_index_task.json localhost:8087/druid/indexer/v1/task
+</code></pre></div>
+<h2 id="verify-success">Verify Success</h2>
+
+<p>If the task is accepted, a message similar to the following should appear almost immediately:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;task&quot;:&quot;index_usgs_2014-03-06T22:12:38.803Z&quot;}
+</code></pre></div>
+<p>The indexing service (or &quot;overlord&quot;) should log a message similar to the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2014-03-06 22:13:14,495 INFO [pool-6-thread-1] io.druid.indexing.overlord.TaskQueue - Task SUCCESS: IndexTask{id=index_usgs_2014-03-06T22:12:38.803Z, type=index, dataSource=usgs} (30974 run duration)
+</code></pre></div>
+<p>This shows that the data is in Druid. You&#39;ll see messages in the other nodes&#39; logs concerning the &quot;usgs&quot; data. We can further verify this by going to the overlord&#39;s console (http://&lt;host&gt;:8087/console.html) to view information about the task, and the Coordinator&#39;s console (http://&lt;host&gt;:8082) to view metadata about the individual segments.</p>
+
+<p>We can also verify the data by querying Druid. Here&#39;s a simple time-boundary query:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span> 
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;usgs&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Saved in a file called <code>tb-query.body</code>, it can then be submitted to Druid:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST <span class="s1">&#39;http://localhost:8081/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @examples/usgs/tb-query.body
+</code></pre></div>
+<p>The response should be:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;1963-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;1963-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;maxTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-12-31T00:00:00.000Z&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>You can learn about submitting more complex queries in the <a href="http://druid.io/docs/latest/Tutorial:-All-About-Queries.html">Druid documentation</a>.</p>
+
+<h2 id="what-to-try-next-something-more-akin-to-a-production-system">What to Try Next: Something More Akin to a Production System</h2>
+
+<p>For the purposes of demonstration, we&#39;ve cobbled together a simple system for manually fetching, mutating, loading, analyzing, storing, and then querying (for yet more analysis) data. But this would hardly be anyone&#39;s idea of a production system.</p>
+
+<p>The USGS has REST-friendly services for accessing various realtime and historical data, including <a href="http://waterservices.usgs.gov/rest/IV-Service.html">water data</a>. We could conceivably set up a data ingestion stack that fetches that data, feeds it to a messaging queue (e.g., Apache Kafka) and then process it and moves it on to Druid via a specialized framework (e.g., Apache Storm). Then we could query the system to generate both realtime statuses of various water-related conditions (e.g., change in pollutant levels, flood potential, etc.) as well as visualizations for historical comparison.</p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.7.1.1">API documentation</a></p>
+          <h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
+
+<p>Druid uses a module system that allows for the addition of extensions at runtime.</p>
+
+<h2 id="specifying-extensions">Specifying extensions</h2>
+
+<p>There are two ways of adding druid extensions currently.</p>
+
+<h3 id="add-to-the-classpath">Add to the classpath</h3>
+
+<p>If you add your extension jar to the classpath at runtime, Druid will load it into the system.  This mechanism is relatively easy to reason about, but it also means that you have to ensure that all dependency jars on the classpath are compatible.  That is, Druid makes no provisions while using this method to maintain class loader isolation so you must make sure that the jars on your classpath are mutually compatible.</p>
+
+<h3 id="specify-maven-coordinates">Specify maven coordinates</h3>
+
+<p>Druid has the ability to automatically load extension jars from maven at runtime.  With this mechanism, Druid also loads up the dependencies of the extension jar into an isolated class loader.  That means that your extension can depend on a different version of a library that Druid also uses and both can co-exist.</p>
+
+<h2 id="configuring-the-extensions">Configuring the extensions</h2>
+
+<p>Druid provides the following settings to configure the loading of extensions:</p>
+
+<ul>
+<li><code>druid.extensions.coordinates</code>
+This is a JSON array of &quot;groupId:artifactId[:version]&quot; maven coordinates. For artifacts without version specified, Druid will append the default version. Defaults to <code>[]</code></li>
+<li><code>druid.extensions.defaultVersion</code>
+Version to use for extension artifacts without version information. Defaults to the <code>druid-server</code> artifact version.</li>
+<li><code>druid.extensions.localRepository</code>
+This specifies where to look for the &quot;local repository&quot;.  The way maven gets dependencies is that it downloads them to a &quot;local repository&quot; on your local disk and then collects the paths to each of the jars.  This specifies the directory to consider the &quot;local repository&quot;.  Defaults to <code>~/.m2/repository</code></li>
+<li><code>druid.extensions.remoteRepositories</code>
+This is a JSON Array list of remote repositories to load dependencies from.  Defaults to <code>[&quot;http://repo1.maven.org/maven2/&quot;, &quot;https://metamx.artifactoryonline.com/metamx/pub-libs-releases-local&quot;]</code></li>
+<li><code>druid.extensions.searchCurrentClassloader</code>
+This is a boolean flag that determines if Druid will search the main classloader for extensions.  It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath.</li>
+</ul>
+
+<h3 id="i-want-classloader-isolation-but-i-don-39-t-want-my-production-machines-downloading-their-own-dependencies-what-should-i-do">I want classloader isolation, but I don&#39;t want my production machines downloading their own dependencies.  What should I do?</h3>
+
+<p>If you want to take advantage of the maven-based classloader isolation but you are also rightly frightened by the prospect of each of your production machines downloading their own dependencies on deploy, this section is for you.</p>
+
+<p>The trick to doing this is</p>
+
+<p>1) Specify a local directory for <code>druid.extensions.localRepository</code></p>
+
+<p>2) Run the <code>tools pull-deps</code> command to pull all the specified dependencies down into your local repository</p>
+
+<p>3) Bundle up the local repository along with your other Druid stuff into whatever you use for a deployable artifact</p>
+
+<p>4) Run Your druid processes with <code>druid.extensions.remoteRepositories=[]</code> and a local repository set to wherever your bundled &quot;local&quot; repository is located</p>
+
+<p>The Druid processes will then only load up jars from the local repository and will not try to go out onto the internet to find the maven dependencies.</p>
+
+<h2 id="writing-your-own-extensions">Writing your own extensions</h2>
+
+<p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of a few things.</p>
+
+<ol>
+<li>Add a new deep storage implementation</li>
+<li>Add a new Firehose</li>
+<li>Add Aggregators</li>
+<li>Add Complex metrics</li>
+<li>Add new Query types</li>
+<li>Add new Jersey resources</li>
+</ol>
+
+<p>Extensions are added to the system via an implementation of <code>io.druid.initialization.DruidModule</code>.</p>
+
+<h3 id="creating-a-druid-module">Creating a Druid Module</h3>
+
+<p>The DruidModule class is has two methods</p>
+
+<ol>
+<li>A <code>configure(Binder)</code> method </li>
+<li>A <code>getJacksonModules()</code> method</li>
+</ol>
+
+<p>The <code>configure(Binder)</code> method is the same method that a normal Guice module would have.</p>
+
+<p>The <code>getJacksonModules()</code> method provides a list of Jackson modules that are used to help initialize the Jackson ObjectMapper instances used by Druid.  This is how you add extensions that are instantiated via Jackson (like AggregatorFactory and Firehose objects) to Druid.</p>
+
+<h3 id="registering-your-druid-module">Registering your Druid Module</h3>
+
+<p>Once you have your DruidModule created, you will need to package an extra file in the <code>META-INF/services</code> directory of your jar.  This is easiest to accomplish with a maven project by creating files in the <code>src/main/resources</code> directory.  There are examples of this in the Druid code under the <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules, for examples.</p>
+
+<p>The file that should exist in your jar is</p>
+
+<p><code>META-INF/services/io.druid.initialization.DruidModule</code></p>
+
+<p>It should be a text file with a new-line delimited list of package-qualified classes that implement DruidModule like</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.storage.cassandra.CassandraDruidModule
+</code></pre></div>
+<p>If your jar has this file, then when it is added to the classpath or as an extension, Druid will notice the file and will instantiate instances of the Module.  Your Module should have a default constructor, but if you need access to runtime configuration properties, it can have a method with @Inject on it to get a Properties object injected into it from Guice.</p>
+
+<h3 id="adding-a-new-deep-storage-implementation">Adding a new deep storage implementation</h3>
+
+<p>Check the <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
+
+<p>The basic idea behind the extension is that you need to add bindings for your DataSegmentPusher and DataSegmentPuller objects.  The way to add them is something like (taken from HdfsStorageDruidModule)</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPuller</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPusherBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPusher</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+<p><code>Binders.dataSegment*Binder()</code> is a call provided by the druid-api jar which sets up a Guice multibind &quot;MapBinder&quot;.  If that doesn&#39;t make sense, don&#39;t worry about it, just think of it as a magical incantation.</p>
+
+<p><code>addBinding(&quot;hdfs&quot;)</code> for the Puller binder creates a new handler for loadSpec objects of type &quot;hdfs&quot;.  For the Pusher binder it creates a new type value that you can specify for the <code>druid.storage.type</code> parameter.</p>
+
+<p><code>to(...).in(...);</code> is normal Guice stuff.</p>
+
+<h3 id="adding-a-new-firehose">Adding a new Firehose</h3>
+
+<p>There is an example of this in the <code>s3-extensions</code> module with the StaticS3FirehoseFactory.</p>
+
+<p>Adding a Firehose is done almost entirely through the Jackson Modules instead of Guice.  Specifically, note the implementation</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Module</span><span class="o">&gt;</span> <span class="nf">getJacksonModules</span><span class="o">()</span>
+<span class="o">{</span>
+  <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+          <span class="k">new</span> <span class="nf">SimpleModule</span><span class="o">().</span><span class="na">registerSubtypes</span><span class="o">(</span><span class="k">new</span> <span class="nf">NamedType</span><span class="o">(</span><span class="n">StaticS3FirehoseFactory</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;static-s3&quot;</span><span class="o">))</span>
+  <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>This is registering the FirehoseFactory with Jackson&#39;s polymorphic serde layer.  More concretely, having this will mean that if you specify a <code>&quot;firehose&quot;: { &quot;type&quot;: &quot;static-s3&quot;, ... }</code> in your realtime config, then the system will load this FirehoseFactory for your firehose.</p>
+
+<p>Note that inside of Druid, we have made the @JacksonInject annotation for Jackson deserialized objects actually use the base Guice injector to resolve the object to be injected.  So, if your FirehoseFactory needs access to some object, you can add a @JacksonInject annotation on a setter and it will get set on instantiation.</p>
+
+<h3 id="adding-aggregators">Adding Aggregators</h3>
+
+<p>Adding AggregatorFactory objects is very similar to Firehose objects.  They operate purely through Jackson and thus should just be additions to the Jackson modules returned by your DruidModule.</p>
+
+<h3 id="adding-complex-metrics">Adding Complex Metrics</h3>
+
+<p>Adding ComplexMetrics is a little ugly in the current version.  The method of getting at complex metrics is through registration with the <code>ComplexMetrics.registerSerde()</code> method.  There is no special Guice stuff to get this working, just in your <code>configure(Binder)</code> method register the serde.</p>
+
+<h3 id="adding-new-query-types">Adding new Query types</h3>
+
+<p>Adding a new Query type requires the implementation of three interfaces.</p>
+
+<ol>
+<li><code>io.druid.query.Query</code></li>
+<li><code>io.druid.query.QueryToolChest</code></li>
+<li><code>io.druid.query.QueryRunnerFactory</code></li>
+</ol>
+
+<p>Registering these uses the same general strategy as a deep storage mechanism does.  You do something like</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryToolChestBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryQueryToolChest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryRunnerFactoryBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryRunnerFactory</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+<p>The first one binds the SegmentMetadataQueryQueryToolChest for usage when a SegmentMetadataQuery is used.  The second one does the same thing but for the QueryRunnerFactory instead.</p>
+
+<h3 id="adding-new-jersey-resources">Adding new Jersey resources</h3>
+
+<p>Adding new Jersey resources to a module requires calling the following code to bind the resource in the module:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.7.1.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

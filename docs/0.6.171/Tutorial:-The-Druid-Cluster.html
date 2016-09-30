@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.171">API documentation</a></p>
+          <h1 id="tutorial-the-druid-cluster">Tutorial: The Druid Cluster</h1>
+
+<p>Welcome back! In our first <a href="Tutorial%3A-A-First-Look-at-Druid.html">tutorial</a>, we introduced you to the most basic Druid setup: a single realtime node. We streamed in some data and queried it. Realtime nodes collect very recent data and periodically hand that data off to the rest of the Druid cluster. Some questions about the architecture must naturally come to mind. What does the rest of Druid cluster look like? How does Druid load available static data?</p>
+
+<p>This tutorial will hopefully answer these questions!</p>
+
+<p>In this tutorial, we will set up other types of Druid nodes and external dependencies for a fully functional Druid cluster. The architecture of Druid is very much like the <a href="http://www.youtube.com/watch?v=7mQuHh1X4H4">Megazord</a> from the popular 90s show Mighty Morphin&#39; Power Rangers. Each Druid node has a specific purpose and the nodes come together to form a fully functional system.</p>
+
+<h2 id="downloading-druid">Downloading Druid</h2>
+
+<p>If you followed the first tutorial, you should already have Druid downloaded. If not, let&#39;s go back and do that first.</p>
+
+<p>You can download the latest version of druid <a href="http://static.druid.io/artifacts/releases/druid-services-0.6.171-bin.tar.gz">here</a></p>
+
+<p>and untar the contents within by issuing:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -zxvf druid-services-*-bin.tar.gz
+<span class="nb">cd </span>druid-services-*
+</code></pre></div>
+<p>You can also <a href="Build-from-source.html">Build From Source</a>.</p>
+
+<h2 id="external-dependencies">External Dependencies</h2>
+
+<p>Druid requires 3 external dependencies. A &quot;deep&quot; storage that acts as a backup data repository, a relational database such as MySQL to hold configuration and metadata information, and <a href="http://zookeeper.apache.org/">Apache Zookeeper</a> for coordination among different pieces of the cluster.</p>
+
+<p>For deep storage, we have made a public S3 bucket (static.druid.io) available where data for this particular tutorial can be downloaded. More on the data later.</p>
+
+<h4 id="setting-up-mysql">Setting up MySQL</h4>
+
+<ol>
+<li>If you don&#39;t already have it, download MySQL Community Server here: <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a>.</li>
+<li>Install MySQL.</li>
+<li>Create a druid user and database.</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root
+</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">database</span> <span class="n">druid</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="setting-up-zookeeper">Setting up Zookeeper</h4>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">Download zookeeper from <span class="o">[</span>http://www.apache.org/dyn/closer.cgi/zookeeper/<span class="o">](</span>http://www.apache.org/dyn/closer.cgi/zookeeper/<span class="o">)</span>
+Install zookeeper.
+
+e.g.
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+tar xzf zookeeper-3.4.6.tar.gz
+<span class="nb">cd </span>zookeeper-3.4.6
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
+<span class="nb">cd</span> ..
+</code></pre></div>
+<h2 id="the-data">The Data</h2>
+
+<p>Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a <a href="Segments.html">segment</a>. Segments contain data over some span of time. We&#39;ve prebuilt a segment for this tutorial and will cover making your own segments in other <a href="Tutorial%3A-Loading-Your-Data-Part-1.html">pages</a>.The segment we are going to work with has the following format:</p>
+
+<p>Dimensions (things to filter on):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<span class="s2">&quot;language&quot;</span>
+<span class="s2">&quot;user&quot;</span>
+<span class="s2">&quot;unpatrolled&quot;</span>
+<span class="s2">&quot;newPage&quot;</span>
+<span class="s2">&quot;robot&quot;</span>
+<span class="s2">&quot;anonymous&quot;</span>
+<span class="s2">&quot;namespace&quot;</span>
+<span class="s2">&quot;continent&quot;</span>
+<span class="s2">&quot;country&quot;</span>
+<span class="s2">&quot;region&quot;</span>
+<span class="s2">&quot;city&quot;</span>
+</code></pre></div>
+<p>Metrics (things to aggregate over):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<span class="s2">&quot;added&quot;</span>
+<span class="s2">&quot;delta&quot;</span>
+<span class="s2">&quot;deleted&quot;</span>
+</code></pre></div>
+<h2 id="the-cluster">The Cluster</h2>
+
+<p>Let&#39;s start up a few nodes and download our data. First, let&#39;s make sure we have configs in the config directory for our various nodes. Issue the following from the Druid home directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ls config
+</code></pre></div>
+<p>If you are interested in learning more about Druid configuration files, check out this <a href="Configuration.html">link</a>. Many aspects of Druid are customizable. For the purposes of this tutorial, we are going to use default values for most things.</p>
+
+<h4 id="start-a-coordinator-node">Start a Coordinator Node</h4>
+
+<p>Coordinator nodes are in charge of load assignment and distribution. Coordinator nodes monitor the status of the cluster and command historical nodes to assign and drop segments.
+For more information about coordinator nodes, see <a href="Coordinator.html">here</a>.</p>
+
+<p>The coordinator config file should already exist at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">config/coordinator
+</code></pre></div>
+<p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+druid.service=coordinator
+druid.port=8082
+
+druid.zk.service.host=localhost
+
+druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
+druid.db.connector.user=druid
+druid.db.connector.password=diurd
+
+druid.coordinator.startDelay=PT70s
+</code></pre></div>
+<p>To start the coordinator node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/coordinator io.druid.cli.Main server coordinator
+</code></pre></div>
+<h4 id="start-a-historical-node">Start a Historical Node</h4>
+
+<p>Historical nodes are the workhorses of a cluster and are in charge of loading historical segments and making them available for queries. Our Wikipedia segment will be downloaded by a historical node.
+For more information about Historical nodes, see <a href="Historical.html">here</a>.</p>
+
+<p>The historical config file should exist at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">config/historical
+</code></pre></div>
+<p>In the directory we just created, we should have the file <code>runtime.properties</code> with the following contents:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+druid.service=historical
+druid.port=8081
+
+druid.zk.service.host=localhost
+
+druid.extensions.coordinates=[&quot;io.druid.extensions:druid-s3-extensions:0.6.171&quot;]
+
+# Dummy read only AWS account (used to download example data)
+druid.s3.secretKey=QyyfVZ7llSiRg6Qcrql1eEUG7buFpAK6T6engr1b
+druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
+
+druid.server.maxSize=10000000000
+
+# Change these to make Druid faster
+druid.processing.buffer.sizeBytes=100000000
+druid.processing.numThreads=1
+
+druid.segmentCache.locations=[{&quot;path&quot;: &quot;/tmp/druid/indexCache&quot;, &quot;maxSize&quot;\: 10000000000}]
+</code></pre></div>
+<p>To start the historical node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/historical io.druid.cli.Main server historical
+</code></pre></div>
+<h4 id="start-a-broker-node">Start a Broker Node</h4>
+
+<p>Broker nodes are responsible for figuring out which historical and/or realtime nodes correspond to which queries. They also merge partial results from these nodes in a scatter/gather fashion.
+For more information about Broker nodes, see <a href="Broker.html">here</a>.</p>
+
+<p>The broker config file should exist at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">config/broker
+</code></pre></div>
+<p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+druid.service=broker
+druid.port=8080
+
+druid.zk.service.host=localhost
+</code></pre></div>
+<p>To start the broker node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/broker io.druid.cli.Main server broker
+</code></pre></div>
+<h2 id="loading-the-data">Loading the Data</h2>
+
+<p>The MySQL dependency we introduced earlier on contains a &#39;segments&#39; table that contains entries for segments that should be loaded into our cluster. The Druid coordinator compares this table with segments that already exist in the cluster to determine what should be loaded and dropped. To load our wikipedia segment, we need to create an entry in our MySQL segment table.</p>
+
+<p>Usually, when new segments are created, these MySQL entries are created directly so you never have to do this by hand. For this tutorial, we can do this manually by going back into MySQL and issuing:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">druid</span><span class="p">;</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">druid_segments</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">dataSource</span><span class="p">,</span> <span class="n">created_date</span><span class="p">,</span> <span class="k">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="n">partitioned</span><span class="p">,</span> <span class="k">version</span><span class="p">,</span> <span class="n">used</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">&#39;wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z&#39;</span><span class="p">,</span> <span class="s1">&#39;wikipedia&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-08T21:26:23.799Z&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-01T00:00:00.000Z&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-02T00:00:00.000Z&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-08T21:22:48.989Z&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;{\&quot;dataSource\&quot;:\&quot;wikipedia\&quot;,\&quot;interval\&quot;:\&quot;2013-08-01T00:00:00.000Z/2013-08-02T00:00:00.000Z\&quot;,\&quot;version\&quot;:\&quot;2013-08-08T21:22:48.989Z\&quot;,\&quot;loadSpec\&quot;:{\&quot;type\&quot;:\&quot;s3_zip\&quot;,\&quot;bucket\&quot;:\&quot;static.druid.io\&quot;,\&quot;key\&quot;:\&quot;data/segments/wikipedia/20130801T000000.000Z_20130802T000000.000Z/2013-08-08T21_22_48.989Z/0/index.zip\&quot;},\&quot;dimensions\&quot;:\&quot;dma_code,continent_code,geo,area_code,robot,country_name,network,city,namespace,anonymous,unpatrolled,page,postal_code,language,newpage,user,region_lookup\&quot;,\&quot;metrics\&quot;:\&quot;count,delta,variation,added,deleted\&quot;,\&quot;shardSpec\&quot;:{\&quot;type\&quot;:\&quot;none\&quot;},\&quot;binaryVersion\&quot;:9,\&quot;size\&quot;:24664730,\&quot;identifier\&quot;:\&quot;wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z\&quot;}&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>If you look in your coordinator node logs, you should, after a maximum of a minute or so, see logs of the following form:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-08 22:48:41,967 INFO [main-EventThread] com.metamx.druid.coordinator.LoadQueuePeon - Server[/druid/loadQueue/127.0.0.1:8081] done processing [/druid/loadQueue/127.0.0.1:8081/wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z]
+2013-08-08 22:48:41,969 INFO [ServerInventoryView-0] com.metamx.druid.client.SingleServerInventoryView - Server[127.0.0.1:8081] added segment[wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z]
+</code></pre></div>
+<p>When the segment completes downloading and ready for queries, you should see the following message on your historical node logs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-08 22:48:41,959 INFO [ZkCoordinator-0] com.metamx.druid.coordination.BatchDataSegmentAnnouncer - Announcing segment[wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z] at path[/druid/segments/127.0.0.1:8081/2013-08-08T22:48:41.959Z]
+</code></pre></div>
+<p>At this point, we can query the segment. For more information on querying, see this <a href="Querying.html">link</a>.</p>
+
+<h3 id="bonus-round-start-a-realtime-node">Bonus Round: Start a Realtime Node</h3>
+
+<p>To start the realtime node that was used in our first tutorial, you simply have to issue:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -Ddruid.realtime.specFile=examples/wikipedia/wikipedia_realtime.spec -classpath lib/*:config/realtime io.druid.cli.Main server realtime
+</code></pre></div>
+<p>The configurations are located in <code>config/realtime/runtime.properties</code> and should contain the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+druid.service=realtime
+druid.port=8083
+
+druid.zk.service.host=localhost
+
+druid.extensions.coordinates=[&quot;io.druid.extensions:druid-examples:0.6.171&quot;,&quot;io.druid.extensions:druid-kafka-seven:0.6.171&quot;]
+
+# Change this config to db to hand off to the rest of the Druid cluster
+druid.publish.type=noop
+
+# These configs are only required for real hand off
+# druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
+# druid.db.connector.user=druid
+# druid.db.connector.password=diurd
+
+druid.processing.buffer.sizeBytes=100000000
+druid.processing.numThreads=1
+
+druid.monitoring.monitors=[&quot;io.druid.segment.realtime.RealtimeMetricsMonitor&quot;]
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+
+<p>If you are interested in how data flows through the different Druid components, check out the <a href="Design.html">Druid data flow architecture</a>. Now that you have an understanding of what the Druid cluster looks like, why not load some of your own data?
+Check out the next <a href="Tutorial%3A-Loading-Your-Data-Part-1.html">tutorial</a> section for more info!</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.171/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

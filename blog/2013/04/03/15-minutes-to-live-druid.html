@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | 15 Minutes to Live Druid</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+        <div class="title-spacer"></div>
+        <img class="title-image" src="http://metamarkets.com/wp-content/uploads/2013/04/Druid-Cluster1.jpg" alt="15 Minutes to Live Druid"/>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>15 Minutes to Live Druid</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Jaypal Sethi</span> · April  3, 2013</p>
+
+        <p>Big Data reflects today’s world where data generating events are measured in
+the billions and business decisions based on insight derived from this data is
+measured in seconds. There are few tools that provide deep insight into both
+live and stationary data as business events are occurring; Druid was designed
+specifically to serve this purpose.</p>
+
+<p>If you’re not familiar with Druid, it’s a powerful, open source, real-time
+analytics database designed to allow queries on large quantities of streaming
+data – that means querying data as it’s being ingested into the system (see
+previous <a href="http://metamarkets.com/2012/metamarkets-open-sources-druid/">blog post</a>.
+Many databases claim they are real-time because they are
+“real fast;” this usually works for smaller workloads or for customers with
+infinite IT budgets. For companies like Netflix, whose engineers use Druid to
+cull through <a href="http://www.slideshare.net/g9yuayon/netflix-druidstrata2013">70 billion log events per day, ingesting over 2 TB per hour at
+peak times</a>
+(more on this in a later blog post), real-time means they have to
+query data as it’s being ingested into the system.</p>
+
+<p>Taking Druid a step further, the database provides benefits for both real-time
+and non-real-time uses by allowing arbitrary drill-downs and n-dimensional
+filtering without any impact on performance. Beyond being a key feature used by
+<a href="http://www.metamarkets.com/">Metamarkets</a> (average query times of less than
+500 milliseconds), it’s also a valuable capability for Netflix, and a key use
+case for the R community.</p>
+
+<p>Outside of features and functionality, the value of so many successful open
+source projects can be attributed to their user community. As a sponsor of this
+project, one of our core goals here at Metamarkets is to support our growing
+Druid Community. In fact, this blog post is a good example of responding to
+community feedback to make Druid immediately accessible to users who want to
+explore and become familiar with the database.</p>
+
+<p>Today, we’re excited to announce a ready to run Druid Personal Demo Cluster
+with a pre-loaded test workload: the Wikipedia edit stream. The DPDC (Druid
+Personal Demo Cluster) is available via AWS as a StackTemplate and is free to
+use and run; all that’s required is your own AWS account and 15 minutes.</p>
+
+<p>The DPDC is designed to provide a small, but realistic and fully functional
+Druid environment, allowing users to become familiar with a working example of
+a Druid system, write queries and understand how to manage the environment. The
+DPDC is also extensible; once users are familiar with Druid, we encourage them
+to load their own data and to continue learning. While the DPDC is far from an
+actual deployment, it’s designed to be an educational tool and an on-ramp
+towards your own deployment.</p>
+
+<p>The AWS (Amazon Web Services) <a href="http://aws.amazon.com/cloudformation/">CloudFormation</a>
+Template pulls together two Druid AMIs and creates a pre-configured Druid
+Cluster preloaded with the Wikipedia edit stream, and a basic query interface
+to help you become familiar with Druid capabilities like drill-downs on
+arbitrary dimensions and filters.</p>
+
+<p>What’s in this Druid Demo Cluster?</p>
+
+<ol>
+<li><p>A single Master node is based on a preconfigured AWS AMI (Amazon Machine
+Image) and also contains the Zookeeper broker, the Indexer, and a MySQL
+instance which keeps track of system metadata. You can read more about Druid
+architecture <a href="https://github.com/metamx/druid/wiki/Design">here</a>.</p></li>
+<li><p>Three compute nodes based on another AWS AMI; these compute nodes, have been
+pre-configured to work with the Master node and already contain the Wikipedia
+edit stream data (no specific setup is required).  How to Get Started:</p></li>
+</ol>
+
+<p>Our quick start guide is located on the Druid Github wiki:
+<a href="https://github.com/metamx/druid/wiki/Druid-Personal-Demo-Cluster">https://github.com/metamx/druid/wiki/Druid-Personal-Demo-Cluster</a></p>
+
+<p>For support, please join our mailing list (Google Groups):
+<a href="https://groups.google.com/d/forum/druid-development">https://groups.google.com/d/forum/druid-development</a>. We welcome your feedback
+and contributions as we consider adding more content for the DPDC.</p>
+
+<p>Need more?</p>
+
+<p>Try out our connectors – we recently open-sourced our RDruid connector and will
+be holding a Druid Meetup where we’ll conduct a hands-on mini-lab to get
+attendees working with Druid.</p>
+
+<p>The community also contributed a Ruby client
+(<a href="https://github.com/madvertise/ruby-druid">https://github.com/madvertise/ruby-druid</a>) and is rumored to be working on
+Python and SQL clients. And, a massive thanks to the team at
+<a href="http://skilledanalysts.com/">SkilledAnalysts</a> for their contributions to the
+DPDC and their continued involvement in the Druid community.</p>
+
+<p>Finally, if you’re looking for more information on Druid, you can find it on
+our <a href="http://metamarkets.com/product/technology/">technology page</a>.</p>
+
+<p>IMAGE: <a href="http://www.shutterstock.com/gallery-86570p1.html">PEDRO MIGUEL SOUSA</a> / <a href="http://www.shutterstock.com/">SHUTTERSTOCK</a></p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

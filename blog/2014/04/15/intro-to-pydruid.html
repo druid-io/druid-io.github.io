@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Introduction to pydruid</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>Introduction to pydruid</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Igal Levy</span> · April 15, 2014</p>
+
+        <p>We&#39;ve already written about pairing <a href="http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html">R with RDruid</a>, but Python has powerful and free open-source analysis tools too. Collectively, these are often referred to as the <a href="http://www.scipy.org/stackspec.html">SciPy Stack</a>. To pair SciPy&#39;s analytic power with the advantages of querying time-series data in Druid, we created the pydruid connector. This allows Python users to query Druid&mdash;and export the results to useful formats&mdash;in a way that makes sense to them.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>pydruid should run with Python 2.x, and is known to run with Python 2.7.5.</p>
+
+<p>Install pydruid in the same way as you&#39;d install any other Python module on your system. The simplest way is:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">pip install pydruid
+</code></pre></div>
+<p>You should also install Pandas to execute the simple examples below:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">pip install pandas
+</code></pre></div>
+<p>When you import pydruid into your example, it will try to load Pandas as well.</p>
+
+<h2 id="run-the-druid-wikipedia-example">Run the Druid Wikipedia Example</h2>
+
+<p><a href="http://druid.io/downloads.html">Download Druid</a> and unpack Druid. If you are not familiar with Druid, see this <a href="http://druid.io/docs/latest/Tutorial:-A-First-Look-at-Druid.html">introductory tutorial</a>.</p>
+
+<p>From the Druid home directory, start the Druid Realtime node:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$DRUID_HOME</span>/run_example_server.sh
+</code></pre></div>
+<p>When prompted, choose the &quot;wikipedia&quot; example. After the Druid realtime node is done starting up, messages should appear that start with the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2014-04-03 18:01:32,852 INFO [wikipedia-incremental-persist] ...
+</code></pre></div>
+<p>These messages confirm that the realtime node is ingesting data from the Wikipedia edit stream, and that data can be queried.</p>
+
+<h2 id="write-execute-and-submit-a-pydruid-query">Write, Execute, and Submit a pydruid Query</h2>
+
+<p>Let&#39;s say we want to see the top few languages for Wikipedia articles, in terms of number of edits. This is the query we could post directly to Druid:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="s2">&quot;edit_count&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;article&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;edit_count&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The results should appear similar to the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2014-04-03T17:59:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">4726</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;fr&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">1273</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;de&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">857</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">176</span>
+  <span class="p">}</span> <span class="p">]</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p><strong>NOTE:</strong> Due to limitations in the way the wikipedia example is set up, you may see a limited number of results appear.</p>
+
+<p>Here&#39;s that same query in Python:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s">&#39;druid/v2/&#39;</span><span class="p">)</span>
+
+<span class="n">top_langs</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">topn</span><span class="p">(</span>
+    <span class="n">datasource</span> <span class="o">=</span> <span class="s">&quot;wikipedia&quot;</span><span class="p">,</span>
+    <span class="n">granularity</span> <span class="o">=</span> <span class="s">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="s">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;article&quot;</span><span class="p">,</span>
+    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">)},</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="s">&quot;edit_count&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="p">)</span>
+
+<span class="k">print</span> <span class="n">top_langs</span>  <span class="c"># Do this if you want to see the raw JSON</span>
+</code></pre></div>
+<p>Let&#39;s break this query down:</p>
+
+<ul>
+<li>query &ndash; The <code>query</code> object is instantiated with the location of the Druid realtime node. <code>query</code> exposes various querying methods, including <code>topn</code>.</li>
+<li>datasource &ndash; This identifies the datasource. If Druid were ingesting from more than one datasource, this ID would identify the one we want.</li>
+<li>granularity &ndash; The rollup granularity, which could be set to a specific value such as <code>minute</code> or <code>hour</code>. We want to see the sum count across the entire interval, and so we choose <code>all</code>.</li>
+<li>intervals &ndash; The interval of time we&#39;re interested in. The value given is extended beyond our actual endpoints to make sure we cover all of the data.</li>
+<li>dimension &ndash; The dimension we&#39;re interested in, which happens to be language. Language is an attribute of the <a href="http://meta.wikimedia.org/wiki/IRC/Channels#Raw_feeds">Wikipedia recent-changes feed&#39;s metadata</a>.</li>
+<li>filter &ndash; Filters are used to specify a selector. In this case, we&#39;re selecting pages that have a namespace dimension with the value <code>article</code> (therefore excluding edits to Wikipedia pages that aren&#39;t articles).</li>
+<li>aggregations &ndash; We&#39;re interested in obtaining the total count of edited pages, per the language dimension, and we map it to a type of aggregation available in pydruid (longsum). We also rename this <code>count</code> metric to <code>edit_count</code>.</li>
+<li>metric &ndash; Names the metric to sort on.</li>
+<li>threshold &ndash; Sets the maximum number of aggregated results to return.</li>
+</ul>
+
+<p>See the <a href="https://pythonhosted.org/pydruid/">pydruid documentation</a> for more information about queries.</p>
+
+<h2 id="bringing-the-data-into-pandas">Bringing the Data Into Pandas</h2>
+
+<p>Now that Druid is returning data, we&#39;ll pass that data to a Pandas dataframe, which allows us to analyze and visualize it:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">plt</span>  <span class="c"># Need to have matplotlib installed</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s">&#39;druid/v2/&#39;</span><span class="p">)</span>
+
+<span class="n">top_langs</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">topn</span><span class="p">(</span>
+    <span class="n">datasource</span> <span class="o">=</span> <span class="s">&quot;wikipedia&quot;</span><span class="p">,</span>
+    <span class="n">granularity</span> <span class="o">=</span> <span class="s">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="s">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;article&quot;</span><span class="p">,</span>
+    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">)},</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="s">&quot;edit_count&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="p">)</span>
+
+<span class="k">print</span> <span class="n">top_langs</span>  <span class="c"># Do this if you want to see the raw JSON</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">export_pandas</span><span class="p">()</span> <span class="c"># Client will import Pandas, no need to do so separately.</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s">&#39;timestamp&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># Don&#39;t need the timestamp column here</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># Get a naturally numbered index</span>
+
+<span class="k">print</span> <span class="n">df</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;language&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Printing the results gives:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">   edit_count language
+1         834       en
+2         256       de
+3         185       fr
+4          38       ja
+</code></pre></div>
+<p>The bar graph will look something like this:</p>
+
+<p><img src="/img/wiki-edit-lang-plot.png" alt="Bar graph showing Wikipedia edits by language" title="Wikipedia Edits by Language"></p>
+
+<p>If you were to repeat the query, you should see larger numbers under edit_count, since the Druid realtime node is continuing to ingest data from Wikipedia.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>In this blog, we showed how you can run ad-hoc queries against a data set that is being streamed into Druid. And while this is only a small example of pydruid and the power of Python, it serves as an effective introductory demonstration of the  benefits of pairing Druid&#39;s ability to make data available in real-time with SciPi&#39;s powerful analytics tools.</p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

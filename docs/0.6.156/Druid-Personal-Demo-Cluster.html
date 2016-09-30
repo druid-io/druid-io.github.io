@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.156">API documentation</a></p>
+          <h1 id="druid-personal-demo-cluster-dpdc">Druid Personal Demo Cluster (DPDC)</h1>
+
+<p>Note, there are currently some issues with the CloudFormation.  We are working through them and will update the documentation here when things work properly.  In the meantime, the simplest way to get your feet wet with a cluster setup is to run through the instructions at <a href="https://github.com/housejester/druid-test-harness">housejester/druid-test-harness</a>, though it is based on an older version.  If you just want to get a feel for the types of data and queries that you can issue, check out <a href="Realtime-Examples.html">Realtime Examples</a></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>To make it easy for you to get started with Druid, we created an AWS (Amazon Web Services) <a href="http://aws.amazon.com/cloudformation/">CloudFormation</a> Template that allows you to create a small pre-configured Druid cluster using your own AWS account. The cluster contains a pre-loaded sample workload, the Wikipedia edit stream, and a basic query interface that gets you familiar with Druid capabilities like drill-downs and filters. </p>
+
+<p>This guide walks you through the steps to create the cluster and then how to create basic queries. (The cluster setup should take you about 15-20 minutes depending on AWS response times).</p>
+
+<h2 id="what-s-in-this-druid-demo-cluster">What’s in this Druid Demo Cluster?</h2>
+
+<ol>
+<li><p>A single &quot;Coordinator&quot; node.  This node co-locates the <a href="Coordinator.html">Coordinator</a> process, the <a href="Broker.html">Broker</a> process, Zookeeper, and the MySQL instance. You can read more about Druid architecture <a href="Design.html">Design</a>.</p></li>
+<li><p>Three historical nodes; these historical nodes, have been pre-configured to work with the Coordinator node and should automatically load up the Wikipedia edit stream data (no specific setup is required).</p></li>
+</ol>
+
+<h2 id="setup-instructions">Setup Instructions</h2>
+
+<ol>
+<li>Log in to your AWS account: Start by logging into the <a href="https://console.aws.amazon.com">Console page</a> of your AWS account; if you don’t have one, follow this link to sign up for one <a href="http://aws.amazon.com/">http://aws.amazon.com/</a>.</li>
+</ol>
+
+<p><img src="images/demo/setup-01-console.png" alt="AWS Console Page"></p>
+
+<ol>
+<li><p>If you have a <a href="http://docs.aws.amazon.com/gettingstarted/latest/wah/getting-started-create-key-pair.html">Key Pair</a> already created you may skip this step. Note: this is required to create the demo cluster and is generally not used unless instances need to be accessed directly (e.g. via SSH). </p>
+
+<ol>
+<li>Click <strong>EC2</strong> to go to the EC2 Dashboard. From there, click <strong>Key Pairs</strong> under Network &amp; Security. 
+<img src="images/demo/setup-02a-keypair.png" alt="EC2 Dashboard"></li>
+<li>Click on the button <strong>Create Key Pair</strong>. A dialog box will appear prompting you to enter a Key Pair name (as long as you remember it, the name is arbitrary, for this example we entered <code>Druid</code>). Click <strong>Create</strong>. You will be prompted to download a .pam; store this file in a safe place.
+<img src="images/demo/setup-02b-keypair.png" alt="Create Key Pair"></li>
+</ol></li>
+<li><p>Unless you’re there already, go back to the Console page, or follow this link: https://console.aws.amazon.com. Click <strong>CloudFormation</strong> under Deployment &amp; Management.
+<img src="images/demo/setup-03-ec2.png" alt="CloudFormation"></p></li>
+<li><p>Click <strong>Create New Stack</strong>, which will bring up the <strong>Create Stack</strong> dialog.
+<img src="images/demo/setup-04-newstack.png" alt="Create New Stack"></p></li>
+<li><p>Enter a <strong>Stack Name</strong> (it’s arbitrary, we chose, <code>DruidStack</code>). Click <strong>Provide a Template URL</strong> type in the following template URL: <em><strong>https://s3.amazonaws.com/cf-templates-jm2ikmzj3y6x-us-east-1/2013081cA9-Druid04012013.template</strong></em>. Press <strong>Continue</strong>, this will take you to the Create Stack dialog.
+<img src="images/demo/setup-05-createstack.png" alt="Stack Name &amp; URL"></p></li>
+<li><p>Enter <code>Druid</code> (or the Key Pair name you created in Step 2) in the <strong>KeyPairName</strong> field; click <strong>Continue</strong>. This should bring up another dialog prompting you to enter a <strong>Key</strong> and <strong>Value</strong>. 
+<img src="images/demo/setup-06-parameters.png" alt="Stack Parameters"></p></li>
+<li><p>While the inputs are arbitrary, it’s important to remember this information; we chose to enter <code>version</code> for <strong>Key</strong> and <code>1</code> for <strong>Value</strong>. Press <strong>Continue</strong> to bring up a confirmation dialog.
+<img src="images/demo/setup-07a-tags.png" alt="Add Tags"></p></li>
+<li><p>Click <strong>Continue</strong> to start creating your Druid Demo environment (this will bring up another dialog box indicating your environment is being created; click <strong>Close</strong> to take you to a more detailed view of the Stack creation process). Note: depending on AWS, this step could take over 15 minutes – initialization continues even after the instances are created. (So yes, now would be a good time to grab that cup of coffee). 
+<img src="images/demo/setup-07b-review.png" alt="Review">
+<img src="images/demo/setup-07c-complete.png" alt="Create Stack Complete"></p></li>
+<li><p>Click and expand the <strong>Events</strong> tab in the CloudFormation Stacks window to get a more detailed view of the Druid Demo Cluster setup.      </p></li>
+</ol>
+
+<p><img src="images/demo/setup-09-events.png" alt="CloudFormations"></p>
+
+<ol>
+<li>Get the IP address of your Druid Coordinator Node:
+
+<ol>
+<li>Go to the following URL: <a href="https://console.aws.amazon.com/ec2">https://console.aws.amazon.com/ec2</a></li>
+<li>Click <strong>Instances</strong> in the left pane – you should see something similar to the following figure. </li>
+<li>Select the <strong>DruidCoordinator</strong> instance</li>
+<li>Your IP address is right under the heading: <strong>EC2 Instance: DruidCoordinator</strong>. Select and copy that entire line, which ends with <code>amazonaws.com</code>.</li>
+</ol></li>
+</ol>
+
+<p><img src="images/demo/setup-10-ip.png" alt="EC2 Instances"></p>
+
+<h2 id="querying-data">Querying Data</h2>
+
+<ol>
+<li>Use the following URL to bring up the Druid Demo Cluster query interface (replace <strong>IPAddressDruidCoordinator</strong> with the actual druid coordinator IP Address):</li>
+</ol>
+
+<p><strong><code>http://IPAddressDruidCoordinator:8082/druid/v3/demoServlet</code></strong></p>
+
+<p>As you can see from the image below, there are default values in the Dimensions and Granularity fields. Clicking <strong>Execute</strong> will produce a basic query result. 
+<img src="images/demo/query-1.png" alt="Demo Query Interface"></p>
+
+<ol>
+<li><p>Note: when the Query is in running the <strong>Execute</strong> button will be disabled and read: <strong>Fetching…</strong>
+<img src="images/demo/query-2.png" alt="Demo Query"></p></li>
+<li><p>You can add multiple Aggregation values, adjust Granularity, and Dimensions; query results will appear at the bottom of the window. </p></li>
+</ol>
+
+<p>Enjoy! And for sure, please send along your comments and feedback or, aspirations on expanding and developing this demo. https://groups.google.com/d/forum/druid-development. Attention R users: we just open-sourced our R Druid connector: https://github.com/metamx/RDruid.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.156/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1-rc1">API documentation</a></p>
+          <h1 id="clustering">Clustering</h1>
+
+<p>Druid is designed to be deployed as a scalable, fault-tolerant cluster.</p>
+
+<p>In this document, we&#39;ll set up a simple cluster and discuss how it can be further configured to meet
+your needs. This simple cluster will feature scalable, fault-tolerant servers for Historicals and MiddleManagers, and a single
+coordination server to host the Coordinator and Overlord processes. In production, we recommend deploying Coordinators and Overlords in a fault-tolerant
+configuration as well.</p>
+
+<h2 id="select-hardware">Select hardware</h2>
+
+<p>The Coordinator and Overlord processes can be co-located on a single server that is responsible for handling the metadata and coordination needs of your cluster.
+The equivalent of an AWS <a href="https://aws.amazon.com/ec2/instance-types/#M3">m3.xlarge</a> is sufficient for most clusters. This
+hardware offers:</p>
+
+<ul>
+<li>4 vCPUs</li>
+<li>15 GB RAM</li>
+<li>80 GB SSD storage</li>
+</ul>
+
+<p>Historicals and MiddleManagers can be colocated on a single server to handle the actual data in your cluster. These servers benefit greatly from CPU, RAM,
+and SSDs. The equivalent of an AWS <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a> is a
+good starting point. This hardware offers:</p>
+
+<ul>
+<li>8 vCPUs</li>
+<li>61 GB RAM</li>
+<li>160 GB SSD storage</li>
+</ul>
+
+<p>Druid Brokers accept queries and farm them out to the rest of the cluster. They also optionally maintain an
+in-memory query cache. These servers benefit greatly from CPU and RAM, and can also be deployed on
+the equivalent of an AWS <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a>. This hardware
+offers:</p>
+
+<ul>
+<li>8 vCPUs</li>
+<li>61 GB RAM</li>
+<li>160 GB SSD storage</li>
+</ul>
+
+<p>You can consider co-locating any open source UIs or query libraries on the same server that the Broker is running on.</p>
+
+<p>Very large clusters should consider selecting larger servers.</p>
+
+<h2 id="select-os">Select OS</h2>
+
+<p>We recommend running your favorite Linux distribution. You will also need:</p>
+
+<ul>
+<li>Java 7 or better</li>
+</ul>
+
+<p>Your OS package manager should be able to help for both Java. If your Ubuntu-based OS
+does not have a recent enough version of Java, WebUpd8 offers <a href="http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html">packages for those
+OSes</a>.</p>
+
+<h2 id="download-the-distribution">Download the distribution</h2>
+
+<p>First, download and unpack the release archive. It&#39;s best to do this on a single machine at first,
+since you will be editing the configurations and then copying the modified distribution out to all
+of your servers.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/artifacts/releases/druid-0.9.1-rc1-bin.tar.gz
+tar -xzf druid-0.9.1-rc1-bin.tar.gz
+<span class="nb">cd </span>druid-0.9.1-rc1
+</code></pre></div>
+<p>In this package, you&#39;ll find:</p>
+
+<ul>
+<li><code>LICENSE</code> - the license files.</li>
+<li><code>bin/</code> - scripts related to the <a href="quickstart.html">single-machine quickstart</a>.</li>
+<li><code>conf/*</code> - template configurations for a clustered setup.</li>
+<li><code>conf-quickstart/*</code> - configurations for the <a href="quickstart.html">single-machine quickstart</a>.</li>
+<li><code>extensions/*</code> - all Druid extensions.</li>
+<li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies.</li>
+<li><code>lib/*</code> - all included software packages for core Druid.</li>
+<li><code>quickstart/*</code> - files related to the <a href="quickstart.html">single-machine quickstart</a>.</li>
+</ul>
+
+<p>We&#39;ll be editing the files in <code>conf/</code> in order to get things running.</p>
+
+<h2 id="configure-deep-storage">Configure deep storage</h2>
+
+<p>Druid relies on a distributed filesystem or large object (blob) store for data storage. The most
+commonly used deep storage implementations are S3 (popular for those on AWS) and HDFS (popular if
+you already have a Hadoop deployment).</p>
+
+<h3 id="s3">S3</h3>
+
+<p>In <code>conf/druid/_common/common.runtime.properties</code>,</p>
+
+<ul>
+<li><p>Set <code>druid.extensions.loadList=[&quot;druid-s3-extensions&quot;]</code>.</p></li>
+<li><p>Comment out the configurations for local storage under &quot;Deep Storage&quot; and &quot;Indexing service logs&quot;.</p></li>
+<li><p>Uncomment and configure appropriate values in the &quot;For S3&quot; sections of &quot;Deep Storage&quot; and
+&quot;Indexing service logs&quot;.</p></li>
+</ul>
+
+<p>After this, you should have made the following changes:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.extensions.loadList=[&quot;druid-s3-extensions&quot;]
+
+#druid.storage.type=local
+#druid.storage.storageDirectory=var/druid/segments
+
+druid.storage.type=s3
+druid.storage.bucket=your-bucket
+druid.storage.baseKey=druid/segments
+druid.s3.accessKey=...
+druid.s3.secretKey=...
+
+#druid.indexer.logs.type=file
+#druid.indexer.logs.directory=var/druid/indexing-logs
+
+druid.indexer.logs.type=s3
+druid.indexer.logs.s3Bucket=your-bucket
+druid.indexer.logs.s3Prefix=druid/indexing-logs
+</code></pre></div>
+<h3 id="hdfs">HDFS</h3>
+
+<p>In <code>conf/druid/_common/common.runtime.properties</code>,</p>
+
+<ul>
+<li><p>Set <code>druid.extensions.loadList=[&quot;io.druid.extensions:druid-hdfs-storage&quot;]</code>.</p></li>
+<li><p>Comment out the configurations for local storage under &quot;Deep Storage&quot; and &quot;Indexing service logs&quot;.</p></li>
+<li><p>Uncomment and configure appropriate values in the &quot;For HDFS&quot; sections of &quot;Deep Storage&quot; and
+&quot;Indexing service logs&quot;.</p></li>
+</ul>
+
+<p>After this, you should have made the following changes:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.extensions.loadList=[&quot;druid-hdfs-storage&quot;]
+
+#druid.storage.type=local
+#druid.storage.storageDirectory=var/druid/segments
+
+druid.storage.type=hdfs
+druid.storage.storageDirectory=/druid/segments
+
+#druid.indexer.logs.type=file
+#druid.indexer.logs.directory=var/druid/indexing-logs
+
+druid.indexer.logs.type=hdfs
+druid.indexer.logs.directory=/druid/indexing-logs
+</code></pre></div>
+<p>Also,</p>
+
+<ul>
+<li>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml,
+mapred-site.xml) on the classpath of your Druid nodes. You can do this by copying them into
+<code>conf/druid/_common/</code>.</li>
+</ul>
+
+<h2 id="configure-tranquility-server-optional">Configure Tranquility Server (optional)</h2>
+
+<p>Data streams can be sent to Druid through a simple HTTP API powered by Tranquility
+Server. If you will be using this functionality, then at this point you should <a href="../ingestion/stream-ingestion.html#server">configure
+Tranquility Server</a>.</p>
+
+<h2 id="configure-tranquility-kafka-optional">Configure Tranquility Kafka (optional)</h2>
+
+<p>Druid can consuming streams from Kafka through Tranquility Kafka. If you will be
+using this functionality, then at this point you should
+<a href="../ingestion/stream-ingestion.html#kafka">configure Tranquility Kafka</a>.</p>
+
+<h2 id="configure-for-connecting-to-hadoop-optional">Configure for connecting to Hadoop (optional)</h2>
+
+<p>If you will be loading data from a Hadoop cluster, then at this point you should configure Druid to be aware
+of your cluster:</p>
+
+<ul>
+<li><p>Update <code>druid.indexer.task.hadoopWorkingPath</code> in <code>conf/middleManager/runtime.properties</code> to
+a path on HDFS that you&#39;d like to use for temporary files required during the indexing process.
+<code>druid.indexer.task.hadoopWorkingPath=/tmp/druid-indexing</code> is a common choice.</p></li>
+<li><p>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml,
+mapred-site.xml) on the classpath of your Druid nodes. You can do this by copying them into
+<code>conf/druid/_common/core-site.xml</code>, <code>conf/druid/_common/hdfs-site.xml</code>, and so on.</p></li>
+</ul>
+
+<p>Note that you don&#39;t need to use HDFS deep storage in order to load data from Hadoop. For example, if
+your cluster is running on Amazon Web Services, we recommend using S3 for deep storage even if you
+are loading data using Hadoop or Elastic MapReduce.</p>
+
+<p>For more info, please see <a href="../ingestion/batch-ingestion.html">batch ingestion</a>.</p>
+
+<h2 id="configure-addresses-for-druid-coordination">Configure addresses for Druid coordination</h2>
+
+<p>In this simple cluster, you will deploy a single Druid Coordinator, a
+single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metadata store on the same server.</p>
+
+<p>In <code>conf/druid/_common/common.runtime.properties</code>, replace
+&quot;zk.host.ip&quot; with the IP address of the machine that runs your ZK instance:</p>
+
+<ul>
+<li><code>druid.zk.service.host</code></li>
+</ul>
+
+<p>In <code>conf/_common/common.runtime.properties</code>, replace
+&quot;metadata.store.ip&quot; with the IP address of the machine that you will use as your metadata store:</p>
+
+<ul>
+<li><code>druid.metadata.storage.connector.connectURI</code></li>
+<li><code>druid.metadata.storage.connector.host</code></li>
+</ul>
+
+<div class="note caution">
+In production, we recommend running 2 servers, each running a Druid Coordinator
+and a Druid Overlord. We also recommend running a ZooKeeper cluster on its own dedicated hardware,
+as well as  replicated [metadata
+storage](http://druid.io/docs/latest/dependencies/metadata-storage.html) such as MySQL or
+PostgreSQL, on its own dedicated hardware.
+</div>
+
+<h2 id="tune-druid-processes-that-serve-queries">Tune Druid processes that serve queries</h2>
+
+<p>Druid Historicals and MiddleManagers can be co-located on the same hardware. Both Druid processes benefit greatly from
+being tuned to the hardware they run on. If you are running Tranquility Server or Kafka, you can also colocate Tranquility with these two Druid processes.
+If you are using <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a>
+EC2 instances, or similar hardware, the configuration in the distribution is a
+reasonable starting point.</p>
+
+<p>If you are using different hardware, we recommend adjusting configurations for your specific
+hardware. The most commonly adjusted configurations are:</p>
+
+<ul>
+<li><code>-Xmx</code> and <code>-Xms</code></li>
+<li><code>druid.server.http.numThreads</code></li>
+<li><code>druid.processing.buffer.sizeBytes</code></li>
+<li><code>druid.processing.numThreads</code></li>
+<li><code>druid.query.groupBy.maxIntermediateRows</code></li>
+<li><code>druid.query.groupBy.maxResults</code></li>
+<li><code>druid.server.maxSize</code> and <code>druid.segmentCache.locations</code> on Historical Nodes</li>
+<li><code>druid.worker.capacity</code> on MiddleManagers</li>
+</ul>
+
+<div class="note info">
+Keep -XX:MaxDirectMemory >= numThreads*sizeBytes, otherwise Druid will fail to start up..
+</div>
+
+<p>Please see the Druid <a href="../configuration/index.html">configuration documentation</a> for a full description of all
+possible configuration options.</p>
+
+<h2 id="tune-druid-brokers">Tune Druid Brokers</h2>
+
+<p>Druid Brokers also benefit greatly from being tuned to the hardware they
+run on. If you are using <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a> EC2 instances,
+or similar hardware, the configuration in the distribution is a reasonable starting point.</p>
+
+<p>If you are using different hardware, we recommend adjusting configurations for your specific
+hardware. The most commonly adjusted configurations are:</p>
+
+<ul>
+<li><code>-Xmx</code> and <code>-Xms</code></li>
+<li><code>druid.server.http.numThreads</code></li>
+<li><code>druid.cache.sizeInBytes</code></li>
+<li><code>druid.processing.buffer.sizeBytes</code></li>
+<li><code>druid.processing.numThreads</code></li>
+<li><code>druid.query.groupBy.maxIntermediateRows</code></li>
+<li><code>druid.query.groupBy.maxResults</code></li>
+</ul>
+
+<div class="note caution">
+Keep -XX:MaxDirectMemory >= numThreads*sizeBytes, otherwise Druid will fail to start up.
+</div>
+
+<p>Please see the Druid <a href="../configuration/index.html">configuration documentation</a> for a full description of all
+possible configuration options.</p>
+
+<h2 id="open-ports-if-using-a-firewall">Open ports (if using a firewall)</h2>
+
+<p>If you&#39;re using a firewall or some other system that only allows traffic on specific ports, allow
+inbound connections on the following:</p>
+
+<ul>
+<li>1527 (Derby on your Coordinator; not needed if you are using a separate metadata store like MySQL or PostgreSQL)</li>
+<li>2181 (ZooKeeper; not needed if you are using a separate ZooKeeper cluster)</li>
+<li>8081 (Coordinator)</li>
+<li>8082 (Broker)</li>
+<li>8083 (Historical)</li>
+<li>8084 (Standalone Realtime, if used)</li>
+<li>8088 (Router, if used)</li>
+<li>8090 (Overlord)</li>
+<li>8091, 8100&ndash;8199 (Druid Middle Manager; you may need higher than port 8199 if you have a very high <code>druid.worker.capacity</code>)</li>
+<li>8200 (Tranquility Server, if used)</li>
+</ul>
+
+<div class="note caution">
+In production, we recommend deploying ZooKeeper and your metadata store on their own dedicated hardware,
+rather than on the Coordinator server.
+</div>
+
+<h2 id="start-coordinator-overlord-zookeeper-and-metadata-store">Start Coordinator, Overlord, Zookeeper, and metadata store</h2>
+
+<p>Copy the Druid distribution and your edited configurations to your coordination
+server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
+copy them:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rsync -az druid-0.9.1-rc1/ COORDINATION_SERVER:druid-0.9.1-rc1/
+</code></pre></div>
+<p>Log on to your coordination server and install Zookeeper:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+tar -xzf zookeeper-3.4.6.tar.gz
+<span class="nb">cd </span>zookeeper-3.4.6
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
+</code></pre></div>
+<div class="note caution">
+In production, we also recommend running a ZooKeeper cluster on its own dedicated hardware.
+</div>
+
+<p>On your coordination server, <em>cd</em> into the distribution and start up the coordination services (you should do this in different windows or pipe the log to a file):</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/coordinator:lib/* io.druid.cli.Main server coordinator
+java <span class="sb">`</span>cat conf/druid/overlord/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/overlord:lib/* io.druid.cli.Main server overlord
+</code></pre></div>
+<p>You should see a log message printed out for each service that starts up. You can view detailed logs
+for any service by looking in the <code>var/log/druid</code> directory using another terminal.</p>
+
+<h2 id="start-historicals-and-middlemanagers">Start Historicals and MiddleManagers</h2>
+
+<p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Historicals and MiddleManagers.</p>
+
+<p>On each one, <em>cd</em> into the distribution and run this command to start a Data server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/historical:lib/* io.druid.cli.Main server historical
+java <span class="sb">`</span>cat conf/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/middleManager:lib/* io.druid.cli.Main server middleManager
+</code></pre></div>
+<p>You can add more servers with Druid Historicals and MiddleManagers as needed.</p>
+
+<div class="note info">
+For clusters with complex resource allocation needs, you can break apart Historicals and MiddleManagers and scale the components individually.
+This also allows you take advantage of Druid's built-in MiddleManager
+autoscaling facility.
+</div>
+
+<p>If you are doing push-based stream ingestion with Kafka or over HTTP, you can also start Tranquility Server on the same
+hardware that holds MiddleManagers and Historicals. For large scale production, MiddleManagers and Tranquility Server
+can still be co-located. If you are running Tranquility (not server) with a stream processor, you can co-locate
+Tranquility with the stream processor and not require Tranquility Server.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.0.tgz
+tar -xzf tranquility-distribution-0.8.0.tgz
+<span class="nb">cd </span>tranquility-distribution-0.8.0
+bin/tranquility &lt;server or kafka&gt; -configFile &lt;path_to_druid_distro&gt;/conf/tranquility/&lt;server or kafka&gt;.json
+</code></pre></div>
+<h2 id="start-druid-broker">Start Druid Broker</h2>
+
+<p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Brokers.</p>
+
+<p>On each one, <em>cd</em> into the distribution and run this command to start a Broker (you may want to pipe the output to a log file):</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/broker:lib/* io.druid.cli.Main server broker
+</code></pre></div>
+<p>You can add more Brokers as needed based on query load.</p>
+
+<h2 id="loading-data">Loading data</h2>
+
+<p>Congratulations, you now have a Druid cluster! The next step is to learn about recommended ways to load data into
+Druid based on your use case. Read more about <a href="ingestion.html">loading data</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

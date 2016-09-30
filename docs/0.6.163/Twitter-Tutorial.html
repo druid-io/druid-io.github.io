@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.163">API documentation</a></p>
+          <p>Greetings! We see you&#39;ve taken an interest in Druid. That&#39;s awesome! Hopefully this tutorial will help clarify some core Druid concepts. We will go through one of the Real-time <a href="Examples.html">Examples</a>, and issue some basic Druid queries. The data source we&#39;ll be working with is the <a href="https://dev.twitter.com/docs/streaming-apis/streams/public">Twitter spritzer stream</a>. If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!</p>
+
+<h1 id="setting-up">Setting Up</h1>
+
+<p>There are two ways to setup Druid: download a tarball, or build it from source.</p>
+
+<h1 id="download-a-tarball">Download a Tarball</h1>
+
+<p>We&#39;ve built a tarball that contains everything you&#39;ll need. You&#39;ll find it <a href="http://static.druid.io/artifacts/releases/druid-services-0.6.163-bin.tar.gz">here</a>.
+Download this bad boy to a directory of your choosing.</p>
+
+<p>You can extract the awesomeness within by issuing:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">tar -zxvf druid-services-0.X.X.tar.gz
+</code></pre></div>
+<p>Not too lost so far right? That&#39;s great! If you cd into the directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cd druid-services-0.X.X
+</code></pre></div>
+<p>You should see a bunch of files:</p>
+
+<ul>
+<li>run_example_server.sh</li>
+<li>run_example_client.sh</li>
+<li>LICENSE, config, examples, lib directories</li>
+</ul>
+
+<h1 id="clone-and-build-from-source">Clone and Build from Source</h1>
+
+<p>The other way to setup Druid is from source via git. To do so, run these commands:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:metamx/druid.git
+cd druid
+git checkout druid-0.X.X
+./build.sh
+</code></pre></div>
+<p>You should see a bunch of files: </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">DruidCorporateCLA.pdf   README          common          examples        indexer         pom.xml         server
+DruidIndividualCLA.pdf  build.sh        doc         group_by.body       install         publications        services
+LICENSE         client          eclipse_formatting.xml  index-common        merger          realtime
+</code></pre></div>
+<p>You can find the example executables in the examples/bin directory:</p>
+
+<ul>
+<li>run_example_server.sh</li>
+<li>run_example_client.sh</li>
+</ul>
+
+<h1 id="running-example-scripts">Running Example Scripts</h1>
+
+<p>Let&#39;s start doing stuff. You can start a Druid <a href="Realtime.html">Realtime</a> node by issuing:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_server.sh
+</code></pre></div>
+<p>Select &quot;twitter&quot;. </p>
+
+<p>You&#39;ll need to register a new application with the twitter API, which only takes a minute. Go to <a href="https://twitter.com/oauth_clients/new%22:https://twitter.com/oauth_clients/new">this link</a> and fill out the form and submit. Don&#39;t worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.</p>
+
+<p>Enter your credentials when prompted.</p>
+
+<p>Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below. If you see crazy exceptions, you probably typed in your login information incorrectly.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:04:40,934 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8080
+2013-05-17 23:04:40,935 INFO [main] com.metamx.common.lifecycle.Lifecycle$AnnotationBasedHandler - Invoking start method[public void com.metamx.druid.http.FileRequestLogger.start()] on object[com.metamx.druid.http.FileRequestLogger@42bb0406].
+2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Connection established.
+2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] io.druid.examples.twitter.TwitterSpritzerFirehoseFactory - Connected_to_Twitter
+2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Receiving status stream.
+</code></pre></div>
+<p>Periodically, you&#39;ll also see messages of the form:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:04:59,793 INFO [chief-twitterstream] io.druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
+</code></pre></div>
+<p>These messages indicate you are ingesting events. The Druid real time-node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. Persisting to disk generates a whole bunch of logs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:06:40,918 INFO [chief-twitterstream] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Submitting persist runnable for dataSource[twitterstream]
+2013-05-17 23:06:40,920 INFO [twitterstream-incremental-persist] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - DataSource[twitterstream], Interval[2013-05-17T23:00:00.000Z/2013-05-18T00:00:00.000Z], persisting Hydrant[FireHydrant{index=com.metamx.druid.index.v1.IncrementalIndex@126212dd, queryable=com.metamx.druid.index.IncrementalIndexSegment@64c47498, count=0}]
+2013-05-17 23:06:40,937 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting persist for interval[2013-05-17T23:00:00.000Z/2013-05-17T23:07:00.000Z], rows[4,666]
+2013-05-17 23:06:41,039 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed index.drd in 11 millis.
+2013-05-17 23:06:41,070 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed dim conversions in 31 millis.
+2013-05-17 23:06:41,275 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.CompressedPools - Allocating new chunkEncoder[1]
+2013-05-17 23:06:41,332 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed walk through of 4,666 rows in 262 millis.
+2013-05-17 23:06:41,334 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[htags] with cardinality[634]
+2013-05-17 23:06:41,381 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[htags] in 49 millis.
+2013-05-17 23:06:41,382 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[lang] with cardinality[19]
+2013-05-17 23:06:41,398 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[lang] in 17 millis.
+2013-05-17 23:06:41,398 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[utc_offset] with cardinality[32]
+2013-05-17 23:06:41,413 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[utc_offset] in 15 millis.
+2013-05-17 23:06:41,413 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed inverted.drd in 81 millis.
+2013-05-17 23:06:41,425 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexIO$DefaultIndexIOHandler - Converting v8[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] to v9[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0]
+2013-05-17 23:06:41,426 INFO [twitterstream-incremental-persist] 
+... ETC
+</code></pre></div>
+<p>The logs are about building different columns, probably not the most exciting stuff (they might as well be in Vulcan) if are you learning about Druid for the first time. Nevertheless, if you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our &quot;White Paper&quot;:http://static.druid.io/docs/druid.pdf.</p>
+
+<p>Okay, things are about to get real (-time). To query the real-time node you&#39;ve spun up, you can issue:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_client.sh
+</code></pre></div>
+<p>Select &quot;twitter&quot; once again. This script issues <a href="GroupByQuery.html">GroupByQueries</a> to the twitter data we&#39;ve been ingesting. The query looks like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="s2">&quot;utc_offset&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span> <span class="p">},</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2012-10-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is a <strong>groupBy</strong> query, which you may be familiar with from SQL. We are grouping, or aggregating, via the <strong>dimensions</strong> field: [&quot;lang&quot;, &quot;utc_offset&quot;]. We are <strong>filtering</strong> via the <strong>&quot;lang&quot;</strong> dimension, to only look at english tweets. Our <strong>aggregations</strong> are what we are calculating: a row count, and the sum of the tweets in our data.</p>
+
+<p>The result looks something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;utc_offset&quot;</span><span class="p">:</span> <span class="s2">&quot;-10800&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;tweets&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
+            <span class="nt">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">81</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;utc_offset&quot;</span><span class="p">:</span> <span class="s2">&quot;-14400&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;tweets&quot;</span><span class="p">:</span> <span class="mi">177</span><span class="p">,</span>
+            <span class="nt">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">154</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+<span class="err">...</span>
+</code></pre></div>
+<p>This data, plotted in a time series/distribution, looks something like this:</p>
+
+<p><img src="http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png" alt="Tweets"></p>
+
+<p>This groupBy query is a bit complicated and we&#39;ll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have <a href="http://curl.haxx.se/">curl</a> installed. Control+C to break out of the client script.</p>
+
+<h1 id="querying-druid">Querying Druid</h1>
+
+<p>In your favorite editor, create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">time_boundary_query.body
+</code></pre></div>
+<p>Druid queries are JSON blobs which are relatively painless to create programmatically, but an absolute pain to write by hand. So anyway, we are going to create a Druid query by hand. Add the following to the file you just created:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="err"> </span>
+  <span class="nt">&quot;queryType&quot;</span>  <span class="p">:</span> <span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The &quot;TimeBoundaryQuery&quot;:TimeBoundaryQuery.html is one of the simplest Druid queries. To run the query, you can issue:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @time_boundary_query.body
+</code></pre></div>
+<p>We get something like this JSON back:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;maxTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T20:50:00.000Z&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="err">]</span>
+</code></pre></div>
+<p>That&#39;s the result. What information do you think the result is conveying? 
+...
+If you said the result is indicating the maximum and minimum timestamps we&#39;ve seen thus far (summarized to a minutely granularity), you are absolutely correct. I can see you are a person legitimately interested in learning about Druid. Let&#39;s explore a bit further.</p>
+
+<p>Return to your favorite editor and create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">timeseries_query.body
+</code></pre></div>
+<p>We are going to make a slightly more complicated query, the <a href="TimeseriesQuery.html">TimeseriesQuery</a>. Copy and paste the following into the file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2010-01-01/2020-01-01&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You are probably wondering, what are these <a href="Granularities.html">Granularities</a> and <a href="Aggregations.html">Aggregations</a> things? What the query is doing is aggregating some metrics over some span of time.
+To issue the query and get some results, run the following in your command line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @timeseries_query.body
+</code></pre></div>
+<p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">358562.0</span><span class="p">,</span>
+    <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">272271</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>If you issue the query again, you should notice your results updating.</p>
+
+<p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?</p>
+
+<p>If you loudly exclaimed &quot;we can change granularity to minute&quot;, you are absolutely correct again! We can specify different granularities to bucket our results, like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2010-01-01/2020-01-01&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span><span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This gives us something like the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">2650.0</span><span class="p">,</span>
+    <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">2120</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:10:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">3401.0</span><span class="p">,</span>
+    <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">2609</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:11:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">3472.0</span><span class="p">,</span>
+    <span class="nt">&quot;rows&quot;</span> <span class="p">:</span> <span class="mi">2610</span>
+  <span class="p">}</span>
+<span class="p">},</span>
+<span class="err">...</span>
+</code></pre></div>
+<h1 id="solving-a-problem">Solving a Problem</h1>
+
+<p>One of Druid&#39;s main powers (see what we did there?) is to provide answers to problems, so let&#39;s pose a problem. What if we wanted to know what the top hash tags are, ordered by the number tweets, where the language is english, over the last few minutes you&#39;ve been reading this tutorial? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the &quot;GroupByQuery&quot;:GroupByQuery.html. It would be nice if we could group by results by dimension value and somehow sort those results... and it turns out we can! </p>
+
+<p>Let&#39;s create the file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">group_by_query.body
+</code></pre></div>
+<p>and put the following in there:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;htags&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;limitSpec&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;columns&quot;</span><span class="p">:[{</span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">,</span> <span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="s2">&quot;DESCENDING&quot;</span><span class="p">}],</span> <span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">},</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;tweets&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span> <span class="p">},</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2012-10-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Woah! Our query just got a way more complicated. Now we have these <a href="Filters.html">Filters</a> things and this <a href="LimitSpec.html">LimitSpec</a> thing. Fear not, it turns out the new objects we&#39;ve introduced to our query can help define the format of our results and provide an answer to our question.</p>
+
+<p>If you issue the query:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
+</code></pre></div>
+<p>You should hopefully see an answer to our question. For my twitter stream, it looks like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mi">2660</span><span class="p">,</span>
+    <span class="nt">&quot;htags&quot;</span> <span class="p">:</span> <span class="s2">&quot;android&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mi">1944</span><span class="p">,</span>
+    <span class="nt">&quot;htags&quot;</span> <span class="p">:</span> <span class="s2">&quot;E3&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mi">1927</span><span class="p">,</span>
+    <span class="nt">&quot;htags&quot;</span> <span class="p">:</span> <span class="s2">&quot;15SueñosPendientes&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mi">1717</span><span class="p">,</span>
+    <span class="nt">&quot;htags&quot;</span> <span class="p">:</span> <span class="s2">&quot;ipad&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mi">1515</span><span class="p">,</span>
+    <span class="nt">&quot;htags&quot;</span> <span class="p">:</span> <span class="s2">&quot;IDidntTextYouBackBecause&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Feel free to tweak other query parameters to answer other questions you may have about the data.</p>
+
+<h1 id="additional-information">Additional Information</h1>
+
+<p>This tutorial is merely showcasing a small fraction of what Druid can do. Next, continue on to <a href="./Tutorial:-The-Druid-Cluster.html">The Druid Cluster</a>.</p>
+
+<p>And thus concludes our journey! Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our <a href="http://www.groups.google.com/forum/#!forum/druid-development">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.163/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1-rc4">API documentation</a></p>
+          <h1 id="configuring-druid">Configuring Druid</h1>
+
+<p>This describes the common configuration shared by all Druid nodes. These configurations can be defined in the <code>common.runtime.properties</code> file.</p>
+
+<h2 id="jvm-configuration-best-practices">JVM Configuration Best Practices</h2>
+
+<p>There are four JVM parameters that we set on all of our processes:</p>
+
+<ol>
+<li> <code>-Duser.timezone=UTC</code> This sets the default timezone of the JVM to UTC. We always set this and do not test with other default timezones, so local timezones might work, but they also might uncover weird and interesting bugs. To issue queries in a non-UTC timezone, see <a href="../querying/granularities.html#period-granularities">query granularities</a></li>
+<li> <code>-Dfile.encoding=UTF-8</code> This is similar to timezone, we test assuming UTF-8. Local encodings might work, but they also might result in weird and interesting bugs.</li>
+<li> <code>-Djava.io.tmpdir=&lt;a path&gt;</code> Various parts of the system that interact with the file system do it via temporary files, and these files can get somewhat large. Many production systems are set up to have small (but fast) <code>/tmp</code> directories, which can be problematic with Druid so we recommend pointing the JVM’s tmp directory to something with a little more meat.</li>
+<li> <code>-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager</code> This allows log4j2 to handle logs for non-log4j2 components (like jetty) which use standard java logging.</li>
+</ol>
+
+<h3 id="extensions">Extensions</h3>
+
+<p>Many of Druid&#39;s external dependencies can be plugged in as modules. Extensions can be provided using the following configs:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.extensions.directory</code></td>
+<td>The root extension directory where user can put extensions related files. Druid will load extensions stored under this directory.</td>
+<td><code>extensions</code> (This is a relative path to Druid&#39;s working directory)</td>
+</tr>
+<tr>
+<td><code>druid.extensions.hadoopDependenciesDir</code></td>
+<td>The root hadoop dependencies directory where user can put hadoop related dependencies files. Druid will load the dependencies based on the hadoop coordinate specified in the hadoop index task.</td>
+<td><code>hadoop-dependencies</code> (This is a relative path to Druid&#39;s working directory</td>
+</tr>
+<tr>
+<td><code>druid.extensions.hadoopContainerDruidClasspath</code></td>
+<td>Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.extensions.loadList</code></td>
+<td>A JSON array of extensions to load from extension directories by Druid. If it is not specified, its value will be <code>null</code> and Druid will load all the extensions under <code>druid.extensions.directory</code>. If its value is empty list <code>[]</code>, then no extensions will be loaded at all.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.extensions.searchCurrentClassloader</code></td>
+<td>This is a boolean flag that determines if Druid will search the main classloader for extensions.  It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath.</td>
+<td>true</td>
+</tr>
+</tbody></table>
+
+<h3 id="zookeeper">Zookeeper</h3>
+
+<p>We recommend just setting the base ZK path and the ZK service host, but all ZK paths that Druid uses can be overwritten to absolute paths.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.zk.paths.base</code></td>
+<td>Base Zookeeper path.</td>
+<td><code>/druid</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.service.host</code></td>
+<td>The ZooKeeper hosts to connect to. This is a REQUIRED property and therefore a host address must be supplied.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="zookeeper-behavior">Zookeeper Behavior</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.zk.service.sessionTimeoutMs</code></td>
+<td>ZooKeeper session timeout, in milliseconds.</td>
+<td><code>30000</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.service.compress</code></td>
+<td>Boolean flag for whether or not created Znodes should be compressed.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.service.acl</code></td>
+<td>Boolean flag for whether or not to enable ACL security for ZooKeeper. If ACL is enabled, zNode creators will have all permissions.</td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="path-configuration">Path Configuration</h4>
+
+<p>Druid interacts with ZK through a set of standard path configurations. We recommend just setting the base ZK path, but all ZK paths that Druid uses can be overwritten to absolute paths.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.zk.paths.base</code></td>
+<td>Base Zookeeper path.</td>
+<td><code>/druid</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.propertiesPath</code></td>
+<td>Zookeeper properties path.</td>
+<td><code>${druid.zk.paths.base}/properties</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.announcementsPath</code></td>
+<td>Druid node announcement path.</td>
+<td><code>${druid.zk.paths.base}/announcements</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.liveSegmentsPath</code></td>
+<td>Current path for where Druid nodes announce their segments.</td>
+<td><code>${druid.zk.paths.base}/segments</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.loadQueuePath</code></td>
+<td>Entries here cause historical nodes to load and drop segments.</td>
+<td><code>${druid.zk.paths.base}/loadQueue</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.coordinatorPath</code></td>
+<td>Used by the coordinator for leader election.</td>
+<td><code>${druid.zk.paths.base}/coordinator</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.servedSegmentsPath</code></td>
+<td>@Deprecated. Legacy path for where Druid nodes announce their segments.</td>
+<td><code>${druid.zk.paths.base}/servedSegments</code></td>
+</tr>
+</tbody></table>
+
+<p>The indexing service also uses its own set of paths. These configs can be included in the common configuration.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.zk.paths.indexer.base</code></td>
+<td>Base zookeeper path for</td>
+<td><code>${druid.zk.paths.base}/indexer</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.announcementsPath</code></td>
+<td>Middle managers announce themselves here.</td>
+<td><code>${druid.zk.paths.indexer.base}/announcements</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.tasksPath</code></td>
+<td>Used to assign tasks to middle managers.</td>
+<td><code>${druid.zk.paths.indexer.base}/tasks</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.statusPath</code></td>
+<td>Parent path for announcement of task statuses.</td>
+<td><code>${druid.zk.paths.indexer.base}/status</code></td>
+</tr>
+<tr>
+<td><code>druid.zk.paths.indexer.leaderLatchPath</code></td>
+<td>Used for Overlord leader election.</td>
+<td><code>${druid.zk.paths.indexer.base}/leaderLatchPath</code></td>
+</tr>
+</tbody></table>
+
+<p>If <code>druid.zk.paths.base</code> and <code>druid.zk.paths.indexer.base</code> are both set, and none of the other <code>druid.zk.paths.*</code> or <code>druid.zk.paths.indexer.*</code> values are set, then the other properties will be evaluated relative to their respective <code>base</code>.
+For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> and <code>druid.zk.paths.indexer.base</code> is set to <code>/druid2</code> then <code>druid.zk.paths.announcementsPath</code> will default to <code>/druid1/announcements</code> while <code>druid.zk.paths.indexer.announcementsPath</code> will default to <code>/druid2/announcements</code>.</p>
+
+<p>The following path is used for service discovery. It is <strong>not</strong> affected by <code>druid.zk.paths.base</code> and <strong>must</strong> be specified separately.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.discovery.curator.path</code></td>
+<td>Services announce themselves under this ZooKeeper path.</td>
+<td><code>/druid/discovery</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="startup-logging">Startup Logging</h3>
+
+<p>All nodes can log debugging information on startup.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.startup.logging.logProperties</code></td>
+<td>Log all properties on startup (from common.runtime.properties, runtime.properties, and the JVM command line).</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<p>Note that some sensitive information may be logged if these settings are enabled.</p>
+
+<h3 id="request-logging">Request Logging</h3>
+
+<p>All nodes that can serve queries can also log the query requests they see.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.type</code></td>
+<td>Choices: noop, file, emitter. How to log every query request.</td>
+<td>noop</td>
+</tr>
+</tbody></table>
+
+<p>Note that, you can enable sending all the HTTP requests to log by setting  &quot;io.druid.jetty.RequestLog&quot; to DEBUG level. See <a href="../configuration/logging.html">Logging</a></p>
+
+<h4 id="file-request-logging">File Request Logging</h4>
+
+<p>Daily request logs are stored on disk.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.dir</code></td>
+<td>Historical, Realtime and Broker nodes maintain request logs of all of the requests they get (interacton is via POST, so normal request logs don’t generally capture information about the actual query), this specifies the directory to store the request logs in</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="emitter-request-logging">Emitter Request Logging</h4>
+
+<p>Every request is emitted to some external location.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.feed</code></td>
+<td>Feed name for requests.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="enabling-metrics">Enabling Metrics</h3>
+
+<p>Druid nodes periodically emit metrics and different metrics monitors can be included. Each node can overwrite the default list of monitors.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.monitoring.emissionPeriod</code></td>
+<td>How often metrics are emitted.</td>
+<td>PT1m</td>
+</tr>
+<tr>
+<td><code>druid.monitoring.monitors</code></td>
+<td>Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with <code>druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]</code>.</td>
+<td>none (no monitors)</td>
+</tr>
+</tbody></table>
+
+<p>The following monitors are available:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>io.druid.client.cache.CacheMonitor</code></td>
+<td>Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and and errors.</td>
+</tr>
+<tr>
+<td><code>com.metamx.metrics.SysMonitor</code></td>
+<td>This uses the <a href="http://www.hyperic.com/products/sigar">SIGAR library</a> to report on various system activities and statuses. Make sure to add the <a href="https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132.jar">sigar library jar</a> to your classpath if using this monitor.</td>
+</tr>
+<tr>
+<td><code>io.druid.server.metrics.HistoricalMetricsMonitor</code></td>
+<td>Reports statistics on Historical nodes.</td>
+</tr>
+<tr>
+<td><code>com.metamx.metrics.JvmMonitor</code></td>
+<td>Reports JVM-related statistics.</td>
+</tr>
+<tr>
+<td><code>io.druid.segment.realtime.RealtimeMetricsMonitor</code></td>
+<td>Reports statistics on Realtime nodes.</td>
+</tr>
+<tr>
+<td><code>io.druid.server.metrics.EventReceiverFirehoseMonitor</code></td>
+<td>Reports how many events have been queued in the EventReceiverFirehose.</td>
+</tr>
+</tbody></table>
+
+<h3 id="emitting-metrics">Emitting Metrics</h3>
+
+<p>The Druid servers <a href="../operations/metrics.html">emit various metrics</a> and alerts via something we call an Emitter. There are three emitter implementations included with the code, a &quot;noop&quot; emitter, one that just logs to log4j (&quot;logging&quot;, which is used by default if no emitter is specified) and one that does POSTs of JSON events to a server (&quot;http&quot;). The properties for using the logging emitter are described below.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter</code></td>
+<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, or &quot;http&quot; will initialize one of the emitter modules. value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
+<td>noop</td>
+</tr>
+</tbody></table>
+
+<h4 id="logging-emitter-module">Logging Emitter Module</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.logging.loggerClass</code></td>
+<td>Choices: HttpPostEmitter, LoggingEmitter, NoopServiceEmitter, ServiceEmitter. The class used for logging.</td>
+<td>LoggingEmitter</td>
+</tr>
+<tr>
+<td><code>druid.emitter.logging.logLevel</code></td>
+<td>Choices: debug, info, warn, error. The log level at which message are logged.</td>
+<td>info</td>
+</tr>
+</tbody></table>
+
+<h4 id="http-emitter-module">Http Emitter Module</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.http.timeOut</code></td>
+<td>The timeout for data reads.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.flushMillis</code></td>
+<td>How often the internal message buffer is flushed (data is sent).</td>
+<td>60000</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.flushCount</code></td>
+<td>How many messages the internal message buffer can hold before flushing (sending).</td>
+<td>500</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.recipientBaseUrl</code></td>
+<td>The base URL to emit messages to. Druid will POST JSON to be consumed at the HTTP endpoint specified by this property.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="composing-emitter-module">Composing Emitter Module</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.composing.emitters</code></td>
+<td>List of emitter modules to load e.g. [&quot;logging&quot;,&quot;http&quot;].</td>
+<td>[]</td>
+</tr>
+</tbody></table>
+
+<h4 id="graphite-emitter">Graphite Emitter</h4>
+
+<p>To use graphite as emitter set <code>druid.emitter=graphite</code>. For configuration details please follow this <a href="https://github.com/druid-io/druid/tree/master/extensions/graphite-emitter/README.md">link</a>.</p>
+
+<h3 id="metadata-storage">Metadata Storage</h3>
+
+<p>These properties specify the jdbc connection and other configuration around the metadata storage. The only processes that connect to the metadata storage with these properties are the <a href="../design/coordinator.html">Coordinator</a>, <a href="../design/indexing-service.html">Indexing service</a> and <a href="../design/realtime.html">Realtime Nodes</a>.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.metadata.storage.type</code></td>
+<td>The type of metadata storage to use. Choose from &quot;mysql&quot;, &quot;postgresql&quot;, or &quot;derby&quot;.</td>
+<td>derby</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.connector.connectURI</code></td>
+<td>The jdbc uri for the database to connect to</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.connector.user</code></td>
+<td>The username to connect with.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.connector.password</code></td>
+<td>The password to connect with.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.connector.createTables</code></td>
+<td>If Druid requires a table and it doesn&#39;t exist, create it?</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.base</code></td>
+<td>The base name for tables.</td>
+<td>druid</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.segments</code></td>
+<td>The table to use to look for segments.</td>
+<td>druid_segments</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.rules</code></td>
+<td>The table to use to look for segment load/drop rules.</td>
+<td>druid_rules</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.config</code></td>
+<td>The table to use to look for configs.</td>
+<td>druid_config</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.tasks</code></td>
+<td>Used by the indexing service to store tasks.</td>
+<td>druid_tasks</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.taskLog</code></td>
+<td>Used by the indexing service to store task logs.</td>
+<td>druid_taskLog</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.taskLock</code></td>
+<td>Used by the indexing service to store task locks.</td>
+<td>druid_taskLock</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.supervisors</code></td>
+<td>Used by the indexing service to store supervisor configurations.</td>
+<td>druid_supervisors</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.audit</code></td>
+<td>The table to use for audit history of configuration changes e.g. Coordinator rules.</td>
+<td>druid_audit</td>
+</tr>
+</tbody></table>
+
+<h3 id="deep-storage">Deep Storage</h3>
+
+<p>The configurations concern how to push and pull <a href="../design/segments.html">Segments</a> from deep storage.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.storage.type</code></td>
+<td>Choices:local, noop, s3, hdfs, c*. The type of deep storage to use.</td>
+<td>local</td>
+</tr>
+</tbody></table>
+
+<h4 id="local-deep-storage">Local Deep Storage</h4>
+
+<p>Local deep storage uses the local filesystem.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.storage.storageDirectory</code></td>
+<td>Directory on disk to use as deep storage.</td>
+<td>/tmp/druid/localStorage</td>
+</tr>
+</tbody></table>
+
+<h4 id="noop-deep-storage">Noop Deep Storage</h4>
+
+<p>This deep storage doesn&#39;t do anything. There are no configs.</p>
+
+<h4 id="s3-deep-storage">S3 Deep Storage</h4>
+
+<p>This deep storage is used to interface with Amazon&#39;s S3.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.s3.accessKey</code></td>
+<td>The access key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.s3.secretKey</code></td>
+<td>The secret key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.bucket</code></td>
+<td>S3 bucket name.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.baseKey</code></td>
+<td>S3 object key prefix for storage.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.disableAcl</code></td>
+<td>Boolean flag for ACL.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.storage.archiveBucket</code></td>
+<td>S3 bucket name for archiving when running the indexing-service <em>archive task</em>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.archiveBaseKey</code></td>
+<td>S3 object key prefix for archiving.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="hdfs-deep-storage">HDFS Deep Storage</h4>
+
+<p>This deep storage is used to interface with HDFS.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.storage.storageDirectory</code></td>
+<td>HDFS directory to use as deep storage.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="cassandra-deep-storage">Cassandra Deep Storage</h4>
+
+<p>This deep storage is used to interface with Cassandra.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.storage.host</code></td>
+<td>Cassandra host.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.keyspace</code></td>
+<td>Cassandra key space.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="caching">Caching</h3>
+
+<p>You can enable caching of results at the broker, historical, or realtime level using following configurations.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.cache.type</code></td>
+<td><code>local</code>, <code>memcached</code></td>
+<td>The type of cache to use for queries.</td>
+</tr>
+<tr>
+<td>`druid.(broker</td>
+<td>historical</td>
+<td>realtime).cache.unCacheable`</td>
+</tr>
+<tr>
+<td>`druid.(broker</td>
+<td>historical</td>
+<td>realtime).cache.useCache`</td>
+</tr>
+<tr>
+<td>`druid.(broker</td>
+<td>historical</td>
+<td>realtime).cache.populateCache`</td>
+</tr>
+</tbody></table>
+
+<h4 id="local-cache">Local Cache</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.cache.sizeInBytes</code></td>
+<td>Maximum cache size in bytes. You must set this if you enabled populateCache/useCache, or else cache size of zero wouldn&#39;t really cache anything.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.cache.initialSize</code></td>
+<td>Initial size of the hashtable backing the cache.</td>
+<td>500000</td>
+</tr>
+<tr>
+<td><code>druid.cache.logEvictionCount</code></td>
+<td>If non-zero, log cache eviction every <code>logEvictionCount</code> items.</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<h4 id="memcache">Memcache</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.cache.expiration</code></td>
+<td>Memcached <a href="https://code.google.com/p/memcached/wiki/NewCommands#Standard_Protocol">expiration time</a>.</td>
+<td>2592000 (30 days)</td>
+</tr>
+<tr>
+<td><code>druid.cache.timeout</code></td>
+<td>Maximum time in milliseconds to wait for a response from Memcached.</td>
+<td>500</td>
+</tr>
+<tr>
+<td><code>druid.cache.hosts</code></td>
+<td>Command separated list of Memcached hosts <code>&lt;host:port&gt;</code>.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.cache.maxObjectSize</code></td>
+<td>Maximum object size in bytes for a Memcached object.</td>
+<td>52428800 (50 MB)</td>
+</tr>
+<tr>
+<td><code>druid.cache.memcachedPrefix</code></td>
+<td>Key prefix for all keys in Memcached.</td>
+<td>druid</td>
+</tr>
+</tbody></table>
+
+<h3 id="indexing-service-discovery">Indexing Service Discovery</h3>
+
+<p>This config is used to find the <a href="../design/indexing-service.html">Indexing Service</a> using Curator service discovery. Only required if you are actually running an indexing service.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.selectors.indexing.serviceName</code></td>
+<td>The druid.service name of the indexing service Overlord node. To start the Overlord with a different name, set it with this property.</td>
+<td>druid/overlord</td>
+</tr>
+</tbody></table>
+
+<h3 id="coordinator-discovery">Coordinator Discovery</h3>
+
+<p>This config is used to find the <a href="../design/coordinator.html">Coordinator</a> using Curator service discovery. This config is used by the realtime indexing nodes to get information about the segments loaded in the cluster.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.selectors.coordinator.serviceName</code></td>
+<td>The druid.service name of the coordinator node. To start the Coordinator with a different name, set it with this property.</td>
+<td>druid/coordinator</td>
+</tr>
+</tbody></table>
+
+<h3 id="announcing-segments">Announcing Segments</h3>
+
+<p>You can configure how to announce and unannounce Znodes in ZooKeeper (using Curator). For normal operations you do not need to override any of these configs.</p>
+
+<h5 id="batch-data-segment-announcer">Batch Data Segment Announcer</h5>
+
+<p>In current Druid, multiple data segments may be announced under the same Znode.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.announcer.segmentsPerNode</code></td>
+<td>Each Znode contains info for up to this many segments.</td>
+<td>50</td>
+</tr>
+<tr>
+<td><code>druid.announcer.maxBytesPerNode</code></td>
+<td>Max byte size for Znode.</td>
+<td>524288</td>
+</tr>
+<tr>
+<td><code>druid.announcer.skipDimensionsAndMetrics</code></td>
+<td>Skip Dimensions and Metrics list from segment announcements. NOTE: Enabling this will also remove the dimensions and metrics list from coordinator and broker endpoints.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.announcer.skipLoadSpec</code></td>
+<td>Skip segment LoadSpec from segment announcements. NOTE: Enabling this will also remove the loadspec from coordinator and broker endpoints.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h3 id="javascript">JavaScript</h3>
+
+<p>Druid supports dynamic runtime extension through JavaScript functions. This functionality can be configured through
+the following properties.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.javascript.disabled</code></td>
+<td>Set to &quot;true&quot; to disable JavaScript functionality. This affects the JavaScript parser, filter, extractionFn, aggregator, and post-aggregator.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1-rc4/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

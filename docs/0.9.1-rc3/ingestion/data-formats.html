@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.1-rc3">API documentation</a></p>
+          <h1 id="data-formats-for-ingestion">Data Formats for Ingestion</h1>
+
+<p>Druid can ingest denormalized data in JSON, CSV, or a delimited form such as TSV, or any custom format. While most examples in the documentation use data in JSON format, it is not difficult to configure Druid to ingest any other delimited data.
+We welcome any contributions to new formats.</p>
+
+<p>For additional data formats, please see our <a href="../development/extensions.html">extensions list</a>.</p>
+
+<h2 id="formatting-the-data">Formatting the Data</h2>
+
+<p>The following are some samples of the data used in the <a href="../tutorials/quickstart.html">Wikipedia example</a>.</p>
+
+<p><em>JSON</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Gypsy Danger&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;North America&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Bay Area&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">57</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-143</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Striker Eureka&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Cantebury&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Syndey&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T07:11:21Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Cherno Alpha&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;masterYi&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Russia&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Oblast&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Moscow&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T11:58:39Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Crimson Typhoon&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Shanxi&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Taiyuan&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">905</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">900</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T12:41:27Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Coyote Tango&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;cancer&quot;</span><span class="p">,</span> <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;newPage&quot;</span> <span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;robot&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="nt">&quot;anonymous&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> <span class="nt">&quot;continent&quot;</span><span class="p">:</span><span class="s2">&quot;Asia&quot;</span><span class="p">,</span> <span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Kanto&quot;</span><span class="p">,</span> <span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="nt">&quot;added&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;deleted&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">-9</span><span class="p">}</span>
+</code></pre></div>
+<p><em>CSV</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-31T01:02:33Z,&quot;Gypsy Danger&quot;,&quot;en&quot;,&quot;nuclear&quot;,&quot;true&quot;,&quot;true&quot;,&quot;false&quot;,&quot;false&quot;,&quot;article&quot;,&quot;North America&quot;,&quot;United States&quot;,&quot;Bay Area&quot;,&quot;San Francisco&quot;,57,200,-143
+2013-08-31T03:32:45Z,&quot;Striker Eureka&quot;,&quot;en&quot;,&quot;speed&quot;,&quot;false&quot;,&quot;true&quot;,&quot;true&quot;,&quot;false&quot;,&quot;wikipedia&quot;,&quot;Australia&quot;,&quot;Australia&quot;,&quot;Cantebury&quot;,&quot;Syndey&quot;,459,129,330
+2013-08-31T07:11:21Z,&quot;Cherno Alpha&quot;,&quot;ru&quot;,&quot;masterYi&quot;,&quot;false&quot;,&quot;true&quot;,&quot;true&quot;,&quot;false&quot;,&quot;article&quot;,&quot;Asia&quot;,&quot;Russia&quot;,&quot;Oblast&quot;,&quot;Moscow&quot;,123,12,111
+2013-08-31T11:58:39Z,&quot;Crimson Typhoon&quot;,&quot;zh&quot;,&quot;triplets&quot;,&quot;true&quot;,&quot;false&quot;,&quot;true&quot;,&quot;false&quot;,&quot;wikipedia&quot;,&quot;Asia&quot;,&quot;China&quot;,&quot;Shanxi&quot;,&quot;Taiyuan&quot;,905,5,900
+2013-08-31T12:41:27Z,&quot;Coyote Tango&quot;,&quot;ja&quot;,&quot;cancer&quot;,&quot;true&quot;,&quot;false&quot;,&quot;true&quot;,&quot;false&quot;,&quot;wikipedia&quot;,&quot;Asia&quot;,&quot;Japan&quot;,&quot;Kanto&quot;,&quot;Tokyo&quot;,1,10,-9
+</code></pre></div>
+<p><em>TSV (Delimited)</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-31T01:02:33Z    &quot;Gypsy Danger&quot;  &quot;en&quot;    &quot;nuclear&quot;   &quot;true&quot;  &quot;true&quot;  &quot;false&quot; &quot;false&quot; &quot;article&quot;   &quot;North America&quot; &quot;United States&quot; &quot;Bay Area&quot;  &quot;San Francisco&quot; 57  200 -143
+2013-08-31T03:32:45Z    &quot;Striker Eureka&quot;    &quot;en&quot;    &quot;speed&quot; &quot;false&quot; &quot;true&quot;  &quot;true&quot;  &quot;false&quot; &quot;wikipedia&quot; &quot;Australia&quot; &quot;Australia&quot; &quot;Cantebury&quot; &quot;Syndey&quot;    459 129 330
+2013-08-31T07:11:21Z    &quot;Cherno Alpha&quot;  &quot;ru&quot;    &quot;masterYi&quot;  &quot;false&quot; &quot;true&quot;  &quot;true&quot;  &quot;false&quot; &quot;article&quot;   &quot;Asia&quot;  &quot;Russia&quot;    &quot;Oblast&quot;    &quot;Moscow&quot;    123 12  111
+2013-08-31T11:58:39Z    &quot;Crimson Typhoon&quot;   &quot;zh&quot;    &quot;triplets&quot;  &quot;true&quot;  &quot;false&quot; &quot;true&quot;  &quot;false&quot; &quot;wikipedia&quot; &quot;Asia&quot;  &quot;China&quot; &quot;Shanxi&quot;    &quot;Taiyuan&quot;   905 5   900
+2013-08-31T12:41:27Z    &quot;Coyote Tango&quot;  &quot;ja&quot;    &quot;cancer&quot;    &quot;true&quot;  &quot;false&quot; &quot;true&quot;  &quot;false&quot; &quot;wikipedia&quot; &quot;Asia&quot;  &quot;Japan&quot; &quot;Kanto&quot; &quot;Tokyo&quot; 1   10  -9
+</code></pre></div>
+<p>Note that the CSV and TSV data do not contain column heads. This becomes important when you specify the data for ingesting.</p>
+
+<h2 id="custom-formats">Custom Formats</h2>
+
+<p>Druid supports custom data formats and can use the <code>Regex</code> parser or the <code>JavaScript</code> parsers to parse these formats. Please note that using any of these parsers for 
+parsing data will not be as efficient as writing a native Java parser or using an external stream processor. We welcome contributions of new Parsers.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>All forms of Druid ingestion require some form of schema object. The format of the data to be ingested is specified using the<code>parseSpec</code> entry in your <code>dataSchema</code>.</p>
+
+<h3 id="json">JSON</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dimensionSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>If you have nested JSON, <a href="flatten-json.html">Druid can automatically flatten it for you</a>.</p>
+
+<h3 id="csv">CSV</h3>
+
+<p>Since the CSV data cannot contain the column names (no header is allowed), these must be added before that data can be processed:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">,</span><span class="s2">&quot;added&quot;</span><span class="p">,</span><span class="s2">&quot;deleted&quot;</span><span class="p">,</span><span class="s2">&quot;delta&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>The <code>columns</code> field must match the columns of your input data in the same order.</p>
+
+<h3 id="tsv">TSV</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">,</span><span class="s2">&quot;added&quot;</span><span class="p">,</span><span class="s2">&quot;deleted&quot;</span><span class="p">,</span><span class="s2">&quot;delta&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;delimiter&quot;</span><span class="p">:</span><span class="s2">&quot;|&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>The <code>columns</code> field must match the columns of your input data in the same order. </p>
+
+<p>Be sure to change the <code>delimiter</code> to the appropriate delimiter for your data. Like CSV, you must specify the columns and which subset of the columns you want indexed.</p>
+
+<h3 id="regex">Regex</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+    <span class="p">},</span>        
+    <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_list_of_dimensions&gt;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_columns_here&gt;</span><span class="p">],</span>
+    <span class="nt">&quot;pattern&quot;</span> <span class="p">:</span> <span class="err">&lt;regex</span> <span class="err">pattern</span> <span class="err">for</span> <span class="err">partitioning</span> <span class="err">data&gt;</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>The <code>columns</code> field must match the columns of your regex matching groups in the same order. If columns are not provided, default 
+columns names (&quot;column_1&quot;, &quot;column2&quot;, ... &quot;column_n&quot;) will be assigned. Ensure that your column names include all your dimensions. </p>
+
+<h3 id="javascript">JavaScript</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+    <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+    <span class="p">},</span>        
+    <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { var parts = str.split(\&quot;-\&quot;); return { one: parts[0], two: parts[1] } }&quot;</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>Please note with the JavaScript parser that data must be fully parsed and returned as a <code>{key:value}</code> format in the JS logic. 
+This means any flattening or parsing multi-dimensional values must be done here.</p>
+
+<h3 id="multi-value-dimensions">Multi-value dimensions</h3>
+
+<p>Dimensions can have multiple values for TSV and CSV data. To specify the delimiter for a multi-value dimension, set the <code>listDelimiter</code> in the <code>parseSpec</code>.</p>
+
+<p>JSON data can contain multi-value dimensions as well. The multiple values for a dimension must be formatted as a JSON array in the ingested data. No additional <code>parseSpec</code> configuration is needed.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.1-rc3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

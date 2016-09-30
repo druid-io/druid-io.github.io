@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | RDruid and Twitterstream</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>RDruid and Twitterstream</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Igal Levy</span> · February  3, 2014</p>
+
+        <p>What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You&#39;d be able to draw conclusions from analyzing data streams at the speed of now. That&#39;s what combining the prowess of a <a href="http://druid.io">Druid database</a> with the power of <a href="http://www.r-project.org">R</a> can do.</p>
+
+<p>In this blog, we&#39;ll look at how to bring streamed realtime data into R using nothing more than a laptop, an Internet connection, and open-source applications. And we&#39;ll do it with <em>only one</em> Druid node.</p>
+
+<h2 id="what-you-39-ll-need">What You&#39;ll Need</h2>
+
+<p>You&#39;ll need to download and unpack <a href="http://static.druid.io/artifacts/releases/druid-services-0.6.52-bin.tar.gz">Druid</a>.</p>
+
+<p>Get the <a href="http://www.r-project.org/">R application</a> for your platform.
+We also recommend using <a href="http://www.rstudio.com/">RStudio</a> as the R IDE, which is what we used to run R.</p>
+
+<p>You&#39;ll also need a free Twitter account to be able to get a sample of streamed Twitter data.</p>
+
+<h2 id="set-up-the-twitterstream">Set Up the Twitterstream</h2>
+
+<p>First, register with the Twitter API. Log in at the <a href="https://dev.twitter.com/apps/new">Twitter developer&#39;s site</a> (you can use your normal Twitter credentials) and fill out the form for creating an application; use any website and callback URL to complete the form. </p>
+
+<p>Make note of the API credentials that are then generated. Later you&#39;ll need to enter them when prompted by the Twitter-example startup script, or save them in a <code>twitter4j.properties</code> file (nicer if you ever restart the server). If using a properties file, save it under <code>$DRUID_HOME/examples/twitter</code>. The file should contains the following (using your real keys):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">oauth.consumerKey=&lt;yourTwitterConsumerKey&gt;
+oauth.consumerSecret=&lt;yourTwitterConsumerSecret&gt;
+oauth.accessToken=&lt;yourTwitterAccessToken&gt;
+oauth.accessTokenSecret=&lt;yourTwitterAccessTokenSecret&gt;
+</code></pre></div>
+<h2 id="start-up-the-realtime-node">Start Up the Realtime Node</h2>
+
+<p>From the Druid home directory, start the Druid Realtime node:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$DRUID_HOME/run_example_server.sh
+</code></pre></div>
+<p>When prompted, you&#39;ll choose the &quot;twitter&quot; example. If you&#39;re using the properties file, the server should start right up. Otherwise, you&#39;ll have to answer the prompts with the credentials you obtained from Twitter. </p>
+
+<p>After the Realtime node starts successfully, you should see &quot;Connected_to_Twitter&quot; printed, as well as messages similar to the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2014-01-13 19:35:59,646 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
+</code></pre></div>
+<p>This indicates that the Druid Realtime node is ingesting tweets in realtime.</p>
+
+<h2 id="set-up-r">Set Up R</h2>
+
+<p>Install and load the following packages:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">install.packages(&quot;devtools&quot;)
+install.packages(&quot;ggplot2&quot;)
+
+library(&quot;devtools&quot;)
+
+install_github(&quot;RDruid&quot;, &quot;metamx&quot;)
+
+library(RDruid)
+library(ggplot2)
+</code></pre></div>
+<p>Now tell RDruid where to find the Realtime node:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid &lt;- druid.url(&quot;localhost:8083&quot;)
+</code></pre></div>
+<h2 id="querying-the-realtime-node">Querying the Realtime Node</h2>
+
+<p><a href="http://druid.io/docs/latest/Tutorial:-All-About-Queries.html">Druid queries</a> are in the format of JSON objects, but in R they&#39;ll have a different format. Let&#39;s look at this with a simple query that will give the time range of the Twitter data currently in our Druid node:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; druid.query.timeBoundary(druid, dataSource=&quot;twitterstream&quot;, intervals=interval(ymd(20140101), ymd(20141231)), verbose=&quot;true&quot;)
+</code></pre></div>
+<p>Let&#39;s break this query down:</p>
+
+<ul>
+<li><code>druid.query.timeBoundary</code> &ndash; The RDruid query that finds the earliest and latest timestamps on data in Druid, within a specified interval.</li>
+<li><code>druid</code> and <code>dataSource</code> &ndash; Specify the location of the Druid node and the name of the Twitter data stream.</li>
+<li><code>intervals</code> &ndash; The interval we&#39;re looking in. Our choice is more than wide enough to encompass any data we&#39;ve received from Twitter.</li>
+<li><code>verbose</code> &ndash; The response should also print the JSON object that is posted to the Realtime node, that node&#39;s HTTP response, and possibly other information besides the actual response to the query.</li>
+</ul>
+
+<p>By making this a verbose query, we can take a look at the JSON object that RDruid creates from our R query and will post to the Druid node:</p>
+
+<p>{
+    &quot;dataSource&quot; : &quot;twitterstream&quot;,
+    &quot;intervals&quot; : [
+        &quot;2014-01-01T00:00:00.000+00:00/2014-12-31T00:00:00.000+00:00&quot;
+    ],
+    &quot;queryType&quot; : &quot;timeBoundary&quot;
+}</p>
+
+<p>This is the type of query that Druid can understand. Now let&#39;s look at the rest of the post and response:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">* Adding handle: conn: 0x7fa1eb723800
+* Adding handle: send: 0
+* Adding handle: recv: 0
+* Curl_addHandleToPipeline: length: 1
+* - Conn 2 (0x7fa1eb723800) send_pipe: 1, recv_pipe: 0
+* About to connect() to localhost port 8083 (#2)
+*   Trying ::1...
+* Connected to localhost (::1) port 8083 (#2)
+&gt; POST /druid/v2/ HTTP/1.1
+Host: localhost:8083
+Accept: */*
+Accept-Encoding: gzip
+Content-Type: application/json
+Content-Length: 151
+
+* upload completely sent off: 151 out of 151 bytes
+&lt; HTTP/1.1 200 OK
+&lt; Content-Type: application/x-javascript
+&lt; Transfer-Encoding: chunked
+* Server Jetty(8.1.11.v20130520) is not blacklisted
+&lt; Server: Jetty(8.1.11.v20130520)
+&lt; 
+* Connection #2 to host localhost left intact
+                  minTime                   maxTime 
+&quot;2014-01-25 00:52:00 UTC&quot; &quot;2014-01-25 01:35:00 UTC&quot; 
+</code></pre></div>
+<p>At the very end comes the response to our query, a minTime and maxTime, the boundaries to our data set.</p>
+
+<h3 id="more-complex-queries">More Complex Queries</h3>
+
+<p>Now lets look at some real Twitter data. Say we are interested in the number of tweets per language during that time period. We need to do an aggregation via a groupBy query (see RDruid help in RStudio):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
+                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
+                    granularity=granularity(&quot;P1D&quot;), 
+                    aggregations = (tweets = sum(metric(&quot;tweets&quot;))), 
+                    dimensions = &quot;lang&quot;, 
+                    verbose=&quot;true&quot;)
+</code></pre></div>
+<p>We see some new arguments in this query:</p>
+
+<ul>
+<li><code>granularity</code> &ndash; This sets the time period for each aggregation (in ISO 8601). Since all our data is in one day and we don&#39;t care about breaking down by hour or minute, we choose per-day granularity.</li>
+<li><code>aggregations</code> &ndash; This is where we specify and name the metrics that we&#39;re interesting in summing up. We wants tweets, and it just so happens that this metric is named &quot;tweets&quot; as it&#39;s mapped from the twitter API, so we&#39;ll keep that name as the column head for our output.</li>
+<li><code>dimension</code> &ndash; Here&#39;s the actual type of data we&#39;re interesting in. Tweets are identified by language in their metadata (using ISO 639 language codes). We use the name of the dimension, &quot;lang,&quot; to slice the data along language.</li>
+</ul>
+
+<p>Here&#39;s the actual output:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;intervals&quot; : [
+        &quot;2014-01-01T00:00:00.000+00:00/2015-01-01T00:00:00.000+00:00&quot;
+    ],
+    &quot;aggregations&quot; : [
+        {
+            &quot;type&quot; : &quot;doubleSum&quot;,
+            &quot;name&quot; : &quot;tweets&quot;,
+            &quot;fieldName&quot; : &quot;tweets&quot;
+        }
+    ],
+    &quot;dataSource&quot; : &quot;twitterstream&quot;,
+    &quot;filter&quot; : null,
+    &quot;having&quot; : null,
+    &quot;granularity&quot; : {
+        &quot;type&quot; : &quot;period&quot;,
+        &quot;period&quot; : &quot;P1D&quot;,
+        &quot;origin&quot; : null,
+        &quot;timeZone&quot; : null
+    },
+    &quot;dimensions&quot; : [
+        &quot;lang&quot;
+    ],
+    &quot;postAggregations&quot; : null,
+    &quot;limitSpec&quot; : null,
+    &quot;queryType&quot; : &quot;groupBy&quot;,
+    &quot;context&quot; : null
+}
+* Adding handle: conn: 0x7fa1eb767600
+* Adding handle: send: 0
+* Adding handle: recv: 0
+* Curl_addHandleToPipeline: length: 1
+* - Conn 3 (0x7fa1eb767600) send_pipe: 1, recv_pipe: 0
+* About to connect() to localhost port 8083 (#3)
+*   Trying ::1...
+* Connected to localhost (::1) port 8083 (#3)
+&gt; POST /druid/v2/ HTTP/1.1
+Host: localhost:8083
+Accept: */*
+Accept-Encoding: gzip
+Content-Type: application/json
+Content-Length: 489
+
+* upload completely sent off: 489 out of 489 bytes
+&lt; HTTP/1.1 200 OK
+&lt; Content-Type: application/x-javascript
+&lt; Transfer-Encoding: chunked
+* Server Jetty(8.1.11.v20130520) is not blacklisted
+&lt; Server: Jetty(8.1.11.v20130520)
+&lt; 
+* Connection #3 to host localhost left intact
+    timestamp tweets  lang
+1  2014-01-25   6476    ar
+2  2014-01-25      1    bg
+3  2014-01-25     22    ca
+4  2014-01-25     10    cs
+5  2014-01-25     21    da
+6  2014-01-25    311    de
+7  2014-01-25     23    el
+8  2014-01-25  74842    en
+9  2014-01-25     20 en-GB
+10 2014-01-25    690 en-gb
+11 2014-01-25  22920    es
+12 2014-01-25      2    eu
+13 2014-01-25      2    fa
+14 2014-01-25     10    fi
+15 2014-01-25     36   fil
+16 2014-01-25   1521    fr
+17 2014-01-25      9    gl
+18 2014-01-25     15    he
+19 2014-01-25      1    hi
+20 2014-01-25      5    hu
+21 2014-01-25   3809    id
+22 2014-01-25      4    in
+23 2014-01-25    256    it
+24 2014-01-25  19748    ja
+25 2014-01-25   1079    ko
+26 2014-01-25      1    ms
+27 2014-01-25     19   msa
+28 2014-01-25    243    nl
+29 2014-01-25     24    no
+30 2014-01-25    113    pl
+31 2014-01-25  12707    pt
+32 2014-01-25      3    ro
+33 2014-01-25   1606    ru
+34 2014-01-25      1    sr
+35 2014-01-25     76    sv
+36 2014-01-25    532    th
+37 2014-01-25   1415    tr
+38 2014-01-25     30    uk
+39 2014-01-25      6 xx-lc
+40 2014-01-25      1 zh-CN
+41 2014-01-25     30 zh-cn
+42 2014-01-25     34 zh-tw
+</code></pre></div>
+<p>This gives an idea of what languages dominate Twitter (at least for the given time range). For visualization, you can use a library like ggplot2. Try the <code>geom_bar</code> function to quickly produce a basic bar chart of the data. First, send the query above to a dataframe (let&#39;s call it <code>tweet_langs</code> in this example), then subset it to take languages with more than a thousand tweets:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">major_tweet_langs &lt;- subset(tweet_langs, tweets &gt; 1000)
+</code></pre></div>
+<p>Then create the chart:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat=&quot;identity&quot;)
+</code></pre></div>
+<p>You can refine this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
+                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
+                    granularity=granularity(&quot;all&quot;), 
+                    aggregations = list(rows = druid.count(), 
+                                        tweets = sum(metric(&quot;tweets&quot;))), 
+                    dimensions = &quot;lang&quot;, 
+                    verbose=&quot;true&quot;)
+</code></pre></div>
+<h2 id="metrics-and-dimensions">Metrics and Dimensions</h2>
+
+<p>How do you find out what metrics and dimensions are available to query? You can find the metrics in <code>$DRUID_HOME/examples/twitter/twitter_realtime.spec</code>. The dimensions are not as apparent. There&#39;s an easy way to query for them from a certain type of Druid node, but not from a Realtime node, which leaves the less-appetizing approach of digging through <a href="https://github.com/metamx/druid/blob/druid-0.5.x/examples/src/main/java/druid/examples/twitter/TwitterSpritzerFirehoseFactory.java">code</a>. To allow for further experimentation, we list some here:</p>
+
+<ul>
+<li>&quot;first_hashtag&quot;</li>
+<li>&quot;user_time_zone&quot;</li>
+<li>&quot;user_location&quot;</li>
+<li>&quot;is_retweet&quot;</li>
+<li>&quot;is_viral&quot;</li>
+</ul>
+
+<p>Some interesting analyses on current events could be done using these dimensions and metrics. For example, you could filter on specific hashtags for events that happen to be spiking at the time:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
+                interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
+                granularity=granularity(&quot;P1D&quot;), 
+                aggregations = (tweets = sum(metric(&quot;tweets&quot;))), 
+                filter =
+                    dimension(&quot;first_hashtag&quot;) %~% &quot;academyawards&quot; |
+                    dimension(&quot;first_hashtag&quot;) %~% &quot;oscars&quot;,
+                dimensions   = list(&quot;first_hashtag&quot;))
+</code></pre></div>
+<p>See the <a href="https://github.com/metamx/RDruid/wiki/Examples">RDruid wiki</a> for more examples.</p>
+
+<p>The point to remember is that this data is being streamed into Druid and brought into R via RDruid in realtime. For example, with an R script the data could be continuously queried, updated, and analyzed. </p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.6.117">API documentation</a></p>
+          <h1 id="concepts-and-terminology">Concepts and Terminology</h1>
+
+<p>The following definitions are given with respect to the Druid data store. They are intended to help you better understand the Druid documentation, where these  terms and concepts occur.</p>
+
+<p>More definitions are available on the <a href="Design.html">design page</a>.</p>
+
+<ul>
+<li><p><strong>Aggregation</strong>&nbsp;&nbsp;The summarizing of data meeting certain specifications. Druid aggregates <a href="#timeseries">timeseries data</a>, which in effect compacts the data. Time intervals (set in configuration) are used to create buckets, while <a href="#timestamp">timestamps</a> determine which buckets data aggregated in.</p></li>
+<li><p><strong>Aggregators</strong>&nbsp;&nbsp;A mechanism for combining records during realtime incremental indexing, Hadoop batch indexing, and in queries.</p></li>
+<li><p><strong>Compute node</strong>&nbsp;&nbsp;Obsolete name for a <a href="Historical.html">Historical node</a>.</p></li>
+<li><p><strong>DataSource</strong>&nbsp;&nbsp;A table-like view of data; specified in <a href="#specfile">specFiles</a> and in queries. A dataSource specifies the source of data being ingested and ultimately stored in <a href="#segment">segments</a>.</p></li>
+<li><p><strong>Dimensions</strong>&nbsp;&nbsp;Aspects or categories of data, such as languages or locations. For example, with <em>language</em> and <em>country</em> as the type of dimension, values could be &quot;English&quot; or &quot;Mandarin&quot; for language, or &quot;USA&quot; or &quot;China&quot; for country. In Druid, dimensions can serve as filters for narrowing down hits (for example, language = &quot;English&quot; or country = &quot;China&quot;).</p></li>
+<li><p><strong>Ephemeral Node</strong>&nbsp;&nbsp;A Zookeeper node (or &quot;znode&quot;) that exists for as long as the session that created the znode is active. More info <a href="http://zookeeper.apache.org/doc/r3.2.1/zookeeperProgrammers.html#Ephemeral+Nodes">here</a>. In a Druid cluster, ephemeral nodes are typically used for commands (such as assigning <a href="#segment">segments</a> to certain nodes).</p></li>
+<li><p><strong>Granularity</strong>&nbsp;&nbsp;The time interval corresponding to aggregation by time. Druid configuration settings specify the granularity of <a href="#timestamp">timestamp</a> buckets in a <a href="#segment">segment</a> (for example, by minute or by hour), as well as the granularity of the segment itself. The latter is essentially the overall range of absolute time covered by the segment. In queries, granularity settings control the summarization of findings.</p></li>
+<li><p><strong>Ingestion</strong>&nbsp;&nbsp;The pulling and initial storing and processing of data. Druid supports realtime and batch ingestion of data, and applies indexing in both cases.</p></li>
+<li><p><strong>Master node</strong>&nbsp;&nbsp;Obsolete name for a <a href="Coordinator.html">Coordinator node</a>.</p></li>
+<li><p><strong>Metrics</strong>&nbsp;&nbsp;Countable data that can be aggregated. Metrics, for example, can be the number of visitors to a website, number of tweets per day, or average revenue.</p></li>
+<li><p><strong>Rollup</strong>&nbsp;&nbsp;The aggregation of data that occurs at one or more stages, based on settings in a <a href="#specFile">configuration file</a>. </p></li>
+</ul>
+
+<p><a name="segment"></a>
+* <strong>Segment</strong>&nbsp;&nbsp;A collection of (internal) records that are stored and processed together. Druid chunks data into segments representing a time interval, and these are stored and manipulated in the cluster.</p>
+
+<ul>
+<li><strong>Shard</strong>&nbsp;&nbsp;A sub-partition of the data, allowing multiple <a href="#segment">segments</a> to represent the data in a certain time interval. Sharding occurs along time partitions to better handle amounts of data that exceed certain limits on segment size, although sharding along dimensions may also occur to optimize efficiency.</li>
+</ul>
+
+<p><a name="specfile"></a>
+* <strong>specFile</strong>&nbsp;&nbsp;The specification for services in JSON format; see <a href="Realtime.html">Realtime</a> and <a href="Batch-ingestion.html">Batch-ingestion</a></p>
+
+<p><a name="timeseries"></a>
+* <strong>Timeseries Data</strong>&nbsp;&nbsp;Data points which are ordered in time. The closing value of a financial index or the number of tweets per hour with a certain hashtag are examples of timeseries data.</p>
+
+<p><a name="timestamp"></a>
+* <strong>Timestamp</strong>&nbsp;&nbsp;An absolute position on a timeline, given in a standard alpha-numerical format such as with UTC time. <a href="#timeseries">Timeseries data</a> points can be ordered by timestamp, and in Druid, they are.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.6.117/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

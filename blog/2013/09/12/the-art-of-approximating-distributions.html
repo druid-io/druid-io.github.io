@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | The Art of Approximating Distributions: Histograms and Quantiles at Scale</title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <link rel="stylesheet" href="/css/blogs.css">
+
+<div class="blog druid-header">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="title-image-wrap">
+        
+        <div class="title-spacer"></div>
+        <img class="title-image" src="http://metamarkets.com/wp-content/uploads/2013/06/atlas-600x402.jpeg" alt="The Art of Approximating Distributions: Histograms and Quantiles at Scale"/>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container blog">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="blog-entry">
+        <h1>The Art of Approximating Distributions: Histograms and Quantiles at Scale</h1>
+        <p class="text-muted">by <span class="author text-uppercase">Nelson Ray</span> · September 12, 2013</p>
+
+        <p><em>I’d like to acknowledge Xavier Léauté for his extensive contributions (in
+particular, for suggesting several algorithmic improvements and work on
+implementation), helpful comments, and fruitful discussions.  Featured image
+courtesy of CERN.</em></p>
+
+<p>Many businesses care about accurately computing quantiles over their key
+metrics, which can pose several interesting challenges at scale. For example,
+many service level agreements hinge on these metrics, such as guaranteeing that
+95% of queries return in &lt; 500ms. Internet service providers routinely use
+burstable billing, a fact that Google famously exploited to transfer terabytes
+of data across the US for free. Quantile calculations just involve sorting the
+data, which can be easily parallelized. However, this requires storing the raw
+values, which is at odds with a pre-aggregation step that helps Druid achieve
+such dizzying speed. Instead, we store smaller, adaptive approximations of
+these values as the building blocks of our “approximate histograms.” In this
+post, we explore the related problems of accurate estimation of quantiles and
+building histogram visualizations that enable the live exploration of
+distributions of values. Our solution is capable of scaling out to aggregate
+billions of values in seconds.</p>
+
+<h2 id="druid-summarization">Druid Summarization</h2>
+
+<p>When we first <a href="http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/">met
+Druid</a>,
+we considered the following example of a raw impression event log:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">timestamp             publisher          advertiser  gender  country  dimensions  click  price
+2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                  0      0.65
+2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                  0      0.62
+2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                  1      0.45
+...
+2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK                   0      0.87
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                   0      0.99
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK                   1      1.53
+...
+</code></pre></div>
+<p>By giving up some resolution in the timestamp column (e.g., by truncating the
+timestamps to the hour), we can produce a summarized dataset by grouping by the
+dimensions and aggregating the metrics. We also introduce the “impressions”
+column, which counts the rows from the raw data with that combination of
+dimensions:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks revenue
+ 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+ 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
+</code></pre></div>
+<p>All is well and good if we content ourselves with computations that can be
+distributed efficiently such as summing hourly revenue to produce daily
+revenue, or calculating click-through rates. In the language of <a href="http://paul.rutgers.edu/%7Eaminabdu/cs541/cube_op.pdf">Gray et
+al.</a>, the former
+calculation is <em>distributive</em>: we can sum the raw event prices to produce hourly
+revenue over each combination of dimensions and in turn sum this intermediary
+for further coarsening into daily and quarterly totals. The latter is
+algebraic: it is a combination of a fixed number of distributive statistics, in
+particular, clicks / impressions.</p>
+
+<p>However, sums and averages are of very little use when one wants to ask certain
+questions of bid-level data. Exchanges may wish to visualize the <a href="http://users.cis.fiu.edu/%7Elzhen001/activities/KDD2011Program/docs/p265.pdf">bid
+landscape</a>
+so as to provide guidance to publishers on how to set floor prices. Because of
+our data-summarization process, we have lost the individual bid prices–and
+knowing that the 20 total bids sum to $5 won’t tell us how many exceed $1 or
+$2. Quantiles, by contrast, are holistic: there is no constant bound on the
+size of the storage needed to exactly describe a sub-aggregate.</p>
+
+<p>Although the raw data contain the unadulterated prices–with which we can answer
+these bid landscape questions exactly–let’s recall why we much prefer the
+summarized dataset. In the above example, each raw row corresponds to an
+impression, and the summarized data represent an average compression ratio of
+~2500:1 (in practice, we see ratios in the 1 to 3 digit range). Less data is
+both cheaper to store in memory and faster to scan through. In effect, we are
+trading off increased ETL effort against less storage and faster queries with
+this pre-aggregation.</p>
+
+<p>One solution to support quantile queries is to store the entire array of ~2500
+prices in each row:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks prices
+ 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [0.64, 1.93, 0.93, ...]
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [0.65, 0.62, 0.45, ...]
+ 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [0.07, 0.34, 1.23, ...]
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    [0.53, 0.92, 0.12, ...]
+</code></pre></div>
+<p>But the storage requirements for this approach are prohibitive. If we can
+accept <em>approximate</em> quantiles, then we can replace the complete array of prices
+with a data structure that is sublinear in storage–similar to our sketch-based
+approach to cardinality estimation.</p>
+
+<h2 id="approximate-histograms">Approximate Histograms</h2>
+
+<p><a href="http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf">Ben-Haim and
+Tom-Tov</a> suggest
+summarizing the unbounded-length arrays with a fixed number of (count,
+centroid) pairs. Suppose we attempt to summarize a set of numbers with a single
+pair. The mean (centroid) has the nice property of minimizing the sum of the
+squared differences between it and each value, but it is sensitive to outliers
+because of the squaring. The median is the minimizer of the sum of the absolute
+differences and for an odd number of observations, corresponds to an actual bid
+price. Bid prices tend to be skewed due to the mechanics of second price
+auctions–some bidders have no problem bidding $100, knowing that they will
+likely only have to pay $2. So a median of $1 is more representative of the
+“average” bid price than a mean of $20. However, with the (count, median)
+representation, there is no way to merge medians: knowing that 8 prices have a
+median of $.43 and 10 prices have a median of $.59 doesn’t tell you that the
+median of all 18 prices is $.44. Merging centroids is simple–just use the
+weighted mean. Given some approximate histogram representation of (count,
+centroid) pairs, we can make <em>online</em> updates as we scan through data.</p>
+
+<p>Of course, there is no way to accurately summarize an arbitrary number of
+prices with a single pair, so we are confronted with a classical
+accuracy/storage/speed tradeoff. We can fix the number of pairs that we store
+like so:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks prices
+ 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [(1, .16), (48, .62), (83, .71), ...]
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [(1, .12), (3, .15), (30, 1.41), ...]
+ 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [(2, .03), (1, .62), (20, .93), ...]
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    [(1, .05), (94, .84), (1, 1.14), ...]
+</code></pre></div>
+<p>In the first row, there is one bid at $.16, 48 bids with an average price of
+$.62, and so on. But given a set of prices, how do we summarize them as (count,
+centroid) pairs? This is a special case of the k-means clustering problem,
+which in general is <a href="http://dl.acm.org/citation.cfm?id=1519389">NP-hard</a>, even
+in the <a href="http://cseweb.ucsd.edu/%7Eavattani/papers/kmeans_hardness.pdf">plane</a>.
+Fortunately, however, the one-dimensional case is tractable and admits a
+<a href="http://journal.r-project.org/archive/2011-2/RJournal_2011-2_Wang+Song.pdf">solution via dynamic
+programming</a>.
+The <a href="http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf">B-H/T-T</a>
+approach is to iteratively combine the closest two pairs together by taking
+weighted means until we reach our desired size.</p>
+
+<p>Here we illustrate the B-H/T-T summarization process for the integers 1 through
+10, 15 and 20, and 12 and 25 each repeated 3 times, for 3 different choices of
+the number of (count, centroid) pairs.</p>
+
+<p><img src="http://metamarkets.com/wp-content/uploads/2013/06/histogram_pairs-1024x614.png" alt="Histogram Pairs"/></p>
+
+<p>There 4 salient operations on these approximate histogram objects:</p>
+
+<ol>
+<li><p>Adding new values to the histogram: add a new pair, (1, value), and merge
+the closest pair if we exceed the size parameter </p></li>
+<li><p>Merging two histograms together: repeatedly add all pairs of values from one
+histogram to another </p></li>
+<li><p>Estimating the count of values below some reference value: build trapezoids
+between the pairs and look at the various areas </p></li>
+<li><p>Estimating the quantiles of the values represented in a histogram: walk
+along the trapezoids until you reach the desired quantile We apply operation 1
+during our ETL phase, as we group by the dimensions and build a histogram on
+the resulting prices, serializing this object into a Druid data segment. The
+<a href="http://static.druid.io/docs/druid.pdf">compute nodes</a> repeat operation 2 in
+parallel, each emitting an intermediate histogram to the <a href="http://static.druid.io/docs/druid.pdf">query
+broker</a> for combination (another
+application of operation 2). Finally, we can apply operation 3 repeatedly to
+estimate counts in between various breakpoints, producing a histogram plot. Or
+we can estimate quantiles of interest with operation 4.</p></li>
+</ol>
+
+<p>Here we review the trapezoidal estimation of <a href="http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf">Ben-Haim and
+Tom-Tov</a> with an
+example. Suppose we wanted to estimate the number of values less than or equal
+to 10 (the exact answer is 10) knowing that there are 10 points with mean 5.5,
+4 with mean 12.8, and 4 with mean 23.8. We assume that half of the values lie
+to the left and half lie to the right (we shall improve upon this assumption in
+the next section) of the centroid. So we mark off that 5 values are smaller
+than the first centroid (this turns out to be correct). We then draw a
+trapezoid connecting the next two centroids and assume that the number of
+values between 5.5 and 10 is proportional to the area that this sub-trapezoid
+occupies (the latter half of which is marked in blue). We assume that half of
+the 10 values near 5.5 lie to its right, and half of the 4 values near 12.8 lie
+to its left and multiply the sum of 7 by the ratio of areas to come up with our
+estimate of 5.05 in this region (the exact answer is 5). Therefore, we estimate
+that there are 10.05 values less than or equal to 10.</p>
+
+<p><img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_trapezoid.png" alt="AH Trapezoid"/></p>
+
+<h2 id="improvements">Improvements</h2>
+
+<p>Here we describe some improvements and efficiencies specific to our
+implementation of the B-H/T-T approximate histogram.</p>
+
+<p>Computational efficiency at query time (operation 2) is more
+<a href="http://metamarkets.com/2012/scaling-druid/">dear</a> to us than at ETL time
+(operation 1). That is, we can spend a few more cycles in building the
+histograms if it allows for a very efficient means of combination. Our
+Java-based implementation of operation 2 using a heap to keep track of the
+differences between pairs can combine roughly 200K (size 50) histograms per
+second per core (on an i7-3615QM). This compares unfavorably with <a href="http://metamarkets.com/2012/scaling-druid/">core scan
+rates</a> an order of magnitude or two
+higher for count, sum, and group by queries.  Although, to be fair, a histogram
+contains 1-2 orders of magnitude more information than a single count or sum.
+Still, we sought a faster solution. If we know ahead of time what the proper
+threshold below which to merge pairs is, then we can do a linear scan through
+the sorted pairs (which we can do at ETL time), choosing to merge or not based
+on the threshold. The exact determination of this threshold is difficult to do
+efficiently, but eschewing the heap-based solution for this approximation
+results in core aggregation rates of ~1.3M (size 50) histograms per second.</p>
+
+<p>We have 3 different serialization formats when indexing depending on the nature
+of the data, for which we use the most efficent encoding:</p>
+
+<ol>
+<li><p>a dense format, storing all counts and centroids up to the configurable size
+parameter</p></li>
+<li><p>a sparse format, storing some number of pairs below the limit</p></li>
+<li><p>a compact format, storing the individual values themselves</p></li>
+</ol>
+
+<p>It is important to emphasize that we can specify different levels of accuracy
+hierarchically. The above formats come into play when we index the data,
+turning the arrays of raw values into (count, centroid) pairs. Because indexing
+is slow and expensive and Druid segments are
+<a href="http://static.druid.io/docs/druid.pdf">immutable</a>, it’s better at this level
+to err on the side of accuracy. So we do something like specify a maximum of
+100 (count, centroid) pairs in indexing, which will allow for greater
+flexibility at query time, when we aggregate these together into some possibly
+different number of (count, centroid) pairs.</p>
+
+<p>We use the superfluous sign bit of the count to determine whether a (count,
+centroid) pair with count &gt; 1 is exact or not. Does a value of (2, 1.51)
+indicate 2 bid prices of $1.51, or 2 unequal bid prices that average to $1.51?
+The trapezoid method of count estimation makes no such distinction and will
+“spread out” its uncertainty equally. This can be problematic for the discrete,
+multimodal distributions characteristic of bid data. But given knowledge of
+which (count, centroid) pairs are exact, we can make more accurate estimates.</p>
+
+<p>Recall that our data typically exhibit high skewness. Because the closest
+histogram pairs are continuously merged until the number of pairs is small
+enough, the remaining pairs are necessarily (relatively) far apart. It is
+logical to summarize 12 prices around $.10 and 6 prices around $.12 as 18
+prices around $.11, but we wouldn’t want to merge all prices under $2 because
+of the influence of 49 wildly-high prices–unless we are particularly interested
+in those outliers, that is. At the very least, we would like to be able to
+control our “area of interest”–do we care about the majority of the data or
+about those few outliers? For when we aggregate millions or billions of values,
+even with the tiniest skew, we’ll end up summarizing the bulk of the
+distribution with a single (count, centroid) pair. Our solution is to define
+special limits, inside of which we maintain the accuracy of our estimates. This
+typically jives well with setting x-axis limits for our histogram
+visualization.</p>
+
+<h2 id="accuracy">Accuracy</h2>
+
+<p>Here, we plot a histogram over ~18M prices, using default settings for the
+x-axis limits and bin widths. Due to the high degree of skew, the inferred
+limits are suboptimal, as they include prices ~$100. In addition, there are
+even negative bid prices (which could be erroneous or a way of expressing
+uninterest in the auction)!</p>
+
+<p><img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_skew-1024x614.png" alt="Histogram Skew"/></p>
+
+<p>Below, we set our resolution limits to $0 and $1 and vary the number of (count,
+centroid) pairs in our approximate histogram datastructure. The accuracy using
+only 5 pairs is abysmal and doesn’t even capture the second mode in the $.20 to
+$.25 bucket. 50 pairs fare much better, and 200 are very accurate.</p>
+
+<p><img src="https://metamarkets.com/wp-content/uploads/2013/06/histogram_accuracy-1024x614.png" alt="Histogram Accuracy"/></p>
+
+<h2 id="speed">Speed</h2>
+
+<p>Let’s take a look at some benchmarks on our modest demo cluster (4 m2.2xlarge
+compute nodes) with some wikipedia data. We’ll look at the performance of the
+following aggregators:</p>
+
+<ol>
+<li><p>a count aggregator, which simply counts the number of rows </p></li>
+<li><p>a uniques aggregator, which implements a version of the HyperLogLog algorithm</p></li>
+<li><p>approximate histogram aggregators, varying the resolution from 10
+pairs to 50 pairs to 200 pairs We get about 1-3M summarized rows of data per
+week from Wikipedia, and the benchmarks over the full 32 week period cover 84M
+rows. There appears to be a roughly linear relationship between the query time
+and the quantity of data:</p></li>
+</ol>
+
+<p><img src="https://metamarkets.com/wp-content/uploads/2013/06/ah_speed-1024x614.png" alt="AH Speed"/></p>
+
+<p>Indeed, the cluster scan rates tend to flatten out once we hit enough data:</p>
+
+<p><img src="http://metamarkets.com/wp-content/uploads/2013/06/ah_scan_rate.png" alt="AH Scan Rate"/></p>
+
+<p>We previously obtained cluster scan rates of <a href="http://metamarkets.com/2012/scaling-druid/">26B rows per second</a> on a beefier
+cluster. Very roughly speaking, the approximate histogram aggregator is 1/10
+the speed of the count aggregator, so we might expect speeds of 2-3B rows per
+second on such a cluster. Recall that our summarization step compacts 10-100
+rows of data into 1, for typical datasets. This means that it is possible to
+construct histograms representing tens to hundreds of billions of prices in
+seconds.</p>
+
+<p>Finally, my colleague Fangjin Yang and I will continue the discussion in
+October in New York at the Strata Conference where we will present, <a href="http://strataconf.com/stratany2013/public/schedule/detail/30045">“Not
+Exactly! Fast Queries via Approximation
+Algorithms.”</a></p>
+
+      </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'druidio';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>

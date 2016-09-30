@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.0">API documentation</a></p>
+          <h1 id="stream-pull-ingestion">Stream Pull Ingestion</h1>
+
+<p>If you have an external service that you want to pull data from, you have two options. The simplest
+option is to set up a &quot;copying&quot; service that reads from the data source and writes to Druid using
+the <a href="stream-push.html">stream push method</a>.</p>
+
+<p>Another option is <em>stream pull</em>. With this approach, a Druid Realtime Node ingests data from a
+<a href="../ingestion/firehose.html">Firehose</a> connected to the data you want to
+read. The Druid quickstart and tutorials do not include information about how to set up standalone realtime nodes, but 
+they can be used in place for Tranquility server and the indexing service. Please note that Realtime nodes have very properties than 
+the indexing service.</p>
+
+<h2 id="realtime-node-ingestion">Realtime Node Ingestion</h2>
+
+<p>Much of the configuration governing Realtime nodes and the ingestion of data is set in the Realtime spec file, discussed on this page.</p>
+
+<p>For general Real-time Node information, see <a href="../design/realtime.html">here</a>.</p>
+
+<p>For Real-time Node Configuration, see <a href="../configuration/realtime.html">Realtime Configuration</a>.</p>
+
+<p>For writing your own plugins to the real-time node, see <a href="../ingestion/firehose.html">Firehose</a>.</p>
+
+<h2 id="realtime-quot-specfile-quot">Realtime &quot;specFile&quot;</h2>
+
+<p>The property <code>druid.realtime.specFile</code> has the path of a file (absolute or relative path and file name) with realtime specifications in it. This &quot;specFile&quot; should be a JSON Array of JSON objects like the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+      <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+      <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+      <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+      <span class="p">}],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka-0.8&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;consumerProps&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;zookeeper.connect&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:2181&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zookeeper.connection.timeout.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zookeeper.session.timeout.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;15000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;zookeeper.sync.time.ms&quot;</span> <span class="p">:</span> <span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;group.id&quot;</span><span class="p">:</span> <span class="s2">&quot;druid-example&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fetch.message.max.bytes&quot;</span> <span class="p">:</span> <span class="s2">&quot;1048586&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;auto.offset.reset&quot;</span><span class="p">:</span> <span class="s2">&quot;largest&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;auto.commit.enable&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;feed&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;plumber&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;realtime&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+      <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;basePersistDirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;\/tmp\/realtime\/basePersist&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;rejectionPolicy&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;serverTime&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>This is a JSON Array so you can give more than one realtime stream to a given node. The number you can put in the same process depends on the exact configuration. In general, it is best to think of each realtime stream handler as requiring 2-threads: 1 thread for data consumption and aggregation, 1 thread for incremental persists and other background tasks.</p>
+
+<p>There are three parts to a realtime stream specification, <code>dataSchema</code>, <code>IOConfig</code>, and <code>tuningConfig</code> which we will go into here.</p>
+
+<h3 id="dataschema">DataSchema</h3>
+
+<p>This field is required.</p>
+
+<p>See <a href="../ingestion/index.html">Ingestion</a></p>
+
+<h3 id="ioconfig">IOConfig</h3>
+
+<p>This field is required.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &#39;realtime&#39;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>firehose</td>
+<td>JSON Object</td>
+<td>Where the data is coming from. Described in detail below.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>plumber</td>
+<td>JSON Object</td>
+<td>Where the data is going. Described in detail below.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="firehose">Firehose</h4>
+
+<p>See <a href="../ingestion/firehose.html">Firehose</a> for more information on various firehoses.</p>
+
+<h4 id="plumber">Plumber</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &#39;realtime&#39;.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="tuningconfig">TuningConfig</h3>
+
+<p>The tuningConfig is optional and default parameters will be used if no tuningConfig is specified.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &#39;realtime&#39;.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>Integer</td>
+<td>The number of rows to aggregate before persisting. This number is the post-aggregation rows, so it is not equivalent to the number of input events, but the number of aggregated rows that those events result in. This is used to manage the required JVM heap size. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
+<td>no (default == 500000)</td>
+</tr>
+<tr>
+<td>windowPeriod</td>
+<td>ISO 8601 Period String</td>
+<td>The amount of lag time to allow events. This is configured with a 10 minute window, meaning that any event more than 10 minutes ago will be thrown away and not included in the segment generated by the realtime server.</td>
+<td>no (default == PT10m)</td>
+</tr>
+<tr>
+<td>intermediatePersistPeriod</td>
+<td>ISO8601 Period String</td>
+<td>The period that determines the rate at which intermediate persists occur. These persists determine how often commits happen against the incoming realtime stream. If the realtime data loading process is interrupted at time T, it should be restarted to re-read data that arrived at T minus this period.</td>
+<td>no (default == PT10m)</td>
+</tr>
+<tr>
+<td>basePersistDirectory</td>
+<td>String</td>
+<td>The directory to put things that need persistence. The plumber is responsible for the actual intermediate persists and this tells it where to store those persists.</td>
+<td>no (default == java tmp dir)</td>
+</tr>
+<tr>
+<td>versioningPolicy</td>
+<td>Object</td>
+<td>How to version segments.</td>
+<td>no (default == based on segment start time)</td>
+</tr>
+<tr>
+<td>rejectionPolicy</td>
+<td>Object</td>
+<td>Controls how data sets the data acceptance policy for creating and handing off segments. More on this below.</td>
+<td>no (default==&#39;serverTime&#39;)</td>
+</tr>
+<tr>
+<td>maxPendingPersists</td>
+<td>Integer</td>
+<td>Maximum number of persists that can be pending, but not started. If this limit would be exceeded by a new intermediate persist, ingestion will block until the currently-running persist finishes. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
+<td>no (default == 0; meaning one persist can be running concurrently with ingestion, and none can be queued up)</td>
+</tr>
+<tr>
+<td>shardSpec</td>
+<td>Object</td>
+<td>This describes the shard that is represented by this server. This must be specified properly in order to have multiple realtime nodes indexing the same data stream in a <a href="#sharding">sharded fashion</a>.</td>
+<td>no (default == &#39;NoneShardSpec&#39;</td>
+</tr>
+<tr>
+<td>buildV9Directly</td>
+<td>Boolean</td>
+<td>Whether to build v9 index directly instead of building v8 index and convert it to v9 format</td>
+<td>no (default = false)</td>
+</tr>
+<tr>
+<td>persistThreadPriority</td>
+<td>int</td>
+<td>If <code>-XX:+UseThreadPriorities</code> is properly enabled, this will set the thread priority of the persisting thread to <code>Thread.NORM_PRIORITY</code> plus this value within the bounds of <code>Thread.MIN_PRIORITY</code> and <code>Thread.MAX_PRIORITY</code>. A value of 0 indicates to not change the thread priority.</td>
+<td>no (default = 0; inherit and do not override)</td>
+</tr>
+<tr>
+<td>mergeThreadPriority</td>
+<td>int</td>
+<td>If <code>-XX:+UseThreadPriorities</code> is properly enabled, this will set the thread priority of the merging thread to <code>Thread.NORM_PRIORITY</code> plus this value within the bounds of <code>Thread.MIN_PRIORITY</code> and <code>Thread.MAX_PRIORITY</code>. A value of 0 indicates to not change the thread priority.</td>
+<td>no (default = 0; inherit and do not override)</td>
+</tr>
+<tr>
+<td>reportParseExceptions</td>
+<td>Boolean</td>
+<td>If true, exceptions encountered during parsing will be thrown and will halt ingestion. If false, unparseable rows and fields will be skipped. If an entire row is skipped, the &quot;unparseable&quot; counter will be incremented. If some fields in a row were parseable and some were not, the parseable fields will be indexed and the &quot;unparseable&quot; counter will not be incremented.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<p>Before enabling thread priority settings, users are highly encouraged to read the <a href="https://github.com/druid-io/druid/pull/984">original pull request</a> and other documentation about proper use of <code>-XX:+UseThreadPriorities</code>. </p>
+
+<h4 id="rejection-policy">Rejection Policy</h4>
+
+<p>The following policies are available:</p>
+
+<ul>
+<li><code>serverTime</code> &ndash; The recommended policy for &quot;current time&quot; data, it is optimal for current data that is generated and ingested in real time. Uses <code>windowPeriod</code> to accept only those events that are inside the window looking forward and back.</li>
+<li><code>messageTime</code> &ndash; Can be used for non-&quot;current time&quot; as long as that data is relatively in sequence. Events are rejected if they are less than <code>windowPeriod</code> from the event with the latest timestamp. Hand off only occurs if an event is seen after the segmentGranularity and <code>windowPeriod</code> (hand off will not periodically occur unless you have a constant stream of data).</li>
+<li><code>none</code> &ndash; All events are accepted. Never hands off data unless shutdown() is called on the configured firehose.</li>
+</ul>
+
+<h4 id="sharding">Sharding</h4>
+
+<p>Druid uses shards, or segments with partition numbers, to more efficiently handle large amounts of incoming data. In Druid, shards represent the segments that together cover a time interval based on the value of <code>segmentGranularity</code>. If, for example, <code>segmentGranularity</code> is set to &quot;hour&quot;, then a number of shards may be used to store the data for that hour. Sharding along dimensions may also occur to optimize efficiency.</p>
+
+<p>Segments are identified by datasource, time interval, and version. With sharding, a segment is also identified by a partition number. Typically, each shard will have the same version but a different partition number to uniquely identify it.</p>
+
+<p>In small-data scenarios, sharding is unnecessary and can be set to none (the default):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>However, in scenarios with multiple realtime nodes, <code>none</code> is less useful as it cannot help with scaling data volume (see below). Note that for the batch indexing service, no explicit configuration is required; sharding is provided automatically.</p>
+
+<p>Druid uses sharding based on the <code>shardSpec</code> setting you configure. The recommended choices, <code>linear</code> and <code>numbered</code>, are discussed below; other types have been useful for internal Druid development but are not appropriate for production setups.</p>
+
+<p>Keep in mind, that sharding configuration has nothing to do with configured firehose. For example, if you set partition number to 0, it doesn&#39;t mean that Kafka firehose will consume only from 0 topic partition.</p>
+
+<h5 id="linear">Linear</h5>
+
+<p>This strategy provides following advantages:</p>
+
+<ul>
+<li>There is no need to update the fileSpec configurations of existing nodes when adding new nodes.</li>
+<li>All unique shards are queried, regardless of whether the partition numbering is sequential or not (it allows querying of partitions 0 and 2, even if partition 1 is missing).</li>
+</ul>
+
+<p>Configure <code>linear</code> under <code>schema</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h5 id="numbered">Numbered</h5>
+
+<p>This strategy is similar to <code>linear</code> except that it does not tolerate non-sequential partition numbering (it will <em>not</em> allow querying of partitions 0 and 2 if partition 1 is missing). It also requires explicitly setting the total number of partitions.</p>
+
+<p>Configure <code>numbered</code> under <code>schema</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;numbered&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;partitions&quot;</span><span class="p">:</span> <span class="mi">2</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h5 id="scale-and-redundancy">Scale and Redundancy</h5>
+
+<p>The <code>shardSpec</code> configuration can be used to create redundancy by having the same <code>partitionNum</code> values on different nodes.</p>
+
+<p>For example, if RealTimeNode1 has:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>and RealTimeNode2 has:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>then two realtime nodes can store segments with the same datasource, version, time interval, and partition number. Brokers that query for data in such segments will assume that they hold the same data, and the query will target only one of the segments.</p>
+
+<p><code>shardSpec</code> can also help achieve scale. For this, add nodes with a different <code>partionNum</code>. Continuing with the example, if RealTimeNode3 has:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>then it can store segments with the same datasource, time interval, and version as in the first two nodes, but with a different partition number. Brokers that query for data in such segments will assume that a segment from RealTimeNode3 holds <em>different</em> data, and the query will target it along with a segment from the first two nodes.</p>
+
+<p>You can use type <code>numbered</code> similarly. Note that type <code>none</code> is essentially type <code>linear</code> with all shards having a fixed <code>partitionNum</code> of 0.</p>
+
+<h2 id="constraints">Constraints</h2>
+
+<p>The following table summarizes constraints between settings in the spec file for the Realtime subsystem.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Effect</th>
+<th>Minimum</th>
+<th>Recommended</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>windowPeriod</td>
+<td>When reading a row, events with timestamp older than now minus this window are discarded</td>
+<td>time jitter tolerance</td>
+<td>use this to reject outliers</td>
+</tr>
+<tr>
+<td>segmentGranularity</td>
+<td>Time granularity (minute, hour, day, week, month) for loading data at query time</td>
+<td>equal to indexGranularity</td>
+<td>more than queryGranularity</td>
+</tr>
+<tr>
+<td>queryGranularity</td>
+<td>Time granularity (minute, hour, day, week, month) for rollup</td>
+<td>less than segmentGranularity</td>
+<td>minute, hour, day, week, month</td>
+</tr>
+<tr>
+<td>intermediatePersistPeriod</td>
+<td>The max time (ISO8601 Period) between flushes of ingested rows from memory to disk</td>
+<td>avoid excessive flushing</td>
+<td>number of un-persisted rows in memory also constrained by maxRowsInMemory</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>The max number of ingested rows to hold in memory before a flush to disk</td>
+<td>number of un-persisted post-aggregation rows in memory is also constrained by intermediatePersistPeriod</td>
+<td>use this to avoid running out of heap if too many rows in an intermediatePersistPeriod</td>
+</tr>
+</tbody></table>
+
+<p>The normal, expected use cases have the following overall constraints: <code>intermediatePersistPeriod ≤ windowPeriod &lt; segmentGranularity</code> and <code>queryGranularity ≤ segmentGranularity</code></p>
+
+<h2 id="limitations">Limitations</h2>
+
+<h3 id="kafka">Kafka</h3>
+
+<p>Standalone realtime nodes use the Kafka high level consumer, which imposes a few restrictions.</p>
+
+<p>Druid replicates segment such that logically equivalent data segments are concurrently hosted on N nodes. If N–1 nodes go down, 
+the data will still be available for querying. On real-time nodes, this process depends on maintaining logically equivalent 
+data segments on each of the N nodes, which is not possible with standard Kafka consumer groups if your Kafka topic requires more than one consumer 
+(because consumers in different consumer groups will split up the data differently).</p>
+
+<p>For example, let&#39;s say your topic is split across Kafka partitions 1, 2, &amp; 3 and you have 2 real-time nodes with linear shard specs 1 &amp; 2. 
+Both of the real-time nodes are in the same consumer group. Real-time node 1 may consume data from partitions 1 &amp; 3, and real-time node 2 may consume data from partition 2. 
+Querying for your data through the broker will yield correct results.</p>
+
+<p>The problem arises if you want to replicate your data by creating real-time nodes 3 &amp; 4. These new real-time nodes also 
+have linear shard specs 1 &amp; 2, and they will consume data from Kafka using a different consumer group. In this case, 
+real-time node 3 may consume data from partitions 1 &amp; 2, and real-time node 4 may consume data from partition 2. 
+From Druid&#39;s perspective, the segments hosted by real-time nodes 1 and 3 are the same, and the data hosted by real-time nodes 
+2 and 4 are the same, although they are reading from different Kafka partitions. Querying for the data will yield inconsistent 
+results.</p>
+
+<p>Is this always a problem? No. If your data is small enough to fit on a single Kafka partition, you can replicate without issues. 
+Otherwise, you can run real-time nodes without replication.</p>
+
+<h3 id="locking">Locking</h3>
+
+<p>Using stream pull ingestion with Realtime nodes together batch ingestion may introduce data override issues. For example, if you 
+are generating hourly segments for the current day, and run a daily batch job for the current day&#39;s data, the segments created by 
+the batch job will have a more recent version than most of the segments generated by realtime ingestion. If your batch job is indexing 
+data that isn&#39;t yet complete for the day, the daily segment created by the batch job can override recent segments created by 
+realtime nodes. A portion of data will appear to be lost in this case.</p>
+
+<h3 id="schema-changes">Schema changes</h3>
+
+<p>Standalone realtime nodes require stopping a node to update a schema, and starting it up again for the schema to take effect. 
+This can be difficult to manage at scale, especially with multiple partitions.</p>
+
+<h3 id="log-management">Log management</h3>
+
+<p>Each standalone realtime node has its own set of logs. Diagnosing errors across many partitions across many servers may be 
+difficult to manage and track at scale.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.0/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
