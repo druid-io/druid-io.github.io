@@ -122,6 +122,12 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 
 * [Reporting at LiquidM](http://liquidm.com/reporting-at-liquidm/)
 
+## Marchex
+
+Marchex uses Druid to provide data for Marchex Call Analytics' new customer facing dashboards.
+Druid's fast aggregation is critical for providing deep insights into call performance for its customers, 
+enabling them to spot trends and improve performance of both marketing campaigns and call centers.
+
 ## Metamarkets
 
 Druid is the primary data store for Metamarkets’ full stack visual analytics
