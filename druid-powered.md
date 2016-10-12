@@ -288,6 +288,9 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
 
+## Tencent
+Tencent SCRM product use Druid for custumer behavior analysis.
+
 <hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md)
