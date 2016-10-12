@@ -241,6 +241,10 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
+## Tencent
+
+Tencent SCRM product use Druid for custumer behavior analysis.
+
 ## Time Warner Cable
 
 TWC uses Druid for exploratory analytics.
@@ -249,7 +253,7 @@ TWC uses Druid for exploratory analytics.
 
 TripleLift uses Druid to provide insights into performance aspects of its native programmatic exchange for sales/business development opportunities, and to provide reporting used by advertisers and publishers.
 
-##VideoAmp
+## VideoAmp
 
 At VideoAmp, Druid is a key component of our Big Data stack. It powers our real-time video advertising analytics at low granularity and huge scale. Druid has helped us minimized the time between event, insight and action.
 
@@ -287,9 +291,6 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 ## Youku Tudou
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
-
-## Tencent
-Tencent SCRM product use Druid for custumer behavior analysis.
 
 <hr/>
 
