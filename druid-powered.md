@@ -161,6 +161,12 @@ activity and content flow.
 
 * [Announcing Suro: Backbone of Netflix's Data Pipeline](http://techblog.netflix.com/2013/12/announcing-suro-backbone-of-netflixs.html)
 
+## Netsil
+
+Netsil is an observability and analytics company for modern cloud applications. The Netsil Application Operations Center (AOC) uses Druid for real-time queries on sharded data along with support for dynamic and multi-valued attributes. The AOC processes live service interactions in large-scale production applications and also stores massive amounts of historical metrics data. Druid was able to support these and several other AOC requirements allowing the AOC to be scalable and fault-tolerant.
+
+You can learn more about the AOC at http://netsil.com/download/
+
 ## OneAPM
 
 OneAPM <http://oneapm.com> is an IT service compmay focusing on Application Performance Management (APM). In OneAPM, Druid is used to power clients' interactive queries on performance data collected from their applications in realtime.
