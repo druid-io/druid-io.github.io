@@ -9,6 +9,11 @@ markdown: redcarpet
 redcarpet:
   extensions: ["tables", "no_intra_emphasis", "fenced_code_blocks", "with_toc_data"]
 
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
 highlighter: pygments
 
 title: 'Druid'
@@ -16,7 +21,7 @@ description: 'Real²time Exploratory Analytics on Large Datasets'
 
 druid_version: 0.9.1.1
 
-# druid_rc_version:
+druid_rc_version: 0.9.2-rc1
 druid_stable_version: 0.9.1.1
 druid_latest_version: 0.9.1.1
 
