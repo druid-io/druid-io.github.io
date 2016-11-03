@@ -217,6 +217,10 @@ PubNative uses Druid for its real-time reports and analysis of millions of daily
 
 redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
 
+## Sift Science
+
+Sift Science provides an online trust platform that online businesses use to prevent fraud and abuse. We use Druid as a tool to gain real-time insights about our data and machine learning models.
+
 ## Sina Weibo
 
 Weibo UVE(Unified Value Evaluation) team of Advertising Platform is using Druid as the realtime analysis tool of the data insight system, which processing billions events everyday.
