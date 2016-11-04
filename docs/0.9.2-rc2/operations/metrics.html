@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2-rc2">API documentation</a></p>
+          <h1 id="druid-metrics">Druid Metrics</h1>
+
+<p>Druid generates metrics related to queries, ingestion, and coordination.</p>
+
+<p>Metrics are emitted as JSON objects to a runtime log file or over HTTP (to a service such as Apache Kafka). Metric emission is disabled by default.</p>
+
+<p>All Druid metrics share a common set of fields:</p>
+
+<ul>
+<li><code>timestamp</code> - the time the metric was created</li>
+<li><code>metric</code> - the name of the metric</li>
+<li><code>service</code> - the service name that emitted the metric</li>
+<li><code>host</code> - the host name that emitted the metric</li>
+<li><code>value</code> - some numeric value associated with the metric</li>
+</ul>
+
+<p>Metrics may have additional dimensions beyond those listed above.</p>
+
+<p>Most metric values reset each emission period. By default druid emission period is 1 minute, this can be changed by setting the property <code>druid.monitoring.emissionPeriod</code>.</p>
+
+<h2 id="available-metrics">Available Metrics</h2>
+
+<h2 id="query-metrics">Query Metrics</h2>
+
+<h3 id="broker">Broker</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/time</code></td>
+<td>Milliseconds taken to complete a query.</td>
+<td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/bytes</code></td>
+<td>number of bytes returned in query response.</td>
+<td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/node/time</code></td>
+<td>Milliseconds taken to query individual historical/realtime nodes.</td>
+<td>id, status, server.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/node/bytes</code></td>
+<td>number of bytes returned from querying individual historical/realtime nodes.</td>
+<td>id, status, server.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/node/ttfb</code></td>
+<td>Time to first byte. Milliseconds elapsed until broker starts receiving the response from individual historical/realtime nodes.</td>
+<td>id, status, server.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/intervalChunk/time</code></td>
+<td>Only emitted if interval chunking is enabled. Milliseconds required to query an interval chunk.</td>
+<td>id, status, chunkInterval (if interval chunking is enabled).</td>
+<td>&lt; 1s</td>
+</tr>
+</tbody></table>
+
+<h3 id="historical">Historical</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/time</code></td>
+<td>Milliseconds taken to complete a query.</td>
+<td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/segment/time</code></td>
+<td>Milliseconds taken to query individual segment. Includes time to page in the segment from disk.</td>
+<td>id, status, segment.</td>
+<td>several hundred milliseconds</td>
+</tr>
+<tr>
+<td><code>query/wait/time</code></td>
+<td>Milliseconds spent waiting for a segment to be scanned.</td>
+<td>id, segment.</td>
+<td>&lt; several hundred milliseconds</td>
+</tr>
+<tr>
+<td><code>segment/scan/pending</code></td>
+<td>Number of segments in queue waiting to be scanned.</td>
+<td></td>
+<td>Close to 0</td>
+</tr>
+<tr>
+<td><code>query/segmentAndCache/time</code></td>
+<td>Milliseconds taken to query individual segment or hit the cache (if it is enabled on the historical node).</td>
+<td>id, segment.</td>
+<td>several hundred milliseconds</td>
+</tr>
+<tr>
+<td><code>query/cpu/time</code></td>
+<td>Microseconds of CPU time taken to complete a query</td>
+<td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
+<td>Varies</td>
+</tr>
+</tbody></table>
+
+<h3 id="real-time">Real-time</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/time</code></td>
+<td>Milliseconds taken to complete a query.</td>
+<td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/wait/time</code></td>
+<td>Milliseconds spent waiting for a segment to be scanned.</td>
+<td>id, segment.</td>
+<td>several hundred milliseconds</td>
+</tr>
+<tr>
+<td><code>segment/scan/pending</code></td>
+<td>Number of segments in queue waiting to be scanned.</td>
+<td></td>
+<td>Close to 0</td>
+</tr>
+</tbody></table>
+
+<h3 id="jetty">Jetty</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>jetty/numOpenConnections</code></td>
+<td>Number of open jetty connections.</td>
+<td>Not much higher than number of jetty threads.</td>
+</tr>
+</tbody></table>
+
+<h3 id="cache">Cache</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/cache/delta/*</code></td>
+<td>Cache metrics since the last emission.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/cache/total/*</code></td>
+<td>Total cache metrics.</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>*/numEntries</code></td>
+<td>Number of cache entries.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/sizeBytes</code></td>
+<td>Size in bytes of cache entries.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/hits</code></td>
+<td>Number of cache hits.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/misses</code></td>
+<td>Number of cache misses.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/evictions</code></td>
+<td>Number of cache evictions.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/hitRate</code></td>
+<td>Cache hit rate.</td>
+<td></td>
+<td>~40%</td>
+</tr>
+<tr>
+<td><code>*/averageByte</code></td>
+<td>Average cache entry byte size.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>*/timeouts</code></td>
+<td>Number of cache timeouts.</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>*/errors</code></td>
+<td>Number of cache errors.</td>
+<td></td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<h4 id="memcached-only-metrics">Memcached only metrics</h4>
+
+<p>Memcached client metrics are reported as per the following. These metrics come directly from the client as opposed to from the cache retrieval layer.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/cache/memcached/total</code></td>
+<td>Cache metrics unique to memcached (only if <code>druid.cache.type=memcached</code>) as their actual values</td>
+<td>Variable</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>query/cache/memcached/delta</code></td>
+<td>Cache metrics unique to memcached (only if <code>druid.cache.type=memcached</code>) as their delta from the prior event emission</td>
+<td>Variable</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+
+<h2 id="ingestion-metrics">Ingestion Metrics</h2>
+
+<p>These metrics are only available if the RealtimeMetricsMonitor is included in the monitors list for the Realtime node. These metrics are deltas for each emission period.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ingest/events/thrownAway</code></td>
+<td>Number of events rejected because they are outside the windowPeriod.</td>
+<td>dataSource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>ingest/events/unparseable</code></td>
+<td>Number of events rejected because the events are unparseable.</td>
+<td>dataSource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>ingest/events/processed</code></td>
+<td>Number of events successfully processed per emission period.</td>
+<td>dataSource.</td>
+<td>Equal to your # of events per emission period.</td>
+</tr>
+<tr>
+<td><code>ingest/rows/output</code></td>
+<td>Number of Druid rows persisted.</td>
+<td>dataSource.</td>
+<td>Your # of events with rollup.</td>
+</tr>
+<tr>
+<td><code>ingest/persists/count</code></td>
+<td>Number of times persist occurred.</td>
+<td>dataSource.</td>
+<td>Depends on configuration.</td>
+</tr>
+<tr>
+<td><code>ingest/persists/time</code></td>
+<td>Milliseconds spent doing intermediate persist.</td>
+<td>dataSource.</td>
+<td>Depends on configuration. Generally a few minutes at most.</td>
+</tr>
+<tr>
+<td><code>ingest/persists/cpu</code></td>
+<td>Cpu time in Nanoseconds spent on doing intermediate persist.</td>
+<td>dataSource.</td>
+<td>Depends on configuration. Generally a few minutes at most.</td>
+</tr>
+<tr>
+<td><code>ingest/persists/backPressure</code></td>
+<td>Milliseconds spent creating persist tasks and blocking waiting for them to finish.</td>
+<td>dataSource.</td>
+<td>0 or very low</td>
+</tr>
+<tr>
+<td><code>ingest/persists/failed</code></td>
+<td>Number of persists that failed.</td>
+<td>dataSource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>ingest/handoff/failed</code></td>
+<td>Number of handoffs that failed.</td>
+<td>dataSource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>ingest/merge/time</code></td>
+<td>Milliseconds spent merging intermediate segments</td>
+<td>dataSource.</td>
+<td>Depends on configuration. Generally a few minutes at most.</td>
+</tr>
+<tr>
+<td><code>ingest/merge/cpu</code></td>
+<td>Cpu time in Nanoseconds spent on merging intermediate segments.</td>
+<td>dataSource.</td>
+<td>Depends on configuration. Generally a few minutes at most.</td>
+</tr>
+<tr>
+<td><code>ingest/handoff/count</code></td>
+<td>Number of handoffs that happened.</td>
+<td>dataSource.</td>
+<td>Varies. Generally greater than 0 once every segment granular period if cluster operating normally</td>
+</tr>
+</tbody></table>
+
+<p>Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0. </p>
+
+<h3 id="indexing-service">Indexing Service</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>task/run/time</code></td>
+<td>Milliseconds taken to run task.</td>
+<td>dataSource, taskType, taskStatus.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/added/bytes</code></td>
+<td>Size in bytes of new segments created.</td>
+<td>dataSource, taskType, interval.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/moved/bytes</code></td>
+<td>Size in bytes of segments moved/archived via the Move Task.</td>
+<td>dataSource, taskType, interval.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/nuked/bytes</code></td>
+<td>Size in bytes of segments deleted via the Kill Task.</td>
+<td>dataSource, taskType, interval.</td>
+<td>Varies.</td>
+</tr>
+</tbody></table>
+
+<h2 id="coordination">Coordination</h2>
+
+<p>These metrics are for the Druid coordinator and are reset each time the coordinator runs the coordination logic.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>segment/assigned/count</code></td>
+<td>Number of segments assigned to be loaded in the cluster.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/moved/count</code></td>
+<td>Number of segments moved in the cluster.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/dropped/count</code></td>
+<td>Number of segments dropped due to being overshadowed.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/deleted/count</code></td>
+<td>Number of segments dropped due to rules.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/unneeded/count</code></td>
+<td>Number of segments dropped due to being marked as unused.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/cost/raw</code></td>
+<td>Used in cost balancing. The raw cost of hosting segments.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/cost/normalization</code></td>
+<td>Used in cost balancing. The normalization of hosting segments.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/cost/normalized</code></td>
+<td>Used in cost balancing. The normalized cost of hosting segments.</td>
+<td>tier.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/loadQueue/size</code></td>
+<td>Size in bytes of segments to load.</td>
+<td>server.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/loadQueue/failed</code></td>
+<td>Number of segments that failed to load.</td>
+<td>server.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>segment/loadQueue/count</code></td>
+<td>Number of segments to load.</td>
+<td>server.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/dropQueue/count</code></td>
+<td>Number of segments to drop.</td>
+<td>server.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/size</code></td>
+<td>Size in bytes of available segments.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/count</code></td>
+<td>Number of available segments.</td>
+<td>dataSource.</td>
+<td>&lt; max</td>
+</tr>
+<tr>
+<td><code>segment/overShadowed/count</code></td>
+<td>Number of overShadowed segments.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/unavailable/count</code></td>
+<td>Number of segments (not including replicas) left to load until segments that should be loaded in the cluster are available for queries.</td>
+<td>datasource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>segment/underReplicated/count</code></td>
+<td>Number of segments (including replicas) left to load until segments that should be loaded in the cluster are available for queries.</td>
+<td>tier, datasource.</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<p>If <code>emitBalancingStats</code> is set to <code>true</code> in the coordinator <a href="../configuration/coordinator.html#dynamic-configuration">dynamic configuration</a>, then <a href="../configuration/logging.html">log entries</a> for class <code>io.druid.server.coordinator.helper.DruidCoordinatorLogger</code> will have extra information on balancing decisions.</p>
+
+<h2 id="general-health">General Health</h2>
+
+<h3 id="historical">Historical</h3>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>segment/max</code></td>
+<td>Maximum byte limit available for segments.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/used</code></td>
+<td>Bytes used for served segments.</td>
+<td>dataSource, tier, priority.</td>
+<td>&lt; max</td>
+</tr>
+<tr>
+<td><code>segment/usedPercent</code></td>
+<td>Percentage of space used by served segments.</td>
+<td>dataSource, tier, priority.</td>
+<td>&lt; 100%</td>
+</tr>
+<tr>
+<td><code>segment/count</code></td>
+<td>Number of served segments.</td>
+<td>dataSource, tier, priority.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/pendingDelete</code></td>
+<td>On-disk size in bytes of segments that are waiting to be cleared out</td>
+<td>Varies.</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="jvm">JVM</h3>
+
+<p>These metrics are only available if the JVMMonitor module is included.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>jvm/pool/committed</code></td>
+<td>Committed pool.</td>
+<td>poolKind, poolName.</td>
+<td>close to max pool</td>
+</tr>
+<tr>
+<td><code>jvm/pool/init</code></td>
+<td>Initial pool.</td>
+<td>poolKind, poolName.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/pool/max</code></td>
+<td>Max pool.</td>
+<td>poolKind, poolName.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/pool/used</code></td>
+<td>Pool used.</td>
+<td>poolKind, poolName.</td>
+<td>&lt; max pool</td>
+</tr>
+<tr>
+<td><code>jvm/bufferpool/count</code></td>
+<td>Bufferpool count.</td>
+<td>bufferPoolName.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/bufferpool/used</code></td>
+<td>Bufferpool used.</td>
+<td>bufferPoolName.</td>
+<td>close to capacity</td>
+</tr>
+<tr>
+<td><code>jvm/bufferpool/capacity</code></td>
+<td>Bufferpool capacity.</td>
+<td>bufferPoolName.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/mem/init</code></td>
+<td>Initial memory.</td>
+<td>memKind.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/mem/max</code></td>
+<td>Max memory.</td>
+<td>memKind.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>jvm/mem/used</code></td>
+<td>Used memory.</td>
+<td>memKind.</td>
+<td>&lt; max memory</td>
+</tr>
+<tr>
+<td><code>jvm/mem/committed</code></td>
+<td>Committed memory.</td>
+<td>memKind.</td>
+<td>close to max memory</td>
+</tr>
+<tr>
+<td><code>jvm/gc/count</code></td>
+<td>Garbage collection count.</td>
+<td>gcName.</td>
+<td>&lt; 100</td>
+</tr>
+<tr>
+<td><code>jvm/gc/time</code></td>
+<td>Garbage collection time.</td>
+<td>gcName.</td>
+<td>&lt; 1s</td>
+</tr>
+</tbody></table>
+
+<h3 id="eventreceiverfirehose">EventReceiverFirehose</h3>
+
+<p>The following metric is only available if the EventReceiverFirehoseMonitor module is included.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ingest/events/buffered</code></td>
+<td>Number of events queued in the EventReceiverFirehose&#39;s buffer</td>
+<td>serviceName, dataSource, taskId, bufferCapacity.</td>
+<td>Equal to current # of events in the buffer queue.</td>
+</tr>
+<tr>
+<td><code>ingest/bytes/received</code></td>
+<td>Number of bytes received by the EventReceiverFirehose.</td>
+<td>serviceName, dataSource, taskId.</td>
+<td>Varies.</td>
+</tr>
+</tbody></table>
+
+<h2 id="sys">Sys</h2>
+
+<p>These metrics are only available if the SysMonitor module is included.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sys/swap/free</code></td>
+<td>Free swap.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/swap/max</code></td>
+<td>Max swap.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/swap/pageIn</code></td>
+<td>Paged in swap.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/swap/pageOut</code></td>
+<td>Paged out swap.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/disk/write/count</code></td>
+<td>Writes to disk.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/disk/read/count</code></td>
+<td>Reads from disk.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/disk/write/size</code></td>
+<td>Bytes written to disk. Can we used to determine how much paging is occuring with regards to segments.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/disk/read/size</code></td>
+<td>Bytes read from disk. Can we used to determine how much paging is occuring with regards to segments.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/net/write/size</code></td>
+<td>Bytes written to the network.</td>
+<td>netName, netAddress, netHwaddr</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/net/read/size</code></td>
+<td>Bytes read from the network.</td>
+<td>netName, netAddress, netHwaddr</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/fs/used</code></td>
+<td>Filesystem bytes used.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>&lt; max</td>
+</tr>
+<tr>
+<td><code>sys/fs/max</code></td>
+<td>Filesystesm bytes max.</td>
+<td>fsDevName, fsDirName, fsTypeName, fsSysTypeName, fsOptions.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/mem/used</code></td>
+<td>Memory used.</td>
+<td></td>
+<td>&lt; max</td>
+</tr>
+<tr>
+<td><code>sys/mem/max</code></td>
+<td>Memory max.</td>
+<td></td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/storage/used</code></td>
+<td>Disk space used.</td>
+<td>fsDirName.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>sys/cpu</code></td>
+<td>CPU used.</td>
+<td>cpuName, cpuTime.</td>
+<td>Varies.</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.2-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

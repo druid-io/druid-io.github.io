@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>	
+  <head>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | Downloads</title>
+<title>Druid | </title>
 <link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -36,7 +36,8 @@
 
 
   </head>
-  <body>	
+
+  <body>
     <!-- Start page_header include -->
 <div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
@@ -52,7 +53,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=" active"><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
         <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
@@ -66,60 +67,60 @@
 
 
     <div class="druid-header">
-  <div class="container">
-    <h1>Download</h1>
-    <h4></h4>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-
-      <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.9.1.1 Stable</a><br>
-
-      <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/0.9.1.1/development/versioning.html">Versioning</a> section for how we describe releases.
-
-      <h4>Stable Release</h4>
-
-      <p>The current stable is tagged at version 0.9.1.1.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz');return false;">druid-0.9.1.1-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.9.1.1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.9.1.1.tar.gz');return false;">mysql-metadata-storage-0.9.1.1.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/0.9.1.1/operations/including-extensions.html">Include Extensions</a>)
-
-      <p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz');return false;">tranquility-distribution-0.8.2.tgz</a>.</p>
-
-      <h4>Next Release Candidate</h4>
-      
-      <p>The current release candidate is tagged at version 0.9.2-rc2.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.9.2-rc2-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.9.2-rc2-bin.tar.gz');return false;">druid-0.9.2-rc2-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.9.2-rc2.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.9.2-rc2.tar.gz');return false;">mysql-metadata-storage-0.9.2-rc2.tar.gz</a>.
-
-      
-
-      <h2>Release Notes</h2>
-
-      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
     </div>
-  </div>
-</div>
-</div>
 
-<script>
-var trackDownload = function(type, url) {
-   ga('send', 'event', 'download', type, url, {'hitCallback':
-     function () {
-     document.location = url;
-     }
-   });
-}
-</script>
+    <div class="container">
+      
+      
+      
 
-    
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2-rc2">API documentation</a></p>
+          <h1 id="versioning-druid">Versioning Druid</h1>
+
+<p>This page discusses how we do versioning and provides information on our stable releases.</p>
+
+<h2 id="versioning-strategy">Versioning Strategy</h2>
+
+<p>We generally follow <a href="http://semver.org/">semantic versioning</a>. The general idea is</p>
+
+<ul>
+<li>&quot;Major&quot; version (leftmost): backwards incompatible, no guarantees exist about APIs between the versions</li>
+<li>&quot;Minor&quot; version (middle number): you can move forward from a smaller number to a larger number, but moving backwards <em>might</em> be incompatible.</li>
+<li>&quot;bug-fix&quot; version (&quot;patch&quot; or the rightmost): Interchangeable. The higher the number, the more things are fixed (hopefully), but the programming interfaces are completely compatible and you should be able to just drop in a new jar and have it work.</li>
+</ul>
+
+<p>Note that this is defined in terms of programming API, <strong>not</strong> in terms of functionality. It is possible that a brand new awesome way of doing something is introduced in a &quot;bug-fix&quot; release version if it doesn’t add to the public API or change it.</p>
+
+<p>One exception for right now, while we are still in major version 0, we are considering the APIs to be in beta and are conflating &quot;major&quot; and &quot;minor&quot; so a minor version increase could be backwards incompatible for as long as we are at major version 0. These will be communicated via email on the group.</p>
+
+<p>For external deployments, we recommend running the stable release tag. Releases are considered stable after we have deployed them into our production environment and they have operated bug-free for some time.</p>
+
+<h2 id="tagging-strategy">Tagging strategy</h2>
+
+<p>Tags of the codebase are equivalent to release candidates. We tag the code every time we want to take it through our release process, which includes some QA cycles and deployments. So, it is not safe to assume that a tag is a stable release, it is a solidification of the code as it goes through our production QA cycle and deployment. Tags will never change, but we often go through a number of iterations of tags before actually getting a stable release onto production. So, it is recommended that if you are not aware of what is on a tag, to stick to the stable releases listed on the <a href="https://github.com/druid-io/druid/releases">Release</a> page.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Start page_footer include -->
 <footer class="druid-footer">
 <div class="container">
@@ -159,6 +160,23 @@ var trackDownload = function(type, url) {
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
 
-    
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.2-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
   </body>
 </html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2-rc2">API documentation</a></p>
+          <h1 id="lookups">Lookups</h1>
+
+<div class="note caution">
+Lookups are an <a href="../development/experimental.html">experimental</a> feature.
+</div>
+
+<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values. 
+See <a href="../querying/dimensionspecs.html">dimension specs</a> for more information. For the purpose of these documents, 
+a &quot;key&quot; refers to a dimension value to match, and a &quot;value&quot; refers to its replacement. 
+So if you wanted to rename <code>appid-12345</code> to <code>Super Mega Awesome App</code> then the key would be <code>appid-12345</code> and the value 
+would be <code>Super Mega Awesome App</code>. </p>
+
+<p>It is worth noting that lookups support use cases where keys map to unique values (injective) such as a country code and 
+a country name, and also supports use cases where multiple IDs map to the same value, e.g. multiple app-ids belonging to 
+a single account manager.</p>
+
+<p>Lookups do not have history. They always use the current data. This means that if the chief account manager for a 
+particular app-id changes, and you issue a query with a lookup to store the app-id to account manager relationship, 
+it will return the current account manager for that app-id REGARDLESS of the time range over which you query.</p>
+
+<p>If you require data time range sensitive lookups, such a use case is not currently supported dynamically at query time, 
+and such data belongs in the raw denormalized data for use in Druid.</p>
+
+<p>Very small lookups (count of keys on the order of a few dozen to a few hundred) can be passed at query time as a &quot;map&quot; 
+lookup as per <a href="../querying/dimensionspecs.html">dimension specs</a>.</p>
+
+<p>Other lookup types are available as extensions, including:</p>
+
+<ul>
+<li>Globally cached lookups from local files, remote URIs, or JDBC through <a href="../development/extensions-core/lookups-cached-global.html">lookups-cached-global</a>.</li>
+<li>Globally cached lookups from a Kafka topic through <a href="../development/extensions-core/kafka-extraction-namespace.html">kafka-extraction-namespace</a>.</li>
+</ul>
+
+<h2 id="dynamic-configuration">Dynamic Configuration</h2>
+
+<div class="note caution">
+Dynamic lookup configuration is an <a href="../development/experimental.html">experimental</a> feature. Static
+configuration is no longer supported.
+</div>
+
+<p>The following documents the behavior of the cluster-wide config which is accessible through the coordinator.
+The configuration is propagated through the concept of &quot;tier&quot; of servers.
+A &quot;tier&quot; is defined as a group of services which should receive a set of lookups.
+For example, you might have all historicals be part of <code>__default</code>, and Peons be part of individual tiers for the datasources they are tasked with.
+The tiers for lookups are completely independent of historical tiers.</p>
+
+<p>These configs are accessed using JSON through the following URI template</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/lookups/{tier}/{id}
+</code></pre></div>
+<p>All URIs below are assumed to have <code>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code> prepended.</p>
+
+<p>If you have NEVER configured lookups before, you MUST post an empty json object <code>{}</code> to <code>/druid/coordinator/v1/lookups</code> to initialize the configuration.</p>
+
+<p>These endpoints will return one of the following results:</p>
+
+<ul>
+<li>404 if the resource is not found</li>
+<li>400 if there is a problem in the formatting of the request</li>
+<li>202 if the request was accepted asynchronously (<code>POST</code> and <code>DELETE</code>)</li>
+<li>200 if the request succeeded (<code>GET</code> only)</li>
+</ul>
+
+<h2 id="configuration-propagation-behavior">Configuration propagation behavior</h2>
+
+<p>The configuration is propagated to the query serving nodes (broker / router / peon / historical) by the coordinator.
+The query serving nodes have an internal API for managing <code>POST</code>/<code>GET</code>/<code>DELETE</code> of lookups.
+The coordinator periodically checks the dynamic configuration for changes and, when it detects a change it does the following:</p>
+
+<ol>
+<li>Post all lookups for a tier to all Druid nodes within that tier.</li>
+<li>Delete lookups from a tier which were dropped between the prior configuration values and this one.</li>
+</ol>
+
+<p>If there is no configuration change, the coordinator checks for any nodes which might be new since the last time it propagated lookups and adds all lookups for that node (assuming that node&#39;s tier has lookups).
+If there are errors while trying to add or update configuration on a node, that node is temporarily skipped until the next management period. The next management period the update will attempt to be propagated again.
+If there is an error while trying to delete a lookup from a node (or if a node is down when the coordinator is propagating the config), the delete is not attempted again. In such a case it is possible that a node has lookups that are no longer managed by the coordinator.</p>
+
+<h2 id="bulk-update">Bulk update</h2>
+
+<p>Lookups can be updated in bulk by posting a JSON object to <code>/druid/coordinator/v1/lookups</code>. The format of the json object is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;tierName&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;lookupExtractorFactoryName&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;someExtractorFactoryType&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;someExtractorField&quot;</span><span class="p">:</span> <span class="s2">&quot;someExtractorValue&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>So a config might look something like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;__default&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;site_id&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+              <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_id&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_name&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+          <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;site_id_customer1&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;847632&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Use Only&quot;</span><span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;site_id_customer2&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;AHF77&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;realtime_customer1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;site_id_customer1&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;847632&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Use Only&quot;</span><span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;realtime_customer2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;site_id_customer2&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;AHF77&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>All entries in the map will UPDATE existing entries. No entries will be deleted.</p>
+
+<h2 id="update-lookup">Update Lookup</h2>
+
+<p>A <code>POST</code> to a particular lookup extractor factory via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code> will update that specific extractor factory.</p>
+
+<p>For example, a post to <code>/druid/coordinator/v1/lookups/realtime_customer1/site_id_customer1</code> might contain the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;847632&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Use Only&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This will replace the <code>site_id_customer1</code> lookup in the <code>realtime_customer1</code> with the definition above.</p>
+
+<h2 id="get-lookup">Get Lookup</h2>
+
+<p>A <code>GET</code> to a particular lookup extractor factory is accomplished via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code></p>
+
+<p>Using the prior example, a <code>GET</code> to <code>/druid/coordinator/v1/lookups/realtime_customer2/site_id_customer2</code> should return</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;AHF77&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="delete-lookup">Delete Lookup</h2>
+
+<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/{tier}/{id}</code> will remove that lookup from the cluster.</p>
+
+<h2 id="list-tier-names">List tier names</h2>
+
+<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups</code> will return a list of known tier names in the dynamic configuration.
+To discover a list of tiers currently active in the cluster <strong>instead of</strong> ones known in the dynamic configuration, the parameter <code>discover=true</code> can be added as per <code>/druid/coordinator/v1/lookups?discover=true</code>.</p>
+
+<h2 id="list-lookup-names">List lookup names</h2>
+
+<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups/{tier}</code> will return a list of known lookup names for that tier.</p>
+
+<h1 id="internal-api">Internal API</h1>
+
+<p>The Peon, Router, Broker, and Historical nodes all have the ability to consume lookup configuration.
+There is an internal API these nodes use to list/load/drop their lookups starting at <code>/druid/listen/v1/lookups</code>.
+These follow the same convention for return values as the cluster wide dynamic configuration.
+Usage of these endpoints is quite advanced and not recommended for most users.
+The endpoints are as follows:</p>
+
+<h2 id="get-lookups">Get Lookups</h2>
+
+<p>A <code>GET</code> to the node at <code>/druid/listen/v1/lookups</code> will return a json map of all the lookups currently active on the node.
+The return value will be a json map of the lookups to their extractor factories.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;some_lookup_name&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="get-lookup">Get Lookup</h2>
+
+<p>A <code>GET</code> to the node at <code>/druid/listen/v1/lookups/some_lookup_name</code> will return the LookupExtractorFactory for the lookup identified by <code>some_lookup_name</code>.
+The return value will be the json representation of the factory.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">,</span> <span class="nt">&quot;United States&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="bulk-add-or-update-lookups">Bulk Add or Update Lookups</h2>
+
+<p>A <code>POST</code> to the node at <code>/druid/listen/v1/lookups</code> of a JSON map of lookup names to LookupExtractorFactory will cause the service to add or update its lookups.
+The return value will be a JSON map in the following format:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;accepted&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;failedUpdates&quot;</span><span class="p">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If a lookup cannot be started, or is left in an undefined state, the lookup in error will be returned in the <code>failedUpdates</code> field as per:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;accepted&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;failedUpdates&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>failedUpdates</code> field of the return value should be checked if a user is wanting to assure that every update succeeded.</p>
+
+<h2 id="add-or-update-lookup">Add or Update Lookup</h2>
+
+<p>A <code>POST</code> to the node at <code>/druid/listen/v1/lookups/some_lookup_name</code> will behave very similarly to a bulk update.</p>
+
+<p>If <code>some_lookup_name</code> is desired to have the LookupExtractorFactory definition of </p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then a post to <code>/druid/listen/v1/lookups/some_lookup_name</code> will behave the same as a <code>POST</code> to <code>/druid/listen/v1/lookups</code> of</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;some_lookup_name&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;77483&quot;</span><span class="p">:</span> <span class="s2">&quot;United States&quot;</span><span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="remove-a-lookup">Remove a Lookup</h2>
+
+<p>A <code>DELETE</code> to <code>/druid/listen/v1/lookups/some_lookup_name</code> will remove that lookup from the node. Success will reflect the ID.</p>
+
+<h1 id="configuration">Configuration</h1>
+
+<p>See the <a href="../configuration/coordinator.html">coordinator configuration guilde</a> for coordinator configuration</p>
+
+<p>To configure a Broker / Router / Historical / Peon to announce itself as part of a lookup tier, use the <code>druid.zk.paths.lookupTier</code> property.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.lookup.lookupTier</code></td>
+<td>The tier for <strong>lookups</strong> for this node. This is independent of other tiers.</td>
+<td><code>__default</code></td>
+</tr>
+<tr>
+<td><code>druid.lookup.lookupTierIsDatasource</code></td>
+<td>For some things like indexing service tasks, the datasource is passed in the runtime properties of a task. This option fetches the tierName from the same value as the datasource for the task. It is suggested to only use this as peon options for the indexing service, if at all. If true, <code>druid.lookup.lookupTier</code> MUST NOT be specified</td>
+<td><code>&quot;false&quot;</code></td>
+</tr>
+</tbody></table>
+
+<p>To configure the behavior of the dynamic configuration manager, use the following properties on the coordinator:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.manager.lookups.hostDeleteTimeout</code></td>
+<td>Timeout (in ms) PER HOST for processing DELETE requests for dropping lookups</td>
+<td><code>1000</code>(1 second)</td>
+</tr>
+<tr>
+<td><code>druid.manager.lookups.hostUpdateTimeout</code></td>
+<td>Timeout (in ms) PER HOST for processing an update/add (POST) for new or updated lookups</td>
+<td><code>10000</code>(10 seconds)</td>
+</tr>
+<tr>
+<td><code>druid.manager.lookups.updateAllTimeout</code></td>
+<td>Timeout (in ms) TOTAL for processing update/adds on ALL hosts. Safety valve in case too many hosts timeout on their update</td>
+<td><code>60000</code>(1 minute)</td>
+</tr>
+<tr>
+<td><code>druid.manager.lookups.period</code></td>
+<td>How long to pause between management cycles</td>
+<td><code>30000</code>(30 seconds)</td>
+</tr>
+<tr>
+<td><code>druid.manager.lookups.threadPoolSize</code></td>
+<td>Number of service nodes that can be managed concurrently</td>
+<td><code>10</code></td>
+</tr>
+</tbody></table>
+
+<h2 id="saving-configuration-across-restarts">Saving configuration across restarts</h2>
+
+<p>It is possible to save the configuration across restarts such that a node will not have to wait for coordinator action to re-populate its lookups. To do this the following property is set:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.lookup.snapshotWorkingDir</code></td>
+<td>Working path used to store snapshot of current lookup configuration, leaving this property null will disable snapshot/bootstrap utility</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+<h2 id="introspect-a-lookup">Introspect a Lookup</h2>
+
+<p>Lookup implementations can provide some introspection capabilities by implementing <code>LookupIntrospectHandler</code>. User will send request to <code>/druid/lookups/v1/introspect/{lookupId}</code> to enable introspection on a given lookup.</p>
+
+<p>For instance you can list all the keys/values of a map based lookup by issuing a <code>GET</code> request to <code>/druid/lookups/v1/introspect/{lookupId}/keys&quot;</code> or <code>/druid/lookups/v1/introspect/{lookupId}/values&quot;</code> </p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.2-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
