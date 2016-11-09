@@ -1,3 +1,15 @@
+  - date: 2016-10-19
+    title: "Getting started with Druid and MapR Streams"
+    name: "Tugdual Grall"
+    company: MapR
+    link: https://www.mapr.com/blog/getting-started-druid-and-mapr-streams
+
+  - date: 2016-09-28
+    title: "A Comparison of Time Series Databases and Netsil’s Use of Druid"
+    name: "Netsil, Inc."
+    company: Netsil
+    link: https://blog.netsil.com/a-comparison-of-time-series-databases-and-netsils-use-of-druid-db805d471206#.6l7yzx20e
+
   - date: 2016-07-21
     title: "Combining Druid and DataSketches for Real-time, Robust Behavioral Analytics"
     name: "Himanshu Gupta"
