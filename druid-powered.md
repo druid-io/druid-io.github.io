@@ -167,6 +167,8 @@ Netsil is an observability and analytics company for modern cloud applications. 
 
 You can learn more about the AOC at http://netsil.com/download/
 
+* [A Comparison of Time Series Databases and Netsil’s Use of Druid](https://blog.netsil.com/a-comparison-of-time-series-databases-and-netsils-use-of-druid-db805d471206)
+
 ## OneAPM
 
 OneAPM <http://oneapm.com> is an IT service compmay focusing on Application Performance Management (APM). In OneAPM, Druid is used to power clients' interactive queries on performance data collected from their applications in realtime.
@@ -247,7 +249,7 @@ Sugo is a company that focus on realtime multi-dimension analytics and mining on
 
 ## Tencent
 
-Tencent SCRM product use Druid for custumer behavior analysis.
+Tencent SCRM product use Druid for customer behavior analysis.
 
 ## Time Warner Cable
 
