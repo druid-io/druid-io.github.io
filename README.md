@@ -1,7 +1,7 @@
 Druid Project Website
 =====================
 
-http://druid.io
+http://druid.io/
 
 ## Contributing
 
