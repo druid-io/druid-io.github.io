@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.1.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.1.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2-rc3">API documentation</a></p>
+          <h1 id="aggregation-granularity">Aggregation Granularity</h1>
+
+<p>The granularity field determines how data gets bucketed across the time dimension, or how it gets aggregated by hour, day, minute, etc.</p>
+
+<p>It can be specified either as a string for simple granularities or as an object for arbitrary granularities.</p>
+
+<h3 id="simple-granularities">Simple Granularities</h3>
+
+<p>Simple granularities are specified as a string and bucket timestamps by their UTC time (e.g., days start at 00:00 UTC).</p>
+
+<p>Supported granularity strings are: <code>all</code>, <code>none</code>, <code>second</code>, <code>minute</code>, <code>fifteen_minute</code>, <code>thirty_minute</code>, <code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>quarter</code> and <code>year</code>.</p>
+
+<ul>
+<li><code>all</code> buckets everything into a single bucket</li>
+<li><code>none</code> does not bucket data (it actually uses the granularity of the index - minimum here is <code>none</code> which means millisecond granularity). Using <code>none</code> in a <a href="../querying/timeseriesquery.html">TimeseriesQuery</a> is currently not recommended (the system will try to generate 0 values for all milliseconds that didn’t exist, which is often a lot).</li>
+</ul>
+
+<h4 id="example">Example:</h4>
+
+<p>Suppose you have data below stored in Druid with millisecond ingestion granularity,</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;AAA&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-01T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;BBB&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-02T23:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;CCC&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-03T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;DDD&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>After submitting a groupBy query with <code>hour</code> granularity,</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;language&quot;</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span>
+      <span class="p">}</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;2000-01-01T00:00Z/3000-01-01T00:00Z&quot;</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T01:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T23:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-03T03:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Note that all the empty buckets are discarded.</p>
+
+<p>If you change the granularity to <code>day</code>, you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-03T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>If you change the granularity to <code>none</code>, you will get the same results as setting it to the ingestion granularity.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T01:02:33.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T23:32:45.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-03T03:32:45.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Having a query granularity smaller than the ingestion granularity doesn&#39;t make sense,
+because information about that smaller granularity is not present in the indexed data.
+So, if the query granularity is smaller than the ingestion granularity, druid produces
+results that are equivalent to having set the query granularity to the ingestion granularity.
+See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion Spec</a>.</p>
+
+<p>If you change the granularity to <code>all</code>, you will get everything aggregated in 1 bucket,</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<h3 id="duration-granularities">Duration Granularities</h3>
+
+<p>Duration granularities are specified as an exact duration in milliseconds and timestamps are returned as UTC. Duration granularity values are in millis.</p>
+
+<p>They also support specifying an optional origin, which defines where to start counting time buckets from (defaults to 1970-01-01T00:00:00Z).</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">7200000</span><span class="p">}</span>
+</code></pre></div>
+<p>This chunks up every 2 hours.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">3600000</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>This chunks up every hour on the half-hour.</p>
+
+<h4 id="example">Example:</h4>
+
+<p>Reusing the data in the previous example, after submitting a groupBy query with 24 hours duration,</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;granularity&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="s2">&quot;86400000&quot;</span><span class="p">},</span>
+   <span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;language&quot;</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span>
+      <span class="p">}</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;2000-01-01T00:00Z/3000-01-01T00:00Z&quot;</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-03T00:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>if you set the origin for the granularity to <code>2012-01-01T00:30:00Z</code>,</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="s2">&quot;86400000&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span><span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T00:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T00:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-03T00:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Note that the timestamp for each bucket starts at the 30th minute.</p>
+
+<h3 id="period-granularities">Period Granularities</h3>
+
+<p>Period granularities are specified as arbitrary period combinations of years, months, weeks, hours, minutes and seconds (e.g. P2W, P3M, PT1H30M, PT0.750S) in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO8601</a> format. They support specifying a time zone which determines where period boundaries start as well as the timezone of the returned timestamps. By default, years start on the first of January, months start on the first of the month and weeks start on Mondays unless an origin is specified.</p>
+
+<p>Time zone is optional (defaults to UTC). Origin is optional (defaults to 1970-01-01T00:00:00 in the given time zone).</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P2D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>This will bucket by two-day chunks in the Pacific timezone.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P3M&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-02-01T00:00:00-08:00&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>This will bucket by 3-month chunks in the Pacific timezone where the three-month quarters are defined as starting from February.</p>
+
+<h4 id="example">Example</h4>
+
+<p>Reusing the data in the previous example, if you submit a groupBy query with 1 day period in Pacific timezone,</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;granularity&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="nt">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;P1D&quot;</span><span class="p">,</span> <span class="nt">&quot;timeZone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">},</span>
+   <span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;language&quot;</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;aggregations&quot;</span><span class="p">:[</span>
+      <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span>
+      <span class="p">}</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;1999-12-31T16:00:00.000-08:00/2999-12-31T16:00:00.000-08:00&quot;</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-30T00:00:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T00:00:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Note that the timestamp for each bucket has been converted to Pacific time. Row <code>{&quot;timestamp&quot;: &quot;2013-09-02T23:32:45Z&quot;, &quot;page&quot;: &quot;CCC&quot;, &quot;language&quot; : &quot;en&quot;}</code> and
+<code>{&quot;timestamp&quot;: &quot;2013-09-03T03:32:45Z&quot;, &quot;page&quot;: &quot;DDD&quot;, &quot;language&quot; : &quot;en&quot;}</code> are put in the same bucket because they are in the same day in Pacific time.</p>
+
+<p>Also note that the <code>intervals</code> in groupBy query will not be converted to the timezone specified, the timezone specified in granularity is only applied on the
+query results.</p>
+
+<p>If you set the origin for the granularity to <code>1970-01-01T20:30:00-08:00</code>,</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P1D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;1970-01-01T20:30:00-08:00&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>you will get</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-29T20:30:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-30T20:30:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-01T20:30:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-02T20:30:00.000-07:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Note that the <code>origin</code> you specified has nothing to do with the timezone, it only serves as a starting point for locating the very first granularity bucket.
+In this case, Row <code>{&quot;timestamp&quot;: &quot;2013-09-02T23:32:45Z&quot;, &quot;page&quot;: &quot;CCC&quot;, &quot;language&quot; : &quot;en&quot;}</code> and <code>{&quot;timestamp&quot;: &quot;2013-09-03T03:32:45Z&quot;, &quot;page&quot;: &quot;DDD&quot;, &quot;language&quot; : &quot;en&quot;}</code>
+are not in the same bucket.</p>
+
+<h4 id="supported-time-zones">Supported Time Zones</h4>
+
+<p>Timezone support is provided by the <a href="http://www.joda.org">Joda Time library</a>, which uses the standard IANA time zones. See the <a href="http://joda-time.sourceforge.net/timezones.html">Joda Time supported timezones</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.9.2-rc3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
