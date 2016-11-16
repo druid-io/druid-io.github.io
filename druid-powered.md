@@ -1,6 +1,6 @@
 ---
 title: Powered by Druid
-subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/master/druid-powered.md">Add Your Company</a>
+subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md">Add Your Company</a>
 layout: simple_page
 ---
 
