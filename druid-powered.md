@@ -26,6 +26,10 @@ Druid is used to power dynamic analytics and charting in Archive-It Reports. Rep
 
 Atomx is a new media exchange that connects networks, DSPs, SSPs, and other parties. Atomx uses Druid for it's advanced realtime reporting system. Using the Google Cloud modifications Atomx contributed to Druid, it can easily scale Druid with the fast growing platform.
 
+## Branch
+
+Branch uses Druid as their trusted analytics engine to power all of their data analysis needs. This ranges from the user-facing Branch Dashboard analytics that our partners rely on to gain insight into the performance of their links; to the data-driven business decisions that we need to make internally to build a sustainable business.
+
 ## Cisco
 
 Cisco uses Druid to power a real-time analytics platform for network flow data.
