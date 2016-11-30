@@ -1,3 +1,9 @@
+  - date: 2016-11-15
+    title: "Migrating to Druid: how we improved the accuracy of our stability metrics"
+    name: "Max Lord"
+    company: Crashlytics (Twitter)
+    link: https://crashlytics.com/blog/migrating-to-druid
+
   - date: 2016-10-19
     title: "Getting started with Druid and MapR Streams"
     name: "Tugdual Grall"
