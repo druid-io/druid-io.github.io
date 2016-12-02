@@ -227,6 +227,10 @@ PubNative uses Druid for its real-time reports and analysis of millions of daily
 
 redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
 
+## Retargetly
+
+Retargetly is a Data Management Platform that enables publishers and advertisers to manage their first party user data, mix it with second and third party data from others providers and activate it into advertising campaigns (direct, programmatic, etc.). Druid enables us to show real time audience insights. It also provides a lot of flexibility on ad-hoc queries with low latency. We provide default graphs and metrics to our clients but they also have the possibility to make their own interactive queries on real-time.
+
 ## Sift Science
 
 Sift Science provides an online trust platform that online businesses use to prevent fraud and abuse. We use Druid as a tool to gain real-time insights about our data and machine learning models.
