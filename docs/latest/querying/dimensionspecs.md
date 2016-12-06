@@ -111,15 +111,17 @@ For `__time` dimension values, this formats the time value bucketed by the
 For a regular dimension, it assumes the string is formatted in
 [ISO-8601 date and time format](https://en.wikipedia.org/wiki/ISO_8601).
 
-* `format` : date time format for the resulting dimension value, in [Joda Time DateTimeFormat](http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html).
+* `format` : date time format for the resulting dimension value, in [Joda Time DateTimeFormat](http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html), or null to use the default ISO8601 format.
 * `locale` : locale (language and country) to use, given as a [IETF BCP 47 language tag](http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text), e.g. `en-US`, `en-GB`, `fr-FR`, `fr-CA`, etc.
 * `timeZone` : time zone to use in [IANA tz database format](http://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. `Europe/Berlin` (this can possibly be different than the aggregation time-zone)
+* `granularity` : [granularity](granularities.html) to apply before formatting, or omit to not apply any granularity.
 
 ```json
 { "type" : "timeFormat",
-  "format" : <output_format>,
+  "format" : <output_format> (optional),
   "timeZone" : <time_zone> (optional),
-  "locale" : <locale> (optional) }
+  "locale" : <locale> (optional),
+  "granularity" : <granularity> (optional) }
 ```
 
 For example, the following dimension spec returns the day of the week for Montréal in French:
@@ -193,6 +195,11 @@ Example for the `__time` dimension:
   "function" : "function(t) { return 'Second ' + Math.floor((t % 60000) / 1000); }"
 }
 ```
+
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
 
 ### Lookup extraction function
 
@@ -411,6 +418,23 @@ or without setting "locale" (in this case, the current value of the default loca
 ```json
 {
   "type" : "lower"
+}
+```
+
+### Bucket Extraction Function
+
+Bucket extraction function is used to bucket numerical values in each range of the given size by converting them to the same base value. Non numeric values are converted to null.
+
+* `size` : the size of the buckets (optional, default 1)
+* `offset` : the offset for the buckets (optional, default 0)
+
+The following extraction function creates buckets of 5 starting from 2. In this case, values in the range of [2, 7) will be converted to 2, values in [7, 12) will be converted to 7, etc.
+
+```json
+{
+  "type" : "bucket",
+  "size" : 5,
+  "offset" : 2
 }
 ```
 

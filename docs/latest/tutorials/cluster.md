@@ -59,9 +59,9 @@ since you will be editing the configurations and then copying the modified distr
 of your servers.
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz
-tar -xzf druid-0.9.1.1-bin.tar.gz
-cd druid-0.9.1.1
+curl -O http://static.druid.io/artifacts/releases/druid-0.9.2-bin.tar.gz
+tar -xzf druid-0.9.2-bin.tar.gz
+cd druid-0.9.2
 ```
 
 In this package, you'll find:
@@ -193,7 +193,7 @@ In `conf/druid/_common/common.runtime.properties`, replace
 
 - `druid.zk.service.host`
 
-In `conf/_common/common.runtime.properties`, replace
+In `conf/druid/_common/common.runtime.properties`, replace
 "metadata.store.ip" with the IP address of the machine that you will use as your metadata store:
 
 - `druid.metadata.storage.connector.connectURI`
@@ -286,7 +286,7 @@ server. If you have been editing the configurations on your local machine, you c
 copy them:
 
 ```bash
-rsync -az druid-0.9.1.1/ COORDINATION_SERVER:druid-0.9.1.1/
+rsync -az druid-0.9.2/ COORDINATION_SERVER:druid-0.9.2/
 ```
 
 Log on to your coordination server and install Zookeeper:

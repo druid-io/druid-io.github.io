@@ -2,23 +2,27 @@
 layout: doc_page
 ---
 
-# Parquet
+# Orc
 
-To use this extension, make sure to [include](../../operations/including-extensions.html) `druid-avro-extensions` and `druid-parquet-extensions`.
+To use this extension, make sure to [include](../../operations/including-extensions.html) `druid-orc-extensions`.
 
-This extension enables Druid to ingest and understand the Apache Parquet data format offline.
+This extension enables Druid to ingest and understand the Apache Orc data format offline.
 
-## Parquet Hadoop Parser
+## Orc Hadoop Parser
 
-This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig must be set to `"io.druid.data.input.parquet.DruidParquetInputFormat"`. Make sure also to include "io.druid.extensions:druid-avro-extensions" as an extension.
+This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig must be set to `"org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat"`.
 
 |Field     | Type        | Description                                                                            | Required|
 |----------|-------------|----------------------------------------------------------------------------------------|---------|
-| type      | String      | This should say `parquet`                                                              | yes |
-| parseSpec | JSON Object | Specifies the timestamp and dimensions of the data. Should be a timeAndDims parseSpec. | yes |
-| binaryAsString | Boolean | Specifies if the bytes parquet column should be converted to strings. | no(default == false) |
+|type      | String      | This should say `orc`                                                                  | yes|
+|parseSpec | JSON Object | Specifies the timestamp and dimensions of the data. Any parse spec that extends ParseSpec is possible but only their TimestampSpec and DimensionsSpec are used. | yes|
+|typeString| String      | String representation of Orc struct type info. If not specified, auto constructed from parseSpec but all metric columns are dropped | no|
 
-For example:
+For example of `typeString`, string column col1 and array of string column col2 is represented by `"struct<col1:string,col2:array<string>>"`.
+
+Currently, it only supports java primitive types and array of java primitive types, which means only 'list' of compound types in [ORC types](https://orc.apache.org/docs/types.html) is supported (list of list is not supported).  
+
+For example of hadoop indexing:
 
 ```json
 {
@@ -28,8 +32,8 @@ For example:
       "type": "hadoop",
       "inputSpec": {
         "type": "static",
-        "inputFormat": "io.druid.data.input.parquet.DruidParquetInputFormat",
-        "paths": "no_metrics"
+        "inputFormat": "org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat",
+        "paths": "/data/path/in/HDFS/"
       },
       "metadataUpdateSpec": {
         "type": "postgresql",
@@ -43,7 +47,7 @@ For example:
     "dataSchema": {
       "dataSource": "no_metrics",
       "parser": {
-        "type": "parquet",
+        "type": "orc",
         "parseSpec": {
           "format": "timeAndDims",
           "timestampSpec": {
@@ -57,7 +61,8 @@ For example:
             "dimensionExclusions": [],
             "spatialDimensions": []
           }
-        }
+        },
+        "typeString": "struct<time:string,name:string>"
       },
       "metricsSpec": [{
         "type": "count",
@@ -84,14 +89,3 @@ For example:
 ```
 
 Almost all the fields listed above are required, including `inputFormat`, `metadataUpdateSpec`(`type`, `connectURI`, `user`, `password`, `segmentTable`). Set `jobProperties` to make hdfs path timezone unrelated.
-
-It is no need to make your cluster to update to SNAPSHOT, you can just fire a hadoop job with your local compiled jars like:
-
-```bash
-HADOOP_CLASS_PATH=`hadoop classpath | sed s/*.jar/*/g`
-
-java -Xmx32m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
-  -classpath config/overlord:config/_common:lib/*:$HADOOP_CLASS_PATH:extensions/druid-avro-extensions/*  \
-  io.druid.cli.Main index hadoop \
-  wikipedia_hadoop_parquet_job.json
-```
