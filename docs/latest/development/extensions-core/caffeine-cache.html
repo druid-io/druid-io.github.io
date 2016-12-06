@@ -84,61 +84,85 @@
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
-          <h1 id="time-boundary-queries">Time Boundary Queries</h1>
+          <h2 id="druid-caffeine-cache">Druid Caffeine Cache</h2>
 
-<p>Time boundary queries return the earliest and latest data points of a data set. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;queryType&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bound&quot;</span>     <span class="p">:</span> <span class="err">&lt;</span> <span class="s2">&quot;maxTime&quot;</span> <span class="err">|</span> <span class="s2">&quot;minTime&quot;</span> <span class="err">&gt;</span> <span class="err">#</span> <span class="err">optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">returning</span> <span class="err">both</span> <span class="err">timestamps</span> <span class="err">if</span> <span class="err">not</span> <span class="err">set</span> 
-    <span class="nt">&quot;filter&quot;</span>    <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span> <span class="err">#</span> <span class="err">optional</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>There are 3 main parts to a time boundary query:</p>
+<p>A highly performant local cache implementation for Druid based on <a href="https://github.com/ben-manes/caffeine">Caffeine</a>. Requires a JRE8u60 or higher</p>
+
+<h1 id="configuration">Configuration</h1>
+
+<p>Below are the configuration options known to this module:</p>
 
 <table><thead>
 <tr>
-<th>property</th>
-<th>description</th>
-<th>required?</th>
+<th><code>runtime.properties</code></th>
+<th>Description</th>
+<th>Default</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>queryType</td>
-<td>This String should always be &quot;timeBoundary&quot;; this is the first thing Druid looks at to figure out how to interpret the query</td>
-<td>yes</td>
+<td><code>druid.cache.sizeInBytes</code></td>
+<td>The maximum size of the cache in bytes on heap.</td>
+<td>None (unlimited)</td>
 </tr>
 <tr>
-<td>dataSource</td>
-<td>A String or Object defining the data source to query, very similar to a table in a relational database. See <a href="../querying/datasource.html">DataSource</a> for more information.</td>
-<td>yes</td>
+<td><code>druid.cache.expireAfter</code></td>
+<td>The time (in ms) after an access for which a cache entry may be expired</td>
+<td>None (no time limit)</td>
 </tr>
 <tr>
-<td>bound</td>
-<td>Optional, set to <code>maxTime</code> or <code>minTime</code> to return only the latest or earliest timestamp. Default to returning both if not set</td>
-<td>no</td>
+<td><code>druid.cache.cacheExecutorFactory</code></td>
+<td>The executor factory to use for Caffeine maintenance. One of <code>COMMON_FJP</code>, <code>SINGLE_THREAD</code>, or <code>SAME_THREAD</code></td>
+<td>ForkJoinPool common pool (<code>COMMON_FJP</code>)</td>
 </tr>
 <tr>
-<td>filter</td>
-<td>See <a href="../querying/filters.html">Filters</a></td>
-<td>no</td>
-</tr>
-<tr>
-<td>context</td>
-<td>See <a href="../querying/query-context.html">Context</a></td>
-<td>no</td>
+<td><code>druid.cache.evictOnClose</code></td>
+<td>If a close of a namespace (ex: removing a segment from a node) should cause an eager eviction of associated cache values</td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
 
-<p>The format of the result is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
-  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-05-09T18:24:00.000Z&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-05-09T18:24:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;maxTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-05-09T18:37:00.000Z&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span> <span class="p">]</span>
-</code></pre></div>
+<h2 id="druid-cache-cacheexecutorfactory"><code>druid.cache.cacheExecutorFactory</code></h2>
+
+<p>Here are the possible values for <code>druid.cache.cacheExecutorFactory</code>, which controls how maintenance tasks are run</p>
+
+<ul>
+<li><code>COMMON_FJP</code> (default) use the common ForkJoinPool. Do NOT use this option unless you are running 8u60 or higher</li>
+<li><code>SINGLE_THREAD</code> Use a single-threaded executor</li>
+<li><code>SAME_THREAD</code> Cache maintenance is done eagerly</li>
+</ul>
+
+<h1 id="enabling">Enabling</h1>
+
+<p>To enable the caffeine cache, include this module on the loadList and set <code>druid.cache.type</code> to <code>caffeine</code> in your properties.</p>
+
+<h1 id="metrics">Metrics</h1>
+
+<p>In addition to the normal cache metrics, the caffeine cache implementation also reports the following in both <code>total</code> and <code>delta</code></p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Normal value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/cache/caffeine/*/requests</code></td>
+<td>Count of hits or misses</td>
+<td>hit + miss</td>
+</tr>
+<tr>
+<td><code>query/cache/caffeine/*/loadTime</code></td>
+<td>Length of time caffeine spends loading new values (unused feature)</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>query/cache/caffeine/*/evictionBytes</code></td>
+<td>Size in bytes that have been evicted from the cache</td>
+<td>Varies, should tune cache <code>sizeInBytes</code> so that <code>sizeInBytes</code>/<code>evictionBytes</code> is approximately the rate of cache churn you desire</td>
+</tr>
+</tbody></table>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">

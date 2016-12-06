@@ -171,14 +171,16 @@ or null if index greater than the length of the dimension value.</p>
 <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601 date and time format</a>.</p>
 
 <ul>
-<li><code>format</code> : date time format for the resulting dimension value, in <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda Time DateTimeFormat</a>.</li>
+<li><code>format</code> : date time format for the resulting dimension value, in <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda Time DateTimeFormat</a>, or null to use the default ISO8601 format.</li>
 <li><code>locale</code> : locale (language and country) to use, given as a <a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text">IETF BCP 47 language tag</a>, e.g. <code>en-US</code>, <code>en-GB</code>, <code>fr-FR</code>, <code>fr-CA</code>, etc.</li>
 <li><code>timeZone</code> : time zone to use in <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA tz database format</a>, e.g. <code>Europe/Berlin</code> (this can possibly be different than the aggregation time-zone)</li>
+<li><code>granularity</code> : <a href="granularities.html">granularity</a> to apply before formatting, or omit to not apply any granularity.</li>
 </ul>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
   <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;time_zone&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
-  <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional)</span> <span class="p">}</span>
+  <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span> <span class="p">:</span> <span class="err">&lt;granularity&gt;</span> <span class="err">(optional)</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example, the following dimension spec returns the day of the week for Montréal in French:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
@@ -236,6 +238,11 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(t) { return &#39;Second &#39; + Math.floor((t % 60000) / 1000); }&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
+
 <h3 id="lookup-extraction-function">Lookup extraction function</h3>
 
 <p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values. 
@@ -415,6 +422,22 @@ Optionally user can specify the language to use in order to perform upper or low
 <p>or without setting &quot;locale&quot; (in this case, the current value of the default locale for this instance of the Java Virtual Machine.)</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;lower&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="bucket-extraction-function">Bucket Extraction Function</h3>
+
+<p>Bucket extraction function is used to bucket numerical values in each range of the given size by converting them to the same base value. Non numeric values are converted to null.</p>
+
+<ul>
+<li><code>size</code> : the size of the buckets (optional, default 1)</li>
+<li><code>offset</code> : the offset for the buckets (optional, default 0)</li>
+</ul>
+
+<p>The following extraction function creates buckets of 5 starting from 2. In this case, values in the range of [2, 7) will be converted to 2, values in [7, 12) will be converted to 7, etc.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;bucket&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="nt">&quot;offset&quot;</span> <span class="p">:</span> <span class="mi">2</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="lookup-dimensionspecs">Lookup DimensionSpecs</h3>

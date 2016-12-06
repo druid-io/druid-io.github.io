@@ -150,6 +150,11 @@ The following matches any dimension values for the dimension <code>name</code> b
 </code></pre></div>
 <p>The JavaScript filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
+
 <h3 id="extraction-filter">Extraction filter</h3>
 
 <div class="note caution">
@@ -226,100 +231,6 @@ The following matches dimension values in <code>[product_1, product_3, product_5
 </tbody></table>
 
 <p>The search filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
-
-<h3 id="in-filter">In filter</h3>
-
-<p>In filter can be used to express the following SQL query:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Count&#39;</span> <span class="k">FROM</span> <span class="o">`</span><span class="k">table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="o">`</span><span class="n">outlaw</span><span class="o">`</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;Good&#39;</span><span class="p">,</span> <span class="s1">&#39;Bad&#39;</span><span class="p">,</span> <span class="s1">&#39;Ugly&#39;</span><span class="p">)</span>
-</code></pre></div>
-<p>The grammar for a IN filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;outlaw&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Good&quot;</span><span class="p">,</span> <span class="s2">&quot;Bad&quot;</span><span class="p">,</span> <span class="s2">&quot;Ugly&quot;</span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The IN filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
-
-<h3 id="bound-filter">Bound filter</h3>
-
-<p>Bound filter can be used to filter by comparing dimension values to an upper value or/and a lower value. 
-By default Comparison is string based and <strong>case sensitive</strong>.
-To use numeric comparison you can set <code>alphaNumeric</code> to <code>true</code>.
-By default the bound filter is a not a strict inclusion <code>inputString &lt;= upper &amp;&amp; inputSting &gt;= lower</code>.</p>
-
-<p>The bound filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
-
-<p>The grammar for a bound filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
-    <span class="nt">&quot;alphaNumeric&quot;</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>21 &lt;= age &lt;= 31</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;hoo&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>foo &lt;= name &lt;= hoo</code></p>
-
-<p>In order to have a strict inclusion user can set <code>lowerStrict</code> or/and <code>upperStrict</code> to <code>true</code></p>
-
-<p>To have strict bounds:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
-    <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;alphaNumeric&quot;</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>21 &lt; age &lt; 31</code></p>
-
-<p>To have strict upper bound:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
-    <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;alphaNumeric&quot;</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>21 &lt;= age &lt; 31</code></p>
-
-<p>To compare to only an upper bound or lowe bound</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
-    <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;alphaNumeric&quot;</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>age &lt; 31</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span> <span class="p">,</span>
-    <span class="nt">&quot;alphaNumeric&quot;</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Equivalent to retain column if <code>18 &lt;= age</code></p>
-
-<p>For <code>alphaNumeric</code> comparator, in case of the dimension value includes none-digits you may expect <strong>fuzzy matching</strong>
-If dimension value starts with a none digit, the filter will consider it out of range (<code>value &lt; lowerBound</code> and <code>value &gt; upperBound</code>)
-If dimension value starts with digit and contains a none digits comparing will be done character wise.<br>
-For instance suppose lower bound is <code>100</code> and value is <code>10K</code> the filter will match (<code>100 &lt; 10K</code> returns <code>true</code>) since <code>K</code> is greater than any digit
-Now suppose that the lower bound is <code>110</code> the filter will not match (<code>110 &lt; 10K</code> returns <code>false</code>)</p>
 
 <h4 id="search-query-spec">Search Query Spec</h4>
 
@@ -399,9 +310,223 @@ provided).</p>
 </tr>
 </tbody></table>
 
+<h3 id="in-filter">In filter</h3>
+
+<p>In filter can be used to express the following SQL query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Count&#39;</span> <span class="k">FROM</span> <span class="o">`</span><span class="k">table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="o">`</span><span class="n">outlaw</span><span class="o">`</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;Good&#39;</span><span class="p">,</span> <span class="s1">&#39;Bad&#39;</span><span class="p">,</span> <span class="s1">&#39;Ugly&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>The grammar for a IN filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;outlaw&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Good&quot;</span><span class="p">,</span> <span class="s2">&quot;Bad&quot;</span><span class="p">,</span> <span class="s2">&quot;Ugly&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The IN filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+
+<h3 id="bound-filter">Bound filter</h3>
+
+<p>The Bound filter can be used to filter by comparing dimension values to an upper value and/or a lower value.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &quot;bound&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimension</td>
+<td>String</td>
+<td>The dimension to filter on</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>lower</td>
+<td>String</td>
+<td>The lower bound for the filter</td>
+<td>no</td>
+</tr>
+<tr>
+<td>upper</td>
+<td>String</td>
+<td>The upper bound for the filter</td>
+<td>no</td>
+</tr>
+<tr>
+<td>lowerStrict</td>
+<td>Boolean</td>
+<td>Perform strict comparison on the lower bound (&quot;&lt;&quot; instead of &quot;&lt;=&quot;)</td>
+<td>no, default: false</td>
+</tr>
+<tr>
+<td>upperStrict</td>
+<td>Boolean</td>
+<td>Perform strict comparison on the upper bound (&quot;&gt;&quot; instead of &quot;&gt;=&quot;)</td>
+<td>no, default: false</td>
+</tr>
+<tr>
+<td>ordering</td>
+<td>String</td>
+<td>Specifies the sorting order to use when comparing values against the bound. Can be one of the following values: &quot;lexicographic&quot;, &quot;alphanumeric&quot;, &quot;numeric&quot;, &quot;strlen&quot;. See <a href="./sorting-orders.html">Sorting Orders</a> for more details.</td>
+<td>no, default: &quot;lexicographic&quot;</td>
+</tr>
+<tr>
+<td>extractionFn</td>
+<td><a href="#filtering-with-extraction-functions">Extraction function</a></td>
+<td>Extraction function to apply to the dimension</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>The bound filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+
+<p>The following bound filter expresses the condition <code>21 &lt;= age &lt;= 31</code>:
+<code>json
+{
+    &quot;type&quot;: &quot;bound&quot;,
+    &quot;dimension&quot;: &quot;age&quot;,
+    &quot;lower&quot;: &quot;21&quot;,
+    &quot;upper&quot;: &quot;31&quot; ,
+    &quot;ordering&quot;: &quot;numeric&quot;
+}
+</code></p>
+
+<p>This filter expresses the condition <code>foo &lt;= name &lt;= hoo</code>, using the default lexicographic sorting order.
+<code>json
+{
+    &quot;type&quot;: &quot;bound&quot;,
+    &quot;dimension&quot;: &quot;name&quot;,
+    &quot;lower&quot;: &quot;foo&quot;,
+    &quot;upper&quot;: &quot;hoo&quot;
+}
+</code></p>
+
+<p>Using strict bounds, this filter expresses the condition <code>21 &lt; age &lt; 31</code>
+<code>json
+{
+    &quot;type&quot;: &quot;bound&quot;,
+    &quot;dimension&quot;: &quot;age&quot;,
+    &quot;lower&quot;: &quot;21&quot;,
+    &quot;lowerStrict&quot;: true,
+    &quot;upper&quot;: &quot;31&quot; ,
+    &quot;upperStrict&quot;: true,
+    &quot;ordering&quot;: &quot;numeric&quot;
+}
+</code></p>
+
+<p>The user can also specify a one-sided bound by omitting &quot;upper&quot; or &quot;lower&quot;. This filter expresses <code>age &lt; 31</code>.
+<code>json
+{
+    &quot;type&quot;: &quot;bound&quot;,
+    &quot;dimension&quot;: &quot;age&quot;,
+    &quot;upper&quot;: &quot;31&quot; ,
+    &quot;upperStrict&quot;: true,
+    &quot;ordering&quot;: &quot;numeric&quot;
+}
+</code></p>
+
+<p>Likewise, this filter expresses <code>age &gt;= 18</code>
+<code>json
+{
+    &quot;type&quot;: &quot;bound&quot;,
+    &quot;dimension&quot;: &quot;age&quot;,
+    &quot;lower&quot;: &quot;18&quot; ,
+    &quot;ordering&quot;: &quot;numeric&quot;
+}
+</code></p>
+
+<h3 id="interval-filter">Interval Filter</h3>
+
+<p>The Interval filter enables range filtering on columns that contain long millisecond values, with the boundaries specified as ISO 8601 time intervals. It is suitable for the <code>__time</code> column, long metric columns, and dimensions with values that can be parsed as long milliseconds.</p>
+
+<p>This filter converts the ISO 8601 intervals to long millisecond start/end ranges and translates to an OR of Bound filters on those millisecond ranges, with numeric comparison. The Bound filters will have left-closed and right-open matching (i.e., start &lt;= time &lt; end).</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &quot;interval&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimension</td>
+<td>String</td>
+<td>The dimension to filter on</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>Array</td>
+<td>A JSON array containing ISO-8601 interval strings. This defines the time ranges to filter on.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>extractionFn</td>
+<td><a href="#filtering-with-extraction-functions">Extraction function</a></td>
+<td>Extraction function to apply to the dimension</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>The interval filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+
+<p>If an extraction function is used with this filter, the extraction function should output values that are parseable as long milliseconds.</p>
+
+<p>The following example filters on the time ranges of October 1-7, 2014 and November 15-16, 2014.
+<code>json
+{
+    &quot;type&quot; : &quot;interval&quot;,
+    &quot;dimension&quot; : &quot;__time&quot;,
+    &quot;intervals&quot; : [
+      &quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;,
+      &quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;
+    ]
+}
+</code></p>
+
+<p>The filter above is equivalent to the following OR of Bound filters:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;1412121600000&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;1412640000000&quot;</span> <span class="p">,</span>
+        <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;1416009600000&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+         <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;1416096000000&quot;</span> <span class="p">,</span>
+         <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+         <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="filtering-with-extraction-functions">Filtering with Extraction Functions</h3>
 
-<p>Some filters optionally support the use of extraction functions.
+<p>All filters except the &quot;spatial&quot; filter support extraction functions.
 An extraction function is defined by setting the &quot;extractionFn&quot; field on a filter.
 See <a href="./dimensionspecs.html#extraction-functions">Extraction function</a> for more details on extraction functions.</p>
 
@@ -430,6 +555,56 @@ The following matches dimension values in <code>[product_1, product_3, product_5
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="filtering-on-the-timestamp-column">Filtering on the Timestamp Column</h3>
+
+<p>Filters can also be applied to the timestamp column. The timestamp column has long millisecond values.</p>
+
+<p>To refer to the timestamp column, use the string <code>__time</code> as the dimension name.</p>
+
+<p>The filter parameters (e.g., the selector value for the SelectorFilter) should be provided as Strings.</p>
+
+<p>If the user wishes to interpret the timestamp with a specific format, timezone, or locale, the <a href="./dimensionspecs.html#time-format-extraction-function">Time Format Extraction Function</a> is useful.</p>
+
+<p>Note that the timestamp column does not have a bitmap index. Thus, filtering on timestamp in a query requires a scan of the column, and performance will be affected accordingly. If possible, excluding time ranges by specifying the query interval will be faster.</p>
+
+<p><strong>Example</strong></p>
+
+<p>Filtering on a long timestamp value:
+<code>json
+&quot;filter&quot;: {
+  &quot;type&quot;: &quot;selector&quot;,
+  &quot;dimension&quot;: &quot;__time&quot;,
+  &quot;value&quot;: &quot;124457387532&quot;
+}
+</code></p>
+
+<p>Filtering on day of week:
+<code>json
+&quot;filter&quot;: {
+  &quot;type&quot;: &quot;selector&quot;,
+  &quot;dimension&quot;: &quot;__time&quot;,
+  &quot;value&quot;: &quot;Friday&quot;,
+  &quot;extractionFn&quot;: {
+    &quot;type&quot;: &quot;timeFormat&quot;,
+    &quot;format&quot;: &quot;EEEE&quot;,
+    &quot;timeZone&quot;: &quot;America/New_York&quot;,
+    &quot;locale&quot;: &quot;en&quot;
+  }
+}
+</code></p>
+
+<p>Filtering on a set of ISO 8601 intervals:
+<code>json
+{
+    &quot;type&quot; : &quot;interval&quot;,
+    &quot;dimension&quot; : &quot;__time&quot;,
+    &quot;intervals&quot; : [
+      &quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;,
+      &quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;
+    ]
+}
+</code></p>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">

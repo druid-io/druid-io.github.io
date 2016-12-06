@@ -402,6 +402,12 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <td>The number of new background threads to use for incremental persists. Using this feature causes a notable increase in memory pressure and cpu usage but will make the job finish more quickly. If changing from the default of 0 (use current thread for persists), we recommend setting it to 1.</td>
 <td>no (default == 0)</td>
 </tr>
+<tr>
+<td>forceExtendableShardSpecs</td>
+<td>Boolean</td>
+<td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>no (default = false)</td>
+</tr>
 </tbody></table>
 
 <h4 id="jobproperties-field-of-tuningconfig">jobProperties field of TuningConfig</h4>
@@ -413,28 +419,11 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
      <span class="p">}</span>
    <span class="p">}</span>
 </code></pre></div>
-<p>The following properties can be used to tune how the MapReduce job is configured by overriding default Hadoop/YARN/Mapreduce configurations:</p>
+<p>Hadoop&#39;s <a href="https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml">MapReduce documentation</a> lists the possible configuration parameters.</p>
 
-<table><thead>
-<tr>
-<th>Property name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>mapreduce.job.user.classpath.first</td>
-<td>String</td>
-<td>Use Druid classpath instead of Hadoop classpath for common libraries like <a href="https://github.com/FasterXML/jackson">Jackson</a> (required with <a href="../operations/other-hadoop.html">Cloudera Hadoop distribution</a>) when set to <code>&quot;true&quot;</code>.</td>
-</tr>
-<tr>
-<td>...</td>
-<td>String</td>
-<td>See <a href="https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml">Mapred configuration</a> for more configuration parameters.</td>
-</tr>
-</tbody></table>
-
-<p><strong>Please note that using <code>mapreduce.job.user.classpath.first</code> is an expert feature and should not be used without a deep understanding of Hadoop and Java class loading mechanism.</strong></p>
+<p>With some Hadoop distributions, it may be necessary to set <code>mapreduce.job.classpath</code> or <code>mapreduce.job.user.classpath.first</code>
+to avoid class loading issues. See the <a href="../operations/other-hadoop.html">working with different Hadoop versions documentation</a>
+for more details.</p>
 
 <h4 id="indexspec">IndexSpec</h4>
 
@@ -448,21 +437,71 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 </thead><tbody>
 <tr>
 <td>bitmap</td>
-<td>String</td>
-<td>The type of bitmap index to create. Choose from <code>roaring</code> or <code>concise</code>, or null to use the default (<code>concise</code>).</td>
-<td>No</td>
+<td>Object</td>
+<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
+<td>no (defaults to Concise)</td>
 </tr>
 <tr>
 <td>dimensionCompression</td>
 <td>String</td>
-<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>. The default is <code>LZ4</code>.</td>
-<td>No</td>
+<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
 </tr>
 <tr>
 <td>metricCompression</td>
 <td>String</td>
-<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>. The default is <code>LZ4</code>.</td>
-<td>No</td>
+<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, <code>uncompressed</code>, or <code>none</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>longEncoding</td>
+<td>String</td>
+<td>Encoding format for metric and dimension columns with type long. Choose from <code>auto</code> or <code>longs</code>. <code>auto</code> encodes the values using offset or lookup table depending on column cardinality, and store them with variable size. <code>longs</code> stores the value as is with 8 bytes each.</td>
+<td>no (default == <code>longs</code>)</td>
+</tr>
+</tbody></table>
+
+<h5 id="bitmap-types">Bitmap types</h5>
+
+<p>For Concise bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>concise</code>.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For Roaring bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>roaring</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>compressRunOnSerialization</td>
+<td>Boolean</td>
+<td>Use a run-length encoding where it is estimated as more space efficient.</td>
+<td>no (default == <code>true</code>)</td>
 </tr>
 </tbody></table>
 
@@ -587,6 +626,36 @@ should be in advanced mode under &quot;Edit software settings&quot;:</li>
 loads</a>&quot; using the XML files from
 <code>/etc/hadoop/conf</code> on your EMR master.</li>
 </ul>
+
+<h3 id="secured-hadoop-cluster">Secured Hadoop Cluster</h3>
+
+<p>By default druid can use the exisiting TGT kerberos ticket available in local kerberos key cache.
+Although TGT ticket has a limited life cycle, 
+therefore you need to call <code>kinit</code> command periodically to ensure validity of TGT ticket.
+To avoid this extra external cron job script calling <code>kinit</code> periodically,
+ you can provide the principal name and keytab location and druid will do the authentication transparently at startup and job launching time.   </p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.hadoop.security.kerberos.principal</code></td>
+<td><code>druid@EXAMPLE.COM</code></td>
+<td>Principal user name</td>
+<td>empty</td>
+</tr>
+<tr>
+<td><code>druid.hadoop.security.kerberos.keytab</code></td>
+<td><code>/etc/security/keytabs/druid.headlessUser.keytab</code></td>
+<td>Path to keytab file</td>
+<td>empty</td>
+</tr>
+</tbody></table>
 
 <h4 id="loading-from-s3-with-emr">Loading from S3 with EMR</h4>
 

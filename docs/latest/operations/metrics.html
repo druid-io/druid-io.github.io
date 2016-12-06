@@ -417,9 +417,9 @@
 </tr>
 <tr>
 <td><code>ingest/persists/backPressure</code></td>
-<td>Number of persists pending.</td>
+<td>Milliseconds spent creating persist tasks and blocking waiting for them to finish.</td>
 <td>dataSource.</td>
-<td>0</td>
+<td>0 or very low</td>
 </tr>
 <tr>
 <td><code>ingest/persists/failed</code></td>
@@ -593,7 +593,21 @@
 <td></td>
 <td>Varies.</td>
 </tr>
+<tr>
+<td><code>segment/unavailable/count</code></td>
+<td>Number of segments (not including replicas) left to load until segments that should be loaded in the cluster are available for queries.</td>
+<td>datasource.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>segment/underReplicated/count</code></td>
+<td>Number of segments (including replicas) left to load until segments that should be loaded in the cluster are available for queries.</td>
+<td>tier, datasource.</td>
+<td>0</td>
+</tr>
 </tbody></table>
+
+<p>If <code>emitBalancingStats</code> is set to <code>true</code> in the coordinator <a href="../configuration/coordinator.html#dynamic-configuration">dynamic configuration</a>, then <a href="../configuration/logging.html">log entries</a> for class <code>io.druid.server.coordinator.helper.DruidCoordinatorLogger</code> will have extra information on balancing decisions.</p>
 
 <h2 id="general-health">General Health</h2>
 
@@ -630,6 +644,12 @@
 <td>Number of served segments.</td>
 <td>dataSource, tier, priority.</td>
 <td>Varies.</td>
+</tr>
+<tr>
+<td><code>segment/pendingDelete</code></td>
+<td>On-disk size in bytes of segments that are waiting to be cleared out</td>
+<td>Varies.</td>
+<td></td>
 </tr>
 </tbody></table>
 

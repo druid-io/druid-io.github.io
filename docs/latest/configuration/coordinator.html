@@ -159,13 +159,13 @@
 </tr>
 <tr>
 <td><code>druid.coordinator.kill.on</code></td>
-<td>Boolean flag for whether or not the coordinator should submit kill task for unused segments, that is, hard delete them from metadata store and deep storage. If set to true, then for all the whitelisted dataSources, coordinator will submit tasks periodically based on <code>period</code> specified. These kill tasks will delete all segments except for the last <code>durationToRetain</code> period. Whitelist can be set via dynamic configuration <code>killDataSourceWhitelist</code> described later.</td>
+<td>Boolean flag for whether or not the coordinator should submit kill task for unused segments, that is, hard delete them from metadata store and deep storage. If set to true, then for all whitelisted dataSources (or optionally all), coordinator will submit tasks periodically based on <code>period</code> specified. These kill tasks will delete all segments except for the last <code>durationToRetain</code> period. Whitelist or All can be set via dynamic configuration <code>killAllDataSources</code> and <code>killDataSourceWhitelist</code> described later.</td>
 <td>false</td>
 </tr>
 <tr>
 <td><code>druid.coordinator.kill.period</code></td>
 <td>How often to send kill tasks to the indexing service. Value must be greater than <code>druid.coordinator.period.indexingPeriod</code>. Only applies if kill is turned on.</td>
-<td>PT1D (1 Day)</td>
+<td>P1D (1 Day)</td>
 </tr>
 <tr>
 <td><code>druid.coordinator.kill.durationToRetain</code></td>
@@ -246,7 +246,7 @@
 <p>A sample coordinator dynamic config JSON object is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&quot;millisToWaitBeforeDeleting&quot;</span><span class="p">:</span> <span class="mi">900000</span><span class="p">,</span>
-  <span class="nt">&quot;mergeBytesLimit&quot;</span><span class="p">:</span> <span class="mi">100000000</span><span class="err">L</span><span class="p">,</span>
+  <span class="nt">&quot;mergeBytesLimit&quot;</span><span class="p">:</span> <span class="mi">100000000</span><span class="p">,</span>
   <span class="nt">&quot;mergeSegmentsLimit&quot;</span> <span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
   <span class="nt">&quot;maxSegmentsToMove&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
   <span class="nt">&quot;replicantLifetime&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
@@ -303,6 +303,11 @@
 <td><code>killDataSourceWhitelist</code></td>
 <td>List of dataSources for which kill tasks are sent if property <code>druid.coordinator.kill.on</code> is true.</td>
 <td>none</td>
+</tr>
+<tr>
+<td><code>killAllDataSources</code></td>
+<td>Send kill tasks for ALL dataSources if property <code>druid.coordinator.kill.on</code> is true. If this is set to true then <code>killDataSourceWhitelist</code> must not be specified or be empty list.</td>
+<td>false</td>
 </tr>
 </tbody></table>
 

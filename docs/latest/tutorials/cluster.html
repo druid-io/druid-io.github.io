@@ -147,9 +147,9 @@ OSes</a>.</p>
 <p>First, download and unpack the release archive. It&#39;s best to do this on a single machine at first,
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/artifacts/releases/druid-0.9.1.1-bin.tar.gz
-tar -xzf druid-0.9.1.1-bin.tar.gz
-<span class="nb">cd </span>druid-0.9.1.1
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/artifacts/releases/druid-0.9.2-bin.tar.gz
+tar -xzf druid-0.9.2-bin.tar.gz
+<span class="nb">cd </span>druid-0.9.2
 </code></pre></div>
 <p>In this package, you&#39;ll find:</p>
 
@@ -280,7 +280,7 @@ single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metada
 <li><code>druid.zk.service.host</code></li>
 </ul>
 
-<p>In <code>conf/_common/common.runtime.properties</code>, replace
+<p>In <code>conf/druid/_common/common.runtime.properties</code>, replace
 &quot;metadata.store.ip&quot; with the IP address of the machine that you will use as your metadata store:</p>
 
 <ul>
@@ -379,7 +379,7 @@ rather than on the Coordinator server.
 <p>Copy the Druid distribution and your edited configurations to your coordination
 server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
 copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">rsync -az druid-0.9.1.1/ COORDINATION_SERVER:druid-0.9.1.1/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rsync -az druid-0.9.2/ COORDINATION_SERVER:druid-0.9.2/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz

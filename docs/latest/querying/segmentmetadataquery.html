@@ -96,6 +96,7 @@
 <li>Interval the segment covers</li>
 <li>Column type of all the columns in the segment</li>
 <li>Estimated total segment byte size in if it was stored in a flat format</li>
+<li>Is the segment rolled up</li>
 <li>Segment id</li>
 </ul>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
@@ -243,6 +244,12 @@ dimension columns.</li>
 <li><code>intervals</code> in the result will contain the list of intervals associated with the queried segments.</li>
 </ul>
 
+<h4 id="timestampspec">timestampSpec</h4>
+
+<ul>
+<li><code>timestampSpec</code> in the result will contain timestampSpec of data stored in segments. this can be null if timestampSpec of segments was unknown or unmergeable (if merging is enabled).</li>
+</ul>
+
 <h4 id="querygranularity">queryGranularity</h4>
 
 <ul>
@@ -256,6 +263,13 @@ dimension columns.</li>
 null if the aggregators are unknown or unmergeable (if merging is enabled).</p></li>
 <li><p>Merging can be strict or lenient. See <em>lenientAggregatorMerge</em> below for details.</p></li>
 <li><p>The form of the result is a map of column name to aggregator.</p></li>
+</ul>
+
+<h4 id="rollup">rollup</h4>
+
+<ul>
+<li><code>rollup</code> in the result is true/false/null.</li>
+<li>When merging is enabled, if some are rollup, others are not, result is null.</li>
 </ul>
 
 <h3 id="lenientaggregatormerge">lenientAggregatorMerge</h3>

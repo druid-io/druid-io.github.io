@@ -548,6 +548,12 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
 <td>no (default == &#39;NONE&#39;)</td>
 </tr>
 <tr>
+<td>rollup</td>
+<td>boolean</td>
+<td>rollup or not</td>
+<td>no (default == true)</td>
+</tr>
+<tr>
 <td>intervals</td>
 <td>string</td>
 <td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
@@ -578,6 +584,12 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
 <td>string</td>
 <td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
 <td>no (default == &#39;NONE&#39;)</td>
+</tr>
+<tr>
+<td>rollup</td>
+<td>boolean</td>
+<td>rollup or not</td>
+<td>no (default == true)</td>
 </tr>
 <tr>
 <td>intervals</td>

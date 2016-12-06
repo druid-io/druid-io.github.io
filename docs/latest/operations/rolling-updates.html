@@ -132,7 +132,8 @@ even tasks that are not restorable.</p>
 
 <p>To prepare a Middle Manager for update, send a POST request to
 <code>&lt;MiddleManager_IP:PORT&gt;/druid/worker/v1/disable</code>. The Overlord will now no longer send tasks to
-this Middle Manager. Tasks that have already started will run to completion.</p>
+this Middle Manager. Tasks that have already started will run to completion. Current state can be checked
+using <code>&lt;MiddleManager_IP:PORT&gt;/druid/worker/v1/enabled</code> .</p>
 
 <p>To view all existing tasks, send a GET request to <code>&lt;MiddleManager_IP:PORT&gt;/druid/worker/v1/tasks</code>.
 When this list is empty, you can safely update the Middle Manager. After the Middle Manager starts

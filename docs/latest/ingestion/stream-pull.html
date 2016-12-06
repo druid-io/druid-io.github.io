@@ -363,7 +363,7 @@ the indexing service.</p>
 <li><code>none</code> &ndash; All events are accepted. Never hands off data unless shutdown() is called on the configured firehose.</li>
 </ul>
 
-<h3 id="index-spec">Index Spec</h3>
+<h4 id="indexspec">IndexSpec</h4>
 
 <table><thead>
 <tr>
@@ -375,21 +375,65 @@ the indexing service.</p>
 </thead><tbody>
 <tr>
 <td>bitmap</td>
-<td>String</td>
-<td>The type of bitmap index to create. Choose from <code>roaring</code> or <code>concise</code>, or null to use the default (<code>concise</code>).</td>
-<td>No</td>
+<td>Object</td>
+<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
+<td>no (defaults to Concise)</td>
 </tr>
 <tr>
 <td>dimensionCompression</td>
 <td>String</td>
-<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>. The default is <code>LZ4</code>.</td>
-<td>No</td>
+<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
 </tr>
 <tr>
 <td>metricCompression</td>
 <td>String</td>
-<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>. The default is <code>LZ4</code>.</td>
-<td>No</td>
+<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+</tbody></table>
+
+<h5 id="bitmap-types">Bitmap types</h5>
+
+<p>For Concise bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>concise</code>.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For Roaring bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>roaring</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>compressRunOnSerialization</td>
+<td>Boolean</td>
+<td>Use a run-length encoding where it is estimated as more space efficient.</td>
+<td>no (default == <code>true</code>)</td>
 </tr>
 </tbody></table>
 

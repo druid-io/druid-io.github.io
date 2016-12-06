@@ -177,6 +177,11 @@
 <td>processing-%s</td>
 </tr>
 <tr>
+<td><code>druid.processing.numMergeBuffers</code></td>
+<td>The number of direct memory buffers available for merging query results. The buffers are sized by <code>druid.processing.buffer.sizeBytes</code>. This property is effectively a concurrency limit for queries that require merging buffers. By default, no queries use these buffers, so the default pool size is zero.</td>
+<td>0</td>
+</tr>
+<tr>
 <td><code>druid.processing.numThreads</code></td>
 <td>The number of processing threads to have available for parallel processing of segments. Our rule of thumb is <code>num_cores - 1</code>, which means that even under heavy load there will still be one core available to do background tasks like talking with ZooKeeper and pulling down segments. If only one core is available, this property defaults to the value <code>1</code>.</td>
 <td>Number of cores - 1 (or 1)</td>
@@ -188,33 +193,16 @@
 </tr>
 </tbody></table>
 
+<p>The amount of direct memory needed by Druid is at least
+<code>druid.processing.buffer.sizeBytes * (druid.processing.numMergeBuffers + druid.processing.numThreads + 1)</code>. You can
+ensure at least this amount of direct memory is available by providing <code>-XX:MaxDirectMemorySize=&lt;VALUE&gt;</code> at the command
+line.</p>
+
 <h4 id="general-query-configuration">General Query Configuration</h4>
 
 <h5 id="groupby-query-config">GroupBy Query Config</h5>
 
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>druid.query.groupBy.singleThreaded</code></td>
-<td>Run single threaded group By queries.</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>druid.query.groupBy.maxIntermediateRows</code></td>
-<td>Maximum number of intermediate rows.</td>
-<td>50000</td>
-</tr>
-<tr>
-<td><code>druid.query.groupBy.maxResults</code></td>
-<td>Maximum number of results.</td>
-<td>500000</td>
-</tr>
-</tbody></table>
+<p>See <a href="../querying/groupbyquery.html#server-configuration">groupBy server configuration</a>.</p>
 
 <h5 id="search-query-config">Search Query Config</h5>
 

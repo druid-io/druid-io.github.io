@@ -112,9 +112,22 @@
 <td>Directory for storing segments.</td>
 <td>Must be set.</td>
 </tr>
+<tr>
+<td><code>druid.hadoop.security.kerberos.principal</code></td>
+<td><code>druid@EXAMPLE.COM</code></td>
+<td>Principal user name</td>
+<td>empty</td>
+</tr>
+<tr>
+<td><code>druid.hadoop.security.kerberos.keytab</code></td>
+<td><code>/etc/security/keytabs/druid.headlessUser.keytab</code></td>
+<td>Path to keytab file</td>
+<td>empty</td>
+</tr>
 </tbody></table>
 
-<p>If you are using the Hadoop indexer, set your output directory to be a location on Hadoop and it will work</p>
+<p>If you are using the Hadoop indexer, set your output directory to be a location on Hadoop and it will work.
+If you want to eagerly authenticate against a secured hadoop/hdfs cluster you must set <code>druid.hadoop.security.kerberos.principal</code> and <code>druid.hadoop.security.kerberos.keytab</code>, this is an alternative to the cron job method that runs <code>kinit</code> command periodically.  </p>
 
 <h2 id="google-cloud-storage">Google Cloud Storage</h2>
 

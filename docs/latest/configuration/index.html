@@ -305,6 +305,11 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 <td>Log all properties on startup (from common.runtime.properties, runtime.properties, and the JVM command line).</td>
 <td>false</td>
 </tr>
+<tr>
+<td><code>druid.startup.logging.maskProperties</code></td>
+<td>Masks sensitive properties (passwords, for example) containing theses words.</td>
+<td>[&quot;password&quot;]</td>
+</tr>
 </tbody></table>
 
 <p>Note that some sensitive information may be logged if these settings are enabled.</p>
@@ -322,7 +327,7 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 </thead><tbody>
 <tr>
 <td><code>druid.request.logging.type</code></td>
-<td>Choices: noop, file, emitter. How to log every query request.</td>
+<td>Choices: noop, file, emitter, slf4j. How to log every query request.</td>
 <td>noop</td>
 </tr>
 </tbody></table>
@@ -362,6 +367,71 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 <td><code>druid.request.logging.feed</code></td>
 <td>Feed name for requests.</td>
 <td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="slf4j-request-logging">SLF4J Request Logging</h4>
+
+<p>Every request is logged via SLF4J. Queries are serialized into JSON in the log message regardless of the SJF4J format specification. They will be logged under the class <code>io.druid.server.log.LoggingRequestLogger</code>.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.setMDC</code></td>
+<td>If MDC entries should be set in the log entry. Your logging setup still has to be configured to handle MDC to format this data</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.request.logging.setContextMDC</code></td>
+<td>If the druid query <code>context</code> should be added to the MDC entries. Has no effect unless <code>setMDC</code> is <code>true</code></td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<p>MDC fields populated with <code>setMDC</code>:</p>
+
+<table><thead>
+<tr>
+<th>MDC field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>queryId</code></td>
+<td>The query ID</td>
+</tr>
+<tr>
+<td><code>dataSource</code></td>
+<td>The datasource the query was against</td>
+</tr>
+<tr>
+<td><code>queryType</code></td>
+<td>The type of the query</td>
+</tr>
+<tr>
+<td><code>hasFilters</code></td>
+<td>If the query has any filters</td>
+</tr>
+<tr>
+<td><code>remoteAddr</code></td>
+<td>The remote address of the requesting client</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>The duration of the query interval</td>
+</tr>
+<tr>
+<td><code>resultOrdering</code></td>
+<td>The ordering of results</td>
+</tr>
+<tr>
+<td><code>descending</code></td>
+<td>If the query is a descending query</td>
 </tr>
 </tbody></table>
 
@@ -510,7 +580,7 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 
 <h4 id="graphite-emitter">Graphite Emitter</h4>
 
-<p>To use graphite as emitter set <code>druid.emitter=graphite</code>. For configuration details please follow this <a href="https://github.com/druid-io/druid/tree/master/extensions/graphite-emitter/README.md">link</a>.</p>
+<p>To use graphite as emitter set <code>druid.emitter=graphite</code>. For configuration details please follow this <a href="../development/extensions-contrib/graphite.html">link</a>.</p>
 
 <h3 id="metadata-storage">Metadata Storage</h3>
 
@@ -540,7 +610,7 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 </tr>
 <tr>
 <td><code>druid.metadata.storage.connector.password</code></td>
-<td>The password to connect with.</td>
+<td>The password provider or String password used to connect with.</td>
 <td>none</td>
 </tr>
 <tr>
@@ -592,6 +662,39 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 <td><code>druid.metadata.storage.tables.audit</code></td>
 <td>The table to use for audit history of configuration changes e.g. Coordinator rules.</td>
 <td>druid_audit</td>
+</tr>
+</tbody></table>
+
+<h4 id="password-provider">Password Provider</h4>
+
+<p>Environment variable password provider provides password by looking at specified environment variable. Use this in order to avoid specifying password in runtime.properties file.
+e.g </p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> 
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;METADATA_STORAGE_PASSWORD&quot;</span>   
+<span class="p">}</span>
+</code></pre></div>
+<p>The values are described below. </p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>String</td>
+<td>password provider type</td>
+<td>Yes: <code>environment</code></td>
+</tr>
+<tr>
+<td><code>variable</code></td>
+<td>String</td>
+<td>environment variable to read password from</td>
+<td>Yes</td>
 </tr>
 </tbody></table>
 
@@ -741,19 +844,19 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 <td>The type of cache to use for queries.</td>
 </tr>
 <tr>
-<td>`druid.(broker</td>
-<td>historical</td>
-<td>realtime).cache.unCacheable`</td>
+<td><code>druid.(broker&#124;historical&#124;realtime).cache.unCacheable</code></td>
+<td>All druid query types</td>
+<td>All query types to not cache.</td>
 </tr>
 <tr>
-<td>`druid.(broker</td>
-<td>historical</td>
-<td>realtime).cache.useCache`</td>
+<td><code>druid.(broker&#124;historical&#124;realtime).cache.useCache</code></td>
+<td>Whether to use cache for getting query results.</td>
+<td>false</td>
 </tr>
 <tr>
-<td>`druid.(broker</td>
-<td>historical</td>
-<td>realtime).cache.populateCache`</td>
+<td><code>druid.(broker&#124;historical&#124;realtime).cache.populateCache</code></td>
+<td>Whether to populate cache.</td>
+<td>false</td>
 </tr>
 </tbody></table>
 
@@ -906,10 +1009,15 @@ the following properties.</p>
 </thead><tbody>
 <tr>
 <td><code>druid.javascript.disabled</code></td>
-<td>Set to &quot;true&quot; to disable JavaScript functionality. This affects the JavaScript parser, filter, extractionFn, aggregator, and post-aggregator.</td>
+<td>Set to &quot;true&quot; to disable JavaScript functionality. This affects the JavaScript parser, filter, extractionFn, aggregator, post-aggregator, router strategy, and worker selection strategy.</td>
 <td>false</td>
 </tr>
 </tbody></table>
+
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
 
         </div>
         <div class="col-md-3">

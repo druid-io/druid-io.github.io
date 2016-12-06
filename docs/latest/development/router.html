@@ -218,6 +218,11 @@ druid.server.http.numThreads=100
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function (config, query) { if (query.getAggregatorSpecs &amp;&amp; query.getAggregatorSpecs().size() &gt;= 3) { var size = config.getTierToBrokerMap().values().size(); if (size &gt; 0) { return config.getTierToBrokerMap().values().toArray()[size-1] } else { return config.getDefaultBrokerServiceName() } } else { return null } }&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
+
 <h2 id="http-endpoints">HTTP Endpoints</h2>
 
 <p>The router node exposes several HTTP endpoints for interactions.</p>

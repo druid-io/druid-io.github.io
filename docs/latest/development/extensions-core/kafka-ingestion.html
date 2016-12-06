@@ -93,7 +93,7 @@ able to read non-recent events from Kafka and are not subject to the window peri
 ingestion mechanisms. The supervisor oversees the state of the indexing tasks to coordinate handoffs, manage failures,
 and ensure that the scalability and replication requirements are maintained.</p>
 
-<p>This service is provided in the <code>kafka-indexing-service</code> core extension (see
+<p>This service is provided in the <code>druid-kafka-indexing-service</code> core extension (see
 <a href="../../operations/including-extensions.html">Including Extensions</a>). Please note that the Kafka indexing service is
 currently designated as an <em>experimental feature</em> and is subject to the usual
 <a href="../experimental.html">experimental caveats</a>.</p>
@@ -106,7 +106,7 @@ version 0.9 or better before using this service.
 
 <h2 id="submitting-a-supervisor-spec">Submitting a Supervisor Spec</h2>
 
-<p>The Kafka indexing service requires that the <code>kafka-indexing-service</code> extension be loaded on both the overlord and the
+<p>The Kafka indexing service requires that the <code>druid-kafka-indexing-service</code> extension be loaded on both the overlord and the
 middle managers. A supervisor for a dataSource is started by submitting a supervisor spec via HTTP POST to
 <code>http://&lt;OVERLORD_IP&gt;:&lt;OVERLORD_PORT&gt;/druid/indexer/v1/supervisor</code>, for example:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST -H &#39;Content-Type: application/json&#39; -d @supervisor-spec.json http://localhost:8090/druid/indexer/v1/supervisor
@@ -196,17 +196,17 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 <tr>
 <td><code>tuningConfig</code></td>
-<td>A KafkaTuningConfig that will be provided to indexing tasks, see below.</td>
+<td>A KafkaSupervisorTuningConfig to configure the supervisor and indexing tasks, see below.</td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>ioConfig</code></td>
-<td>A KafkaSupervisorIOConfig to configure the supervisor, see below.</td>
+<td>A KafkaSupervisorIOConfig to configure the supervisor and indexing tasks, see below.</td>
 <td>yes</td>
 </tr>
 </tbody></table>
 
-<h3 id="kafkatuningconfig">KafkaTuningConfig</h3>
+<h3 id="kafkasupervisortuningconfig">KafkaSupervisorTuningConfig</h3>
 
 <p>The tuningConfig is optional and default parameters will be used if no tuningConfig is specified.</p>
 
@@ -272,6 +272,36 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td>Milliseconds to wait for segment handoff. It must be &gt;= 0, where 0 means to wait forever.</td>
 <td>no (default == 0)</td>
 </tr>
+<tr>
+<td><code>workerThreads</code></td>
+<td>Integer</td>
+<td>The number of threads that will be used by the supervisor for asynchronous operations.</td>
+<td>no (default == min(10, taskCount))</td>
+</tr>
+<tr>
+<td><code>chatThreads</code></td>
+<td>Integer</td>
+<td>The number of threads that will be used for communicating with indexing tasks.</td>
+<td>no (default == min(10, taskCount * replicas))</td>
+</tr>
+<tr>
+<td><code>chatRetries</code></td>
+<td>Integer</td>
+<td>The number of times HTTP requests to indexing tasks will be retried before considering tasks unresponsive.</td>
+<td>no (default == 8)</td>
+</tr>
+<tr>
+<td><code>httpTimeout</code></td>
+<td>ISO8601 Period</td>
+<td>How long to wait for a HTTP response from an indexing task.</td>
+<td>no (default == PT10S)</td>
+</tr>
+<tr>
+<td><code>shutdownTimeout</code></td>
+<td>ISO8601 Period</td>
+<td>How long to wait for the supervisor to attempt a graceful shutdown of tasks before exiting.</td>
+<td>no (default == PT80S)</td>
+</tr>
 </tbody></table>
 
 <h4 id="indexspec">IndexSpec</h4>
@@ -285,22 +315,72 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 </thead><tbody>
 <tr>
-<td><code>bitmap</code></td>
-<td>String</td>
-<td>The type of bitmap index to create. Choose from <code>roaring</code> or <code>concise</code>.</td>
-<td>no (default == <code>concise</code>)</td>
+<td>bitmap</td>
+<td>Object</td>
+<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
+<td>no (defaults to Concise)</td>
 </tr>
 <tr>
-<td><code>dimensionCompression</code></td>
+<td>dimensionCompression</td>
 <td>String</td>
 <td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
 <td>no (default == <code>LZ4</code>)</td>
 </tr>
 <tr>
-<td><code>metricCompression</code></td>
+<td>metricCompression</td>
 <td>String</td>
-<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, <code>uncompressed</code>, or <code>none</code>.</td>
 <td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>longEncoding</td>
+<td>String</td>
+<td>Encoding format for metric and dimension columns with type long. Choose from <code>auto</code> or <code>longs</code>. <code>auto</code> encodes the values using offset or lookup table depending on column cardinality, and store them with variable size. <code>longs</code> stores the value as is with 8 bytes each.</td>
+<td>no (default == <code>longs</code>)</td>
+</tr>
+</tbody></table>
+
+<h5 id="bitmap-types">Bitmap types</h5>
+
+<p>For Concise bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>String</td>
+<td>Must be <code>concise</code>.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For Roaring bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>String</td>
+<td>Must be <code>roaring</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>compressRunOnSerialization</code></td>
+<td>Boolean</td>
+<td>Use a run-length encoding where it is estimated as more space efficient.</td>
+<td>no (default == <code>true</code>)</td>
 </tr>
 </tbody></table>
 
@@ -426,6 +506,23 @@ existing publishing tasks and will create new tasks starting at the offsets the 
 </code></pre></div>
 <p>Returns an audit history of specs for the supervisor with the provided ID.</p>
 
+<h4 id="reset-supervisor">Reset Supervisor</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
+</code></pre></div>
+<p>The indexing service keeps track of the latest persisted Kafka offsets in order to provide exactly-once ingestion
+guarantees across tasks. Subsequent tasks must start reading from where the previous task completed in order for the
+generated segments to be accepted. If the messages at the expected starting offsets are no longer available in Kafka
+(typically because the message retention period has elapsed or the topic was removed and re-created) the supervisor will
+refuse to start and in-flight tasks will fail.</p>
+
+<p>This endpoint can be used to clear the stored offsets which will cause the supervisor to start reading from
+either the earliest or latest offsets in Kafka (depending on the value of <code>useEarliestOffset</code>). The supervisor must be
+running for this endpoint to be available. After the stored offsets are cleared, the supervisor will automatically kill
+and re-create any active tasks so that tasks begin reading from valid offsets.</p>
+
+<p>Note that since the stored offsets are necessary to guarantee exactly-once ingestion, resetting them with this endpoint
+may cause some Kafka messages to be skipped or to be read twice.</p>
+
 <h2 id="capacity-planning">Capacity Planning</h2>
 
 <p>Kafka indexing tasks run on middle managers and are thus limited by the resources available in the middle manager
@@ -458,7 +555,7 @@ scenario (correctness-wise) but requires additional worker capacity to support. 
 
 <p>When a supervisor spec is submitted via the <code>POST /druid/indexer/v1/supervisor</code> endpoint, it is persisted in the
 configured metadata database. There can only be a single supervisor per dataSource, and submitting a second spec for
-the same dataSource will fail with a <code>409 Conflict</code> if one already exists.</p>
+the same dataSource will overwrite the previous one.</p>
 
 <p>When an overlord gains leadership, either by being started or as a result of another overlord failing, it will spawn
 a supervisor for each supervisor spec in the metadata database. The supervisor will then discover running Kafka indexing

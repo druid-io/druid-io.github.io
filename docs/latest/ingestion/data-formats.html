@@ -201,8 +201,13 @@ columns names (&quot;column_1&quot;, &quot;column2&quot;, ... &quot;column_n&quo
     <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { var parts = str.split(\&quot;-\&quot;); return { one: parts[0], two: parts[1] } }&quot;</span>
   <span class="p">}</span>
 </code></pre></div>
-<p>Please note with the JavaScript parser that data must be fully parsed and returned as a <code>{key:value}</code> format in the JS logic. 
+<p>Note with the JavaScript parser that data must be fully parsed and returned as a <code>{key:value}</code> format in the JS logic.
 This means any flattening or parsing multi-dimensional values must be done here.</p>
+
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
 
 <h3 id="multi-value-dimensions">Multi-value dimensions</h3>
 

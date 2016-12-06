@@ -166,7 +166,8 @@ io.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//drui
 of them in a runtime.properites file and include it in the Druid classpath. Note that we also include <code>mysql-metadata-storage</code>
 and <code>druid-hdfs-storage</code> in the extension list.</p>
 
-<p>After running this command, the segments table in <code>mysql</code> should store the new location for each segment we just inserted.</p>
+<p>After running this command, the segments table in <code>mysql</code> should store the new location for each segment we just inserted.
+Note that for segments stored in HDFS, druid config must contain core-site.xml as described in <a href="http://druid.io/docs/latest/tutorials/cluster.html">Druid Docs</a>, as this new location is stored with relative path.</p>
 
         </div>
         <div class="col-md-3">

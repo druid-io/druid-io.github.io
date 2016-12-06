@@ -186,7 +186,7 @@
 <tr>
 <td>aggregations</td>
 <td>See <a href="../querying/aggregations.html">Aggregations</a></td>
-<td>yes</td>
+<td>no</td>
 </tr>
 <tr>
 <td>postAggregations</td>
@@ -259,7 +259,7 @@ The format of the results would look like so:</p>
 
 <p>topN queries can group on multi-value dimensions. When grouping on a multi-value dimension, <em>all</em> values
 from matching rows will be used to generate one group per value. It&#39;s possible for a query to return more groups than
-there are rows. For example, a topN on the dimension <code>tags</code> with filter <code>&quot;t1&quot; OR &quot;t3&quot;</code> would match only row1, and
+there are rows. For example, a topN on the dimension <code>tags</code> with filter <code>&quot;t1&quot; AND &quot;t3&quot;</code> would match only row1, and
 generate a result with three groups: <code>t1</code>, <code>t2</code>, and <code>t3</code>. If you only need to include values that match
 your filter, you can use a <a href="dimensionspecs.html#filtered-dimensionspecs">filtered dimensionSpec</a>. This can also
 improve performance.</p>

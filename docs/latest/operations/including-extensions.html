@@ -116,20 +116,19 @@ if they are available from Maven, the included <a href="../operations/pull-deps.
 specify the full Maven coordinate of the extension in the form <code>groupId:artifactId:version</code>. For example, 
 for the (hypothetical) extension <em>com.example:druid-example-extension:1.0.0</em>, run: </p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">java \
-  -cp &quot;dist/druid/lib/*&quot; \
-  -Ddruid.extensions.directory=&quot;extensions-tmp&quot; \
-  -Ddruid.extensions.hadoopDependenciesDir=&quot;hadoop-dependencies-tmp&quot; \
+  -cp &quot;lib/*&quot; \
+  -Ddruid.extensions.directory=&quot;extensions&quot; \
+  -Ddruid.extensions.hadoopDependenciesDir=&quot;hadoop-dependencies&quot; \
   io.druid.cli.Main tools pull-deps \
   --no-default-hadoop \
   -c &quot;com.example:druid-example-extension:1.0.0&quot;
 </code></pre></div>
-<p>You can install downloaded extensions by copying them into <code>extensions</code>. For example,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cp -R extensions-tmp/druid-example-extension extensions/druid-example-extension
-</code></pre></div>
 <p>You only have to install the extension once. Then, add <code>&quot;druid-example-extension&quot;</code> to 
-<code>druid.extensions.loadList</code> in common.runtime.properties to instruct Druid to load the extension. If 
-you used <em>pull-deps</em>, then once an extension is installed, you can remove the <code>extensions-tmp</code> and 
-<code>hadoop-dependencies-tmp</code> directories that it created.</p>
+<code>druid.extensions.loadList</code> in common.runtime.properties to instruct Druid to load the extension.</p>
+
+<div class="note info">
+Please make sure all the Extensions related configuration properties listed <a href="../configuration/index.html">here</a> are set correctly.
+</div>
 
 <div class="note info">
 The Maven groupId for almost every <a href="../development/extensions.html#community-extensions">community extension</a> is io.druid.extensions.contrib. The artifactId is the name 

@@ -145,7 +145,7 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 <tr>
 <td>maxSplitSize</td>
 <td>Number</td>
-<td>Enables combining multiple segments into single Hadoop InputSplit according to size of segments. Default is none.</td>
+<td>Enables combining multiple segments into single Hadoop InputSplit according to size of segments. With -1, druid calculates max split size based on user specified number of map task(mapred.map.tasks or mapreduce.job.maps). By default, one split is made for one segment.</td>
 <td>no</td>
 </tr>
 </tbody></table>

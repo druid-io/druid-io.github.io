@@ -118,60 +118,46 @@
 </tr>
 </tbody></table>
 
-<h2 id="lexicographic-topnmetricspec">Lexicographic TopNMetricSpec</h2>
+<h2 id="dimension-topnmetricspec">Dimension TopNMetricSpec</h2>
 
-<p>The grammar for dimension values sorted lexicographically is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lexicographic&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;previousStop&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;previousStop_value&gt;&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<p>This metric specification sorts TopN results by dimension value, using one of the sorting orders described here: <a href="./sorting-orders.html">Sorting Orders</a></p>
+
 <table><thead>
 <tr>
 <th>property</th>
+<th>type</th>
 <th>description</th>
 <th>required?</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>type</td>
-<td>this indicates a lexicographic sort</td>
-<td>yes</td>
+<td>String</td>
+<td>this indicates a sort a dimension&#39;s values</td>
+<td>yes, must be &#39;dimension&#39;</td>
+</tr>
+<tr>
+<td>ordering</td>
+<td>String</td>
+<td>Specifies the sorting order. Can be one of the following values: &quot;lexicographic&quot;, &quot;alphanumeric&quot;, &quot;numeric&quot;, &quot;strlen&quot;. See <a href="./sorting-orders.html">Sorting Orders</a> for more details.</td>
+<td>no, default: &quot;lexicographic&quot;</td>
 </tr>
 <tr>
 <td>previousStop</td>
-<td>the starting point of the lexicographic sort. For example, if a previousStop value is &#39;b&#39;, all values before &#39;b&#39; are discarded. This field can be used to paginate through all the dimension values.</td>
+<td>String</td>
+<td>the starting point of the sort. For example, if a previousStop value is &#39;b&#39;, all values before &#39;b&#39; are discarded. This field can be used to paginate through all the dimension values.</td>
 <td>no</td>
 </tr>
 </tbody></table>
 
-<h2 id="alphanumeric-topnmetricspec">AlphaNumeric TopNMetricSpec</h2>
-
-<p>Sort dimension values in alpha-numeric order, i.e treating numbers differently from other characters in sorting the values.
-The algorithm is based on <a href="https://github.com/amjjd/java-alphanum">https://github.com/amjjd/java-alphanum</a>.</p>
+<p>The following metricSpec uses lexicographic sorting.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;alphaNumeric&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;lexicographic&quot;</span><span class="p">,</span>
     <span class="nt">&quot;previousStop&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;previousStop_value&gt;&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<table><thead>
-<tr>
-<th>property</th>
-<th>description</th>
-<th>required?</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>type</td>
-<td>this indicates an alpha-numeric sort</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>previousStop</td>
-<td>the starting point of the alpha-numeric sort. For example, if a previousStop value is &#39;b&#39;, all values before &#39;b&#39; are discarded. This field can be used to paginate through all the dimension values.</td>
-<td>no</td>
-</tr>
-</tbody></table>
+<p>Note that in earlier versions of Druid, the functionality provided by the DimensionTopNMetricSpec was handled by two separate spec types, Lexicographic and Alphanumeric (when only two sorting orders were supported). These spec types have been deprecated but are still usable.</p>
 
 <h2 id="inverted-topnmetricspec">Inverted TopNMetricSpec</h2>
 

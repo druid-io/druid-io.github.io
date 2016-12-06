@@ -241,6 +241,98 @@ How many unique users visited both product A and product B?</p>
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
+<h4 id="retention-analysis-example">Retention Analysis Example</h4>
+
+<p>Suppose you want to answer a question like, &quot;How many unique users performed a specific action in a particular time period and also performed another specific action in a different time period?&quot;</p>
+
+<p>e.g., &quot;How many unique users signed up in week 1, and purchased something in week 2?&quot;</p>
+
+<p>Using the <code>(timestamp, product, user_id)</code> example dataset, data would be indexed with the following aggregator, like in the example above:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id_sketch&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span> <span class="p">}</span>
+</code></pre></div>
+<p>The following query expresses:</p>
+
+<p>&quot;Out of the unique users who visited Product A between 10/01/2014 and 10/07/2014, how many visited Product A again in the week of 10/08/2014 to 10/14/2014?&quot;</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test_datasource&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span><span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filtered&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fields&quot;</span> <span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;A&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;interval&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span>  <span class="p">[</span><span class="s2">&quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;</span><span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;aggregator&quot;</span> <span class="p">:</span>     <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;A_unique_users_week_1&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id_sketch&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filtered&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fields&quot;</span> <span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;A&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;interval&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span>  <span class="p">[</span><span class="s2">&quot;2014-10-08T00:00:00.000Z/2014-10-14T00:00:00.000Z&quot;</span><span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;aggregator&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;A_unique_users_week_2&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id_sketch&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;postAggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketchEstimate&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;final_unique_users&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;field&quot;</span><span class="p">:</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketchSetOp&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;final_unique_users_sketch&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;func&quot;</span><span class="p">:</span> <span class="s2">&quot;INTERSECT&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;A_unique_users_week_1&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;A_unique_users_week_2&quot;</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2014-10-01T00:00:00.000Z/2014-10-14T00:00:00.000Z&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

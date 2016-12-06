@@ -140,12 +140,8 @@ query time.</p>
 </code></pre></div>
 <h3 id="javascript-aggregator">JavaScript aggregator</h3>
 
-<p>Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions).</p>
-
-<p>All JavaScript functions must return numerical values.</p>
-
-<p>JavaScript aggregators are much slower than native Java aggregators and if performance is critical, you should implement 
-your functionality as a native Java aggregator.</p>
+<p>Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions are allowed). Your
+JavaScript functions are expected to return floating-point values.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span>  <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;column</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;column</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
@@ -167,8 +163,10 @@ your functionality as a native Java aggregator.</p>
   <span class="nt">&quot;fnReset&quot;</span>     <span class="p">:</span> <span class="s2">&quot;function()                   { return 10; }&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The javascript aggregator is recommended for rapidly prototyping features. This aggregator will be much slower in production 
-use than a native Java aggregator.</p>
+<div class="note info">
+Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
+about using Druid's JavaScript functionality.
+</div>
 
 <h2 id="approximate-aggregations">Approximate Aggregations</h2>
 
@@ -181,10 +179,12 @@ instead of the cardinality aggregator if you do not care about the individual va
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
   <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Each individual element of the &quot;fields&quot; list can be a String or <a href="../querying/dimensionspecs.html">DimensionSpec</a>. A String dimension in the fields list is equivalent to a DefaultDimensionSpec (no transformations).</p>
+
 <h4 id="cardinality-by-value">Cardinality by value</h4>
 
 <p>When setting <code>byRow</code> to <code>false</code> (the default) it computes the cardinality of the set composed of the union of all dimension values for all the given dimensions.</p>
@@ -217,14 +217,29 @@ This is equivalent to something akin to</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_countries&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;coutry_of_origin&quot;</span><span class="p">,</span> <span class="s2">&quot;country_of_residence&quot;</span> <span class="p">]</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;country_of_origin&quot;</span><span class="p">,</span> <span class="s2">&quot;country_of_residence&quot;</span> <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Determine the number of distinct people (i.e. combinations of first and last name).</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_people&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;byRow&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Determine the number of distinct starting characters of last names</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_last_name_first_char&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;last_name&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;last_name_first_char&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;substring&quot;</span><span class="p">,</span> <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nt">&quot;length&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
   <span class="nt">&quot;byRow&quot;</span> <span class="p">:</span> <span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
