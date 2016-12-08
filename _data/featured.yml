@@ -1,3 +1,9 @@
+  - date: 2016-12-01
+    title: "Disrupting Big Data with Cost-effective Compute"
+    name: "Charles Allen"
+    company: Metamarkets
+    link: https://www.youtube.com/watch?v=0E9W1-jLlJw&feature=youtu.be&t=26m38s
+
   - date: 2016-11-15
     title: "Migrating to Druid: how we improved the accuracy of our stability metrics"
     name: "Max Lord"
