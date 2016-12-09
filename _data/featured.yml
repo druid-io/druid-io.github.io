@@ -1,3 +1,9 @@
+  - date: 2016-12-07
+    title: "Compressing Longs in Druid"
+    name: "David Li"
+    company: Imply
+    link: https://imply.io/post/2016/12/07/compressing-longs.html
+
   - date: 2016-12-01
     title: "Disrupting Big Data with Cost-effective Compute"
     name: "Charles Allen"

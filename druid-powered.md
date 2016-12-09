@@ -90,6 +90,7 @@ Imply uses Druid to power public demos and to power our internal monitoring and 
 * [A Tour Through the "Big Data" Zoo](http://imply.io/post/2015/11/04/big-data-zoo.html)
 * [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
 * [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid) 
+* [Compressing Longs in Druid](https://imply.io/post/2016/12/07/compressing-longs.html) 
 
 ## Inmobi
 
