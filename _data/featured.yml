@@ -1,3 +1,9 @@
+  - date: 2016-12-14
+    title: "Using the Druid GroupBy V2 engine for real-time analytics"
+    name: "Raygun"
+    company: Raygun
+    link: https://raygun.com/blog/2016/12/druid-groupby-v2-engine/
+
   - date: 2016-12-07
     title: "Compressing Longs in Druid"
     name: "David Li"
