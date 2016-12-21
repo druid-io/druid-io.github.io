@@ -38,6 +38,7 @@ Some great folks have written their own libraries to interact with Druid.
 #### PHP
 
 * [pixelfederation/druid-php](https://github.com/pixelfederation/druid-php) - A PHP client for Druid
+* [Neeke/PHP-Druid](https://github.com/Neeke/PHP-Druid) - A Druid driver for PHP with PECL extension
 
 Other Druid Distributions
 -------------------------
