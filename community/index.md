@@ -69,11 +69,11 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
 | [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
-| [Navis Ryu](https://github.com/navis)                 | SKTelecom              |
+| [Navis Ryu](https://github.com/navis)                 | SK Telecom             |
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
 | [Parag Jain](https://github.com/pjain1)               | Yahoo                  |
 | [Robin Sahner](https://github.com/rasahner)           | Yahoo                  |
-| [Xavier Léauté](https://github.com/xvrl)              | Metamarkets            |
+| [Xavier Léauté](https://github.com/xvrl)              | Confluent              |
 
 ### Becoming a committer
 
