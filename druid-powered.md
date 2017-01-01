@@ -248,6 +248,11 @@ SK Telecom is the leading telecommunication and platform solution company. Druid
 
 Skyport Systems provides zero-effort, low-touch secure servers that help organizations to rapidly deploy and compartmentalize security-critical workloads. We use Druid as part of our analytics backend to provide real-time insight to our customers about their workload behavior.
 
+## Smart Bid
+
+Smart Bid is a unique marketing solution platform empowering advertising teams.
+A one-stop shop taking advantage of proprietary technology to analyze and reach the right audience with the right creative at the right time. We use Druid to gain real-time insights on real time bidding using our machine learning algorithms.
+
 ## Smyte
 
 Smyte provides an API and UI for detecting and blocking bad actors on the internet. Druid powers the analytics portion of our user interface providing insight into what users are doing on the website, and specifically which features are unique between different sets of users.
