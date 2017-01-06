@@ -73,6 +73,7 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
 | [Parag Jain](https://github.com/pjain1)               | Yahoo                  |
 | [Robin Sahner](https://github.com/rasahner)           | Yahoo                  |
+| [Roman Leventov](https://github.com/leventov)         | Metamarkets            |
 | [Xavier Léauté](https://github.com/xvrl)              | Confluent              |
 
 ### Becoming a committer
