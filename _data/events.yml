@@ -1,4 +1,14 @@
-  - date: 2017-01-04
-    name: HICSS
-    info: "The RADStack: Open Source Lambda Architecture for Interactive Analytics"
-    link: http://www.hicss.org/
+- date: 2017-01-31
+  title: Analytics & Experimentation Tech Talk
+  info: Tech talk at Airbnb
+  link: https://www.eventbrite.com/e/analytics-experimentation-tech-talk-tickets-31101951775
+
+- date: 2017-02-06
+  title: Druid Feb Meetup
+  info: February Bay Area Druid meetup at Branch
+  link: https://www.meetup.com/druidio/events/236879112/
+
+- date: 2017-02-21
+  title: OpenIOT Summit
+  info: Building an Open Source Streaming Analytics Stack with Kafka and Druid
+  link: http://events.linuxfoundation.org/events/openiot-summit
