@@ -113,13 +113,13 @@ or runtime.properties file. Specifically, this tool needs to know</p>
 update descriptor.json. These two can be provided through command line arguments.</p>
 
 <p><code>--workingDir</code> (Required)</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">The directory URI where segments are stored. This tool will recursively look for segments underneath this directory
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>The directory URI where segments are stored. This tool will recursively look for segments underneath this directory
 and insert/update these segments in metdata storage.
 Attention: workingDir must be a complete URI, which means it must be prefixed with scheme type. For example,
 hdfs://hostname:port/segment_directory
 </code></pre></div>
 <p><code>--updateDescriptor</code> (Optional)</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">if set to true, this tool will update `loadSpec` field in `descriptor.json` if the path in `loadSpec` is different from
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>if set to true, this tool will update `loadSpec` field in `descriptor.json` if the path in `loadSpec` is different from
 where `desciptor.json` was found. Default value is `true`.
 </code></pre></div>
 <p>Note: you will also need to load different Druid extensions per the metadata and deep storage you use. For example, if you
@@ -130,7 +130,7 @@ extensions.</p>
 
 <p>Suppose your metadata storage is <code>mysql</code> and you&#39;ve migrated some segments to a directory in HDFS, and that directory looks
 like this,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Directory path: /druid/storage/wikipedia
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Directory path: /druid/storage/wikipedia
 
 ├── 2013-08-31T000000.000Z_2013-09-01T000000.000Z
 │   └── 2015-10-21T22_07_57.074Z
@@ -154,7 +154,7 @@ like this,</p>
             └── index.zip
 </code></pre></div>
 <p>To load all these segments into <code>mysql</code>, you can fire the command below,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java 
 -Ddruid.metadata.storage.type=mysql 
 -Ddruid.metadata.storage.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid 
 -Ddruid.metadata.storage.connector.user=druid 

@@ -99,10 +99,10 @@
 <p>ZooKeeper paths are set via the <code>runtime.properties</code> configuration file. Druid will automatically create paths that do not exist, so typos in config files is a very easy way to become split-brained.</p>
 
 <p>There is a prefix path that is required and can be used as the only (well, kinda, see the note below) path-related zookeeper configuration parameter (everything else will be a default based on the prefix):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.zk.paths.base
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.zk.paths.base
 </code></pre></div>
 <p>You can also override each individual path (defaults are shown below):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.zk.paths.propertiesPath=${druid.zk.paths.base}/properties
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.zk.paths.propertiesPath=${druid.zk.paths.base}/properties
 druid.zk.paths.announcementsPath=${druid.zk.paths.base}/announcements
 druid.zk.paths.servedSegmentsPath=${druid.zk.paths.base}/servedSegments
 druid.zk.paths.loadQueuePath=${druid.zk.paths.base}/loadQueue
@@ -113,25 +113,25 @@ druid.zk.paths.indexer.statusPath=${druid.zk.paths.base}/indexer/status
 druid.zk.paths.indexer.leaderLatchPath=${druid.zk.paths.base}/indexer/leaderLatchPath
 </code></pre></div>
 <p>NOTE: We also use Curator’s service discovery module to expose some services via zookeeper. This also uses a zookeeper path, but this path is <strong>not</strong> affected by <code>druid.zk.paths.base</code> and <strong>must</strong> be specified separately. This property is</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.zk.paths.discoveryPath
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.zk.paths.discoveryPath
 </code></pre></div>
 <h3 id="master-leader-election">Master Leader Election</h3>
 
 <p>We use the Curator LeadershipLatch recipe to do leader election at path</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.masterPath}/_MASTER
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.masterPath}/_MASTER
 </code></pre></div>
-<h3 id="segment-quot-publishing-quot-protocol-from-compute-and-realtime">Segment &quot;publishing&quot; protocol from Compute and Realtime</h3>
+<h3 id="segment-publishing-protocol-from-compute-and-realtime">Segment &quot;publishing&quot; protocol from Compute and Realtime</h3>
 
 <p>The <code>announcementsPath</code> and <code>servedSegmentsPath</code> are used for this.</p>
 
 <p>All <a href="Compute.html">Compute</a> and <a href="Realtime.html">Realtime</a> nodes publish themselves on the <code>announcementsPath</code>, specifically, they will create an ephemeral znode at</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.announcementsPath}/${druid.host}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.announcementsPath}/${druid.host}
 </code></pre></div>
 <p>Which signifies that they exist. They will also subsequently create a permanent znode at</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.servedSegmentsPath}/${druid.host}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.servedSegmentsPath}/${druid.host}
 </code></pre></div>
 <p>And as they load up segments, they will attach ephemeral znodes that look like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.servedSegmentsPath}/${druid.host}/_segment_identifier_
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.servedSegmentsPath}/${druid.host}/_segment_identifier_
 </code></pre></div>
 <p>Nodes like the <a href="Master.html">Master</a> and <a href="Broker.html">Broker</a> can then watch these paths to see which nodes are currently serving which segments.</p>
 
@@ -140,7 +140,7 @@ druid.zk.paths.indexer.leaderLatchPath=${druid.zk.paths.base}/indexer/leaderLatc
 <p>The <code>loadQueuePath</code> is used for this.</p>
 
 <p>When the <a href="Master.html">Master</a> decides that a <a href="Compute.html">Compute</a> node should load or drop a segment, it writes an ephemeral znode to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.loadQueuePath}/_host_of_compute_node/_segment_identifier
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.loadQueuePath}/_host_of_compute_node/_segment_identifier
 </code></pre></div>
 <p>This node will contain a payload that indicates to the Compute node what it should do with the given segment. When the Compute node is done with the work, it will delete the znode in order to signify to the Master that it is complete.</p>
 

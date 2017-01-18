@@ -128,7 +128,7 @@
 <p><code>META-INF/services/io.druid.initialization.DruidModule</code></p>
 
 <p>It should be a text file with a new-line delimited list of package-qualified classes that implement DruidModule like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.storage.cassandra.CassandraDruidModule
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.storage.cassandra.CassandraDruidModule
 </code></pre></div>
 <p>If your jar has this file, then when it is added to the classpath or as an extension, Druid will notice the file and will instantiate instances of the Module.  Your Module should have a default constructor, but if you need access to runtime configuration properties, it can have a method with @Inject on it to get a Properties object injected into it from Guice.</p>
 
@@ -137,7 +137,7 @@
 <p>Check the <code>azure-storage</code>, <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
 
 <p>The basic idea behind the extension is that you need to add bindings for your DataSegmentPusher and DataSegmentPuller objects.  The way to add them is something like (taken from HdfsStorageDruidModule)</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
        <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
        <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPuller</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
@@ -180,7 +180,7 @@ In this way, you can validate both push (at realtime node) and pull (at historic
 <p>After ~20 secs your ingestion task ends, you should be able to see your historical node trying to load the new segment.</p>
 
 <p>The following example was retrieved from a historical node configured to use Azure for deep storage:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
 .000Z_2015-04-14T02:41:09.484Z] with zNode[/druid/dev/loadQueue/192.168.33.104:8081/dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.
 484Z].
 2015-04-14T02:42:33,451 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - Loading segment dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.0
@@ -212,11 +212,11 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 <p>There is an example of this in the <code>s3-extensions</code> module with the StaticS3FirehoseFactory.</p>
 
 <p>Adding a Firehose is done almost entirely through the Jackson Modules instead of Guice.  Specifically, note the implementation</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Module</span><span class="o">&gt;</span> <span class="nf">getJacksonModules</span><span class="o">()</span>
 <span class="o">{</span>
   <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
-          <span class="k">new</span> <span class="nf">SimpleModule</span><span class="o">().</span><span class="na">registerSubtypes</span><span class="o">(</span><span class="k">new</span> <span class="nf">NamedType</span><span class="o">(</span><span class="n">StaticS3FirehoseFactory</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;static-s3&quot;</span><span class="o">))</span>
+          <span class="k">new</span> <span class="n">SimpleModule</span><span class="o">().</span><span class="na">registerSubtypes</span><span class="o">(</span><span class="k">new</span> <span class="n">NamedType</span><span class="o">(</span><span class="n">StaticS3FirehoseFactory</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;static-s3&quot;</span><span class="o">))</span>
   <span class="o">);</span>
 <span class="o">}</span>
 </code></pre></div>
@@ -243,7 +243,7 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 </ol>
 
 <p>Registering these uses the same general strategy as a deep storage mechanism does.  You do something like</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryToolChestBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryToolChestBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
             <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryQueryToolChest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
@@ -256,7 +256,7 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 <h3 id="adding-new-jersey-resources">Adding new Jersey resources</h3>
 
 <p>Adding new Jersey resources to a module requires calling the following code to bind the resource in the module:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </code></pre></div>
 <h3 id="bundle-your-extension-with-all-the-other-druid-extensions">Bundle your extension with all the other Druid extensions</h3>
 

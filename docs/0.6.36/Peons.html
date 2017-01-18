@@ -94,7 +94,7 @@ Peons should rarely (if ever for testing purposes) be run on their own.</p>
 <h4 id="jvm-configuration">JVM Configuration</h4>
 
 <p>Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middlemanager can be set by prefixing them with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.indexer.fork.property
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.fork.property
 </code></pre></div>
 <p>Additional peon configs include:</p>
 
@@ -166,7 +166,7 @@ Peons should rarely (if ever for testing purposes) be run on their own.</p>
 <h4 id="running">Running</h4>
 
 <p>The peon should very rarely ever be run independent of the middle manager.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main internal peon &lt;task_file&gt; &lt;status_file&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main internal peon &lt;task_file&gt; &lt;status_file&gt;
 </code></pre></div>
 <p>The task file contains the task JSON object.
 The status file indicates where the task status will be output.</p>

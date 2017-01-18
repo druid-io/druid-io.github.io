@@ -108,25 +108,25 @@ including from Hadoop, HTTP, Storm, Samza, Spark Streaming, and your own JVM app
 <p><a href="http://kafka.apache.org/">Apache Kafka</a> is a high throughput message bus that works well with
 Druid.  For this tutorial, we will use Kafka 0.9.0.0. To download Kafka, issue the following
 commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://www.us.apache.org/dist/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://www.us.apache.org/dist/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz
 tar -xzf kafka_2.11-0.9.0.0.tgz
-<span class="nb">cd </span>kafka_2.11-0.9.0.0
+<span class="nb">cd</span> kafka_2.11-0.9.0.0
 </code></pre></div>
 <p>Start a Kafka broker by running the following command in a new terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-server-start.sh config/server.properties
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-server-start.sh config/server.properties
 </code></pre></div>
 <p>Run this command to create a Kafka topic called <em>metrics</em>, to which we&#39;ll send data:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic metrics
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic metrics
 </code></pre></div>
 <h2 id="send-example-data">Send example data</h2>
 
 <p>Let&#39;s launch a console producer for our topic and send some data!</p>
 
 <p>In your Druid directory, generate some metrics by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">bin/generate-example-metrics
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/generate-example-metrics
 </code></pre></div>
 <p>In your Kafka directory, run:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic metrics
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic metrics
 </code></pre></div>
 <p>The <em>kafka-console-producer</em> command is now awaiting input. Copy the generated example metrics,
 paste them into the <em>kafka-console-producer</em> terminal, and press enter. If you like, you can also
@@ -159,10 +159,10 @@ data types into Imply by writing a custom ingestion spec.</p>
 </ul>
 
 <p>Let&#39;s use a small JSON pageviews dataset in the topic <em>pageviews</em> as an example, with records like:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
 </code></pre></div>
 <p>First, create the topic:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic pageviews
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic pageviews
 </code></pre></div>
 <p>Next, edit <code>conf-quickstart/tranquility/kafka.json</code>:</p>
 
@@ -184,25 +184,25 @@ sections:</p>
 &quot;dataSource&quot;: &quot;pageviews-kafka&quot;
 </code></li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
        <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
   <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
   <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
   <span class="p">]</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;properties&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;properties&quot;</span> <span class="err">:</span> <span class="p">{</span>
        <span class="nt">&quot;task.partitions&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
        <span class="nt">&quot;task.replicants&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
        <span class="nt">&quot;topicPattern&quot;</span> <span class="p">:</span> <span class="s2">&quot;pageviews&quot;</span>
   <span class="p">}</span>
 </code></pre></div>
 <p>Next, start Druid Kafka ingestion:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">bin/tranquility kafka -configFile ../druid-0.9.2-rc3/conf-quickstart/tranquility/kafka.json
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/tranquility kafka -configFile ../druid-0.9.2-rc3/conf-quickstart/tranquility/kafka.json
 </code></pre></div>
 <ul>
 <li>If your Tranquility server or Kafka is already running, stop it (CTRL-C) and
@@ -210,7 +210,7 @@ start it up again.</li>
 </ul>
 
 <p>Finally, send some data to the Kafka topic. Let&#39;s start with these messages:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
 </code></pre></div>
@@ -218,11 +218,11 @@ start it up again.</li>
 <a href="../ingestion/stream-ingestion.html#segmentgranularity-and-windowperiod">windowPeriod</a> value), so you should
 replace <code>2000-01-01T00:00:00Z</code> in these messages with the current time in ISO8601 format. You can
 get this by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
 </code></pre></div>
 <p>Update the timestamps in the JSON above, then copy and paste these messages into this console
 producer and press enter:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pageviews
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pageviews
 </code></pre></div>
 <p>That&#39;s it, your data should now be in Druid. You can immediately query it using any of the
 <a href="../querying/querying.html">supported query methods</a>.</p>

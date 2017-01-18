@@ -101,8 +101,8 @@
 <p>You can download the latest version of druid <a href="http://static.druid.io/artifacts/releases/druid-0.7.1-bin.tar.gz">here</a>. You can also <a href="../development/build.html">Build From Source</a> and grab the tarball from services/target/druid-0.7.1-bin.tar.gz.</p>
 
 <p>Either way, once you have the tarball, untar the contents within by issuing:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -zxvf druid-0.7.1-bin.tar.gz
-<span class="nb">cd </span>druid-0.7.1
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -zxvf druid-0.7.1-bin.tar.gz
+<span class="nb">cd</span> druid-0.7.1
 </code></pre></div>
 <h2 id="external-dependencies">External Dependencies</h2>
 
@@ -117,8 +117,8 @@
 <li>Install MySQL.</li>
 <li>Create a druid user and database.</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root
-</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mysql -u root
+</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8</span><span class="p">;</span>
 </code></pre></div>
 <h4 id="set-up-zookeeper">Set up Zookeeper</h4>
@@ -127,9 +127,9 @@
 <li>Download zookeeper from <a href="http://www.apache.org/dyn/closer.cgi/zookeeper/">http://www.apache.org/dyn/closer.cgi/zookeeper/</a></li>
 <li>Install zookeeper.</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
 tar xzf zookeeper-3.4.6.tar.gz
-<span class="nb">cd </span>zookeeper-3.4.6
+<span class="nb">cd</span> zookeeper-3.4.6
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 <span class="nb">cd</span> ..
@@ -139,7 +139,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <p>Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a <a href="../design/segments.html">segment</a>. Segments contain data over some span of time. We&#39;ve prebuilt a segment for this tutorial and will cover making your own segments in other <a href="../tutorials/tutorial-loading-streaming-data.html">pages</a>.The segment we are going to work with has the following format:</p>
 
 <p>Dimensions (things to filter on):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;page&quot;</span>
 <span class="s2">&quot;language&quot;</span>
 <span class="s2">&quot;user&quot;</span>
 <span class="s2">&quot;unpatrolled&quot;</span>
@@ -153,7 +153,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <span class="s2">&quot;city&quot;</span>
 </code></pre></div>
 <p>Metrics (things to aggregate over):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;count&quot;</span>
 <span class="s2">&quot;added&quot;</span>
 <span class="s2">&quot;delta&quot;</span>
 <span class="s2">&quot;deleted&quot;</span>
@@ -161,17 +161,17 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <h2 id="the-cluster">The Cluster</h2>
 
 <p>Before we get started, let&#39;s make sure we have configs in the config directory for our various nodes. Issue the following from the Druid home directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ls config
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>ls config
 </code></pre></div>
 <p>If you are interested in learning more about Druid configuration files, check out this <a href="../configuration/index.html">link</a>. Many aspects of Druid are customizable. For the purposes of this tutorial, we are going to use default values for most things.</p>
 
 <h4 id="common-configuration">Common Configuration</h4>
 
 <p>There are a couple of cluster wide configuration options we have to define. The common/cluster configuration files should exist under:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/_common
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/_common
 </code></pre></div>
 <p>In the directory, there should be a <code>common.runtime.properties</code> file with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Extensions
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># Extensions
 druid.extensions.coordinates=[&quot;io.druid.extensions:druid-examples&quot;,&quot;io.druid.extensions:druid-kafka-eight&quot;,&quot;io.druid.extensions:mysql-metadata-storage&quot;]
 
 # Zookeeper
@@ -208,10 +208,10 @@ druid.emitter=noop
 For more information about coordinator nodes, see <a href="../design/coordinator.html">here</a>.</p>
 
 <p>The coordinator config file should already exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/coordinator
 </code></pre></div>
 <p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.port=8081
 druid.service=coordinator
 
@@ -220,7 +220,7 @@ druid.service=coordinator
 druid.coordinator.startDelay=PT70s
 </code></pre></div>
 <p>To start the coordinator node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/coordinator:lib/* io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/coordinator:lib/* io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>Note: we will be running a single historical node in these examples, so you may see some warnings about not being able to replicate segments. These can be safely ignored, but in production, you should always replicate segments across multiple historical nodes.</p>
 
@@ -230,10 +230,10 @@ druid.coordinator.startDelay=PT70s
 For more information about Historical nodes, see <a href="../design/historical.html">here</a>.</p>
 
 <p>The historical config file should exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/historical
 </code></pre></div>
 <p>In the directory we just created, we should have the file <code>runtime.properties</code> with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.port=8083
 druid.service=historical
 
@@ -246,7 +246,7 @@ druid.segmentCache.locations=[{&quot;path&quot;: &quot;/tmp/druid/indexCache&quo
 druid.server.maxSize=10000000000
 </code></pre></div>
 <p>To start the historical node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/historical:lib/* io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/historical:lib/* io.druid.cli.Main server historical
 </code></pre></div>
 <h4 id="start-a-broker-node">Start a Broker Node</h4>
 
@@ -254,10 +254,10 @@ druid.server.maxSize=10000000000
 For more information about Broker nodes, see <a href="../design/broker.html">here</a>.</p>
 
 <p>The broker config file should exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/broker
 </code></pre></div>
 <p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.port=8082
 druid.service=broker
 
@@ -269,38 +269,38 @@ druid.processing.buffer.sizeBytes=100000000
 druid.processing.numThreads=1
 </code></pre></div>
 <p>To start the broker node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/broker:lib/* io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/broker:lib/* io.druid.cli.Main server broker
 </code></pre></div>
 <h4 id="start-a-realtime-node">Start a Realtime Node</h4>
 
 <p>Our goal is to ingest some data and hand-off that data to the rest of our Druid cluster. To accomplish this goal, we need to make some small configuration changes.</p>
 
 <p>In your favorite editor, open up:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">examples/wikipedia/wikipedia_realtime.spec
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>examples/wikipedia/wikipedia_realtime.spec
 </code></pre></div>
 <p>We need to change some configuration in order to force hand-off faster.</p>
 
 <p>Let&#39;s change:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;segmentGranularity&quot;: &quot;HOUR&quot;,
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;segmentGranularity&quot;: &quot;HOUR&quot;,
 </code></pre></div>
 <p>to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;segmentGranularity&quot;: &quot;FIVE_MINUTE&quot;,
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;segmentGranularity&quot;: &quot;FIVE_MINUTE&quot;,
 </code></pre></div>
 <p>and</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;intermediatePersistPeriod&quot;: &quot;PT10m&quot;,
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;intermediatePersistPeriod&quot;: &quot;PT10m&quot;,
 &quot;windowPeriod&quot;: &quot;PT10m&quot;,
 </code></pre></div>
 <p>to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;intermediatePersistPeriod&quot;: &quot;PT3m&quot;,
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;intermediatePersistPeriod&quot;: &quot;PT3m&quot;,
 &quot;windowPeriod&quot;: &quot;PT1m&quot;,
 </code></pre></div>
 <p>Now we should be handing off segments every 6 minutes or so.</p>
 
 <p>To start the realtime node that was used in our first tutorial, you simply have to issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx512m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -Ddruid.realtime.specFile=examples/wikipedia/wikipedia_realtime.spec -classpath config/_common:config/realtime:lib/* io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx512m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -Ddruid.realtime.specFile=examples/wikipedia/wikipedia_realtime.spec -classpath config/_common:config/realtime:lib/* io.druid.cli.Main server realtime
 </code></pre></div>
 <p>The configurations are located in <code>config/realtime/runtime.properties</code> and should contain the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.port=8084
 druid.service=realtime
 
@@ -317,13 +317,13 @@ druid.processing.numThreads=2
 <h4 id="query">Query</h4>
 
 <p>At any point during ingestion, we can query for data. For example:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8082/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8082/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
 </code></pre></div>
 <p>This query will span across both realtime and historical nodes. If you&#39;re curious, you can query the historical node directly by sending the same query to the historical node&#39;s port:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
 </code></pre></div>
 <p>This query may produce no results if the realtime node hasn&#39;t run long enough to hand off the segment (we configured it above to be 5 minutes). Query the realtime node directly by sending the same query to the realtime node&#39;s port:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d@examples/wikipedia/query.body
 </code></pre></div>
 <p>The realtime query results will reflect the data that was recently indexed from wikipedia, and not handed off to the historical node yet. Once the historical node acknowledges it has loaded the segment, the realtime node will drop the segment.</p>
 

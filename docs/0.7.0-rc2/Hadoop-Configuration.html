@@ -91,7 +91,7 @@
 <p>The following configuration should work relatively well for Druid indexing and Hadoop. In the example, we are using Hadoop 2.4 with EC2 m1.xlarge nodes for NameNodes and cc2.8xlarge nodes for DataNodes.</p>
 
 <h3 id="core-site-xml">Core-site.xml</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;configuration&gt;
 
   &lt;!-- Temporary directory on HDFS (but also sometimes local!) --&gt;
   &lt;property&gt;
@@ -144,7 +144,7 @@
 &lt;/configuration&gt;
 </code></pre></div>
 <h3 id="mapred-site-xml">Mapred-site.xml</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;configuration&gt;
 
   &lt;property&gt;
     &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
@@ -286,7 +286,7 @@
 &lt;/configuration&gt;
 </code></pre></div>
 <h3 id="yarn-site-xml">Yarn-site.xml</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;configuration&gt;
 
   &lt;property&gt;
     &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
@@ -358,7 +358,7 @@
 &lt;/configuration&gt;
 </code></pre></div>
 <h3 id="hdfs-site-xml">HDFS-site.xml</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;configuration&gt;
 
   &lt;property&gt;
     &lt;name&gt;dfs.replication&lt;/name&gt;
@@ -382,7 +382,7 @@
 &lt;/configuration&gt;
 </code></pre></div>
 <h3 id="capacity-scheduler-xml">Capacity-scheduler.xml</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;configuration&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;configuration&gt;
 
   &lt;property&gt;
     &lt;name&gt;yarn.scheduler.capacity.maximum-am-resource-percent&lt;/name&gt;

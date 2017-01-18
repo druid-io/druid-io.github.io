@@ -175,7 +175,7 @@ Same for Loading cache, developer can implement a new type of loading cache by i
    &quot;dataFetcher&quot;:{ &quot;type&quot;:&quot;jdbcDataFetcher&quot;, &quot;connectorConfig&quot;:&quot;jdbc://mysql://localhost:3306/my_data_base&quot;, &quot;table&quot;:&quot;lookup_table_name&quot;, &quot;keyColumn&quot;:&quot;key_column_name&quot;, &quot;valueColumn&quot;: &quot;value_column_name&quot;},
    &quot;cacheFactory&quot;:{&quot;type&quot;:&quot;onHeapPolling&quot;}
 }</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#####   Example Polling Off-heap Lookup
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#####   Example Polling Off-heap Lookup
 This example demonstrates an off-heap lookup that will be cached once and never swapped `(pollPeriod == null)`
 
 ```json
@@ -268,7 +268,7 @@ This example demonstrates an off-heap lookup that will be cached once and never 
 <td>null (No write-time-based eviction when set to null)</td>
 </tr>
 </tbody></table>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;loadingLookup&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataFetcher&quot;</span><span class="p">:{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbcDataFetcher&quot;</span><span class="p">,</span> <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc://mysql://localhost:3306/my_data_base&quot;</span><span class="p">,</span> <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;lookup_table_name&quot;</span><span class="p">,</span> <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;key_column_name&quot;</span><span class="p">,</span> <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_column_name&quot;</span><span class="p">},</span>
    <span class="nt">&quot;loadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;guava&quot;</span><span class="p">},</span>
@@ -317,7 +317,7 @@ This example demonstrates an off-heap lookup that will be cached once and never 
 <td>0 (No write-time-based eviction when set to null)</td>
 </tr>
 </tbody></table>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;loadingLookup&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataFetcher&quot;</span><span class="p">:{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbcDataFetcher&quot;</span><span class="p">,</span> <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc://mysql://localhost:3306/my_data_base&quot;</span><span class="p">,</span> <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;lookup_table_name&quot;</span><span class="p">,</span> <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;key_column_name&quot;</span><span class="p">,</span> <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_column_name&quot;</span><span class="p">},</span>
    <span class="nt">&quot;loadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;mapDb&quot;</span><span class="p">,</span> <span class="nt">&quot;maxEntriesSize&quot;</span><span class="p">:</span><span class="mi">100000</span><span class="p">},</span>

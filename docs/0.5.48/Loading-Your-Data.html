@@ -93,7 +93,7 @@
 <h2 id="create-config-directories">Create Config Directories</h2>
 
 <p>Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mkdir config
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mkdir config
 mkdir config/realtime
 mkdir config/master
 mkdir config/compute
@@ -110,71 +110,71 @@ mkdir config/broker
 <ol>
 <li>Download Apache Kafka 0.7.2 from <a href="http://kafka.apache.org/downloads.html">http://kafka.apache.org/downloads.html</a></li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  wget http://apache.spinellicreations.com/incubator/kafka/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  wget http://apache.spinellicreations.com/incubator/kafka/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
   tar -xvzf kafka-0.7.2-incubating-src.tgz
-  <span class="nb">cd </span>kafka-0.7.2-incubating-src
+  <span class="nb">cd</span> kafka-0.7.2-incubating-src
 </code></pre></div>
 <ol>
 <li>Build Kafka</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  ./sbt update
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  ./sbt update
   ./sbt package
 </code></pre></div>
 <ol>
 <li>Boot Kafka</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  cat config/zookeeper.properties
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  cat config/zookeeper.properties
   bin/zookeeper-server-start.sh config/zookeeper.properties
-  <span class="c"># in a new console</span>
+  <span class="c1"># in a new console</span>
   bin/kafka-server-start.sh config/server.properties
 </code></pre></div>
 <ol>
 <li>Launch the console producer (so you can type in JSON kafka messages in a bit)</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 </code></pre></div>
 <h3 id="launching-a-realtime-node">Launching a Realtime Node</h3>
 
 <ol>
 <li>Create a valid configuration file similar to this called config/realtime/runtime.properties:</li>
 </ol>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8080</span>
-  <span class="na">druid.port</span><span class="o">=</span><span class="s">8080</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8080</span>
+<span class="na">  druid.port</span><span class="o">=</span><span class="s">8080</span>
 
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
 
-  <span class="na">druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
-  <span class="na">druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
+<span class="na">  druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
+<span class="na">  druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
 
   <span class="c">#emitting, opaque marker</span>
-  <span class="na">druid.service</span><span class="o">=</span><span class="s">example</span>
+<span class="na">  druid.service</span><span class="o">=</span><span class="s">example</span>
 
-  <span class="na">druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
-  <span class="na">druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
-  <span class="na">com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
+<span class="na">  druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
+<span class="na">  druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
 
   <span class="c"># below are dummy values when operating a realtime only node</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
 
-  <span class="na">com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
-  <span class="na">com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
-  <span class="na">druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
+<span class="na">  com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
+<span class="na">  com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
+<span class="na">  druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
 
-  <span class="na">druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
-  <span class="na">druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
-  <span class="na">druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
-  <span class="na">druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
-  <span class="na">druid.database.user</span><span class="o">=</span><span class="s">user</span>
-  <span class="na">druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
-  <span class="na">druid.database.connectURI</span><span class="o">=</span>
-  <span class="na">druid.host</span><span class="o">=</span><span class="s">127.0.0.1:8080</span>
+<span class="na">  druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
+<span class="na">  druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
+<span class="na">  druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
+<span class="na">  druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
+<span class="na">  druid.database.user</span><span class="o">=</span><span class="s">user</span>
+<span class="na">  druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
+<span class="na">  druid.database.connectURI</span><span class="o">=</span>
+<span class="na">  druid.host</span><span class="o">=</span><span class="s">127.0.0.1:8080</span>
 </code></pre></div>
 <ol>
 <li>Create a valid realtime configuration file similar to this called realtime.spec:</li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">[{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">[{</span>
     <span class="nt">&quot;schema&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
                  <span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
                                     <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}],</span>
@@ -206,14 +206,14 @@ mkdir config/broker
 <ol>
 <li>Launch the realtime node</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
   -Ddruid.realtime.specFile<span class="o">=</span>config/realtime/realtime.spec <span class="se">\</span>
   -classpath lib/*:config/realtime com.metamx.druid.realtime.RealtimeMain
 </code></pre></div>
 <ol>
 <li>Paste data into the Kafka console producer</li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
   <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:02&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
   <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:03&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
   <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:04&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
@@ -222,14 +222,14 @@ mkdir config/broker
 <ol>
 <li>Watch the events as they are ingested by Druid&#39;s realtime node</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  ...
-  2013-06-17 21:41:55,569 INFO <span class="o">[</span>Global--0<span class="o">]</span> com.metamx.emitter.core.LoggingEmitter - Event <span class="o">[{</span><span class="s2">&quot;feed&quot;</span>:<span class="s2">&quot;metrics&quot;</span>,<span class="s2">&quot;timestamp&quot;</span>:<span class="s2">&quot;2013-06-17T21:41:55.569Z&quot;</span>,<span class="s2">&quot;service&quot;</span>:<span class="s2">&quot;example&quot;</span>,<span class="s2">&quot;host&quot;</span>:<span class="s2">&quot;127.0.0.1&quot;</span>,<span class="s2">&quot;metric&quot;</span>:<span class="s2">&quot;events/processed&quot;</span>,<span class="s2">&quot;value&quot;</span>:5,<span class="s2">&quot;user2&quot;</span>:<span class="s2">&quot;druidtest&quot;</span><span class="o">}]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  ...
+  <span class="m">2013</span>-06-17 <span class="m">21</span>:41:55,569 INFO <span class="o">[</span>Global--0<span class="o">]</span> com.metamx.emitter.core.LoggingEmitter - Event <span class="o">[{</span><span class="s2">&quot;feed&quot;</span>:<span class="s2">&quot;metrics&quot;</span>,<span class="s2">&quot;timestamp&quot;</span>:<span class="s2">&quot;2013-06-17T21:41:55.569Z&quot;</span>,<span class="s2">&quot;service&quot;</span>:<span class="s2">&quot;example&quot;</span>,<span class="s2">&quot;host&quot;</span>:<span class="s2">&quot;127.0.0.1&quot;</span>,<span class="s2">&quot;metric&quot;</span>:<span class="s2">&quot;events/processed&quot;</span>,<span class="s2">&quot;value&quot;</span>:5,<span class="s2">&quot;user2&quot;</span>:<span class="s2">&quot;druidtest&quot;</span><span class="o">}]</span>
   ...
 </code></pre></div>
 <ol>
 <li>In a new console, edit a file called query.body:</li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
       <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
       <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
       <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -245,13 +245,13 @@ mkdir config/broker
 <ol>
 <li>Submit the query via curl</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  curl -X POST <span class="s2">&quot;http://localhost:8080/druid/v2/?pretty&quot;</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  curl -X POST <span class="s2">&quot;http://localhost:8080/druid/v2/?pretty&quot;</span> <span class="se">\</span>
   -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
 </code></pre></div>
 <ol>
 <li>View Result!</li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">[</span> <span class="p">{</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
     <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;imps&quot;</span> <span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
@@ -275,8 +275,8 @@ mkdir config/broker
 <li>Install MySQL</li>
 <li>Create a druid user and database</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root
-</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mysql -u root
+</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">database</span> <span class="n">druid</span><span class="p">;</span>
 </code></pre></div>
 <p>The <a href="Master.html">Master</a> node will create the tables it needs based on its configuration.</p>
@@ -284,12 +284,12 @@ mkdir config/broker
 <h3 id="make-sure-you-have-zookeeper-running">Make sure you have ZooKeeper Running</h3>
 
 <p>Make sure that you have a zookeeper instance running.  If you followed the instructions for Kafka, it is probably running.  If you are unsure if you have zookeeper running, try running</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">ps auxww <span class="p">|</span> grep zoo <span class="p">|</span> grep -v grep
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ps auxww <span class="p">|</span> grep zoo <span class="p">|</span> grep -v grep
 </code></pre></div>
 <p>If you get any result back, then zookeeper is most likely running.  If you haven&#39;t setup Kafka or do not have zookeeper running, then you can download it and start it up with</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.motorlogy.com/apache/zookeeper/zookeeper-3.4.5/zookeeper-3.4.5.tar.gz -o zookeeper-3.4.5.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.motorlogy.com/apache/zookeeper/zookeeper-3.4.5/zookeeper-3.4.5.tar.gz -o zookeeper-3.4.5.tar.gz
 tar xzf zookeeper-3.4.5.tar.gz
-<span class="nb">cd </span>zookeeper-3.4.5
+<span class="nb">cd</span> zookeeper-3.4.5
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 <span class="nb">cd</span> ..
@@ -301,51 +301,51 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <ol>
 <li>Setup a configuration file called config/master/runtime.properties similar to:</li>
 </ol>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8081</span>
-  <span class="na">druid.port</span><span class="o">=</span><span class="s">8081</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8081</span>
+<span class="na">  druid.port</span><span class="o">=</span><span class="s">8081</span>
 
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
 
-  <span class="na">druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
-  <span class="na">druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
+<span class="na">  druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
+<span class="na">  druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
 
   <span class="c"># emitting, opaque marker</span>
-  <span class="na">druid.service</span><span class="o">=</span><span class="s">example</span>
+<span class="na">  druid.service</span><span class="o">=</span><span class="s">example</span>
 
-  <span class="na">druid.master.startDelay</span><span class="o">=</span><span class="s">PT60s</span>
-  <span class="na">druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
-  <span class="na">druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
-  <span class="na">com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
+<span class="na">  druid.master.startDelay</span><span class="o">=</span><span class="s">PT60s</span>
+<span class="na">  druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
+<span class="na">  druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
 
   <span class="c"># below are dummy values when operating a realtime only node</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
 
-  <span class="na">com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
-  <span class="na">com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
-  <span class="na">druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
+<span class="na">  com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
+<span class="na">  com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
+<span class="na">  druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
 
-  <span class="na">druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
-  <span class="na">druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
-  <span class="na">druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
-  <span class="na">druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
-  <span class="na">druid.database.user</span><span class="o">=</span><span class="s">druid</span>
-  <span class="na">druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
-  <span class="na">druid.database.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/druid</span>
-  <span class="na">druid.zk.paths.discoveryPath</span><span class="o">=</span><span class="s">/druid/discoveryPath</span>
-  <span class="na">druid.database.ruleTable</span><span class="o">=</span><span class="s">rules</span>
-  <span class="na">druid.database.configTable</span><span class="o">=</span><span class="s">config</span>
+<span class="na">  druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
+<span class="na">  druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
+<span class="na">  druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
+<span class="na">  druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
+<span class="na">  druid.database.user</span><span class="o">=</span><span class="s">druid</span>
+<span class="na">  druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
+<span class="na">  druid.database.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/druid</span>
+<span class="na">  druid.zk.paths.discoveryPath</span><span class="o">=</span><span class="s">/druid/discoveryPath</span>
+<span class="na">  druid.database.ruleTable</span><span class="o">=</span><span class="s">rules</span>
+<span class="na">  druid.database.configTable</span><span class="o">=</span><span class="s">config</span>
 
   <span class="c"># Path on local FS for storage of segments; dir will be created if needed</span>
-  <span class="na">druid.paths.indexCache</span><span class="o">=</span><span class="s">/tmp/druid/indexCache</span>
+<span class="na">  druid.paths.indexCache</span><span class="o">=</span><span class="s">/tmp/druid/indexCache</span>
   <span class="c"># Path on local FS for storage of segment metadata; dir will be created if needed</span>
-  <span class="na">druid.paths.segmentInfoCache</span><span class="o">=</span><span class="s">/tmp/druid/segmentInfoCache</span>
+<span class="na">  druid.paths.segmentInfoCache</span><span class="o">=</span><span class="s">/tmp/druid/segmentInfoCache</span>
 </code></pre></div>
 <ol>
 <li>Launch the <a href="Master.html">Master</a> node</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
   -classpath lib/*:config/master <span class="se">\</span>
   com.metamx.druid.http.MasterMain
 </code></pre></div>
@@ -354,60 +354,60 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <ol>
 <li>Create a configuration file in config/compute/runtime.properties similar to:</li>
 </ol>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8082</span>
-  <span class="na">druid.port</span><span class="o">=</span><span class="s">8082</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.host</span><span class="o">=</span><span class="s">0.0.0.0:8082</span>
+<span class="na">  druid.port</span><span class="o">=</span><span class="s">8082</span>
 
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
 
-  <span class="na">druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
-  <span class="na">druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
+<span class="na">  druid.processing.formatString</span><span class="o">=</span><span class="s">processing_%s</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">1</span>
+<span class="na">  druid.processing.buffer.sizeBytes</span><span class="o">=</span><span class="s">10000000</span>
 
   <span class="c"># emitting, opaque marker</span>
-  <span class="na">druid.service</span><span class="o">=</span><span class="s">example</span>
+<span class="na">  druid.service</span><span class="o">=</span><span class="s">example</span>
 
-  <span class="na">druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
-  <span class="na">druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
-  <span class="na">com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
-  <span class="na">com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
+<span class="na">  druid.request.logging.dir</span><span class="o">=</span><span class="s">/tmp/example/log</span>
+<span class="na">  druid.realtime.specFile</span><span class="o">=</span><span class="s">realtime.spec</span>
+<span class="na">  com.metamx.emitter.logging</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  com.metamx.emitter.logging.level</span><span class="o">=</span><span class="s">debug</span>
 
   <span class="c"># below are dummy values when operating a realtime only node</span>
-  <span class="na">druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
+<span class="na">  druid.processing.numThreads</span><span class="o">=</span><span class="s">3</span>
 
-  <span class="na">com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
-  <span class="na">com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
-  <span class="na">druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
+<span class="na">  com.metamx.aws.accessKey</span><span class="o">=</span><span class="s">dummy_access_key</span>
+<span class="na">  com.metamx.aws.secretKey</span><span class="o">=</span><span class="s">dummy_secret_key</span>
+<span class="na">  druid.pusher.s3.bucket</span><span class="o">=</span><span class="s">dummy_s3_bucket</span>
 
-  <span class="na">druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
-  <span class="na">druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
-  <span class="na">druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
-  <span class="na">druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
-  <span class="na">druid.database.user</span><span class="o">=</span><span class="s">druid</span>
-  <span class="na">druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
-  <span class="na">druid.database.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/druid</span>
-  <span class="na">druid.zk.paths.discoveryPath</span><span class="o">=</span><span class="s">/druid/discoveryPath</span>
-  <span class="na">druid.database.ruleTable</span><span class="o">=</span><span class="s">rules</span>
-  <span class="na">druid.database.configTable</span><span class="o">=</span><span class="s">config</span>
+<span class="na">  druid.zk.service.host</span><span class="o">=</span><span class="s">localhost</span>
+<span class="na">  druid.server.maxSize</span><span class="o">=</span><span class="s">300000000000</span>
+<span class="na">  druid.zk.paths.base</span><span class="o">=</span><span class="s">/druid</span>
+<span class="na">  druid.database.segmentTable</span><span class="o">=</span><span class="s">prod_segments</span>
+<span class="na">  druid.database.user</span><span class="o">=</span><span class="s">druid</span>
+<span class="na">  druid.database.password</span><span class="o">=</span><span class="s">diurd</span>
+<span class="na">  druid.database.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/druid</span>
+<span class="na">  druid.zk.paths.discoveryPath</span><span class="o">=</span><span class="s">/druid/discoveryPath</span>
+<span class="na">  druid.database.ruleTable</span><span class="o">=</span><span class="s">rules</span>
+<span class="na">  druid.database.configTable</span><span class="o">=</span><span class="s">config</span>
 
 <span class="c"># Path on local FS for storage of segments; dir will be created if needed</span>
-  <span class="na">druid.paths.indexCache</span><span class="o">=</span><span class="s">/tmp/druid/indexCache</span>
+<span class="na">  druid.paths.indexCache</span><span class="o">=</span><span class="s">/tmp/druid/indexCache</span>
 <span class="c"># Path on local FS for storage of segment metadata; dir will be created if needed</span>
-  <span class="na">druid.paths.segmentInfoCache</span><span class="o">=</span><span class="s">/tmp/druid/segmentInfoCache</span>
+<span class="na">  druid.paths.segmentInfoCache</span><span class="o">=</span><span class="s">/tmp/druid/segmentInfoCache</span>
 <span class="c"># Setup local storage mode</span>
-  <span class="na">druid.pusher.local.storageDirectory</span><span class="o">=</span><span class="s">/tmp/druid/localStorage</span>
-  <span class="na">druid.pusher.local</span><span class="o">=</span><span class="s">true</span>
+<span class="na">  druid.pusher.local.storageDirectory</span><span class="o">=</span><span class="s">/tmp/druid/localStorage</span>
+<span class="na">  druid.pusher.local</span><span class="o">=</span><span class="s">true</span>
 </code></pre></div>
 <ol>
 <li>Launch the compute node:</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
   -classpath lib/*:config/compute <span class="se">\</span>
   com.metamx.druid.http.ComputeMain
 </code></pre></div>
 <h3 id="create-a-file-of-records">Create a File of Records</h3>
 
 <p>We can use the same records we have been, in a file called records.json:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:02&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:03&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:04&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
@@ -420,7 +420,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <ol>
 <li>Create a config called batchConfig.json similar to:</li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;utcdt&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
@@ -457,7 +457,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <ol>
 <li>Now run the job, with the config pointing at batchConfig.json:</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
        -Ddruid.realtime.specFile<span class="o">=</span>realtime.spec -classpath lib/* <span class="se">\</span>
        com.metamx.druid.indexer.HadoopDruidIndexerMain batchConfig.json
 </code></pre></div>

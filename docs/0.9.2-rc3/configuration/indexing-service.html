@@ -385,7 +385,7 @@
 <p>The overlord can dynamically change worker behavior.</p>
 
 <p>The JSON object can be submitted to the overlord via a POST request at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker
 </code></pre></div>
 <p>Optional Header Parameters for auditing the config change can also be specified.</p>
 
@@ -409,7 +409,7 @@
 </tbody></table>
 
 <p>A sample worker config spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;selectStrategy&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fillCapacityWithAffinity&quot;</span><span class="p">,</span>
     <span class="nt">&quot;affinityConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -465,12 +465,12 @@
 </tbody></table>
 
 <p>To view the audit history of worker config issue a GET request to the URL -</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?interval=&lt;interval&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?interval=&lt;interval&gt;
 </code></pre></div>
 <p>default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in overlord runtime.properties.</p>
 
 <p>To view last <n> entries of the audit history of worker config issue a GET request to the URL -</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?count=&lt;n&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?count=&lt;n&gt;
 </code></pre></div>
 <h4 id="worker-select-strategy">Worker Select Strategy</h4>
 
@@ -567,7 +567,7 @@ its better to write a druid extension module with extending current worker selec
 </tbody></table>
 
 <p>Example: a function that sends batch_index_task to workers 10.0.0.1 and 10.0.0.2 and all other tasks to other available workers.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
 &quot;type&quot;:&quot;javascript&quot;,
 &quot;function&quot;:&quot;function (config, zkWorkers, task) {\nvar batch_workers = new java.util.ArrayList();\nbatch_workers.add(\&quot;10.0.0.1\&quot;);\nbatch_workers.add(\&quot;10.0.0.2\&quot;);\nworkers = zkWorkers.keySet().toArray();\nvar sortedWorkers = new Array()\n;for(var i = 0; i &lt; workers.length; i++){\n sortedWorkers[i] = workers[i];\n}\nArray.prototype.sort.call(sortedWorkers,function(a, b){return zkWorkers.get(b).getCurrCapacityUsed() - zkWorkers.get(a).getCurrCapacityUsed();});\nvar minWorkerVer = config.getMinWorkerVersion();\nfor (var i = 0; i &lt; sortedWorkers.length; i++) {\n var worker = sortedWorkers[i];\n  var zkWorker = zkWorkers.get(worker);\n  if(zkWorker.canRunTask(task) &amp;&amp; zkWorker.isValidVersion(minWorkerVer)){\n    if(task.getType() == &#39;index_hadoop&#39; &amp;&amp; batch_workers.contains(worker)){\n      return worker;\n    } else {\n      if(task.getType() != &#39;index_hadoop&#39; &amp;&amp; !batch_workers.contains(worker)){\n        return worker;\n      }\n    }\n  }\n}\nreturn null;\n}&quot;
 }
@@ -691,7 +691,7 @@ about using Druid's JavaScript functionality.
 <h4 id="peon-configs">Peon Configs</h4>
 
 <p>Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middle manager can be set by prefixing them with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.indexer.fork.property
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.fork.property
 </code></pre></div>
 <p>Additional peon configs include:</p>
 

@@ -105,7 +105,7 @@
 <h3 id="install-whirr">Install Whirr</h3>
 
 <p>Clone the code from <a href="https://github.com/druid-io/whirr">https://github.com/druid-io/whirr</a> and build Whirr:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:druid-io/whirr.git
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:druid-io/whirr.git
 cd whirr
 git checkout trunk
 mvn clean install -Dmaven.test.failure.ignore=true
@@ -133,7 +133,7 @@ mvn clean install -Dmaven.test.failure.ignore=true
 </ul>
 
 <p>The following AWS information must be set in <code>druid.properties</code>, as environment variables, or in the file <code>$WHIRR_HOME/conf/credentials</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">PROVIDER=aws-ec2
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>PROVIDER=aws-ec2
 IDENTITY=&lt;aws-id-key&gt;
 CREDENTIAL=&lt;aws-private-key&gt;
 </code></pre></div>
@@ -144,26 +144,26 @@ CREDENTIAL=&lt;aws-private-key&gt;
 <h3 id="start-a-test-cluster-with-whirr">Start a Test Cluster With Whirr</h3>
 
 <p>Run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">% <span class="nv">$WHIRR_HOME</span>/bin/whirr launch-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>% <span class="nv">$WHIRR_HOME</span>/bin/whirr launch-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
 </code></pre></div>
 <p>If Whirr starts without any errors, you should see the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Running on provider aws-ec2 using identity &lt;your-aws-id-here&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Running on provider aws-ec2 using identity &lt;your-aws-id-here&gt;
 </code></pre></div>
 <p>You can then use the EC2 dashboard to locate the instances and confirm that they have started up.</p>
 
 <p>If both the instances and the Druid cluster launch successfully, a few minutes later other messages to STDOUT should follow with information returned from EC2, including the instance ID:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Started cluster of 8 instances
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Started cluster of 8 instances
 Cluster{instances=[Instance{roles=[zookeeper, druid-mysql, druid-coordinator, druid-broker, druid-historical, druid-realtime], publicIp= ...
 </code></pre></div>
 <p>The final message will contain login information for the instances.</p>
 
 <p>Note that Whirr will return an exception if any of the nodes fail to launch, and the cluster will be destroyed. To destroy the cluster manually, run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">% <span class="nv">$WHIRR_HOME</span>/bin/whirr destroy-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>% <span class="nv">$WHIRR_HOME</span>/bin/whirr destroy-cluster --config <span class="nv">$WHIRR_HOME</span>/recipes/druid.properties
 </code></pre></div>
 <h3 id="testing-the-cluster">Testing the Cluster</h3>
 
 <p>Now you can run an indexing task and a simple query to see if all the nodes have launched correctly. We are going to use a Wikipedia example again. For a realtime indexing task, run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @#<span class="o">{</span>PATH_TO<span class="o">}</span>/wikipedia_realtime_task.json <span class="c">#{OVERLORD_PUBLIC_IP_ADDR}:#{PORT}/druid/indexer/v1/task</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @#<span class="o">{</span>PATH_TO<span class="o">}</span>/wikipedia_realtime_task.json <span class="c1">#{OVERLORD_PUBLIC_IP_ADDR}:#{PORT}/druid/indexer/v1/task</span>
 </code></pre></div>
 <p>where OVERLORD_PUBLIC_IP_ADDR should be available from the EC2 information logged to STDOUT, the Overlord port is 8080 by default, and <code>wikipedia_realtime_task.json</code> is discussed above. </p>
 

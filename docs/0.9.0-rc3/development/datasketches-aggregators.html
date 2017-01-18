@@ -93,7 +93,7 @@ At ingestion time, this aggregator creates the theta sketch objects which get st
 Note that you can use <code>thetaSketch</code> aggregator on columns which were not ingested using same, it will return estimated cardinality of the column. It is recommended to use it at ingestion time as well to make querying faster.</p>
 
 <h3 id="aggregators">Aggregators</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
@@ -118,14 +118,14 @@ Note that you can use <code>thetaSketch</code> aggregator on columns which were 
 <h3 id="post-aggregators">Post Aggregators</h3>
 
 <h4 id="sketch-estimator">Sketch Estimator</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;thetaSketchEstimate&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;field&quot;</span>  <span class="p">:</span> <span class="err">&lt;post</span> <span class="err">aggregator</span> <span class="err">of</span> <span class="err">type</span> <span class="err">fieldAccess</span> <span class="err">that</span> <span class="err">refers</span> <span class="err">to</span> <span class="err">a</span> <span class="err">thetaSketch</span> <span class="err">aggregator</span> <span class="err">or</span> <span class="err">that</span> <span class="err">of</span> <span class="err">type</span> <span class="err">thetaSketchSetOp&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="sketch-operations">Sketch Operations</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;thetaSketchSetOp&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;func&quot;</span><span class="p">:</span> <span class="err">&lt;UNION|INTERSECT|NOT&gt;</span><span class="p">,</span>
@@ -141,10 +141,10 @@ Note that you can use <code>thetaSketch</code> aggregator on columns which were 
 How many unique users visited both product A and product B?</p>
 
 <p>to answer above questions, you would index your data using following aggregator.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id_sketch&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thetaSketch&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id_sketch&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span> <span class="p">}</span>
 </code></pre></div>
 <p>then, sample query for, How many unique users visited product A?</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>
@@ -157,7 +157,7 @@ How many unique users visited both product A and product B?</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>sample query for, How many unique users visited both product A and B?</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>

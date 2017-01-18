@@ -91,7 +91,7 @@
 <p>This simple Druid cluster configuration can be used for initially experimenting with Druid on your local machine. For a more realistic production Druid cluster, see <a href="Production-Cluster-Configuration.html">Production Cluster Configuration</a>.</p>
 
 <h3 id="common-configuration-common-runtime-properties">Common Configuration (common.runtime.properties)</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Extensions
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># Extensions
 -Ddruid.extensions.coordinates=[&quot;io.druid.extensions:druid-kafka-seven&quot;]
 
 # Zookeeper (defaults to localhost)
@@ -101,10 +101,10 @@
 <h3 id="overlord-node-indexing-service">Overlord Node (Indexing Service)</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server overlord
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server overlord
 </code></pre></div>
 <p>Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -119,10 +119,10 @@
 <h3 id="coordinator-node">Coordinator Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -134,10 +134,10 @@ druid.coordinator.startDelay=PT70s
 <h3 id="historical-node">Historical Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server historical
 </code></pre></div>
 <p>Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -154,10 +154,10 @@ druid.segmentCache.locations=[{&quot;path&quot;: &quot;/tmp/druid/indexCache&quo
 <h3 id="broker-node">Broker Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server broker
 </code></pre></div>
 <p>Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8

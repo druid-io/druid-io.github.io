@@ -101,7 +101,7 @@
 <p>Specifically. the data schema looks like so:</p>
 
 <p>Dimensions (things to filter on):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;page&quot;</span>
 <span class="s2">&quot;language&quot;</span>
 <span class="s2">&quot;user&quot;</span>
 <span class="s2">&quot;unpatrolled&quot;</span>
@@ -115,7 +115,7 @@
 <span class="s2">&quot;city&quot;</span>
 </code></pre></div>
 <p>Metrics (things to aggregate over):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;count&quot;</span>
 <span class="s2">&quot;added&quot;</span>
 <span class="s2">&quot;delta&quot;</span>
 <span class="s2">&quot;deleted&quot;</span>
@@ -135,10 +135,10 @@
 <h3 id="unpack-the-tarball">Unpack the Tarball</h3>
 
 <p>You can extract the content within by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">tar -zxvf druid-&lt;version&gt;-bin.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>tar -zxvf druid-&lt;version&gt;-bin.tar.gz
 </code></pre></div>
 <p>If you cd into the directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd druid-&lt;version&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd druid-&lt;version&gt;
 </code></pre></div>
 <p>You should see a bunch of files:</p>
 
@@ -166,9 +166,9 @@
 <li>Download zookeeper from <a href="http://www.apache.org/dyn/closer.cgi/zookeeper/">http://www.apache.org/dyn/closer.cgi/zookeeper/</a>. </li>
 <li>Install zookeeper.</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
 tar xzf zookeeper-3.4.6.tar.gz
-<span class="nb">cd </span>zookeeper-3.4.6
+<span class="nb">cd</span> zookeeper-3.4.6
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 <span class="nb">cd</span> ..
@@ -176,12 +176,12 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <h2 id="running-example-scripts">Running Example Scripts</h2>
 
 <p>Let&#39;s start by spinning up a server. You can start an example Druid <a href="../design/realtime.html">Realtime</a> node by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_server.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_server.sh
 </code></pre></div>
 <p>Select the &quot;wikipedia&quot; example.</p>
 
 <p>Note that the first time you start the example, it may take some extra time due to its fetching various dependencies. Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2015-02-17T21:46:36,804 INFO [main] org.eclipse.jetty.server.ServerConnector - Started ServerConnector@79b6cf95{HTTP/1.1}{0.0.0.0:8084}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2015-02-17T21:46:36,804 INFO [main] org.eclipse.jetty.server.ServerConnector - Started ServerConnector@79b6cf95{HTTP/1.1}{0.0.0.0:8084}
 2015-02-17T21:46:36,804 INFO [main] org.eclipse.jetty.server.Server - Started @9580ms
 2015-02-17T21:46:36,862 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - irc connection to server [irc.wikimedia.org] established
 2015-02-17T21:46:36,862 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - Joining channel #en.wikipedia
@@ -193,10 +193,10 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <p>The Druid real-time node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. If you are interested in the details of our real-time architecture and why we persist indexes to disk, we suggest you read our <a href="http://static.druid.io/docs/druid.pdf">White Paper</a>.</p>
 
 <p>To query the real-time node you&#39;ve spun up, you can issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_client.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_client.sh
 </code></pre></div>
 <p>Select &quot;wikipedia&quot; once again. This script issues <a href="../querying/timeboundaryquery.html">TimeBoundary</a> to the data we&#39;ve been ingesting. The query looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span>
 <span class="p">}</span>
@@ -204,7 +204,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <p>The <strong>timeBoundary</strong> query is one of the simplest queries you can make in Druid. It gives you the boundaries of the ingested data.</p>
 
 <p>The result looks something like this (when it&#39;s prettified):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
@@ -217,10 +217,10 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <h2 id="querying-druid">Querying Druid</h2>
 
 <p>In your favorite editor, create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timeseries.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timeseries.json
 </code></pre></div>
 <p>We are going to make a slightly more complicated query, the <a href="../querying/timeseriesquery.html">TimeseriesQuery</a>. Copy and paste the following into the file:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span> 
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> 
     <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2010-01-01/2020-01-01&quot;</span> <span class="p">],</span> 
@@ -233,10 +233,10 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 </code></pre></div>
 <p>Our query has now expanded to include a time interval, <a href="../querying/granularities.html">Granularities</a>, and <a href="../querying/aggregations.html">Aggregations</a>. What the query is doing is aggregating a set of metrics over a span of time, and the results are grouped into a single time bucket.
 To issue the query and get some results, run the following in your command line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d  @timeseries.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d  @timeseries.json
 </code></pre></div>
 <p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;chars_added&quot;</span> <span class="p">:</span> <span class="mf">312670.0</span><span class="p">,</span> <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">733</span> <span class="p">}</span>
 <span class="p">}</span> <span class="p">]</span>
@@ -246,7 +246,7 @@ To issue the query and get some results, run the following in your command line:
 <p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis?</p>
 
 <p>We can change granularity for the results to &quot;minute&quot;. To specify different granularities to bucket our results, we change our query like so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span> 
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> 
   <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2010-01-01/2020-01-01&quot;</span> <span class="p">],</span> 
@@ -258,7 +258,7 @@ To issue the query and get some results, run the following in your command line:
 <span class="p">}</span>
 </code></pre></div>
 <p>This gives us results like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
  <span class="p">{</span>
    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;chars_added&quot;</span> <span class="p">:</span> <span class="mf">30665.0</span><span class="p">,</span> <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">128</span> <span class="p">}</span>
@@ -279,10 +279,10 @@ To issue the query and get some results, run the following in your command line:
 <p>One of Druid&#39;s main powers is to provide answers to problems, so let&#39;s pose a problem. What if we wanted to know what the top pages in the US are, ordered by the number of edits over the last few minutes you&#39;ve been going through this tutorial? To solve this problem, we can use the <a href="../querying/topnquery.html">TopN</a>.</p>
 
 <p>Let&#39;s create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">topn.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>topn.json
 </code></pre></div>
 <p>and put the following in there:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span> 
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> 
@@ -299,10 +299,10 @@ To issue the query and get some results, run the following in your command line:
 <p>Note that our query now includes <a href="../querying/filters.html">Filters</a>. Filters are like <code>WHERE</code> clauses in SQL and help narrow down the data that needs to be scanned.</p>
 
 <p>If you issue the query:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @topn.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8084/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @topn.json
 </code></pre></div>
 <p>You should see an answer to our question. As an example, some results are shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
  <span class="p">{</span>
    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:00:00.000Z&quot;</span><span class="p">,</span>
    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">[</span>

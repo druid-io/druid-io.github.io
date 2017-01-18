@@ -91,10 +91,10 @@
 <p>pydruid should run with Python 2.x, and is known to run with Python 2.7.5.</p>
 
 <p>Install pydruid in the same way as you&#39;d install any other Python module on your system. The simplest way is:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">pip install pydruid
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>pip install pydruid
 </code></pre></div>
 <p>You should also install Pandas to execute the simple examples below:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">pip install pandas
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>pip install pandas
 </code></pre></div>
 <p>When you import pydruid into your example, it will try to load Pandas as well.</p>
 
@@ -103,17 +103,17 @@
 <p><a href="http://druid.io/downloads.html">Download Druid</a> and unpack Druid. If you are not familiar with Druid, see this <a href="http://druid.io/docs/latest/Tutorial:-A-First-Look-at-Druid.html">introductory tutorial</a>.</p>
 
 <p>From the Druid home directory, start the Druid Realtime node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$DRUID_HOME</span>/run_example_server.sh
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">$DRUID_HOME</span>/run_example_server.sh
 </code></pre></div>
 <p>When prompted, choose the &quot;wikipedia&quot; example. After the Druid realtime node is done starting up, messages should appear that start with the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2014-04-03 18:01:32,852 INFO [wikipedia-incremental-persist] ...
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2014-04-03 18:01:32,852 INFO [wikipedia-incremental-persist] ...
 </code></pre></div>
 <p>These messages confirm that the realtime node is ingesting data from the Wikipedia edit stream, and that data can be queried.</p>
 
 <h2 id="write-execute-and-submit-a-pydruid-query">Write, Execute, and Submit a pydruid Query</h2>
 
 <p>Let&#39;s say we want to see the top few languages for Wikipedia articles, in terms of number of edits. This is the query we could post directly to Druid:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span>
@@ -136,7 +136,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>The results should appear similar to the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2014-04-03T17:59:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
     <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
@@ -156,22 +156,22 @@
 <p><strong>NOTE:</strong> Due to limitations in the way the wikipedia example is set up, you may see a limited number of results appear.</p>
 
 <p>Here&#39;s that same query in Python:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s">&#39;druid/v2/&#39;</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s1">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s1">&#39;druid/v2/&#39;</span><span class="p">)</span>
 
 <span class="n">top_langs</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">topn</span><span class="p">(</span>
-    <span class="n">datasource</span> <span class="o">=</span> <span class="s">&quot;wikipedia&quot;</span><span class="p">,</span>
-    <span class="n">granularity</span> <span class="o">=</span> <span class="s">&quot;all&quot;</span><span class="p">,</span>
-    <span class="n">intervals</span> <span class="o">=</span> <span class="s">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
-    <span class="n">dimension</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span><span class="p">,</span>
-    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;article&quot;</span><span class="p">,</span>
-    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">)},</span>
-    <span class="n">metric</span> <span class="o">=</span> <span class="s">&quot;edit_count&quot;</span><span class="p">,</span>
+    <span class="n">datasource</span> <span class="o">=</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+    <span class="n">granularity</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="s2">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s2">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span>
+    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)},</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;edit_count&quot;</span><span class="p">,</span>
     <span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="p">)</span>
 
-<span class="k">print</span> <span class="n">top_langs</span>  <span class="c"># Do this if you want to see the raw JSON</span>
+<span class="k">print</span> <span class="n">top_langs</span>  <span class="c1"># Do this if you want to see the raw JSON</span>
 </code></pre></div>
 <p>Let&#39;s break this query down:</p>
 
@@ -192,39 +192,39 @@
 <h2 id="bringing-the-data-into-pandas">Bringing the Data Into Pandas</h2>
 
 <p>Now that Druid is returning data, we&#39;ll pass that data to a Pandas dataframe, which allows us to analyze and visualize it:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">pydruid.client</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">plt</span>  <span class="c"># Need to have matplotlib installed</span>
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">plt</span>  <span class="c1"># Need to have matplotlib installed</span>
 
-<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s">&#39;druid/v2/&#39;</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">PyDruid</span><span class="p">(</span><span class="s1">&#39;http://localhost:8083&#39;</span><span class="p">,</span> <span class="s1">&#39;druid/v2/&#39;</span><span class="p">)</span>
 
 <span class="n">top_langs</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">topn</span><span class="p">(</span>
-    <span class="n">datasource</span> <span class="o">=</span> <span class="s">&quot;wikipedia&quot;</span><span class="p">,</span>
-    <span class="n">granularity</span> <span class="o">=</span> <span class="s">&quot;all&quot;</span><span class="p">,</span>
-    <span class="n">intervals</span> <span class="o">=</span> <span class="s">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
-    <span class="n">dimension</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span><span class="p">,</span>
-    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;article&quot;</span><span class="p">,</span>
-    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s">&quot;count&quot;</span><span class="p">)},</span>
-    <span class="n">metric</span> <span class="o">=</span> <span class="s">&quot;edit_count&quot;</span><span class="p">,</span>
+    <span class="n">datasource</span> <span class="o">=</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+    <span class="n">granularity</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="s2">&quot;2013-06-01T00:00/2020-01-01T00&quot;</span><span class="p">,</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Dimension</span><span class="p">(</span><span class="s2">&quot;namespace&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span>
+    <span class="n">aggregations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;edit_count&quot;</span><span class="p">:</span> <span class="n">longsum</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)},</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;edit_count&quot;</span><span class="p">,</span>
     <span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="p">)</span>
 
-<span class="k">print</span> <span class="n">top_langs</span>  <span class="c"># Do this if you want to see the raw JSON</span>
+<span class="k">print</span> <span class="n">top_langs</span>  <span class="c1"># Do this if you want to see the raw JSON</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">export_pandas</span><span class="p">()</span> <span class="c"># Client will import Pandas, no need to do so separately.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">export_pandas</span><span class="p">()</span> <span class="c1"># Client will import Pandas, no need to do so separately.</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s">&#39;timestamp&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># Don&#39;t need the timestamp column here</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Don&#39;t need the timestamp column here</span>
 
-<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># Get a naturally numbered index</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Get a naturally numbered index</span>
 
 <span class="k">print</span> <span class="n">df</span>
 
-<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;language&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;language&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <p>Printing the results gives:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">   edit_count language
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>   edit_count language
 1         834       en
 2         256       de
 3         185       fr

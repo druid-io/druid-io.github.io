@@ -101,20 +101,20 @@
 <p>Note: If Zookeeper and metadata storage aren&#39;t running, you&#39;ll have to start them again as described in <a href="Tutorial%3A-The-Druid-Cluster.html">The Druid Cluster</a>.</p>
 
 <p>To start a Coordinator node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/coordinator:lib/* io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/coordinator:lib/* io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>To start a Historical node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/historical:lib/* io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/historical:lib/* io.druid.cli.Main server historical
 </code></pre></div>
 <p>To start a Broker node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/broker:lib/* io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath config/_common:config/broker:lib/* io.druid.cli.Main server broker
 </code></pre></div>
 <h2 id="querying-your-data">Querying Your Data</h2>
 
 <p>Make sure you&#39;ve completed <a href="Loading-Your-Data-Part-1.html">Loading Your Data</a> so we have some data to query. Having done that, it&#39;s time to query our data! For a complete specification of queries, see <a href="Querying.html">Querying</a>.</p>
 
 <h4 id="construct-a-query">Construct a Query</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -130,10 +130,10 @@
 <h4 id="query-that-data">Query That Data</h4>
 
 <p>Run the query against your broker:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8082/druid/v2/?pretty&quot;</span> -H <span class="s1">&#39;Content-type: application/json&#39;</span> -d @query.body
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s2">&quot;http://localhost:8082/druid/v2/?pretty&quot;</span> -H <span class="s1">&#39;Content-type: application/json&#39;</span> -d @query.body
 </code></pre></div>
 <p>And get:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -150,17 +150,17 @@
 <p>How are we to know what queries we can run? Although <a href="Querying.html">Querying</a> is a helpful index, to get a handle on querying our data we need to look at our ingestion schema. There are a few particular fields we care about in the ingestion schema. All of these fields should in present in the real-time ingestion schema and the batch ingestion schema.</p>
 
 <p>Datasource:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;wikipedia&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;wikipedia&quot;</span>
 </code></pre></div>
 <p>Our dataSource tells us the name of the relation/table, or &#39;source of data&#39;. What we decide to name our data source must match the data source we are going to be querying.</p>
 
 <p>Granularity:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;indexGranularity&quot;</span><span class="err">:</span> <span class="s2">&quot;none&quot;</span><span class="err">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;indexGranularity&quot;</span><span class="err">:</span> <span class="s2">&quot;none&quot;</span><span class="err">,</span>
 </code></pre></div>
 <p>Druid will roll up data at ingestion time unless the index/rollup granularity is specified as &quot;none&quot;. Your query granularity cannot be lower than your index granularity.</p>
 
 <p>Aggregators:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;aggregators&quot;</span> <span class="err">:</span> <span class="p">[{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;aggregators&quot;</span> <span class="err">:</span> <span class="p">[{</span>
    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
   <span class="p">},</span> <span class="p">{</span>
@@ -180,10 +180,10 @@
 <p>The <a href="Aggregations.html">Aggregations</a> specified at ingestion time correlated directly to the metrics that can be queried.</p>
 
 <p>Dimensions:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dimensions&quot;</span> <span class="err">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dimensions&quot;</span> <span class="err">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
 </code></pre></div>
 <p>These specify the dimensions that we can filter our data on. If we added a dimension to our groupBy query, we get:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -196,7 +196,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>Which gets us data grouped over the namespace dimension in return!</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -215,7 +215,7 @@
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
 <p>Additionally,, we can also filter our query to narrow down our metric values:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -228,7 +228,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>Which gets us metrics about only those edits where the namespace is &#39;article&#39;:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>

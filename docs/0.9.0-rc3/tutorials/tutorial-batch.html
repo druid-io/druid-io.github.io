@@ -122,7 +122,7 @@ You can also tag all rows with a fixed timestamp, like &quot;2000-01-01T00:00:00
 <p>Let&#39;s use this pageviews dataset as an example. Druid supports TSV, CSV, and JSON out of the box. 
 Note that nested JSON objects are not supported, so if you do use JSON, you should provide a file 
 containing flattened objects.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T01:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T01:30:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
 </code></pre></div>
@@ -139,26 +139,26 @@ sum when we load the data will allow us to compute an average at query time as w
 </ul>
 
 <p>You can copy the existing <code>quickstart/wikiticker-index.json</code> indexing task to a new file:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">cp quickstart/wikiticker-index.json my-index-task.json
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp quickstart/wikiticker-index.json my-index-task.json
 </code></pre></div>
 <p>And modify it by altering these sections:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span> <span class="s2">&quot;pageviews&quot;</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;inputSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span> <span class="s2">&quot;pageviews&quot;</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;inputSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
   <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;pageviews.json&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
   <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
   <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
   <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
 <span class="p">]</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;granularitySpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;granularitySpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
   <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
   <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
@@ -178,10 +178,10 @@ the pageviews.json file to HDFS. You may need to adjust the <code>paths</code> i
 
 <p>To kick off the indexing process, POST your indexing task to the Druid Overlord. In a standard Druid 
 install, the URL is <code>http://OVERLORD_IP:8090/druid/indexer/v1/task</code>.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json OVERLORD_IP:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json OVERLORD_IP:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>If you&#39;re running everything on a single machine, you can use localhost:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>If anything goes wrong with this task (e.g. it finishes with status FAILED), you can troubleshoot 
 by visiting the &quot;Task log&quot; on the <a href="http://localhost:8090/console.html">overlord console</a>.</p>

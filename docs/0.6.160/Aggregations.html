@@ -94,14 +94,14 @@ Available aggregations are:</p>
 <h3 id="count-aggregator">Count aggregator</h3>
 
 <p><code>count</code> computes the row count that match the filters</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="sum-aggregators">Sum aggregators</h3>
 
 <h4 id="longsum-aggregator"><code>longSum</code> aggregator</h4>
 
 <p>computes the sum of values as a 64-bit, signed integer</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p><code>name</code> – output name for the summed value
 <code>fieldName</code> – name of the metric column to sum over</p>
@@ -109,26 +109,26 @@ Available aggregations are:</p>
 <h4 id="doublesum-aggregator"><code>doubleSum</code> aggregator</h4>
 
 <p>Computes the sum of values as 64-bit floating point value. Similar to <code>longSum</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="min-max-aggregators">Min / Max aggregators</h3>
 
 <h4 id="min-aggregator"><code>min</code> aggregator</h4>
 
 <p><code>min</code> computes the minimum metric value</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="max-aggregator"><code>max</code> aggregator</h4>
 
 <p><code>max</code> computes the maximum metric value</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-aggregator">JavaScript aggregator</h3>
 
 <p>Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions).</p>
 
 <p>All JavaScript functions must return numerical values.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span>  <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;column</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;column</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
   <span class="nt">&quot;fnAggregate&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(current, column1, column2, ...) {</span>
@@ -140,7 +140,7 @@ Available aggregations are:</p>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>Example</strong></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sum(log(x)/y) + 10&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">],</span>
@@ -152,7 +152,7 @@ Available aggregations are:</p>
 <h3 id="cardinality-aggregator">Cardinality aggregator</h3>
 
 <p>Computes the cardinality of a set of Druid dimensions, using HyperLogLog to estimate the cardinality.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
@@ -166,12 +166,12 @@ Available aggregations are:</p>
 <ul>
 <li>For a single dimension, this is equivalent to</li>
 </ul>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">DISCTINCT</span><span class="p">(</span><span class="n">dimension</span><span class="p">))</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">DISCTINCT</span><span class="p">(</span><span class="n">dimension</span><span class="p">))</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
 </code></pre></div>
 <ul>
 <li>For multiple dimensions, this is equivalent to something akin to</li>
 </ul>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="k">FROM</span> <span class="p">(</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="k">FROM</span> <span class="p">(</span>
   <span class="k">SELECT</span> <span class="n">dim_1</span> <span class="k">as</span> <span class="n">value</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
   <span class="k">UNION</span>
   <span class="k">SELECT</span> <span class="n">dim_2</span> <span class="k">as</span> <span class="n">value</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span>
@@ -183,19 +183,19 @@ Available aggregations are:</p>
 
 <p>When setting <code>byRow</code> to <code>true</code> it computes the cardinality by row, i.e. the cardinality of distinct dimension combinations
 This is equivalent to something akin to</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span> <span class="k">SELECT</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span> <span class="k">SELECT</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span> <span class="k">FROM</span> <span class="o">&lt;</span><span class="n">datasource</span><span class="o">&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">DIM1</span><span class="p">,</span> <span class="n">DIM2</span><span class="p">,</span> <span class="n">DIM3</span>
 </code></pre></div>
 <p><strong>Example</strong></p>
 
 <p>Determine the number of distinct categories items are assigned to.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_values&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;main_category&quot;</span><span class="p">,</span> <span class="s2">&quot;secondary_category&quot;</span> <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Determine the number of distinct   are assigned to.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;distinct_values&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldNames&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;secondary_category&quot;</span> <span class="p">],</span>
@@ -207,7 +207,7 @@ This is equivalent to something akin to</p>
 <h3 id="hyperunique-aggregator">HyperUnique aggregator</h3>
 
 <p>Uses <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a> to compute the estimated cardinality of a dimension that has been aggregated as a &quot;hyperUnique&quot; metric at indexing time.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h2 id="miscellaneous-aggregations">Miscellaneous Aggregations</h2>
 
@@ -220,7 +220,7 @@ This is equivalent to something akin to</p>
 <p><em>Limitations:</em> The filtered aggregator currently only supports selector and not filter with a single selector, i.e. matching a dimension against a single value.</p>
 
 <p><em>Note:</em> If only the filtered results are required, consider putting the filter on the query itself, which will be much faster since it does not require scanning all the data.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filtered&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;aggMatching&quot;</span><span class="p">,</span>
   <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>

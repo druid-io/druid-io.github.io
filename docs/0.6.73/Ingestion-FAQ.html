@@ -93,7 +93,7 @@
 <h2 id="my-realtime-node-is-not-handing-segments-off">My realtime node is not handing segments off</h2>
 
 <p>Make sure that the <code>druid.publish.type</code> on your real-time nodes is set to &quot;db&quot;. Also make sure that <code>druid.storage.type</code> is set to a deep storage that makes sense. Some example configs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.publish.type=db
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.publish.type=db
 
 druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
 druid.db.connector.user=druid
@@ -103,10 +103,10 @@ druid.storage.type=s3
 druid.storage.bucket=druid
 druid.storage.baseKey=sample
 </code></pre></div>
-<h2 id="i-don-39-t-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
+<h2 id="i-dont-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
 
 <p>You can check the coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/cluster.html</code>. Make sure that your segments have actually loaded on <a href="Historical.html">historical nodes</a>. If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
 -Ddruid.server.maxSize=500000000000
 </code></pre></div>
 <h2 id="my-queries-are-returning-empty-results">My queries are returning empty results</h2>

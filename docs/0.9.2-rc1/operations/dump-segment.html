@@ -93,7 +93,7 @@ dump is not necessarily a full-fidelity translation of the segment. In particula
 complex metric values may not be complete.</p>
 
 <p>To run the tool, point it at a segment directory and provide a file for writing output:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java io.druid.cli.Main tools dump-segment \
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java io.druid.cli.Main tools dump-segment \
   --directory /home/druid/path/to/segment/ \
   --out /home/druid/output.txt
 </code></pre></div>
@@ -106,7 +106,7 @@ object per line, using the default serialization for each column. Normally all c
 you can limit the dump to specific columns with <code>--column name</code>.</p>
 
 <p>For example, one line might look like this when pretty-printed:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;__time&quot;: 1442018818771,
   &quot;added&quot;: 36,
   &quot;channel&quot;: &quot;#en.wikipedia&quot;,
@@ -146,7 +146,7 @@ encoded by default, but you can also dump them as lists of row numbers with <cod
 <p>Normally all columns are included, but if you like, you can limit the dump to specific columns with <code>--column name</code>.</p>
 
 <p>Sample output:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;bitmapSerdeFactory&quot;: {
     &quot;type&quot;: &quot;concise&quot;
   },

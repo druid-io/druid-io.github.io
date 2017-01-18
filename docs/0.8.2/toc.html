@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="css/toc.css">
+<h2>Getting Started</h2>
+<ul>
+	<li><a href="../design/">Concepts</a></li>
+	<li><a href="../tutorials/tutorial-a-first-look-at-druid.html">Hello, Druid</a></li>
+	<li><a href="../tutorials/index.html">Tutorials</a></li>
+	<li><a href="../misc/evaluate.html">Evaluate Druid</a></li>
+</ul>
+<h2>Data Ingestion</h2>
+<ul>
+	<li><a href="../ingestion/overview.html">Overview</a></li>
+	<li><a href="../ingestion/data-formats.html">Data Formats</a></li>
+	<li><a href="../ingestion/index.html">Data Schema</a></li>
+	<li><a href="../ingestion/schema-design.html">Schema Design</a></li>
+	<li><a href="../ingestion/schema-changes.html">Schema Changes</a></li>
+	<li><a href="../ingestion/realtime-ingestion.html">Realtime Ingestion</a></li>
+	<li><a href="../ingestion/batch-ingestion.html">Batch Ingestion</a></li>
+	<li><a href="../ingestion/faq.html"><span class="caps">FAQ</span></a></li>
+</ul>
+<h2>Querying</h2>
+<ul>
+	<li><a href="../querying/querying.html">Overview</a></li>
+	<li><a href="../querying/timeseriesquery.html">Timeseries</a></li>
+	<li><a href="../querying/topnquery.html">TopN</a></li>
+	<li><a href="../querying/groupbyquery.html">GroupBy</a></li>
+	<li><a href="../querying/timeboundaryquery.html">Time Boundary</a></li>
+	<li><a href="../querying/segmentmetadataquery.html">Segment Metadata</a></li>
+	<li><a href="../querying/datasourcemetadataquery.html">DataSource Metadata</a></li>
+	<li><a href="../querying/searchquery.html">Search</a></li>
+	<li>Components
+	<ul>
+		<li><a href="../querying/datasource.html">Datasources</a></li>
+		<li><a href="../querying/filters.html">Filters</a></li>
+		<li><a href="../querying/aggregations.html">Aggregations</a></li>
+		<li><a href="../querying/post-aggregations.html">Post Aggregations</a></li>
+		<li><a href="../querying/granularities.html">Granularities</a></li>
+		<li><a href="../querying/dimensionspecs.html">DimensionSpecs</a></li>
+		<li><a href="../querying/query-context.html">Context</a></li>
+	</ul></li>
+	<li><a href="../querying/sql.html"><span class="caps">SQL</span></a></li>
+	<li><a href="../querying/joins.html">Joins</a></li>
+</ul>
+<h2>Design</h2>
+<ul>
+	<li><a href="../design/design.html">Overview</a></li>
+	<li>Storage
+	<ul>
+		<li><a href="../design/segments.html">Segments</a></li>
+	</ul></li>
+	<li>Node Types
+	<ul>
+		<li><a href="../design/historical.html">Historical</a></li>
+		<li><a href="../design/broker.html">Broker</a></li>
+		<li><a href="../design/coordinator.html">Coordinator</a></li>
+		<li><a href="../design/indexing-service.html">Indexing Service</a></li>
+		<li><a href="../design/realtime.html">Realtime</a></li>
+	</ul></li>
+	<li>Dependencies
+	<ul>
+		<li><a href="../dependencies/deep-storage.html">Deep Storage</a></li>
+		<li><a href="../dependencies/metadata-storage.html">Metadata Storage</a></li>
+		<li><a href="../dependencies/zookeeper.html">ZooKeeper</a></li>
+	</ul></li>
+</ul>
+<h2>Operations</h2>
+<ul>
+	<li><a href="../operations/recommendations.html">Good Practices</a></li>
+	<li><a href="../operations/including-extensions.html">Including Extensions</a></li>
+	<li><a href="../operations/rule-configuration.html">Data Retention</a></li>
+	<li><a href="../operations/metrics.html">Metrics and Monitoring</a></li>
+	<li><a href="../operations/alerts.html">Alerts</a></li>
+	<li><a href="../operations/rolling-updates.html">Updating the Cluster</a></li>
+	<li><a href="../operations/other-hadoop.html">Different Hadoop Versions</a></li>
+	<li><a href="../operations/multitenancy.html">Multitenancy Considerations</a></li>
+	<li><a href="../operations/performance-faq.html">Performance <span class="caps">FAQ</span></a></li>
+</ul>
+<h2>Configuration</h2>
+<ul>
+	<li><a href="../configuration/index.html">Common Configuration</a></li>
+	<li><a href="../configuration/indexing-service.html">Indexing Service</a></li>
+	<li><a href="../configuration/coordinator.html">Coordinator</a></li>
+	<li><a href="../configuration/historical.html">Historical</a></li>
+	<li><a href="../configuration/broker.html">Broker</a></li>
+	<li><a href="../configuration/realtime.html">Realtime</a></li>
+	<li><a href="../configuration/logging.html">Configuring Logging</a></li>
+	<li><a href="../configuration/simple-cluster.html">Simple Cluster Configuration</a></li>
+	<li><a href="../configuration/production-cluster.html">Production Cluster Configuration</a></li>
+	<li><a href="../configuration/hadoop.html">Production Hadoop Configuration</a></li>
+	<li><a href="../configuration/zookeeper.html">Production Zookeeper Configuration</a></li>
+</ul>
+<h2>Development</h2>
+<ul>
+	<li><a href="../development/libraries.html">Libraries</a></li>
+	<li><a href="../development/modules.html">Extending Druid</a></li>
+	<li><a href="../development/build.html">Build From Source</a></li>
+	<li><a href="../development/versioning.html">Versioning</a></li>
+	<li><a href="../development/integrating-druid-with-other-technologies.html">Integration</a></li>
+	<li>Experimental Features
+	<ul>
+		<li><a href="../development/experimental.html">Overview</a></li>
+		<li><a href="../development/geo.html">Geographic Queries</a></li>
+		<li><a href="../development/select-query.html">Select Query</a></li>
+		<li><a href="../development/approximate-histograms.html">Approximate Histograms and Quantiles</a></li>
+		<li><a href="../development/router.html">Router node</a></li>
+		<li><a href="../development/kafka-simple-consumer-firehose.html">New Kafka Firehose</a></li>
+	</ul></li>
+</ul>
+<h2>Misc</h2>
+<ul>
+	<li><a href="../misc/papers-and-talks.html">Papers &amp; Talks</a></li>
+	<li><a href="/thanks.html">Thanks</a></li>
+</ul>

@@ -107,7 +107,7 @@ and are small enough to reasonably populate on a node. This usually means tens t
 <p>Cached namespace lookups all draw from the same cache pool, allowing each node to have a fixed cache pool that can be used by namespace lookups.</p>
 
 <p>Cached namespace lookups can be specified as part of the <a href="../../querying/lookups.html">cluster wide config for lookups</a> as a type of <code>cachedNamespace</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
     <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uri&quot;</span><span class="p">,</span>
@@ -124,7 +124,7 @@ and are small enough to reasonably populate on a node. This usually means tens t
      <span class="p">},</span>
      <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">0</span>
  <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
     <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
@@ -210,7 +210,7 @@ So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the e
 <h2 id="uri-namespace-update">URI namespace update</h2>
 
 <p>The remapping values for each namespaced lookup can be specified by a json object as per the following examples:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span>
   <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/some/key/prefix/renames-0003.gz&quot;</span><span class="p">,</span>
   <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:{</span>
@@ -219,7 +219,7 @@ So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the e
   <span class="p">},</span>
   <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="s2">&quot;PT5M&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span>
   <span class="nt">&quot;uriPrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/some/key/prefix/&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fileRegex&quot;</span><span class="p">:</span><span class="s2">&quot;renames-[0-9]*\\.gz&quot;</span><span class="p">,</span>
@@ -315,12 +315,12 @@ So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the e
 </tbody></table>
 
 <p><em>example input</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bar,something,foo
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar,something,foo
 bat,something2,baz
 truck,something3,buck
 </code></pre></div>
 <p><em>example namespaceParseSpec</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
   <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
   <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
@@ -370,12 +370,12 @@ truck,something3,buck
 </tbody></table>
 
 <p><em>example input</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bar|something,1|foo
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar|something,1|foo
 bat|something,2|baz
 truck|something,3|buck
 </code></pre></div>
 <p><em>example namespaceParseSpec</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
   <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
   <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
@@ -408,12 +408,12 @@ truck|something,3|buck
 </tbody></table>
 
 <p><em>example input</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;buck&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span><span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p><em>example namespaceParseSpec</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;customJson&quot;</span><span class="p">,</span>
   <span class="nt">&quot;keyFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
   <span class="nt">&quot;valueFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
@@ -424,12 +424,12 @@ truck|something,3|buck
 <p>The <code>simpleJson</code> lookupParseSpec does not take any parameters. It is simply a line delimited json file where the field is the key, and the field&#39;s value is the value.</p>
 
 <p><em>example input</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;baz&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;buck&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p><em>example namespaceParseSpec</em></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;simpleJson&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -488,7 +488,7 @@ truck|something,3|buck
 <td>0 (only once)</td>
 </tr>
 </tbody></table>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
   <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:{</span>

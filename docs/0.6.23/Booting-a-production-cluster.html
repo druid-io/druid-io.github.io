@@ -91,19 +91,19 @@
 <p><a href="Tutorial%3A-Loading-Your-Data-Part-2.html">Loading Your Data</a> and <a href="Tutorial%3A-All-About-Queries.html">All About Queries</a> contain recipes to boot a small druid cluster on localhost. Here we will boot a small cluster on EC2. You can checkout the code, or download a tarball from <a href="http://static.druid.io/artifacts/druid-services-0.6.23-bin.tar.gz">here</a>.</p>
 
 <p>The <a href="https://github.com/metamx/druid/blob/master/examples/bin/run_ec2.sh">ec2 run script</a>, run_ec2.sh, is located at &#39;examples/bin&#39; if you have checked out the code, or at the root of the project if you&#39;ve downloaded a tarball. The scripts rely on the <a href="http://aws.amazon.com/developertools/351">Amazon EC2 API Tools</a>, and you will need to set three environment variables:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Setup environment for ec2-api-tools</span>
-<span class="nb">export </span><span class="nv">EC2_HOME</span><span class="o">=</span>/path/to/ec2-api-tools-1.6.7.4/
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$EC2_HOME</span>/bin
-<span class="nb">export </span><span class="nv">AWS_ACCESS_KEY</span><span class="o">=</span>
-<span class="nb">export </span><span class="nv">AWS_SECRET_KEY</span><span class="o">=</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Setup environment for ec2-api-tools</span>
+<span class="nb">export</span> <span class="nv">EC2_HOME</span><span class="o">=</span>/path/to/ec2-api-tools-1.6.7.4/
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$EC2_HOME</span>/bin
+<span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY</span><span class="o">=</span>
+<span class="nb">export</span> <span class="nv">AWS_SECRET_KEY</span><span class="o">=</span>
 </code></pre></div>
 <p>Then, booting an ec2 instance running one node of each type is as simple as running the script, run_ec2.sh :)</p>
 
 <h1 id="apache-whirr">Apache Whirr</h1>
 
 <p>Apache Whirr is a set of libraries for launching cloud services. You can clone a version of Whirr that includes Druid as a service from git@github.com:rjurney/whirr.git:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone git@github.com:rjurney/whirr.git
-<span class="nb">cd </span>whirr
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>git clone git@github.com:rjurney/whirr.git
+<span class="nb">cd</span> whirr
 git checkout trunk
 mvn clean install -Dmaven.test.failure.ignore<span class="o">=</span><span class="nb">true</span> -Dcheckstyle.skip
 sp<span class="p">;</span>bin/whirr launch-cluster --config recipes/druid.properties

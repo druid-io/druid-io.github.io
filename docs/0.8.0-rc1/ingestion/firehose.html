@@ -140,7 +140,7 @@
 <strong>Note:</strong> Add <strong>amqp-client-3.2.1.jar</strong> to lib directory of druid to use this firehose.
 <br>
 A sample spec for rabbitmq firehose:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;rabbitmq&quot;</span><span class="p">,</span>
      <span class="nt">&quot;connection&quot;</span> <span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
@@ -192,7 +192,7 @@ A sample spec for rabbitmq firehose:</p>
 <p>This Firehose can be used to read the data from files on local disk.
 It can be used for POCs to ingest data on disk.
 A sample local firehose spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
     <span class="nt">&quot;filter&quot;</span>   <span class="p">:</span> <span class="s2">&quot;*.csv&quot;</span><span class="p">,</span>
     <span class="nt">&quot;baseDir&quot;</span>  <span class="p">:</span> <span class="s2">&quot;/data/directory&quot;</span>
@@ -227,7 +227,7 @@ A sample local firehose spec is shown below:</p>
 <p>This Firehose can be used to read the data from existing druid segments.
 It can be used ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
 A sample ingest firehose spec is shown below -</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;ingestSegment&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span>   <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
     <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-01-01/2013-01-02&quot;</span>
@@ -276,7 +276,7 @@ A sample ingest firehose spec is shown below -</p>
 
 <p>This firehose can be used to combine and merge data from a list of different firehoses.
 This can be used to merge data from more than one firehoses.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>  <span class="p">:</span>   <span class="s2">&quot;combining&quot;</span><span class="p">,</span>
     <span class="nt">&quot;delegates&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="err">firehose1</span> <span class="p">},</span> <span class="p">{</span> <span class="err">firehose2</span> <span class="p">},</span> <span class="err">.....</span> <span class="p">]</span>
 <span class="p">}</span>
@@ -304,7 +304,7 @@ This can be used to merge data from more than one firehoses.</p>
 
 <p>EventReceiverFirehoseFactory can be used to ingest events using http endpoint.
 when using this firehose <code>druid.realtime.chathandler.type</code> needs to be set to <code>announce</code> in runtime.properties.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;receiver&quot;</span><span class="p">,</span>
   <span class="nt">&quot;serviceName&quot;</span><span class="p">:</span> <span class="s2">&quot;eventReceiverServiceName&quot;</span><span class="p">,</span>
   <span class="nt">&quot;bufferSize&quot;</span><span class="p">:</span> <span class="mi">10000</span>

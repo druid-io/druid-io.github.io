@@ -97,7 +97,7 @@
 <h3 id="index-task">Index Task</h3>
 
 <p>The Index Task is a simpler variation of the Index Hadoop task that is designed to be used for smaller data sets. The task executes within the indexing service and does not require an external Hadoop setup to use. The grammar of the index task is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
   <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -284,7 +284,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="index-hadoop-task">Index Hadoop Task</h3>
 
 <p>The Hadoop Index Task is used to index larger data sets that require the parallelization and processing power of a Hadoop cluster.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;type&quot; : &quot;index_hadoop&quot;,
   &quot;spec&quot;: &lt;Hadoop index spec&gt;
 }
@@ -330,7 +330,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="realtime-index-task">Realtime Index Task</h3>
 
 <p>The indexing service can also run real-time tasks. These tasks effectively transform a middle manager into a real-time node. We introduced real-time tasks as a way to programmatically add new real-time data sources without needing to manually add nodes. We recommend you use the library <a href="https://github.com/druid-io/tranquility">tranquility</a> to programmatically manage generating real-time index tasks. The grammar for the real-time task is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_realtime&quot;</span><span class="p">,</span>
   <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
   <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -469,7 +469,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="append-task">Append Task</h3>
 
 <p>Append tasks append a list of segments together into a single segment (one after the other). The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
@@ -479,7 +479,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="merge-task">Merge Task</h3>
 
 <p>Merge tasks merge a list of segments together. Any common timestamps are merged. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;merge&quot;</span><span class="p">,</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
@@ -492,7 +492,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="delete-task">Delete Task</h3>
 
 <p>Delete tasks create empty segments with no data. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
@@ -502,7 +502,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="kill-task">Kill Task</h3>
 
 <p>Kill tasks delete all information about a segment and removes it from deep storage. Killable segments must be disabled (used==0) in the Druid segment table. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kill&quot;</span><span class="p">,</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
@@ -520,7 +520,7 @@ time, such as bitmap type, and column compression formats.</p>
 <p>There are two types of conversion tasks. One is the Hadoop convert task, and the other is the indexing service convert task. The Hadoop convert task runs on a hadoop cluster, and simply leaves a task monitor on the indexing service (similar to the hadoop batch task). The indexing service convert task runs the actual conversion on the indexing service.</p>
 
 <h4 id="hadoop-convert-segment-task">Hadoop Convert Segment Task</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop_convert_segment&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
@@ -599,7 +599,7 @@ time, such as bitmap type, and column compression formats.</p>
 </tbody></table>
 
 <h4 id="indexing-service-convert-segment-task">Indexing Service Convert Segment Task</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;convert_segment&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
@@ -659,7 +659,7 @@ time, such as bitmap type, and column compression formats.</p>
 <h3 id="noop-task">Noop Task</h3>
 
 <p>These tasks start, sleep for a time and are used only for testing. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;noop&quot;</span><span class="p">,</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;optional_task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_segment_interval&gt;</span><span class="p">,</span>

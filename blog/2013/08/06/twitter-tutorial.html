@@ -114,12 +114,12 @@ Download this to a directory of your choosing.</p>
 <h3 id="clone-and-build-from-source">Clone and Build from Source</h3>
 
 <p>The other way to setup Druid is from source via git. To do so, run these commands:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:metamx/druid.git
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:metamx/druid.git
 cd druid
 ./build.sh
 </code></pre></div>
 <p>You should see a bunch of files: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
 DruidIndividualCLA.pdf  build.sh    doc     group_by.body   install     publications    services
 LICENSE     client      eclipse_formatting.xml  index-common    merger      realtime
 </code></pre></div>
@@ -171,7 +171,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 <pre>./run_example_client.sh</pre></p>
 
 <p>Select &quot;twitter&quot; once again. This script issues GroupByQuerys to the twitter data we&#39;ve been ingesting. The query looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -187,7 +187,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 <p>This is a <strong>groupBy</strong> query, which you may be familiar with from SQL. We are grouping, or aggregating, via the <strong>dimensions</strong> field: [&quot;lang&quot;, &quot;utc_offset&quot;]. We are <strong>filtering</strong> via the <strong>&quot;lang&quot;</strong> dimension, to only look at english tweets. Our <strong>aggregations</strong> are what we are calculating: a row count, and the sum of the tweets in our data.</p>
 
 <p>The result looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
     <span class="p">{</span>
         <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
         <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
@@ -232,7 +232,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 <pre><code> curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @time_boundary_query.body</code></pre></p>
 
 <p>We get something like this JSON back:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
@@ -265,7 +265,7 @@ To issue the query and get some results, run the following in your command line:
 <pre><code>curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @timeseries_query.body</code></pre></p>
 
 <p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">358562.0</span><span class="p">,</span>
@@ -278,7 +278,7 @@ To issue the query and get some results, run the following in your command line:
 <p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?</p>
 
 <p>If you loudly exclaimed &quot;we can change granularity to minute&quot;, you are absolutely correct again! We can specify different granularities to bucket our results, like so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2010-01-01/2020-01-01&quot;</span><span class="p">],</span>
@@ -290,7 +290,7 @@ To issue the query and get some results, run the following in your command line:
 <span class="p">}</span>
 </code></pre></div>
 <p>This gives us something like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">2650.0</span><span class="p">,</span>
@@ -338,7 +338,7 @@ and put the following in there:
 <pre><code>curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body</code></pre></p>
 
 <p>You should hopefully see an answer to our question. For my twitter stream, it looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>

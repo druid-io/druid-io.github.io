@@ -158,7 +158,7 @@ changed the ratio of data served to available RAM.</p>
 
 <p>First, we’ll provide some benchmarks for our 100-node configuration on simple
 aggregation queries.  SQL is included to describe what the query is doing.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Select count(*) from _table_ where timestamp &gt;= ? and timestamp &lt; ?
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Select count(*) from _table_ where timestamp &gt;= ? and timestamp &lt; ?
 
 cluster                         cluster scan rate (rows/sec)    core scan rate
 15-core, 100 nodes, in-memory   26,610,386,635                  17,740,258
@@ -179,7 +179,7 @@ threads for processing queries.</li>
 </ul>
 
 <p><br/></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Select count(*), sum(metric1) from _table_ where timestamp &gt;= ? and timestamp &lt; ?
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Select count(*), sum(metric1) from _table_ where timestamp &gt;= ? and timestamp &lt; ?
 
 cluster                         cluster scan rate (rows/sec)    core scan rate
 15-core, 100 nodes, in-memory   16,223,081,703                  10,815,388
@@ -220,7 +220,7 @@ queries, it only has to check the timestamp column to satisfy the where clause.
 As we add metrics, it has to also load those metric values and scan over them,
 increasing the amount of memory scanned.  Next, we’ll do a top 100 query on our
 high cardinality dimension:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Select high_card_dimension, count(*) AS cnt from _table_ where timestamp &gt;= ?
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Select high_card_dimension, count(*) AS cnt from _table_ where timestamp &gt;= ?
 and timestamp &lt; ? group by high_card_dimension order by cnt limit 100;
 
 cluster                             cluster scan rate (rows/sec)    core scan rate

@@ -86,7 +86,7 @@
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.3">API documentation</a></p>
-          <h2 id="my-data-isn-39-t-being-loaded">My Data isn&#39;t being loaded</h2>
+          <h2 id="my-data-isnt-being-loaded">My Data isn&#39;t being loaded</h2>
 
 <h3 id="realtime-ingestion">Realtime Ingestion</h3>
 
@@ -132,10 +132,10 @@
 
 <p>Make sure to include the <code>druid-hdfs-storage</code> and all the hadoop configuration, dependencies (that can be obtained by running command <code>hadoop classpath</code> on a machine where hadoop has been setup) in the classpath. And, provide necessary HDFS settings as described in <a href="../dependencies/deep-storage.html">Deep Storage</a> .</p>
 
-<h2 id="i-don-39-t-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
+<h2 id="i-dont-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
 
 <p>You can check the coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code>. Make sure that your segments have actually loaded on <a href="../design/historical.html">historical nodes</a>. If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
 -Ddruid.server.maxSize=500000000000
 </code></pre></div>
 <h2 id="my-queries-are-returning-empty-results">My queries are returning empty results</h2>

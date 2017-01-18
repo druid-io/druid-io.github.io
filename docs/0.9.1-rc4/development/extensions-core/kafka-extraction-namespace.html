@@ -95,7 +95,7 @@ Lookups are an <a href="../experimental.html">experimental</a> feature.
 <p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-lookups-cached-global</code> and <code>druid-kafka-extraction-namespace</code> as an extension.</p>
 
 <p>If you need updates to populate as promptly as possible, it is possible to plug into a kafka topic whose key is the old value and message is the desired new value (both in UTF-8) as a LookupExtractorFactory.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;kafka&quot;</span><span class="p">,</span>
   <span class="nt">&quot;kafkaTopic&quot;</span><span class="p">:</span><span class="s2">&quot;testTopic&quot;</span><span class="p">,</span>
   <span class="nt">&quot;kafkaProperties&quot;</span><span class="p">:{</span><span class="nt">&quot;zookeeper.connect&quot;</span><span class="p">:</span><span class="s2">&quot;somehost:2181/kafka&quot;</span><span class="p">}</span>
@@ -150,7 +150,7 @@ There is currently no eviction policy.</p>
 <h2 id="testing-the-kafka-rename-functionality">Testing the Kafka rename functionality</h2>
 
 <p>To test this setup, you can send key/value pairs to a kafka stream via the following producer console:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./bin/kafka-console-producer.sh --property parse.key=true --property key.separator=&quot;-&gt;&quot; --broker-list localhost:9092 --topic testTopic
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./bin/kafka-console-producer.sh --property parse.key=true --property key.separator=&quot;-&gt;&quot; --broker-list localhost:9092 --topic testTopic
 </code></pre></div>
 <p>Renames can then be published as <code>OLD_VAL-&gt;NEW_VAL</code> followed by newline (enter or return)</p>
 

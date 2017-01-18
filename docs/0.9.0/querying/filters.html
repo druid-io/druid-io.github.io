@@ -95,35 +95,35 @@
 <p>The simplest filter is a selector filter. The selector filter will match a specific dimension with a specific value. Selector filters can be used as the base filters for more complex Boolean expressions of filters.</p>
 
 <p>The grammar for a SELECTOR filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value_string&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value_string&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>WHERE &lt;dimension_string&gt; = &#39;&lt;dimension_value_string&gt;&#39;</code>.</p>
 
 <h3 id="regular-expression-filter">Regular expression filter</h3>
 
 <p>The regular expression filter is similar to the selector filter, but using regular expressions. It matches the specified dimension with the given pattern. The pattern can be any standard <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Java regular expression</a>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;pattern_string&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;pattern_string&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="logical-expression-filters">Logical expression filters</h3>
 
 <h4 id="and">AND</h4>
 
 <p>The grammar for an AND filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filters in fields can be any other filter defined on this page.</p>
 
 <h4 id="or">OR</h4>
 
 <p>The grammar for an OR filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filters in fields can be any other filter defined on this page.</p>
 
 <h4 id="not">NOT</h4>
 
 <p>The grammar for a NOT filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;filter&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;filter&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filter specified at field can be any other filter defined on this page.</p>
 
@@ -132,7 +132,7 @@
 <p>The JavaScript filter matches a dimension against the specified JavaScript function predicate. The filter matches values for which the function returns true.</p>
 
 <p>The function takes a single argument, the dimension value, and returns either true or false.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(value) { &lt;...&gt; }&quot;</span>
@@ -140,7 +140,7 @@
 </code></pre></div>
 <p><strong>Example</strong>
 The following matches any dimension values for the dimension <code>name</code> between <code>&#39;bar&#39;</code> and <code>&#39;foo&#39;</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(x) { return(x &gt;= &#39;bar&#39; &amp;&amp; x &lt;= &#39;foo&#39;) }&quot;</span>
@@ -154,7 +154,7 @@ The following filter matches the values for which the extraction function has tr
 
 <p><strong>Example</strong>
 The following matches dimension values in <code>[product_1, product_3, product_5]</code> for the column <code>product</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
         <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
@@ -176,7 +176,7 @@ The following matches dimension values in <code>[product_1, product_3, product_5
 <h3 id="search-filter">Search filter</h3>
 
 <p>Search filters can be used to filter on partial string matches. </p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span>
         <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
@@ -214,10 +214,10 @@ The following matches dimension values in <code>[product_1, product_3, product_5
 <h3 id="in-filter">In filter</h3>
 
 <p>In filter can be used to express the following SQL query:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Count&#39;</span> <span class="k">FROM</span> <span class="o">`</span><span class="k">table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="o">`</span><span class="n">outlaw</span><span class="o">`</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;Good&#39;</span><span class="p">,</span> <span class="s1">&#39;Bad&#39;</span><span class="p">,</span> <span class="s1">&#39;Ugly&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span> <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Count&#39;</span> <span class="k">FROM</span> <span class="o">`</span><span class="k">table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="o">`</span><span class="n">outlaw</span><span class="o">`</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;Good&#39;</span><span class="p">,</span> <span class="s1">&#39;Bad&#39;</span><span class="p">,</span> <span class="s1">&#39;Ugly&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>The grammar for a IN filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;outlaw&quot;</span><span class="p">,</span>
     <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Good&quot;</span><span class="p">,</span> <span class="s2">&quot;Bad&quot;</span><span class="p">,</span> <span class="s2">&quot;Ugly&quot;</span><span class="p">]</span>
@@ -231,7 +231,7 @@ To use numeric comparison you can set <code>alphaNumeric</code> to <code>true</c
 By default the bound filter is a not a strict inclusion <code>inputString &lt;= upper &amp;&amp; inputSting &gt;= lower</code>.</p>
 
 <p>The grammar for a bound filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
     <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
@@ -240,7 +240,7 @@ By default the bound filter is a not a strict inclusion <code>inputString &lt;= 
 <span class="p">}</span>
 </code></pre></div>
 <p>Equivalent to retain column if <code>21 &lt;= age &lt;= 31</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
     <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
@@ -252,7 +252,7 @@ By default the bound filter is a not a strict inclusion <code>inputString &lt;= 
 <p>In order to have a strict inclusion user can set <code>lowerStrict</code> or/and <code>upperStrict</code> to <code>true</code></p>
 
 <p>To have strict bounds:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
     <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
@@ -265,7 +265,7 @@ By default the bound filter is a not a strict inclusion <code>inputString &lt;= 
 <p>Equivalent to retain column if <code>21 &lt; age &lt; 31</code></p>
 
 <p>To have strict upper bound:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
     <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
@@ -277,7 +277,7 @@ By default the bound filter is a not a strict inclusion <code>inputString &lt;= 
 <p>Equivalent to retain column if <code>21 &lt;= age &lt; 31</code></p>
 
 <p>To compare to only an upper bound or lowe bound</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
     <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
@@ -286,7 +286,7 @@ By default the bound filter is a not a strict inclusion <code>inputString &lt;= 
 <span class="p">}</span>
 </code></pre></div>
 <p>Equivalent to retain column if <code>age &lt; 31</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
     <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span> <span class="p">,</span>

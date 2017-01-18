@@ -99,10 +99,10 @@
 <h2 id="hadoopdruidindexer">HadoopDruidIndexer</h2>
 
 <p>Located at <code>com.metamx.druid.indexer.HadoopDruidIndexerMain</code> can be run like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -cp hadoop_config_path:druid_indexer_selfcontained_jar_path com.metamx.druid.indexer.HadoopDruidIndexerMain  &lt;config_file&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -cp hadoop_config_path:druid_indexer_selfcontained_jar_path com.metamx.druid.indexer.HadoopDruidIndexerMain  &lt;config_file&gt;
 </code></pre></div>
 <p>The interval is the <a href="http://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO8601 interval</a> of the data you are processing. The config_file is a path to a file (the &quot;specFile&quot;) that contains JSON and an example looks like:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;dataSource&quot;: &quot;the_data_source&quot;,
   &quot;timestampColumn&quot;: &quot;ts&quot;,
   &quot;timestampFormat&quot;: &quot;&lt;iso, millis, posix, auto or any Joda time format&gt;&quot;,
@@ -255,7 +255,7 @@
 </tbody></table>
 
 <p>For example, if the sample config were run with the interval 2012-06-01/2012-06-02, it would expect data at the paths</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=01
 ...
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23

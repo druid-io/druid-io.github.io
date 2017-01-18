@@ -91,14 +91,14 @@
 <p>You should only ever need the router node if you have a Druid cluster well into the terabyte range. The router node can be used to route queries to different broker nodes. By default, the broker routes queries based on how <a href="Rules.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
 
 <h2 id="running">Running</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server router
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server router
 </code></pre></div>
 <h2 id="example-production-configuration">Example Production Configuration</h2>
 
 <p>In this example, we have two tiers in our production cluster: <code>hot</code> and <code>_default_tier</code>. Queries for the <code>hot</code> tier are routed through the <code>broker-hot</code> set of brokers, and queries for the <code>_default_tier</code> are routed through the <code>broker-cold</code> set of brokers. If any exceptions or network problems occur, queries are routed to the <code>broker-cold</code> set of brokers. In our example, we are running with a c3.2xlarge EC2 node. </p>
 
 <p>JVM settings:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx13g
 -Xms13g
 -XX:NewSize=256m
@@ -118,7 +118,7 @@
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/router
 
@@ -211,14 +211,14 @@ druid.curator.compress=true
 <p>The router has a configurable list of strategies for how it selects which brokers to route queries to. The order of the strategies matter because as soon as a strategy condition is matched, a broker is selected.</p>
 
 <h3 id="timeboundary">timeBoundary</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;timeBoundary&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Including this strategy means all timeBoundary queries are always routed to the highest priority broker.</p>
 
 <h3 id="priority">priority</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span>
   <span class="nt">&quot;minPriority&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
   <span class="nt">&quot;maxPriority&quot;</span><span class="p">:</span><span class="mi">1</span>
@@ -231,7 +231,7 @@ druid.curator.compress=true
 <p>Allows defining arbitrary routing rules using a JavaScript function. The function is passed the configuration and the query to be executed, and returns the tier it should be routed to, or null for the default tier.</p>
 
 <p><em>Example</em>: a function that return the highest priority broker unless the given query has more than two aggregators.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function (config, query) { if (config.getTierToBrokerMap().values().size() &gt; 0 &amp;&amp; query.getAggregatorSpecs &amp;&amp; query.getAggregatorSpecs().size() &lt;= 2) { return config.getTierToBrokerMap().values().toArray()[0] } else { return config.getDefaultBrokerServiceName() } }&quot;</span>
 <span class="p">}</span>

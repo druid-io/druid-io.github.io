@@ -107,13 +107,13 @@
 <h3 id="overlord-node">Overlord Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server overlord
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server overlord
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>m1.xlarge (Cores: 4, Memory: 15.0 GB)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx4g
 -Xms4g
 -XX:NewSize=256m
@@ -126,7 +126,7 @@
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/overlord
 
@@ -179,13 +179,13 @@ druid.curator.compress=true
 <h3 id="middlemanager-node">MiddleManager Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server middleManager
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server middleManager
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx64m
 -Xms64m
 -XX:+UseConcMarkSweepGC
@@ -196,7 +196,7 @@ druid.curator.compress=true
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/middlemanager
 
@@ -250,13 +250,13 @@ druid.curator.compress=true
 <h3 id="coordinator-node">Coordinator Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>m1.xlarge (Cores: 4, Memory: 15.0 GB)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx10g
 -Xms10g
 -XX:NewSize=512m
@@ -269,7 +269,7 @@ druid.curator.compress=true
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/coordinator
 
@@ -299,13 +299,13 @@ druid.curator.compress=true
 <h3 id="historical-node">Historical Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server historical
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx12g
 -Xms12g
 -XX:NewSize=6g
@@ -319,7 +319,7 @@ druid.curator.compress=true
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/historical
 
@@ -355,13 +355,13 @@ druid.curator.compress=true
 <h3 id="broker-node">Broker Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server broker
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx50g
 -Xms50g
 -XX:NewSize=6g
@@ -379,7 +379,7 @@ druid.curator.compress=true
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/broker
 

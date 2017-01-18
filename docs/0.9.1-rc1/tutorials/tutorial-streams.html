@@ -125,7 +125,7 @@ you can modify for your own needs.</p>
 </ul>
 
 <p>Let&#39;s use a small JSON pageviews dataset as an example, with records like:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
 </code></pre></div>
 <p>So the answers to the questions above are:</p>
 
@@ -147,14 +147,14 @@ sections:</p>
 &quot;dataSource&quot;: &quot;pageviews&quot;
 </code></li>
 </ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
        <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
   <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
   <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
   <span class="p">]</span>
@@ -166,7 +166,7 @@ sections:</p>
 <h2 id="sending-data">Sending data</h2>
 
 <p>Let&#39;s send some data! We&#39;ll start with these three records:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
 </code></pre></div>
@@ -174,14 +174,14 @@ sections:</p>
 <a href="../ingestion/stream-push.html#segmentgranularity-and-windowperiod">windowPeriod</a> value), so you should
 replace <code>2000-01-01T00:00:00Z</code> in these messages with the current time in ISO8601 format. You can
 get this by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
 </code></pre></div>
 <p>Update the timestamps in the JSON above, and save it to a file named <code>pageviews.json</code>. Then send
 it to Druid by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> --data-binary @pageviews.json http://localhost:8200/v1/post/pageviews
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> --data-binary @pageviews.json http://localhost:8200/v1/post/pageviews
 </code></pre></div>
 <p>This will print something like:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;result&quot;:{&quot;received&quot;:3,&quot;sent&quot;:3}}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;result&quot;:{&quot;received&quot;:3,&quot;sent&quot;:3}}
 </code></pre></div>
 <p>This indicates that the HTTP server received 3 events from you, and sent 3 to Druid. Note that
 this may take a few seconds to finish the first time you run it, as Druid resources must be

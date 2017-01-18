@@ -96,10 +96,10 @@ REST query interface.</p>
 <p>We start by describing an example query with additional comments that mention
 possible variations. Query operators are also summarized in a table below.</p>
 
-<h2 id="example-query-quot-rand-quot">Example Query &quot;rand&quot;</h2>
+<h2 id="example-query-rand">Example Query &quot;rand&quot;</h2>
 
 <p>Here is the query in the examples/rand subproject (file is query.body), followed by a commented version of the same.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span>
   <span class="s2">&quot;queryType&quot;</span><span class="o">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
   <span class="s2">&quot;dataSource&quot;</span><span class="o">:</span> <span class="s2">&quot;randSeq&quot;</span><span class="p">,</span>
   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -122,34 +122,34 @@ possible variations. Query operators are also summarized in a table below.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>This query could be submitted via curl like so (assuming the query object is in a file &quot;query.json&quot;).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &quot;http://host:port/druid/v2/?pretty&quot; -H &#39;content-type: application/json&#39; -d @query.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &quot;http://host:port/druid/v2/?pretty&quot; -H &#39;content-type: application/json&#39; -d @query.json
 </code></pre></div>
 <p>The &quot;pretty&quot; query parameter gets the results formatted a bit nicer.</p>
 
-<h2 id="details-of-example-query-quot-rand-quot">Details of Example Query &quot;rand&quot;</h2>
+<h2 id="details-of-example-query-rand">Details of Example Query &quot;rand&quot;</h2>
 
 <p>The queryType JSON field identifies which kind of query operator is to be used, in this case it is groupBy, the most frequently used kind (which corresponds to an internal implementation class GroupByQuery registered as &quot;groupBy&quot;), and it has a set of required fields that are also part of this query. The queryType can also be &quot;search&quot; or &quot;timeBoundary&quot; which have similar or different required fields summarized below:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span>
   <span class="s2">&quot;queryType&quot;</span><span class="o">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
 </code></pre></div>
 <p>The dataSource JSON field shown next identifies where to apply the query. In this case, randSeq corresponds to the examples/rand/rand_realtime.spec file schema:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;dataSource&quot;</span><span class="o">:</span> <span class="s2">&quot;randSeq&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;dataSource&quot;</span><span class="o">:</span> <span class="s2">&quot;randSeq&quot;</span><span class="p">,</span>
 </code></pre></div>
 <p>The granularity JSON field specifies the bucket size for values. It could be a built-in time interval like &quot;second&quot;, &quot;minute&quot;, &quot;fifteen_minute&quot;, &quot;thirty_minute&quot;, &quot;hour&quot; or &quot;day&quot;. It can also be an expression like <code>{&quot;type&quot;: &quot;period&quot;, &quot;period&quot;:&quot;PT6m&quot;}</code> meaning &quot;6 minute buckets&quot;. See <a href="Granularities.html">Granularities</a> for more information on the different options for this field. In this example, it is set to the special value &quot;all&quot; which means bucket all data points together into the same time bucket.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;granularity&quot;</span><span class="o">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;granularity&quot;</span><span class="o">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
 </code></pre></div>
 <p>The dimensions JSON field value is an array of zero or more fields as defined in the dataSource spec file or defined in the input records and carried forward. These are used to constrain the grouping. If empty, then one value per time granularity bucket is requested in the groupBy:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;dimensions&quot;</span><span class="o">:</span> <span class="p">[],</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;dimensions&quot;</span><span class="o">:</span> <span class="p">[],</span>
 </code></pre></div>
 <p>A groupBy also requires the JSON field &quot;aggregations&quot; (See <a href="Aggregations.html">Aggregations</a>), which are applied to the column specified by fieldName and the output of the aggregation will be named according to the value in the &quot;name&quot; field:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;aggregations&quot;</span><span class="o">:</span> <span class="p">[</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;aggregations&quot;</span><span class="o">:</span> <span class="p">[</span>
     <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">},</span>
     <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="s2">&quot;fieldName&quot;</span><span class="o">:</span> <span class="s2">&quot;events&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;e&quot;</span> <span class="p">},</span>
     <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="s2">&quot;fieldName&quot;</span><span class="o">:</span> <span class="s2">&quot;outColumn&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;randomNumberSum&quot;</span> <span class="p">}</span>
   <span class="p">],</span>
 </code></pre></div>
 <p>You can also specify postAggregations, which are applied after data has been aggregated for the current granularity and dimensions bucket. See <a href="Post-aggregations.html">Post Aggregations</a> for a detailed description. In the rand example, an arithmetic type operation (division, as specified by &quot;fn&quot;) is performed with the result &quot;name&quot; of &quot;avg_random&quot;. The &quot;fields&quot; field specifies the inputs from the aggregation stage to this expression. Note that identifiers corresponding to &quot;name&quot; JSON field inside the type &quot;fieldAccess&quot; are required but not used outside this expression, so they are prefixed with &quot;dummy&quot; for clarity:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;postAggregations&quot;</span><span class="o">:</span> <span class="p">[{</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;postAggregations&quot;</span><span class="o">:</span> <span class="p">[{</span>
      <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;avg_random&quot;</span><span class="p">,</span>
      <span class="s2">&quot;fn&quot;</span><span class="o">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
@@ -160,7 +160,7 @@ possible variations. Query operators are also summarized in a table below.</p>
   <span class="p">}],</span>
 </code></pre></div>
 <p>The time range(s) of the query; data outside the specified intervals will not be used; this example specifies from October 1, 2012 until January 1, 2020:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="s2">&quot;intervals&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;2012-10-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>  <span class="s2">&quot;intervals&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;2012-10-01T00:00/2020-01-01T00&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="query-operators">Query Operators</h2>
@@ -302,10 +302,10 @@ possible variations. Query operators are also summarized in a table below.</p>
 <p>Queries can be cancelled explicitely using their unique identifier.  If the
 query identifier is set at the time of query, or is otherwise known, the following
 endpoint can be used on the broker or router to cancel the query.</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">DELETE /druid/v2/<span class="o">{</span>queryId<span class="o">}</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>DELETE /druid/v2/<span class="o">{</span>queryId<span class="o">}</span>
 </code></pre></div>
 <p>For example, if the query ID is <code>abc123</code>, the query can be cancelled as follows:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">curl -X DELETE <span class="s2">&quot;http://host:port/druid/v2/abc123&quot;</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>curl -X DELETE <span class="s2">&quot;http://host:port/druid/v2/abc123&quot;</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

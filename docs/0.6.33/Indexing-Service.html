@@ -112,10 +112,10 @@ Local mode is typically used for simple workflows.  In remote mode, the overlord
 This mode is recommended if you intend to use the indexing service as the single endpoint for all Druid indexing.</p>
 
 <h2 id="run-overlord">Run Overlord</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server overlord
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server overlord
 </code></pre></div>
 <p>With the following JVM configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -141,25 +141,25 @@ This mode is recommended if you intend to use the indexing service as the single
 <h4 id="submitting-tasks-and-querying-task-status">Submitting Tasks and Querying Task Status</h4>
 
 <p>Tasks are submitted to the overlord node in the form of JSON objects. Tasks can be submitted via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
 </code></pre></div>
 <p>this will return you the taskId of the submitted task.</p>
 
 <p>Tasks can cancelled via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
 </code></pre></div>
 <p>Issuing the cancel request will kill –9 the task.</p>
 
 <p>Task statuses can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
 </code></pre></div>
 <p>Task segments can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
 </code></pre></div>
 <h4 id="overlord-console">Overlord Console</h4>
 
 <p>The overlord console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/console.html
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/console.html
 </code></pre></div>
 <h4 id="autoscaling">Autoscaling</h4>
 
@@ -312,10 +312,10 @@ This mode is recommended if you intend to use the indexing service as the single
 <p>Overlord dynamic configuration is mainly for autoscaling. The overlord reads a worker setup spec as a JSON object from the Druid <a href="MySQL.html">MySQL</a> config table. This object contains information about the version of middle managers to create, the maximum and minimum number of middle managers in the cluster at one time, and additional information required to automatically create middle managers.</p>
 
 <p>The JSON object can be submitted to the overlord via a POST request at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/setup
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/setup
 </code></pre></div>
 <p>A sample worker setup spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;minVersion&quot;</span><span class="p">:</span><span class="s2">&quot;some_version&quot;</span><span class="p">,</span>
   <span class="nt">&quot;minNumWorkers&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
   <span class="nt">&quot;maxNumWorkers&quot;</span><span class="p">:</span><span class="s2">&quot;10&quot;</span><span class="p">,</span>

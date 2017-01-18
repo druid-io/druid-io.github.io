@@ -98,10 +98,10 @@
 Download this bad boy to a directory of your choosing.</p>
 
 <p>You can extract the awesomeness within by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">tar -zxvf druid-services-0.X.X.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>tar -zxvf druid-services-0.X.X.tar.gz
 </code></pre></div>
 <p>Not too lost so far right? That&#39;s great! If you cd into the directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd druid-services-0.X.X
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd druid-services-0.X.X
 </code></pre></div>
 <p>You should see a bunch of files:</p>
 
@@ -114,13 +114,13 @@ Download this bad boy to a directory of your choosing.</p>
 <h1 id="clone-and-build-from-source">Clone and Build from Source</h1>
 
 <p>The other way to setup Druid is from source via git. To do so, run these commands:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:metamx/druid.git
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:metamx/druid.git
 cd druid
 git checkout druid-0.X.X
 ./build.sh
 </code></pre></div>
 <p>You should see a bunch of files: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">DruidCorporateCLA.pdf   README          common          examples        indexer         pom.xml         server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>DruidCorporateCLA.pdf   README          common          examples        indexer         pom.xml         server
 DruidIndividualCLA.pdf  build.sh        doc         group_by.body       install         publications        services
 LICENSE         client          eclipse_formatting.xml  index-common        merger          realtime
 </code></pre></div>
@@ -134,7 +134,7 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 <h1 id="running-example-scripts">Running Example Scripts</h1>
 
 <p>Let&#39;s start doing stuff. You can start a Druid <a href="Realtime.html">Realtime</a> node by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_server.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_server.sh
 </code></pre></div>
 <p>Select &quot;twitter&quot;. </p>
 
@@ -143,17 +143,17 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 <p>Enter your credentials when prompted.</p>
 
 <p>Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below. If you see crazy exceptions, you probably typed in your login information incorrectly.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:04:40,934 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-05-17 23:04:40,934 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8080
 2013-05-17 23:04:40,935 INFO [main] com.metamx.common.lifecycle.Lifecycle$AnnotationBasedHandler - Invoking start method[public void com.metamx.druid.http.FileRequestLogger.start()] on object[com.metamx.druid.http.FileRequestLogger@42bb0406].
 2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Connection established.
 2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] io.druid.examples.twitter.TwitterSpritzerFirehoseFactory - Connected_to_Twitter
 2013-05-17 23:04:41,578 INFO [Twitter Stream consumer-1[Establishing connection]] twitter4j.TwitterStreamImpl - Receiving status stream.
 </code></pre></div>
 <p>Periodically, you&#39;ll also see messages of the form:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:04:59,793 INFO [chief-twitterstream] io.druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-05-17 23:04:59,793 INFO [chief-twitterstream] io.druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
 </code></pre></div>
 <p>These messages indicate you are ingesting events. The Druid real time-node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. Persisting to disk generates a whole bunch of logs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-05-17 23:06:40,918 INFO [chief-twitterstream] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Submitting persist runnable for dataSource[twitterstream]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-05-17 23:06:40,918 INFO [chief-twitterstream] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Submitting persist runnable for dataSource[twitterstream]
 2013-05-17 23:06:40,920 INFO [twitterstream-incremental-persist] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - DataSource[twitterstream], Interval[2013-05-17T23:00:00.000Z/2013-05-18T00:00:00.000Z], persisting Hydrant[FireHydrant{index=com.metamx.druid.index.v1.IncrementalIndex@126212dd, queryable=com.metamx.druid.index.IncrementalIndexSegment@64c47498, count=0}]
 2013-05-17 23:06:40,937 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting persist for interval[2013-05-17T23:00:00.000Z/2013-05-17T23:07:00.000Z], rows[4,666]
 2013-05-17 23:06:41,039 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed index.drd in 11 millis.
@@ -174,10 +174,10 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 <p>The logs are about building different columns, probably not the most exciting stuff (they might as well be in Vulcan) if are you learning about Druid for the first time. Nevertheless, if you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our &quot;White Paper&quot;:http://static.druid.io/docs/druid.pdf.</p>
 
 <p>Okay, things are about to get real (-time). To query the real-time node you&#39;ve spun up, you can issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_client.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_client.sh
 </code></pre></div>
 <p>Select &quot;twitter&quot; once again. This script issues <a href="GroupByQuery.html">GroupByQueries</a> to the twitter data we&#39;ve been ingesting. The query looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -193,7 +193,7 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 <p>This is a <strong>groupBy</strong> query, which you may be familiar with from SQL. We are grouping, or aggregating, via the <strong>dimensions</strong> field: [&quot;lang&quot;, &quot;utc_offset&quot;]. We are <strong>filtering</strong> via the <strong>&quot;lang&quot;</strong> dimension, to only look at english tweets. Our <strong>aggregations</strong> are what we are calculating: a row count, and the sum of the tweets in our data.</p>
 
 <p>The result looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
     <span class="p">{</span>
         <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
         <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
@@ -225,19 +225,19 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 <h1 id="querying-druid">Querying Druid</h1>
 
 <p>In your favorite editor, create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">time_boundary_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>time_boundary_query.body
 </code></pre></div>
 <p>Druid queries are JSON blobs which are relatively painless to create programmatically, but an absolute pain to write by hand. So anyway, we are going to create a Druid query by hand. Add the following to the file you just created:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="err"> </span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="err"> </span>
   <span class="nt">&quot;queryType&quot;</span>  <span class="p">:</span> <span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>The &quot;TimeBoundaryQuery&quot;:TimeBoundaryQuery.html is one of the simplest Druid queries. To run the query, you can issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @time_boundary_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @time_boundary_query.body
 </code></pre></div>
 <p>We get something like this JSON back:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
@@ -250,10 +250,10 @@ LICENSE         client          eclipse_formatting.xml  index-common        merg
 If you said the result is indicating the maximum and minimum timestamps we&#39;ve seen thus far (summarized to a minutely granularity), you are absolutely correct. I can see you are a person legitimately interested in learning about Druid. Let&#39;s explore a bit further.</p>
 
 <p>Return to your favorite editor and create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timeseries_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timeseries_query.body
 </code></pre></div>
 <p>We are going to make a slightly more complicated query, the <a href="TimeseriesQuery.html">TimeseriesQuery</a>. Copy and paste the following into the file:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2010-01-01/2020-01-01&quot;</span><span class="p">],</span>
@@ -266,10 +266,10 @@ If you said the result is indicating the maximum and minimum timestamps we&#39;v
 </code></pre></div>
 <p>You are probably wondering, what are these <a href="Granularities.html">Granularities</a> and <a href="Aggregations.html">Aggregations</a> things? What the query is doing is aggregating some metrics over some span of time.
 To issue the query and get some results, run the following in your command line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @timeseries_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @timeseries_query.body
 </code></pre></div>
 <p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">358562.0</span><span class="p">,</span>
@@ -282,7 +282,7 @@ To issue the query and get some results, run the following in your command line:
 <p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?</p>
 
 <p>If you loudly exclaimed &quot;we can change granularity to minute&quot;, you are absolutely correct again! We can specify different granularities to bucket our results, like so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
   <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2010-01-01/2020-01-01&quot;</span><span class="p">],</span>
@@ -294,7 +294,7 @@ To issue the query and get some results, run the following in your command line:
 <span class="p">}</span>
 </code></pre></div>
 <p>This gives us something like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-06-10T19:09:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;tweets&quot;</span> <span class="p">:</span> <span class="mf">2650.0</span><span class="p">,</span>
@@ -320,10 +320,10 @@ To issue the query and get some results, run the following in your command line:
 <p>One of Druid&#39;s main powers (see what we did there?) is to provide answers to problems, so let&#39;s pose a problem. What if we wanted to know what the top hash tags are, ordered by the number tweets, where the language is english, over the last few minutes you&#39;ve been reading this tutorial? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the &quot;GroupByQuery&quot;:GroupByQuery.html. It would be nice if we could group by results by dimension value and somehow sort those results... and it turns out we can! </p>
 
 <p>Let&#39;s create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">group_by_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>group_by_query.body
 </code></pre></div>
 <p>and put the following in there:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;twitterstream&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -339,10 +339,10 @@ To issue the query and get some results, run the following in your command line:
 <p>Woah! Our query just got a way more complicated. Now we have these &quot;Filters&quot;:Filters.html things and this &quot;OrderBy&quot;:LimitSpec.html thing. Fear not, it turns out the new objects we&#39;ve introduced to our query can help define the format of our results and provide an answer to our question.</p>
 
 <p>If you issue the query:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8080/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
 </code></pre></div>
 <p>You should hopefully see an answer to our question. For my twitter stream, it looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>

@@ -103,7 +103,7 @@ sharding section below and the &#39;Partitioning specification&#39; section of
 the <a href="../ingestion/batch-ingestion.html">Batch ingestion</a> documentation
 for more information.</p>
 
-<h3 id="a-segment-file-39-s-core-data-structures">A segment file&#39;s core data structures</h3>
+<h3 id="a-segment-files-core-data-structures">A segment file&#39;s core data structures</h3>
 
 <p>Here we describe the internal structure of segment files, which is
 essentially <em>columnar</em>: the data for each column is laid out in
@@ -145,7 +145,7 @@ on filters do not need to touch the list of dimension values stored in
 <p>To get a concrete sense of these data structures, consider the ‘page’
 column from the example data above.  The three data structures that
 represent this dimension are illustrated in the diagram below. </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">1: Dictionary that encodes column values
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1: Dictionary that encodes column values
   {
     &quot;Justin Bieber&quot;: 0,
     &quot;Ke$ha&quot;:         1
@@ -178,7 +178,7 @@ structures within the segment files look a bit different. Let&#39;s
 imagine that in the example above, the second row were tagged with
 both the &#39;Ke$ha&#39; <em>and</em> &#39;Justin Bieber&#39; topics. In this case, the three
 data structures would now look as follows:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">1: Dictionary that encodes column values
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1: Dictionary that encodes column values
   {
     &quot;Justin Bieber&quot;: 0,
     &quot;Ke$ha&quot;:         1

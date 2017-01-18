@@ -91,7 +91,7 @@
 <p>Druid nodes will emit logs that are useful for debugging to the console. Druid nodes also emit periodic metrics about their state. For more about metrics, see <a href="Configuration.html">Configuration</a>. Metric logs are printed to the console by default, and can be disabled with <code>-Ddruid.emitter.logging.logLevel=debug</code>.</p>
 
 <p>Druid uses <a href="http://logging.apache.org/log4j/2.x/">log4j2</a> for logging. Logging can be configured with a log4j2.xml file. Add the path to the directory containing the log4j2.xml file (eg a config dir) to your classpath if you want to override default Druid log configuration. Note that this directory should be earlier in the classpath than the druid jars. The easiest way to do this is to prefix the classpath with the config dir. For example, if the log4j2.xml file is in config/_common:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx512m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8         <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx512m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8         <span class="se">\</span>
      -Ddruid.realtime.specFile<span class="o">=</span>examples/indexing/wikipedia.spec <span class="se">\</span>
      -classpath <span class="s2">&quot;config/_common:config/realtime:lib/*&quot;</span>          <span class="se">\</span>
      io.druid.cli.Main server realtime
@@ -101,7 +101,7 @@
 <p>To enable java logging to go through log4j2, set the <code>-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager</code> server parameter.</p>
 
 <p>An example log4j2.xml ships with Druid under config/_common/log4j2.xml, and a sample file is also shown below:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
 &lt;Configuration status=&quot;WARN&quot;&gt;
   &lt;Appenders&gt;
     &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;

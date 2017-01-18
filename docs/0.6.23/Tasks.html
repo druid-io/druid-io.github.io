@@ -95,7 +95,7 @@
 <h4 id="index-task">Index Task</h4>
 
 <p>The Index Task is a simpler variation of the Index Hadoop task that is designed to be used for smaller data sets. The task executes within the indexing service and does not require an external Hadoop setup to use. The grammar of the index task is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -184,7 +184,7 @@
 <h4 id="index-hadoop-task">Index Hadoop Task</h4>
 
 <p>The Hadoop Index Task is used to index larger data sets that require the parallelization and processing power of a Hadoop cluster.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;type&quot; : &quot;index_hadoop&quot;,
   &quot;config&quot;: &lt;Hadoop index config&gt;
 }
@@ -218,7 +218,7 @@
 <h4 id="realtime-index-task">Realtime Index Task</h4>
 
 <p>The indexing service can also run real-time tasks. These tasks effectively transform a middle manager into a real-time node. We introduced real-time tasks as a way to programmatically add new real-time data sources without needing to manually add nodes. The grammar for the real-time task is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_realtime&quot;</span><span class="p">,</span>
   <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
   <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -331,7 +331,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="append-task">Append Task</h4>
 
 <p>Append tasks append a list of segments together into a single segment (one after the other). The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
@@ -340,7 +340,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="merge-task">Merge Task</h4>
 
 <p>Merge tasks merge a list of segments together. Any common timestamps are merged. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
@@ -351,7 +351,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="delete-task">Delete Task</h4>
 
 <p>Delete tasks create empty segments with no data. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
@@ -360,7 +360,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="kill-task">Kill Task</h4>
 
 <p>Kill tasks delete all information about a segment and removes it from deep storage. Killable segments must be disabled (used==0) in the Druid segment table. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span>
@@ -371,7 +371,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="version-converter-task">Version Converter Task</h4>
 
 <p>These tasks convert segments from an existing older index version to the latest index version. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;groupId&quot;</span> <span class="p">:</span> <span class="err">&lt;task_group_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
@@ -382,7 +382,7 @@ See <a href="Realtime.html">Realtime</a>.</p>
 <h4 id="noop-task">Noop Task</h4>
 
 <p>These tasks start, sleep for a time and are used only for testing. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;optional_task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_segment_interval&gt;</span><span class="p">,</span>
     <span class="nt">&quot;runTime&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_millis_to_sleep&gt;</span><span class="p">,</span>

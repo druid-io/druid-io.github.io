@@ -102,7 +102,7 @@
 
 <p>Druid has the ability to automatically load extension jars from maven at runtime.  With this mechanism, Druid also loads up the dependencies of the extension jar into an isolated class loader.  That means that your extension can depend on a different version of a library that Druid also uses and both can co-exist.</p>
 
-<h3 id="i-want-classloader-isolation-but-i-don-39-t-want-my-production-machines-downloading-their-own-dependencies-what-should-i-do">I want classloader isolation, but I don&#39;t want my production machines downloading their own dependencies.  What should I do?</h3>
+<h3 id="i-want-classloader-isolation-but-i-dont-want-my-production-machines-downloading-their-own-dependencies-what-should-i-do">I want classloader isolation, but I don&#39;t want my production machines downloading their own dependencies.  What should I do?</h3>
 
 <p>If you want to take advantage of the maven-based classloader isolation but you are also rightly frightened by the prospect of each of your production machines downloading their own dependencies on deploy, this section is for you.</p>
 

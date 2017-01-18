@@ -115,10 +115,10 @@ For more information, see <a href="https://www.youtube.com/watch?v=Hpd3f_MLdXo">
 
 <p>At the time of this writing, Druid does not support nested dimensions. Nested dimensions need to be flattened. For example, 
 if you have data of the following form:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;foo&quot;:{&quot;bar&quot;: 3}}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;foo&quot;:{&quot;bar&quot;: 3}}
 </code></pre></div>
 <p>then before indexing it, you should transform it to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;foo_bar&quot;: 3}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;foo_bar&quot;: 3}
 </code></pre></div>
 <h2 id="counting-the-number-of-ingested-events">Counting the number of ingested events</h2>
 
@@ -127,7 +127,7 @@ that when you query for this metric, you should use a <code>longSum</code> aggre
 the number of Druid rows for the time interval, which can be used to determine what the roll-up ratio was.</p>
 
 <p>To clarify with an example, if you ingestion spec contains:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">...
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
 &quot;metricsSpec&quot; : [
       {
         &quot;type&quot; : &quot;count&quot;,
@@ -136,7 +136,7 @@ the number of Druid rows for the time interval, which can be used to determine w
 ...
 </code></pre></div>
 <p>You should query for the number of ingested rows with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">...
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
 &quot;aggregations&quot;: [
     { &quot;type&quot;: &quot;longSum&quot;, &quot;name&quot;: &quot;numIngestedEvents&quot;, &quot;fieldName&quot;: &quot;count&quot; },
 ...
@@ -156,10 +156,10 @@ If you are using schema-less dimensions, the best practice here is to include th
 some work at ETL time.</p>
 
 <p>As an example, for schema-less dimensions, repeat the same column:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;device_id_dim&quot;:123, &quot;device_id_met&quot;:123}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;device_id_dim&quot;:123, &quot;device_id_met&quot;:123}
 </code></pre></div>
 <p>and in your <code>metricsSpec</code>, include:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{ &quot;type&quot; : &quot;hyperUnique&quot;, &quot;name&quot; : &quot;devices&quot;, &quot;fieldName&quot; : &quot;device_id_met&quot; }
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{ &quot;type&quot; : &quot;hyperUnique&quot;, &quot;name&quot; : &quot;devices&quot;, &quot;fieldName&quot; : &quot;device_id_met&quot; }
 </code></pre></div>
 <p><code>device_id_dim</code> should automatically get picked up as a dimension.</p>
 

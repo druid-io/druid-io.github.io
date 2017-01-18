@@ -104,10 +104,10 @@
 
 <p>Realtime nodes take a mix of base server configuration and spec files that describe how to connect, process and expose the realtime feed. See <a href="Configuration.html">Configuration</a> for information about general server configuration.</p>
 
-<h3 id="realtime-quot-specfile-quot">Realtime &quot;specFile&quot;</h3>
+<h3 id="realtime-specfile">Realtime &quot;specFile&quot;</h3>
 
 <p>The property <code>druid.realtime.specFile</code> has the path of a file (absolute or relative path and file name) with realtime specifications in it. This &quot;specFile&quot; should be a JSON Array of JSON objects like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span>
   <span class="nt">&quot;schema&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;dataSourceName&quot;</span><span class="p">,</span>
                <span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;events&quot;</span><span class="p">},</span>
                                <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;outColumn&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;inColumn&quot;</span><span class="p">}</span> <span class="p">],</span>
@@ -282,15 +282,15 @@
 <p>Given those expectations, adding a firehose is straightforward and completely encapsulated inside of the interface. Adding a plumber is more involved and requires understanding of how the system works to get right, it’s not impossible, but it’s not intended that individuals new to Druid will be able to do it immediately.</p>
 
 <p>We will do our best to accept contributions from the community of new Firehoses and Plumbers, but we also understand the requirement for being able to plug in your own proprietary implementations. The model for doing this is by embedding the druid code in another project and writing your own <code>main()</code> method that initializes a RealtimeNode object and registers your proprietary objects with it.</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyRealtimeMain</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyRealtimeMain</span>
 <span class="o">{</span>
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Logger</span><span class="o">(</span><span class="n">MyRealtimeMain</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Logger</span><span class="o">(</span><span class="n">MyRealtimeMain</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span>
   <span class="o">{</span>
     <span class="n">LogLevelAdjuster</span><span class="o">.</span><span class="na">register</span><span class="o">();</span>
 
-    <span class="n">Lifecycle</span> <span class="n">lifecycle</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Lifecycle</span><span class="o">();</span>
+    <span class="n">Lifecycle</span> <span class="n">lifecycle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Lifecycle</span><span class="o">();</span>
 
     <span class="n">lifecycle</span><span class="o">.</span><span class="na">addManagedInstance</span><span class="o">(</span>
     <span class="n">RealtimeNode</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>

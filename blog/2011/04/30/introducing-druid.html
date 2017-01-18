@@ -100,7 +100,7 @@ OLAP data store that resulted.</p>
 
 <p>To frame our discussion, let’s begin with an illustration of what our raw impression event logs look 
 like, containing many dimensions and two metrics (click and price).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timestamp             publisher          advertiser  gender  country  dimensions  click  price
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp             publisher          advertiser  gender  country  dimensions  click  price
 2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                  0      0.65
 2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                  0      0.62
 2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                  1      0.45
@@ -112,11 +112,11 @@ like, containing many dimensions and two metrics (click and price).</p>
 </code></pre></div>
 <p>We call this our <em>alpha</em> data set. We perform a first-level aggregation operation over a selected set of 
 dimensions, equivalent to (in pseudocode):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GROUP BY timestamp, publisher, advertiser, gender, country
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GROUP BY timestamp, publisher, advertiser, gender, country
   :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)
 </code></pre></div>
 <p>to yield a compacted version:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks revenue
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks revenue
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
@@ -153,7 +153,7 @@ there are two ways that this becomes large: (i) when we include additional
 dimensions, and (ii) when we include a dimension whose cardinality is large.
 Using our example, for every hour’s worth of data we calculate the maximum
 number of rows as:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">number_of_publishers * number_of_advertisers * number_of_genders * number of countries
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>number_of_publishers * number_of_advertisers * number_of_genders * number of countries
 </code></pre></div>
 <p>If we have 10 publishers, 50 advertisers, 2 genders, and 120 countries, that
 would yield a maximum of 120,000 rows.  If there had been 1,000,000 possible

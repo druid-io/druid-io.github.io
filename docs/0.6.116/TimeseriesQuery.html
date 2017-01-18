@@ -91,7 +91,7 @@
 <p>These types of queries take a timeseries query object and return an array of JSON objects where each object represents a value asked for by the timeseries query.</p>
 
 <p>An example timeseries query object is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
@@ -176,7 +176,7 @@
 </tbody></table>
 
 <p>To pull it all together, the above query would return 2 data points, one for each day between 2012-01-01 and 2012-01-03, from the &quot;sample_datasource&quot; table. Each data point would be the (long) sum of sample_fieldName1, the (double) sum of sample_fieldName2 and the (double) the result of sample_fieldName1 divided by sample_fieldName2 for the filter set. The output looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
     <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;sample_name1&quot;</span><span class="p">:</span> <span class="err">&lt;some_value&gt;</span><span class="p">,</span> <span class="nt">&quot;sample_name2&quot;</span><span class="p">:</span> <span class="err">&lt;some_value&gt;</span><span class="p">,</span> <span class="nt">&quot;sample_divide&quot;</span><span class="p">:</span> <span class="err">&lt;some_value&gt;</span> <span class="p">}</span> 

@@ -124,7 +124,7 @@ For high availability, there should be at least a redundant copy of every proces
 </div>
 
 <h3 id="common-configuration-common-runtime-properties">Common Configuration (common.runtime.properties)</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Extensions
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># Extensions
 druid.extensions.loadList=[&quot;druid-s3-extensions&quot;, &quot;druid-histogram&quot;, &quot;mysql-metadata-storage&quot;]
 
 # Zookeeper
@@ -170,13 +170,13 @@ druid.selectors.coordinator.serviceName=druid/prod/coordinator
 <h3 id="overlord-node">Overlord Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server overlord
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server overlord
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>m1.xlarge (Cores: 4, Memory: 15.0 GB)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx4g
 -Xms4g
 -XX:NewSize=256m
@@ -190,7 +190,7 @@ druid.selectors.coordinator.serviceName=druid/prod/coordinator
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/overlord
 
@@ -216,13 +216,13 @@ druid.indexer.storage.type=metadata
 <h3 id="middlemanager-node">MiddleManager Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server middleManager
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server middleManager
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx64m
 -Xms64m
 -XX:+UseConcMarkSweepGC
@@ -234,7 +234,7 @@ druid.indexer.storage.type=metadata
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/middlemanager
 
@@ -266,13 +266,13 @@ druid.worker.version=#{WORKER_VERSION}
 <h3 id="coordinator-node">Coordinator Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">m1.xlarge (Cores: 4, Memory: 15.0 GB)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>m1.xlarge (Cores: 4, Memory: 15.0 GB)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx10g
 -Xms10g
 -XX:NewSize=512m
@@ -286,20 +286,20 @@ druid.worker.version=#{WORKER_VERSION}
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/coordinator
 </code></pre></div>
 <h3 id="historical-node">Historical Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server historical
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx12g
 -Xms12g
 -XX:NewSize=6g
@@ -314,7 +314,7 @@ druid.service=druid/coordinator
 -Djava.io.tmpdir=/mnt/tmp
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/historical
 
@@ -334,13 +334,13 @@ druid.monitoring.monitors=[&quot;io.druid.server.metrics.HistoricalMetricsMonito
 <h3 id="broker-node">Broker Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server broker
 </code></pre></div>
 <p>Hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD - this hardware is a bit overkill for the broker but we choose it for simplicity)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD - this hardware is a bit overkill for the broker but we choose it for simplicity)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx25g
 -Xms25g
 -XX:NewSize=6g
@@ -359,7 +359,7 @@ druid.monitoring.monitors=[&quot;io.druid.server.metrics.HistoricalMetricsMonito
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/broker
 
@@ -374,13 +374,13 @@ druid.server.http.numThreads=50
 <h3 id="real-time-node">Real-time Node</h3>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server realtime
 </code></pre></div>
 <p>Hardware (this is a little overkill):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">r3.8xlarge (Cores: 32, Memory: 244 GB, SSD - this hardware is way overkill for the real-time node but we choose it for simplicity)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>r3.8xlarge (Cores: 32, Memory: 244 GB, SSD - this hardware is way overkill for the real-time node but we choose it for simplicity)
 </code></pre></div>
 <p>JVM Configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx13g
 -Xms13g
 -XX:NewSize=2g
@@ -401,7 +401,7 @@ druid.server.http.numThreads=50
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}
 druid.port=8080
 druid.service=druid/realtime
 

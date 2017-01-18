@@ -89,7 +89,7 @@
           <h1 id="select-queries">Select Queries</h1>
 
 <p>Select queries return raw Druid rows and support pagination.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;select&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
    <span class="nt">&quot;descending&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
@@ -159,7 +159,7 @@
 </tbody></table>
 
 <p>The format of the result is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"> <span class="p">[{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">[{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;pagingIdentifiers&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -267,12 +267,12 @@
 <p>The <code>threshold</code> determines how many hits are returned, with each hit indexed by an offset. When <code>descending</code> is true, the offset will be negative value.</p>
 
 <p>The results above include:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;pagingIdentifiers&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;pagingIdentifiers&quot;</span> <span class="err">:</span> <span class="p">{</span>
       <span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">4</span>
     <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
 <p>This can be used with the next query&#39;s pagingSpec:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;select&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dimensions&quot;</span><span class="p">:[],</span>
@@ -288,7 +288,7 @@
 <p>Note that in the second query, an offset is specified and that it is 1 greater than the largest offset found in the initial results. To return the next &quot;page&quot;, this offset must be incremented by 1 (should be decremented by 1 for descending query), with each new query, but with option <code>fromNext</code> enabled, this operation is not needed. When an empty results set is received, the very last page has been returned.</p>
 
 <p><code>fromNext</code> options is in pagingSpec:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
     <span class="err">...</span>
     <span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;fromNext&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
   <span class="p">}</span>

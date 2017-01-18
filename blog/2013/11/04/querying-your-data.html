@@ -92,7 +92,7 @@
 <li>Setup a config file at config/broker/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818837">https://gist.github.com/rjurney/5818837</a></li>
 <li>Run the broker node:</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
 -Ddruid.realtime.specFile<span class="o">=</span>realtime.spec <span class="se">\</span>
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/broker <span class="se">\</span>
 com.metamx.druid.http.BrokerMain
@@ -103,7 +103,7 @@ com.metamx.druid.http.BrokerMain
 <li>Setup a config file at config/master/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818870">https://gist.github.com/rjurney/5818870</a></li>
 <li>Run the master node:</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/master <span class="se">\</span>
 com.metamx.druid.http.MasterMain
 </code></pre></div>
@@ -114,7 +114,7 @@ com.metamx.druid.http.MasterMain
 <li><p>Setup a realtime.spec file like this: <a href="https://gist.github.com/rjurney/5818779">https://gist.github.com/rjurney/5818779</a></p></li>
 <li><p>Run the realtime node:</p></li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
 -Ddruid.realtime.specFile<span class="o">=</span>realtime.spec <span class="se">\</span>
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime <span class="se">\</span>
 com.metamx.druid.realtime.RealtimeMain
@@ -125,7 +125,7 @@ com.metamx.druid.realtime.RealtimeMain
 <li>Setup a config file at config/compute/runtime.properties that looks like this: <a href="https://gist.github.com/rjurney/5818885">https://gist.github.com/rjurney/5818885</a></li>
 <li>Run the compute node:</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/compute <span class="se">\</span>
 com.metamx.druid.http.ComputeMain
 </code></pre></div>
@@ -140,7 +140,7 @@ com.metamx.druid.http.ComputeMain
 <h3 id="construct-a-query">Construct a Query</h3>
 
 <p>For constructing this query, see below at: Querying Against the realtime.spec</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -156,11 +156,11 @@ com.metamx.druid.http.ComputeMain
 <h3 id="querying-the-realtime-node">Querying the Realtime Node</h3>
 
 <p>Run our query against port 8080:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8080/druid/v2/?pretty&quot;</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/druid/v2/?pretty&quot;</span> <span class="se">\</span>
 -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
 </code></pre></div>
 <p>See our result:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -173,11 +173,11 @@ com.metamx.druid.http.ComputeMain
 <h3 id="querying-the-compute-node">Querying the Compute Node</h3>
 
 <p>Run the query against port 8082:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8082/druid/v2/?pretty&quot;</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s2">&quot;http://localhost:8082/druid/v2/?pretty&quot;</span> <span class="se">\</span>
 -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
 </code></pre></div>
 <p>And get (similar to):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -190,11 +190,11 @@ com.metamx.druid.http.ComputeMain
 <h3 id="querying-both-nodes-via-the-broker">Querying both Nodes via the Broker</h3>
 
 <p>Run the query against port 8083:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST <span class="s2">&quot;http://localhost:8083/druid/v2/?pretty&quot;</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s2">&quot;http://localhost:8083/druid/v2/?pretty&quot;</span> <span class="se">\</span>
 -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @query.body
 </code></pre></div>
 <p>And get:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -209,7 +209,7 @@ com.metamx.druid.http.ComputeMain
 <h2 id="querying-against-the-realtime-spec">Querying Against the realtime.spec</h2>
 
 <p>How are we to know what queries we can run? Although <a href="http://druid.io/docs/latest/Querying.html">Querying</a> is a helpful index, to get a handle on querying our data we need to look at our Realtime node&#39;s realtime.spec file:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span>
   <span class="nt">&quot;schema&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
                <span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
                                   <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}],</span>
@@ -239,34 +239,34 @@ com.metamx.druid.http.ComputeMain
 <span class="p">}]</span>
 </code></pre></div>
 <h3 id="datasource">dataSource</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;druidtest&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;druidtest&quot;</span>
 </code></pre></div>
 <p>Our dataSource tells us the name of the relation/table, or &#39;source of data&#39;, to query in both our realtime.spec and query.body!</p>
 
 <h3 id="aggregations">aggregations</h3>
 
 <p>Note the <a href="http://druid.io/docs/latest/Aggregations.html">aggregations</a> in our query:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;aggregations&quot;</span><span class="err">:</span> <span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;aggregations&quot;</span><span class="err">:</span> <span class="p">[</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
     <span class="p">]</span><span class="err">,</span>
 </code></pre></div>
 <p>this matches up to the aggregators in the schema of our realtime.spec!</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;aggregators&quot;</span><span class="err">:</span><span class="p">[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;aggregators&quot;</span><span class="err">:</span><span class="p">[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
                                   <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}]</span><span class="err">,</span>
 </code></pre></div>
 <h3 id="dimensions">dimensions</h3>
 
 <p>Lets look back at our actual records (from <a href="http://druid.io/blog/2013/08/30/loading-data.html">Loading Your Data</a>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:02&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:03&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:04&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:05&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
 </code></pre></div>
 <p>Note that we have two dimensions to our data, other than our primary metric, wp. They are &#39;gender&#39; and &#39;age&#39;. We can specify these in our query! Note that we have added a dimension: age, below.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -280,7 +280,7 @@ com.metamx.druid.http.ComputeMain
 <span class="p">}</span>
 </code></pre></div>
 <p>Which gets us grouped data in return!</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -330,7 +330,7 @@ com.metamx.druid.http.ComputeMain
 <h3 id="filtering">filtering</h3>
 
 <p>Now that we&#39;ve observed our dimensions, we can also filter:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
     <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -348,7 +348,7 @@ com.metamx.druid.http.ComputeMain
 <span class="p">}</span>
 </code></pre></div>
 <p>Which gets us just people aged 40:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>

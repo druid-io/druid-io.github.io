@@ -106,13 +106,13 @@
 <h4 id="example">Example:</h4>
 
 <p>Suppose you have data below stored in Druid with millisecond ingestion granularity,</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;AAA&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;AAA&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-01T01:02:33Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;BBB&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-02T23:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;CCC&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-03T03:32:45Z&quot;</span><span class="p">,</span> <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;DDD&quot;</span><span class="p">,</span> <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>After submitting a groupBy query with <code>hour</code> granularity,</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
@@ -131,7 +131,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -164,7 +164,7 @@
 <p>Note that all the empty buckets are discarded.</p>
 
 <p>If you change the granularity to <code>day</code>, you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -195,7 +195,7 @@
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
 <p>If you change the granularity to <code>none</code>, you will get the same results as setting it to the ingestion granularity.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T01:02:33.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -232,7 +232,7 @@ results that are equivalent to having set the query granularity to the ingestion
 See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion Spec</a>.</p>
 
 <p>If you change the granularity to <code>all</code>, you will get everything aggregated in 1 bucket,</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -246,17 +246,17 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 <p>Duration granularities are specified as an exact duration in milliseconds and timestamps are returned as UTC. Duration granularity values are in millis.</p>
 
 <p>They also support specifying an optional origin, which defines where to start counting time buckets from (defaults to 1970-01-01T00:00:00Z).</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">7200000</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">7200000</span><span class="p">}</span>
 </code></pre></div>
 <p>This chunks up every 2 hours.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">3600000</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">3600000</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>This chunks up every hour on the half-hour.</p>
 
 <h4 id="example">Example:</h4>
 
 <p>Reusing the data in the previous example, after submitting a groupBy query with 24 hours duration,</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
    <span class="nt">&quot;granularity&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="s2">&quot;86400000&quot;</span><span class="p">},</span>
@@ -275,7 +275,7 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 <span class="p">}</span>
 </code></pre></div>
 <p>you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -306,10 +306,10 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
 <p>if you set the origin for the granularity to <code>2012-01-01T00:30:00Z</code>,</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="s2">&quot;86400000&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span><span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="s2">&quot;86400000&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span><span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-31T00:30:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -346,17 +346,17 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 <p>Period granularities are specified as arbitrary period combinations of years, months, weeks, hours, minutes and seconds (e.g. P2W, P3M, PT1H30M, PT0.750S) in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO8601</a> format. They support specifying a time zone which determines where period boundaries start as well as the timezone of the returned timestamps. By default, years start on the first of January, months start on the first of the month and weeks start on Mondays unless an origin is specified.</p>
 
 <p>Time zone is optional (defaults to UTC). Origin is optional (defaults to 1970-01-01T00:00:00 in the given time zone).</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P2D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P2D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>This will bucket by two-day chunks in the Pacific timezone.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P3M&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-02-01T00:00:00-08:00&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P3M&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-02-01T00:00:00-08:00&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>This will bucket by 3-month chunks in the Pacific timezone where the three-month quarters are defined as starting from February.</p>
 
 <h4 id="example">Example</h4>
 
 <p>Reusing the data in the previous example, if you submit a groupBy query with 1 day period in Pacific timezone,</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;my_dataSource&quot;</span><span class="p">,</span>
    <span class="nt">&quot;granularity&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="nt">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;P1D&quot;</span><span class="p">,</span> <span class="nt">&quot;timeZone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">},</span>
@@ -375,7 +375,7 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 <span class="p">}</span>
 </code></pre></div>
 <p>you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-30T00:00:00.000-07:00&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -405,10 +405,10 @@ See <code>queryGranularity</code> in <a href="../ingestion/index.html">Ingestion
 query results.</p>
 
 <p>If you set the origin for the granularity to <code>1970-01-01T20:30:00-08:00</code>,</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P1D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;1970-01-01T20:30:00-08:00&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span>   <span class="s2">&quot;granularity&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="o">:</span> <span class="s2">&quot;P1D&quot;</span><span class="p">,</span> <span class="s2">&quot;timeZone&quot;</span><span class="o">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;1970-01-01T20:30:00-08:00&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>you will get</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-08-29T20:30:00.000-07:00&quot;</span><span class="p">,</span>
   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>

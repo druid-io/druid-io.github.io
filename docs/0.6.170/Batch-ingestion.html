@@ -99,10 +99,10 @@
 <h2 id="batch-ingestion-using-the-hadoopdruidindexer">Batch Ingestion using the HadoopDruidIndexer</h2>
 
 <p>The HadoopDruidIndexer can be run like so:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:&lt;hadoop_config_path&gt; io.druid.cli.Main index hadoop &lt;config_file&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:&lt;hadoop_config_path&gt; io.druid.cli.Main index hadoop &lt;config_file&gt;
 </code></pre></div>
 <p>The interval is the <a href="http://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO8601 interval</a> of the data you are processing. The config_file is a path to a file (the &quot;specFile&quot;) that contains JSON and an example looks like:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;the_data_source&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;ts&quot;</span><span class="p">,</span>
@@ -272,7 +272,7 @@
 </tbody></table>
 
 <p>For example, using the static input paths:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;paths&quot; : &quot;s3n://billy-bucket/the/data/is/here/data.gz, s3n://billy-bucket/the/data/is/here/moredata.gz, s3n://billy-bucket/the/data/is/here/evenmoredata.gz&quot;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;paths&quot; : &quot;s3n://billy-bucket/the/data/is/here/data.gz, s3n://billy-bucket/the/data/is/here/moredata.gz, s3n://billy-bucket/the/data/is/here/evenmoredata.gz&quot;
 </code></pre></div>
 <h5 id="granularity"><code>granularity</code></h5>
 
@@ -303,7 +303,7 @@
 </tbody></table>
 
 <p>For example, if the sample config were run with the interval 2012-06-01/2012-06-02, it would expect data at the paths</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=01
 ...
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
@@ -341,7 +341,7 @@ hash of all dimensions in each row), and &quot;dimension&quot; (based on ranges 
 sized data segments relative to single-dimension partitioning.</p>
 
 <h4 id="hash-based-partitioning">Hash-based partitioning</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hashed&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
@@ -377,7 +377,7 @@ cardinality of the input set and a target partition size.</p>
 </tbody></table>
 
 <h4 id="single-dimension-partitioning">Single-dimension partitioning</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
@@ -467,12 +467,12 @@ override it with a specific dimension.</p>
 <h2 id="batch-ingestion-using-the-indexing-service">Batch Ingestion Using the Indexing Service</h2>
 
 <p>Batch ingestion for the indexing service is done by submitting a <a href="Tasks.html">Hadoop Index Task</a>. The indexing service can be started by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx2g -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:config/overlord io.druid.cli.Main server overlord
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx2g -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:config/overlord io.druid.cli.Main server overlord
 </code></pre></div>
 <p>This will start up a very simple local indexing service. For more complex deployments of the indexing service, see <a href="Indexing-Service.html">here</a>.</p>
 
 <p>The schema of the Hadoop Index Task contains a task &quot;type&quot; and a Hadoop Index Config. A sample Hadoop index task is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
   <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
@@ -542,10 +542,10 @@ override it with a specific dimension.</p>
 <p>The Hadoop Index Config submitted as part of an Hadoop Index Task is identical to the Hadoop Index Config used by the <code>HadoopBatchIndexer</code> except that three fields must be omitted: <code>segmentOutputPath</code>, <code>workingPath</code>, <code>updaterJobSpec</code>. The Indexing Service takes care of setting these fields internally.</p>
 
 <p>To run the task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @example_index_hadoop_task.json localhost:8087/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @example_index_hadoop_task.json localhost:8087/druid/indexer/v1/task
 </code></pre></div>
 <p>If the task succeeds, you should see in the logs of the indexing service:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-10-16 16:38:31,945 INFO [pool-6-thread-1] io.druid.indexing.overlord.exec.TaskConsumer - Task SUCCESS: HadoopIndexTask...
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-10-16 16:38:31,945 INFO [pool-6-thread-1] io.druid.indexing.overlord.exec.TaskConsumer - Task SUCCESS: HadoopIndexTask...
 </code></pre></div>
 <h2 id="having-problems">Having Problems?</h2>
 

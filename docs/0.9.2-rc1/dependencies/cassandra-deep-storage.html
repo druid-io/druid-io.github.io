@@ -98,7 +98,7 @@ stores the segment metadatak.  </p>
 <h2 id="schema">Schema</h2>
 
 <p>Below are the create statements for each:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">index_storage</span><span class="p">(</span><span class="k">key</span> <span class="nb">text</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">index_storage</span><span class="p">(</span><span class="k">key</span> <span class="nb">text</span><span class="p">,</span>
                            <span class="n">chunk</span> <span class="nb">text</span><span class="p">,</span>
                            <span class="n">value</span> <span class="nb">blob</span><span class="p">,</span>
                            <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="k">key</span><span class="p">,</span> <span class="n">chunk</span><span class="p">))</span> <span class="k">WITH</span> <span class="n">COMPACT</span> <span class="k">STORAGE</span><span class="p">;</span>
@@ -114,7 +114,7 @@ stores the segment metadatak.  </p>
 <a href="http://www.datastax.com/documentation/cql/3.1/cql/cql_reference/create_keyspace_r.html">Cassandra CQL <code>CREATE KEYSPACE</code></a> command.</p>
 
 <p>Then, add the following to your historical and realtime runtime properties files to enable a Cassandra backend.</p>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="na">druid.extensions.loadList</span><span class="o">=</span><span class="s">[&quot;druid-cassandra-storage&quot;]</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">druid.extensions.loadList</span><span class="o">=</span><span class="s">[&quot;druid-cassandra-storage&quot;]</span>
 <span class="na">druid.storage.type</span><span class="o">=</span><span class="s">c*</span>
 <span class="na">druid.storage.host</span><span class="o">=</span><span class="s">localhost:9160</span>
 <span class="na">druid.storage.keyspace</span><span class="o">=</span><span class="s">druid</span>

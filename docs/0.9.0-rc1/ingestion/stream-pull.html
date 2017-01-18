@@ -108,10 +108,10 @@ the indexing service.</p>
 
 <p>For writing your own plugins to the real-time node, see <a href="../ingestion/firehose.html">Firehose</a>.</p>
 
-<h2 id="realtime-quot-specfile-quot">Realtime &quot;specFile&quot;</h2>
+<h2 id="realtime-specfile">Realtime &quot;specFile&quot;</h2>
 
 <p>The property <code>druid.realtime.specFile</code> has the path of a file (absolute or relative path and file name) with realtime specifications in it. This &quot;specFile&quot; should be a JSON Array of JSON objects like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
@@ -354,7 +354,7 @@ the indexing service.</p>
 <p>Segments are identified by datasource, time interval, and version. With sharding, a segment is also identified by a partition number. Typically, each shard will have the same version but a different partition number to uniquely identify it.</p>
 
 <p>In small-data scenarios, sharding is unnecessary and can be set to none (the default):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>However, in scenarios with multiple realtime nodes, <code>none</code> is less useful as it cannot help with scaling data volume (see below). Note that for the batch indexing service, no explicit configuration is required; sharding is provided automatically.</p>
 
@@ -372,7 +372,7 @@ the indexing service.</p>
 </ul>
 
 <p>Configure <code>linear</code> under <code>schema</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
         <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
@@ -382,7 +382,7 @@ the indexing service.</p>
 <p>This strategy is similar to <code>linear</code> except that it does not tolerate non-sequential partition numbering (it will <em>not</em> allow querying of partitions 0 and 2 if partition 1 is missing). It also requires explicitly setting the total number of partitions.</p>
 
 <p>Configure <code>numbered</code> under <code>schema</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;numbered&quot;</span><span class="p">,</span>
         <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="nt">&quot;partitions&quot;</span><span class="p">:</span> <span class="mi">2</span>
@@ -393,13 +393,13 @@ the indexing service.</p>
 <p>The <code>shardSpec</code> configuration can be used to create redundancy by having the same <code>partitionNum</code> values on different nodes.</p>
 
 <p>For example, if RealTimeNode1 has:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
         <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
 </code></pre></div>
 <p>and RealTimeNode2 has:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
         <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
@@ -407,7 +407,7 @@ the indexing service.</p>
 <p>then two realtime nodes can store segments with the same datasource, version, time interval, and partition number. Brokers that query for data in such segments will assume that they hold the same data, and the query will target only one of the segments.</p>
 
 <p><code>shardSpec</code> can also help achieve scale. For this, add nodes with a different <code>partionNum</code>. Continuing with the example, if RealTimeNode3 has:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;shardSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
         <span class="nt">&quot;partitionNum&quot;</span><span class="p">:</span> <span class="mi">1</span>
     <span class="p">}</span>

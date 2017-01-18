@@ -129,7 +129,7 @@ For example, you might have all historicals be part of <code>__default</code>, a
 The tiers for lookups are completely independent of historical tiers.</p>
 
 <p>These configs are accessed using JSON through the following URI template</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/lookups/{tier}/{id}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/lookups/{tier}/{id}
 </code></pre></div>
 <p>All URIs below are assumed to have <code>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code> prepended.</p>
 
@@ -162,7 +162,7 @@ If there is an error while trying to delete a lookup from a node (or if a node i
 <h2 id="bulk-update">Bulk update</h2>
 
 <p>Lookups can be updated in bulk by posting a JSON object to <code>/druid/coordinator/v1/lookups</code>. The format of the json object is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;tierName&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;lookupExtractorFactoryName&quot;</span><span class="p">:</span> <span class="p">{</span>
           <span class="nt">&quot;someExtractorField&quot;</span><span class="p">:</span> <span class="s2">&quot;someExtractorValue&quot;</span>
@@ -236,7 +236,7 @@ If there is an error while trying to delete a lookup from a node (or if a node i
 <p>A <code>POST</code> to a particular lookup extractor factory via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code> will update that specific extractor factory.</p>
 
 <p>For example, a post to <code>/druid/coordinator/v1/lookups/realtime_customer1/site_id_customer1</code> might contain the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;confidential_jdbc&quot;</span><span class="p">,</span>
     <span class="nt">&quot;auth&quot;</span><span class="p">:</span> <span class="s2">&quot;/etc/jdbc.customer1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;sites_updated&quot;</span><span class="p">,</span>
@@ -251,7 +251,7 @@ If there is an error while trying to delete a lookup from a node (or if a node i
 <p>A <code>GET</code> to a particular lookup extractor factory is accomplished via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code></p>
 
 <p>Using the prior example, a <code>GET</code> to <code>/druid/coordinator/v1/lookups/realtime_customer2/site_id_customer2</code> should return</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;confidential_jdbc&quot;</span><span class="p">,</span>
     <span class="nt">&quot;auth&quot;</span><span class="p">:</span> <span class="s2">&quot;/etc/jdbc.customer2&quot;</span><span class="p">,</span>
     <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;sites&quot;</span><span class="p">,</span>
@@ -284,7 +284,7 @@ The endpoints are as follows:</p>
 
 <p>A <code>GET</code> to the node at <code>/druid/listen/v1/lookups</code> will return a json map of all the lookups currently active on the node.
 The return value will be a json map of the lookups to their extractor factories.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;some_lookup_name&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;simple_json&quot;</span><span class="p">,</span>
         <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://some.host.com/codes.json&quot;</span>
@@ -295,7 +295,7 @@ The return value will be a json map of the lookups to their extractor factories.
 
 <p>A <code>GET</code> to the node at <code>/druid/listen/v1/lookups/some_lookup_name</code> will return the LookupExtractorFactory for the lookup identified by <code>some_lookup_name</code>.
 The return value will be the json representation of the factory.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;simple_json&quot;</span><span class="p">,</span>
     <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://some.host.com/codes.json&quot;</span>
 <span class="p">}</span>
@@ -304,13 +304,13 @@ The return value will be the json representation of the factory.</p>
 
 <p>A <code>POST</code> to the node at <code>/druid/listen/v1/lookups</code> of a JSON map of lookup names to LookupExtractorFactory will cause the service to add or update its lookups.
 The return value will be a JSON map in the following format:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;accepted&quot;</span><span class="p">,</span>
     <span class="nt">&quot;failedUpdates&quot;</span><span class="p">:</span> <span class="p">{}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>If a lookup cannot be started, or is left in an undefined state, the lookup in error will be returned in the <code>failedUpdates</code> field as per:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;accepted&quot;</span><span class="p">,</span>
     <span class="nt">&quot;failedUpdates&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -327,13 +327,13 @@ The return value will be a JSON map in the following format:</p>
 <p>A <code>POST</code> to the node at <code>/druid/listen/v1/lookups/some_lookup_name</code> will behave very similarly to a bulk update.</p>
 
 <p>If <code>some_lookup_name</code> is desired to have the LookupExtractorFactory definition of </p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;simple_json&quot;</span><span class="p">,</span>
     <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://some.host.com/codes.json&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Then a post to <code>/druid/listen/v1/lookups/some_lookup_name</code> will behave the same as a <code>POST</code> to <code>/druid/listen/v1/lookups</code> of</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;some_lookup_name&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;simple_json&quot;</span><span class="p">,</span>
         <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://some.host.com/codes.json&quot;</span>

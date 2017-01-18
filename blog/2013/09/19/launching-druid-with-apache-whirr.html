@@ -97,7 +97,7 @@
 <h2 id="installing-whirr">Installing Whirr</h2>
 
 <p>Until Druid is part of an Apache release (a month or two from now) of Whirr, you&#39;ll need to clone the code from <a href="https://github.com/rjurney/whirr/tree/trunk">https://github.com/rjurney/whirr/tree/trunk</a> and build Whirr.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone git@github.com:rjurney/whirr.git
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:rjurney/whirr.git
 cd whirr
 git checkout trunk
 mvn clean install -Dmaven.test.failure.ignore=true
@@ -105,15 +105,15 @@ mvn clean install -Dmaven.test.failure.ignore=true
 <h2 id="configuring-your-cloud-provider">Configuring your Cloud Provider</h2>
 
 <p>You&#39;ll need to set these environment variables:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">export WHIRR_PROVIDER=aws-ec2
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>export WHIRR_PROVIDER=aws-ec2
 export WHIRR_IDENTITY=$AWS_ACCESS_KEY_ID
 export WHIRR_CREDENTIAL=$AWS_SECRET_ACCESS_KEY
 </code></pre></div>
 <h2 id="build-properties">build.properties</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cat recipes/druid.properties
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cat recipes/druid.properties
 </code></pre></div>
 <p>Much of the configuration is self explanatory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Change the cluster name here
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># Change the cluster name here
 whirr.cluster-name=druid
 
 # Change the number of machines in the cluster here
@@ -132,10 +132,10 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 <p>Note that you can change a cluster&#39;s configuration with the whirr.instance-templates parameter. This enables you to boot clusters large or small. Note that at least one zookeeper and druid-mysql nodes are required.</p>
 
 <h2 id="launching-a-druid-cluster-with-whirr">Launching a Druid Cluster with Whirr</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bin/whirr launch-cluster --config recipes/druid.properties
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/whirr launch-cluster --config recipes/druid.properties
 </code></pre></div>
 <p>When the cluster is ready, ssh instructions will print and we can connect and use the cluster. For more instructions on using a Druid cluster, see <a href="https://github.com/metamx/druid/wiki/Querying-your-data">here</a>. To destroy a cluster when we&#39;re done, run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bin/whirr destroy-cluster --config recipes/druid.properties
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/whirr destroy-cluster --config recipes/druid.properties
 </code></pre></div>
 <p>We hope Apache Whirr makes experimenting with Druid easier than ever!</p>
 

@@ -95,7 +95,7 @@
 <p>A VMWare <a href="http://static.druid.io/artifacts/vmware/druid_riak.tgz">image</a> based on Druid 0.3.27.2 and built according to the instructions below has also been provided by Pablo Nebrera.</p>
 
 <p>The provided vmware machine has access with the following credentials:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">username: root
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>username: root
 password: riakdruid
 </code></pre></div>
 <h2 id="the-setup">The Setup</h2>
@@ -119,14 +119,14 @@ password: riakdruid
 <ol>
 <li><p>Install <code>CentOS-6.4-x86_64-minimal.iso</code> (&quot;RedHat v6.4&quot; is the name of the AWS AMI) or your favorite Linux OS (if you use a different OS, some of the installation instructions for peripheral services might differ, please adjust them according to the system you are using).  The rest of these instructions assume that you have a running instance and are running as the root user.</p></li>
 <li><p>Configure the network. We used dhcp executing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">dhclient eth0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>dhclient eth0
 </code></pre></div></li>
 <li><p>Disable firewall for now</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">service iptables stop
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>service iptables stop
 chkconfig iptables off
 </code></pre></div></li>
 <li><p>Change the limits on the number of open files a process can have:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cat &gt;&gt; /etc/security/limits.conf &lt;&lt;- _RBEOF_
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cat &gt;&gt; /etc/security/limits.conf &lt;&lt;- _RBEOF_
 # ulimit settings for Riak CS
 root soft nofile 65536
 root hard nofile 65536
@@ -142,10 +142,10 @@ ulimit -n 65536
 
 <ol>
 <li><p>Install necessary software with yum</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">yum install -y java-1.7.0-openjdk-devel git wget mysql-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>yum install -y java-1.7.0-openjdk-devel git wget mysql-server
 </code></pre></div></li>
 <li><p>Install maven</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://apache.rediris.es/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://apache.rediris.es/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 tar xzf apache-maven-3.0.5-bin.tar.gz -C /usr/local
 pushd /usr/local
 sudo ln -s apache-maven-3.0.5 maven
@@ -155,7 +155,7 @@ echo &#39;export PATH=${M2_HOME}/bin:${PATH}&#39; &gt;&gt; /etc/profile.d/maven.
 source /etc/profile.d/maven.sh
 </code></pre></div></li>
 <li><p>Install erlang</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://binaries.erlang-solutions.com/rpm/centos/6/x86_64/esl-erlang-R15B01-1.x86_64.rpm
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://binaries.erlang-solutions.com/rpm/centos/6/x86_64/esl-erlang-R15B01-1.x86_64.rpm
 yum localinstall -y esl-erlang-R15B01-1.x86_64.rpm
 </code></pre></div></li>
 </ol>
@@ -164,7 +164,7 @@ yum localinstall -y esl-erlang-R15B01-1.x86_64.rpm
 
 <ol>
 <li><p>Install kafka and zookeeper:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://apache.rediris.es/incubator/kafka/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://apache.rediris.es/incubator/kafka/kafka-0.7.2-incubating/kafka-0.7.2-incubating-src.tgz
 tar zxvf kafka-0.7.2-incubating-src.tgz
 pushd kafka-0.7.2-incubating-src/
 ./sbt update 
@@ -179,13 +179,13 @@ popd
 
 <ol>
 <li><p>Install s3cmd to manage riak s3</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://downloads.sourceforge.net/project/s3tools/s3cmd/1.5.0-alpha3/s3cmd-1.5.0-alpha3.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://downloads.sourceforge.net/project/s3tools/s3cmd/1.5.0-alpha3/s3cmd-1.5.0-alpha3.tar.gz
 tar xzvf s3cmd-1.5.0-alpha3.tar.gz
 cd s3cmd-1.5.0-alpha3
 cp -r s3cmd S3 /usr/local/bin/
 </code></pre></div></li>
 <li><p>Install riak, riak-cs and stanchion.  Note: riak-cs-control is optional</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://s3.amazonaws.com/downloads.basho.com/riak/1.3/1.3.1/rhel/6/riak-1.3.1-1.el6.x86_64.rpm
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://s3.amazonaws.com/downloads.basho.com/riak/1.3/1.3.1/rhel/6/riak-1.3.1-1.el6.x86_64.rpm
 wget http://s3.amazonaws.com/downloads.basho.com/riak-cs/1.3/1.3.1/rhel/6/riak-cs-1.3.1-1.el6.x86_64.rpm
 wget http://s3.amazonaws.com/downloads.basho.com/stanchion/1.3/1.3.1/rhel/6/stanchion-1.3.1-1.el6.x86_64.rpm
 wget http://s3.amazonaws.com/downloads.basho.com/riak-cs-control/1.0/1.0.0/rhel/6/riak-cs-control-1.0.0-1.el6.x86_64.rpm
@@ -197,7 +197,7 @@ yum localinstall -y riak-*.rpm stanchion-*.rpm
 
 <ol>
 <li><p>Clone the git repository for druid, checkout a &quot;stable&quot; tag and build </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/metamx/druid.git druid
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone https://github.com/metamx/druid.git druid
 pushd druid
 git checkout druid-0.4.12
 export LANGUAGE=C
@@ -216,25 +216,25 @@ popd
 
 <ol>
 <li><p>Add this line to /etc/hosts</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">echo &quot;127.0.0.1   s3.amazonaws.com bucket.s3.amazonaws.com `hostname`&quot; &gt;&gt; /etc/hosts
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>echo &quot;127.0.0.1   s3.amazonaws.com bucket.s3.amazonaws.com `hostname`&quot; &gt;&gt; /etc/hosts
 </code></pre></div>
 <p>NOTE: the bucket name in this case is &quot;bucket&quot;, but you might need to update it to your bucket name if you want to use a different bucket name.</p></li>
 <li><p>Download and extract run scripts and configuration files: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://static.druid.io/artifacts/scripts/druid_scripts_nebrera.tar /
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://static.druid.io/artifacts/scripts/druid_scripts_nebrera.tar /
 pushd /
 tar xvf ~/druid_scripts_nebrera.tar
 popd
 </code></pre></div></li>
 <li><p>Start Riak in order to create a user:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/etc/init.d/riak start 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>/etc/init.d/riak start 
 /etc/init.d/riak-cs start
 /etc/init.d/stanchion start
 </code></pre></div>
 <p>You can check riak status using:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">riak-admin member-status
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>riak-admin member-status
 </code></pre></div>
 <p>You should expect results like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Attempting to restart script through sudo -H -u riak
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Attempting to restart script through sudo -H -u riak
 ================================= Membership ==================================
 Status     Ring    Pending    Node
 -------------------------------------------------------------------------------
@@ -243,14 +243,14 @@ valid     100.0%      --      &#39;riak@127.0.0.1&#39;
 Valid:1 / Leaving:0 / Exiting:0 / Joining:0 / Down:0
 </code></pre></div></li>
 <li><p>Create riak-cs user and yoink out credentials.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -H &#39;Content-Type: application/json&#39; -X POST http://127.0.0.1:8088/riak-cs/user --data &#39;{&quot;email&quot;:&quot;example@domain.com&quot;, &quot;name&quot;:&quot;admin&quot;}&#39; &gt;&gt; /tmp/riak_user.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -H &#39;Content-Type: application/json&#39; -X POST http://127.0.0.1:8088/riak-cs/user --data &#39;{&quot;email&quot;:&quot;example@domain.com&quot;, &quot;name&quot;:&quot;admin&quot;}&#39; &gt;&gt; /tmp/riak_user.json
 export RIAK_KEY_ID=`sed &#39;s/^.*&quot;key_id&quot;:&quot;//&#39; /tmp/riak_user.json | cut -d &#39;&quot;&#39; -f 1`
 export RIAK_KEY_SECRET=`sed &#39;s/^.*&quot;key_secret&quot;:&quot;//&#39; /tmp/riak_user.json | cut -d &#39;&quot;&#39; -f 1`
 sed -i &quot;s/&lt;%=[ ]*@key_id[ ]*%&gt;/${RIAK_KEY_ID}/&quot; /etc/riak-cs/app.config /etc/riak-cs-control/app.config /etc/stanchion/app.config /etc/druid/config.sh /etc/druid/base.properties /root/.s3cfg
 sed -i &quot;s/&lt;%=[ ]*@key_secret[ ]*%&gt;/${RIAK_KEY_SECRET}/&quot; /etc/riak-cs/app.config /etc/riak-cs-control/app.config /etc/stanchion/app.config /etc/druid/config.sh /etc/druid/base.properties /root/.s3cfg
 </code></pre></div>
 <p>This will store the result of creating the user into <code>/tmp/riak_user.json</code>.  You can look at it if you are interested.  It will look something like this</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;email&quot;:&quot;example@domain.com&quot;,
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;email&quot;:&quot;example@domain.com&quot;,
  &quot;display_name&quot;:&quot;example&quot;,
  &quot;name&quot;:&quot;admin&quot;,
  &quot;key_id&quot;:&quot;DOXKZYR_QM2S-7HSKAEU&quot;,
@@ -259,37 +259,37 @@ sed -i &quot;s/&lt;%=[ ]*@key_secret[ ]*%&gt;/${RIAK_KEY_SECRET}/&quot; /etc/ria
  &quot;status&quot;:&quot;enabled&quot;} 
 </code></pre></div></li>
 <li><p>Stop riak-cs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/etc/init.d/riak-cs stop
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>/etc/init.d/riak-cs stop
 /etc/init.d/stanchion stop
 /etc/init.d/riak stop
 </code></pre></div></li>
 <li><p>Disable anonymous user creation</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sed &#39;s/{[ ]*anonymous_user_creation[ ]*,[ ]*true[ ]*}/{anonymous_user_creation, false}/&#39; /etc/riak-cs/app.config |grep anonymous_user_creation
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sed &#39;s/{[ ]*anonymous_user_creation[ ]*,[ ]*true[ ]*}/{anonymous_user_creation, false}/&#39; /etc/riak-cs/app.config |grep anonymous_user_creation
 </code></pre></div></li>
 <li><p>Restart riak-cs services:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/etc/init.d/riak start
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>/etc/init.d/riak start
 /etc/init.d/riak-cs start
 /etc/init.d/stanchion start
 </code></pre></div></li>
 <li><p>Create your bucket. The example name and in config files is &quot;bucket&quot;</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">s3cmd mb s3://bucket
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3cmd mb s3://bucket
 </code></pre></div>
 <p>You can verify that the bucket is created with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">s3cmd ls
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3cmd ls
 </code></pre></div></li>
 <li><p>Start MySQL server</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">service mysqld start
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>service mysqld start
 chkconfig mysqld on
 /usr/bin/mysqladmin -u root password &#39;riakdruid&#39;
 </code></pre></div>
 <p>NOTE: If you don&#39;t like &quot;riakdruid&quot; as your password, feel free to change it around.
 NOTE: If you have used root user to connect to database. It should be changed by other user but I have used this one to simplify it</p></li>
 <li><p>Start zookeeper and kafka</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/etc/init.d/zookeeper start
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>/etc/init.d/zookeeper start
 /etc/init.d/kafka start
 </code></pre></div></li>
 <li><p>Start druid</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/etc/init.d/druid_master start
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>/etc/init.d/druid_master start
 /etc/init.d/druid_realtime start
 /etc/init.d/druid_broker start
 /etc/init.d/druid_compute start

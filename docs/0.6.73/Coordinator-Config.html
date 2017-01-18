@@ -93,10 +93,10 @@
 <h2 id="quick-start">Quick Start</h2>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
 <p>With the following JVM configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -118,7 +118,7 @@ druid.coordinator.startDelay=PT60s
 <p>These production configs are using S3 as a deep store.</p>
 
 <p>JVM settings:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx#{HEAP_MAX}g
 -Xms#{HEAP_MIN}g
 -XX:NewSize=#{NEW_SIZE}g
@@ -135,7 +135,7 @@ druid.coordinator.startDelay=PT60s
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/coordinator
 
@@ -231,10 +231,10 @@ druid.curator.compress=true
 <p>The coordinator has dynamic configuration to change certain behaviour on the fly. The coordinator a JSON spec object from the Druid <a href="MySQL.html">MySQL</a> config table. This object is detailed below:</p>
 
 <p>It is recommended that you use the Coordinator Console to configure these parameters. However, if you need to do it via HTTP, the JSON object can be submitted to the overlord via a POST request at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/coordinator/config
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/coordinator/config
 </code></pre></div>
 <p>A sample worker setup spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;millisToWaitBeforeDeleting&quot;</span><span class="p">:</span> <span class="mi">900000</span><span class="p">,</span>
   <span class="nt">&quot;mergeBytesLimit&quot;</span><span class="p">:</span> <span class="mi">100000000</span><span class="err">L</span><span class="p">,</span>
   <span class="nt">&quot;mergeSegmentsLimit&quot;</span> <span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>

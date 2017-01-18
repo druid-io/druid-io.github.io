@@ -103,23 +103,23 @@
 <p>The indexer coordinator node exposes HTTP endpoints where tasks can be submitted by posting a JSON blob to specific endpoints. It can be started by launching IndexerCoordinatorMain.java. The indexer coordinator node can operate in local mode or remote mode. In local mode, the coordinator and worker run on the same host and port. In remote mode, worker processes run on separate hosts and ports.</p>
 
 <p>Tasks can be submitted via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
 </code></pre></div>
 <p>Tasks can cancelled via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
 </code></pre></div>
 <p>Issuing the cancel request once sends a graceful shutdown request. Graceful shutdowns may not stop a task right away, but instead issue a safe stop command at a point deemed least impactful to the system. Issuing the cancel request twice in succession will kill –9 the task.</p>
 
 <p>Task statuses can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
 </code></pre></div>
 <p>Task segments can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
 </code></pre></div>
 <p>When a task is submitted, the coordinator creates a lock over the data source and interval of the task. The coordinator also stores the task in a MySQL database table. The database table is read at startup time to bootstrap any tasks that may have been submitted to the coordinator but may not yet have been executed.</p>
 
 <p>The coordinator also exposes a simple UI to show what tasks are currently running on what nodes at</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/static/console.html
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/static/console.html
 </code></pre></div>
 <h4 id="task-execution">Task Execution</h4>
 
@@ -132,10 +132,10 @@
 <p>The Autoscaling mechanisms currently in place are tightly coupled with our deployment infrastructure but the framework should be in place for other implementations. We are highly open to new implementations or extensions of the existing mechanisms. In our own deployments, worker nodes are Amazon AWS EC2 nodes and they are provisioned to register themselves in a <a href="https://github.com/ning/galaxy">galaxy</a> environment.</p>
 
 <p>The Coordinator node controls the number of workers in the cluster according to a worker setup spec that is submitted via a POST request to the indexer at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/setup
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/setup
 </code></pre></div>
 <p>A sample worker setup spec is shown below:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;minVersion&quot;:&quot;some_version&quot;,
   &quot;minNumWorkers&quot;:&quot;0&quot;,
   &quot;maxNumWorkers&quot;:&quot;10&quot;,
@@ -201,7 +201,7 @@
 <h4 id="configuration">Configuration</h4>
 
 <p>Indexer Coordinator nodes require <a href="https://github.com/metamx/druid/wiki/Configuration#basic-service-configuration">basic service configuration</a>. In addition, there are several extra configurations that are required.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.zk.paths.indexer.announcementsPath=/druid/indexer/announcements
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.zk.paths.indexer.announcementsPath=/druid/indexer/announcements
 -Ddruid.zk.paths.indexer.leaderLatchPath=/druid/indexer/leaderLatchPath
 -Ddruid.zk.paths.indexer.statusPath=/druid/indexer/status
 -Ddruid.zk.paths.indexer.tasksPath=/druid/demo/indexer/tasks
@@ -295,7 +295,7 @@
 <h4 id="console">Console</h4>
 
 <p>The indexer console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:8080/static/console.html
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:8080/static/console.html
 </code></pre></div>
 <h2 id="worker-node">Worker Node</h2>
 
@@ -308,7 +308,7 @@
 <h4 id="configuration">Configuration</h4>
 
 <p>Worker nodes require <a href="https://github.com/metamx/druid/wiki/Configuration#basic-service-configuration">basic service configuration</a>. In addition, there are several extra configurations that are required.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.worker.version=0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.worker.version=0
 -Ddruid.worker.capacity=3
 
 -Ddruid.indexer.threads=3

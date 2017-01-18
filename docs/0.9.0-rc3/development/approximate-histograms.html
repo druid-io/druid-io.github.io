@@ -137,7 +137,7 @@ such rows will be ignored.</p>
 
 <p>To query for results, an &quot;approxHistogramFold&quot; aggregator must be included in the
 query.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;approxHistogram or approxHistogramFold (at ingestion time), approxHistogramFold (at query time)&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
@@ -181,7 +181,7 @@ distribution metrics such as quantiles, min, and max.</p>
 
 <p>Computes a visual representation of the approximate histogram with a given number of equal-sized bins.
 Bucket intervals are based on the range of the underlying data.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalBuckets&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregator_name&gt;&quot;</span><span class="p">,</span>
@@ -195,7 +195,7 @@ Bucket intervals are based on the range of the underlying data.</p>
 <p>Bucket size determines the width of the binning interval.</p>
 
 <p>Offset determines the value on which those interval bins align.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;buckets&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregator_name&gt;&quot;</span><span class="p">,</span>
@@ -206,29 +206,29 @@ Bucket intervals are based on the range of the underlying data.</p>
 <h4 id="custom-buckets-post-aggregator">Custom buckets post-aggregator</h4>
 
 <p>Computes a visual representation of the approximate histogram with bins laid out according to the given breaks.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;customBuckets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;customBuckets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;breaks&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="min-post-aggregator">min post-aggregator</h4>
 
 <p>Returns the minimum value of the underlying approximate histogram aggregator</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="max-post-aggregator">max post-aggregator</h4>
 
 <p>Returns the maximum value of the underlying approximate histogram aggregator</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="quantile-post-aggregator">quantile post-aggregator</h4>
 
 <p>Computes a single quantile based on the underlying approximate histogram aggregator</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantile&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantile&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;probability&quot;</span> <span class="p">:</span> <span class="err">&lt;quantile&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="quantiles-post-aggregator">quantiles post-aggregator</h4>
 
 <p>Computes an array of quantiles based on the underlying approximate histogram aggregator</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;probabilities&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
         </div>

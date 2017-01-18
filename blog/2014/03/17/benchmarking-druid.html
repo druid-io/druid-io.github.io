@@ -172,8 +172,8 @@ the TPC-H tools.</p>
 <p>If you would like to generate the datasets from scratch, or try out different
 sizes, download and compile the <a href="http://www.tpc.org/tpch/spec/tpch_2_16_1.zip">TPC-H tools</a>, and use the <code>dbgen</code> tool to
 generate the <code>lineitem</code> table.</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">./dbgen -TL -s1         <span class="c"># 1GB</span>
-./dbgen -TL -s100 -C100 <span class="c"># 100GB / 100 chunks</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>./dbgen -TL -s1         <span class="c1"># 1GB</span>
+./dbgen -TL -s100 -C100 <span class="c1"># 100GB / 100 chunks</span>
 </code></pre></div>
 <p>There is also a <a href="https://github.com/druid-io/druid-benchmark/blob/master/generate-data.sh"><code>generate-data.sh</code></a> script in our repository to help write
 compressed data directly when generating large data sets.</p>
@@ -321,7 +321,7 @@ rows/second for aggregate <code>select sum(float)</code> queries.</p>
 <p>Since Druid uses column-oriented storage, it performs better on queries using
 fewer columns, and as more columns become part of the query it is expected to
 lose some of its advantage compared to row-oriented storage engines.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># 1GB data set
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># 1GB data set
 # median query times (seconds) over 100 runs
 
                 query     druid mysql
@@ -361,7 +361,7 @@ queries take at least 10 minutes to complete, while more expensive ones can
 take several hours.</p>
 
 <p><img src="/assets/druid-benchmark-100gb-median.png" alt=""></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># 100GB data set (single node)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># 100GB data set (single node)
 # median query times (seconds) - 20 runs Druid, 3-5 runs MySQL
 
                 query          druid    mysql 
@@ -390,7 +390,7 @@ since a fair amount of merging work has to be done at the broker level to merge
 results for those type of queries on high-cardinality dimensions.</p>
 
 <p><img src="/assets/druid-benchmark-scaling.png" alt=""></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># median query times (seconds) over 20 runs
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># median query times (seconds) over 20 runs
 
                 query druid (1 node) druid (6 nodes)
   count_star_interval       2.632399       0.4061503

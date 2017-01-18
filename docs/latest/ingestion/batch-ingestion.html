@@ -92,7 +92,7 @@
 
 <p>Hadoop-based batch ingestion in Druid is supported via a Hadoop-ingestion task. These tasks can be posted to a running
 instance of a Druid <a href="../design/indexing-service.html">overlord</a>. A sample task is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
   <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -252,7 +252,7 @@ instance of a Druid <a href="../design/indexing-service.html">overlord</a>. A sa
 </tbody></table>
 
 <p>For example, using the static input paths:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;paths&quot; : &quot;s3n://billy-bucket/the/data/is/here/data.gz, s3n://billy-bucket/the/data/is/here/moredata.gz, s3n://billy-bucket/the/data/is/here/evenmoredata.gz&quot;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;paths&quot; : &quot;s3n://billy-bucket/the/data/is/here/data.gz, s3n://billy-bucket/the/data/is/here/moredata.gz, s3n://billy-bucket/the/data/is/here/evenmoredata.gz&quot;
 </code></pre></div>
 <h5 id="granularity"><code>granularity</code></h5>
 
@@ -293,7 +293,7 @@ instance of a Druid <a href="../design/indexing-service.html">overlord</a>. A sa
 </tbody></table>
 
 <p>For example, if the sample config were run with the interval 2012-06-01/2012-06-02, it would expect data at the paths:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=01
 ...
 s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
@@ -411,7 +411,7 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 </tbody></table>
 
 <h4 id="jobproperties-field-of-tuningconfig">jobProperties field of TuningConfig</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json">   <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
      <span class="nt">&quot;jobProperties&quot;</span><span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;&lt;hadoop-property-a&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value-a&gt;&quot;</span><span class="p">,</span>
@@ -515,7 +515,7 @@ hash of all dimensions in each row), and &quot;dimension&quot; (based on ranges 
 sized data segments relative to single-dimension partitioning.</p>
 
 <h4 id="hash-based-partitioning">Hash-based partitioning</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hashed&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
@@ -556,7 +556,7 @@ cardinality of the input set and a target partition size.</p>
 </tbody></table>
 
 <h4 id="single-dimension-partitioning">Single-dimension partitioning</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
@@ -619,7 +619,7 @@ from S3. To do this:</p>
 <li>When creating your cluster, enter the following configuration. If you&#39;re using the wizard, this
 should be in advanced mode under &quot;Edit software settings&quot;:</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">classification=yarn-site,properties=[mapreduce.reduce.memory.mb=6144,mapreduce.reduce.java.opts=-server -Xms2g -Xmx2g -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.map.java.opts=758,mapreduce.map.java.opts=-server -Xms512m -Xmx512m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.task.timeout=1800000]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>classification=yarn-site,properties=[mapreduce.reduce.memory.mb=6144,mapreduce.reduce.java.opts=-server -Xms2g -Xmx2g -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.map.java.opts=758,mapreduce.map.java.opts=-server -Xms512m -Xmx512m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.task.timeout=1800000]
 </code></pre></div>
 <ul>
 <li>Follow the instructions under &quot;<a href="../tutorials/cluster.html#configure-cluster-for-hadoop-data-loads">Configure Hadoop for data
@@ -662,7 +662,7 @@ To avoid this extra external cron job script calling <code>kinit</code> periodic
 <ul>
 <li>In the <code>jobProperties</code> field in the <code>tuningConfig</code> section of your Hadoop indexing task, add:</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;jobProperties&quot; : {
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;jobProperties&quot; : {
    &quot;fs.s3.awsAccessKeyId&quot; : &quot;YOUR_ACCESS_KEY&quot;,
    &quot;fs.s3.awsSecretAccessKey&quot; : &quot;YOUR_SECRET_KEY&quot;,
    &quot;fs.s3.impl&quot; : &quot;org.apache.hadoop.fs.s3native.NativeS3FileSystem&quot;,

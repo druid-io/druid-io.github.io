@@ -97,12 +97,12 @@
 <h3 id="default-dimensionspec">Default DimensionSpec</h3>
 
 <p>Returns dimension values as is and optionally renames the dimension.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="extraction-dimensionspec">Extraction DimensionSpec</h3>
 
 <p>Returns dimension values transformed using the given <a href="#extraction-functions">extraction function</a>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
@@ -125,7 +125,7 @@ before getting passed to the extraction function.</p>
 
 <p>Returns the first matching group for the given regular expression.
 If there is no match, it returns the dimension value as is.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example, using <code>&quot;expr&quot; : &quot;(\\w\\w\\w).*&quot;</code> will transform
 <code>&#39;Monday&#39;</code>, <code>&#39;Tuesday&#39;</code>, <code>&#39;Wednesday&#39;</code> into <code>&#39;Mon&#39;</code>, <code>&#39;Tue&#39;</code>, <code>&#39;Wed&#39;</code>.</p>
@@ -133,13 +133,13 @@ If there is no match, it returns the dimension value as is.</p>
 <h3 id="partial-extraction-function">Partial Extraction Function</h3>
 
 <p>Returns the dimension value unchanged if the regular expression matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="search-query-extraction-function">Search Query Extraction Function</h3>
 
 <p>Returns the dimension value unchanged if the given <a href="../querying/searchqueryspec.html"><code>SearchQuerySpec</code></a>
 matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="time-format-extraction-function">Time Format Extraction Function</h3>
 
@@ -156,13 +156,13 @@ matches, otherwise returns null.</p>
 <li><code>locale</code> : locale (language and country) to use, given as a <a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text">IETF BCP 47 language tag</a>, e.g. <code>en-US</code>, <code>en-GB</code>, <code>fr-FR</code>, <code>fr-CA</code>, etc.</li>
 <li><code>timeZone</code> : time zone to use in <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA tz database format</a>, e.g. <code>Europe/Berlin</code> (this can possibly be different than the aggregation time-zone)</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
   <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
   <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;time_zone&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
   <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional)</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example, the following dimension spec returns the day of the week for Montréal in French:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;dayOfWeek&quot;</span><span class="p">,</span>
@@ -185,7 +185,7 @@ which works on time value directly as opposed to string values.</p>
 
 <p>Time formats are described in the
 <a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
   <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
 </code></pre></div>
@@ -199,11 +199,11 @@ which works on time value directly as opposed to string values.</p>
 representing the number of milliseconds since January 1, 1970 UTC.</p>
 
 <p>Example for a regular dimension</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str.substr(0, 3); }&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str + &#39;!!!&#39;; }&quot;</span><span class="p">,</span>
   <span class="nt">&quot;injective&quot;</span> <span class="p">:</span> <span class="kc">true</span>
@@ -212,7 +212,7 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
 <p>A property of <code>injective</code> specifies if the javascript function preserves uniqueness. The default value is <code>false</code> meaning uniqueness is not preserved</p>
 
 <p>Example for the <code>__time</code> dimension:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(t) { return &#39;Second &#39; + Math.floor((t % 60000) / 1000); }&quot;</span>
 <span class="p">}</span>
@@ -231,7 +231,7 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
   &quot;injective&quot;:true
 }
 </code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
@@ -241,13 +241,13 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
   <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;MISSING&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
   <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
   <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>

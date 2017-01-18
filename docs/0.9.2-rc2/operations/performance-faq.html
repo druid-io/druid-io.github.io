@@ -88,7 +88,7 @@
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2-rc2">API documentation</a></p>
           <h1 id="performance-faq">Performance FAQ</h1>
 
-<h2 id="i-can-39-t-match-your-benchmarked-results">I can&#39;t match your benchmarked results</h2>
+<h2 id="i-cant-match-your-benchmarked-results">I can&#39;t match your benchmarked results</h2>
 
 <p>Improper configuration is by far the largest problem we see people trying to deploy Druid. The example configurations listed in the tutorials are designed for a small volume of data where all nodes are on a single machine. The configs are extremely poor for actual production use.</p>
 
@@ -115,7 +115,7 @@
 <h2 id="my-logs-are-really-chatty-can-i-set-them-to-asynchronously-write">My logs are really chatty, can I set them to asynchronously write?</h2>
 
 <p>Yes, using a <code>log4j2.xml</code> similar to the following causes some of the more chatty classes to write asynchronously:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
 &lt;Configuration status=&quot;WARN&quot;&gt;
   &lt;Appenders&gt;
     &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;

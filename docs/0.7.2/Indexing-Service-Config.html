@@ -345,7 +345,7 @@
 <p>The overlord can dynamically change worker behavior.</p>
 
 <p>The JSON object can be submitted to the overlord via a POST request at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker
 </code></pre></div>
 <p>Optional Header Parameters for auditing the config change can also be specified.</p>
 
@@ -369,7 +369,7 @@
 </tbody></table>
 
 <p>A sample worker config spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;selectStrategy&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fillCapacityWithAffinity&quot;</span><span class="p">,</span>
     <span class="nt">&quot;affinityConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -425,7 +425,7 @@
 </tbody></table>
 
 <p>To view the audit history of worker config issue a GET request to the URL -</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?interval=&lt;interval&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?interval=&lt;interval&gt;
 </code></pre></div>
 <p>default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in overlord runtime.properties.</p>
 
@@ -596,7 +596,7 @@
 <h4 id="peon-configs">Peon Configs</h4>
 
 <p>Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middlemanager can be set by prefixing them with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.indexer.fork.property
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.fork.property
 </code></pre></div>
 <p>Additional peon configs include:</p>
 

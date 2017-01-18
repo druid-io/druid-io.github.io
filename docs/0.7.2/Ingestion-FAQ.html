@@ -112,10 +112,10 @@
 
 <p>Make sure to include the <code>druid-hdfs-storage</code> module as one of your extensions and set <code>druid.storage.type=hdfs</code>. You may also need to include hadoop configs on the classpath.</p>
 
-<h2 id="i-don-39-t-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
+<h2 id="i-dont-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
 
 <p>You can check the coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code>. Make sure that your segments have actually loaded on <a href="Historical.html">historical nodes</a>. If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
 -Ddruid.server.maxSize=500000000000
 </code></pre></div>
 <h2 id="my-queries-are-returning-empty-results">My queries are returning empty results</h2>

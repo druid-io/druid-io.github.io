@@ -91,7 +91,7 @@
 <h3 id="defaultlimitspec">DefaultLimitSpec</h3>
 
 <p>The default limit spec takes a limit and the list of columns to do an orderBy operation over. The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
     <span class="nt">&quot;limit&quot;</span>   <span class="p">:</span> <span class="err">&lt;integer_value&gt;</span><span class="p">,</span>
     <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">list</span> <span class="err">of</span> <span class="err">OrderByColumnSpec</span><span class="p">],</span>
@@ -100,7 +100,7 @@
 <h4 id="orderbycolumnspec">OrderByColumnSpec</h4>
 
 <p>OrderByColumnSpecs indicate how to do order by operations. Each order by condition can be a <code>jsonString</code> or a map of the following form:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;Any</span> <span class="err">dimension</span> <span class="err">or</span> <span class="err">metric&gt;</span><span class="p">,</span>
     <span class="nt">&quot;direction&quot;</span> <span class="p">:</span> <span class="s2">&quot;ASCENDING OR DESCENDING&quot;</span>
 <span class="p">}</span>

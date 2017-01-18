@@ -97,12 +97,12 @@
 <h3 id="default-dimensionspec">Default DimensionSpec</h3>
 
 <p>Returns dimension values as is and optionally renames the dimension.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="extraction-dimensionspec">Extraction DimensionSpec</h3>
 
 <p>Returns dimension values transformed using the given <a href="#extraction-functions">extraction function</a>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
@@ -125,7 +125,7 @@ before getting passed to the extraction function.</p>
 
 <p>Returns the first matching group for the given regular expression.
 If there is no match, it returns the dimension value as is.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValue&quot;</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span> <span class="p">:</span> <span class="s2">&quot;foobar&quot;</span>
@@ -143,24 +143,24 @@ If there is no match, it returns the dimension value as is.</p>
 <h3 id="partial-extraction-function">Partial Extraction Function</h3>
 
 <p>Returns the dimension value unchanged if the regular expression matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="search-query-extraction-function">Search Query Extraction Function</h3>
 
 <p>Returns the dimension value unchanged if the given <a href="../querying/searchqueryspec.html"><code>SearchQuerySpec</code></a>
 matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="substring-extraction-function">Substring Extraction Function</h3>
 
 <p>Returns a substring of the dimension value starting from the supplied index and of the desired length. If the desired
 length exceeds the length of the dimension value, the remainder of the string starting at index will be returned. 
 If index is greater than the length of the dimension value, null will be returned.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;substring&quot;</span><span class="p">,</span> <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;length&quot;</span> <span class="p">:</span> <span class="mi">4</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;substring&quot;</span><span class="p">,</span> <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;length&quot;</span> <span class="p">:</span> <span class="mi">4</span> <span class="p">}</span>
 </code></pre></div>
 <p>The length may be omitted for substring to return the remainder of the dimension value starting from index, 
 or null if index greater than the length of the dimension value.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;substring&quot;</span><span class="p">,</span> <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="mi">3</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;substring&quot;</span><span class="p">,</span> <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="mi">3</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="time-format-extraction-function">Time Format Extraction Function</h3>
 
@@ -177,13 +177,13 @@ or null if index greater than the length of the dimension value.</p>
 <li><code>locale</code> : locale (language and country) to use, given as a <a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text">IETF BCP 47 language tag</a>, e.g. <code>en-US</code>, <code>en-GB</code>, <code>fr-FR</code>, <code>fr-CA</code>, etc.</li>
 <li><code>timeZone</code> : time zone to use in <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA tz database format</a>, e.g. <code>Europe/Berlin</code> (this can possibly be different than the aggregation time-zone)</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
   <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
   <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;time_zone&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
   <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional)</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example, the following dimension spec returns the day of the week for Montréal in French:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;dayOfWeek&quot;</span><span class="p">,</span>
@@ -206,7 +206,7 @@ which works on time value directly as opposed to string values.</p>
 
 <p>Time formats are described in the
 <a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
   <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
 </code></pre></div>
@@ -220,11 +220,11 @@ which works on time value directly as opposed to string values.</p>
 representing the number of milliseconds since January 1, 1970 UTC.</p>
 
 <p>Example for a regular dimension</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str.substr(0, 3); }&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str + &#39;!!!&#39;; }&quot;</span><span class="p">,</span>
   <span class="nt">&quot;injective&quot;</span> <span class="p">:</span> <span class="kc">true</span>
@@ -233,7 +233,7 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
 <p>A property of <code>injective</code> specifies if the javascript function preserves uniqueness. The default value is <code>false</code> meaning uniqueness is not preserved</p>
 
 <p>Example for the <code>__time</code> dimension:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(t) { return &#39;Second &#39; + Math.floor((t % 60000) / 1000); }&quot;</span>
 <span class="p">}</span>
@@ -243,7 +243,7 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
 <p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values. 
 For more documentation on using lookups, please see <a href="../querying/lookups.html">here</a>. 
 Explicit lookups allow you to specify a set of keys and values to use when performing the extraction.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
@@ -252,7 +252,7 @@ Explicit lookups allow you to specify a set of keys and values to use when perfo
   <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
   <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
@@ -262,13 +262,13 @@ Explicit lookups allow you to specify a set of keys and values to use when perfo
   <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;MISSING&quot;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
   <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
   <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
@@ -287,7 +287,7 @@ A <code>namespace</code> lookup is populated on all the nodes which handle queri
 <p>A property <code>optimize</code> can be supplied to allow optimization of lookup based extraction filter (by default <code>optimize = true</code>). 
 The optimization layer will run on the broker and it will rewrite the extraction filter as clause of selector filters.
 For instance the following filter </p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
         <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
@@ -307,7 +307,7 @@ For instance the following filter </p>
 <span class="p">}</span>
 </code></pre></div>
 <p>will be rewritten as</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;filter&quot;</span><span class="p">:{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;or&quot;</span><span class="p">,</span>
       <span class="nt">&quot;fields&quot;</span><span class="p">:[</span>
@@ -341,7 +341,7 @@ Omitting the empty string key will cause the missing value to take over. For exa
 <p>A property of <code>extractionFns</code> contains an array of any extraction functions, which is executed in the array index order.</p>
 
 <p>Example for chaining <a href="#regular-expression-extraction-function">regular expression extraction function</a>, <a href="#javascript-extraction-function">javascript extraction function</a>, and <a href="#substring-extraction-function">substring extraction function</a> is as followings.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;cascade&quot;</span><span class="p">,</span> 
   <span class="nt">&quot;extractionFns&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span> 
@@ -367,7 +367,7 @@ For example, <code>&#39;/druid/prod/historical&#39;</code> is transformed to <co
 <h3 id="string-format-extraction-function">String Format Extraction Function</h3>
 
 <p>Returns the dimension value formatted according to the given format string.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringFormat&quot;</span><span class="p">,</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;sprintf_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringFormat&quot;</span><span class="p">,</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;sprintf_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example if you want to concat &quot;[&quot; and &quot;]&quot; before and after the actual dimension value, you need to specify &quot;[%s]&quot; as format string.</p>
 
@@ -381,10 +381,10 @@ Then groupBy/topN processing pipeline &quot;explodes&quot; all multi-value dimen
 <p>In addition to &quot;query filter&quot; which efficiently selects the rows to be processed, you can use the filtered dimension spec to filter for specific values within the values of a multi-value dimension. These dimensionSpecs take a delegate DimensionSpec and a filtering criteria. From the &quot;exploded&quot; rows, only rows matching the given filtering criteria are returned in the query result.</p>
 
 <p>The following filtered dimension spec acts as a whitelist or blacklist for values as per the &quot;isWhitelist&quot; attribute value.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;listFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">strings&gt;</span><span class="p">,</span> <span class="nt">&quot;isWhitelist&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">attribute</span> <span class="err">for</span> <span class="kc">true</span><span class="err">/</span><span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">is</span> <span class="err">true&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;listFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">strings&gt;</span><span class="p">,</span> <span class="nt">&quot;isWhitelist&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">attribute</span> <span class="err">for</span> <span class="kc">true</span><span class="err">/</span><span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">is</span> <span class="err">true&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>Following filtered dimension spec retains only the values matching regex. Note that <code>listFiltered</code> is faster than this and one should use that for whitelist or blacklist usecase.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regexFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;java</span> <span class="err">regex</span> <span class="err">pattern&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regexFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;java</span> <span class="err">regex</span> <span class="err">pattern&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For more details and examples, see <a href="multi-value-dimensions.html">multi-value dimensions</a>.</p>
 
@@ -392,13 +392,13 @@ Then groupBy/topN processing pipeline &quot;explodes&quot; all multi-value dimen
 
 <p>Returns the dimension values as all upper case or lower case.
 Optionally user can specify the language to use in order to perform upper or lower transformation </p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
   <span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="s2">&quot;fr&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>or without setting &quot;locale&quot; (in this case, the current value of the default locale for this instance of the Java Virtual Machine.)</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;lower&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -411,7 +411,7 @@ Lookups are an <a href="../development/experimental.html">experimental</a> featu
 <p>Lookup DimensionSpecs can be used to define directly a lookup implementation as dimension spec.
 Generally speaking there is two different kind of lookups implementations. 
 The first kind is passed at the query time like <code>map</code> implementation.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> 
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;dimensionName&quot;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span><span class="p">:</span><span class="s2">&quot;dimensionOutputName&quot;</span><span class="p">,</span>
@@ -431,7 +431,7 @@ The default values are <code>replaceMissingValueWith = null</code> and <code>ret
 <p>A property <code>optimize</code> can be supplied to allow optimization of lookup based extraction filter (by default <code>optimize = true</code>).</p>
 
 <p>The second kind where it is not possible to pass at query time due to their size, will be based on an external lookup table or resource that is already registered via configuration file or/and coordinator.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> 
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span>
   <span class="s2">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;dimensionName&quot;</span>
   <span class="s2">&quot;outputName&quot;</span><span class="p">:</span><span class="s2">&quot;dimensionOutputName&quot;</span>

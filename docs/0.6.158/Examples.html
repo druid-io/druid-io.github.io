@@ -97,8 +97,8 @@
 <h3 id="building-from-source">Building from source</h3>
 
 <p>Clone Druid and build it:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/metamx/druid.git druid
-<span class="nb">cd </span>druid
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>git clone https://github.com/metamx/druid.git druid
+<span class="nb">cd</span> druid
 git fetch --tags
 git checkout druid-0.6.158
 ./build.sh
@@ -106,8 +106,8 @@ git checkout druid-0.6.158
 <h3 id="downloading-the-dsk-druid-standalone-kit">Downloading the DSK (Druid Standalone Kit)</h3>
 
 <p><a href="http://static.druid.io/artifacts/releases/druid-services-0.6.158-bin.tar.gz">Download</a> a stand-alone tarball and run it:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -xzf druid-services-0.X.X-bin.tar.gz
-<span class="nb">cd </span>druid-services-0.X.X
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf druid-services-0.X.X-bin.tar.gz
+<span class="nb">cd</span> druid-services-0.X.X
 </code></pre></div>
 <h2 id="twitter-example">Twitter Example</h2>
 
@@ -138,10 +138,10 @@ git checkout druid-0.6.158
 <p>This uses <code>RandomFirehoseFactory</code> which emits a stream of random numbers (outColumn, a positive double) with timestamps along with an associated token (target). This provides a timeseries that requires no network access for demonstration, characterization, and testing. The generated tuples can be thought of as asynchronously produced triples (timestamp, outColumn, target) where the timestamp varies depending on speed of processing.</p>
 
 <p>In a terminal window, (NOTE: If you are using the cloned Github repository these scripts are in ./examples/bin) start the server with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./run_example_server.sh <span class="c"># type rand when prompted</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./run_example_server.sh <span class="c1"># type rand when prompted</span>
 </code></pre></div>
 <p>In another terminal window:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./run_example_client.sh <span class="c"># type rand when prompted</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./run_example_client.sh <span class="c1"># type rand when prompted</span>
 </code></pre></div>
 <p>The result of the client query is in JSON format. The client makes a REST request using the program <code>curl</code> which is usually installed on Linux, Unix, and OSX by default.</p>
 

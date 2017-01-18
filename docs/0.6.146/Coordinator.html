@@ -97,7 +97,7 @@
 <p>Before any unassigned segments are serviced by historical nodes, the available historical nodes for each tier are first sorted in terms of capacity, with least capacity servers having the highest priority. Unassigned segments are always assigned to the nodes with least capacity to maintain a level of balance between nodes. The coordinator does not directly communicate with a historical node when assigning it a new segment; instead the coordinator creates some temporary information about the new segment under load queue path of the historical node. Once this request is seen, the historical node will load the segment and begin servicing it.</p>
 
 <h3 id="running">Running</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
 <h2 id="rules">Rules</h2>
 
@@ -179,7 +179,7 @@
 <h2 id="the-coordinator-console">The Coordinator Console</h2>
 
 <p>The Druid coordinator exposes a web GUI for displaying cluster information and rule configuration. After the coordinator starts, the console can be accessed at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;COORDINATOR_PORT&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;COORDINATOR_PORT&gt;
 </code></pre></div>
 <p>There exists a full cluster view, as well as views for individual historical nodes, datasources and segments themselves. Segment information can be displayed in raw JSON form or as part of a sortable and filterable table.</p>
 

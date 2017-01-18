@@ -99,7 +99,7 @@
 <h2 id="create-config-directories">Create Config Directories</h2>
 
 <p>Each type of node needs its own config file and directory, so create these subdirectories under the druid directory.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir config
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>mkdir config
 mkdir config/realtime
 </code></pre></div>
 <h2 id="loading-data-with-kafka">Loading Data with Kafka</h2>
@@ -111,12 +111,12 @@ mkdir config/realtime
 <p>Instructions for booting a Zookeeper and then Kafka cluster are available <a href="http://kafka.apache.org/07/quickstart.html">here</a>.</p>
 
 <p><strong>Download Apache Kafka</strong> 0.7.2 from <a href="http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz">http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz</a></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
 tar -xvzf kafka-0.7.2-incubating-bin.tar.gz
 cd kafka-0.7.2-incubating-bin
 </code></pre></div>
 <p><strong>Boot Zookeeper and Kafka</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cat config/zookeeper.properties
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cat config/zookeeper.properties
 bin/zookeeper-server-start.sh config/zookeeper.properties
 # in a new console
 bin/kafka-server-start.sh config/server.properties
@@ -124,17 +124,17 @@ bin/kafka-server-start.sh config/server.properties
 <p><strong>Launch Kafka</strong></p>
 
 <p>In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 </code></pre></div>
 <h3 id="launching-a-realtime-node">Launching a Realtime Node</h3>
 
 <p><strong>Download Druid</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>wget http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz
 tar -xvzf druid-services-0.5.50-bin.tar.gz
 cd druid-services-0.5.50-bin
 </code></pre></div>
 <p><strong>Create a valid configuration file</strong> similar to this called config/realtime/runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=127.0.0.1
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=127.0.0.1
 druid.port=8083
 
 com.metamx.emitter.logging=true
@@ -164,7 +164,7 @@ druid.database.connectURI=
 druid.host=127.0.0.1:8083
 </code></pre></div>
 <p><strong>Create a valid realtime configuration file</strong> similar to this called realtime.spec in the current directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[{
   &quot;schema&quot; : { &quot;dataSource&quot;:&quot;druidtest&quot;,
                &quot;aggregators&quot;:[ {&quot;type&quot;:&quot;count&quot;, &quot;name&quot;:&quot;impressions&quot;},
                                   {&quot;type&quot;:&quot;doubleSum&quot;,&quot;name&quot;:&quot;wp&quot;,&quot;fieldName&quot;:&quot;wp&quot;}],
@@ -193,26 +193,26 @@ druid.host=127.0.0.1:8083
 }]
 </code></pre></div>
 <p><strong>Launch the realtime node</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime \
 com.metamx.druid.realtime.RealtimeMain
 </code></pre></div>
 <p><strong>Paste data into the Kafka console producer</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;utcdt&quot;: &quot;2010-01-01T01:01:01&quot;, &quot;wp&quot;: 1000, &quot;gender&quot;: &quot;male&quot;, &quot;age&quot;: 100}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;utcdt&quot;: &quot;2010-01-01T01:01:01&quot;, &quot;wp&quot;: 1000, &quot;gender&quot;: &quot;male&quot;, &quot;age&quot;: 100}
 {&quot;utcdt&quot;: &quot;2010-01-01T01:01:02&quot;, &quot;wp&quot;: 2000, &quot;gender&quot;: &quot;female&quot;, &quot;age&quot;: 50}
 {&quot;utcdt&quot;: &quot;2010-01-01T01:01:03&quot;, &quot;wp&quot;: 3000, &quot;gender&quot;: &quot;male&quot;, &quot;age&quot;: 20}
 {&quot;utcdt&quot;: &quot;2010-01-01T01:01:04&quot;, &quot;wp&quot;: 4000, &quot;gender&quot;: &quot;female&quot;, &quot;age&quot;: 30}
 {&quot;utcdt&quot;: &quot;2010-01-01T01:01:05&quot;, &quot;wp&quot;: 5000, &quot;gender&quot;: &quot;male&quot;, &quot;age&quot;: 40}
 </code></pre></div>
 <p><strong>Watch the events as they are ingested</strong> in the Druid realtime node console</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">...
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
 2013-06-17 21:41:55,569 INFO [Global--0] com.metamx.emitter.core.LoggingEmitter - Event [{&quot;feed&quot;:&quot;metrics&quot;,&quot;timestamp&quot;:&quot;2013-06-17T21:41:55.569Z&quot;,&quot;service&quot;:&quot;example&quot;,&quot;host&quot;:&quot;127.0.0.1&quot;,&quot;metric&quot;:&quot;events/processed&quot;,&quot;value&quot;:5,&quot;user2&quot;:&quot;druidtest&quot;}]
 ...
 </code></pre></div>
 <p><strong>Create a query</strong>
 In a new console, edit a file called query.body:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
     &quot;queryType&quot;: &quot;groupBy&quot;,
     &quot;dataSource&quot;: &quot;druidtest&quot;,
     &quot;granularity&quot;: &quot;all&quot;,
@@ -226,11 +226,11 @@ In a new console, edit a file called query.body:</p>
 }
 </code></pre></div>
 <p><strong>Submit the query via curl</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &quot;http://localhost:8083/druid/v2/?pretty&quot; \
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &quot;http://localhost:8083/druid/v2/?pretty&quot; \
 -H &#39;content-type: application/json&#39; -d @query.body
 </code></pre></div>
 <p><strong>View Result!</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[ {
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[ {
   &quot;timestamp&quot; : &quot;2010-01-01T01:01:00.000Z&quot;,
   &quot;result&quot; : {
     &quot;imps&quot; : 20,

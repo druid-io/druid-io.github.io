@@ -100,7 +100,7 @@ Derby is not suitable for production use as a metadata store. Use MySQL or Postg
 <h2 id="using-derby">Using derby</h2>
 
 <p>Add the following to your Druid configuration.</p>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">derby</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">derby</span>
 <span class="na">druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:derby://localhost:1527//opt/var/druid_state/derby;create=true</span>
 </code></pre></div>
 <h2 id="mysql">MySQL</h2>
@@ -131,7 +131,7 @@ removing their metadata (which allows for simpler rolling back if that is ever
 an issue).</p>
 
 <p>The <code>payload</code> column stores a JSON blob that has all of the metadata for the segment (some of the data stored in this payload is redundant with some of the columns in the table, that is intentional). This looks something like</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
  <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2012-05-23T00:00:00.000Z/2012-05-24T00:00:00.000Z&quot;</span><span class="p">,</span>
  <span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="s2">&quot;2012-05-24T00:10:00.046Z&quot;</span><span class="p">,</span>

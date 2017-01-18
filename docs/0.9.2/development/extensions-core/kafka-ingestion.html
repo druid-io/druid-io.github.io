@@ -109,10 +109,10 @@ version 0.9 or better before using this service.
 <p>The Kafka indexing service requires that the <code>druid-kafka-indexing-service</code> extension be loaded on both the overlord and the
 middle managers. A supervisor for a dataSource is started by submitting a supervisor spec via HTTP POST to
 <code>http://&lt;OVERLORD_IP&gt;:&lt;OVERLORD_PORT&gt;/druid/indexer/v1/supervisor</code>, for example:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST -H &#39;Content-Type: application/json&#39; -d @supervisor-spec.json http://localhost:8090/druid/indexer/v1/supervisor
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST -H &#39;Content-Type: application/json&#39; -d @supervisor-spec.json http://localhost:8090/druid/indexer/v1/supervisor
 </code></pre></div>
 <p>A sample supervisor spec is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;metrics-kafka&quot;</span><span class="p">,</span>
@@ -461,7 +461,7 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <p>The following endpoints are available on the Overlord:</p>
 
 <h4 id="create-supervisor">Create Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">POST /druid/indexer/v1/supervisor
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor
 </code></pre></div>
 <p>Use <code>Content-Type: application/json</code> and provide a supervisor spec in the request body.</p>
 
@@ -477,37 +477,37 @@ existing publishing tasks and will create new tasks starting at the offsets the 
 <p>Seamless schema migrations can thus be achieved by simply submitting the new schema using this endpoint.</p>
 
 <h4 id="shutdown-supervisor">Shutdown Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown
 </code></pre></div>
 <p>Note that this will cause all indexing tasks managed by this supervisor to immediately stop and begin publishing their segments.</p>
 
 <h4 id="get-supervisor-ids">Get Supervisor IDs</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GET /druid/indexer/v1/supervisor
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor
 </code></pre></div>
 <p>Returns a list of the currently active supervisors.</p>
 
 <h4 id="get-supervisor-spec">Get Supervisor Spec</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;
 </code></pre></div>
 <p>Returns the current spec for the supervisor with the provided ID.</p>
 
 <h4 id="get-supervisor-status-report">Get Supervisor Status Report</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status
 </code></pre></div>
 <p>Returns a snapshot report of the current state of the tasks managed by the given supervisor.</p>
 
 <h4 id="get-all-supervisor-history">Get All Supervisor History</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GET /druid/indexer/v1/supervisor/history
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/history
 </code></pre></div>
 <p>Returns an audit history of specs for all supervisors (current and past).</p>
 
 <h4 id="get-supervisor-history">Get Supervisor History</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/history
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/history
 </code></pre></div>
 <p>Returns an audit history of specs for the supervisor with the provided ID.</p>
 
 <h4 id="reset-supervisor">Reset Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
 </code></pre></div>
 <p>The indexing service keeps track of the latest persisted Kafka offsets in order to provide exactly-once ingestion
 guarantees across tasks. Subsequent tasks must start reading from where the previous task completed in order for the
@@ -543,7 +543,7 @@ reading tasks, the exception being if taskCount &gt; {numKafkaPartitions} in whi
 be used instead. When <code>taskDuration</code> elapses, these tasks will transition to publishing state and <code>replicas * taskCount</code>
 new reading tasks will be created. Therefore to allow for reading tasks and publishing tasks to run concurrently, there
 should be a minimum capacity of:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">workerCapacity = 2 * replicas * taskCount
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>workerCapacity = 2 * replicas * taskCount
 </code></pre></div>
 <p>This value is for the ideal situation in which there is at most one set of tasks publishing while another set is reading.
 In some circumstances, it is possible to have multiple sets of tasks publishing simultaneously. This would happen if the

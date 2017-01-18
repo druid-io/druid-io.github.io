@@ -106,10 +106,10 @@
 <p>Duration granularities are specified as an exact duration in milliseconds and timestamps are returned as UTC.</p>
 
 <p>They also support specifying an optional origin, which defines where to start counting time buckets from (defaults to 1970-01-01T00:00:00Z).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;type&quot;: &quot;duration&quot;, &quot;duration&quot;: &quot;7200000&quot;}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;type&quot;: &quot;duration&quot;, &quot;duration&quot;: &quot;7200000&quot;}
 </code></pre></div>
 <p>This chunks up every 2 hours.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;type&quot;: &quot;duration&quot;, &quot;duration&quot;: &quot;3600000&quot;, &quot;origin&quot;: &quot;2012-01-01T00:30:00Z&quot;}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;type&quot;: &quot;duration&quot;, &quot;duration&quot;: &quot;3600000&quot;, &quot;origin&quot;: &quot;2012-01-01T00:30:00Z&quot;}
 </code></pre></div>
 <p>This chunks up every hour on the half-hour.</p>
 
@@ -123,10 +123,10 @@
 
 <p>Time zone is optional (defaults to UTC)
 Origin is optional (defaults to 1970-01-01T00:00:00 in the given time zone)</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;type&quot;: &quot;period&quot;, &quot;period&quot;: &quot;P2D&quot;, &quot;timeZone&quot;: &quot;America/Los_Angeles&quot;}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;type&quot;: &quot;period&quot;, &quot;period&quot;: &quot;P2D&quot;, &quot;timeZone&quot;: &quot;America/Los_Angeles&quot;}
 </code></pre></div>
 <p>This will bucket by two day chunks in the Pacific timezone.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;type&quot;: &quot;period&quot;, &quot;period&quot;: &quot;P3M&quot;, &quot;timeZone&quot;: &quot;America/Los_Angeles&quot;, &quot;origin&quot;: &quot;2012-02-01T00:00:00-08:00&quot;}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;type&quot;: &quot;period&quot;, &quot;period&quot;: &quot;P3M&quot;, &quot;timeZone&quot;: &quot;America/Los_Angeles&quot;, &quot;origin&quot;: &quot;2012-02-01T00:00:00-08:00&quot;}
 </code></pre></div>
 <p>This will bucket by 3 month chunks in the Pacific timezone where the three-month quarters are defined as starting from February.</p>
 

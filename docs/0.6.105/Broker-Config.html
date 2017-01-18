@@ -93,10 +93,10 @@
 <h2 id="quick-start">Quick Start</h2>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server broker
 </code></pre></div>
 <p>With the following JVM configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -116,7 +116,7 @@ druid.processing.numThreads=1
 <p>These production configs are using S3 as a deep store.</p>
 
 <p>JVM settings:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx#{HEAP_MAX}g
 -Xms#{HEAP_MIN}g
 -XX:NewSize=#{NEW_SIZE}g
@@ -133,7 +133,7 @@ druid.processing.numThreads=1
 -Dcom.sun.management.jmxremote.ssl=false
 </code></pre></div>
 <p>Runtime.properties:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=#{IP_ADDR}:8080
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=#{IP_ADDR}:8080
 druid.port=8080
 druid.service=druid/prod/broker
 

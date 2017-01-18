@@ -97,7 +97,7 @@
 <p>The <code>used</code> column is a boolean &quot;tombstone&quot;. A 1 means that the segment should be &quot;used&quot; by the cluster (i.e. it should be loaded and available for requests). A 0 means that the segment should not be actively loaded into the cluster. We do this as a means of removing segments from the cluster without actually removing their metadata (which allows for simpler rolling back if that is ever an issue).</p>
 
 <p>The <code>payload</code> column stores a JSON blob that has all of the metadata for the segment (some of the data stored in this payload is redundant with some of the columns in the table, that is intentional). This looks something like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
  &quot;dataSource&quot;:&quot;wikipedia&quot;,
  &quot;interval&quot;:&quot;2012-05-23T00:00:00.000Z/2012-05-24T00:00:00.000Z&quot;,
  &quot;version&quot;:&quot;2012-05-24T00:10:00.046Z&quot;,

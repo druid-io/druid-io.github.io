@@ -93,12 +93,12 @@
 <h3 id="defaultdimensionspec">DefaultDimensionSpec</h3>
 
 <p>Returns dimension values as is and optionally renames renames the dimension.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span> <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="extractiondimensionspec">ExtractionDimensionSpec</h3>
 
 <p>Returns dimension values transformed using the given <a href="#toc_3">DimExtractionFn</a></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
@@ -112,29 +112,29 @@
 <h3 id="regexdimextractionfn">RegexDimExtractionFn</h3>
 
 <p>Returns the first group matched by the given regular expression. If there is no match it returns the dimension value as is.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span><span class="p">,</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span><span class="p">,</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="partialdimextractionfn">PartialDimExtractionFn</h3>
 
 <p>Returns the dimension value as is if there is a match, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span><span class="p">,</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span><span class="p">,</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="searchqueryspecdimextractionfn">SearchQuerySpecDimExtractionFn</h3>
 
 <p>Returns the dimension value as is if the given <a href="SearchQuerySpec.html">SearchQuerySpec</a> matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;searchQuery&quot;</span><span class="p">,</span> <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="err">&lt;search_query_spec&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="timedimextractionfn">TimeDimExtractionFn</h3>
 
 <p>Parses dimension values as timestamps using the given input format, and returns them formatted using the given output format. Time formats follow the <a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">com.ibm.icu.text.SimpleDateFormat</a> format</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span> <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span> <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascriptdimextractionfn">JavascriptDimExtractionFn</h3>
 
 <p>Returns the dimension value as transformed by the given JavaScript function.</p>
 
 <p>Example</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(str) { return str.substr(0, 3); }&quot;</span>
 <span class="p">}</span>

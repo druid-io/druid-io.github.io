@@ -129,7 +129,7 @@ Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz 
 </ol>
 
 <p>See <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Some example JVM configs for this hardware:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx6g
 -Xms6g
 -XX:NewSize=512m
@@ -148,7 +148,7 @@ Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz 
 </ol>
 
 <p>For the real-time node, see <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Use with the following JVM configs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx8g
 -Xms8g
 -XX:NewSize=1g
@@ -156,14 +156,14 @@ Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz 
 -XX:+UseConcMarkSweepGC
 </code></pre></div>
 <p>For the overlord running in local mode to do all ingestion, see <a href="../configuration/production-cluster.html">here</a> for the runtime.properties. Use with the following JVM configs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx2g
 -Xms2g
 -XX:NewSize=256m
 -XX:MaxNewSize=256m
 </code></pre></div>
 <p>The size of the runner javaOpts can be bumped up:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.indexer.runner.javaOpts=&quot;-server -Xmx6g -Xms6g -XX:NewSize=256m -XX:MaxNewSize=256m&quot;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.runner.javaOpts=&quot;-server -Xmx6g -Xms6g -XX:NewSize=256m -XX:MaxNewSize=256m&quot;
 </code></pre></div>
 <p>The coordination pieces (coordinator, metadata store, ZK) can be colocated on the same node. These processes do not require many resources, even for reasonably large clusters.</p>
 

@@ -97,13 +97,13 @@ identifies segments using the datasource, interval, version, and partition numbe
 there are multiple segments created for some granularity of time. For example, if you have hourly segments, but you 
 have more data in an hour than a single segment can hold, you can create multiple segments for the same hour. These segments will share 
 the same datasource, interval, and version, but have linearly increasing partition numbers.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">foo_2015-01-01/2015-01-02_v1_0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>foo_2015-01-01/2015-01-02_v1_0
 foo_2015-01-01/2015-01-02_v1_1
 foo_2015-01-01/2015-01-02_v1_2
 </code></pre></div>
 <p>In the example segments above, the dataSource = foo, interval = 2015-01-01/2015-01-02, version = v1, partitionNum = 0. 
 If at some later point in time, you reindex the data with a new schema, the newly created segments will have a higher version id.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">foo_2015-01-01/2015-01-02_v2_0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>foo_2015-01-01/2015-01-02_v2_0
 foo_2015-01-01/2015-01-02_v2_1
 foo_2015-01-01/2015-01-02_v2_2
 </code></pre></div>
@@ -114,13 +114,13 @@ Shortly afterwards, the <code>v1</code> segments are unloaded from the cluster.<
 
 <p>Note that updates that span multiple segment intervals are only atomic within each interval. They are not atomic across the entire update. 
 For example, you have segments such as the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">foo_2015-01-01/2015-01-02_v1_0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>foo_2015-01-01/2015-01-02_v1_0
 foo_2015-01-02/2015-01-03_v1_1
 foo_2015-01-03/2015-01-04_v1_2
 </code></pre></div>
 <p><code>v2</code> segments will be loaded into the cluster as soon as they are built and replace <code>v1</code> segments for the period of time the 
 segments overlap. Before v2 segments are completely loaded, your cluster may have a mixture of <code>v1</code> and <code>v2</code> segments.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">foo_2015-01-01/2015-01-02_v1_0
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>foo_2015-01-01/2015-01-02_v1_0
 foo_2015-01-02/2015-01-03_v2_1
 foo_2015-01-03/2015-01-04_v1_2
 </code></pre></div>

@@ -95,7 +95,7 @@ See the <a href="../development/extensions.html#core-extensions">list of extensi
 can load bundled extensions by adding their names to your common.runtime.properties 
 <code>druid.extensions.loadList</code> property. For example, to load the <em>postgresql-metadata-storage</em> and 
 <em>druid-hdfs-storage</em> extensions, use the configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.extensions.loadList=[&quot;postgresql-metadata-storage&quot;, &quot;druid-hdfs-storage&quot;]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.extensions.loadList=[&quot;postgresql-metadata-storage&quot;, &quot;druid-hdfs-storage&quot;]
 </code></pre></div>
 <p>These extensions are located in the <code>extensions</code> directory of the distribution.</p>
 
@@ -117,7 +117,7 @@ then install it into your <code>extensions</code> directory. You can download ex
 if they are available from Maven, the included <a href="../operations/pull-deps.html">pull-deps</a> can download them for you. To use <em>pull-deps</em>, 
 specify the full Maven coordinate of the extension in the form <code>groupId:artifactId:version</code>. For example, 
 for the (hypothetical) extension <em>com.example:druid-example-extension:1.0.0</em>, run: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java \
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java \
   -cp &quot;dist/druid/lib/*&quot; \
   -Ddruid.extensions.directory=&quot;extensions-tmp&quot; \
   -Ddruid.extensions.hadoopDependenciesDir=&quot;hadoop-dependencies-tmp&quot; \
@@ -126,7 +126,7 @@ for the (hypothetical) extension <em>com.example:druid-example-extension:1.0.0</
   -c &quot;com.example:druid-example-extension:1.0.0&quot;
 </code></pre></div>
 <p>You can install downloaded extensions by copying them into <code>extensions</code>. For example,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cp -R extensions-tmp/druid-example-extension extensions/druid-example-extension
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cp -R extensions-tmp/druid-example-extension extensions/druid-example-extension
 </code></pre></div>
 <p>You only have to install the extension once. Then, add <code>&quot;druid-example-extension&quot;</code> to 
 <code>druid.extensions.loadList</code> in common.runtime.properties to instruct Druid to load the extension. If 

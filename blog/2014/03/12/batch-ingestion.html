@@ -104,7 +104,7 @@
 <h2 id="extracting-the-streamflow-data">Extracting the Streamflow Data</h2>
 
 <p>In R, load the waterData package, then run <code>importDVs()</code>:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;waterData&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;waterData&quot;</span><span class="p">)</span>
 <span class="kc">...</span>
 <span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span>waterData<span class="p">)</span>
 <span class="kc">...</span>
@@ -122,7 +122,7 @@
 <p>The information on the specific site and sensor should provide information on the type of data available and the start-end dates for the full historical record.</p>
 
 <p>You can now analyse and visualize the streamflow data. For example, we ran:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> myWater.plot <span class="o">&lt;-</span> plotParam<span class="p">(</span>napa_flow<span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> myWater.plot <span class="o">&lt;-</span> plotParam<span class="p">(</span>napa_flow<span class="p">)</span>
 <span class="o">&gt;</span> <span class="kp">print</span><span class="p">(</span>myWater.plot<span class="p">)</span>
 </code></pre></div>
 <p>to get:</p>
@@ -134,7 +134,7 @@
 <h2 id="transforming-the-data-for-druid">Transforming the Data for Druid</h2>
 
 <p>We first want to have a look at the content of the data frame:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>napa_flow<span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>napa_flow<span class="p">)</span>
      staid val      dates qualcode
 <span class="m">1</span> <span class="m">11458000</span>  <span class="m">90</span> <span class="m">1963-01-01</span>        A
 <span class="m">2</span> <span class="m">11458000</span>  <span class="m">87</span> <span class="m">1963-01-02</span>        A
@@ -144,25 +144,25 @@
 <span class="m">6</span> <span class="m">11458000</span>  <span class="m">75</span> <span class="m">1963-01-06</span>        A
 </code></pre></div>
 <p>We don&#39;t have any use for the qualcode (the <a href="http://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd">Daily Value Qualification Code</a>), column:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span> napa_flow_subset <span class="o">&lt;-</span> napa_flow<span class="p">[,</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> napa_flow_subset <span class="o">&lt;-</span> napa_flow<span class="p">[,</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
 </code></pre></div>
 <p>It may look like we also don&#39;t need the staid column, either, since it&#39;s all the same sensor ID. However, we&#39;ll keep it because at some later time we may want to load similar data from other sensors.</p>
 
 <p>Now we can export the data to a file, removing the header and row names:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r">write.table<span class="p">(</span>napa_flow_subset<span class="p">,</span> file<span class="o">=</span><span class="s">&quot;~/napa-flow.tsv&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">,</span> col.names <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> row.names <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span>write.table<span class="p">(</span>napa_flow_subset<span class="p">,</span> file<span class="o">=</span><span class="s">&quot;~/napa-flow.tsv&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">,</span> col.names <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> row.names <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
 </code></pre></div>
 <p>And here&#39;s our file:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>head ~/napa-flow.tsv 
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">90</span>  1963-01-01
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">87</span>  1963-01-02
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">85</span>  1963-01-03
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">80</span>  1963-01-04
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">76</span>  1963-01-05
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">75</span>  1963-01-06
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">73</span>  1963-01-07
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">71</span>  1963-01-08
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">65</span>  1963-01-09
-<span class="s2">&quot;11458000&quot;</span>  <span class="m">59</span>  1963-01-10
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ head ~/napa-flow.tsv 
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">90</span>  <span class="m">1963</span>-01-01
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">87</span>  <span class="m">1963</span>-01-02
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">85</span>  <span class="m">1963</span>-01-03
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">80</span>  <span class="m">1963</span>-01-04
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">76</span>  <span class="m">1963</span>-01-05
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">75</span>  <span class="m">1963</span>-01-06
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">73</span>  <span class="m">1963</span>-01-07
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">71</span>  <span class="m">1963</span>-01-08
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">65</span>  <span class="m">1963</span>-01-09
+<span class="s2">&quot;11458000&quot;</span>  <span class="m">59</span>  <span class="m">1963</span>-01-10
 </code></pre></div>
 <h2 id="loading-the-data-into-druid">Loading the Data into Druid</h2>
 
@@ -171,7 +171,7 @@
 <h3 id="configure-the-indexing-task">Configure the Indexing Task</h3>
 
 <p>Druid has an indexing service that can load data. Since there&#39;s a relatively small amount of data to ingest, we&#39;re going to use the <a href="http://druid.io/docs/latest/Batch-ingestion.html">basic Druid indexing service</a> to ingest it. (Another option to ingest data uses a Hadoop cluster and is set up in a similar way, but that is more than we need for this job.) We must create a task (in JSON format) that specifies the work the indexing service will do:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;usgs&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -221,29 +221,29 @@
 <p>Before submitting this task, we must start a small Druid cluster consisting of the indexing service, a Coordinator node, and a Historical node. Instructions on how to set up and start a Druid cluster are in the <a href="http://druid.io/docs/latest/Tutorial:-Loading-Your-Data-Part-1.html">Druid documentation</a>.</p>
 
 <p>Once the cluster is ready, the task is submitted to the indexer&#39;s REST service (showing the relative path to the task file):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/usgs/usgs_index_task.json localhost:8087/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/usgs/usgs_index_task.json localhost:8087/druid/indexer/v1/task
 </code></pre></div>
 <h2 id="verify-success">Verify Success</h2>
 
 <p>If the task is accepted, a message similar to the following should appear almost immediately:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{&quot;task&quot;:&quot;index_usgs_2014-03-06T22:12:38.803Z&quot;}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;task&quot;:&quot;index_usgs_2014-03-06T22:12:38.803Z&quot;}
 </code></pre></div>
 <p>The indexing service (or &quot;overlord&quot;) should log a message similar to the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2014-03-06 22:13:14,495 INFO [pool-6-thread-1] io.druid.indexing.overlord.TaskQueue - Task SUCCESS: IndexTask{id=index_usgs_2014-03-06T22:12:38.803Z, type=index, dataSource=usgs} (30974 run duration)
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2014-03-06 22:13:14,495 INFO [pool-6-thread-1] io.druid.indexing.overlord.TaskQueue - Task SUCCESS: IndexTask{id=index_usgs_2014-03-06T22:12:38.803Z, type=index, dataSource=usgs} (30974 run duration)
 </code></pre></div>
 <p>This shows that the data is in Druid. You&#39;ll see messages in the other nodes&#39; logs concerning the &quot;usgs&quot; data. We can further verify this by going to the overlord&#39;s console (http://&lt;host&gt;:8087/console.html) to view information about the task, and the Coordinator&#39;s console (http://&lt;host&gt;:8082) to view metadata about the individual segments.</p>
 
 <p>We can also verify the data by querying Druid. Here&#39;s a simple time-boundary query:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeBoundary&quot;</span><span class="p">,</span> 
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;usgs&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Saved in a file called <code>tb-query.body</code>, it can then be submitted to Druid:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST <span class="s1">&#39;http://localhost:8081/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @examples/usgs/tb-query.body
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ curl -X POST <span class="s1">&#39;http://localhost:8081/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;content-type: application/json&#39;</span> -d @examples/usgs/tb-query.body
 </code></pre></div>
 <p>The response should be:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;1963-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;1963-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>

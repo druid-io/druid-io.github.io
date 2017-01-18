@@ -101,8 +101,8 @@
 <p>You can download the latest version of druid <a href="http://static.druid.io/artifacts/releases/druid-services-0.6.33-bin.tar.gz">here</a></p>
 
 <p>and untar the contents within by issuing:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">tar -zxvf druid-services-*-bin.tar.gz
-<span class="nb">cd </span>druid-services-*
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -zxvf druid-services-*-bin.tar.gz
+<span class="nb">cd</span> druid-services-*
 </code></pre></div>
 <p>You can also <a href="Build-from-source.html">Build From Source</a>.</p>
 
@@ -119,14 +119,14 @@
 <li>Install MySQL</li>
 <li>Create a druid user and database</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root
-</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mysql -u root
+</code></pre></div><div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">database</span> <span class="n">druid</span><span class="p">;</span>
 </code></pre></div>
 <h4 id="setting-up-zookeeper">Setting up Zookeeper</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.motorlogy.com/apache/zookeeper/zookeeper-3.4.5/zookeeper-3.4.5.tar.gz -o zookeeper-3.4.5.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.motorlogy.com/apache/zookeeper/zookeeper-3.4.5/zookeeper-3.4.5.tar.gz -o zookeeper-3.4.5.tar.gz
 tar xzf zookeeper-3.4.5.tar.gz
-<span class="nb">cd </span>zookeeper-3.4.5
+<span class="nb">cd</span> zookeeper-3.4.5
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 <span class="nb">cd</span> ..
@@ -136,7 +136,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <p>Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a <a href="Segments.html">segment</a>. Segments contain data over some span of time. We&#39;ve prebuilt a segment for this tutorial and will cover making your own segments in other <a href="Tutorial%3A-Loading-Your-Data-Part-1.html">pages</a>.The segment we are going to work with has the following format:</p>
 
 <p>Dimensions (things to filter on):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;page&quot;</span>
 <span class="s2">&quot;language&quot;</span>
 <span class="s2">&quot;user&quot;</span>
 <span class="s2">&quot;unpatrolled&quot;</span>
@@ -150,7 +150,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <span class="s2">&quot;city&quot;</span>
 </code></pre></div>
 <p>Metrics (things to aggregate over):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;count&quot;</span>
 <span class="s2">&quot;added&quot;</span>
 <span class="s2">&quot;delta&quot;</span>
 <span class="s2">&quot;deleted&quot;</span>
@@ -158,7 +158,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 <h2 id="the-cluster">The Cluster</h2>
 
 <p>Let&#39;s start up a few nodes and download our data. First things though, let&#39;s make sure we have config directory where we will store configs for our various nodes:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ls config
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>ls config
 </code></pre></div>
 <p>If you are interested in learning more about Druid configuration files, check out this <a href="Configuration.html">link</a>. Many aspects of Druid are customizable. For the purposes of this tutorial, we are going to use default values for most things.</p>
 
@@ -168,10 +168,10 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 For more information about coordinator nodes, see <a href="Coordinator.html">here</a>.</p>
 
 <p>The coordinator config file should already exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/coordinator
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/coordinator
 </code></pre></div>
 <p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.service=coordinator
 druid.port=8082
 
@@ -184,7 +184,7 @@ druid.db.connector.password=diurd
 druid.coordinator.startDelay=PT60s
 </code></pre></div>
 <p>To start the coordinator node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/coordinator io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/coordinator io.druid.cli.Main server coordinator
 </code></pre></div>
 <h4 id="start-a-historical-node">Start a Historical Node</h4>
 
@@ -192,10 +192,10 @@ druid.coordinator.startDelay=PT60s
 For more information about Historical nodes, see <a href="Historical.html">here</a>.</p>
 
 <p>The historical config file should exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/historical
 </code></pre></div>
 <p>In the directory we just created, we should have the file <code>runtime.properties</code> with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.service=historical
 druid.port=8081
 
@@ -214,7 +214,7 @@ druid.processing.buffer.sizeBytes=10000000
 druid.segmentCache.locations=[{&quot;path&quot;: &quot;/tmp/druid/indexCache&quot;, &quot;maxSize&quot;\: 100000000}]
 </code></pre></div>
 <p>To start the historical node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/historical io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/historical io.druid.cli.Main server historical
 </code></pre></div>
 <h4 id="start-a-broker-node">Start a Broker Node</h4>
 
@@ -222,42 +222,42 @@ druid.segmentCache.locations=[{&quot;path&quot;: &quot;/tmp/druid/indexCache&quo
 For more information about Broker nodes, see <a href="Broker.html">here</a>.</p>
 
 <p>The broker config file should exist at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">config/broker
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>config/broker
 </code></pre></div>
 <p>In the directory, there should be a <code>runtime.properties</code> file with the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.service=broker
 druid.port=8080
 
 druid.zk.service.host=localhost
 </code></pre></div>
 <p>To start the broker node:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/broker io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx256m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 -classpath lib/*:config/broker io.druid.cli.Main server broker
 </code></pre></div>
 <h2 id="loading-the-data">Loading the Data</h2>
 
 <p>The MySQL dependency we introduced earlier on contains a &#39;segments&#39; table that contains entries for segments that should be loaded into our cluster. The Druid coordinator compares this table with segments that already exist in the cluster to determine what should be loaded and dropped. To load our wikipedia segment, we need to create an entry in our MySQL segment table.</p>
 
 <p>Usually, when new segments are created, these MySQL entries are created directly so you never have to do this by hand. For this tutorial, we can do this manually by going back into MySQL and issuing:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">druid</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="n">use</span> <span class="n">druid</span><span class="p">;</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">druid_segments</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">dataSource</span><span class="p">,</span> <span class="n">created_date</span><span class="p">,</span> <span class="k">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="n">partitioned</span><span class="p">,</span> <span class="k">version</span><span class="p">,</span> <span class="n">used</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">&#39;wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z&#39;</span><span class="p">,</span> <span class="s1">&#39;wikipedia&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-08T21:26:23.799Z&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-01T00:00:00.000Z&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-02T00:00:00.000Z&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;2013-08-08T21:22:48.989Z&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;{\&quot;dataSource\&quot;:\&quot;wikipedia\&quot;,\&quot;interval\&quot;:\&quot;2013-08-01T00:00:00.000Z/2013-08-02T00:00:00.000Z\&quot;,\&quot;version\&quot;:\&quot;2013-08-08T21:22:48.989Z\&quot;,\&quot;loadSpec\&quot;:{\&quot;type\&quot;:\&quot;s3_zip\&quot;,\&quot;bucket\&quot;:\&quot;static.druid.io\&quot;,\&quot;key\&quot;:\&quot;data/segments/wikipedia/20130801T000000.000Z_20130802T000000.000Z/2013-08-08T21_22_48.989Z/0/index.zip\&quot;},\&quot;dimensions\&quot;:\&quot;dma_code,continent_code,geo,area_code,robot,country_name,network,city,namespace,anonymous,unpatrolled,page,postal_code,language,newpage,user,region_lookup\&quot;,\&quot;metrics\&quot;:\&quot;count,delta,variation,added,deleted\&quot;,\&quot;shardSpec\&quot;:{\&quot;type\&quot;:\&quot;none\&quot;},\&quot;binaryVersion\&quot;:9,\&quot;size\&quot;:24664730,\&quot;identifier\&quot;:\&quot;wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z\&quot;}&#39;</span><span class="p">);</span>
 </code></pre></div>
 <p>If you look in your coordinator node logs, you should, after a maximum of a minute or so, see logs of the following form:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-08 22:48:41,967 INFO [main-EventThread] com.metamx.druid.coordinator.LoadQueuePeon - Server[/druid/loadQueue/127.0.0.1:8081] done processing [/druid/loadQueue/127.0.0.1:8081/wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-08-08 22:48:41,967 INFO [main-EventThread] com.metamx.druid.coordinator.LoadQueuePeon - Server[/druid/loadQueue/127.0.0.1:8081] done processing [/druid/loadQueue/127.0.0.1:8081/wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z]
 2013-08-08 22:48:41,969 INFO [ServerInventoryView-0] com.metamx.druid.client.SingleServerInventoryView - Server[127.0.0.1:8081] added segment[wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z]
 </code></pre></div>
 <p>When the segment completes downloading and ready for queries, you should see the following message on your historical node logs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-08-08 22:48:41,959 INFO [ZkCoordinator-0] com.metamx.druid.coordination.BatchDataSegmentAnnouncer - Announcing segment[wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z] at path[/druid/segments/127.0.0.1:8081/2013-08-08T22:48:41.959Z]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-08-08 22:48:41,959 INFO [ZkCoordinator-0] com.metamx.druid.coordination.BatchDataSegmentAnnouncer - Announcing segment[wikipedia_2013-08-01T00:00:00.000Z_2013-08-02T00:00:00.000Z_2013-08-08T21:22:48.989Z] at path[/druid/segments/127.0.0.1:8081/2013-08-08T22:48:41.959Z]
 </code></pre></div>
 <p>At this point, we can query the segment. For more information on querying, see this <a href="Querying.html">link</a>.</p>
 
 <h3 id="bonus-round-start-a-realtime-node">Bonus Round: Start a Realtime Node</h3>
 
 <p>To start the realtime node that was used in our first tutorial, you simply have to issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -Ddruid.realtime.specFile=examples/wikipedia/wikipedia_realtime.spec -classpath lib/*:config/realtime io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -Ddruid.realtime.specFile=examples/wikipedia/wikipedia_realtime.spec -classpath lib/*:config/realtime io.druid.cli.Main server realtime
 </code></pre></div>
 <p>The configurations are located in <code>config/realtime/runtime.properties</code> and should contain the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.host=localhost
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.host=localhost
 druid.service=realtime
 druid.port=8083
 

@@ -149,10 +149,10 @@ OSes</a>.</p>
 <p>First, download and unpack the release archive. It&#39;s best to do this on a single machine at first,
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-rc3-bin.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.9.0-rc3-bin.tar.gz
 mkdir druid-0.9.0
-tar -xzf druid-0.9.0-rc3-bin.tar.gz -C druid-0.9.0 --strip-components<span class="o">=</span>1
-<span class="nb">cd </span>druid-0.9.0
+tar -xzf druid-0.9.0-rc3-bin.tar.gz -C druid-0.9.0 --strip-components<span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span> druid-0.9.0
 </code></pre></div>
 <p>In this package, you&#39;ll find:</p>
 
@@ -187,7 +187,7 @@ you already have a Hadoop deployment).</p>
 </ul>
 
 <p>After this, you should have made the following changes:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.extensions.loadList=[&quot;druid-s3-extensions&quot;]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.extensions.loadList=[&quot;druid-s3-extensions&quot;]
 
 #druid.storage.type=local
 #druid.storage.storageDirectory=var/druid/segments
@@ -217,7 +217,7 @@ druid.indexer.logs.s3Prefix=druid/indexing-logs
 </ul>
 
 <p>After this, you should have made the following changes:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.extensions.loadList=[&quot;druid-hdfs-storage&quot;]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.extensions.loadList=[&quot;druid-hdfs-storage&quot;]
 
 #druid.storage.type=local
 #druid.storage.storageDirectory=var/druid/segments
@@ -359,12 +359,12 @@ possible configuration options.</p>
 <p>Copy the Druid distribution and your edited configurations to your coordination
 server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
 copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">rsync -az druid-0.9.0/ COORDINATION_SERVER:druid-0.9.0/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az druid-0.9.0/ COORDINATION_SERVER:druid-0.9.0/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz -o zookeeper-3.4.6.tar.gz
 tar -xzf zookeeper-3.4.6.tar.gz
-<span class="nb">cd </span>zookeeper-3.4.6
+<span class="nb">cd</span> zookeeper-3.4.6
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 </code></pre></div>
@@ -373,7 +373,7 @@ In production, we also recommend running a ZooKeeper cluster on its own dedicate
 </div>
 
 <p>On your coordination server, <em>cd</em> into the distribution and start up the coordination services (you should do this in different windows or pipe the log to a file):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/coordinator:lib/* io.druid.cli.Main server coordinator
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/coordinator:lib/* io.druid.cli.Main server coordinator
 java <span class="sb">`</span>cat conf/druid/overlord/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/overlord:lib/* io.druid.cli.Main server overlord
 </code></pre></div>
 <p>You should see a log message printed out for each service that starts up. You can view detailed logs
@@ -384,7 +384,7 @@ for any service by looking in the <code>var/log/druid</code> directory using ano
 <p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Historicals and MiddleManagers.</p>
 
 <p>On each one, <em>cd</em> into the distribution and run this command to start a Data server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/historical:lib/* io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/historical:lib/* io.druid.cli.Main server historical
 java <span class="sb">`</span>cat conf/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/middleManager:lib/* io.druid.cli.Main server middleManager
 </code></pre></div>
 <p>You can add more servers with Druid Historicals and MiddleManagers as needed.</p>
@@ -399,9 +399,9 @@ autoscaling facility.
 hardware that holds MiddleManagers and Historicals. For large scale production, MiddleManagers and Tranquility server
 can still be co-located. If you are running Tranquility (not server) with a stream processor, you can co-locate
 Tranquility with the stream processor and not require Tranquility server.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -O http://static.druid.io/tranquility/releases/tranquility-distribution-0.7.2.tgz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/tranquility/releases/tranquility-distribution-0.7.2.tgz
 tar -xzf tranquility-distribution-0.7.2.tgz
-<span class="nb">cd </span>tranquility-distribution-0.7.2.tgz
+<span class="nb">cd</span> tranquility-distribution-0.7.2.tgz
 bin/tranquility &lt;server or kafka&gt; -configFile &lt;path_to_druid_distro&gt;/conf/tranquility/&lt;server or kafka&gt;.json
 </code></pre></div>
 <h2 id="start-druid-broker">Start Druid Broker</h2>
@@ -409,7 +409,7 @@ bin/tranquility &lt;server or kafka&gt; -configFile &lt;path_to_druid_distro&gt;
 <p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Brokers.</p>
 
 <p>On each one, <em>cd</em> into the distribution and run this command to start a Broker (you may want to pipe the output to a log file):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="sb">`</span>cat conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/broker:lib/* io.druid.cli.Main server broker
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/broker:lib/* io.druid.cli.Main server broker
 </code></pre></div>
 <p>You can add more Brokers as needed based on query load.</p>
 

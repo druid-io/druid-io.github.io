@@ -92,7 +92,7 @@
 
 <p>This is an experimental firehose to ingest data from kafka using kafka simple consumer api. Currently, this firehose would only work inside standalone realtime nodes.
 The configuration for KafkaSimpleConsumerFirehose is similar to the Kafka Eight Firehose , except <code>firehose</code> should be replaced with <code>firehoseV2</code> like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;firehoseV2&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehoseV2&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;kafka-0.8-v2&quot;</span><span class="p">,</span>
   <span class="nt">&quot;brokerList&quot;</span> <span class="p">:</span>  <span class="p">[</span><span class="s2">&quot;localhost:4443&quot;</span><span class="p">],</span>
   <span class="nt">&quot;queueBufferLength&quot;</span><span class="p">:</span><span class="mi">10001</span><span class="p">,</span>

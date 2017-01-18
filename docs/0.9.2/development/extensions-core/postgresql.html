@@ -106,10 +106,10 @@
   postgresql permissions:</p>
 
 <p>Create a druid user, enter <code>diurd</code> when prompted for the password.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  createuser druid -P
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  createuser druid -P
 </code></pre></div>
 <p>Create a druid database owned by the user we just created</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  createdb druid -O druid
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  createdb druid -O druid
 </code></pre></div>
 <p><em>Note:</em> On Ubuntu / Debian you may have to prefix the <code>createuser</code> and
   <code>createdb</code> commands with <code>sudo -u postgres</code> in order to gain proper
@@ -121,11 +121,11 @@
 
 <p>Add the following parameters to your Druid configuration, replacing <code>&lt;host&gt;</code>
   with the location (host name and port) of the database.</p>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.extensions.loadList</span><span class="o">=</span><span class="s">[&quot;postgresql-metadata-storage&quot;]</span>
-  <span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">postgresql</span>
-  <span class="na">druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:postgresql://&lt;host&gt;/druid</span>
-  <span class="na">druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
-  <span class="na">druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.extensions.loadList</span><span class="o">=</span><span class="s">[&quot;postgresql-metadata-storage&quot;]</span>
+<span class="na">  druid.metadata.storage.type</span><span class="o">=</span><span class="s">postgresql</span>
+<span class="na">  druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:postgresql://&lt;host&gt;/druid</span>
+<span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
+<span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

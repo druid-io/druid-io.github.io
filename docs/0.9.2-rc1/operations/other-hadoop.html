@@ -142,7 +142,7 @@ many Hadoop distributions (the version does not necessarily need to match), but 
 have Druid load libraries that exactly match your distribution. To do this, either copy the jars from your Hadoop
 cluster, or use the <code>pull-deps</code> tool to download the jars from a Maven repository.</p>
 
-<h3 id="preferred-load-using-druid-39-s-standard-mechanism">Preferred: Load using Druid&#39;s standard mechanism</h3>
+<h3 id="preferred-load-using-druids-standard-mechanism">Preferred: Load using Druid&#39;s standard mechanism</h3>
 
 <p>If you have issues with HDFS deep storage, you can switch your Hadoop client libraries by recompiling the
 druid-hdfs-storage extension using an alternate version of the Hadoop client libraries. You can do this by editing
@@ -158,7 +158,7 @@ druid.extensions.hadoopDependenciesDir) and then using <code>hadoopDependencyCoo
 <p>Suppose you specify <code>druid.extensions.hadoopDependenciesDir=/usr/local/druid_tarball/hadoop-dependencies</code>, and you have downloaded
 <code>hadoop-client</code> 2.3.0 and 2.4.0, either by copying them from your Hadoop cluster or by using <code>pull-deps</code> to download
 the jars from a Maven repository. Then underneath <code>hadoop-dependencies</code>, your jars should look like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">hadoop-dependencies/
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>hadoop-dependencies/
 └── hadoop-client
     ├── 2.3.0
     │   ├── activation-1.1.jar
@@ -209,7 +209,7 @@ have luck with one of the following suggestions contributed by the Druid communi
 <h3 id="cdh">CDH</h3>
 
 <p>Members of the community have reported dependency conflicts between the version of Jackson used in CDH and Druid when running a Mapreduce job like:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java.lang.VerifyError: class com.fasterxml.jackson.datatype.guava.deser.HostAndPortDeserializer overrides final method deserialize.(Lcom/fasterxml/jackson/core/JsonParser;Lcom/fasterxml/jackson/databind/DeserializationContext;)Ljava/lang/Object;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java.lang.VerifyError: class com.fasterxml.jackson.datatype.guava.deser.HostAndPortDeserializer overrides final method deserialize.(Lcom/fasterxml/jackson/core/JsonParser;Lcom/fasterxml/jackson/databind/DeserializationContext;)Ljava/lang/Object;
 </code></pre></div>
 <p><strong>Preferred workaround</strong></p>
 
@@ -256,7 +256,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
 <p>If sbt is not your choice, you can also use <code>maven-shade-plugin</code> to make a fat jar: relocation all jackson packages will resolve it too. In this way, druid will not be affected by jackson library embedded in hadoop. Please follow the steps below:</p>
 
 <p>(1) Add all extensions you needed to <code>services/pom.xml</code> like</p>
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;dependency&gt;</span>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span> <span class="nt">&lt;dependency&gt;</span>
       <span class="nt">&lt;groupId&gt;</span>io.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>druid-avro-extensions<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
@@ -281,7 +281,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
   <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
 <p>(2) Shade jackson packages and assemble a fat jar.</p>
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;plugin&gt;</span>
      <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
      <span class="nt">&lt;artifactId&gt;</span>maven-shade-plugin<span class="nt">&lt;/artifactId&gt;</span>
      <span class="nt">&lt;executions&gt;</span>
@@ -326,7 +326,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
 <p>Copy out <code>services/target/xxxxx-selfcontained.jar</code> after <code>mvn install</code> in project root for further usage.</p>
 
 <p>(3) run hadoop indexer (post an indexing task is not possible now) as below. <code>lib</code> is not needed anymore. As hadoop indexer is a standalone tool, you don&#39;t have to replace the jars of your running services:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">java -Xmx32m <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx32m <span class="se">\</span>
   -Dfile.encoding<span class="o">=</span>UTF-8 -Duser.timezone<span class="o">=</span>UTC <span class="se">\</span>
   -classpath config/hadoop:config/overlord:config/_common:<span class="nv">$SELF_CONTAINED_JAR</span>:<span class="nv">$HADOOP_DISTRIBUTION</span>/etc/hadoop <span class="se">\</span>
   -Djava.security.krb5.conf<span class="o">=</span><span class="nv">$KRB5</span> <span class="se">\</span>

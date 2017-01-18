@@ -94,7 +94,7 @@ This page is meant to provide readers with a high level overview of how Druid st
 <h2 id="the-data">The Data</h2>
 
 <p>To frame our discussion, let&#39;s begin with an example data set (from online advertising):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timestamp             publisher          advertiser  gender  country  click  price
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp             publisher          advertiser  gender  country  click  price
 2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65
 2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62
 2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45
@@ -117,11 +117,11 @@ Also known as measures in standard OLAP terminology.</p></li>
 <p>Individually, the events are not very interesting, however, summarizations of this type of data can yield many useful insights.
 Druid summarizes this raw data at ingestion time using a process we refer to as &quot;roll-up&quot;.
 Roll-up is a first-level aggregation operation over a selected set of dimensions, equivalent to (in pseudocode):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">GROUP BY timestamp, publisher, advertiser, gender, country
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GROUP BY timestamp, publisher, advertiser, gender, country
   :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)
 </code></pre></div>
 <p>The compacted version of our original raw data looks something like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks revenue
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks revenue
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
@@ -142,11 +142,11 @@ Although many production setups instrument joins at the ETL level, data must be 
 <p>For example:</p>
 
 <p>Segment <code>sampleData_2011-01-01T01:00:00:00Z_2011-01-01T02:00:00:00Z_v1_0</code> contains</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
 </code></pre></div>
 <p>Segment <code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0</code> contains</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
  2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
 </code></pre></div>
 <p>Segments are self-contained containers for the time interval of data they hold. Segments

@@ -5,14 +5,14 @@
   <subtitle>Real²time Exploratory Analytics on Large Datasets</subtitle>
   <link type="application/atom+xml" href="http://druid.io/feed/" rel="self"/>
   <link type="text/html" href="http://druid.io/" rel="alternate"/>
-	<updated>2017-01-06T19:56:20+00:00</updated>
+	<updated>2017-01-18T14:46:19-08:00</updated>
         <id>http://druid.io/</id>
 	
 	
 	<entry>
 		<title>Druid 0.9.2 release</title>
 		<link href="http://druid.io/blog/2016/12/01/druid-0-9-2.html"/>
-		<updated>2016-12-01T00:00:00+00:00</updated>
+		<updated>2016-12-01T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2016/12/01/druid-0-9-2</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.9.2&lt;/a&gt;!&lt;/p&gt;
@@ -36,7 +36,7 @@ files, and new aggregators for variance and standard deviation.&lt;/p&gt;
 	<entry>
 		<title>Druid 0.9.1.1 release</title>
 		<link href="http://druid.io/blog/2016/06/28/druid-0-9-1.html"/>
-		<updated>2016-06-28T00:00:00+00:00</updated>
+		<updated>2016-06-28T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2016/06/28/druid-0-9-1</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.9.1.1&lt;/a&gt;!&lt;/p&gt;
@@ -57,7 +57,7 @@ for cluster-wide query-time lookups (QTL), and an improved segment balancing alg
 	<entry>
 		<title>Announcing New Committers</title>
 		<link href="http://druid.io/blog/2016/01/06/announcing-new-committers.html"/>
-		<updated>2016-01-06T00:00:00+00:00</updated>
+		<updated>2016-01-06T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2016/01/06/announcing-new-committers</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;Happy New Year everyone! We’re excited to announce that we’ve added 8 new
@@ -88,7 +88,7 @@ the project in 2016.&lt;/p&gt;
 	<entry>
 		<title>Seeking New Committers</title>
 		<link href="http://druid.io/blog/2015/11/03/seeking-new-committers.html"/>
-		<updated>2015-11-03T00:00:00+00:00</updated>
+		<updated>2015-11-03T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2015/11/03/seeking-new-committers</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We are excited to announce that we have formalized the governance of Druid to
@@ -137,7 +137,7 @@ the project great!&lt;/p&gt;
 	<entry>
 		<title>Towards a Community Led Druid</title>
 		<link href="http://druid.io/blog/2015/02/20/towards-a-community-led-druid.html"/>
-		<updated>2015-02-20T00:00:00+00:00</updated>
+		<updated>2015-02-20T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2015/02/20/towards-a-community-led-druid</id>
                 <author><name>Fangjin Yang, Xavier Léauté, and Eric Tschetter</name></author>
                 <summary type="html">&lt;p&gt;We are very happy to announce that Druid has changed its license to Apache 2.0.
@@ -178,7 +178,7 @@ could not be where we are today without all of you.&lt;/p&gt;
 	<entry>
 		<title>Five Tips for a F’ing Great Logo</title>
 		<link href="http://druid.io/blog/2014/07/23/five-tips-for-a-f-ing-great-logo.html"/>
-		<updated>2014-07-23T00:00:00+00:00</updated>
+		<updated>2014-07-23T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2014/07/23/five-tips-for-a-f-ing-great-logo</id>
                 <author><name>David Hertog &amp; Fangjin Yang</name></author>
                 <summary type="html">&lt;p&gt;Everyone wants a great logo, but it’s notoriously difficult work—prone to
@@ -272,7 +272,7 @@ difference between success and meh.&lt;/p&gt;
 	<entry>
 		<title>Open Source Leaders Sound Off on the Rise of the Real-Time Data Stack</title>
 		<link href="http://druid.io/blog/2014/05/07/open-source-leaders-sound-off-on-the-rise-of-the-real-time-data-stack.html"/>
-		<updated>2014-05-07T00:00:00+00:00</updated>
+		<updated>2014-05-07T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2014/05/07/open-source-leaders-sound-off-on-the-rise-of-the-real-time-data-stack</id>
                 <author><name>Fangjin Yang &amp; Gian Merlino</name></author>
                 <summary type="html">&lt;p&gt;In February we were honored to speak at the O’Reilly Strata conference about
@@ -324,7 +324,7 @@ Portland, OR on July 23.&lt;/p&gt;
 	<entry>
 		<title>Introduction to pydruid</title>
 		<link href="http://druid.io/blog/2014/04/15/intro-to-pydruid.html"/>
-		<updated>2014-04-15T00:00:00+00:00</updated>
+		<updated>2014-04-15T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2014/04/15/intro-to-pydruid</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;ve already written about pairing &lt;a href=&quot;http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html&quot;&gt;R with RDruid&lt;/a&gt;, but Python has powerful and free open-source analysis tools too. Collectively, these are often referred to as the &lt;a href=&quot;http://www.scipy.org/stackspec.html&quot;&gt;SciPy Stack&lt;/a&gt;. To pair SciPy&amp;#39;s analytic power with the advantages of querying time-series data in Druid, we created the pydruid connector. This allows Python users to query Druid&amp;mdash;and export the results to useful formats&amp;mdash;in a way that makes sense to them.&lt;/p&gt;
@@ -336,10 +336,10 @@ Portland, OR on July 23.&lt;/p&gt;
 &lt;p&gt;pydruid should run with Python 2.x, and is known to run with Python 2.7.5.&lt;/p&gt;
 
 &lt;p&gt;Install pydruid in the same way as you&amp;#39;d install any other Python module on your system. The simplest way is:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pip install pydruid
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;pip install pydruid
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You should also install Pandas to execute the simple examples below:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pip install pandas
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;pip install pandas
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When you import pydruid into your example, it will try to load Pandas as well.&lt;/p&gt;
 
@@ -348,17 +348,17 @@ Portland, OR on July 23.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://druid.io/downloads.html&quot;&gt;Download Druid&lt;/a&gt; and unpack Druid. If you are not familiar with Druid, see this &lt;a href=&quot;http://druid.io/docs/latest/Tutorial:-A-First-Look-at-Druid.html&quot;&gt;introductory tutorial&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;From the Druid home directory, start the Druid Realtime node:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$DRUID_HOME&lt;/span&gt;/run_example_server.sh
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$DRUID_HOME&lt;/span&gt;/run_example_server.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When prompted, choose the &amp;quot;wikipedia&amp;quot; example. After the Druid realtime node is done starting up, messages should appear that start with the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;2014-04-03 18:01:32,852 INFO [wikipedia-incremental-persist] ...
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;2014-04-03 18:01:32,852 INFO [wikipedia-incremental-persist] ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;These messages confirm that the realtime node is ingesting data from the Wikipedia edit stream, and that data can be queried.&lt;/p&gt;
 
 &lt;h2 id=&quot;write-execute-and-submit-a-pydruid-query&quot;&gt;Write, Execute, and Submit a pydruid Query&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;#39;s say we want to see the top few languages for Wikipedia articles, in terms of number of edits. This is the query we could post directly to Druid:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;topN&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;wikipedia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;dimension&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -381,7 +381,7 @@ Portland, OR on July 23.&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The results should appear similar to the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2014-04-03T17:59:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;en&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -401,22 +401,22 @@ Portland, OR on July 23.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Due to limitations in the way the wikipedia example is set up, you may see a limited number of results appear.&lt;/p&gt;
 
 &lt;p&gt;Here&amp;#39;s that same query in Python:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pydruid.client&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pydruid.client&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PyDruid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;http://localhost:8083&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;druid/v2/&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PyDruid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;http://localhost:8083&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;druid/v2/&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;datasource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;wikipedia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;granularity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;intervals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;2013-06-01T00:00/2020-01-01T00&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;dimension&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dimension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;namespace&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;article&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;aggregations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;longsum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)},&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;metric&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;datasource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;wikipedia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;granularity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;intervals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-01T00:00/2020-01-01T00&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dimension&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dimension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;namespace&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;article&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;aggregations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;longsum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)},&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;metric&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;threshold&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Do this if you want to see the raw JSON&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Do this if you want to see the raw JSON&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Let&amp;#39;s break this query down:&lt;/p&gt;
 
@@ -437,39 +437,39 @@ Portland, OR on July 23.&lt;/p&gt;
 &lt;h2 id=&quot;bringing-the-data-into-pandas&quot;&gt;Bringing the Data Into Pandas&lt;/h2&gt;
 
 &lt;p&gt;Now that Druid is returning data, we&amp;#39;ll pass that data to a Pandas dataframe, which allows us to analyze and visualize it:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pydruid.client&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pydruid.client&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pylab&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Need to have matplotlib installed&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pylab&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Need to have matplotlib installed&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PyDruid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;http://localhost:8083&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;druid/v2/&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PyDruid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;http://localhost:8083&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;druid/v2/&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;datasource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;wikipedia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;granularity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;intervals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;2013-06-01T00:00/2020-01-01T00&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;dimension&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dimension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;namespace&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;article&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;aggregations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;longsum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)},&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;metric&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;datasource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;wikipedia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;granularity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;intervals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-01T00:00/2020-01-01T00&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dimension&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dimension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;namespace&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;article&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;aggregations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;longsum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)},&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;metric&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;edit_count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;threshold&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Do this if you want to see the raw JSON&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_langs&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Do this if you want to see the raw JSON&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;export_pandas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Client will import Pandas, no need to do so separately.&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;export_pandas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Client will import Pandas, no need to do so separately.&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;timestamp&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Don&amp;#39;t need the timestamp column here&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;timestamp&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Don&amp;#39;t need the timestamp column here&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Get a naturally numbered index&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Get a naturally numbered index&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;language&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;language&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Printing the results gives:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;   edit_count language
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;   edit_count language
 1         834       en
 2         256       de
 3         185       fr
@@ -490,7 +490,7 @@ Portland, OR on July 23.&lt;/p&gt;
 	<entry>
 		<title>Benchmarking Druid</title>
 		<link href="http://druid.io/blog/2014/03/17/benchmarking-druid.html"/>
-		<updated>2014-03-17T00:00:00+00:00</updated>
+		<updated>2014-03-17T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2014/03/17/benchmarking-druid</id>
                 <author><name>Xavier Léauté</name></author>
                 <summary type="html">&lt;p&gt;We often get asked how fast Druid is. Despite having published some benchmark
@@ -587,8 +587,8 @@ the TPC-H tools.&lt;/p&gt;
 &lt;p&gt;If you would like to generate the datasets from scratch, or try out different
 sizes, download and compile the &lt;a href=&quot;http://www.tpc.org/tpch/spec/tpch_2_16_1.zip&quot;&gt;TPC-H tools&lt;/a&gt;, and use the &lt;code&gt;dbgen&lt;/code&gt; tool to
 generate the &lt;code&gt;lineitem&lt;/code&gt; table.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;./dbgen -TL -s1         &lt;span class=&quot;c&quot;&gt;# 1GB&lt;/span&gt;
-./dbgen -TL -s100 -C100 &lt;span class=&quot;c&quot;&gt;# 100GB / 100 chunks&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span&gt;&lt;/span&gt;./dbgen -TL -s1         &lt;span class=&quot;c1&quot;&gt;# 1GB&lt;/span&gt;
+./dbgen -TL -s100 -C100 &lt;span class=&quot;c1&quot;&gt;# 100GB / 100 chunks&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;There is also a &lt;a href=&quot;https://github.com/druid-io/druid-benchmark/blob/master/generate-data.sh&quot;&gt;&lt;code&gt;generate-data.sh&lt;/code&gt;&lt;/a&gt; script in our repository to help write
 compressed data directly when generating large data sets.&lt;/p&gt;
@@ -736,7 +736,7 @@ rows/second for aggregate &lt;code&gt;select sum(float)&lt;/code&gt; queries.&lt
 &lt;p&gt;Since Druid uses column-oriented storage, it performs better on queries using
 fewer columns, and as more columns become part of the query it is expected to
 lose some of its advantage compared to row-oriented storage engines.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# 1GB data set
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;# 1GB data set
 # median query times (seconds) over 100 runs
 
                 query     druid mysql
@@ -776,7 +776,7 @@ queries take at least 10 minutes to complete, while more expensive ones can
 take several hours.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/druid-benchmark-100gb-median.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# 100GB data set (single node)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;# 100GB data set (single node)
 # median query times (seconds) - 20 runs Druid, 3-5 runs MySQL
 
                 query          druid    mysql 
@@ -805,7 +805,7 @@ since a fair amount of merging work has to be done at the broker level to merge
 results for those type of queries on high-cardinality dimensions.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/druid-benchmark-scaling.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# median query times (seconds) over 20 runs
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;# median query times (seconds) over 20 runs
 
                 query druid (1 node) druid (6 nodes)
   count_star_interval       2.632399       0.4061503
@@ -846,7 +846,7 @@ will address those questions more directly.&lt;/p&gt;
 	<entry>
 		<title>Batch-Loading Sensor Data into Druid</title>
 		<link href="http://druid.io/blog/2014/03/12/batch-ingestion.html"/>
-		<updated>2014-03-12T00:00:00+00:00</updated>
+		<updated>2014-03-12T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2014/03/12/batch-ingestion</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;Sensors are everywhere these days, and that means sensor data is big data. Ingesting and analyzing sensor data at speed is an interesting problem, especially when scale is desired. In this post, we&amp;#39;ll access some real-world sensor data, and show how Druid can be used to store that data and make it available for immediate querying.&lt;/p&gt;
@@ -871,7 +871,7 @@ will address those questions more directly.&lt;/p&gt;
 &lt;h2 id=&quot;extracting-the-streamflow-data&quot;&gt;Extracting the Streamflow Data&lt;/h2&gt;
 
 &lt;p&gt;In R, load the waterData package, then run &lt;code&gt;importDVs()&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; install.packages&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;waterData&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; install.packages&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;waterData&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;kc&quot;&gt;...&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;waterData&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;kc&quot;&gt;...&lt;/span&gt;
@@ -889,7 +889,7 @@ will address those questions more directly.&lt;/p&gt;
 &lt;p&gt;The information on the specific site and sensor should provide information on the type of data available and the start-end dates for the full historical record.&lt;/p&gt;
 
 &lt;p&gt;You can now analyse and visualize the streamflow data. For example, we ran:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; myWater.plot &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; plotParam&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; myWater.plot &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; plotParam&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;myWater.plot&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;to get:&lt;/p&gt;
@@ -901,7 +901,7 @@ will address those questions more directly.&lt;/p&gt;
 &lt;h2 id=&quot;transforming-the-data-for-druid&quot;&gt;Transforming the Data for Druid&lt;/h2&gt;
 
 &lt;p&gt;We first want to have a look at the content of the data frame:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
      staid val      dates qualcode
 &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;11458000&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;90&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1963-01-01&lt;/span&gt;        A
 &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;11458000&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;87&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1963-01-02&lt;/span&gt;        A
@@ -911,25 +911,25 @@ will address those questions more directly.&lt;/p&gt;
 &lt;span class=&quot;m&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;11458000&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;75&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1963-01-06&lt;/span&gt;        A
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We don&amp;#39;t have any use for the qualcode (the &lt;a href=&quot;http://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd&quot;&gt;Daily Value Qualification Code&lt;/a&gt;), column:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; napa_flow_subset &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; napa_flow&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; napa_flow_subset &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; napa_flow&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;It may look like we also don&amp;#39;t need the staid column, either, since it&amp;#39;s all the same sensor ID. However, we&amp;#39;ll keep it because at some later time we may want to load similar data from other sensors.&lt;/p&gt;
 
 &lt;p&gt;Now we can export the data to a file, removing the header and row names:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;write.table&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow_subset&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;~/napa-flow.tsv&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; sep&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;\t&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; col.names &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; row.names &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;&lt;/span&gt;write.table&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;napa_flow_subset&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;~/napa-flow.tsv&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; sep&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;\t&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; col.names &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; row.names &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And here&amp;#39;s our file:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;head ~/napa-flow.tsv 
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;90&lt;/span&gt;  1963-01-01
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;87&lt;/span&gt;  1963-01-02
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;85&lt;/span&gt;  1963-01-03
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;  1963-01-04
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;76&lt;/span&gt;  1963-01-05
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;75&lt;/span&gt;  1963-01-06
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;73&lt;/span&gt;  1963-01-07
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;71&lt;/span&gt;  1963-01-08
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;65&lt;/span&gt;  1963-01-09
-&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;59&lt;/span&gt;  1963-01-10
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;$ head ~/napa-flow.tsv 
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;90&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-01
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;87&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-02
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;85&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-03
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-04
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;76&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-05
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;75&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-06
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;73&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-07
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;71&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-08
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;65&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-09
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;11458000&amp;quot;&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;59&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1963&lt;/span&gt;-01-10
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&quot;loading-the-data-into-druid&quot;&gt;Loading the Data into Druid&lt;/h2&gt;
 
@@ -938,7 +938,7 @@ will address those questions more directly.&lt;/p&gt;
 &lt;h3 id=&quot;configure-the-indexing-task&quot;&gt;Configure the Indexing Task&lt;/h3&gt;
 
 &lt;p&gt;Druid has an indexing service that can load data. Since there&amp;#39;s a relatively small amount of data to ingest, we&amp;#39;re going to use the &lt;a href=&quot;http://druid.io/docs/latest/Batch-ingestion.html&quot;&gt;basic Druid indexing service&lt;/a&gt; to ingest it. (Another option to ingest data uses a Hadoop cluster and is set up in a similar way, but that is more than we need for this job.) We must create a task (in JSON format) that specifies the work the indexing service will do:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;index&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;usgs&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularitySpec&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -988,29 +988,29 @@ will address those questions more directly.&lt;/p&gt;
 &lt;p&gt;Before submitting this task, we must start a small Druid cluster consisting of the indexing service, a Coordinator node, and a Historical node. Instructions on how to set up and start a Druid cluster are in the &lt;a href=&quot;http://druid.io/docs/latest/Tutorial:-Loading-Your-Data-Part-1.html&quot;&gt;Druid documentation&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Once the cluster is ready, the task is submitted to the indexer&amp;#39;s REST service (showing the relative path to the task file):&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl -X &lt;span class=&quot;s1&quot;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt; -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;Content-Type:application/json&amp;#39;&lt;/span&gt; -d @examples/usgs/usgs_index_task.json localhost:8087/druid/indexer/v1/task
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;$ curl -X &lt;span class=&quot;s1&quot;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt; -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;Content-Type:application/json&amp;#39;&lt;/span&gt; -d @examples/usgs/usgs_index_task.json localhost:8087/druid/indexer/v1/task
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&quot;verify-success&quot;&gt;Verify Success&lt;/h2&gt;
 
 &lt;p&gt;If the task is accepted, a message similar to the following should appear almost immediately:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{&amp;quot;task&amp;quot;:&amp;quot;index_usgs_2014-03-06T22:12:38.803Z&amp;quot;}
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;{&amp;quot;task&amp;quot;:&amp;quot;index_usgs_2014-03-06T22:12:38.803Z&amp;quot;}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The indexing service (or &amp;quot;overlord&amp;quot;) should log a message similar to the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;2014-03-06 22:13:14,495 INFO [pool-6-thread-1] io.druid.indexing.overlord.TaskQueue - Task SUCCESS: IndexTask{id=index_usgs_2014-03-06T22:12:38.803Z, type=index, dataSource=usgs} (30974 run duration)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;2014-03-06 22:13:14,495 INFO [pool-6-thread-1] io.druid.indexing.overlord.TaskQueue - Task SUCCESS: IndexTask{id=index_usgs_2014-03-06T22:12:38.803Z, type=index, dataSource=usgs} (30974 run duration)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This shows that the data is in Druid. You&amp;#39;ll see messages in the other nodes&amp;#39; logs concerning the &amp;quot;usgs&amp;quot; data. We can further verify this by going to the overlord&amp;#39;s console (http://&amp;lt;host&amp;gt;:8087/console.html) to view information about the task, and the Coordinator&amp;#39;s console (http://&amp;lt;host&amp;gt;:8082) to view metadata about the individual segments.&lt;/p&gt;
 
 &lt;p&gt;We can also verify the data by querying Druid. Here&amp;#39;s a simple time-boundary query:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;timeBoundary&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;usgs&amp;quot;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Saved in a file called &lt;code&gt;tb-query.body&lt;/code&gt;, it can then be submitted to Druid:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl -X POST &lt;span class=&quot;s1&quot;&gt;&amp;#39;http://localhost:8081/druid/v2/?pretty&amp;#39;&lt;/span&gt; -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; -d @examples/usgs/tb-query.body
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;$ curl -X POST &lt;span class=&quot;s1&quot;&gt;&amp;#39;http://localhost:8081/druid/v2/?pretty&amp;#39;&lt;/span&gt; -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; -d @examples/usgs/tb-query.body
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The response should be:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;1963-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;minTime&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;1963-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1031,7 +1031,7 @@ will address those questions more directly.&lt;/p&gt;
 	<entry>
 		<title>How We Scaled HyperLogLog: Three Real-World Optimizations</title>
 		<link href="http://druid.io/blog/2014/02/18/hyperloglog-optimizations-for-real-world-systems.html"/>
-		<updated>2014-02-18T00:00:00+00:00</updated>
+		<updated>2014-02-18T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2014/02/18/hyperloglog-optimizations-for-real-world-systems</id>
                 <author><name>NELSON RAY AND FANGJIN YANG</name></author>
                 <summary type="html">&lt;p&gt;At Metamarkets, we specialize in converting mountains of programmatic ad data
@@ -1213,7 +1213,7 @@ Martin&lt;/a&gt;.&lt;/p&gt;
 	<entry>
 		<title>RDruid and Twitterstream</title>
 		<link href="http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html"/>
-		<updated>2014-02-03T00:00:00+00:00</updated>
+		<updated>2014-02-03T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2014/02/03/rdruid-and-twitterstream</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You&amp;#39;d be able to draw conclusions from analyzing data streams at the speed of now. That&amp;#39;s what combining the prowess of a &lt;a href=&quot;http://druid.io&quot;&gt;Druid database&lt;/a&gt; with the power of &lt;a href=&quot;http://www.r-project.org&quot;&gt;R&lt;/a&gt; can do.&lt;/p&gt;
@@ -1222,7 +1222,7 @@ Martin&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In this blog, we&amp;#39;ll look at how to bring streamed realtime data into R using nothing more than a laptop, an Internet connection, and open-source applications. And we&amp;#39;ll do it with &lt;em&gt;only one&lt;/em&gt; Druid node.&lt;/p&gt;
 
-&lt;h2 id=&quot;what-you-39-ll-need&quot;&gt;What You&amp;#39;ll Need&lt;/h2&gt;
+&lt;h2 id=&quot;what-youll-need&quot;&gt;What You&amp;#39;ll Need&lt;/h2&gt;
 
 &lt;p&gt;You&amp;#39;ll need to download and unpack &lt;a href=&quot;http://static.druid.io/artifacts/releases/druid-services-0.6.52-bin.tar.gz&quot;&gt;Druid&lt;/a&gt;.&lt;/p&gt;
 
@@ -1236,7 +1236,7 @@ We also recommend using &lt;a href=&quot;http://www.rstudio.com/&quot;&gt;RStudi
 &lt;p&gt;First, register with the Twitter API. Log in at the &lt;a href=&quot;https://dev.twitter.com/apps/new&quot;&gt;Twitter developer&amp;#39;s site&lt;/a&gt; (you can use your normal Twitter credentials) and fill out the form for creating an application; use any website and callback URL to complete the form. &lt;/p&gt;
 
 &lt;p&gt;Make note of the API credentials that are then generated. Later you&amp;#39;ll need to enter them when prompted by the Twitter-example startup script, or save them in a &lt;code&gt;twitter4j.properties&lt;/code&gt; file (nicer if you ever restart the server). If using a properties file, save it under &lt;code&gt;$DRUID_HOME/examples/twitter&lt;/code&gt;. The file should contains the following (using your real keys):&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;oauth.consumerKey=&amp;lt;yourTwitterConsumerKey&amp;gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;oauth.consumerKey=&amp;lt;yourTwitterConsumerKey&amp;gt;
 oauth.consumerSecret=&amp;lt;yourTwitterConsumerSecret&amp;gt;
 oauth.accessToken=&amp;lt;yourTwitterAccessToken&amp;gt;
 oauth.accessTokenSecret=&amp;lt;yourTwitterAccessTokenSecret&amp;gt;
@@ -1244,19 +1244,19 @@ oauth.accessTokenSecret=&amp;lt;yourTwitterAccessTokenSecret&amp;gt;
 &lt;h2 id=&quot;start-up-the-realtime-node&quot;&gt;Start Up the Realtime Node&lt;/h2&gt;
 
 &lt;p&gt;From the Druid home directory, start the Druid Realtime node:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$DRUID_HOME/run_example_server.sh
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;$DRUID_HOME/run_example_server.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When prompted, you&amp;#39;ll choose the &amp;quot;twitter&amp;quot; example. If you&amp;#39;re using the properties file, the server should start right up. Otherwise, you&amp;#39;ll have to answer the prompts with the credentials you obtained from Twitter. &lt;/p&gt;
 
 &lt;p&gt;After the Realtime node starts successfully, you should see &amp;quot;Connected_to_Twitter&amp;quot; printed, as well as messages similar to the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;2014-01-13 19:35:59,646 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;2014-01-13 19:35:59,646 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This indicates that the Druid Realtime node is ingesting tweets in realtime.&lt;/p&gt;
 
 &lt;h2 id=&quot;set-up-r&quot;&gt;Set Up R&lt;/h2&gt;
 
 &lt;p&gt;Install and load the following packages:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;install.packages(&amp;quot;devtools&amp;quot;)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;install.packages(&amp;quot;devtools&amp;quot;)
 install.packages(&amp;quot;ggplot2&amp;quot;)
 
 library(&amp;quot;devtools&amp;quot;)
@@ -1267,12 +1267,12 @@ library(RDruid)
 library(ggplot2)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now tell RDruid where to find the Realtime node:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;druid &amp;lt;- druid.url(&amp;quot;localhost:8083&amp;quot;)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;druid &amp;lt;- druid.url(&amp;quot;localhost:8083&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&quot;querying-the-realtime-node&quot;&gt;Querying the Realtime Node&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://druid.io/docs/latest/Tutorial:-All-About-Queries.html&quot;&gt;Druid queries&lt;/a&gt; are in the format of JSON objects, but in R they&amp;#39;ll have a different format. Let&amp;#39;s look at this with a simple query that will give the time range of the Twitter data currently in our Druid node:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;gt; druid.query.timeBoundary(druid, dataSource=&amp;quot;twitterstream&amp;quot;, intervals=interval(ymd(20140101), ymd(20141231)), verbose=&amp;quot;true&amp;quot;)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; druid.query.timeBoundary(druid, dataSource=&amp;quot;twitterstream&amp;quot;, intervals=interval(ymd(20140101), ymd(20141231)), verbose=&amp;quot;true&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Let&amp;#39;s break this query down:&lt;/p&gt;
 
@@ -1294,7 +1294,7 @@ library(ggplot2)
 }&lt;/p&gt;
 
 &lt;p&gt;This is the type of query that Druid can understand. Now let&amp;#39;s look at the rest of the post and response:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;* Adding handle: conn: 0x7fa1eb723800
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;* Adding handle: conn: 0x7fa1eb723800
 * Adding handle: send: 0
 * Adding handle: recv: 0
 * Curl_addHandleToPipeline: length: 1
@@ -1325,7 +1325,7 @@ Content-Length: 151
 &lt;h3 id=&quot;more-complex-queries&quot;&gt;More Complex Queries&lt;/h3&gt;
 
 &lt;p&gt;Now lets look at some real Twitter data. Say we are interested in the number of tweets per language during that time period. We need to do an aggregation via a groupBy query (see RDruid help in RStudio):&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
                     interval(ymd(&amp;quot;2014-01-01&amp;quot;), ymd(&amp;quot;2015-01-01&amp;quot;)), 
                     granularity=granularity(&amp;quot;P1D&amp;quot;), 
                     aggregations = (tweets = sum(metric(&amp;quot;tweets&amp;quot;))), 
@@ -1341,7 +1341,7 @@ Content-Length: 151
 &lt;/ul&gt;
 
 &lt;p&gt;Here&amp;#39;s the actual output:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;{
     &amp;quot;intervals&amp;quot; : [
         &amp;quot;2014-01-01T00:00:00.000+00:00/2015-01-01T00:00:00.000+00:00&amp;quot;
     ],
@@ -1437,13 +1437,13 @@ Content-Length: 489
 42 2014-01-25     34 zh-tw
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This gives an idea of what languages dominate Twitter (at least for the given time range). For visualization, you can use a library like ggplot2. Try the &lt;code&gt;geom_bar&lt;/code&gt; function to quickly produce a basic bar chart of the data. First, send the query above to a dataframe (let&amp;#39;s call it &lt;code&gt;tweet_langs&lt;/code&gt; in this example), then subset it to take languages with more than a thousand tweets:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;major_tweet_langs &amp;lt;- subset(tweet_langs, tweets &amp;gt; 1000)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;major_tweet_langs &amp;lt;- subset(tweet_langs, tweets &amp;gt; 1000)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Then create the chart:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat=&amp;quot;identity&amp;quot;)
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat=&amp;quot;identity&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You can refine this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
                     interval(ymd(&amp;quot;2014-01-01&amp;quot;), ymd(&amp;quot;2015-01-01&amp;quot;)), 
                     granularity=granularity(&amp;quot;all&amp;quot;), 
                     aggregations = list(rows = druid.count(), 
@@ -1464,7 +1464,7 @@ Content-Length: 489
 &lt;/ul&gt;
 
 &lt;p&gt;Some interesting analyses on current events could be done using these dimensions and metrics. For example, you could filter on specific hashtags for events that happen to be spiking at the time:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;druid.query.groupBy(druid, dataSource=&amp;quot;twitterstream&amp;quot;, 
                 interval(ymd(&amp;quot;2014-01-01&amp;quot;), ymd(&amp;quot;2015-01-01&amp;quot;)), 
                 granularity=granularity(&amp;quot;P1D&amp;quot;), 
                 aggregations = (tweets = sum(metric(&amp;quot;tweets&amp;quot;))), 
@@ -1482,7 +1482,7 @@ Content-Length: 489
 	<entry>
 		<title>Querying Your Data</title>
 		<link href="http://druid.io/blog/2013/11/04/querying-your-data.html"/>
-		<updated>2013-11-04T00:00:00+00:00</updated>
+		<updated>2013-11-04T00:00:00-08:00</updated>
                 <id>http://druid.io/blog/2013/11/04/querying-your-data</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Before we start querying druid, we&amp;#39;re going to finish setting up a complete cluster on localhost. In our previous posts, we setup a Realtime node. In this tutorial we will also setup the other Druid node types: Compute, Master and Broker.&lt;/p&gt;
@@ -1495,7 +1495,7 @@ Content-Length: 489
 &lt;li&gt;Setup a config file at config/broker/runtime.properties that looks like this: &lt;a href=&quot;https://gist.github.com/rjurney/5818837&quot;&gt;https://gist.github.com/rjurney/5818837&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Run the broker node:&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -Ddruid.realtime.specFile&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;realtime.spec &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/broker &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 com.metamx.druid.http.BrokerMain
@@ -1506,7 +1506,7 @@ com.metamx.druid.http.BrokerMain
 &lt;li&gt;Setup a config file at config/master/runtime.properties that looks like this: &lt;a href=&quot;https://gist.github.com/rjurney/5818870&quot;&gt;https://gist.github.com/rjurney/5818870&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Run the master node:&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/master &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 com.metamx.druid.http.MasterMain
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1517,7 +1517,7 @@ com.metamx.druid.http.MasterMain
 &lt;li&gt;&lt;p&gt;Setup a realtime.spec file like this: &lt;a href=&quot;https://gist.github.com/rjurney/5818779&quot;&gt;https://gist.github.com/rjurney/5818779&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Run the realtime node:&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -Ddruid.realtime.specFile&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;realtime.spec &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 com.metamx.druid.realtime.RealtimeMain
@@ -1528,7 +1528,7 @@ com.metamx.druid.realtime.RealtimeMain
 &lt;li&gt;Setup a config file at config/compute/runtime.properties that looks like this: &lt;a href=&quot;https://gist.github.com/rjurney/5818885&quot;&gt;https://gist.github.com/rjurney/5818885&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Run the compute node:&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;java -Xmx256m -Duser.timezone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTC -Dfile.encoding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/compute &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 com.metamx.druid.http.ComputeMain
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1543,7 +1543,7 @@ com.metamx.druid.http.ComputeMain
 &lt;h3 id=&quot;construct-a-query&quot;&gt;Construct a Query&lt;/h3&gt;
 
 &lt;p&gt;For constructing this query, see below at: Querying Against the realtime.spec&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;groupBy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1559,11 +1559,11 @@ com.metamx.druid.http.ComputeMain
 &lt;h3 id=&quot;querying-the-realtime-node&quot;&gt;Querying the Realtime Node&lt;/h3&gt;
 
 &lt;p&gt;Run our query against port 8080:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8080/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8080/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; -d @query.body
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;See our result:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1576,11 +1576,11 @@ com.metamx.druid.http.ComputeMain
 &lt;h3 id=&quot;querying-the-compute-node&quot;&gt;Querying the Compute Node&lt;/h3&gt;
 
 &lt;p&gt;Run the query against port 8082:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8082/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8082/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; -d @query.body
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And get (similar to):&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1593,11 +1593,11 @@ com.metamx.druid.http.ComputeMain
 &lt;h3 id=&quot;querying-both-nodes-via-the-broker&quot;&gt;Querying both Nodes via the Broker&lt;/h3&gt;
 
 &lt;p&gt;Run the query against port 8083:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8083/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://localhost:8083/druid/v2/?pretty&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 -H &lt;span class=&quot;s1&quot;&gt;&amp;#39;content-type: application/json&amp;#39;&lt;/span&gt; -d @query.body
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And get:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1612,7 +1612,7 @@ com.metamx.druid.http.ComputeMain
 &lt;h2 id=&quot;querying-against-the-realtime-spec&quot;&gt;Querying Against the realtime.spec&lt;/h2&gt;
 
 &lt;p&gt;How are we to know what queries we can run? Although &lt;a href=&quot;http://druid.io/docs/latest/Querying.html&quot;&gt;Querying&lt;/a&gt; is a helpful index, to get a handle on querying our data we need to look at our Realtime node&amp;#39;s realtime.spec file:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;schema&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
                &lt;span class=&quot;nt&quot;&gt;&amp;quot;aggregators&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;impressions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
                                   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;doubleSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}],&lt;/span&gt;
@@ -1642,34 +1642,34 @@ com.metamx.druid.http.ComputeMain
 &lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;datasource&quot;&gt;dataSource&lt;/h3&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Our dataSource tells us the name of the relation/table, or &amp;#39;source of data&amp;#39;, to query in both our realtime.spec and query.body!&lt;/p&gt;
 
 &lt;h3 id=&quot;aggregations&quot;&gt;aggregations&lt;/h3&gt;
 
 &lt;p&gt;Note the &lt;a href=&quot;http://druid.io/docs/latest/Aggregations.html&quot;&gt;aggregations&lt;/a&gt; in our query:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;    &lt;span class=&quot;s2&quot;&gt;&amp;quot;aggregations&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class=&quot;s2&quot;&gt;&amp;quot;aggregations&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;longSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;imps&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;impressions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;doubleSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;this matches up to the aggregators in the schema of our realtime.spec!&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;aggregators&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;impressions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;aggregators&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;impressions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
                                   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;doubleSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;dimensions&quot;&gt;dimensions&lt;/h3&gt;
 
 &lt;p&gt;Lets look back at our actual records (from &lt;a href=&quot;http://druid.io/blog/2013/08/30/loading-data.html&quot;&gt;Loading Your Data&lt;/a&gt;:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:01&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;male&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:01&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;male&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:02&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;female&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:03&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;male&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:04&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;female&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;quot;utcdt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T01:01:05&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;wp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;gender&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;male&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Note that we have two dimensions to our data, other than our primary metric, wp. They are &amp;#39;gender&amp;#39; and &amp;#39;age&amp;#39;. We can specify these in our query! Note that we have added a dimension: age, below.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;groupBy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1683,7 +1683,7 @@ com.metamx.druid.http.ComputeMain
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Which gets us grouped data in return!&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1733,7 +1733,7 @@ com.metamx.druid.http.ComputeMain
 &lt;h3 id=&quot;filtering&quot;&gt;filtering&lt;/h3&gt;
 
 &lt;p&gt;Now that we&amp;#39;ve observed our dimensions, we can also filter:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;groupBy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;druidtest&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1751,7 +1751,7 @@ com.metamx.druid.http.ComputeMain
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Which gets us just people aged 40:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1772,7 +1772,7 @@ com.metamx.druid.http.ComputeMain
 	<entry>
 		<title>Druid at XLDB</title>
 		<link href="http://druid.io/blog/2013/09/20/druid-at-xldb.html"/>
-		<updated>2013-09-20T00:00:00+00:00</updated>
+		<updated>2013-09-20T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/09/20/druid-at-xldb</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;We recently attended &lt;a href=&quot;http://www.xldb.org/&quot;&gt;Stanford XLDB&lt;/a&gt; and the experience was a blast. Once a year, XLDB invites speakers from different organizations to discuss the challenges of and solutions to dealing with Xtreme (with an X!) data sets. This year, Jeff Dean dropped knowledge bombs about architecting scalable systems, Michael Stonebraker provided inspiring advice about growing open source projects, CERN explained how they found the Higgs Boson, and several organizations spoke about their technology. We definitely recommend checking out the &lt;a href=&quot;https://conf-slac.stanford.edu/xldb-2013/conference-program&quot;&gt;slides&lt;/a&gt; from the conference.&lt;/p&gt;
@@ -1794,7 +1794,7 @@ com.metamx.druid.http.ComputeMain
 	<entry>
 		<title>Launching Druid With Apache Whirr</title>
 		<link href="http://druid.io/blog/2013/09/19/launching-druid-with-apache-whirr.html"/>
-		<updated>2013-09-19T00:00:00+00:00</updated>
+		<updated>2013-09-19T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/09/19/launching-druid-with-apache-whirr</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Without Whirr, to launch a Druid cluster, you&amp;#39;d have to provision machines yourself, and then install each node type manually. This process is outlined &lt;a href=&quot;https://github.com/metamx/druid/wiki/Tutorial%3A-The-Druid-Cluster&quot;&gt;here&lt;/a&gt;. With Whirr, you can boot a druid cluster by editing a simple configuration file and then issuing a single command!&lt;/p&gt;
@@ -1812,7 +1812,7 @@ com.metamx.druid.http.ComputeMain
 &lt;h2 id=&quot;installing-whirr&quot;&gt;Installing Whirr&lt;/h2&gt;
 
 &lt;p&gt;Until Druid is part of an Apache release (a month or two from now) of Whirr, you&amp;#39;ll need to clone the code from &lt;a href=&quot;https://github.com/rjurney/whirr/tree/trunk&quot;&gt;https://github.com/rjurney/whirr/tree/trunk&lt;/a&gt; and build Whirr.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;git clone git@github.com:rjurney/whirr.git
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;git clone git@github.com:rjurney/whirr.git
 cd whirr
 git checkout trunk
 mvn clean install -Dmaven.test.failure.ignore=true
@@ -1820,15 +1820,15 @@ mvn clean install -Dmaven.test.failure.ignore=true
 &lt;h2 id=&quot;configuring-your-cloud-provider&quot;&gt;Configuring your Cloud Provider&lt;/h2&gt;
 
 &lt;p&gt;You&amp;#39;ll need to set these environment variables:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;export WHIRR_PROVIDER=aws-ec2
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;export WHIRR_PROVIDER=aws-ec2
 export WHIRR_IDENTITY=$AWS_ACCESS_KEY_ID
 export WHIRR_CREDENTIAL=$AWS_SECRET_ACCESS_KEY
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&quot;build-properties&quot;&gt;build.properties&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cat recipes/druid.properties
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;cat recipes/druid.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Much of the configuration is self explanatory:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Change the cluster name here
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;# Change the cluster name here
 whirr.cluster-name=druid
 
 # Change the number of machines in the cluster here
@@ -1847,10 +1847,10 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 &lt;p&gt;Note that you can change a cluster&amp;#39;s configuration with the whirr.instance-templates parameter. This enables you to boot clusters large or small. Note that at least one zookeeper and druid-mysql nodes are required.&lt;/p&gt;
 
 &lt;h2 id=&quot;launching-a-druid-cluster-with-whirr&quot;&gt;Launching a Druid Cluster with Whirr&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bin/whirr launch-cluster --config recipes/druid.properties
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;bin/whirr launch-cluster --config recipes/druid.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When the cluster is ready, ssh instructions will print and we can connect and use the cluster. For more instructions on using a Druid cluster, see &lt;a href=&quot;https://github.com/metamx/druid/wiki/Querying-your-data&quot;&gt;here&lt;/a&gt;. To destroy a cluster when we&amp;#39;re done, run:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bin/whirr destroy-cluster --config recipes/druid.properties
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;bin/whirr destroy-cluster --config recipes/druid.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We hope Apache Whirr makes experimenting with Druid easier than ever!&lt;/p&gt;
 </content>
@@ -1859,7 +1859,7 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 	<entry>
 		<title>Upcoming Events</title>
 		<link href="http://druid.io/blog/2013/09/16/upcoming-events.html"/>
-		<updated>2013-09-16T00:00:00+00:00</updated>
+		<updated>2013-09-16T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/09/16/upcoming-events</id>
                 <author><name></name></author>
                 <summary type="html">&lt;p&gt;Druid hits the road this fall, with presentations in the Bay Area, North Carolina and New York!&lt;/p&gt;
@@ -1885,7 +1885,7 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 	<entry>
 		<title>The Art of Approximating Distributions: Histograms and Quantiles at Scale</title>
 		<link href="http://druid.io/blog/2013/09/12/the-art-of-approximating-distributions.html"/>
-		<updated>2013-09-12T00:00:00+00:00</updated>
+		<updated>2013-09-12T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/09/12/the-art-of-approximating-distributions</id>
                 <author><name>Nelson Ray</name></author>
                 <summary type="html">&lt;p&gt;&lt;em&gt;I’d like to acknowledge Xavier Léauté for his extensive contributions (in
@@ -1918,7 +1918,7 @@ billions of values in seconds.&lt;/p&gt;
 &lt;p&gt;When we first &lt;a href=&quot;http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/&quot;&gt;met
 Druid&lt;/a&gt;,
 we considered the following example of a raw impression event log:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;timestamp             publisher          advertiser  gender  country  dimensions  click  price
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;timestamp             publisher          advertiser  gender  country  dimensions  click  price
 2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                  0      0.65
 2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                  0      0.62
 2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                  1      0.45
@@ -1933,7 +1933,7 @@ timestamps to the hour), we can produce a summarized dataset by grouping by the
 dimensions and aggregating the metrics. We also introduce the “impressions”
 column, which counts the rows from the raw data with that combination of
 dimensions:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt; timestamp             publisher          advertiser  gender country impressions clicks revenue
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt; timestamp             publisher          advertiser  gender country impressions clicks revenue
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
@@ -1969,7 +1969,7 @@ this pre-aggregation.&lt;/p&gt;
 
 &lt;p&gt;One solution to support quantile queries is to store the entire array of ~2500
 prices in each row:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt; timestamp             publisher          advertiser  gender country impressions clicks prices
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt; timestamp             publisher          advertiser  gender country impressions clicks prices
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [0.64, 1.93, 0.93, ...]
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [0.65, 0.62, 0.45, ...]
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [0.07, 0.34, 1.23, ...]
@@ -2004,7 +2004,7 @@ centroid) pairs, we can make &lt;em&gt;online&lt;/em&gt; updates as we scan thro
 prices with a single pair, so we are confronted with a classical
 accuracy/storage/speed tradeoff. We can fix the number of pairs that we store
 like so:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt; timestamp             publisher          advertiser  gender country impressions clicks prices
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt; timestamp             publisher          advertiser  gender country impressions clicks prices
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [(1, .16), (48, .62), (83, .71), ...]
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [(1, .12), (3, .15), (30, 1.41), ...]
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [(2, .03), (1, .62), (20, .93), ...]
@@ -2189,7 +2189,7 @@ Algorithms.”&lt;/a&gt;&lt;/p&gt;
 	<entry>
 		<title>Understanding Druid Real-time Ingestion</title>
 		<link href="http://druid.io/blog/2013/08/30/loading-data.html"/>
-		<updated>2013-08-30T00:00:00+00:00</updated>
+		<updated>2013-08-30T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/08/30/loading-data</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;In our last post, we got a realtime node working with example Twitter data. Now it&amp;#39;s time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a &lt;a href=&quot;https://github.com/metamx/druid/wiki/Firehose&quot;&gt;Firehose&lt;/a&gt;. In this post we&amp;#39;ll outline how to ingest data from Kafka in realtime using the Kafka Firehose.&lt;/p&gt;
@@ -2209,7 +2209,7 @@ Algorithms.”&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;create-config-directories&quot;&gt;Create Config Directories&lt;/h2&gt;
 
 &lt;p&gt;Each type of node needs its own config file and directory, so create these subdirectories under the druid directory.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir config
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;mkdir config
 mkdir config/realtime
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&quot;loading-data-with-kafka&quot;&gt;Loading Data with Kafka&lt;/h2&gt;
@@ -2221,12 +2221,12 @@ mkdir config/realtime
 &lt;p&gt;Instructions for booting a Zookeeper and then Kafka cluster are available &lt;a href=&quot;http://kafka.apache.org/07/quickstart.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Download Apache Kafka&lt;/strong&gt; 0.7.2 from &lt;a href=&quot;http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz&quot;&gt;http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;wget http://static.druid.io/artifacts/kafka-0.7.2-incubating-bin.tar.gz
 tar -xvzf kafka-0.7.2-incubating-bin.tar.gz
 cd kafka-0.7.2-incubating-bin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Boot Zookeeper and Kafka&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cat config/zookeeper.properties
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;cat config/zookeeper.properties
 bin/zookeeper-server-start.sh config/zookeeper.properties
 # in a new console
 bin/kafka-server-start.sh config/server.properties
@@ -2234,17 +2234,17 @@ bin/kafka-server-start.sh config/server.properties
 &lt;p&gt;&lt;strong&gt;Launch Kafka&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;In a new console, launch the kafka console producer (so you can type in JSON kafka messages in a bit)&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;bin/kafka-console-producer.sh --zookeeper localhost:2181 --topic druidtest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;launching-a-realtime-node&quot;&gt;Launching a Realtime Node&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;Download Druid&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;wget http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;wget http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz
 tar -xvzf druid-services-0.5.50-bin.tar.gz
 cd druid-services-0.5.50-bin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Create a valid configuration file&lt;/strong&gt; similar to this called config/realtime/runtime.properties:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;druid.host=127.0.0.1
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;druid.host=127.0.0.1
 druid.port=8083
 
 com.metamx.emitter.logging=true
@@ -2274,7 +2274,7 @@ druid.database.connectURI=
 druid.host=127.0.0.1:8083
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Create a valid realtime configuration file&lt;/strong&gt; similar to this called realtime.spec in the current directory:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;[{
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;[{
   &amp;quot;schema&amp;quot; : { &amp;quot;dataSource&amp;quot;:&amp;quot;druidtest&amp;quot;,
                &amp;quot;aggregators&amp;quot;:[ {&amp;quot;type&amp;quot;:&amp;quot;count&amp;quot;, &amp;quot;name&amp;quot;:&amp;quot;impressions&amp;quot;},
                                   {&amp;quot;type&amp;quot;:&amp;quot;doubleSum&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;wp&amp;quot;,&amp;quot;fieldName&amp;quot;:&amp;quot;wp&amp;quot;}],
@@ -2303,26 +2303,26 @@ druid.host=127.0.0.1:8083
 }]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Launch the realtime node&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
 -Ddruid.realtime.specFile=realtime.spec \
 -classpath services/target/druid-services-0.5.6-SNAPSHOT-selfcontained.jar:config/realtime \
 com.metamx.druid.realtime.RealtimeMain
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Paste data into the Kafka console producer&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:01&amp;quot;, &amp;quot;wp&amp;quot;: 1000, &amp;quot;gender&amp;quot;: &amp;quot;male&amp;quot;, &amp;quot;age&amp;quot;: 100}
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;{&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:01&amp;quot;, &amp;quot;wp&amp;quot;: 1000, &amp;quot;gender&amp;quot;: &amp;quot;male&amp;quot;, &amp;quot;age&amp;quot;: 100}
 {&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:02&amp;quot;, &amp;quot;wp&amp;quot;: 2000, &amp;quot;gender&amp;quot;: &amp;quot;female&amp;quot;, &amp;quot;age&amp;quot;: 50}
 {&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:03&amp;quot;, &amp;quot;wp&amp;quot;: 3000, &amp;quot;gender&amp;quot;: &amp;quot;male&amp;quot;, &amp;quot;age&amp;quot;: 20}
 {&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:04&amp;quot;, &amp;quot;wp&amp;quot;: 4000, &amp;quot;gender&amp;quot;: &amp;quot;female&amp;quot;, &amp;quot;age&amp;quot;: 30}
 {&amp;quot;utcdt&amp;quot;: &amp;quot;2010-01-01T01:01:05&amp;quot;, &amp;quot;wp&amp;quot;: 5000, &amp;quot;gender&amp;quot;: &amp;quot;male&amp;quot;, &amp;quot;age&amp;quot;: 40}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Watch the events as they are ingested&lt;/strong&gt; in the Druid realtime node console&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;...
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;...
 2013-06-17 21:41:55,569 INFO [Global--0] com.metamx.emitter.core.LoggingEmitter - Event [{&amp;quot;feed&amp;quot;:&amp;quot;metrics&amp;quot;,&amp;quot;timestamp&amp;quot;:&amp;quot;2013-06-17T21:41:55.569Z&amp;quot;,&amp;quot;service&amp;quot;:&amp;quot;example&amp;quot;,&amp;quot;host&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,&amp;quot;metric&amp;quot;:&amp;quot;events/processed&amp;quot;,&amp;quot;value&amp;quot;:5,&amp;quot;user2&amp;quot;:&amp;quot;druidtest&amp;quot;}]
 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Create a query&lt;/strong&gt;
 In a new console, edit a file called query.body:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;{
     &amp;quot;queryType&amp;quot;: &amp;quot;groupBy&amp;quot;,
     &amp;quot;dataSource&amp;quot;: &amp;quot;druidtest&amp;quot;,
     &amp;quot;granularity&amp;quot;: &amp;quot;all&amp;quot;,
@@ -2336,11 +2336,11 @@ In a new console, edit a file called query.body:&lt;/p&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Submit the query via curl&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;curl -X POST &amp;quot;http://localhost:8083/druid/v2/?pretty&amp;quot; \
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST &amp;quot;http://localhost:8083/druid/v2/?pretty&amp;quot; \
 -H &amp;#39;content-type: application/json&amp;#39; -d @query.body
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;View Result!&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;[ {
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;[ {
   &amp;quot;timestamp&amp;quot; : &amp;quot;2010-01-01T01:01:00.000Z&amp;quot;,
   &amp;quot;result&amp;quot; : {
     &amp;quot;imps&amp;quot; : 20,
@@ -2356,7 +2356,7 @@ In a new console, edit a file called query.body:&lt;/p&gt;
 	<entry>
 		<title>Understanding Druid Via Twitter Data</title>
 		<link href="http://druid.io/blog/2013/08/06/twitter-tutorial.html"/>
-		<updated>2013-08-06T00:00:00+00:00</updated>
+		<updated>2013-08-06T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/08/06/twitter-tutorial</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Druid is a rockin&amp;#39; exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10&amp;#39;s of billions of events per day for the &lt;a href=&quot;http://www.metamarkets.com&quot;&gt;Metamarkets&lt;/a&gt; platform, and Metamarkets is committed to building Druid in open source.&lt;/p&gt;
@@ -2391,12 +2391,12 @@ Download this to a directory of your choosing.&lt;/p&gt;
 &lt;h3 id=&quot;clone-and-build-from-source&quot;&gt;Clone and Build from Source&lt;/h3&gt;
 
 &lt;p&gt;The other way to setup Druid is from source via git. To do so, run these commands:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;git clone git@github.com:metamx/druid.git
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;git clone git@github.com:metamx/druid.git
 cd druid
 ./build.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You should see a bunch of files: &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
 DruidIndividualCLA.pdf  build.sh    doc     group_by.body   install     publications    services
 LICENSE     client      eclipse_formatting.xml  index-common    merger      realtime
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -2448,7 +2448,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 &lt;pre&gt;./run_example_client.sh&lt;/pre&gt;&lt;/p&gt;
 
 &lt;p&gt;Select &amp;quot;twitter&amp;quot; once again. This script issues GroupByQuerys to the twitter data we&amp;#39;ve been ingesting. The query looks like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;groupBy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;twitterstream&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -2464,7 +2464,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 &lt;p&gt;This is a &lt;strong&gt;groupBy&lt;/strong&gt; query, which you may be familiar with from SQL. We are grouping, or aggregating, via the &lt;strong&gt;dimensions&lt;/strong&gt; field: [&amp;quot;lang&amp;quot;, &amp;quot;utc_offset&amp;quot;]. We are &lt;strong&gt;filtering&lt;/strong&gt; via the &lt;strong&gt;&amp;quot;lang&amp;quot;&lt;/strong&gt; dimension, to only look at english tweets. Our &lt;strong&gt;aggregations&lt;/strong&gt; are what we are calculating: a row count, and the sum of the tweets in our data.&lt;/p&gt;
 
 &lt;p&gt;The result looks something like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -2509,7 +2509,7 @@ LICENSE     client      eclipse_formatting.xml  index-common    merger      real
 &lt;pre&gt;&lt;code&gt; curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @time_boundary_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 
 &lt;p&gt;We get something like this JSON back:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;minTime&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -2542,7 +2542,7 @@ To issue the query and get some results, run the following in your command line:
 &lt;pre&gt;&lt;code&gt;curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @timeseries_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 
 &lt;p&gt;Once again, you should get a JSON blob of text back with your results, that looks something like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;358562.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -2555,7 +2555,7 @@ To issue the query and get some results, run the following in your command line:
 &lt;p&gt;Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?&lt;/p&gt;
 
 &lt;p&gt;If you loudly exclaimed &amp;quot;we can change granularity to minute&amp;quot;, you are absolutely correct again! We can specify different granularities to bucket our results, like so:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;timeseries&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;twitterstream&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;intervals&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01/2020-01-01&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
@@ -2567,7 +2567,7 @@ To issue the query and get some results, run the following in your command line:
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This gives us something like the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2650.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -2615,7 +2615,7 @@ and put the following in there:
 &lt;pre&gt;&lt;code&gt;curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @group_by_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 
 &lt;p&gt;You should hopefully see an answer to our question. For my twitter stream, it looks like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -2665,7 +2665,7 @@ and put the following in there:
 	<entry>
 		<title>Real Real-Time. For Realz.</title>
 		<link href="http://druid.io/blog/2013/05/10/real-time-for-real.html"/>
-		<updated>2013-05-10T00:00:00+00:00</updated>
+		<updated>2013-05-10T00:00:00-07:00</updated>
                 <id>http://druid.io/blog/2013/05/10/real-time-for-real</id>
                 <author><name>Eric Tschetter</name></author>
                 <summary type="html">&lt;p&gt;&lt;em&gt;Danny Yuan, Cloud System Architect at Netflix, and I recently co-presented at

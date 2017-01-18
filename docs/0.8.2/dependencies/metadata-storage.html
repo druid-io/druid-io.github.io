@@ -124,10 +124,10 @@ include the extension for the metadata storage you plan to use.</p>
 </ol>
 
 <p>Connect to MySQL from the machine where it is installed.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  &gt; mysql -u root
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  &gt; mysql -u root
 </code></pre></div>
 <p>Paste the following snippet into the mysql prompt:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql">  <span class="c1">-- create a druid database, make sure to use utf8 as encoding</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8 as encoding</span>
   <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8</span><span class="p">;</span>
 
   <span class="c1">-- create a druid user, and grant it all permission on the database we just created</span>
@@ -139,11 +139,11 @@ include the extension for the metadata storage you plan to use.</p>
 
 <p>Add the following parameters to your Druid configuration, replacing <code>&lt;host&gt;</code>
   with the hostname of the database.</p>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.extensions.coordinates</span><span class="o">=</span><span class="s">[\&quot;io.druid.extensions:mysql-metadata-storage&quot;]</span>
-  <span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">mysql</span>
-  <span class="na">druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://&lt;host&gt;/druid_test</span>
-  <span class="na">druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
-  <span class="na">druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.extensions.coordinates</span><span class="o">=</span><span class="s">[\&quot;io.druid.extensions:mysql-metadata-storage&quot;]</span>
+<span class="na">  druid.metadata.storage.type</span><span class="o">=</span><span class="s">mysql</span>
+<span class="na">  druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://&lt;host&gt;/druid_test</span>
+<span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
+<span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
 </code></pre></div>
 <h2 id="setting-up-postgresql">Setting up PostgreSQL</h2>
 
@@ -163,10 +163,10 @@ include the extension for the metadata storage you plan to use.</p>
   postgresql permissions:</p>
 
 <p>Create a druid user, enter <code>diurd</code> when prompted for the password.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  createuser druid -P
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  createuser druid -P
 </code></pre></div>
 <p>Create a druid database owned by the user we just created</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  createdb druid -O druid
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  createdb druid -O druid
 </code></pre></div>
 <p><em>Note:</em> On Ubuntu / Debian you may have to prefix the <code>createuser</code> and
   <code>createdb</code> commands with <code>sudo -u postgres</code> in order to gain proper
@@ -178,11 +178,11 @@ include the extension for the metadata storage you plan to use.</p>
 
 <p>Add the following parameters to your Druid configuration, replacing <code>&lt;host&gt;</code>
   with the hostname of the database.</p>
-<div class="highlight"><pre><code class="language-properties" data-lang="properties">  <span class="na">druid.extensions.coordinates</span><span class="o">=</span><span class="s">[\&quot;io.druid.extensions:postgresql-metadata-storage&quot;]</span>
-  <span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">postgresql</span>
-  <span class="na">druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:postgresql://&lt;host&gt;/druid_test</span>
-  <span class="na">druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
-  <span class="na">druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">  druid.extensions.coordinates</span><span class="o">=</span><span class="s">[\&quot;io.druid.extensions:postgresql-metadata-storage&quot;]</span>
+<span class="na">  druid.metadata.storage.type</span><span class="o">=</span><span class="s">postgresql</span>
+<span class="na">  druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:postgresql://&lt;host&gt;/druid_test</span>
+<span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
+<span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
 </code></pre></div>
 <h2 id="metadata-storage-tables">Metadata Storage Tables</h2>
 
@@ -204,7 +204,7 @@ removing their metadata (which allows for simpler rolling back if that is ever
 an issue).</p>
 
 <p>The <code>payload</code> column stores a JSON blob that has all of the metadata for the segment (some of the data stored in this payload is redundant with some of the columns in the table, that is intentional). This looks something like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
  &quot;dataSource&quot;:&quot;wikipedia&quot;,
  &quot;interval&quot;:&quot;2012-05-23T00:00:00.000Z/2012-05-24T00:00:00.000Z&quot;,
  &quot;version&quot;:&quot;2012-05-24T00:10:00.046Z&quot;,

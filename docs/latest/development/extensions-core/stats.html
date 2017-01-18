@@ -114,7 +114,7 @@ The ingestion aggregator can only apply to numeric values. If you use &quot;vari
 then any input rows missing the value will be considered to have a value of 0.</p>
 
 <p>User can specify expected input type as one of &quot;float&quot;, &quot;long&quot;, &quot;variance&quot; for ingestion, which is by default &quot;float&quot;.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;variance&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
@@ -123,7 +123,7 @@ then any input rows missing the value will be considered to have a value of 0.</
 <span class="p">}</span>
 </code></pre></div>
 <p>To query for results, &quot;variance&quot; aggregator with &quot;variance&quot; input type or simply a &quot;varianceFold&quot; aggregator must be included in the query.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;varianceFold&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
@@ -147,7 +147,7 @@ then any input rows missing the value will be considered to have a value of 0.</
 <h3 id="standard-deviation-post-aggregator">Standard Deviation post-aggregator</h3>
 
 <p>To acquire standard deviation from variance, user can use &quot;stddev&quot; post aggregator.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stddev&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregator_name&gt;&quot;</span><span class="p">,</span>
@@ -157,7 +157,7 @@ then any input rows missing the value will be considered to have a value of 0.</
 <h2 id="query-examples">Query Examples:</h2>
 
 <h3 id="timeseries-query">Timeseries Query</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
@@ -174,7 +174,7 @@ then any input rows missing the value will be considered to have a value of 0.</
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="topn-query">TopN Query</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;alias&quot;</span><span class="p">],</span>
@@ -200,7 +200,7 @@ then any input rows missing the value will be considered to have a value of 0.</
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="groupby-query">GroupBy Query</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;alias&quot;</span><span class="p">],</span>

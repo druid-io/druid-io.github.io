@@ -93,7 +93,7 @@
 <p>TopNs are approximate in that each node will rank their top K results and only return those top K results to the broker. K, by default in Druid, is <code>max(1000, threshold)</code>. In practice, this means that if you ask for the top 1000 items ordered, the correctness of the first ~900 items will be 100%, and the ordering of the results after that is not guaranteed. TopNs can be made more accurate by increasing the threshold.</p>
 
 <p>A topN query object looks like:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_data&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_dim&quot;</span><span class="p">,</span>
@@ -219,7 +219,7 @@
 
 <p>Please note the context JSON object is also available for topN queries and should be used with the same caution as the timeseries case.
 The format of the results would look like so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
     <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
@@ -274,7 +274,7 @@ The format of the results would look like so:</p>
 <p>Users who can tolerate <em>approximate rank</em> topN over a dimension with greater than 1000 unique values, but require <em>exact aggregates</em> can issue two queries. One to get the approximate topN dimension values, and another topN with dimension selection filters which only use the topN results of the first.</p>
 
 <h4 id="example-first-query">Example First query:</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
              <span class="p">{</span>
                  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_longSum&quot;</span><span class="p">,</span>
@@ -294,7 +294,7 @@ The format of the results would look like so:</p>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="example-second-query">Example second query:</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
              <span class="p">{</span>
                  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_TAX_doubleSum&quot;</span><span class="p">,</span>

@@ -123,7 +123,7 @@
 </tbody></table>
 
 <p>For example:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
   <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -187,7 +187,7 @@
 <p>Almost all the fields listed above are required, including <code>inputFormat</code>, <code>metadataUpdateSpec</code>(<code>type</code>, <code>connectURI</code>, <code>user</code>, <code>password</code>, <code>segmentTable</code>). Set <code>jobProperties</code> to make hdfs path timezone unrelated.</p>
 
 <p>It is no need to make your cluster to update to SNAPSHOT, you can just fire a hadoop job with your local compiled jars like:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">HADOOP_CLASS_PATH</span><span class="o">=</span><span class="sb">`</span>hadoop classpath <span class="p">|</span> sed s/*.jar/*/g<span class="sb">`</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">HADOOP_CLASS_PATH</span><span class="o">=</span><span class="sb">`</span>hadoop classpath <span class="p">|</span> sed s/*.jar/*/g<span class="sb">`</span>
 
 java -Xmx32m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
   -classpath config/overlord:config/_common:lib/*:<span class="nv">$HADOOP_CLASS_PATH</span>:extensions/druid-avro-extensions/*  <span class="se">\</span>

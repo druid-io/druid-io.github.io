@@ -91,10 +91,10 @@
 <h2 id="numeric-topnmetricspec">Numeric TopNMetricSpec</h2>
 
 <p>The simplest metric specification is a String value indicating the metric to sort topN results by. They are included in a topN query with:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="s2">&quot;&lt;metric_name&gt;&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="s2">&quot;&lt;metric_name&gt;&quot;</span>
 </code></pre></div>
 <p>The metric field can also be given as a JSON object. The grammar for dimension values sorted by numeric value is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span><span class="p">,</span>
     <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;metric_name&gt;&quot;</span>
 <span class="p">}</span>
@@ -151,7 +151,7 @@
 </tbody></table>
 
 <p>The following metricSpec uses lexicographic sorting.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
     <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;lexicographic&quot;</span><span class="p">,</span>
     <span class="nt">&quot;previousStop&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;previousStop_value&gt;&quot;</span>
@@ -162,7 +162,7 @@
 <h2 id="inverted-topnmetricspec">Inverted TopNMetricSpec</h2>
 
 <p>Sort dimension values in inverted order, i.e inverts the order of the delegate metric spec. It can be used to sort the values in ascending order.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metric&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;inverted&quot;</span><span class="p">,</span>
     <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="err">&lt;delegate_top_n_metric_spec&gt;</span>
 <span class="p">}</span>

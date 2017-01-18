@@ -220,7 +220,7 @@
 <p>The coordinator has dynamic configuration to change certain behaviour on the fly. The coordinator uses a JSON spec object from the Druid <a href="../dependencies/metadata-storage.html">metadata storage</a> config table. This object is detailed below:</p>
 
 <p>It is recommended that you use the Coordinator Console to configure these parameters. However, if you need to do it via HTTP, the JSON object can be submitted to the coordinator via a POST request at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config
 </code></pre></div>
 <p>Optional Header Parameters for auditing the config change can also be specified.</p>
 
@@ -244,7 +244,7 @@
 </tbody></table>
 
 <p>A sample coordinator dynamic config JSON object is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;millisToWaitBeforeDeleting&quot;</span><span class="p">:</span> <span class="mi">900000</span><span class="p">,</span>
   <span class="nt">&quot;mergeBytesLimit&quot;</span><span class="p">:</span> <span class="mi">100000000</span><span class="p">,</span>
   <span class="nt">&quot;mergeSegmentsLimit&quot;</span> <span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
@@ -312,12 +312,12 @@
 </tbody></table>
 
 <p>To view the audit history of coordinator dynamic config issue a GET request to the URL -</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config/history?interval=&lt;interval&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config/history?interval=&lt;interval&gt;
 </code></pre></div>
 <p>default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in coordinator runtime.properties</p>
 
 <p>To view last <n> entries of the audit history of coordinator dynamic config issue a GET request to the URL -</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config/history?count=&lt;n&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/config/history?count=&lt;n&gt;
 </code></pre></div>
 <h1 id="lookups-dynamic-config-experimental">Lookups Dynamic Config (EXPERIMENTAL)</h1>
 

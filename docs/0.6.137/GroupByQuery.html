@@ -90,7 +90,7 @@
 
 <p>These types of queries take a groupBy query object and return an array of JSON objects where each object represents a grouping asked for by the query. Note: If you only want to do straight aggregates for some time range, we highly recommend using <a href="TimeseriesQuery.html">TimeseriesQueries</a> instead. The performance will be substantially better.
 An example groupBy query object is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
@@ -193,7 +193,7 @@ An example groupBy query object is shown below:</p>
 </tbody></table>
 
 <p>To pull it all together, the above query would return <em>n*m</em> data points, up to a maximum of 5000 points, where n is the cardinality of the &quot;dim1&quot; dimension, m is the cardinality of the &quot;dim2&quot; dimension, each day between 2012-01-01 and 2012-01-03, from the &quot;sample_datasource&quot; table. Each data point contains the (long) sum of sample_fieldName1 if the value of the data point is greater than 0, the (double) sum of sample_fieldName2 and the (double) the result of sample_fieldName1 divided by sample_fieldName2 for the filter set for a particular grouping of &quot;dim1&quot; and &quot;dim2&quot;. The output looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> 
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> 
   <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>

@@ -95,7 +95,7 @@
 <p>S3-compatible deep storage is basically either S3 or something like riak-cs which exposes the same API as S3.  This is the default deep storage implementation.</p>
 
 <p>S3 configuration parameters are</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">com.metamx.aws.accessKey=&lt;S3 access key&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>com.metamx.aws.accessKey=&lt;S3 access key&gt;
 com.metamx.aws.secretKey=&lt;S3 secret_key&gt;
 druid.pusher.s3.bucket=&lt;bucket to store in&gt;
 druid.pusher.s3.baseKey=&lt;base key prefix to use, i.e. what directory&gt;
@@ -105,7 +105,7 @@ druid.pusher.s3.baseKey=&lt;base key prefix to use, i.e. what directory&gt;
 <p>As of 0.4.0, HDFS can be used for storage of segments as well.  </p>
 
 <p>In order to use hdfs for deep storage, you need to set the following configuration on your realtime nodes.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.pusher.hdfs=true
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.pusher.hdfs=true
 druid.pusher.hdfs.storageDirectory=&lt;directory for storing segments&gt;
 </code></pre></div>
 <p>If you are using the Hadoop indexer, set your output directory to be a location on Hadoop and it will work</p>
@@ -115,7 +115,7 @@ druid.pusher.hdfs.storageDirectory=&lt;directory for storing segments&gt;
 <p>A local mount can be used for storage of segments as well.  This allows you to use just your local file system or anything else that can be mount locally like NFS, Ceph, etc.</p>
 
 <p>In order to use a local mount for deep storage, you need to set the following configuration on your realtime nodes.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.pusher.local=true
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.pusher.local=true
 druid.pusher.local.storageDirectory=&lt;directory for storing segments&gt;
 </code></pre></div>
 <p>Note that you should generally set <code>druid.pusher.local.storageDirectory</code> to something different from <code>druid.paths.indexCache</code>.</p>

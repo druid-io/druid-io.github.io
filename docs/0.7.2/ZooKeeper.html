@@ -101,20 +101,20 @@
 <h3 id="coordinator-leader-election">Coordinator Leader Election</h3>
 
 <p>We use the Curator LeadershipLatch recipe to do leader election at path</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.coordinatorPath}/_COORDINATOR
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.coordinatorPath}/_COORDINATOR
 </code></pre></div>
-<h3 id="segment-quot-publishing-quot-protocol-from-historical-and-realtime">Segment &quot;publishing&quot; protocol from Historical and Realtime</h3>
+<h3 id="segment-publishing-protocol-from-historical-and-realtime">Segment &quot;publishing&quot; protocol from Historical and Realtime</h3>
 
 <p>The <code>announcementsPath</code> and <code>servedSegmentsPath</code> are used for this.</p>
 
 <p>All <a href="Historical.html">Historical</a> and <a href="Realtime.html">Realtime</a> nodes publish themselves on the <code>announcementsPath</code>, specifically, they will create an ephemeral znode at</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.announcementsPath}/${druid.host}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.announcementsPath}/${druid.host}
 </code></pre></div>
 <p>Which signifies that they exist. They will also subsequently create a permanent znode at</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.servedSegmentsPath}/${druid.host}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.servedSegmentsPath}/${druid.host}
 </code></pre></div>
 <p>And as they load up segments, they will attach ephemeral znodes that look like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.servedSegmentsPath}/${druid.host}/_segment_identifier_
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.servedSegmentsPath}/${druid.host}/_segment_identifier_
 </code></pre></div>
 <p>Nodes like the <a href="Coordinator.html">Coordinator</a> and <a href="Broker.html">Broker</a> can then watch these paths to see which nodes are currently serving which segments.</p>
 
@@ -123,7 +123,7 @@
 <p>The <code>loadQueuePath</code> is used for this.</p>
 
 <p>When the <a href="Coordinator.html">Coordinator</a> decides that a <a href="Historical.html">Historical</a> node should load or drop a segment, it writes an ephemeral znode to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">${druid.zk.paths.loadQueuePath}/_host_of_historical_node/_segment_identifier
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.loadQueuePath}/_host_of_historical_node/_segment_identifier
 </code></pre></div>
 <p>This node will contain a payload that indicates to the historical node what it should do with the given segment. When the historical node is done with the work, it will delete the znode in order to signify to the Coordinator that it is complete.</p>
 

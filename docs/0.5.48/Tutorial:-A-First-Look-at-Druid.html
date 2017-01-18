@@ -97,7 +97,7 @@
 <p>Specifically. the data schema looks like so:</p>
 
 <p>Dimensions (things to filter on):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;page&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;page&quot;</span>
 <span class="s2">&quot;language&quot;</span>
 <span class="s2">&quot;user&quot;</span>
 <span class="s2">&quot;unpatrolled&quot;</span>
@@ -111,7 +111,7 @@
 <span class="s2">&quot;city&quot;</span>
 </code></pre></div>
 <p>Metrics (things to aggregate over):</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;count&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;count&quot;</span>
 <span class="s2">&quot;added&quot;</span>
 <span class="s2">&quot;delta&quot;</span>
 <span class="s2">&quot;deleted&quot;</span>
@@ -128,10 +128,10 @@
 Download this file to a directory of your choosing.</p>
 
 <p>You can extract the awesomeness within by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">tar -zxvf druid-services-*-bin.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>tar -zxvf druid-services-*-bin.tar.gz
 </code></pre></div>
 <p>Not too lost so far right? That&#39;s great! If you cd into the directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd druid-services-0.5.58
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd druid-services-0.5.58
 </code></pre></div>
 <p>You should see a bunch of files:</p>
 
@@ -144,12 +144,12 @@ Download this file to a directory of your choosing.</p>
 <h2 id="running-example-scripts">Running Example Scripts</h2>
 
 <p>Let&#39;s start doing stuff. You can start a Druid <a href="Realtime.html">Realtime</a> node by issuing:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_server.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_server.sh
 </code></pre></div>
 <p>Select &quot;wikipedia&quot;.</p>
 
 <p>Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If everything was successful, you should see messages of the form shown below.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2013-07-19 21:54:05,154 INFO [main] com.metamx.druid.realtime.RealtimeNode - Starting Jetty
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2013-07-19 21:54:05,154 INFO [main] com.metamx.druid.realtime.RealtimeNode - Starting Jetty
 2013-07-19 21:54:05,154 INFO [main] org.mortbay.log - jetty-6.1.x
 2013-07-19 21:54:05,171 INFO [chief-wikipedia] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Expect to run at [2013-07-19T22:03:00.000Z]
 2013-07-19 21:54:05,246 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8083
@@ -157,10 +157,10 @@ Download this file to a directory of your choosing.</p>
 <p>The Druid real time-node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. If you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our <a href="http://static.druid.io/docs/druid.pdf">White Paper</a>.</p>
 
 <p>Okay, things are about to get real-time. To query the real-time node you&#39;ve spun up, you can issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./run_example_client.sh
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./run_example_client.sh
 </code></pre></div>
 <p>Select &quot;wikipedia&quot; once again. This script issues <a href="GroupByQuery.html">GroupByQuery</a>s to the data we&#39;ve been ingesting. The query looks like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span><span class="s2">&quot;minute&quot;</span><span class="p">,</span>
@@ -176,7 +176,7 @@ Download this file to a directory of your choosing.</p>
 <p>This is a <strong>groupBy</strong> query, which you may be familiar with from SQL. We are grouping, or aggregating, via the <code>dimensions</code> field: <code>[&quot;page&quot;]</code>. We are <strong>filtering</strong> via the <code>namespace</code> dimension, to only look at edits on <code>articles</code>. Our <strong>aggregations</strong> are what we are calculating: a count of the number of data rows, and a count of the number of edits that have occurred.</p>
 
 <p>The result looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
@@ -199,19 +199,19 @@ Download this file to a directory of your choosing.</p>
 <p>h2. Querying Druid</p>
 
 <p>In your favorite editor, create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">time_boundary_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>time_boundary_query.body
 </code></pre></div>
 <p>Druid queries are JSON blobs which are relatively painless to create programmatically, but an absolute pain to write by hand. So anyway, we are going to create a Druid query by hand. Add the following to the file you just created:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
     &quot;queryType&quot;: &quot;timeBoundary&quot;, 
     &quot;dataSource&quot;: &quot;wikipedia&quot;
 }
 </code></pre></div>
 <p>The <a href="TimeBoundaryQuery.html">TimeBoundaryQuery</a> is one of the simplest Druid queries. To run the query, you can issue:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d @time_boundary_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39; -d @time_boundary_query.body
 </code></pre></div>
 <p>We get something like this JSON back:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;minTime&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
@@ -222,10 +222,10 @@ Download this file to a directory of your choosing.</p>
 <p>As you can probably tell, the result is indicating the maximum and minimum timestamps we&#39;ve seen thus far (summarized to a minutely granularity). Let&#39;s explore a bit further.</p>
 
 <p>Return to your favorite editor and create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timeseries_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timeseries_query.body
 </code></pre></div>
 <p>We are going to make a slightly more complicated query, the <a href="TimeseriesQuery.html">TimeseriesQuery</a>. Copy and paste the following into the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
     &quot;queryType&quot;: &quot;timeseries&quot;, 
     &quot;dataSource&quot;: &quot;wikipedia&quot;, 
     &quot;intervals&quot;: [ &quot;2010-01-01/2020-01-01&quot; ], 
@@ -238,10 +238,10 @@ Download this file to a directory of your choosing.</p>
 </code></pre></div>
 <p>You are probably wondering, what are these <a href="Granularities.html">Granularities</a> and <a href="Aggregations.html">Aggregations</a> things? What the query is doing is aggregating some metrics over some span of time. 
 To issue the query and get some results, run the following in your command line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d  ````timeseries_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d  ````timeseries_query.body
 </code></pre></div>
 <p>Once again, you should get a JSON blob of text back with your results, that looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;chars_added&quot;</span> <span class="p">:</span> <span class="mf">312670.0</span><span class="p">,</span> <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">733</span> <span class="p">}</span>
 <span class="p">}</span> <span class="p">]</span>
@@ -251,7 +251,7 @@ To issue the query and get some results, run the following in your command line:
 <p>Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?</p>
 
 <p>If you loudly exclaimed &quot;we can change granularity to minute&quot;, you are absolutely correct! We can specify different granularities to bucket our results, like so:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;queryType&quot;: &quot;timeseries&quot;, 
   &quot;dataSource&quot;: &quot;wikipedia&quot;, 
   &quot;intervals&quot;: [ &quot;2010-01-01/2020-01-01&quot; ], 
@@ -263,7 +263,7 @@ To issue the query and get some results, run the following in your command line:
 }
 </code></pre></div>
 <p>This gives us something like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
  <span class="p">{</span>
    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-09-04T21:44:00.000Z&quot;</span><span class="p">,</span>
    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;chars_added&quot;</span> <span class="p">:</span> <span class="mf">30665.0</span><span class="p">,</span> <span class="nt">&quot;edit_count&quot;</span> <span class="p">:</span> <span class="mi">128</span> <span class="p">}</span>
@@ -284,10 +284,10 @@ To issue the query and get some results, run the following in your command line:
 <p>One of Druid&#39;s main powers is to provide answers to problems, so let&#39;s pose a problem. What if we wanted to know what the top pages in the US are, ordered by the number of edits over the last few minutes you&#39;ve been going through this tutorial? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the <a href="GroupByQuery.html">GroupByQuery</a>. It would be nice if we could group by results by dimension value and somehow sort those results... and it turns out we can!</p>
 
 <p>Let&#39;s create the file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">group_by_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>group_by_query.body
 </code></pre></div>
 <p>and put the following in there:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
   &quot;queryType&quot;: &quot;groupBy&quot;, 
   &quot;dataSource&quot;: &quot;wikipedia&quot;, 
   &quot;granularity&quot;: &quot;all&quot;, 
@@ -307,10 +307,10 @@ To issue the query and get some results, run the following in your command line:
 <p>Woah! Our query just got a way more complicated. Now we have these <a href="Filters.html">Filters</a> things and this <a href="OrderBy.html">OrderBy</a> thing. Fear not, it turns out the new objects we&#39;ve introduced to our query can help define the format of our results and provide an answer to our question.</p>
 
 <p>If you issue the query:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST &#39;http://localhost:8083/druid/v2/?pretty&#39; -H &#39;content-type: application/json&#39;  -d @group_by_query.body
 </code></pre></div>
 <p>You should see an answer to our question. As an example, some results are shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
  <span class="p">{</span>
    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-10-01T00:00:00.000Z&quot;</span><span class="p">,</span>

@@ -89,7 +89,7 @@
           <h1 id="command-line-hadoop-indexer">Command Line Hadoop Indexer</h1>
 
 <p>To run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:&lt;hadoop_config_dir&gt; io.druid.cli.Main index hadoop &lt;spec_file&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:&lt;hadoop_config_dir&gt; io.druid.cli.Main index hadoop &lt;spec_file&gt;
 </code></pre></div>
 <h2 id="options">Options</h2>
 
@@ -102,7 +102,7 @@
 
 <p>The spec file needs to contain a JSON object where the contents are the same as the &quot;spec&quot; field in the Hadoop index task. 
 In addition, the following fields need to be added to the ioConfig:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">      &quot;ioConfig&quot; : {
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>      &quot;ioConfig&quot; : {
         ...
         &quot;metadataUpdateSpec&quot; : {
           &quot;type&quot;:&quot;mysql&quot;,
@@ -115,7 +115,7 @@ In addition, the following fields need to be added to the ioConfig:</p>
       },
 </code></pre></div>
 <p>and the following field need to be added to the tuningConfig:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  &quot;tuningConfig&quot; : {
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  &quot;tuningConfig&quot; : {
    ...
     &quot;workingPath&quot;: &quot;/tmp&quot;,
     ...

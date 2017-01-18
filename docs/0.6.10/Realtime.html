@@ -93,10 +93,10 @@
 <h2 id="quick-start">Quick Start</h2>
 
 <p>Run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server realtime
 </code></pre></div>
 <p>With the following JVM configuration:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-server
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
 -Xmx256m
 -Duser.timezone=UTC
 -Dfile.encoding=UTF-8
@@ -138,10 +138,10 @@ druid.processing.buffer.sizeBytes=10000000
 </tr>
 </tbody></table>
 
-<h3 id="realtime-quot-specfile-quot">Realtime &quot;specFile&quot;</h3>
+<h3 id="realtime-specfile">Realtime &quot;specFile&quot;</h3>
 
 <p>The property <code>druid.realtime.specFile</code> has the path of a file (absolute or relative path and file name) with realtime specifications in it. This &quot;specFile&quot; should be a JSON Array of JSON objects like the following:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;dataSourceName&quot;</span><span class="p">,</span>
@@ -331,7 +331,7 @@ druid.processing.buffer.sizeBytes=10000000
 <p>If the RealtimeNode process runs out of heap, try adjusting druid.computation.buffer.size property which specifies a size in bytes that must fit into the heap.</p>
 
 <h2 id="running">Running</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server realtime
 </code></pre></div>
 <h2 id="segment-propagation">Segment Propagation</h2>
 

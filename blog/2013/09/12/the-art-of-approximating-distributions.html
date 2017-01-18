@@ -112,7 +112,7 @@ billions of values in seconds.</p>
 <p>When we first <a href="http://metamarkets.com/2011/druid-part-i-real-time-analytics-at-a-billion-rows-per-second/">met
 Druid</a>,
 we considered the following example of a raw impression event log:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">timestamp             publisher          advertiser  gender  country  dimensions  click  price
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp             publisher          advertiser  gender  country  dimensions  click  price
 2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA                  0      0.65
 2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA                  0      0.62
 2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA                  1      0.45
@@ -127,7 +127,7 @@ timestamps to the hour), we can produce a summarized dataset by grouping by the
 dimensions and aggregating the metrics. We also introduce the “impressions”
 column, which counts the rows from the raw data with that combination of
 dimensions:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks revenue
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks revenue
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
@@ -163,7 +163,7 @@ this pre-aggregation.</p>
 
 <p>One solution to support quantile queries is to store the entire array of ~2500
 prices in each row:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks prices
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks prices
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [0.64, 1.93, 0.93, ...]
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [0.65, 0.62, 0.45, ...]
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [0.07, 0.34, 1.23, ...]
@@ -198,7 +198,7 @@ centroid) pairs, we can make <em>online</em> updates as we scan through data.</p
 prices with a single pair, so we are confronted with a classical
 accuracy/storage/speed tradeoff. We can fix the number of pairs that we store
 like so:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> timestamp             publisher          advertiser  gender country impressions clicks prices
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks prices
  2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     [(1, .16), (48, .62), (83, .71), ...]
  2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     [(1, .12), (3, .15), (30, 1.41), ...]
  2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     [(2, .03), (1, .62), (20, .93), ...]

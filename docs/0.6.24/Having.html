@@ -101,7 +101,7 @@ Numeric filters can be used as the base filters for more complex boolean express
 
 <p>The equalTo filter will match rows with a specific aggregate value.
 The grammar for an <code>equalTo</code> filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
     <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="err">&lt;aggregate_metric&gt;</span><span class="p">,</span>
     <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
@@ -113,7 +113,7 @@ The grammar for an <code>equalTo</code> filter is as follows:</p>
 
 <p>The greaterThan filter will match rows with aggregate values greater than the given value.
 The grammar for a <code>greaterThan</code> filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
     <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="err">&lt;aggregate_metric&gt;</span><span class="p">,</span>
     <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
@@ -125,7 +125,7 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 
 <p>The lessThan filter will match rows with aggregate values less than the specified value.
 The grammar for a <code>greaterThan</code> filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lessThan&quot;</span><span class="p">,</span>
     <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="err">&lt;aggregate_metric&gt;</span><span class="p">,</span>
     <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
@@ -138,7 +138,7 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <h4 id="and">AND</h4>
 
 <p>The grammar for an AND filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
     <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
 <span class="p">}</span>
@@ -148,7 +148,7 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <h4 id="or">OR</h4>
 
 <p>The grammar for an OR filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
     <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
 <span class="p">}</span>
@@ -158,7 +158,7 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <h4 id="not">NOT</h4>
 
 <p>The grammar for a NOT filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span>
     <span class="nt">&quot;havingSpec&quot;</span><span class="p">:</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span>
 <span class="p">}</span>

@@ -159,7 +159,7 @@
 <h2 id="setup">Setup</h2>
 
 <p>Setting up a cluster is essentially just firing up all of the nodes you want with the proper [[configuration]]. One thing to be aware of is that there are a few properties in the configuration that potentially need to be set individually for each process:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">druid.server.type=historical|realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.server.type=historical|realtime
 druid.host=someHostOrIPaddrWithPort
 druid.port=8080
 </code></pre></div>
@@ -172,10 +172,10 @@ druid.port=8080
 <h2 id="build-run">Build/Run</h2>
 
 <p>The simplest way to build and run from the repository is to run <code>mvn package</code> from the base directory and then take <code>druid-services/target/druid-services-*-selfcontained.jar</code> and push that around to your machines; the jar does not need to be expanded, and since it contains the main() methods for each kind of service, it is <em>not</em> invoked with java -jar. It can be run from a normal java command-line by just including it on the classpath and then giving it the main class that you want to run. For example one instance of the Historical node/service can be started like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java -Duser.timezone=UTC -Dfile.encoding=UTF-8 -cp services/target/druid-services-*-selfcontained.jar io.druid.cli.Main server historical
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Duser.timezone=UTC -Dfile.encoding=UTF-8 -cp services/target/druid-services-*-selfcontained.jar io.druid.cli.Main server historical
 </code></pre></div>
 <p>All Druid server nodes can be started with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">io.druid.cli.Main server &lt;node_type&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server &lt;node_type&gt;
 </code></pre></div>
 <p>The table below show the program arguments for the different node types.</p>
 

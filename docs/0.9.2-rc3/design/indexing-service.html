@@ -118,23 +118,23 @@ This mode is recommended if you intend to use the indexing service as the single
 <h4 id="submitting-tasks-and-querying-task-status">Submitting Tasks and Querying Task Status</h4>
 
 <p>Tasks are submitted to the overlord node in the form of JSON objects. Tasks can be submitted via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
 </code></pre></div>
 <p>this will return the taskId of the submitted task.</p>
 
 <p>Tasks can be shut down via POST requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
 </code></pre></div>
 <p>Task statuses can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
 </code></pre></div>
 <p>Task segments can be retrieved via GET requests to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
 </code></pre></div>
 <h4 id="overlord-console">Overlord Console</h4>
 
 <p>The overlord console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/console.html
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/console.html
 </code></pre></div>
 <h4 id="autoscaling">Autoscaling</h4>
 
