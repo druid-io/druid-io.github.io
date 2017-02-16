@@ -226,7 +226,7 @@ PubNative uses Druid for its real-time reports and analysis of millions of daily
 
 ## Raygun
 
-Raygun is a full stack software intelligence platform that monitors your applications for errors, crashes and performance issues, and used Druid to complete complex queries with large data sets Having seen similar stories from others, including those who invested in other technologies such as the Hadoop ecosystem or key-value stores, Raygun began researching other more purpose-built analytics databases. Druid happens to be the one they settled on, as it offers several nice properties one wants in an analytics database.
+Raygun is a full stack software intelligence platform that monitors your applications for errors, crashes and performance issues. They use Druid to complete complex queries with large data sets. Having seen similar stories from others, including those who invested in other technologies such as the Hadoop ecosystem or key-value stores, Raygun began researching other more purpose-built analytics databases. Druid happens to be the one they settled on, as it offers several nice properties one wants in an analytics database.
 
 * [Using the Druid GroupBy V2 engine for real-time analytics](https://raygun.com/blog/2016/12/druid-groupby-v2-engine/)
 
