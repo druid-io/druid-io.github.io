@@ -224,6 +224,12 @@ is what they have to say:
 
 PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events. 
 
+## Raygun
+
+Raygun is a full stack software intelligence platform that monitors your applications for errors, crashes and performance issues, and used Druid to complete complex queries with large data sets Having seen similar stories from others, including those who invested in other technologies such as the Hadoop ecosystem or key-value stores, Raygun began researching other more purpose-built analytics databases. Druid happens to be the one they settled on, as it offers several nice properties one wants in an analytics database.
+
+* [Using the Druid GroupBy V2 engine for real-time analytics](https://raygun.com/blog/2016/12/druid-groupby-v2-engine/)
+
 ## Redborder
 
 redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
