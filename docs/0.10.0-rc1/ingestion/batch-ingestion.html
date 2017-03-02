@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0-rc1">API documentation</a></p>
+          <h1 id="batch-data-ingestion">Batch Data Ingestion</h1>
+
+<p>Druid can load data from static files through a variety of methods described here.</p>
+
+<h2 id="hadoop-based-batch-ingestion">Hadoop-based Batch Ingestion</h2>
+
+<p>Hadoop-based batch ingestion in Druid is supported via a Hadoop-ingestion task. These tasks can be posted to a running
+instance of a Druid <a href="../design/indexing-service.html">overlord</a>. A sample task is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hadoopyString&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span> <span class="p">:</span> <span class="s2">&quot;/MyDirectory/example/wikipedia_data.json&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;hadoopDependencyCoordinates&quot;</span><span class="p">:</span> <span class="err">&lt;my_hadoop_version&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index_hadoop&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>spec</td>
+<td>A Hadoop Index Spec. See <a href="../ingestion/batch-ingestion.html">Batch Ingestion</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>hadoopDependencyCoordinates</td>
+<td>A JSON array of Hadoop dependency coordinates that Druid will use, this property will override the default Hadoop coordinates. Once specified, Druid will look for those Hadoop dependencies from the location specified by <code>druid.extensions.hadoopDependenciesDir</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td>classpathPrefix</td>
+<td>Classpath that will be pre-appended for the peon process.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>also note that, druid automatically computes the classpath for hadoop job containers that run in hadoop cluster. But, in case of conflicts between hadoop and druid&#39;s dependencies, you can manually specify the classpath by setting <code>druid.extensions.hadoopContainerDruidClasspath</code> property. See the extensions config in <a href="../configuration/index.html">base druid configuration</a>.</p>
+
+<h3 id="dataschema">DataSchema</h3>
+
+<p>This field is required. See <a href="../ingestion/index.html">Ingestion</a>.</p>
+
+<h3 id="ioconfig">IOConfig</h3>
+
+<p>This field is required.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &#39;hadoop&#39;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>inputSpec</td>
+<td>Object</td>
+<td>A specification of where to pull the data in from. See below.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>segmentOutputPath</td>
+<td>String</td>
+<td>The path to dump segments into.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>metadataUpdateSpec</td>
+<td>Object</td>
+<td>A specification of how to update the metadata for the druid cluster these segments belong to.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="inputspec-specification">InputSpec specification</h4>
+
+<p>There are multiple types of inputSpecs:</p>
+
+<h5 id="static"><code>static</code></h5>
+
+<p>A type of inputSpec where a static path to the data files is provided.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>paths</td>
+<td>Array of String</td>
+<td>A String of input paths indicating where the raw data is located.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For example, using the static input paths:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;paths&quot; : &quot;s3n://billy-bucket/the/data/is/here/data.gz, s3n://billy-bucket/the/data/is/here/moredata.gz, s3n://billy-bucket/the/data/is/here/evenmoredata.gz&quot;
+</code></pre></div>
+<h5 id="granularity"><code>granularity</code></h5>
+
+<p>A type of inputSpec that expects data to be organized in directories according to datetime using the path format: <code>y=XXXX/m=XX/d=XX/H=XX/M=XX/S=XX</code> (where date is represented by lowercase and time is represented by uppercase).</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataGranularity</td>
+<td>String</td>
+<td>Specifies the granularity to expect the data at, e.g. hour means to expect directories <code>y=XXXX/m=XX/d=XX/H=XX</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>inputPath</td>
+<td>String</td>
+<td>Base path to append the datetime path to.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>filePattern</td>
+<td>String</td>
+<td>Pattern that files should match to be included.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>pathFormat</td>
+<td>String</td>
+<td>Joda datetime format for each directory. Default value is <code>&quot;&#39;y&#39;=yyyy/&#39;m&#39;=MM/&#39;d&#39;=dd/&#39;H&#39;=HH&quot;</code>, or see <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda documentation</a></td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>For example, if the sample config were run with the interval 2012-06-01/2012-06-02, it would expect data at the paths:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=00
+s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=01
+...
+s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
+</code></pre></div>
+<h5 id="datasource"><code>dataSource</code></h5>
+
+<p>Read Druid segments. See <a href="../ingestion/update-existing-data.html">here</a> for more information.</p>
+
+<h5 id="multi"><code>multi</code></h5>
+
+<p>Read multiple sources of data. See <a href="../ingestion/update-existing-data.html">here</a> for more information.</p>
+
+<h3 id="tuningconfig">TuningConfig</h3>
+
+<p>The tuningConfig is optional and default parameters will be used if no tuningConfig is specified.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>workingPath</td>
+<td>String</td>
+<td>The working path to use for intermediate results (results between Hadoop jobs).</td>
+<td>no (default == &#39;/tmp/druid-indexing&#39;)</td>
+</tr>
+<tr>
+<td>version</td>
+<td>String</td>
+<td>The version of created segments. Ignored for HadoopIndexTask unless useExplicitVersion is set to true</td>
+<td>no (default == datetime that indexing starts at)</td>
+</tr>
+<tr>
+<td>partitionsSpec</td>
+<td>Object</td>
+<td>A specification of how to partition each time bucket into segments. Absence of this property means no partitioning will occur. See &#39;Partitioning specification&#39; below.</td>
+<td>no (default == &#39;hashed&#39;)</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>Integer</td>
+<td>The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size.</td>
+<td>no (default == 75000)</td>
+</tr>
+<tr>
+<td>leaveIntermediate</td>
+<td>Boolean</td>
+<td>Leave behind intermediate files (for debugging) in the workingPath when a job completes, whether it passes or fails.</td>
+<td>no (default == false)</td>
+</tr>
+<tr>
+<td>cleanupOnFailure</td>
+<td>Boolean</td>
+<td>Clean up intermediate files when a job fails (unless leaveIntermediate is on).</td>
+<td>no (default == true)</td>
+</tr>
+<tr>
+<td>overwriteFiles</td>
+<td>Boolean</td>
+<td>Override existing files found during indexing.</td>
+<td>no (default == false)</td>
+</tr>
+<tr>
+<td>ignoreInvalidRows</td>
+<td>Boolean</td>
+<td>Ignore rows found to have problems.</td>
+<td>no (default == false)</td>
+</tr>
+<tr>
+<td>combineText</td>
+<td>Boolean</td>
+<td>Use CombineTextInputFormat to combine multiple files into a file split. This can speed up Hadoop jobs when processing a large number of small files.</td>
+<td>no (default == false)</td>
+</tr>
+<tr>
+<td>useCombiner</td>
+<td>Boolean</td>
+<td>Use Hadoop combiner to merge rows at mapper if possible.</td>
+<td>no (default == false)</td>
+</tr>
+<tr>
+<td>jobProperties</td>
+<td>Object</td>
+<td>A map of properties to add to the Hadoop job configuration, see below for details.</td>
+<td>no (default == null)</td>
+</tr>
+<tr>
+<td>indexSpec</td>
+<td>Object</td>
+<td>Tune how data is indexed. See below for more information.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>buildV9Directly</td>
+<td>Boolean</td>
+<td>Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.</td>
+<td>no (default == true)</td>
+</tr>
+<tr>
+<td>numBackgroundPersistThreads</td>
+<td>Integer</td>
+<td>The number of new background threads to use for incremental persists. Using this feature causes a notable increase in memory pressure and cpu usage but will make the job finish more quickly. If changing from the default of 0 (use current thread for persists), we recommend setting it to 1.</td>
+<td>no (default == 0)</td>
+</tr>
+<tr>
+<td>forceExtendableShardSpecs</td>
+<td>Boolean</td>
+<td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>no (default = false)</td>
+</tr>
+<tr>
+<td>useExplicitVersion</td>
+<td>Boolean</td>
+<td>Forces HadoopIndexTask to use version.</td>
+<td>no (default = false)</td>
+</tr>
+</tbody></table>
+
+<h4 id="jobproperties-field-of-tuningconfig">jobProperties field of TuningConfig</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;jobProperties&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;&lt;hadoop-property-a&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value-a&gt;&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;&lt;hadoop-property-b&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value-b&gt;&quot;</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre></div>
+<p>Hadoop&#39;s <a href="https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml">MapReduce documentation</a> lists the possible configuration parameters.</p>
+
+<p>With some Hadoop distributions, it may be necessary to set <code>mapreduce.job.classpath</code> or <code>mapreduce.job.user.classpath.first</code>
+to avoid class loading issues. See the <a href="../operations/other-hadoop.html">working with different Hadoop versions documentation</a>
+for more details.</p>
+
+<h4 id="indexspec">IndexSpec</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bitmap</td>
+<td>Object</td>
+<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
+<td>no (defaults to Concise)</td>
+</tr>
+<tr>
+<td>dimensionCompression</td>
+<td>String</td>
+<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>metricCompression</td>
+<td>String</td>
+<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, <code>uncompressed</code>, or <code>none</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>longEncoding</td>
+<td>String</td>
+<td>Encoding format for metric and dimension columns with type long. Choose from <code>auto</code> or <code>longs</code>. <code>auto</code> encodes the values using offset or lookup table depending on column cardinality, and store them with variable size. <code>longs</code> stores the value as is with 8 bytes each.</td>
+<td>no (default == <code>longs</code>)</td>
+</tr>
+</tbody></table>
+
+<h5 id="bitmap-types">Bitmap types</h5>
+
+<p>For Concise bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>concise</code>.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For Roaring bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>roaring</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>compressRunOnSerialization</td>
+<td>Boolean</td>
+<td>Use a run-length encoding where it is estimated as more space efficient.</td>
+<td>no (default == <code>true</code>)</td>
+</tr>
+</tbody></table>
+
+<h3 id="partitioning-specification">Partitioning specification</h3>
+
+<p>Segments are always partitioned based on timestamp (according to the granularitySpec) and may be further partitioned in
+some other way depending on partition type. Druid supports two types of partitioning strategies: &quot;hashed&quot; (based on the
+hash of all dimensions in each row), and &quot;dimension&quot; (based on ranges of a single dimension).</p>
+
+<p>Hashed partitioning is recommended in most cases, as it will improve indexing performance and create more uniformly
+sized data segments relative to single-dimension partitioning.</p>
+
+<h4 id="hash-based-partitioning">Hash-based partitioning</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hashed&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
+   <span class="p">}</span>
+</code></pre></div>
+<p>Hashed partitioning works by first selecting a number of segments, and then partitioning rows across those segments
+according to the hash of all dimensions in each row. The number of segments is determined automatically based on the
+cardinality of the input set and a target partition size.</p>
+
+<p>The configuration options are:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Type of partitionSpec to be used.</td>
+<td>&quot;hashed&quot;</td>
+</tr>
+<tr>
+<td>targetPartitionSize</td>
+<td>Target number of rows to include in a partition, should be a number that targets segments of 500MB~1GB.</td>
+<td>either this or numShards</td>
+</tr>
+<tr>
+<td>numShards</td>
+<td>Specify the number of partitions directly, instead of a target partition size. Ingestion will run faster, since it can skip the step necessary to select a number of partitions automatically.</td>
+<td>either this or targetPartitionSize</td>
+</tr>
+<tr>
+<td>partitionDimensions</td>
+<td>The dimensions to partition on. Leave blank to select all dimensions. Only used with numShards, will be ignored when targetPartitionSize is set</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h4 id="single-dimension-partitioning">Single-dimension partitioning</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
+   <span class="p">}</span>
+</code></pre></div>
+<p>Single-dimension partitioning works by first selecting a dimension to partition on, and then separating that dimension
+into contiguous ranges. Each segment will contain all rows with values of that dimension in that range. For example,
+your segments may be partitioned on the dimension &quot;host&quot; using the ranges &quot;a.example.com&quot; to &quot;f.example.com&quot; and
+&quot;f.example.com&quot; to &quot;z.example.com&quot;. By default, the dimension to use is determined automatically, although you can
+override it with a specific dimension.</p>
+
+<p>The configuration options are:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Type of partitionSpec to be used.</td>
+<td>&quot;dimension&quot;</td>
+</tr>
+<tr>
+<td>targetPartitionSize</td>
+<td>Target number of rows to include in a partition, should be a number that targets segments of 500MB~1GB.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>maxPartitionSize</td>
+<td>Maximum number of rows to include in a partition. Defaults to 50% larger than the targetPartitionSize.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>partitionDimension</td>
+<td>The dimension to partition on. Leave blank to select a dimension automatically.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>assumeGrouped</td>
+<td>Assume that input data has already been grouped on time and dimensions. Ingestion will run faster, but may choose sub-optimal partitions if this assumption is violated.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="remote-hadoop-cluster">Remote Hadoop Cluster</h3>
+
+<p>If you have a remote Hadoop cluster, make sure to include the folder holding your configuration <code>*.xml</code> files in your Druid <code>_common</code> configuration folder.  </p>
+
+<p>If you are having dependency problems with your version of Hadoop and the version compiled with Druid, please see <a href="../operations/other-hadoop.html">these docs</a>.</p>
+
+<h3 id="using-elastic-mapreduce">Using Elastic MapReduce</h3>
+
+<p>If your cluster is running on Amazon Web Services, you can use Elastic MapReduce (EMR) to index data
+from S3. To do this:</p>
+
+<ul>
+<li>Create a persistent, <a href="http://docs.aws.amazon.com/ElasticMapReduce/latest/ManagementGuide/emr-plan-longrunning-transient.html">long-running cluster</a>.</li>
+<li>When creating your cluster, enter the following configuration. If you&#39;re using the wizard, this
+should be in advanced mode under &quot;Edit software settings&quot;:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>classification=yarn-site,properties=[mapreduce.reduce.memory.mb=6144,mapreduce.reduce.java.opts=-server -Xms2g -Xmx2g -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.map.java.opts=758,mapreduce.map.java.opts=-server -Xms512m -Xmx512m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps,mapreduce.task.timeout=1800000]
+</code></pre></div>
+<ul>
+<li>Follow the instructions under &quot;<a href="../tutorials/cluster.html#configure-cluster-for-hadoop-data-loads">Configure Hadoop for data
+loads</a>&quot; using the XML files from
+<code>/etc/hadoop/conf</code> on your EMR master.</li>
+</ul>
+
+<h3 id="secured-hadoop-cluster">Secured Hadoop Cluster</h3>
+
+<p>By default druid can use the exisiting TGT kerberos ticket available in local kerberos key cache.
+Although TGT ticket has a limited life cycle, 
+therefore you need to call <code>kinit</code> command periodically to ensure validity of TGT ticket.
+To avoid this extra external cron job script calling <code>kinit</code> periodically,
+ you can provide the principal name and keytab location and druid will do the authentication transparently at startup and job launching time.   </p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.hadoop.security.kerberos.principal</code></td>
+<td><code>druid@EXAMPLE.COM</code></td>
+<td>Principal user name</td>
+<td>empty</td>
+</tr>
+<tr>
+<td><code>druid.hadoop.security.kerberos.keytab</code></td>
+<td><code>/etc/security/keytabs/druid.headlessUser.keytab</code></td>
+<td>Path to keytab file</td>
+<td>empty</td>
+</tr>
+</tbody></table>
+
+<h4 id="loading-from-s3-with-emr">Loading from S3 with EMR</h4>
+
+<ul>
+<li>In the <code>jobProperties</code> field in the <code>tuningConfig</code> section of your Hadoop indexing task, add:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;jobProperties&quot; : {
+   &quot;fs.s3.awsAccessKeyId&quot; : &quot;YOUR_ACCESS_KEY&quot;,
+   &quot;fs.s3.awsSecretAccessKey&quot; : &quot;YOUR_SECRET_KEY&quot;,
+   &quot;fs.s3.impl&quot; : &quot;org.apache.hadoop.fs.s3native.NativeS3FileSystem&quot;,
+   &quot;fs.s3n.awsAccessKeyId&quot; : &quot;YOUR_ACCESS_KEY&quot;,
+   &quot;fs.s3n.awsSecretAccessKey&quot; : &quot;YOUR_SECRET_KEY&quot;,
+   &quot;fs.s3n.impl&quot; : &quot;org.apache.hadoop.fs.s3native.NativeS3FileSystem&quot;,
+   &quot;io.compression.codecs&quot; : &quot;org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec&quot;
+}
+</code></pre></div>
+<p>Note that this method uses Hadoop&#39;s built-in S3 filesystem rather than Amazon&#39;s EMRFS, and is not compatible
+with Amazon-specific features such as S3 encryption and consistent views. If you need to use these
+features, you will need to make the Amazon EMR Hadoop JARs available to Druid through one of the
+mechanisms described in the <a href="#using-other-hadoop-distributions">Using other Hadoop distributions</a> section.</p>
+
+<h2 id="using-other-hadoop-distributions">Using other Hadoop distributions</h2>
+
+<p>Druid works out of the box with many Hadoop distributions.</p>
+
+<p>If you are having dependency conflicts between Druid and your version of Hadoop, you can try
+searching for a solution in the <a href="https://groups.google.com/forum/#!forum/druid-%0Auser">Druid user groups</a>, or reading the Druid <a href="../operations/other-hadoop.html">Different Hadoop Versions</a> documentation.</p>
+
+<h2 id="command-line-hadoop-indexer">Command Line Hadoop Indexer</h2>
+
+<p>If you don&#39;t want to use a full indexing service to use Hadoop to get data into Druid, you can also use the standalone command line Hadoop indexer. 
+See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more info.</p>
+
+<h2 id="indextask-based-batch-ingestion">IndexTask-based Batch Ingestion</h2>
+
+<p>If you do not want to have a dependency on Hadoop for batch ingestion, you can also use the index task. This task will be much slower and less scalable than the Hadoop-based method. See <a href="../ingestion/tasks.html">here</a> for more info.</p>
+
+<h2 id="having-problems">Having Problems?</h2>
+
+<p>Getting data into Druid can definitely be difficult for first time users. Please don&#39;t hesitate to ask questions in our IRC channel or on our <a href="https://groups.google.com/forum/#!forum/druid-user">google groups page</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.10.0-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
