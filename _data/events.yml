@@ -1,9 +1,9 @@
-- date: 2017-03-14
-  name: NextGen Banking platform Meetup
-  info: Banking technology meetup in Richmond, VA
-  link: https://www.meetup.com/NextGen-Banking-platform-with-Machine-learning-Meetup/events/238064602/
+- date: 2017-04-28
+  name: Building a Column-Oriented, Distributed Data Store for Analytics - The Story of Druid
+  info: DataEngConf
+  link: http://www.dataengconf.com/blog/building-a-column-oriented-distributed-data-store-for-analytics-the-story-of-druid
 
-- date: 2017-03-15
-  name: NextGen Banking platform Meetup
-  info: Banking technology meetup in Mclean, VA
-  link: https://www.meetup.com/NextGen-Banking-platform-with-Machine-learning-Meetup/events/238087638/
+- date: 2017-05-18
+  name: "Druid: A High Performance, Column-Oriented, Distributed Data Store"
+  info: San Francisco Bay Area Big Data and Scalable Systems Meetup
+  link: https://www.meetup.com/San-Francisco-Bay-Area-Big-Data-and-Scalable-Systems/events/238477886/
