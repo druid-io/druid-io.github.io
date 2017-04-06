@@ -75,67 +75,69 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <p>Druid is an open-source analytics data store designed for business intelligence
-(<a href="http://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a>)
-queries on event data. Druid provides low latency (real-time) data
-ingestion, flexible data exploration, and fast data aggregation. Existing Druid
-deployments have scaled to trillions of events and petabytes of data. Druid is
-most commonly used to power user-facing analytic applications.</p>
+      <p>Druid is an open-source data store designed for sub-second queries on real-time
+and historical data. It is primarily used for business intelligence
+(<a href="http://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a>) queries on
+event data. Druid provides low latency (real-time) data ingestion, flexible
+data exploration, and fast data aggregation. Existing Druid deployments have
+scaled to trillions of events and petabytes of data. Druid is most commonly
+used to power user-facing analytic applications.</p>
 
 <h2 id="key-features">Key Features</h2>
 
-<p><strong>Sub-second OLAP Queries</strong> Druid’s column orientation and inverted indexes enable
-complex multi-dimensional filtering and scanning exactly what is needed for a
-query. Aggregate and filter on data in milliseconds.</p>
+<p><strong>Sub-second OLAP Queries</strong> Druid’s unique architecture enables rapid
+multi-dimensional filtering, ad-hoc attribute groupings, and extremely fast
+aggregations.</p>
 
-<p><strong>Real-time Streaming Ingestion</strong> Typical analytics databases ingest data via batches.
-Ingesting an event at a time is often accompanied with transactional locks and
-other overhead that slows down the ingestion rate. Druid employs lock-free
-ingestion of append-heavy data sets to allow for simultaneous ingestion and
-querying of 10,000+ events per second per node. Simply put, the latency between
-when an event happens and when it is visible is limited only by how quickly the
-event can be delivered to Druid.</p>
+<p><strong>Real-time Streaming Ingestion</strong> Druid employs lock-free ingestion to allow
+for simultaneous ingestion and querying of high dimensional, high volume data
+sets. Explore events immediately after they occur.</p>
 
-<p><strong>Power Analytic Applications</strong> Druid has numerous features built in for multi-tenancy. Power user-facing analytic applications designed to be used by
+<p><strong>Power Analytic Applications</strong> Druid has numerous features built for
+multi-tenancy. Power user-facing analytic applications designed to be used by
 thousands of concurrent users.</p>
 
-<p><strong>Cost Effective</strong> Druid is extremely cost effective at scale and has numerous features built in for cost reduction.
-Trade off cost and performance with simple configuration knobs.</p>
+<p><strong>Cost Effective</strong> Druid is extremely cost effective at scale and has numerous
+features built in for cost reduction.  Trade off cost and performance with
+simple configuration knobs.</p>
 
 <p><strong>Highly Available</strong> Druid is used to back SaaS implementations that need to be
-up all the time. Druid supports rolling updates so your data is still available and queryable during software
-updates. Scale up or down without data loss.</p>
+up all the time. Druid supports rolling updates so your data is still available
+and queryable during software updates. Scale up or down without data loss.</p>
 
 <p><strong>Scalable</strong> Existing Druid deployments handle trillions of events, petabytes
 of data, and thousands of queries every second.</p>
 
 <h2 id="is-druid-right-for-me">Is Druid Right for Me?</h2>
 
-<p>Organizations have deployed Druid to analyze ad-tech, dev-ops, network traffic, cloud security, 
-website traffic, finance, and sensor data. Druid is a good fit
-if you have the following requirements:</p>
+<p>Organizations have deployed Druid to analyze user, server, and marketplace
+events across a variety of industries including media, telecommunications,
+security, banking, health care, and retail. Druid is a good fit if you have the
+following requirements:</p>
 
 <ul>
-<li>You are building an application that requires fast aggregations and exploratory analytics</li>
-<li>You want to do your analysis on data as it’s happening (in real-time)</li>
+<li>You are building an application that requires fast aggregations and
+OLAP queries</li>
+<li>You want to do real-time analysis</li>
 <li>You have lots of data (trillions of events, petabytes of data)</li>
-<li>You need a data store that is always available with no single point of failure</li>
+<li>You need a data store that is always available with no single point of
+failure</li>
 </ul>
 
 <h2 id="high-level-architecture">High Level Architecture</h2>
 
 <p>Druid is partially inspired by existing analytic data stores such as Google&#39;s
 <a href="http://static.googleusercontent.com/media/research.google.com/en/us/pubs/archive/36632.pdf">BigQuery/Dremel</a>,
-Google&#39;s <a href="http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf">PowerDrill</a>, and
-search infrastructure. Druid indexes data to create mostly immutable views,
-and stores the data in a custom column format highly optimized for aggregations and
-filters. A Druid cluster is composed of various types of nodes, each designed
-to do a small set of things very well. Nodes do not need to be deployed on individual hardware,
-and many node types can be colocated in production.</p>
+Google&#39;s
+<a href="http://vldb.org/pvldb/vol5/p1436_alexanderhall_vldb2012.pdf">PowerDrill</a>, and
+search infrastructure. Druid indexes all ingested data in a custom column
+format optimized for aggregations and filters. A Druid cluster is composed of
+various types of processes (called nodes), each designed to do a small set of
+things very well. </p>
 
 <h2 id="comprehensive-architecture">Comprehensive Architecture</h2>
 
-<p>For a comprehensive look at Druid architecture, please read our <a href="http://static.druid.io/docs/druid.pdf">white paper</a>.</p>
+<p>For a comprehensive look at Druid architecture, please read our <a href="http://static.druid.io/docs/druid.pdf">white paper</a> from 2014.</p>
 
 <h2 id="comparisons">Comparisons</h2>
 
