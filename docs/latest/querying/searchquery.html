@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="search-queries">Search Queries</h1>
 
 <p>A search query returns dimension values that match the search specification.</p>
@@ -202,6 +202,64 @@
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div>
+<h3 id="implementation-details">Implementation details</h3>
+
+<h4 id="strategies">Strategies</h4>
+
+<p>Search queries can be executed using two different strategies. The default strategy is determined by the
+&quot;druid.query.search.searchStrategy&quot; runtime property on the broker. This can be overridden using &quot;searchStrategy&quot; in the
+query context. If neither the context field nor the property is set, the &quot;useIndexes&quot; strategy will be used.</p>
+
+<ul>
+<li><p>&quot;useIndexes&quot; strategy, the default, first categorizes search dimensions into two groups according to their support for
+bitmap indexes. And then, it applies index-only and cursor-based execution plans to the group of dimensions supporting
+bitmaps and others, respectively. The index-only plan uses only indexes for search query processing. For each dimension,
+it reads the bitmap index for each dimension value, evaluates the search predicate, and finally checks the time interval
+and filter predicates. For the cursor-based execution plan, please refer to the &quot;cursorOnly&quot; strategy. The index-only
+plan shows low performance for the search dimensions of large cardinality which means most values of search dimensions
+are unique.</p></li>
+<li><p>&quot;cursorOnly&quot; strategy generates a cursor-based execution plan. This plan creates a cursor which reads a row from a
+queryableIndexSegment, and then evaluates search predicates. If some filters support bitmap indexes, the cursor can read
+only the rows which satisfy those filters, thereby saving I/O cost. However, it might be slow with filters of low selectivity.</p></li>
+<li><p>&quot;auto&quot; strategy uses a cost-based planner for choosing an optimal search strategy. It estimates the cost of index-only
+and cursor-based execution plans, and chooses the optimal one. Currently, it is not enabled by default due to the overhead
+of cost estimation.</p></li>
+</ul>
+
+<h4 id="server-configuration">Server configuration</h4>
+
+<p>The following runtime properties apply:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.search.searchStrategy</code></td>
+<td>Default search query strategy.</td>
+<td>useIndexes</td>
+</tr>
+</tbody></table>
+
+<h4 id="query-context">Query context</h4>
+
+<p>The following query context parameters apply:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>searchStrategy</code></td>
+<td>Overrides the value of <code>druid.query.search.searchStrategy</code> for this query.</td>
+</tr>
+</tbody></table>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">

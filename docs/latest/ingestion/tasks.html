@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="tasks">Tasks</h1>
 
 <p>Tasks are run on middle managers and always operate on a single data source. Tasks are submitted using <a href="../design/indexing-service.html">POST requests</a>.</p>
@@ -157,9 +157,8 @@
     <span class="p">},</span>
     <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">-1</span><span class="p">,</span>
-      <span class="nt">&quot;rowFlushBoundary&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&quot;numShards&quot;</span><span class="p">:</span> <span class="mi">1</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">75000</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -198,7 +197,39 @@
 
 <h4 id="ioconfig">IOConfig</h4>
 
-<p>This field is required. You can specify a type of <a href="../ingestion/firehose.html">Firehose</a> here.</p>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index&quot;.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>firehose</td>
+<td>Specify a <a href="../ingestion/firehose.html">Firehose</a> here.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>appendToExisting</td>
+<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs (which can be forced by setting &#39;forceExtendableShardSpecs&#39; in the tuning config).</td>
+<td>false</td>
+<td>no</td>
+</tr>
+<tr>
+<td>skipFirehoseCaching</td>
+<td>By default the IndexTask will fully read the supplied firehose to disk before processing the data. This prevents the task from doing multiple remote fetches and enforces determinism if more than one pass through the data is required. It also allows the task to retry fetching the data if the firehose throws an exception during reading. This requires sufficient disk space for the temporary cache.</td>
+<td>false</td>
+<td>no</td>
+</tr>
+</tbody></table>
 
 <h4 id="tuningconfig">TuningConfig</h4>
 
@@ -215,24 +246,24 @@
 <tr>
 <td>type</td>
 <td>The task type, this should always be &quot;index&quot;.</td>
-<td>None.</td>
+<td>none</td>
 <td>yes</td>
 </tr>
 <tr>
 <td>targetPartitionSize</td>
-<td>Used in sharding. Determines how many rows are in each segment. Set this to -1 to use numShards instead for sharding.</td>
+<td>Used in sharding. Determines how many rows are in each segment.</td>
 <td>5000000</td>
 <td>no</td>
 </tr>
 <tr>
-<td>rowFlushBoundary</td>
-<td>Used in determining when intermediate persist should occur to disk.</td>
+<td>maxRowsInMemory</td>
+<td>Used in determining when intermediate persists to disk should occur.</td>
 <td>75000</td>
 <td>no</td>
 </tr>
 <tr>
 <td>numShards</td>
-<td>Directly specify the number of shards to create. You can skip the intermediate persist step if you specify the number of shards you want and set targetPartitionSize=-1.</td>
+<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if targetPartitionSize is set.</td>
 <td>null</td>
 <td>no</td>
 </tr>
@@ -243,14 +274,26 @@
 <td>no</td>
 </tr>
 <tr>
+<td>maxPendingPersists</td>
+<td>Maximum number of persists that can be pending but not started. If this limit would be exceeded by a new intermediate persist, ingestion will block until the currently-running persist finishes. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
+<td>0 (meaning one persist can be running concurrently with ingestion, and none can be queued up)</td>
+<td>no</td>
+</tr>
+<tr>
 <td>buildV9Directly</td>
 <td>Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.</td>
-<td>false</td>
+<td>true</td>
 <td>no</td>
 </tr>
 <tr>
 <td>forceExtendableShardSpecs</td>
 <td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>false</td>
+<td>no</td>
+</tr>
+<tr>
+<td>reportParseExceptions</td>
+<td>If true, exceptions encountered during parsing will be thrown and will halt ingestion; if false, unparseable rows and fields will be skipped.</td>
 <td>false</td>
 <td>no</td>
 </tr>
@@ -349,6 +392,7 @@ compression formats. The indexSpec is optional and default parameters will be us
     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;buildV9Directly&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">true&gt;,</span>
     <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -364,7 +408,23 @@ If rollup is disabled as part of ingestion, common timestamps are not merged and
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
     <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;buildV9Directly&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">true&gt;,</span>
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">merge&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="same-interval-merge-task">Same Interval Merge Task</h3>
+
+<p>Same Interval Merge task is a shortcut of merge task, all segments in the interval are going to be merged.</p>
+
+<p>The grammar is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;same_interval_merge&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;buildV9Directly&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">true&gt;,</span>
+    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;DataSegment</span> <span class="err">objects</span> <span class="err">in</span> <span class="err">this</span> <span class="err">interval</span> <span class="err">are</span> <span class="err">going</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="segment-destroying-tasks">Segment Destroying Tasks</h2>

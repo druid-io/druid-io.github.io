@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="select-queries">Select Queries</h1>
 
 <p>Select queries return raw Druid rows and support pagination.</p>
@@ -269,7 +269,47 @@
       <span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">4</span>
     <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
-<p>This can be used with the next query&#39;s pagingSpec:</p>
+<h3 id="result-pagination">Result Pagination</h3>
+
+<p>The PagingSpec allows the user to specify that the results of a select query should be returned as a paginated set.</p>
+
+<p>The <code>threshold</code> option controls how many rows are returned in each block of paginated results.</p>
+
+<p>To initiate a paginated query, the user should specify a PagingSpec with a <code>threshold</code> set and a blank <code>pagingIdentifiers</code> field, e.g.:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;pagingSpec&quot;</span><span class="err">:</span><span class="p">{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+</code></pre></div>
+<p>When the query returns, the results will contain a <code>pagingIndentifers</code> field indicating the current pagination point in the result set (an identifier and an offset).</p>
+
+<p>To retrieve the next part of the result set, the user should issue the same select query, but replace the <code>pagingIdentifiers</code> field of the query with the <code>pagingIdentifiers</code> from the previous result.</p>
+
+<p>When an empty result set is received, all rows have been returned.</p>
+
+<h4 id="fromnext-backwards-compatibility">fromNext Backwards Compatibility</h4>
+
+<p>In older versions of Druid, when using paginated select queries, it was necessary for the user to manually increment the paging offset by 1 in each <code>pagingIdentifiers</code> before submitting the next query to retrieve the next set of results. This offset increment happens automatically in the current version of Druid by default, the user does not need to modify the <code>pagingIdentifiers</code> offset to retrieve the next result set.</p>
+
+<p>Setting the <code>fromNext</code> field of the PagingSpec to false instructs Druid to operate in the older mode where the user must manually increment the offset (or decrement for descending queries).</p>
+
+<p>For example, suppose the user issues the following initial paginated query, with <code>fromNext</code> false:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
+   <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;select&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;descending&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dimensions&quot;</span><span class="p">:[],</span>
+   <span class="nt">&quot;metrics&quot;</span><span class="p">:[],</span>
+   <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+     <span class="s2">&quot;2013-01-01/2013-01-02&quot;</span>
+   <span class="p">],</span>
+   <span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;fromNext&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+ <span class="p">}</span>
+</code></pre></div>
+<p>The paginated query with <code>fromNext</code> set to false returns a result set with the following <code>pagingIdentifiers</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;pagingIdentifiers&quot;</span> <span class="err">:</span> <span class="p">{</span>
+      <span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">4</span>
+    <span class="p">}</span><span class="err">,</span>
+</code></pre></div>
+<p>To retrieve the next result set, the next query must be sent with the paging offset (4) incremented by 1.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;select&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
@@ -279,18 +319,29 @@
    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
      <span class="s2">&quot;2013-01-01/2013-01-02&quot;</span>
    <span class="p">],</span>
-   <span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
-
+   <span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;fromNext&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
  <span class="p">}</span>
 </code></pre></div>
-<p>Note that in the second query, an offset is specified and that it is 1 greater than the largest offset found in the initial results. To return the next &quot;page&quot;, this offset must be incremented by 1 (should be decremented by 1 for descending query), with each new query, but with option <code>fromNext</code> enabled, this operation is not needed. When an empty results set is received, the very last page has been returned.</p>
+<p>Note that specifying the <code>fromNext</code> option in the <code>pagingSpec</code> overrides the default value set by <code>druid.query.select.enableFromNextDefault</code> in the server configuration. See <a href="#server-configuration">Server configuration</a> for more details.</p>
 
-<p><code>fromNext</code> options is in pagingSpec:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
-    <span class="err">...</span>
-    <span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;fromNext&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
-  <span class="p">}</span>
-</code></pre></div>
+<h3 id="server-configuration">Server configuration</h3>
+
+<p>The following runtime properties apply to select queries:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.select.enableFromNextDefault</code></td>
+<td>If the <code>fromNext</code> property in a query&#39;s <code>pagingSpec</code> is left unspecified, the system will use the value of this property as the default value for <code>fromNext</code>. This option is true by default: the option of setting <code>fromNext</code> to false by default is intended to support backwards compatibility for deployments where some users may still expect behavior from older versions of Druid.</td>
+<td>true</td>
+</tr>
+</tbody></table>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">

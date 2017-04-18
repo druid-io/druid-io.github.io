@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <p>This expression language supports the following operators (listed in decreasing order of precedence).</p>
 
 <table><thead>
@@ -118,13 +118,13 @@
 </tr>
 </tbody></table>
 
-<p>Long and double data types are supported. If a number contains a dot, it is interpreted as a double, otherwise it is interpreted as a long. That means, always add a &#39;.&#39; to your number if you want it intepreted as a double value.</p>
+<p>Long, double and string data types are supported. If a number contains a dot, it is interpreted as a double, otherwise it is interpreted as a long. That means, always add a &#39;.&#39; to your number if you want it interpreted as a double value. String literal should be quoted by single quotation marks.</p>
 
-<p>Expressions can contain variables. Variable names may contain letters, digits, &#39;_&#39; and &#39;$&#39;. Variable names must not begin with a digit.</p>
+<p>Expressions can contain variables. Variable names may contain letters, digits, &#39;_&#39; and &#39;$&#39;. Variable names must not begin with a digit. To escape other special characters, user can quote it with double quotation marks.</p>
 
-<p>For logical operators, a number is true if and only if it is positive. (0 means false)</p>
+<p>For logical operators, a number is true if and only if it is positive (0 or minus value means false). For string type, it&#39;s evaluation result of &#39;Boolean.valueOf(string)&#39;.</p>
 
-<p>Also, the following in-built functions are supported.</p>
+<p>Also, the following built-in functions are supported.</p>
 
 <table><thead>
 <tr>
@@ -133,53 +133,180 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>sqrt</td>
-<td>sqrt(x) would return square root of x</td>
+<td>cast</td>
+<td>cast(expr,&#39;LONG&#39; or &#39;DOUBLE&#39; or &#39;STRING&#39;) returns expr with specified type. exception can be thrown</td>
 </tr>
 <tr>
 <td>if</td>
 <td>if(predicate,then,else) returns &#39;then&#39; if &#39;predicate&#39; evaluates to a positive number, otherwise it returns &#39;else&#39;</td>
 </tr>
+<tr>
+<td>nvl</td>
+<td>nvl(expr,expr-for-null) returns &#39;expr-for-null&#39; if &#39;expr&#39; is null (or empty string for string type)</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>timestamp(expr[,format-string]) parses string expr into date then returns milli-seconds from java epoch. without &#39;format-string&#39; it&#39;s regarded as ISO datetime format</td>
+</tr>
+<tr>
+<td>unix_timestamp</td>
+<td>same with &#39;timestamp&#39; function but returns seconds instead</td>
+</tr>
 </tbody></table>
 
-<p>Built-in Math functions. See javadoc of java.lang.Math for detailed explanation for each function.</p>
+<p>And built-in math functions. See javadoc of java.lang.Math for detailed explanation for each function.</p>
 
-<p>|abs|abs(x) would return the absolute value of x|
-|acos|acos(x) would return the arc cosine of x|
-|asin|asin(x) would return the arc sine of x|
-|atan|atan(x) would return the arc tangent of x|
-|atan2|atan2(y, x) would return the angle theta from the conversion of rectangular coordinates (x, y) to polar * coordinates (r, theta)|
-|cbrt|cbrt(x) would return the cube root of x|
-|ceil|ceil(x) would return the smallest (closest to negative infinity) double value that is greater than or equal to x and is equal to a mathematical integer|
-|copysign|copysign(x) would return the first floating-point argument with the sign of the second floating-point argument|
-|cos|cos(x) would return the trigonometric cosine of x|
-|cosh|cosh(x) would return the hyperbolic cosine of x|
-|exp|exp(x) would return Euler&#39;s number raised to the power of x|
-|expm1|expm1(x) would return e^x-1|
-|floor|floor(x) would return the largest (closest to positive infinity) double value that is less than or equal to x and is equal to a mathematical integer|
-|getExponent|getExponent(x) would return the unbiased exponent used in the representation of x|
-|hypot|hypot(x, y) would return sqrt(x^2+y^2) without intermediate overflow or underflow|
-|log|log(x) would return the natural logarithm of x|
-|log10|log10(x) would return the base 10 logarithm of x|
-|log1p|log1p(x) would the natural logarithm of x + 1|
-|max|max(x, y) would return the greater of two values|
-|min|min(x, y) would return the smaller of two values|
-|nextafter|nextafter(x, y) would return the floating-point number adjacent to the x in the direction of the y|
-|nextUp|nextUp(x) would return the floating-point value adjacent to x in the direction of positive infinity|
-|pow|pow(x, y) would return the value of the x raised to the power of y|
-|remainder|remainder(x, y) would return the remainder operation on two arguments as prescribed by the IEEE 754 standard|
-|rint|rint(x) would return value that is closest in value to x and is equal to a mathematical integer|
-|round|round(x) would return the closest long value to x, with ties rounding up|
-|scalb|scalb(d, sf) would return d * 2^sf rounded as if performed by a single correctly rounded floating-point multiply to a member of the double value set|
-|signum|signum(x) would return the signum function of the argument x|
-|sin|sin(x) would return the trigonometric sine of an angle x|
-|sinh|sinh(x) would return the hyperbolic sine of x|
-|sqrt|sqrt(x) would return the correctly rounded positive square root of x|
-|tan|tan(x) would return the trigonometric tangent of an angle x|
-|tanh|tanh(x) would return the hyperbolic tangent of x|
-|todegrees|todegrees(x) converts an angle measured in radians to an approximately equivalent angle measured in degrees|
-|toradians|toradians(x) converts an angle measured in degrees to an approximately equivalent angle measured in radians|
-|ulp|ulp(x) would return the size of an ulp of the argument x|</p>
+<table><thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>abs</td>
+<td>abs(x) would return the absolute value of x</td>
+</tr>
+<tr>
+<td>acos</td>
+<td>acos(x) would return the arc cosine of x</td>
+</tr>
+<tr>
+<td>asin</td>
+<td>asin(x) would return the arc sine of x</td>
+</tr>
+<tr>
+<td>atan</td>
+<td>atan(x) would return the arc tangent of x</td>
+</tr>
+<tr>
+<td>atan2</td>
+<td>atan2(y, x) would return the angle theta from the conversion of rectangular coordinates (x, y) to polar * coordinates (r, theta)</td>
+</tr>
+<tr>
+<td>cbrt</td>
+<td>cbrt(x) would return the cube root of x</td>
+</tr>
+<tr>
+<td>ceil</td>
+<td>ceil(x) would return the smallest (closest to negative infinity) double value that is greater than or equal to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>copysign</td>
+<td>copysign(x) would return the first floating-point argument with the sign of the second floating-point argument</td>
+</tr>
+<tr>
+<td>cos</td>
+<td>cos(x) would return the trigonometric cosine of x</td>
+</tr>
+<tr>
+<td>cosh</td>
+<td>cosh(x) would return the hyperbolic cosine of x</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>exp(x) would return Euler&#39;s number raised to the power of x</td>
+</tr>
+<tr>
+<td>expm1</td>
+<td>expm1(x) would return e^x-1</td>
+</tr>
+<tr>
+<td>floor</td>
+<td>floor(x) would return the largest (closest to positive infinity) double value that is less than or equal to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>getExponent</td>
+<td>getExponent(x) would return the unbiased exponent used in the representation of x</td>
+</tr>
+<tr>
+<td>hypot</td>
+<td>hypot(x, y) would return sqrt(x^2+y^2) without intermediate overflow or underflow</td>
+</tr>
+<tr>
+<td>log</td>
+<td>log(x) would return the natural logarithm of x</td>
+</tr>
+<tr>
+<td>log10</td>
+<td>log10(x) would return the base 10 logarithm of x</td>
+</tr>
+<tr>
+<td>log1p</td>
+<td>log1p(x) would the natural logarithm of x + 1</td>
+</tr>
+<tr>
+<td>max</td>
+<td>max(x, y) would return the greater of two values</td>
+</tr>
+<tr>
+<td>min</td>
+<td>min(x, y) would return the smaller of two values</td>
+</tr>
+<tr>
+<td>nextafter</td>
+<td>nextafter(x, y) would return the floating-point number adjacent to the x in the direction of the y</td>
+</tr>
+<tr>
+<td>nextUp</td>
+<td>nextUp(x) would return the floating-point value adjacent to x in the direction of positive infinity</td>
+</tr>
+<tr>
+<td>pow</td>
+<td>pow(x, y) would return the value of the x raised to the power of y</td>
+</tr>
+<tr>
+<td>remainder</td>
+<td>remainder(x, y) would return the remainder operation on two arguments as prescribed by the IEEE 754 standard</td>
+</tr>
+<tr>
+<td>rint</td>
+<td>rint(x) would return value that is closest in value to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>round</td>
+<td>round(x) would return the closest long value to x, with ties rounding up</td>
+</tr>
+<tr>
+<td>scalb</td>
+<td>scalb(d, sf) would return d * 2^sf rounded as if performed by a single correctly rounded floating-point multiply to a member of the double value set</td>
+</tr>
+<tr>
+<td>signum</td>
+<td>signum(x) would return the signum function of the argument x</td>
+</tr>
+<tr>
+<td>sin</td>
+<td>sin(x) would return the trigonometric sine of an angle x</td>
+</tr>
+<tr>
+<td>sinh</td>
+<td>sinh(x) would return the hyperbolic sine of x</td>
+</tr>
+<tr>
+<td>sqrt</td>
+<td>sqrt(x) would return the correctly rounded positive square root of x</td>
+</tr>
+<tr>
+<td>tan</td>
+<td>tan(x) would return the trigonometric tangent of an angle x</td>
+</tr>
+<tr>
+<td>tanh</td>
+<td>tanh(x) would return the hyperbolic tangent of x</td>
+</tr>
+<tr>
+<td>todegrees</td>
+<td>todegrees(x) converts an angle measured in radians to an approximately equivalent angle measured in degrees</td>
+</tr>
+<tr>
+<td>toradians</td>
+<td>toradians(x) converts an angle measured in degrees to an approximately equivalent angle measured in radians</td>
+</tr>
+<tr>
+<td>ulp</td>
+<td>ulp(x) would return the size of an ulp of the argument x</td>
+</tr>
+</tbody></table>
 
         </div>
         <div class="col-md-3">

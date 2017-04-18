@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="coordinator-node-configuration">Coordinator Node Configuration</h1>
 
 <p>For general Coordinator Node information, see <a href="../design/coordinator.html">here</a>.</p>
@@ -176,6 +176,26 @@
 <td><code>druid.coordinator.kill.maxSegments</code></td>
 <td>Kill at most n segments per kill task submission, must be greater than 0. Only applies and MUST be specified if kill is turned on. Note that default value is invalid.</td>
 <td>0</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.balancer.strategy</code></td>
+<td>Specify the type of balancing strategy that the coordinator should use to distribute segments among the historicals. Use <code>diskNormalized</code> to distribute segments among nodes so that the disks fill up uniformly and use <code>random</code> to randomly pick nodes to distribute segments.</td>
+<td><code>cost</code></td>
+</tr>
+<tr>
+<td><code>druid.coordinator.loadqueuepeon.repeatDelay</code></td>
+<td>The start and repeat delay for the loadqueuepeon , which manages the load and drop of segments.</td>
+<td>PT0.050S (50 ms)</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.asOverlord.enabled</code></td>
+<td>Boolean value for whether this coordinator node should act like an overlord as well. This configuration allows users to simplify a druid cluster by not having to deploy any standalone overlord nodes. If set to true, then be sure to set <code>druid.coordinator.asOverlord.overlordService</code> also. See next.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.asOverlord.overlordService</code></td>
+<td>Required, if <code>druid.coordinator.asOverlord.enabled</code> is <code>true</code>. This must be same value as <code>druid.service</code> on standalone Overlord nodes and <code>druid.selectors.indexing.serviceName</code> on Middle Managers.</td>
+<td>NULL</td>
 </tr>
 </tbody></table>
 

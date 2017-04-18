@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="statsd-emitter">StatsD Emitter</h1>
 
 <p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>statsd-emitter</code> extension.</p>
@@ -148,10 +148,12 @@
 
 <p>Each metric sent to StatsD must specify a type, one of <code>[timer, counter, guage]</code>. StatsD Emitter expects this mapping to
 be provided as a JSON file.  Additionally, this mapping specifies which dimensions should be included for each metric.
+StatsD expects that metric values be integers.  Druid emits some metrics with values between the range 0 and 1. To accommodate these metrics they are converted
+into the range 0 to 100.  This conversion can be enabled by setting the optional &quot;convertRange&quot; field true in the JSON mapping file.
 If the user does not specify their own JSON file, a default mapping is used.  All
 metrics are expected to be mapped. Metrics which are not mapped will log an error.
 StatsD metric path is organized using the following schema:
-<code>&lt;druid metric name&gt; : { &quot;dimensions&quot; : &lt;dimension list&gt;, &quot;type&quot; : &lt;StatsD type&gt;}</code>
+<code>&lt;druid metric name&gt; : { &quot;dimensions&quot; : &lt;dimension list&gt;, &quot;type&quot; : &lt;StatsD type&gt;, &quot;convertRange&quot; : true/false}</code>
 e.g.
 <code>query/time&quot; : { &quot;dimensions&quot; : [&quot;dataSource&quot;, &quot;type&quot;], &quot;type&quot; : &quot;timer&quot;}</code></p>
 

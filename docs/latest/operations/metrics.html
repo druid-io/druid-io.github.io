@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="druid-metrics">Druid Metrics</h1>
 
 <p>Druid generates metrics related to queries, ingestion, and coordination.</p>
@@ -154,6 +154,24 @@
 <td>id, status, chunkInterval (if interval chunking is enabled).</td>
 <td>&lt; 1s</td>
 </tr>
+<tr>
+<td><code>query/success/count</code></td>
+<td>number of queries successfully processed</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/failed/count</code></td>
+<td>number of failed queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/interrupted/count</code></td>
+<td>number of queries interrupted due to cancellation or timeout</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
 </tbody></table>
 
 <h3 id="historical">Historical</h3>
@@ -202,6 +220,24 @@
 <td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
 <td>Varies</td>
 </tr>
+<tr>
+<td><code>query/success/count</code></td>
+<td>number of queries successfully processed</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/failed/count</code></td>
+<td>number of failed queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/interrupted/count</code></td>
+<td>number of queries interrupted due to cancellation or timeout</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
 </tbody></table>
 
 <h3 id="real-time">Real-time</h3>
@@ -231,6 +267,24 @@
 <td>Number of segments in queue waiting to be scanned.</td>
 <td></td>
 <td>Close to 0</td>
+</tr>
+<tr>
+<td><code>query/success/count</code></td>
+<td>number of queries successfully processed</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/failed/count</code></td>
+<td>number of failed queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>query/interrupted/count</code></td>
+<td>number of queries interrupted due to cancellation or timeout</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
 </tr>
 </tbody></table>
 
@@ -450,6 +504,18 @@
 <td>Number of handoffs that happened.</td>
 <td>dataSource.</td>
 <td>Varies. Generally greater than 0 once every segment granular period if cluster operating normally</td>
+</tr>
+<tr>
+<td><code>ingest/sink/count</code></td>
+<td>Number of sinks not handoffed.</td>
+<td>dataSource.</td>
+<td>1~3</td>
+</tr>
+<tr>
+<td><code>ingest/events/messageGap</code></td>
+<td>Time gap between the data time in event and current system time.</td>
+<td>dataSource.</td>
+<td>Greater than 0, depends on the time carried in event</td>
 </tr>
 </tbody></table>
 

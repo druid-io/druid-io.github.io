@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="aggregations">Aggregations</h1>
 
 <p>Aggregations can be provided at ingestion time as part of the ingestion spec as a way of summarizing data before it enters Druid. 
@@ -138,6 +138,48 @@ query time.</p>
 <p><code>longMax</code> computes the maximum of all metric values and Long.MIN_VALUE</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longMax&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
+<h3 id="first-last-aggregator">First / Last aggregator</h3>
+
+<p>First and Last aggregator cannot be used in ingestion spec, and should only be specified as part of queries.</p>
+
+<p>Note that queries with first/last aggregators on a segment created with rollup enabled will return the rolled up value, and not the last value within the raw ingested data.</p>
+
+<h4 id="doublefirst-aggregator"><code>doubleFirst</code> aggregator</h4>
+
+<p><code>doubleFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleFirst&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="doublelast-aggregator"><code>doubleLast</code> aggregator</h4>
+
+<p><code>doubleLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleLast&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="longfirst-aggregator"><code>longFirst</code> aggregator</h4>
+
+<p><code>longFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longFirst&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="longlast-aggregator"><code>longLast</code> aggregator</h4>
+
+<p><code>longLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longLast&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> 
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="javascript-aggregator">JavaScript aggregator</h3>
 
 <p>Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions are allowed). Your
@@ -164,8 +206,7 @@ JavaScript functions are expected to return floating-point values.</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
 <h2 id="approximate-aggregations">Approximate Aggregations</h2>
@@ -246,8 +287,16 @@ This is equivalent to something akin to</p>
 <h3 id="hyperunique-aggregator">HyperUnique aggregator</h3>
 
 <p>Uses <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a> to compute the estimated cardinality of a dimension that has been aggregated as a &quot;hyperUnique&quot; metric at indexing time.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;isInputHyperUnique&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+<span class="p">}</span>
 </code></pre></div>
+<p>isInputHyperUnique can be set to true to index pre-computed HLL (Base64 encoded output from druid-hll is expected).
+The isInputHyperUnique field only affects ingestion-time behavior, and is ignored at query time.</p>
+
 <p>For more approximate aggregators, please see <a href="../development/extensions-core/datasketches-aggregators.html">theta sketches</a>.</p>
 
 <h2 id="miscellaneous-aggregations">Miscellaneous Aggregations</h2>

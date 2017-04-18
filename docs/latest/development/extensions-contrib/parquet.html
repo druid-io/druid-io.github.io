@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,16 +83,16 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
-          <h1 id="parquet">Parquet</h1>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
+          <h1 id="ingestion-using-parquet-format">Ingestion using Parquet format</h1>
 
-<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-avro-extensions</code> and <code>druid-parquet-extensions</code>.</p>
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> both <code>druid-avro-extensions</code> and <code>druid-parquet-extensions</code>.</p>
 
 <p>This extension enables Druid to ingest and understand the Apache Parquet data format offline.</p>
 
 <h2 id="parquet-hadoop-parser">Parquet Hadoop Parser</h2>
 
-<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig must be set to <code>&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</code>. Make sure also to include &quot;io.druid.extensions:druid-avro-extensions&quot; as an extension.</p>
+<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</code>.</p>
 
 <table><thead>
 <tr>
@@ -122,7 +122,72 @@
 </tr>
 </tbody></table>
 
-<p>For example:</p>
+<h3 id="example-json-for-overlord">Example json for overlord</h3>
+
+<p>When posting the index job to the overlord, setting the correct <code>inputFormat</code> is required to switch to parquet ingestion. Make sure to set <code>jobProperties</code> to make hdfs path timezone unrelated:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;no_metrics&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;no_metrics&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;name&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+      <span class="p">}],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2015-12-31/2016-01-02&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;partitionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;jobProperties&quot;</span> <span class="p">:</span> <span class="p">{},</span>
+      <span class="nt">&quot;leaveIntermediate&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="example-json-for-standalone-jvm">Example json for standalone jvm</h3>
+
+<p>When using a standalone JVM instead, additional configuration fields are required. You can just fire a hadoop job with your local compiled jars like:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">HADOOP_CLASS_PATH</span><span class="o">=</span><span class="sb">`</span>hadoop classpath <span class="p">|</span> sed s/*.jar/*/g<span class="sb">`</span>
+
+java -Xmx32m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
+  -classpath config/overlord:config/_common:lib/*:<span class="nv">$HADOOP_CLASS_PATH</span>:extensions/druid-avro-extensions/*  <span class="se">\</span>
+  io.druid.cli.Main index hadoop <span class="se">\</span>
+  wikipedia_hadoop_parquet_job.json
+</code></pre></div>
+<p>An example index json when using the standalone JVM:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
   <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -184,16 +249,8 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Almost all the fields listed above are required, including <code>inputFormat</code>, <code>metadataUpdateSpec</code>(<code>type</code>, <code>connectURI</code>, <code>user</code>, <code>password</code>, <code>segmentTable</code>). Set <code>jobProperties</code> to make hdfs path timezone unrelated.</p>
+<p>Almost all the fields listed above are required, including <code>inputFormat</code>, <code>metadataUpdateSpec</code>(<code>type</code>, <code>connectURI</code>, <code>user</code>, <code>password</code>, <code>segmentTable</code>).</p>
 
-<p>It is no need to make your cluster to update to SNAPSHOT, you can just fire a hadoop job with your local compiled jars like:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">HADOOP_CLASS_PATH</span><span class="o">=</span><span class="sb">`</span>hadoop classpath <span class="p">|</span> sed s/*.jar/*/g<span class="sb">`</span>
-
-java -Xmx32m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
-  -classpath config/overlord:config/_common:lib/*:<span class="nv">$HADOOP_CLASS_PATH</span>:extensions/druid-avro-extensions/*  <span class="se">\</span>
-  io.druid.cli.Main index hadoop <span class="se">\</span>
-  wikipedia_hadoop_parquet_job.json
-</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

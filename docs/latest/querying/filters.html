@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="query-filters">Query Filters</h1>
 
 <p>A filter is a JSON object indicating which rows of data should be included in the computation for a query. It’s essentially the equivalent of the WHERE clause in SQL. Druid supports the following types of filters.</p>
@@ -98,6 +98,15 @@
 <p>This is the equivalent of <code>WHERE &lt;dimension_string&gt; = &#39;&lt;dimension_value_string&gt;&#39;</code>.</p>
 
 <p>The selector filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+
+<h3 id="column-comparison-filter">Column Comparison filter</h3>
+
+<p>The column comparison filter is similar to the selector filter, but instead compares dimensions to each other. For example:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;columnComparison&quot;</span><span class="p">,</span> <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;dimension_a&gt;</span><span class="p">,</span> <span class="err">&lt;dimension_b&gt;</span><span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+<p>This is the equivalent of <code>WHERE &lt;dimension_a&gt; = &lt;dimension_b&gt;</code>.</p>
+
+<p><code>dimensions</code> is list of <a href="./dimensionspecs.html">DimensionSpecs</a>, making it possible to apply an extraction function if needed.</p>
 
 <h3 id="regular-expression-filter">Regular expression filter</h3>
 
@@ -151,8 +160,7 @@ The following matches any dimension values for the dimension <code>name</code> b
 <p>The JavaScript filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
 <h3 id="extraction-filter">Extraction filter</h3>
@@ -324,9 +332,65 @@ provided).</p>
 </code></pre></div>
 <p>The IN filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
+<h3 id="like-filter">Like filter</h3>
+
+<p>Like filters can be used for basic wildcard searches. They are equivalent to the SQL LIKE operator. Special characters
+supported are &quot;%&quot; (matches any number of characters) and &quot;_&quot; (matches any one character).</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should always be &quot;like&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimension</td>
+<td>String</td>
+<td>The dimension to filter on</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>String</td>
+<td>LIKE pattern, such as &quot;foo%&quot; or &quot;___bar&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>escape</td>
+<td>String</td>
+<td>An escape character that can be used to escape special characters.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>extractionFn</td>
+<td><a href="#filtering-with-extraction-functions">Extraction function</a></td>
+<td>Extraction function to apply to the dimension</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>Like filters support the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+
+<p>This Like filter expresses the condition <code>last_name LIKE &quot;D%&quot;</code> (i.e. last_name starts with &quot;D&quot;).</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;like&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;last_name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="s2">&quot;D%&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="bound-filter">Bound filter</h3>
 
-<p>The Bound filter can be used to filter by comparing dimension values to an upper value and/or a lower value.</p>
+<p>Bound filters can be used to filter on ranges of dimension values. It can be used for comparison filtering like
+greater than, less than, greater than or equal to, less than or equal to, and &quot;between&quot; (if both &quot;lower&quot; and
+&quot;upper&quot; are set).</p>
 
 <table><thead>
 <tr>
@@ -386,7 +450,7 @@ provided).</p>
 </tr>
 </tbody></table>
 
-<p>The bound filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
+<p>Bound filters support the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
 <p>The following bound filter expresses the condition <code>21 &lt;= age &lt;= 31</code>:
 <code>json
@@ -555,56 +619,75 @@ The following matches dimension values in <code>[product_1, product_3, product_5
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="column-types">Column types</h2>
+
+<p>Druid supports filtering on timestamp, string, long, and float columns.</p>
+
+<p>Note that only string columns have bitmap indexes. Therefore, queries that filter on other column types will need to
+scan those columns.</p>
+
+<h3 id="filtering-on-numeric-columns">Filtering on numeric columns</h3>
+
+<p>When filtering on numeric columns, you can write filters as if they were strings. In most cases, your filter will be
+converted into a numeric predicate and will be applied to the numeric column values directly. In some cases (such as
+the &quot;regex&quot; filter) the numeric column values will be converted to strings during the scan.</p>
+
+<p>For example, filtering on a specific value, <code>myFloatColumn = 10.1</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;myFloatColumn&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;10.1&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Filtering on a range of values, <code>10 &lt;= myFloatColumn &lt; 20</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;myFloatColumn&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lowerBound&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;upperBound&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="filtering-on-the-timestamp-column">Filtering on the Timestamp Column</h3>
 
-<p>Filters can also be applied to the timestamp column. The timestamp column has long millisecond values.</p>
-
-<p>To refer to the timestamp column, use the string <code>__time</code> as the dimension name.</p>
-
-<p>The filter parameters (e.g., the selector value for the SelectorFilter) should be provided as Strings.</p>
+<p>Query filters can also be applied to the timestamp column. The timestamp column has long millisecond values. To refer
+to the timestamp column, use the string <code>__time</code> as the dimension name. Like numeric dimensions, timestamp filters
+should be specified as if the timestamp values were strings.</p>
 
 <p>If the user wishes to interpret the timestamp with a specific format, timezone, or locale, the <a href="./dimensionspecs.html#time-format-extraction-function">Time Format Extraction Function</a> is useful.</p>
 
-<p>Note that the timestamp column does not have a bitmap index. Thus, filtering on timestamp in a query requires a scan of the column, and performance will be affected accordingly. If possible, excluding time ranges by specifying the query interval will be faster.</p>
-
-<p><strong>Example</strong></p>
-
-<p>Filtering on a long timestamp value:
-<code>json
-&quot;filter&quot;: {
-  &quot;type&quot;: &quot;selector&quot;,
-  &quot;dimension&quot;: &quot;__time&quot;,
-  &quot;value&quot;: &quot;124457387532&quot;
-}
-</code></p>
-
-<p>Filtering on day of week:
-<code>json
-&quot;filter&quot;: {
-  &quot;type&quot;: &quot;selector&quot;,
-  &quot;dimension&quot;: &quot;__time&quot;,
-  &quot;value&quot;: &quot;Friday&quot;,
-  &quot;extractionFn&quot;: {
-    &quot;type&quot;: &quot;timeFormat&quot;,
-    &quot;format&quot;: &quot;EEEE&quot;,
-    &quot;timeZone&quot;: &quot;America/New_York&quot;,
-    &quot;locale&quot;: &quot;en&quot;
-  }
-}
-</code></p>
-
-<p>Filtering on a set of ISO 8601 intervals:
-<code>json
-{
-    &quot;type&quot; : &quot;interval&quot;,
-    &quot;dimension&quot; : &quot;__time&quot;,
-    &quot;intervals&quot; : [
-      &quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;,
-      &quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;
-    ]
-}
-</code></p>
-
+<p>For example, filtering on a long timestamp value:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;124457387532&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Filtering on day of week:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Friday&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;extractionFn&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;EEEE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timeZone&quot;</span><span class="p">:</span> <span class="s2">&quot;America/New_York&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;locale&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Filtering on a set of ISO 8601 intervals:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;interval&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="multi-value-dimensions">Multi-value dimensions</h1>
 
 <p>Druid supports &quot;multi-value&quot; string dimensions. These are generated when an input field contains an array of values
@@ -110,6 +110,7 @@ dimensions. Filters follow these rules on multi-value dimensions:</p>
 <ul>
 <li>Value filters (like &quot;selector&quot;, &quot;bound&quot;, and &quot;in&quot;) match a row if any of the values of a multi-value dimension match
 the filter.</li>
+<li>The Column Comparison filter will match a row if the dimensions have any overlap.</li>
 <li>Value filters that match <code>null</code> or <code>&quot;&quot;</code> (empty string) will match empty cells in a multi-value dimension.</li>
 <li>Logical expression filters behave the same way they do on single-value dimensions: &quot;and&quot; matches a row if all
 underlying filters match that row; &quot;or&quot; matches a row if any underlying filters match that row; &quot;not&quot; matches a row

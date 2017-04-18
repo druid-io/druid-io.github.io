@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="realtime-node-configuration">Realtime Node Configuration</h1>
 
 <p>For general Realtime Node information, see <a href="../design/realtime.html">here</a>.</p>
@@ -178,8 +178,8 @@
 </tr>
 <tr>
 <td><code>druid.processing.numMergeBuffers</code></td>
-<td>The number of direct memory buffers available for merging query results. The buffers are sized by <code>druid.processing.buffer.sizeBytes</code>. This property is effectively a concurrency limit for queries that require merging buffers. By default, no queries use these buffers, so the default pool size is zero.</td>
-<td>0</td>
+<td>The number of direct memory buffers available for merging query results. The buffers are sized by <code>druid.processing.buffer.sizeBytes</code>. This property is effectively a concurrency limit for queries that require merging buffers. If you are using any queries that require merge buffers (currently, just groupBy v2) then you should have at least two of these.</td>
+<td><code>max(2, druid.processing.numThreads / 4)</code></td>
 </tr>
 <tr>
 <td><code>druid.processing.numThreads</code></td>
@@ -190,6 +190,11 @@
 <td><code>druid.processing.columnCache.sizeBytes</code></td>
 <td>Maximum size in bytes for the dimension value lookup cache. Any value greater than <code>0</code> enables the cache. It is currently disabled by default. Enabling the lookup cache can significantly improve the performance of aggregators operating on dimension values, such as the JavaScript aggregator, or cardinality aggregator, but can slow things down if the cache hit rate is low (i.e. dimensions with few repeating values). Enabling it may also require additional garbage collection tuning to avoid long GC pauses.</td>
 <td><code>0</code> (disabled)</td>
+</tr>
+<tr>
+<td><code>druid.processing.tmpDir</code></td>
+<td>Path where temporary files created while processing a query should be stored. If specified, this configuration takes priority over the default <code>java.io.tmpdir</code> path.</td>
+<td>path represented by <code>java.io.tmpdir</code></td>
 </tr>
 </tbody></table>
 

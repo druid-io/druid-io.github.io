@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="avro">Avro</h1>
 
 <p>This extension enables Druid to ingest and understand the Apache Avro data format. Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-avro-extensions</code> as an extension.</p>
@@ -281,9 +281,42 @@
 </tr>
 </tbody></table>
 
+<h5 id="confluents-schema-registry">Confluent&#39;s Schema Registry</h5>
+
+<p>This Avro bytes decoder first extract unique <code>id</code> from input message bytes, then use them it lookup in the Schema Registry for the related schema, with which to decode Avro record from bytes.
+Details can be found in Schema Registry <a href="http://docs.confluent.io/current/schema-registry/docs/">documentation</a> and <a href="https://github.com/confluentinc/schema-registry">repository</a>.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>schema_registry</code>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>url</td>
+<td>String</td>
+<td>Specifies the url endpoint of the Schema Registry.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>capacity</td>
+<td>Integer</td>
+<td>Specifies the max size of the cache (default == Integer.MAX_VALUE).</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
 <h3 id="avro-hadoop-parser">Avro Hadoop Parser</h3>
 
-<p>This is for batch ingestion using the HadoopDruidIndexer. The <code>inputFormat</code> of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;io.druid.data.input.avro.AvroValueInputFormat&quot;</code>. You may want to set Avro reader&#39;s schema in <code>jobProperties</code> in <code>tuningConfig</code>, eg: <code>&quot;avro.schema.path.input.value&quot;: &quot;/path/to/your/schema.avsc&quot;</code> or <code>&quot;avro.schema.input.value&quot;: &quot;your_schema_JSON_object&quot;</code>, if reader&#39;s schema is not set, the schema in Avro object container file will be used, see <a href="http://avro.apache.org/docs/1.7.7/spec.html#Schema+Resolution">Avro specification</a>. Make sure to include &quot;io.druid.extensions:druid-avro-extensions&quot; as an extension.</p>
+<p>This is for batch ingestion using the HadoopDruidIndexer. The <code>inputFormat</code> of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;io.druid.data.input.avro.AvroValueInputFormat&quot;</code>. You may want to set Avro reader&#39;s schema in <code>jobProperties</code> in <code>tuningConfig</code>, eg: <code>&quot;avro.schema.input.value.path&quot;: &quot;/path/to/your/schema.avsc&quot;</code> or <code>&quot;avro.schema.input.value&quot;: &quot;your_schema_JSON_object&quot;</code>, if reader&#39;s schema is not set, the schema in Avro object container file will be used, see <a href="http://avro.apache.org/docs/1.7.7/spec.html#Schema+Resolution">Avro specification</a>. Make sure to include &quot;io.druid.extensions:druid-avro-extensions&quot; as an extension.</p>
 
 <table><thead>
 <tr>
@@ -338,7 +371,7 @@
     <span class="p">},</span>
     <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;jobProperties&quot;</span> <span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&quot;avro.schema.path.input.value&quot;</span> <span class="p">:</span> <span class="s2">&quot;/path/to/my/schema.avsc&quot;</span>
+          <span class="nt">&quot;avro.schema.input.value.path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/path/to/my/schema.avsc&quot;</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>

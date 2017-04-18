@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="druid-extensions">Druid extensions</h1>
 
 <p>Druid implements an extension system that allows for adding functionality at runtime. Extensions
@@ -95,7 +95,7 @@ metadata store. Many clusters will also use additional extensions.</p>
 
 <h2 id="including-extensions">Including extensions</h2>
 
-<p>Please see <a href="../operations/including-extensions.html">here</a>. </p>
+<p>Please see <a href="../operations/including-extensions.html">here</a>.</p>
 
 <h2 id="core-extensions">Core extensions</h2>
 
@@ -149,6 +149,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <td><a href="../development/extensions-core/kafka-ingestion.html">link</a></td>
 </tr>
 <tr>
+<td>druid-kerberos</td>
+<td>Kerberos authentication for druid nodes.</td>
+<td><a href="../development/extensions-core/druid-kerberos.html">link</a></td>
+</tr>
+<tr>
 <td>druid-lookups-cached-global</td>
 <td>A module for <a href="../querying/lookups.html">lookups</a> providing a jvm-global eager caching for lookups. It provides JDBC and URI implementations for fetching lookup data.</td>
 <td><a href="../development/extensions-core/lookups-cached-global.html">link</a></td>
@@ -183,10 +188,10 @@ metadata store. Many clusters will also use additional extensions.</p>
 <h1 id="community-extensions">Community Extensions</h1>
 
 <div class="note caution">
-Community extensions are not maintained by Druid committers, although we accept patches from community members using these extensions. They may not have been as extensively tested as the core extensions. 
+Community extensions are not maintained by Druid committers, although we accept patches from community members using these extensions. They may not have been as extensively tested as the core extensions.
 </div>
 
-<p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.<br>
+<p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
 If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://groups.google.com/forum/#!forum/druid-development">druid-development group</a> to let us know!</p>
 
 <p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate io.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
@@ -198,6 +203,11 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <th>Docs</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>ambari-metrics-emitter</td>
+<td>Ambari Metrics Emitter</td>
+<td><a href="../development/extensions-contrib/ambari-metrics-emitter.html">link</a></td>
+</tr>
 <tr>
 <td>druid-azure-extensions</td>
 <td>Microsoft Azure deep storage.</td>
@@ -244,6 +254,21 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td><a href="../development/extensions-contrib/rocketmq.html">link</a></td>
 </tr>
 <tr>
+<td>druid-time-min-max</td>
+<td>Min/Max aggregator for timestamp.</td>
+<td><a href="../development/extensions-contrib/time-min-max.html">link</a></td>
+</tr>
+<tr>
+<td>druid-google-extensions</td>
+<td>Google Cloud Storage deep storage.</td>
+<td><a href="../development/extensions-contrib/google.html">link</a></td>
+</tr>
+<tr>
+<td>sqlserver-metadata-storage</td>
+<td>Microsoft SqlServer deep storage.</td>
+<td><a href="../development/extensions-contrib/sqlserver.html">link</a></td>
+</tr>
+<tr>
 <td>graphite-emitter</td>
 <td>Graphite metrics emitter</td>
 <td><a href="../development/extensions-contrib/graphite.html">link</a></td>
@@ -253,12 +278,27 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>StatsD metrics emitter</td>
 <td><a href="../development/extensions-contrib/statsd.html">link</a></td>
 </tr>
+<tr>
+<td>kafka-emitter</td>
+<td>Kafka metrics emitter</td>
+<td><a href="../development/extensions-contrib/kafka-emitter.html">link</a></td>
+</tr>
+<tr>
+<td>druid-thrift-extensions</td>
+<td>Support thrift ingestion</td>
+<td><a href="../development/extensions-contrib/thrift.html">link</a></td>
+</tr>
+<tr>
+<td>scan-query</td>
+<td>Scan query</td>
+<td><a href="../development/extensions-contrib/scan-query.html">link</a></td>
+</tr>
 </tbody></table>
 
 <h2 id="promoting-community-extension-to-core-extension">Promoting Community Extension to Core Extension</h2>
 
-<p>Please <a href="https://groups.google.com/forum/#!forum/druid-development">let us know</a> if you&#39;d like an extension to be promoted to core. 
-If we see a community extension actively supported by the community, we can promote it to core based on community feedback. </p>
+<p>Please <a href="https://groups.google.com/forum/#!forum/druid-development">let us know</a> if you&#39;d like an extension to be promoted to core.
+If we see a community extension actively supported by the community, we can promote it to core based on community feedback.</p>
 
 <h1 id="creating-your-own-extensions">Creating your own Extensions</h1>
 

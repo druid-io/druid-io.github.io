@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,14 +83,14 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
 
 <p>Druid uses a module system that allows for the addition of extensions at runtime.</p>
 
 <h2 id="writing-your-own-extensions">Writing your own extensions</h2>
 
-<p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of a few things.</p>
+<p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of the things listed below.  This means that we honor our <a href="./versioning.html">versioning strategy</a> for changes that affect the interfaces called out on this page, but other interfaces are deemed &quot;internal&quot; and can be changed in an incompatible manner even between patch releases.</p>
 
 <ol>
 <li>Add a new deep storage implementation</li>
@@ -132,7 +132,7 @@
 
 <h3 id="adding-a-new-deep-storage-implementation">Adding a new deep storage implementation</h3>
 
-<p>Check the <code>azure-storage</code>, <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
+<p>Check the <code>azure-storage</code>, <code>google-storage</code>, <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
 
 <p>The basic idea behind the extension is that you need to add bindings for your DataSegmentPusher and DataSegmentPuller objects.  The way to add them is something like (taken from HdfsStorageDruidModule)</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
@@ -169,7 +169,7 @@ In this way, you can validate both push (at realtime node) and pull (at historic
 <li>DataSegmentPusher</li>
 </ul>
 
-<p>Wherever your data storage (cloud storage service, distributed file system, etc.) is, you should be able to see two new files: <code>descriptor.json</code> and <code>index.zip</code> after your ingestion task ends.</p>
+<p>Wherever your data storage (cloud storage service, distributed file system, etc.) is, you should be able to see two new files: <code>descriptor.json</code> (<code>partitionNum_descriptor.json</code> for HDFS data storage) and <code>index.zip</code> (<code>partitionNum_index.zip</code> for HDFS data storage) after your ingestion task ends.</p>
 
 <ul>
 <li>DataSegmentPuller</li>
@@ -203,7 +203,7 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 
 <p>To start a segment killing task, you need to access the old Coordinator console <code>http://&lt;COODRINATOR_IP&gt;:&lt;COORDINATOR_PORT/old-console/kill.html</code> then select the appropriate datasource and then input a time range (e.g. <code>2000/3000</code>).</p>
 
-<p>After the killing task ends, both <code>descriptor.json</code> and <code>index.zip</code> files should be deleted from the data storage.</p>
+<p>After the killing task ends, both <code>descriptor.json</code> (<code>partitionNum_descriptor.json</code> for HDFS data storage)  and <code>index.zip</code> (<code>partitionNum_index.zip</code> for HDFS data storage) files should be deleted from the data storage.</p>
 
 <h3 id="adding-a-new-firehose">Adding a new Firehose</h3>
 

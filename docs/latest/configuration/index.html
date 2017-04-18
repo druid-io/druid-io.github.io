@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="configuring-druid">Configuring Druid</h1>
 
 <p>This describes the common configuration shared by all Druid nodes. These configurations can be defined in the <code>common.runtime.properties</code> file.</p>
@@ -127,7 +127,7 @@
 </tr>
 <tr>
 <td><code>druid.extensions.loadList</code></td>
-<td>A JSON array of extensions to load from extension directories by Druid. If it is not specified, its value will be <code>null</code> and Druid will load all the extensions under <code>druid.extensions.directory</code>. If its value is empty list <code>[]</code>, then no extensions will be loaded at all.</td>
+<td>A JSON array of extensions to load from extension directories by Druid. If it is not specified, its value will be <code>null</code> and Druid will load all the extensions under <code>druid.extensions.directory</code>. If its value is empty list <code>[]</code>, then no extensions will be loaded at all. It is also allowed to specify absolute path of other custom extensions not stored in the common extensions directory.</td>
 <td>null</td>
 </tr>
 <tr>
@@ -289,6 +289,49 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 </tr>
 </tbody></table>
 
+<h3 id="exhibitor">Exhibitor</h3>
+
+<p><a href="https://github.com/Netflix/exhibitor/wiki">Exhibitor</a> is a supervisor system for ZooKeeper.
+Exhibitor can dynamically scale-up/down the cluster of ZooKeeper servers.
+Druid can update self-owned list of ZooKeeper servers through Exhibitor without restarting.
+That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeeper servers.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.exhibitor.service.hosts</code></td>
+<td>A JSON array which contains the hostnames of Exhibitor instances. Please specify this property if you want to use Exhibitor-supervised cluster.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.exhibitor.service.port</code></td>
+<td>The REST port used to connect to Exhibitor.</td>
+<td><code>8080</code></td>
+</tr>
+<tr>
+<td><code>druid.exhibitor.service.restUriPath</code></td>
+<td>The path of the REST call used to get the server set.</td>
+<td><code>/exhibitor/v1/cluster/list</code></td>
+</tr>
+<tr>
+<td><code>druid.exhibitor.service.useSsl</code></td>
+<td>Boolean flag for whether or not to use https protocol.</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>druid.exhibitor.service.pollingMs</code></td>
+<td>How ofter to poll the exhibitors for the list</td>
+<td><code>10000</code></td>
+</tr>
+</tbody></table>
+
+<p>Note that <code>druid.zk.service.host</code> is used as a backup in case an Exhibitor instance can&#39;t be contacted and therefore should still be set.</p>
+
 <h3 id="startup-logging">Startup Logging</h3>
 
 <p>All nodes can log debugging information on startup.</p>
@@ -327,7 +370,7 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 </thead><tbody>
 <tr>
 <td><code>druid.request.logging.type</code></td>
-<td>Choices: noop, file, emitter, slf4j. How to log every query request.</td>
+<td>Choices: noop, file, emitter, slf4j, filtered, composing. How to log every query request.</td>
 <td>noop</td>
 </tr>
 </tbody></table>
@@ -435,6 +478,47 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 </tr>
 </tbody></table>
 
+<h4 id="filtered-request-logging">Filtered Request Logging</h4>
+
+<p>Filtered Request Logger filters requests based on a configurable query/time threshold. Only request logs where query/time is above the threshold are emitted.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.queryTimeThresholdMs</code></td>
+<td>Threshold value for query/time in milliseconds.</td>
+<td>0 i.e no filtering</td>
+</tr>
+<tr>
+<td><code>druid.request.logging.delegate</code></td>
+<td>Delegate request logger to log requests.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="composite-request-logging">Composite Request Logging</h4>
+
+<p>Composite Request Logger emits request logs to multiple request loggers.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.request.logging.loggerProviders</code></td>
+<td>List of request loggers for emitting request logs.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
 <h3 id="enabling-metrics">Enabling Metrics</h3>
 
 <p>Druid nodes periodically emit metrics and different metrics monitors can be included. Each node can overwrite the default list of monitors.</p>
@@ -489,6 +573,10 @@ For example, if <code>druid.zk.paths.base</code> is set to <code>/druid1</code> 
 <tr>
 <td><code>io.druid.server.metrics.EventReceiverFirehoseMonitor</code></td>
 <td>Reports how many events have been queued in the EventReceiverFirehose.</td>
+</tr>
+<tr>
+<td><code>io.druid.server.metrics.QueryCountStatsMonitor</code></td>
+<td>Reports how many queries have been successful/failed/interrupted.</td>
 </tr>
 </tbody></table>
 
@@ -907,7 +995,7 @@ e.g </p>
 </tr>
 <tr>
 <td><code>druid.cache.hosts</code></td>
-<td>Command separated list of Memcached hosts <code>&lt;host:port&gt;</code>.</td>
+<td>Comma separated list of Memcached hosts <code>&lt;host:port&gt;</code>.</td>
 <td>none</td>
 </tr>
 <tr>
@@ -1008,15 +1096,14 @@ the following properties.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>druid.javascript.disabled</code></td>
-<td>Set to &quot;true&quot; to disable JavaScript functionality. This affects the JavaScript parser, filter, extractionFn, aggregator, post-aggregator, router strategy, and worker selection strategy.</td>
+<td><code>druid.javascript.enabled</code></td>
+<td>Set to &quot;true&quot; to enable JavaScript functionality. This affects the JavaScript parser, filter, extractionFn, aggregator, post-aggregator, router strategy, and worker selection strategy.</td>
 <td>false</td>
 </tr>
 </tbody></table>
 
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
         </div>

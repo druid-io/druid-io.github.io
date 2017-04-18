@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="post-aggregations">Post-Aggregations</h1>
 
 <p>Post-aggregations are specifications of processing that should happen on aggregated values as they come out of Druid. If you include a post aggregation as part of a query, make sure to include all aggregators the post-aggregator requires.</p>
@@ -133,6 +133,23 @@ of resulting values when sorting results (this can be useful for topN queries fo
 <p>The constant post-aggregator always returns the specified value.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="err">&lt;numerical_value&gt;</span> <span class="p">}</span>
 </code></pre></div>
+<h3 id="greatest-least-post-aggregators">Greatest / Least post-aggregators</h3>
+
+<p><code>doubleGreatest</code> and <code>longGreatest</code> computes the maximum of all fields and Double.NEGATIVE_INFINITY.
+<code>doubleLeast</code> and <code>longLeast</code> computes the minimum of all fields and Double.POSITIVE_INFINITY.</p>
+
+<p>The difference between the <code>doubleMax</code> aggregator and the <code>doubleGreatest</code> post-aggregator is that <code>doubleMax</code> returns the highest value of
+all rows for one specific column while <code>doubleGreatest</code> returns the highest value of multiple columns in one row. These are similar to the
+SQL <a href="https://dev.mysql.com/doc/refman/5.7/en/group-by-functions.html#function_max">MAX</a> and
+<a href="shttp://dev.mysql.com/doc/refman/5.7/en/comparison-operators.html#function_greatest">GREATEST</a> functions.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;doubleGreatest&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="javascript-post-aggregator">JavaScript post-aggregator</h3>
 
 <p>Applies the provided JavaScript function to the given fields. Fields are passed as arguments to the JavaScript function in the given order.</p>
@@ -152,8 +169,7 @@ of resulting values when sorting results (this can be useful for topN queries fo
 <span class="p">}</span>
 </code></pre></div>
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
 <h3 id="hyperunique-cardinality-post-aggregator">HyperUnique Cardinality post-aggregator</h3>

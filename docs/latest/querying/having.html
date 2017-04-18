@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <h1 id="filter-groupby-query-results">Filter groupBy Query Results</h1>
 
 <p>A having clause is a JSON object identifying which rows from a groupBy query should be returned, by specifying conditions on aggregated values.</p>
@@ -91,6 +91,29 @@
 <p>It is essentially the equivalent of the HAVING clause in SQL.</p>
 
 <p>Druid supports the following types of having clauses.</p>
+
+<h3 id="query-filters">Query filters</h3>
+
+<p>Query filter HavingSpecs allow all <a href="filters.html">Druid query filters</a> to be used in the Having part of the query.</p>
+
+<p>The grammar for a query filter HavingSpec is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="err">&lt;any</span> <span class="err">Druid</span> <span class="err">query</span> <span class="err">filter&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>For example, to use a selector filter:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension_value&gt;&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You can use &quot;filter&quot; HavingSpecs to filter on the timestamp of result rows by applying a filter to the &quot;__time&quot;
+column.</p>
 
 <h3 id="numeric-filters">Numeric filters</h3>
 

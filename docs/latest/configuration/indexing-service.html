@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.2">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
           <p>For general Indexing Service information, see <a href="../design/indexing-service.html">here</a>.</p>
 
 <h2 id="runtime-configuration">Runtime Configuration</h2>
@@ -120,7 +120,7 @@
 
 <h4 id="task-logging">Task Logging</h4>
 
-<p>If you are running the indexing service in remote mode, the task logs must be stored in S3, Azure Blob Store or HDFS.</p>
+<p>If you are running the indexing service in remote mode, the task logs must be stored in S3, Azure Blob Store, Google Cloud Storage or HDFS.</p>
 
 <table><thead>
 <tr>
@@ -131,8 +131,40 @@
 </thead><tbody>
 <tr>
 <td><code>druid.indexer.logs.type</code></td>
-<td>Choices:noop, s3, azure, hdfs, file. Where to store task logs</td>
+<td>Choices:noop, s3, azure, google, hdfs, file. Where to store task logs</td>
 <td>file</td>
+</tr>
+</tbody></table>
+
+<p>You can also configure the Overlord to automatically retain the task logs only for last x milliseconds by configuring following additional properties.
+Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid nodes and backing store nodes might result in un-intended behavior.  </p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.kill.enabled</code></td>
+<td>Boolean value for whether to enable deletion of old task logs.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.durationToRetain</code></td>
+<td>Required if kill is enabled. In milliseconds, task logs to be retained created in last x milliseconds.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.initialDelay</code></td>
+<td>Optional. Number of milliseconds after overlord start when first auto kill is run.</td>
+<td>random value less than 300000 (5 mins)</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.delay</code></td>
+<td>Optional. Number of milliseconds of delay between successive executions of auto kill run.</td>
+<td>21600000 (6 hours)</td>
 </tr>
 </tbody></table>
 
@@ -193,6 +225,31 @@
 <tr>
 <td><code>druid.indexer.logs.container</code></td>
 <td>The Azure Blob Store container to write logs to</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.prefix</code></td>
+<td>The path to prepend to logs</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="google-cloud-storage-task-logs">Google Cloud Storage Task Logs</h4>
+
+<p>Store task logs in Google Cloud Storage.</p>
+
+<p>Note: this uses the same storage settings as the deep storage module for google.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.bucket</code></td>
+<td>The Google Cloud Storage bucket to write logs to</td>
 <td>none</td>
 </tr>
 <tr>
@@ -309,6 +366,26 @@
 <td><code>druid.indexer.runner.pendingTasksRunnerNumThreads</code></td>
 <td>Number of threads to allocate pending-tasks to workers, must be at least 1.</td>
 <td>1</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxRetriesBeforeBlacklist</code></td>
+<td>Number of consecutive times the middle manager can fail tasks,  before the worker is blacklisted, must be at least 1</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.workerBlackListBackoffTime</code></td>
+<td>How long to wait before a task is whitelisted again. This value should be greater that the value set for taskBlackListCleanupPeriod.</td>
+<td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.workerBlackListCleanupPeriod</code></td>
+<td>A duration after which the cleanup thread will startup to clean blacklisted workers.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxPercentageBlacklistWorkers</code></td>
+<td>The maximum percentage of workers to blacklist, this must be between 0 and 100.</td>
+<td>20</td>
 </tr>
 </tbody></table>
 
@@ -452,7 +529,7 @@
 </thead><tbody>
 <tr>
 <td><code>selectStrategy</code></td>
-<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>fillCapacityWithAffinity</code>, <code>equalDistribution</code> and <code>javascript</code>.</td>
+<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>fillCapacityWithAffinity</code>, <code>equalDistribution</code>, <code>equalDistributionWithAffinity</code> and <code>javascript</code>.</td>
 <td>fillCapacity</td>
 </tr>
 <tr>
@@ -537,6 +614,31 @@
 </tr>
 </tbody></table>
 
+<h5 id="equal-distribution-with-affinity">Equal Distribution With Affinity</h5>
+
+<p>An affinity config can be provided.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>equalDistributionWithAffinity</code>.</td>
+<td>required; must be <code>equalDistributionWithAffinity</code></td>
+</tr>
+<tr>
+<td><code>affinity</code></td>
+<td>Exactly same with <code>fillCapacityWithAffinity</code> &#39;s affinity.</td>
+<td>{}</td>
+</tr>
+</tbody></table>
+
+<p>Tasks will try to be assigned to preferred workers. Equal Distribution strategy is used if no preference for a datasource specified.</p>
+
 <h5 id="javascript">Javascript</h5>
 
 <p>Allows defining arbitrary logic for selecting workers to run task using a JavaScript function.
@@ -571,8 +673,7 @@ its better to write a druid extension module with extending current worker selec
 }
 </code></pre></div>
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
 <h4 id="autoscaler">Autoscaler</h4>
