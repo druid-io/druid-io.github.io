@@ -76,6 +76,60 @@ Computes the sum of values as 64-bit floating point value. Similar to `longSum`
 { "type" : "longMax", "name" : <output_name>, "fieldName" : <metric_name> }
 ```
 
+### First / Last aggregator
+
+First and Last aggregator cannot be used in ingestion spec, and should only be specified as part of queries.
+
+Note that queries with first/last aggregators on a segment created with rollup enabled will return the rolled up value, and not the last value within the raw ingested data.
+
+#### `doubleFirst` aggregator
+
+`doubleFirst` computes the metric value with the minimum timestamp or 0 if no row exist
+
+```json
+{
+  "type" : "doubleFirst",
+  "name" : <output_name>,
+  "fieldName" : <metric_name>
+}
+```
+
+#### `doubleLast` aggregator
+
+`doubleLast` computes the metric value with the maximum timestamp or 0 if no row exist
+
+```json
+{
+  "type" : "doubleLast",
+  "name" : <output_name>,
+  "fieldName" : <metric_name>
+}
+```
+
+#### `longFirst` aggregator
+
+`longFirst` computes the metric value with the minimum timestamp or 0 if no row exist
+
+```json
+{
+  "type" : "longFirst",
+  "name" : <output_name>,
+  "fieldName" : <metric_name>
+}
+```
+
+#### `longLast` aggregator
+
+`longLast` computes the metric value with the maximum timestamp or 0 if no row exist
+
+```json
+{ 
+  "type" : "longLast",
+  "name" : <output_name>, 
+  "fieldName" : <metric_name>,
+}
+```
+
 ### JavaScript aggregator
 
 Computes an arbitrary JavaScript function over a set of columns (both metrics and dimensions are allowed). Your
@@ -108,8 +162,7 @@ JavaScript functions are expected to return floating-point values.
 ```
 
 <div class="note info">
-Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines
-about using Druid's JavaScript functionality.
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
 ## Approximate Aggregations
@@ -210,8 +263,16 @@ Determine the number of distinct starting characters of last names
 Uses [HyperLogLog](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf) to compute the estimated cardinality of a dimension that has been aggregated as a "hyperUnique" metric at indexing time.
 
 ```json
-{ "type" : "hyperUnique", "name" : <output_name>, "fieldName" : <metric_name> }
+{ 
+  "type" : "hyperUnique",
+  "name" : <output_name>,
+  "fieldName" : <metric_name>,
+  "isInputHyperUnique" : false
+}
 ```
+
+isInputHyperUnique can be set to true to index pre-computed HLL (Base64 encoded output from druid-hll is expected).
+The isInputHyperUnique field only affects ingestion-time behavior, and is ignored at query time.
 
 For more approximate aggregators, please see [theta sketches](../development/extensions-core/datasketches-aggregators.html).
 
