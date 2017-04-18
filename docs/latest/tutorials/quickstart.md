@@ -10,7 +10,7 @@ In this quickstart, we will download Druid, set up it up on a single machine, lo
 
 You will need:
 
-  * Java 8 or higher
+  * Java 7 or higher
   * Linux, Mac OS X, or other Unix-like OS (Windows is not supported)
   * 8G of RAM
   * 2 vCPUs
@@ -28,9 +28,9 @@ OSes](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.htm
 To install Druid, issue the following commands in your terminal:
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-latest-bin.tar.gz
-tar -xzf druid-latest-bin.tar.gz
-cd druid-latest
+curl -O http://static.druid.io/artifacts/releases/druid-0.9.2-bin.tar.gz
+tar -xzf druid-0.9.2-bin.tar.gz
+cd druid-0.9.2
 ```
 
 In the package, you should find:
@@ -59,7 +59,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 
 ## Start up Druid services
 
-With Zookeeper running, return to the druid-latest directory. In that directory, issue the command:
+With Zookeeper running, return to the druid-0.9.2 directory. In that directory, issue the command:
 
 ```bash
 bin/init
@@ -125,7 +125,7 @@ in the Wikipedia dataset are:
 
 To load this data into Druid, you can submit an *ingestion task* pointing to the file. We've included
 a task that loads the `wikiticker-2015-09-12-sampled.json` file included in the archive. To submit
-this task, POST it to Druid in a new terminal window from the druid-latest directory:
+this task, POST it to Druid in a new terminal window from the druid-0.9.2 directory:
 
 ```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/wikiticker-index.json localhost:8090/druid/indexer/v1/task
@@ -226,7 +226,7 @@ curl -L -H'Content-Type: application/json' -XPOST --data-binary @quickstart/wiki
 
 Druid is ideal for power user-facing analytic applications. There are a number of different open source applications to
 visualize and explore data in Druid. We recommend trying [Pivot](https://github.com/implydata/pivot),
-[Superset](https://github.com/airbnb/superset), or [Metabase](https://github.com/metabase/metabase) to start
+[Caravel](https://github.com/airbnb/caravel), or [Metabase](https://github.com/metabase/metabase) to start
 visualizing the data you just ingested.
 
 If you installed Pivot for example, you should be able to view your data in your browser at [localhost:9090](http://localhost:9090/).

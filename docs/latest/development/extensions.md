@@ -13,7 +13,7 @@ metadata store. Many clusters will also use additional extensions.
 
 ## Including extensions
 
-Please see [here](../operations/including-extensions.html).
+Please see [here](../operations/including-extensions.html). 
 
 ## Core extensions
 
@@ -29,7 +29,6 @@ Core extensions are maintained by Druid committers.
 |druid-kafka-eight|Kafka ingest firehose (high level consumer) for realtime nodes.|[link](../development/extensions-core/kafka-eight-firehose.html)|
 |druid-kafka-extraction-namespace|Kafka-based namespaced lookup. Requires namespace lookup extension.|[link](../development/extensions-core/kafka-extraction-namespace.html)|
 |druid-kafka-indexing-service|Supervised exactly-once Kafka ingestion for the indexing service.|[link](../development/extensions-core/kafka-ingestion.html)|
-|druid-kerberos|Kerberos authentication for druid nodes.|[link](../development/extensions-core/druid-kerberos.html)|
 |druid-lookups-cached-global|A module for [lookups](../querying/lookups.html) providing a jvm-global eager caching for lookups. It provides JDBC and URI implementations for fetching lookup data.|[link](../development/extensions-core/lookups-cached-global.html)|
 |druid-lookups-cached-single| Per lookup caching module to support the use cases where a lookup need to be isolated from the global pool of lookups |[link](../development/extensions-core/druid-lookups.html)|
 |druid-s3-extensions|Interfacing with data in AWS S3, and using S3 as deep storage.|[link](../development/extensions-core/s3.html)|
@@ -40,17 +39,16 @@ Core extensions are maintained by Druid committers.
 # Community Extensions
 
 <div class="note caution">
-Community extensions are not maintained by Druid committers, although we accept patches from community members using these extensions. They may not have been as extensively tested as the core extensions.
+Community extensions are not maintained by Druid committers, although we accept patches from community members using these extensions. They may not have been as extensively tested as the core extensions. 
 </div>
 
-A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
+A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.  
 If you'd like to take on maintenance for a community extension, please post on [druid-development group](https://groups.google.com/forum/#!forum/druid-development) to let us know!
-
+    
 All of these community extensions can be downloaded using *pull-deps* with the coordinate io.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.
 
 |Name|Description|Docs|
 |----|-----------|----|
-|ambari-metrics-emitter|Ambari Metrics Emitter |[link](../development/extensions-contrib/ambari-metrics-emitter.html)|
 |druid-azure-extensions|Microsoft Azure deep storage.|[link](../development/extensions-contrib/azure.html)|
 |druid-cassandra-storage|Apache Cassandra deep storage.|[link](../development/extensions-contrib/cassandra.html)|
 |druid-cloudfiles-extensions|Rackspace Cloudfiles deep storage and firehose.|[link](../development/extensions-contrib/cloudfiles.html)|
@@ -60,19 +58,13 @@ All of these community extensions can be downloaded using *pull-deps* with the c
 |druid-parquet-extensions|Support for data in Apache Parquet data format. Requires druid-avro-extensions to be loaded.|[link](../development/extensions-contrib/parquet.html)|
 |druid-rabbitmq|RabbitMQ firehose.|[link](../development/extensions-contrib/rabbitmq.html)|
 |druid-rocketmq|RocketMQ firehose.|[link](../development/extensions-contrib/rocketmq.html)|
-|druid-time-min-max|Min/Max aggregator for timestamp.|[link](../development/extensions-contrib/time-min-max.html)|
-|druid-google-extensions|Google Cloud Storage deep storage.|[link](../development/extensions-contrib/google.html)|
-|sqlserver-metadata-storage|Microsoft SqlServer deep storage.|[link](../development/extensions-contrib/sqlserver.html)|
 |graphite-emitter|Graphite metrics emitter|[link](../development/extensions-contrib/graphite.html)|
 |statsd-emitter|StatsD metrics emitter|[link](../development/extensions-contrib/statsd.html)|
-|kafka-emitter|Kafka metrics emitter|[link](../development/extensions-contrib/kafka-emitter.html)|
-|druid-thrift-extensions|Support thrift ingestion |[link](../development/extensions-contrib/thrift.html)|
-|scan-query|Scan query|[link](../development/extensions-contrib/scan-query.html)|
 
 ## Promoting Community Extension to Core Extension
 
-Please [let us know](https://groups.google.com/forum/#!forum/druid-development) if you'd like an extension to be promoted to core.
-If we see a community extension actively supported by the community, we can promote it to core based on community feedback.
+Please [let us know](https://groups.google.com/forum/#!forum/druid-development) if you'd like an extension to be promoted to core. 
+If we see a community extension actively supported by the community, we can promote it to core based on community feedback. 
 
 # Creating your own Extensions
 
