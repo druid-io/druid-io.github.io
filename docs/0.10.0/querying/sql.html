@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.9.2/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.9.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.0">API documentation</a></p>
+          <h1 id="sql-support-for-druid">SQL Support for Druid</h1>
+
+<h2 id="built-in-sql">Built-in SQL</h2>
+
+<div class="note caution">
+Built-in SQL is an <a href="../development/experimental.html">experimental</a> feature. The API described here is
+subject to change.
+</div>
+
+<p>Druid includes a native SQL layer with an <a href="https://calcite.apache.org/">Apache Calcite</a>-based parser and planner. All
+parsing and planning takes place on the Broker, where SQL is converted to native Druid queries. Those native Druid
+queries are then passed down to data nodes. Each Druid datasource appears as a table in the &quot;druid&quot; schema. Datasource
+and column names are both case-sensitive and can optionally be quoted using double quotes. Literal strings should be
+quoted with single quotes, like <code>&#39;foo&#39;</code>. Literal strings with Unicode escapes can be written like <code>U&amp;&#39;fo\00F6&#39;</code>, where
+character codes in hex are prefixed by a backslash.</p>
+
+<p>Add &quot;EXPLAIN PLAN FOR&quot; to the beginning of any query to see how Druid will plan that query.</p>
+
+<h3 id="querying-with-jdbc">Querying with JDBC</h3>
+
+<p>You can make Druid SQL queries using the <a href="https://calcite.apache.org/avatica/downloads/">Avatica JDBC driver</a>. Once
+you&#39;ve downloaded the Avatica client jar, add it to your classpath and use the connect string:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>jdbc:avatica:remote:url=http://BROKER:8082/druid/v2/sql/avatica/
+</code></pre></div>
+<p>Example code:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// Connect to /druid/v2/sql/avatica/ on your broker.</span>
+<span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/&quot;</span><span class="o">;</span>
+
+<span class="c1">// Set any connection context parameters you need here (see &quot;Connection context&quot; below).</span>
+<span class="c1">// Or leave empty for default behavior.</span>
+<span class="n">Properties</span> <span class="n">connectionProperties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+
+<span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">connectionProperties</span><span class="o">))</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">(</span><span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">().</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">&quot;SELECT COUNT(*) AS cnt FROM data_source&quot;</span><span class="o">))</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+      <span class="c1">// Do something</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Table metadata is available over JDBC using <code>connection.getMetaData()</code> or by querying the &quot;INFORMATION_SCHEMA&quot; tables
+(see below).</p>
+
+<p>Parameterized queries don&#39;t work properly, so avoid those.</p>
+
+<h3 id="querying-with-json-over-http">Querying with JSON over HTTP</h3>
+
+<p>You can make Druid SQL queries using JSON over HTTP by POSTing to the endpoint <code>/druid/v2/sql/</code>. The request format
+is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You can use <em>curl</em> to send these queries from the command-line:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> http://BROKER:8082/druid/v2/sql/ -d <span class="s1">&#39;{&quot;query&quot;:&quot;SELECT COUNT(*) FROM data_source&quot;}&#39;</span>
+</code></pre></div>
+<p>Metadata is only available over the HTTP API by querying the &quot;INFORMATION_SCHEMA&quot; tables (see below).</p>
+
+<p>You can provide <a href="#connection-context">connection context parameters</a> by adding a &quot;context&quot; map, like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;context&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;sqlTimeZone&quot;</span> <span class="p">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="metadata">Metadata</h3>
+
+<p>Druid brokers infer table and column metadata for each dataSource from segments loaded in the cluster, and use this to
+plan SQL queries. This metadata is cached on broker startup and also updated periodically in the background through
+<a href="../querying/segmentmetadataquery.html">SegmentMetadata queries</a>. Background metadata refreshing is triggered by
+segments entering and exiting the cluster, and can also be throttled through configuration.</p>
+
+<p>This cached metadata is queryable through &quot;INFORMATION_SCHEMA&quot; tables. For example, to retrieve metadata for the Druid
+datasource &quot;foo&quot;, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">COLUMNS</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="s1">&#39;druid&#39;</span> <span class="k">AND</span> <span class="k">TABLE_NAME</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
+</code></pre></div>
+<p>See the <a href="#information_schema-tables">INFORMATION_SCHEMA tables</a> section below for details on the available metadata.</p>
+
+<p>You can access table and column metadata through JDBC using <code>connection.getMetaData()</code>.</p>
+
+<h3 id="approximate-queries">Approximate queries</h3>
+
+<p>The following SQL queries and features may be executed using approximate algorithms:</p>
+
+<ul>
+<li><code>COUNT(DISTINCT col)</code> and <code>APPROX_COUNT_DISTINCT(col)</code> aggregations use
+<a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>, a fast approximate distinct counting
+algorithm. If you need exact distinct counts, you can instead use
+<code>SELECT COUNT(*) FROM (SELECT DISTINCT col FROM data_source)</code>, which will use a slower and more resource intensive exact
+algorithm.</li>
+<li>TopN-style queries with a single grouping column, like
+<code>SELECT col1, SUM(col2) FROM data_source GROUP BY col1 ORDER BY SUM(col2) DESC LIMIT 100</code>, by default will be executed
+as <a href="topnquery.html">TopN queries</a>, which use an approximate algorithm. To disable this behavior, and use exact
+algorithms for topN-style queries, set &quot;useApproximateTopN&quot; to &quot;false&quot;, either through query context or through broker
+configuration.</li>
+</ul>
+
+<h3 id="time-functions">Time functions</h3>
+
+<p>Druid&#39;s SQL language supports a number of time operations, including:</p>
+
+<ul>
+<li><code>FLOOR(__time TO &lt;granularity&gt;)</code> for grouping or filtering on time buckets, like <code>SELECT FLOOR(__time TO MONTH), SUM(cnt) FROM data_source GROUP BY FLOOR(__time TO MONTH)</code></li>
+<li><code>EXTRACT(&lt;granularity&gt; FROM __time)</code> for grouping or filtering on time parts, like <code>SELECT EXTRACT(HOUR FROM __time), SUM(cnt) FROM data_source GROUP BY EXTRACT(HOUR FROM __time)</code></li>
+<li>Comparisons to <code>TIMESTAMP &#39;&lt;time string&gt;&#39;</code> for time filters, like <code>SELECT COUNT(*) FROM data_source WHERE __time &gt;= TIMESTAMP &#39;2000-01-01 00:00:00&#39; AND __time &lt; TIMESTAMP &#39;2001-01-01 00:00:00&#39;</code></li>
+<li><code>CURRENT_TIMESTAMP</code> for the current time, usable in filters like <code>SELECT COUNT(*) FROM data_source WHERE __time &gt;= CURRENT_TIMESTAMP - INTERVAL &#39;1&#39; HOUR</code></li>
+</ul>
+
+<p>By default, time operations use the UTC time zone. You can change the time zone for time operations by setting the
+connection context parameter &quot;sqlTimeZone&quot; to the name of the time zone, like &quot;America/Los_Angeles&quot;.</p>
+
+<h3 id="subqueries">Subqueries</h3>
+
+<p>Druid&#39;s SQL layer supports many types of subqueries, including the ones listed below.</p>
+
+<h4 id="nested-groupby">Nested groupBy</h4>
+
+<p>Subqueries involving <code>FROM (SELECT ... GROUP BY ...)</code> may be executed as
+<a href="groupbyquery.html#nested-groupbys">nested groupBys</a>. For example, the following query can be used to perform an
+exact distinct count using a nested groupBy.</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">col</span> <span class="k">FROM</span> <span class="n">data_source</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="semi-joins">Semi-joins</h4>
+
+<p>Semi-join subqueries involving <code>WHERE ... IN (SELECT ...)</code>, like the following, are executed with a special process.</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="n">x</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">data_source_1</span>
+<span class="k">WHERE</span> <span class="n">x</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">x</span> <span class="k">FROM</span> <span class="n">data_source_2</span> <span class="k">WHERE</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span><span class="p">)</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">x</span>
+</code></pre></div>
+<p>For this query, the broker will first translate the inner select on data_source_2 into a groupBy to find distinct
+<code>x</code> values. Then it&#39;ll use those distinct values to build an &quot;in&quot; filter on data_source_1 for the outer query. The
+configuration parameter <code>druid.sql.planner.maxSemiJoinRowsInMemory</code> controls the maximum number of values that will be
+materialized for this kind of plan.</p>
+
+<h3 id="connection-context">Connection context</h3>
+
+<p>Druid&#39;s SQL layer supports a connection context that influences SQL query planning and Druid native query execution.
+The parameters in the table below affect SQL planning. All other context parameters you provide will be attached to
+Druid queries and can affect how they run. See <a href="query-context.html">Query context</a> for details on the possible options.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sqlTimeZone</code></td>
+<td>Sets the time zone for this connection. Should be a time zone name like &quot;America/Los_Angeles&quot;.</td>
+<td>UTC</td>
+</tr>
+<tr>
+<td><code>useApproximateCountDistinct</code></td>
+<td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
+<td>druid.sql.planner.useApproximateCountDistinct on the broker</td>
+</tr>
+<tr>
+<td><code>useApproximateTopN</code></td>
+<td>Whether to use approximate <a href="topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="groupbyquery.html">GroupBy queries</a> will be used instead.</td>
+<td>druid.sql.planner.useApproximateTopN on the broker</td>
+</tr>
+<tr>
+<td><code>useFallback</code></td>
+<td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>druid.sql.planner.useFallback on the broker</td>
+</tr>
+</tbody></table>
+
+<p>Connection context can be specified as JDBC connection properties or as a &quot;context&quot; object in the JSON API.</p>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>Druid&#39;s SQL layer can be configured through the following properties in common.runtime.properties or the broker&#39;s
+runtime.properties. Either location is equivalent since these properties are only respected by the broker.</p>
+
+<h4 id="sql-server-configuration">SQL Server Configuration</h4>
+
+<p>The broker&#39;s <a href="../querying/sql.html">built-in SQL server</a> can be configured through the following properties.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.sql.enable</code></td>
+<td>Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.enable</code></td>
+<td>Whether to enable an Avatica server at <code>/druid/v2/sql/avatica/</code>.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.connectionIdleTimeout</code></td>
+<td>Avatica client connection idle timeout.</td>
+<td>PT30M</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.maxConnections</code></td>
+<td>Maximum number of open connections for the Avatica server. These are not HTTP connections, but are logical client connections that may span multiple HTTP connections.</td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
+<td>Maximum number of simultaneous open statements per Avatica client connection.</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>druid.sql.http.enable</code></td>
+<td>Whether to enable a simple JSON over HTTP route at <code>/druid/v2/sql/</code>.</td>
+<td>true</td>
+</tr>
+</tbody></table>
+
+<h4 id="sql-planner-configuration">SQL Planner Configuration</h4>
+
+<p>The broker&#39;s <a href="../querying/sql.html">SQL planner</a> can be configured through the following properties.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.sql.planner.maxQueryCount</code></td>
+<td>Maximum number of queries to issue, including nested queries. Set to 1 to disable sub-queries, or set to 0 for unlimited.</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.maxSemiJoinRowsInMemory</code></td>
+<td>Maximum number of rows to keep in memory for executing two-stage semi-join queries like <code>SELECT * FROM Employee WHERE DeptName IN (SELECT DeptName FROM Dept)</code>.</td>
+<td>100000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.maxTopNLimit</code></td>
+<td>Maximum threshold for a <a href="../querying/topnquery.html">TopN query</a>. Higher limits will be planned as <a href="../querying/groupbyquery.html">GroupBy queries</a> instead.</td>
+<td>100000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataRefreshPeriod</code></td>
+<td>Throttle for metadata refreshes.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.selectPageSize</code></td>
+<td>Page size threshold for <a href="../querying/select-query.html">Select queries</a>. Select queries for larger resultsets will be issued back-to-back using pagination.</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useApproximateCountDistinct</code></td>
+<td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useApproximateTopN</code></td>
+<td>Whether to use approximate <a href="../querying/topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="../querying/groupbyquery.html">GroupBy queries</a> will be used instead.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useFallback</code></td>
+<td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h3 id="extensions">Extensions</h3>
+
+<p>Some Druid extensions also include SQL language extensions.</p>
+
+<p>If the <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> is loaded:</p>
+
+<ul>
+<li><code>APPROX_QUANTILE(column, probability)</code> or <code>APPROX_QUANTILE(column, probability, resolution)</code> on numeric or
+approximate histogram columns computes approximate quantiles. The &quot;probability&quot; should be between 0 and 1 (exclusive).
+The &quot;resolution&quot; is the number of centroids to use for the computation. Higher resolutions will be give more
+precise results but also have higher overhead. If not provided, the default resolution is 50.</li>
+</ul>
+
+<h3 id="unsupported-features">Unsupported features</h3>
+
+<p>Druid does not support all SQL features. Most of these are due to missing features in Druid&#39;s native JSON-based query
+language. Some unsupported SQL features include:</p>
+
+<ul>
+<li>Grouping on functions of multiple columns, like concatenation: <code>SELECT COUNT(*) FROM data_source GROUP BY dim1 || &#39; &#39; || dim2</code></li>
+<li>Filtering on non-boolean interactions between columns, like two columns equaling each other: <code>SELECT COUNT(*) FROM data_source WHERE dim1 = dim2</code>.</li>
+<li>A number of miscellaneous functions, like <code>TRIM</code>.</li>
+<li>Joins, other than semi-joins as described above.</li>
+</ul>
+
+<p>Additionally, some Druid features are not supported by the SQL language. Some unsupported Druid features include:</p>
+
+<ul>
+<li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
+<li><a href="lookups.html">Query-time lookups</a>.</li>
+<li><a href="../development/extensions-core/datasketches-aggregators.html">DataSketches</a>.</li>
+</ul>
+
+<h2 id="third-party-sql-libraries">Third-party SQL libraries</h2>
+
+<p>A number of third parties have also released SQL libraries for Druid. Links to popular options can be found on
+our <a href="/libraries.html">libraries</a> page. These libraries make native Druid JSON queries and do not use Druid&#39;s SQL layer.</p>
+
+<h2 id="information_schema-tables">INFORMATION_SCHEMA tables</h2>
+
+<p>Druid metadata is queryable through &quot;INFORMATION_SCHEMA&quot; tables described below.</p>
+
+<h3 id="schemata-table">SCHEMATA table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CATALOG_NAME</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>SCHEMA_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>SCHEMA_OWNER</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_SCHEMA</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_NAME</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>SQL_PATH</td>
+<td>Unused</td>
+</tr>
+</tbody></table>
+
+<h3 id="tables-table">TABLES table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TABLE_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_TYPE</td>
+<td>&quot;TABLE&quot; or &quot;SYSTEM_TABLE&quot;</td>
+</tr>
+</tbody></table>
+
+<h3 id="columns-table">COLUMNS table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TABLE_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDINAL_POSITION</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_DEFAULT</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>IS_NULLABLE</td>
+<td></td>
+</tr>
+<tr>
+<td>DATA_TYPE</td>
+<td></td>
+</tr>
+<tr>
+<td>CHARACTER_MAXIMUM_LENGTH</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>CHARACTER_OCTET_LENGTH</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>NUMERIC_PRECISION</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMERIC_PRECISION_RADIX</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMERIC_SCALE</td>
+<td></td>
+</tr>
+<tr>
+<td>DATETIME_PRECISION</td>
+<td></td>
+</tr>
+<tr>
+<td>CHARACTER_SET_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>COLLATION_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>JDBC_TYPE</td>
+<td>Type code from java.sql.Types (Druid extension)</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.10.0/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
