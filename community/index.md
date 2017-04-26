@@ -26,8 +26,8 @@ into, or adding features you need, are both immensely helpful.
 If you're looking for some starter projects, we maintain a [list of issues](https://github.com/druid-io/druid/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty+-+Easy%22) suitable
 for new developers.
 
-There are plenty of ways to help outside writing Druid code. Feature
-suggestions, reporting bugs, [documentation](/docs/{{ site.druid_version }}/)
+There are plenty of ways to help outside writing Druid code. *Code review of pull requests*
+(even if you are not a committer), feature suggestions, reporting bugs, [documentation](/docs/{{ site.druid_version }}/)
 and usability feedback all matter immensely. Another big way to help is
 through [client libraries](/docs/latest/development/libraries.html), which are
 avaialble in a variety of languages. If you develop a new one, we'll be happy
@@ -35,10 +35,19 @@ to include it in the list.
 
 ### Getting your changes accepted
 
-Patches to Druid are done through GitHub pull requests. Most documentation or unit-test-only pull requests require a single +1 from an established committer. Most code pull requests will be merged after two committers have reviewed it and given a +1. The
-exception is major architectural changes or API changes, which often warrant
-additional review. For those, it can help to discuss things on the [druid-development
-list](https://groups.google.com/d/forum/druid-development) or a github issue beforehand.
+Patches to Druid are done through GitHub pull requests.
+
+Pull requests require one approval (+1) from an established committer on code and text (for documentation) levels. The
+exception is major architectural changes or API changes, and/or changes to
+
+ - HTTP requests and responses (e. g. a new HTTP endpoint)
+ - Interfaces for extensions
+ - Server configuration (e. g. altering the behavior of a config property)
+ - Emitted metrics
+
+warrant additional design and compatibility review. Such pull requests require design approvals from three different
+committers (one of them could also be the author of the pull request). For those, it can help to discuss things
+on the [druid-development list](https://groups.google.com/d/forum/druid-development) or a github issue beforehand.
 
 In general please follow the [contributing guidelines](https://github.com/druid-io/druid/blob/master/CONTRIBUTING.md)
 when sending in pull requests. This will help review proceed as quickly as
@@ -86,13 +95,16 @@ looking for is an interest in ongoing contributions to Druid.
 If you are an official Druid committer then congratulations! You are part of a fantastic group of people. Here are some guidelines to follow to help ensure the Druid project continues to grow and improve:
 
 1. You can merge your own pull request if it fits the rest of the criteria. A common thing to see is "+1 after travis" from other committers.
-1. A pull request should have two +1's who are not the author.
+1. A pull request should have at least one +1 from a committer who is not the author, on the "code/textual" level of review.
+1. Pull requests which have just one +1 from a committer couldn't be merged earlier than after 3 working days since PR submission.
+1. A pull request with just one +1 could be merged only by (or in coordination with) the committer who provided the review. Because the reviewer may think that the PR is complex or risky enough that needs another pair of eyes to look at it. If this is the case, the first reviewer should indicate this in the PR approval message.
+1. If a pull request has two or more +1's from committers who are not the author, it could be merged immediately and by any committer. But still, enough time since the PR submission should pass to give folks a reasonable chance to indicate a desire to comment on the pull request. AKA: don't merge a pull request that was submitted Friday evening until at least 1~2 regular work days have passed. Use good judgement here.
+1. Major architectural and backwards incompatible changes, or changes which have long-term maintainance consequences (see examples in [the "Getting your changes accepted" section above](#getting-your-changes-accepted)), should have at least three +1's from committers, on the "design" level of review. One approval could be from the author of the PR. The first committer who indicates that a PR needs design review should add the `Design Review` tag to such a pull request. 
 1. Travis-CI should pass or have some **very** good reason why it won't pass for a pull request.
 1. You reasonably believe that all comments have been addressed.
-1. Enough time has passed to give folks a reasonable chance to indicate a desire to comment on the pull request. AKA: don't merge a pull request that was submitted Friday evening until at least 1~2 regular work days have passed. (use good judgement here)
 1. You are expected to be the champion for your own pull requests.
 1. Being a champion on a pull request can be a significant undertaking depending on the size of the code change and what parts of the code it touches. It may require communicating with other developers, reconciling differences, organizing community feedback, and/or following up with people who have commented in a pull request to ensure comments have been addressed.
-1. Sometimes code is presented as a work-in-progress or as a point of discussion. Use the `Discuss` tag on a pull request in such a case.
+1. Sometimes code is presented as a work-in-progress or as a point of discussion. Use the `WIP` or `Discuss` tags on a pull request in such a case.
 1. If a pull request you are championing is taking longer than expected to merge, be sure to raise the issue in the developer sync.
 1. Limit the number of pull requests you are championing at the same time.
 1. Prioritize code reviews to look at pull requests that are blockers for the next release (see the Milestone marker on the pull request)
