@@ -41,9 +41,10 @@ Pull requests require one approval (+1) from an established committer on code an
 exception is major architectural changes or API changes, and/or changes to
 
  - HTTP requests and responses (e. g. a new HTTP endpoint)
- - Interfaces for extensions
+ - [Interfaces for extensions](/docs/latest/development/modules.html)
  - Server configuration (e. g. altering the behavior of a config property)
  - Emitted metrics
+ - Other major changes, judged by the discretion of Druid committers
 
 warrant additional design and compatibility review. Such pull requests require design approvals from three different
 committers (one of them could also be the author of the pull request). For those, it can help to discuss things
