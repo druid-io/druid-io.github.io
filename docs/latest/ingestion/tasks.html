@@ -412,21 +412,6 @@ If rollup is disabled as part of ingestion, common timestamps are not merged and
     <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">merge&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="same-interval-merge-task">Same Interval Merge Task</h3>
-
-<p>Same Interval Merge task is a shortcut of merge task, all segments in the interval are going to be merged.</p>
-
-<p>The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;same_interval_merge&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;buildV9Directly&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">true&gt;,</span>
-    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;DataSegment</span> <span class="err">objects</span> <span class="err">in</span> <span class="err">this</span> <span class="err">interval</span> <span class="err">are</span> <span class="err">going</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
 <h2 id="segment-destroying-tasks">Segment Destroying Tasks</h2>
 
 <h3 id="kill-task">Kill Task</h3>

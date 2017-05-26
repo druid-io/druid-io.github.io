@@ -170,19 +170,17 @@ datasource &quot;foo&quot;, use the query:</p>
 <p>The following SQL queries and features may be executed using approximate algorithms:</p>
 
 <ul>
-<li><code>COUNT(DISTINCT col)</code> and <code>APPROX_COUNT_DISTINCT(col)</code> aggregations by default use
+<li><code>COUNT(DISTINCT col)</code> and <code>APPROX_COUNT_DISTINCT(col)</code> aggregations use
 <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>, a fast approximate distinct counting
-algorithm. To disable this behavior for <code>COUNT(DISTINCT col)</code>, and use exact distinct counts, set
-&quot;useApproximateCountDistinct&quot; to &quot;false&quot;, either through query context or through broker configuration.
-<code>APPROX_COUNT_DISTINCT(col)</code> is always approximate, regardless of this setting.</li>
+algorithm. If you need exact distinct counts, you can instead use
+<code>SELECT COUNT(*) FROM (SELECT DISTINCT col FROM data_source)</code>, which will use a slower and more resource intensive exact
+algorithm.</li>
 <li>TopN-style queries with a single grouping column, like
 <code>SELECT col1, SUM(col2) FROM data_source GROUP BY col1 ORDER BY SUM(col2) DESC LIMIT 100</code>, by default will be executed
 as <a href="topnquery.html">TopN queries</a>, which use an approximate algorithm. To disable this behavior, and use exact
 algorithms for topN-style queries, set &quot;useApproximateTopN&quot; to &quot;false&quot;, either through query context or through broker
 configuration.</li>
 </ul>
-
-<p>In both cases, the exact algorithms are generally slower and more resource intensive.</p>
 
 <h3 id="time-functions">Time functions</h3>
 
@@ -198,13 +196,6 @@ configuration.</li>
 <p>By default, time operations use the UTC time zone. You can change the time zone for time operations by setting the
 connection context parameter &quot;sqlTimeZone&quot; to the name of the time zone, like &quot;America/Los_Angeles&quot;.</p>
 
-<h3 id="query-time-lookups">Query-time lookups</h3>
-
-<p>Druid <a href="lookups.html">query-time lookups</a> can be accessed through the <code>LOOKUP(expression, lookupName)</code> function. The
-&quot;lookupName&quot; must refer to a lookup you have registered with Druid&#39;s lookup framework. For example, the following
-query can be used to perform a groupBy on looked-up values:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="n">LOOKUP</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s1">&#39;my_lookup&#39;</span><span class="p">)</span> <span class="k">AS</span> <span class="n">col_with_lookup</span> <span class="k">FROM</span> <span class="n">data_source</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">LOOKUP</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s1">&#39;my_lookup&#39;</span><span class="p">)</span>
-</code></pre></div>
 <h3 id="subqueries">Subqueries</h3>
 
 <p>Druid&#39;s SQL layer supports many types of subqueries, including the ones listed below.</p>
@@ -396,6 +387,7 @@ language. Some unsupported SQL features include:</p>
 
 <ul>
 <li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
+<li><a href="lookups.html">Query-time lookups</a>.</li>
 <li><a href="../development/extensions-core/datasketches-aggregators.html">DataSketches</a>.</li>
 </ul>
 
