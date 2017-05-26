@@ -104,18 +104,16 @@ You can access table and column metadata through JDBC using `connection.getMetaD
 
 The following SQL queries and features may be executed using approximate algorithms:
 
-- `COUNT(DISTINCT col)` and `APPROX_COUNT_DISTINCT(col)` aggregations by default use
+- `COUNT(DISTINCT col)` and `APPROX_COUNT_DISTINCT(col)` aggregations use
 [HyperLogLog](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf), a fast approximate distinct counting
-algorithm. To disable this behavior for `COUNT(DISTINCT col)`, and use exact distinct counts, set
-"useApproximateCountDistinct" to "false", either through query context or through broker configuration.
-`APPROX_COUNT_DISTINCT(col)` is always approximate, regardless of this setting.
+algorithm. If you need exact distinct counts, you can instead use
+`SELECT COUNT(*) FROM (SELECT DISTINCT col FROM data_source)`, which will use a slower and more resource intensive exact
+algorithm.
 - TopN-style queries with a single grouping column, like
 `SELECT col1, SUM(col2) FROM data_source GROUP BY col1 ORDER BY SUM(col2) DESC LIMIT 100`, by default will be executed
 as [TopN queries](topnquery.html), which use an approximate algorithm. To disable this behavior, and use exact
 algorithms for topN-style queries, set "useApproximateTopN" to "false", either through query context or through broker
 configuration.
-
-In both cases, the exact algorithms are generally slower and more resource intensive.
 
 ### Time functions
 
@@ -128,16 +126,6 @@ Druid's SQL language supports a number of time operations, including:
 
 By default, time operations use the UTC time zone. You can change the time zone for time operations by setting the
 connection context parameter "sqlTimeZone" to the name of the time zone, like "America/Los_Angeles".
-
-### Query-time lookups
-
-Druid [query-time lookups](lookups.html) can be accessed through the `LOOKUP(expression, lookupName)` function. The
-"lookupName" must refer to a lookup you have registered with Druid's lookup framework. For example, the following
-query can be used to perform a groupBy on looked-up values:
-
-```sql
-SELECT LOOKUP(col, 'my_lookup') AS col_with_lookup FROM data_source GROUP BY LOOKUP(col, 'my_lookup')
-```
 
 ### Subqueries
 
@@ -241,6 +229,7 @@ language. Some unsupported SQL features include:
 Additionally, some Druid features are not supported by the SQL language. Some unsupported Druid features include:
 
 - [Multi-value dimensions](multi-value-dimensions.html).
+- [Query-time lookups](lookups.html).
 - [DataSketches](../development/extensions-core/datasketches-aggregators.html).
 
 ## Third-party SQL libraries

@@ -144,9 +144,7 @@ If there is no match, it returns the dimension value as is.
 
 ```json
 {
-  "type" : "regex",
-  "expr" : <regular_expression>,
-  "index" : <group to extract, default 1>
+  "type" : "regex", "expr" : <regular_expression>,
   "replaceMissingValue" : true,
   "replaceMissingValueWith" : "foobar"
 }
@@ -154,9 +152,6 @@ If there is no match, it returns the dimension value as is.
 
 For example, using `"expr" : "(\\w\\w\\w).*"` will transform
 `'Monday'`, `'Tuesday'`, `'Wednesday'` into `'Mon'`, `'Tue'`, `'Wed'`.
-
-If "index" is set, it will control which group from the match to extract. Index zero extracts the string matching the
-entire pattern.
 
 If the `replaceMissingValue` property is true, the extraction function will transform dimension values that do not match the regex pattern to a user-specified String. Default value is `false`.
 
