@@ -1,8 +1,3 @@
-- date: 2017-04-28
-  name: Building a Column-Oriented, Distributed Data Store for Analytics - The Story of Druid
-  info: DataEngConf
-  link: http://www.dataengconf.com/blog/building-a-column-oriented-distributed-data-store-for-analytics-the-story-of-druid
-
 - date: 2017-05-09
   name: "Druid Bay Area May Meetup"
   info: Druid Bay Area Meetup @ Target
@@ -12,3 +7,8 @@
   name: "Druid: A High Performance, Column-Oriented, Distributed Data Store"
   info: San Francisco Bay Area Big Data and Scalable Systems Meetup
   link: https://www.meetup.com/San-Francisco-Bay-Area-Big-Data-and-Scalable-Systems/events/238477886/
+  
+- date: 2017-05-27
+  name: "Introduction to Druid, fast distributed data store"
+  info: JEEConf, Kyiv, Ukraine
+  link: http://jeeconf.com/program/introduction-to-druid-fast-distributed-data-store/
