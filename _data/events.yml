@@ -1,14 +1,14 @@
-- date: 2017-05-09
-  name: "Druid Bay Area May Meetup"
-  info: Druid Bay Area Meetup @ Target
-  link: https://www.meetup.com/druidio/events/239116526/
-
-- date: 2017-05-18
-  name: "Druid: A High Performance, Column-Oriented, Distributed Data Store"
-  info: San Francisco Bay Area Big Data and Scalable Systems Meetup
-  link: https://www.meetup.com/San-Francisco-Bay-Area-Big-Data-and-Scalable-Systems/events/238477886/
-  
 - date: 2017-05-27
   name: "Introduction to Druid, fast distributed data store"
   info: JEEConf, Kyiv, Ukraine
   link: http://jeeconf.com/program/introduction-to-druid-fast-distributed-data-store/
+
+- date: 2017-06-13
+  name: "Interactive Analytics with Apache Hive and Druid"
+  info: Hadoop Summit 2017
+  link: https://dataworkssummit.com/san-jose-2017/sessions/interactive-analytics-with-apache-hive-and-druid/
+
+- date: 2017-06-13
+  name: "Druid : Sub-Second OLAP queries over Petabytes of Streaming Data"
+  info: Hadoop Summit 2017
+  link: https://dataworkssummit.com/san-jose-2017/sessions/druid-sub-second-olap-queries-over-petabytes-of-streaming-data/
