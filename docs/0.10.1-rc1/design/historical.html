@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1-rc1">API documentation</a></p>
+          <h1 id="historical-node">Historical Node</h1>
+
+<p>For Historical Node Configuration, see <a href="../configuration/historical.html">Historial Configuration</a>.</p>
+
+<p>Historical nodes load up historical segments and expose them for querying.</p>
+
+<h2 id="running">Running</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server historical
+</code></pre></div>
+<h2 id="loading-and-serving-segments">Loading and Serving Segments</h2>
+
+<p>Each historical node maintains a constant connection to Zookeeper and watches a configurable set of Zookeeper paths for new segment information. Historical nodes do not communicate directly with each other or with the coordinator nodes but instead rely on Zookeeper for coordination.</p>
+
+<p>The <a href="../design/coordinator.html">Coordinator</a> node is responsible for assigning new segments to historical nodes. Assignment is done by creating an ephemeral Zookeeper entry under a load queue path associated with a historical node. For more information on how the coordinator assigns segments to historical nodes, please see <a href="../design/coordinator.html">Coordinator</a>.</p>
+
+<p>When a historical node notices a new load queue entry in its load queue path, it will first check a local disk directory (cache) for the information about segment. If no information about the segment exists in the cache, the historical node will download metadata about the new segment to serve from Zookeeper. This metadata includes specifications about where the segment is located in deep storage and about how to decompress and process the segment. For more information about segment metadata and Druid segments in general, please see <a href="../design/segments.html">Segments</a>. Once a historical node completes processing a segment, the segment is announced in Zookeeper under a served segments path associated with the node. At this point, the segment is available for querying.</p>
+
+<h2 id="loading-and-serving-segments-from-cache">Loading and Serving Segments From Cache</h2>
+
+<p>Recall that when a historical node notices a new segment entry in its load queue path, the historical node first checks a configurable cache directory on its local disk to see if the segment had been previously downloaded. If a local cache entry already exists, the historical node will directly read the segment binary files from disk and load the segment.</p>
+
+<p>The segment cache is also leveraged when a historical node is first started. On startup, a historical node will search through its cache directory and immediately load and serve all segments that are found. This feature allows historical nodes to be queried as soon they come online.</p>
+
+<h2 id="querying-segments">Querying Segments</h2>
+
+<p>Please see <a href="../querying/querying.html">Querying</a> for more information on querying historical nodes.</p>
+
+<p>A historical can be configured to log and report metrics for every query it services.</p>
+
+<h2 id="http-endpoints">HTTP Endpoints</h2>
+
+<p>The historical node exposes several HTTP endpoints for interactions.</p>
+
+<h3 id="get">GET</h3>
+
+<ul>
+<li><code>/status</code></li>
+</ul>
+
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
+
+<ul>
+<li><code>/druid/historical/v1/loadstatus</code></li>
+</ul>
+
+<p>Returns a flag indicating if all segments in the local cache have been loaded. This can be used to know when a historical node is ready to be queried after a restart.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.10.1-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

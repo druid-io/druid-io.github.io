@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1-rc1">API documentation</a></p>
+          <h1 id="druid-concepts">Druid Concepts</h1>
+
+<p>Druid is an open source data store designed for <a href="http://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a> queries on event data.
+This page is meant to provide readers with a high level overview of how Druid stores data, and the architecture of a Druid cluster.</p>
+
+<h2 id="the-data">The Data</h2>
+
+<p>To frame our discussion, let&#39;s begin with an example data set (from online advertising):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp             publisher          advertiser  gender  country  click  price
+2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65
+2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62
+2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45
+2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53
+</code></pre></div>
+<p>This data set is composed of three distinct components. If you are acquainted with OLAP terminology, the following concepts should be familiar.</p>
+
+<ul>
+<li><p><strong>Timestamp column</strong>: We treat timestamp separately because all of our queries
+center around the time axis.</p></li>
+<li><p><strong>Dimension columns</strong>: Dimensions are string attributes of an event, and the columns most commonly used in filtering the data. 
+We have four dimensions in our example data set: publisher, advertiser, gender, and country.
+They each represent an axis of the data that we’ve chosen to slice across.</p></li>
+<li><p><strong>Metric columns</strong>: Metrics are columns used in aggregations and computations. In our example, the metrics are clicks and price. 
+Metrics are usually numeric values, and computations include operations such as count, sum, and mean. 
+Also known as measures in standard OLAP terminology.</p></li>
+</ul>
+
+<h2 id="roll-up">Roll-up</h2>
+
+<p>The individual events in our example data set are not very interesting because there may be trillions of such events. 
+However, summarizations of this type of data can yield many useful insights.
+Druid summarizes this raw data at ingestion time using a process we refer to as &quot;roll-up&quot;.
+Roll-up is a first-level aggregation operation over a selected set of dimensions, equivalent to (in pseudocode):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GROUP BY timestamp, publisher, advertiser, gender, country
+  :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)
+</code></pre></div>
+<p>The compacted version of our original raw data looks something like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> timestamp             publisher          advertiser  gender country impressions clicks revenue
+ 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+ 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
+</code></pre></div>
+<p>In practice, we see that rolling up data can dramatically reduce the size of data that needs to be stored (up to a factor of 100).
+Druid will roll up data as it is ingested to minimize the amount of raw data that needs to be stored. 
+This storage reduction does come at a cost; as we roll up data, we lose the ability to query individual events. Phrased another way,
+the rollup granularity is the minimum granularity you will be able to explore data at and events are floored to this granularity. 
+Hence, Druid ingestion specs define this granularity as the <code>queryGranularity</code> of the data. The lowest supported <code>queryGranularity</code> is millisecond.</p>
+
+<h2 id="sharding-the-data">Sharding the Data</h2>
+
+<p>Druid shards are called <code>segments</code> and Druid always first shards data by time. In our compacted data set, we can create two segments, one for each hour of data.</p>
+
+<p>For example:</p>
+
+<p>Segment <code>sampleData_2011-01-01T01:00:00:00Z_2011-01-01T02:00:00:00Z_v1_0</code> contains</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+</code></pre></div>
+<p>Segment <code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0</code> contains</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
+</code></pre></div>
+<p>Segments are self-contained containers for the time interval of data they hold. Segments
+contain data stored in compressed column orientations, along with the indexes for those columns. Druid queries only understand how to
+scan segments.</p>
+
+<p>Segments are uniquely identified by a datasource, interval, version, and an optional partition number. 
+Examining our example segments, the segments are named following this convention: <code>dataSource_interval_version_partitionNumber</code></p>
+
+<h2 id="indexing-the-data">Indexing the Data</h2>
+
+<p>Druid gets its speed in part from how it stores data. Borrowing ideas from search infrastructure,
+Druid creates immutable snapshots of data, stored in data structures highly optimized for analytic queries.</p>
+
+<p>Druid is a column store, which means each individual column is stored separately. Only the columns that pertain to a query are used
+in that query, and Druid is pretty good about only scanning exactly what it needs for a query.
+Different columns can also employ different compression methods. Different columns can also have different indexes associated with them.</p>
+
+<p>Druid indexes data on a per-shard (segment) level.</p>
+
+<h2 id="loading-the-data">Loading the Data</h2>
+
+<p>Druid has two means of ingestion, real-time and batch. Real-time ingestion in Druid is best effort. Exactly once semantics are not guaranteed with real-time ingestion in Druid, although we have it on our roadmap to support this.
+Batch ingestion provides exactly once guarantees and segments created via batch processing will accurately reflect the ingested data.
+One common approach to operating Druid is to have a real-time pipeline for recent insights, and a batch pipeline for the accurate copy of the data.</p>
+
+<h2 id="querying-the-data">Querying the Data</h2>
+
+<p>Druid&#39;s native query language is JSON over HTTP, although the community has contributed query libraries in <a href="../development/libraries.html">numerous languages</a>, including SQL.</p>
+
+<p>Druid is designed to perform single table operations and does not currently support joins.
+Many production setups do joins at ETL because data must be denormalized before loading into Druid.</p>
+
+<h2 id="the-druid-cluster">The Druid Cluster</h2>
+
+<p>A Druid Cluster is composed of several different types of nodes. Each node is designed to do a small set of things very well.</p>
+
+<ul>
+<li><p><strong>Historical Nodes</strong> Historical nodes commonly form the backbone of a Druid cluster. Historical nodes download immutable segments locally and serve queries over those segments.
+The nodes have a shared nothing architecture and know how to load segments, drop segments, and serve queries on segments.</p></li>
+<li><p><strong>Broker Nodes</strong> Broker nodes are what clients and applications query to get data from Druid. Broker nodes are responsible for scattering queries and gathering and merging results.
+Broker nodes know what segments live where.</p></li>
+<li><p><strong>Coordinator Nodes</strong> Coordinator nodes manage segments on historical nodes in a cluster. Coordinator nodes tell historical nodes to load new segments, drop old segments, and move segments to load balance.</p></li>
+<li><p><strong>Real-time Processing</strong> Real-time processing in Druid can currently be done using standalone realtime nodes or using the indexing service. The real-time logic is common between these two services.
+Real-time processing involves ingesting data, indexing the data (creating segments), and handing segments off to historical nodes. Data is queryable as soon as it is
+ingested by the realtime processing logic. The hand-off process is also lossless; data remains queryable throughout the entire process.</p></li>
+</ul>
+
+<h3 id="external-dependencies">External Dependencies</h3>
+
+<p>Druid has a couple of external dependencies for cluster operations.</p>
+
+<ul>
+<li><p><strong>Zookeeper</strong> Druid relies on Zookeeper for intra-cluster communication.</p></li>
+<li><p><strong>Metadata Storage</strong> Druid relies on a metadata storage to store metadata about segments and configuration. Services that create segments write new entries to the metadata store
+and the coordinator nodes monitor the metadata store to know when new data needs to be loaded or old data needs to be dropped. The metadata store is not
+involved in the query path. MySQL and PostgreSQL are popular metadata stores for production, but Derby can be used for experimentation when you are running all druid nodes on a single machine.</p></li>
+<li><p><strong>Deep Storage</strong> Deep storage acts as a permanent backup of segments. Services that create segments upload segments to deep storage and historical nodes download
+segments from deep storage. Deep storage is not involved in the query path. S3 and HDFS are popular deep storages.</p></li>
+</ul>
+
+<h3 id="high-availability-characteristics">High Availability Characteristics</h3>
+
+<p>Druid is designed to have no single point of failure. Different node types are able to fail without impacting the services of the other node types. To run a highly available Druid cluster, you should have at least 2 nodes of every node type running.</p>
+
+<h3 id="comprehensive-architecture">Comprehensive Architecture</h3>
+
+<p>For a comprehensive look at Druid architecture, please read our <a href="http://static.druid.io/docs/druid.pdf">white paper</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.10.1-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
