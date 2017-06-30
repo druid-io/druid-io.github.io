@@ -143,8 +143,8 @@ enabling them to spot trends and improve performance of both marketing campaigns
 
 ## Metamarkets
 
-Druid is the primary data store for Metamarkets’ full stack visual analytics
-service for the RTB (real time bidding) space. Ingesting over 30 billion events
+Druid is the primary data store for Metamarkets' full stack visual analytics
+service for the RTB (real time bidding) space. Ingesting over 200 billion events
 per day, Metamarkets is able to provide insight to its customers using complex
 ad-hoc queries at a 95th percentile query time of around 1 second.
 
