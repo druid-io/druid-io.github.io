@@ -330,6 +330,14 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
 
+## ZeroX
+
+[ZeroX](https://zero-x.co/) is a data analytics company that provides cloud hosted and privately managed Druid clusters.
+
+* [Shaman: A Druid Manager for the Cloud](https://shaman-ui.zero-x.co/#/docs/getting-started)
+* [Interactive Bid Requests w/ Apache Druid](https://blog.zero-x.co/2017/06/05/interactive-bid-requests-apache-druid.html)
+* [Programmatic Conversion Funnels w/ Apache Druid](https://blog.zero-x.co/2017/06/09/programmatic-conversion-funnels-apache-druid.html)
+
 ## Zhihu
 
 [Zhihu](https://www.zhihu.com/) is a Chinese question-and-answer website. In Zhihu, Druid is used to power clients' interactive queries, data reports, A/B testing and performance monitoring. Almost 1T per day data is ingested into druid cluster, and we are strongly depending on thetaSketch aggregator for computing cardinality and retention, looking forward to more improvement on DataSketch.
