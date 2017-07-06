@@ -40,6 +40,11 @@ Some great folks have written their own libraries to interact with Druid.
 * [pixelfederation/druid-php](https://github.com/pixelfederation/druid-php) - A PHP client for Druid
 * [Neeke/PHP-Druid](https://github.com/Neeke/PHP-Druid) - A Druid driver for PHP with PECL extension
 
+#### Scala
+
+* [ing-bank/scruid](https://github.com/ing-bank/scruid) - A Scala client for Druid
+
+
 Other Druid Distributions
 -------------------------
 
