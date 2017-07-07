@@ -75,6 +75,7 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Fangjin Yang](https://github.com/fjy)                | Imply                  |
 | [Gian Merlino](https://github.com/gianm)              | Imply                  |
 | [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
+| [Jihoon Son](https://github.com/jihoonson)            | Imply                  |
 | [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
 | [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
