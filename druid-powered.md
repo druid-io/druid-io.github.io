@@ -55,6 +55,9 @@ With more than 1 billion unique users reached per month, 3 billion ads displayed
 
 Condé Nast uses Druid to track billions of events across our two dozen brands, both in real time and historically. Druid helps power dashboards, site performance trackers, and many other internal applications.
 
+## Delta Projects
+[Delta Projects](https://www.deltaprojects.com) uses Druid to power real-time audience and advertising analytics interfaces.
+
 ## Didi Chuxing
 
 Didi Chuxing is the world’s largest mobile transportation platform, offering a full range of commuting options to 400 cities in China.
