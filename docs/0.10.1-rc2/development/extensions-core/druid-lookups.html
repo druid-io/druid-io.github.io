@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1-rc2">API documentation</a></p>
+          <h1 id="cached-lookup-module">Cached Lookup Module</h1>
+
+<div class="note info">Please note that this is an experimental module and the development/testing still at early stage. Feel free to try it and give us your feedback.</div>
+ 
+
+<h2 id="description">Description</h2>
+
+<p>This module provides a per-lookup caching mechanism for JDBC data sources.
+The main goal of this cache is to speed up the access to a high latency lookup sources and to provide a caching isolation for every lookup source.
+Thus user can define various caching strategies or and implementation per lookup, even if the source is the same.
+This module can be used side to side with other lookup module like the global cached lookup module.</p>
+
+<p>To use this extension please make sure to  <a href="../../operations/including-extensions.html">include</a> <code>druid-lookups-cached-single</code> as an extension.</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>Generally speaking this module can be divided into two main component, namely, the data fetcher layer and caching layer.</p>
+
+<h3 id="data-fetcher-layer">Data Fetcher layer</h3>
+
+<p>First part is the data fetcher layer API <code>DataFetcher</code>, that exposes a set of fetch methods to fetch data from the actual Lookup dimension source.
+For instance <code>JdbcDataFetcher</code> provides an implementation of <code>DataFetcher</code> that can be used to fetch key/value from a RDBMS via JDBC driver.
+If you need new type of data fetcher, all you need to do, is to implement the interface <code>DataFetcher</code> and load it via another druid module.</p>
+
+<h3 id="caching-layer">Caching layer</h3>
+
+<p>This extension comes with two different caching strategies. First strategy is a poll based and the second is a load based.</p>
+
+<h4 id="poll-lookup-cache">Poll lookup cache</h4>
+
+<p>The poll strategy cache strategy will fetch and swap all the pair of key/values periodically from the lookup source.
+Hence, user should make sure that the cache can fit all the data. 
+The current implementation provides 2 type of poll cache, the first is onheap (uses immutable map), while the second uses MapBD based offheap map.
+User can also implement a different lookup polling cache by implementing <code>PollingCacheFactory</code> and <code>PollingCache</code> interfaces. </p>
+
+<h4 id="loading-lookup">Loading lookup</h4>
+
+<p>Loading cache strategy will load the key\value pair upon request on the key it self, the general algorithm is load key if absent.
+Once the key/value  pair is loaded eviction will occur according to the cache eviction policy.
+This module comes with two loading lookup implementation, the first is onheap backed by a Guava cache implementation, the second is MapDB offheap implementation.
+Both implementations offer various eviction strategies.
+Same for Loading cache, developer can implement a new type of loading cache by implementing <code>LookupLoadingCache</code> interface.</p>
+
+<h2 id="configuration-and-operation">Configuration and Operation:</h2>
+
+<h3 id="polling-lookup">Polling Lookup</h3>
+
+<p><strong>Note that the current implementation of <code>offHeapPolling</code> and <code>onHeapPolling</code> will create two caches one to lookup value based on key and the other to reverse lookup the key from value</strong></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataFetcher</td>
+<td>Json object</td>
+<td>Specifies the lookup data fetcher type  to use in order to fetch data</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>cacheFactory</td>
+<td>Json Object</td>
+<td>Cache factory implementation</td>
+<td>no</td>
+<td>onHeapPolling</td>
+</tr>
+<tr>
+<td>pollPeriod</td>
+<td>Period</td>
+<td>polling period</td>
+<td>no</td>
+<td>null (poll once)</td>
+</tr>
+</tbody></table>
+
+<h5 id="example-of-polling-on-heap-lookup">Example of Polling On-heap Lookup</h5>
+
+<p>This example demonstrates a polling cache that will update its on-heap cache every 10 minutes
+```json
+{
+    &quot;type&quot;:&quot;pollingLookup&quot;,
+   &quot;pollPeriod&quot;:&quot;PT10M&quot;,
+   &quot;dataFetcher&quot;:{ &quot;type&quot;:&quot;jdbcDataFetcher&quot;, &quot;connectorConfig&quot;:&quot;jdbc://mysql://localhost:3306/my_data_base&quot;, &quot;table&quot;:&quot;lookup_table_name&quot;, &quot;keyColumn&quot;:&quot;key_column_name&quot;, &quot;valueColumn&quot;: &quot;value_column_name&quot;},
+   &quot;cacheFactory&quot;:{&quot;type&quot;:&quot;onHeapPolling&quot;}
+}</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#####   Example Polling Off-heap Lookup
+This example demonstrates an off-heap lookup that will be cached once and never swapped `(pollPeriod == null)`
+
+```json
+{
+    &quot;type&quot;:&quot;pollingLookup&quot;,
+   &quot;dataFetcher&quot;:{ &quot;type&quot;:&quot;jdbcDataFetcher&quot;, &quot;connectorConfig&quot;:&quot;jdbc://mysql://localhost:3306/my_data_base&quot;, &quot;table&quot;:&quot;lookup_table_name&quot;, &quot;keyColumn&quot;:&quot;key_column_name&quot;, &quot;valueColumn&quot;: &quot;value_column_name&quot;},
+   &quot;cacheFactory&quot;:{&quot;type&quot;:&quot;offHeapPolling&quot;}
+}
+</code></pre></div>
+<h3 id="loading-lookup">Loading lookup</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataFetcher</td>
+<td>Json object</td>
+<td>Specifies the lookup data fetcher type  to use in order to fetch data</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>loadingCacheSpec</td>
+<td>Json Object</td>
+<td>Lookup cache spec implementation</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>reverseLoadingCacheSpec</td>
+<td>Json Object</td>
+<td>Reverse lookup cache  implementation</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+<h5 id="example-loading-on-heap-guava">Example Loading On-heap Guava</h5>
+
+<p>Guava cache configuration spec. </p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>concurrencyLevel</td>
+<td>int</td>
+<td>Allowed concurrency among update operations</td>
+<td>no</td>
+<td>4</td>
+</tr>
+<tr>
+<td>initialCapacity</td>
+<td>int</td>
+<td>Initial capacity size</td>
+<td>no</td>
+<td>null</td>
+</tr>
+<tr>
+<td>maximumSize</td>
+<td>long</td>
+<td>Specifies the maximum number of entries the cache may contain.</td>
+<td>no</td>
+<td>null (infinite capacity)</td>
+</tr>
+<tr>
+<td>expireAfterAccess</td>
+<td>long</td>
+<td>Specifies the eviction time after last read in milliseconds.</td>
+<td>no</td>
+<td>null (No read-time-based eviction when set to null)</td>
+</tr>
+<tr>
+<td>expireAfterWrite</td>
+<td>long</td>
+<td>Specifies the eviction time after last write in milliseconds.</td>
+<td>no</td>
+<td>null (No write-time-based eviction when set to null)</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;loadingLookup&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataFetcher&quot;</span><span class="p">:{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbcDataFetcher&quot;</span><span class="p">,</span> <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc://mysql://localhost:3306/my_data_base&quot;</span><span class="p">,</span> <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;lookup_table_name&quot;</span><span class="p">,</span> <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;key_column_name&quot;</span><span class="p">,</span> <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_column_name&quot;</span><span class="p">},</span>
+   <span class="nt">&quot;loadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;guava&quot;</span><span class="p">},</span>
+   <span class="nt">&quot;reverseLoadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;guava&quot;</span><span class="p">,</span> <span class="nt">&quot;maximumSize&quot;</span><span class="p">:</span><span class="mi">500000</span><span class="p">,</span> <span class="nt">&quot;expireAfterAccess&quot;</span><span class="p">:</span><span class="mi">100000</span><span class="p">,</span> <span class="nt">&quot;expireAfterAccess&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5 id="example-loading-off-heap-mapdb">Example Loading Off-heap MapDB</h5>
+
+<p>Off heap cache is backed by <a href="http://www.mapdb.org/">MapDB</a> implementation. MapDB is using direct memory as memory pool, please take that into account when limiting the JVM direct memory setup. </p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>maxStoreSize</td>
+<td>double</td>
+<td>maximal size of store in GB, if store is larger entries will start expiring</td>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>maxEntriesSize</td>
+<td>long</td>
+<td>Specifies the maximum number of entries the cache may contain.</td>
+<td>no</td>
+<td>0 (infinite capacity)</td>
+</tr>
+<tr>
+<td>expireAfterAccess</td>
+<td>long</td>
+<td>Specifies the eviction time after last read in milliseconds.</td>
+<td>no</td>
+<td>0 (No read-time-based eviction when set to null)</td>
+</tr>
+<tr>
+<td>expireAfterWrite</td>
+<td>long</td>
+<td>Specifies the eviction time after last write in milliseconds.</td>
+<td>no</td>
+<td>0 (No write-time-based eviction when set to null)</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;loadingLookup&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;dataFetcher&quot;</span><span class="p">:{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbcDataFetcher&quot;</span><span class="p">,</span> <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc://mysql://localhost:3306/my_data_base&quot;</span><span class="p">,</span> <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;lookup_table_name&quot;</span><span class="p">,</span> <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;key_column_name&quot;</span><span class="p">,</span> <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_column_name&quot;</span><span class="p">},</span>
+   <span class="nt">&quot;loadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;mapDb&quot;</span><span class="p">,</span> <span class="nt">&quot;maxEntriesSize&quot;</span><span class="p">:</span><span class="mi">100000</span><span class="p">},</span>
+   <span class="nt">&quot;reverseLoadingCacheSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;mapDb&quot;</span><span class="p">,</span> <span class="nt">&quot;maxStoreSize&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="nt">&quot;expireAfterAccess&quot;</span><span class="p">:</span><span class="mi">100000</span><span class="p">,</span> <span class="nt">&quot;expireAfterAccess&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.10.1-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
