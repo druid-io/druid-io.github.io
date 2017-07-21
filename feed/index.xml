@@ -5,14 +5,14 @@
   <subtitle>Real²time Exploratory Analytics on Large Datasets</subtitle>
   <link type="application/atom+xml" href="http://druid.io/feed/" rel="self"/>
   <link type="text/html" href="http://druid.io/" rel="alternate"/>
-	<updated>2017-07-20T11:14:13-07:00</updated>
+	<updated>2017-07-21T18:51:54+00:00</updated>
         <id>http://druid.io/</id>
 	
 	
 	<entry>
 		<title>Druid 0.10.0 release</title>
 		<link href="http://druid.io/blog/2017/04/18/druid-0-10-0.html"/>
-		<updated>2017-04-18T00:00:00-07:00</updated>
+		<updated>2017-04-18T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2017/04/18/druid-0-10-0</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.10.0&lt;/a&gt;!&lt;/p&gt;
@@ -38,7 +38,7 @@ performing defaults, and eight new extensions.&lt;/p&gt;
 	<entry>
 		<title>Druid 0.9.2 release</title>
 		<link href="http://druid.io/blog/2016/12/01/druid-0-9-2.html"/>
-		<updated>2016-12-01T00:00:00-08:00</updated>
+		<updated>2016-12-01T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2016/12/01/druid-0-9-2</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.9.2&lt;/a&gt;!&lt;/p&gt;
@@ -62,7 +62,7 @@ files, and new aggregators for variance and standard deviation.&lt;/p&gt;
 	<entry>
 		<title>Druid 0.9.1.1 release</title>
 		<link href="http://druid.io/blog/2016/06/28/druid-0-9-1.html"/>
-		<updated>2016-06-28T00:00:00-07:00</updated>
+		<updated>2016-06-28T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2016/06/28/druid-0-9-1</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.9.1.1&lt;/a&gt;!&lt;/p&gt;
@@ -83,7 +83,7 @@ for cluster-wide query-time lookups (QTL), and an improved segment balancing alg
 	<entry>
 		<title>Announcing New Committers</title>
 		<link href="http://druid.io/blog/2016/01/06/announcing-new-committers.html"/>
-		<updated>2016-01-06T00:00:00-08:00</updated>
+		<updated>2016-01-06T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2016/01/06/announcing-new-committers</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;Happy New Year everyone! We’re excited to announce that we’ve added 8 new
@@ -114,7 +114,7 @@ the project in 2016.&lt;/p&gt;
 	<entry>
 		<title>Seeking New Committers</title>
 		<link href="http://druid.io/blog/2015/11/03/seeking-new-committers.html"/>
-		<updated>2015-11-03T00:00:00-08:00</updated>
+		<updated>2015-11-03T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2015/11/03/seeking-new-committers</id>
                 <author><name>Druid PMC</name></author>
                 <summary type="html">&lt;p&gt;We are excited to announce that we have formalized the governance of Druid to
@@ -163,7 +163,7 @@ the project great!&lt;/p&gt;
 	<entry>
 		<title>Towards a Community Led Druid</title>
 		<link href="http://druid.io/blog/2015/02/20/towards-a-community-led-druid.html"/>
-		<updated>2015-02-20T00:00:00-08:00</updated>
+		<updated>2015-02-20T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2015/02/20/towards-a-community-led-druid</id>
                 <author><name>Fangjin Yang, Xavier Léauté, and Eric Tschetter</name></author>
                 <summary type="html">&lt;p&gt;We are very happy to announce that Druid has changed its license to Apache 2.0.
@@ -204,7 +204,7 @@ could not be where we are today without all of you.&lt;/p&gt;
 	<entry>
 		<title>Five Tips for a F’ing Great Logo</title>
 		<link href="http://druid.io/blog/2014/07/23/five-tips-for-a-f-ing-great-logo.html"/>
-		<updated>2014-07-23T00:00:00-07:00</updated>
+		<updated>2014-07-23T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/07/23/five-tips-for-a-f-ing-great-logo</id>
                 <author><name>David Hertog &amp; Fangjin Yang</name></author>
                 <summary type="html">&lt;p&gt;Everyone wants a great logo, but it’s notoriously difficult work—prone to
@@ -298,7 +298,7 @@ difference between success and meh.&lt;/p&gt;
 	<entry>
 		<title>Open Source Leaders Sound Off on the Rise of the Real-Time Data Stack</title>
 		<link href="http://druid.io/blog/2014/05/07/open-source-leaders-sound-off-on-the-rise-of-the-real-time-data-stack.html"/>
-		<updated>2014-05-07T00:00:00-07:00</updated>
+		<updated>2014-05-07T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/05/07/open-source-leaders-sound-off-on-the-rise-of-the-real-time-data-stack</id>
                 <author><name>Fangjin Yang &amp; Gian Merlino</name></author>
                 <summary type="html">&lt;p&gt;In February we were honored to speak at the O’Reilly Strata conference about
@@ -350,7 +350,7 @@ Portland, OR on July 23.&lt;/p&gt;
 	<entry>
 		<title>Introduction to pydruid</title>
 		<link href="http://druid.io/blog/2014/04/15/intro-to-pydruid.html"/>
-		<updated>2014-04-15T00:00:00-07:00</updated>
+		<updated>2014-04-15T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/04/15/intro-to-pydruid</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;We&amp;#39;ve already written about pairing &lt;a href=&quot;http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html&quot;&gt;R with RDruid&lt;/a&gt;, but Python has powerful and free open-source analysis tools too. Collectively, these are often referred to as the &lt;a href=&quot;http://www.scipy.org/stackspec.html&quot;&gt;SciPy Stack&lt;/a&gt;. To pair SciPy&amp;#39;s analytic power with the advantages of querying time-series data in Druid, we created the pydruid connector. This allows Python users to query Druid&amp;mdash;and export the results to useful formats&amp;mdash;in a way that makes sense to them.&lt;/p&gt;
@@ -516,7 +516,7 @@ Portland, OR on July 23.&lt;/p&gt;
 	<entry>
 		<title>Benchmarking Druid</title>
 		<link href="http://druid.io/blog/2014/03/17/benchmarking-druid.html"/>
-		<updated>2014-03-17T00:00:00-07:00</updated>
+		<updated>2014-03-17T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/03/17/benchmarking-druid</id>
                 <author><name>Xavier Léauté</name></author>
                 <summary type="html">&lt;p&gt;We often get asked how fast Druid is. Despite having published some benchmark
@@ -872,7 +872,7 @@ will address those questions more directly.&lt;/p&gt;
 	<entry>
 		<title>Batch-Loading Sensor Data into Druid</title>
 		<link href="http://druid.io/blog/2014/03/12/batch-ingestion.html"/>
-		<updated>2014-03-12T00:00:00-07:00</updated>
+		<updated>2014-03-12T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/03/12/batch-ingestion</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;Sensors are everywhere these days, and that means sensor data is big data. Ingesting and analyzing sensor data at speed is an interesting problem, especially when scale is desired. In this post, we&amp;#39;ll access some real-world sensor data, and show how Druid can be used to store that data and make it available for immediate querying.&lt;/p&gt;
@@ -1057,7 +1057,7 @@ will address those questions more directly.&lt;/p&gt;
 	<entry>
 		<title>How We Scaled HyperLogLog: Three Real-World Optimizations</title>
 		<link href="http://druid.io/blog/2014/02/18/hyperloglog-optimizations-for-real-world-systems.html"/>
-		<updated>2014-02-18T00:00:00-08:00</updated>
+		<updated>2014-02-18T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/02/18/hyperloglog-optimizations-for-real-world-systems</id>
                 <author><name>NELSON RAY AND FANGJIN YANG</name></author>
                 <summary type="html">&lt;p&gt;At Metamarkets, we specialize in converting mountains of programmatic ad data
@@ -1239,7 +1239,7 @@ Martin&lt;/a&gt;.&lt;/p&gt;
 	<entry>
 		<title>RDruid and Twitterstream</title>
 		<link href="http://druid.io/blog/2014/02/03/rdruid-and-twitterstream.html"/>
-		<updated>2014-02-03T00:00:00-08:00</updated>
+		<updated>2014-02-03T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2014/02/03/rdruid-and-twitterstream</id>
                 <author><name>Igal Levy</name></author>
                 <summary type="html">&lt;p&gt;What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You&amp;#39;d be able to draw conclusions from analyzing data streams at the speed of now. That&amp;#39;s what combining the prowess of a &lt;a href=&quot;http://druid.io&quot;&gt;Druid database&lt;/a&gt; with the power of &lt;a href=&quot;http://www.r-project.org&quot;&gt;R&lt;/a&gt; can do.&lt;/p&gt;
@@ -1508,7 +1508,7 @@ Content-Length: 489
 	<entry>
 		<title>Querying Your Data</title>
 		<link href="http://druid.io/blog/2013/11/04/querying-your-data.html"/>
-		<updated>2013-11-04T00:00:00-08:00</updated>
+		<updated>2013-11-04T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/11/04/querying-your-data</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Before we start querying druid, we&amp;#39;re going to finish setting up a complete cluster on localhost. In our previous posts, we setup a Realtime node. In this tutorial we will also setup the other Druid node types: Compute, Master and Broker.&lt;/p&gt;
@@ -1798,7 +1798,7 @@ com.metamx.druid.http.ComputeMain
 	<entry>
 		<title>Druid at XLDB</title>
 		<link href="http://druid.io/blog/2013/09/20/druid-at-xldb.html"/>
-		<updated>2013-09-20T00:00:00-07:00</updated>
+		<updated>2013-09-20T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/09/20/druid-at-xldb</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;We recently attended &lt;a href=&quot;http://www.xldb.org/&quot;&gt;Stanford XLDB&lt;/a&gt; and the experience was a blast. Once a year, XLDB invites speakers from different organizations to discuss the challenges of and solutions to dealing with Xtreme (with an X!) data sets. This year, Jeff Dean dropped knowledge bombs about architecting scalable systems, Michael Stonebraker provided inspiring advice about growing open source projects, CERN explained how they found the Higgs Boson, and several organizations spoke about their technology. We definitely recommend checking out the &lt;a href=&quot;https://conf-slac.stanford.edu/xldb-2013/conference-program&quot;&gt;slides&lt;/a&gt; from the conference.&lt;/p&gt;
@@ -1820,7 +1820,7 @@ com.metamx.druid.http.ComputeMain
 	<entry>
 		<title>Launching Druid With Apache Whirr</title>
 		<link href="http://druid.io/blog/2013/09/19/launching-druid-with-apache-whirr.html"/>
-		<updated>2013-09-19T00:00:00-07:00</updated>
+		<updated>2013-09-19T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/09/19/launching-druid-with-apache-whirr</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Without Whirr, to launch a Druid cluster, you&amp;#39;d have to provision machines yourself, and then install each node type manually. This process is outlined &lt;a href=&quot;https://github.com/metamx/druid/wiki/Tutorial%3A-The-Druid-Cluster&quot;&gt;here&lt;/a&gt;. With Whirr, you can boot a druid cluster by editing a simple configuration file and then issuing a single command!&lt;/p&gt;
@@ -1885,7 +1885,7 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 	<entry>
 		<title>Upcoming Events</title>
 		<link href="http://druid.io/blog/2013/09/16/upcoming-events.html"/>
-		<updated>2013-09-16T00:00:00-07:00</updated>
+		<updated>2013-09-16T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/09/16/upcoming-events</id>
                 <author><name></name></author>
                 <summary type="html">&lt;p&gt;Druid hits the road this fall, with presentations in the Bay Area, North Carolina and New York!&lt;/p&gt;
@@ -1911,7 +1911,7 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 	<entry>
 		<title>The Art of Approximating Distributions: Histograms and Quantiles at Scale</title>
 		<link href="http://druid.io/blog/2013/09/12/the-art-of-approximating-distributions.html"/>
-		<updated>2013-09-12T00:00:00-07:00</updated>
+		<updated>2013-09-12T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/09/12/the-art-of-approximating-distributions</id>
                 <author><name>Nelson Ray</name></author>
                 <summary type="html">&lt;p&gt;&lt;em&gt;I’d like to acknowledge Xavier Léauté for his extensive contributions (in
@@ -2215,7 +2215,7 @@ Algorithms.”&lt;/a&gt;&lt;/p&gt;
 	<entry>
 		<title>Understanding Druid Real-time Ingestion</title>
 		<link href="http://druid.io/blog/2013/08/30/loading-data.html"/>
-		<updated>2013-08-30T00:00:00-07:00</updated>
+		<updated>2013-08-30T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/08/30/loading-data</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;In our last post, we got a realtime node working with example Twitter data. Now it&amp;#39;s time to load our own data to see how Druid performs. Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a &lt;a href=&quot;https://github.com/metamx/druid/wiki/Firehose&quot;&gt;Firehose&lt;/a&gt;. In this post we&amp;#39;ll outline how to ingest data from Kafka in realtime using the Kafka Firehose.&lt;/p&gt;
@@ -2382,7 +2382,7 @@ In a new console, edit a file called query.body:&lt;/p&gt;
 	<entry>
 		<title>Understanding Druid Via Twitter Data</title>
 		<link href="http://druid.io/blog/2013/08/06/twitter-tutorial.html"/>
-		<updated>2013-08-06T00:00:00-07:00</updated>
+		<updated>2013-08-06T00:00:00+00:00</updated>
                 <id>http://druid.io/blog/2013/08/06/twitter-tutorial</id>
                 <author><name>Russell Jurney</name></author>
                 <summary type="html">&lt;p&gt;Druid is a rockin&amp;#39; exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10&amp;#39;s of billions of events per day for the &lt;a href=&quot;http://www.metamarkets.com&quot;&gt;Metamarkets&lt;/a&gt; platform, and Metamarkets is committed to building Druid in open source.&lt;/p&gt;
