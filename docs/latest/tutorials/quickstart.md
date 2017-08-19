@@ -147,8 +147,8 @@ coordinator console, by checking whether there is a datasource "wikiticker" with
 indicating "fully available": [http://localhost:8081/#/](http://localhost:8081/#/).
 
 Once the data is fully available, you can immediately query it&mdash; to see how, skip to the [Query
-data](#query-data) section below. Or, continue to the [Load your own data](#load-your-own-data)
-section if you'd like to load a different dataset.
+data](#query-data) section below. Or, continue to the [load your own data](ingestion.html)
+page if you'd like to load a different dataset.
 
 ## Load streaming data
 
