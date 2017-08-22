@@ -19,11 +19,11 @@ highlighter: pygments
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_version: 0.10.0
+druid_version: 0.10.1
 
-druid_rc_version: 0.10.1-rc3
-druid_stable_version: 0.10.0
-druid_latest_version: 0.10.0
+druid_rc_version: 0.10.1
+druid_stable_version: 0.10.1
+druid_latest_version: 0.10.1
 
 tranquility_stable_version: 0.8.2
 
