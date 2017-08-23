@@ -5,9 +5,44 @@
   <subtitle>Real²time Exploratory Analytics on Large Datasets</subtitle>
   <link type="application/atom+xml" href="http://druid.io/feed/" rel="self"/>
   <link type="text/html" href="http://druid.io/" rel="alternate"/>
-	<updated>2017-08-23T03:26:24+00:00</updated>
+	<updated>2017-08-23T03:56:26+00:00</updated>
         <id>http://druid.io/</id>
 	
+	
+	<entry>
+		<title>Druid 0.10.1 release</title>
+		<link href="http://druid.io/blog/2017/08/22/druid-0-10-1.html"/>
+		<updated>2017-08-22T00:00:00+00:00</updated>
+                <id>http://druid.io/blog/2017/08/22/druid-0-10-1</id>
+                <author><name>Druid PMC</name></author>
+                <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.10.1&lt;/a&gt;!&lt;/p&gt;
+</summary>
+		<content type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.10.1&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;Druid 0.10.1 contains hundreds of performance improvements, stability improvements, and bug fixes from over 40 contributors. Major new features include:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Large performance improvements and additional query metrics for TopN queries&lt;/li&gt;
+&lt;li&gt;The ability to push down limit clauses for GroupBy queries&lt;/li&gt;
+&lt;li&gt;More accurate query timeout handling&lt;/li&gt;
+&lt;li&gt;Hadoop indexing support for the Amazon S3A filesystem&lt;/li&gt;
+&lt;li&gt;Support for ingesting Protobuf data&lt;/li&gt;
+&lt;li&gt;A new Firehose that can read input via HTTP&lt;/li&gt;
+&lt;li&gt;Improved disk space management when indexing from cloud stores&lt;/li&gt;
+&lt;li&gt;Various improvements to coordinator lookups management&lt;/li&gt;
+&lt;li&gt;A new Kafka metrics emitter&lt;/li&gt;
+&lt;li&gt;A new dimension comparison filter&lt;/li&gt;
+&lt;li&gt;Various improvements to Druid SQL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can download the release here: &lt;a href=&quot;/downloads.html&quot;&gt;http://druid.io/downloads.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The full release notes are here:
+&lt;a href=&quot;https://github.com/druid-io/druid/releases/druid-0.10.1&quot;&gt;https://github.com/druid-io/druid/releases/druid-0.10.1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to everyone who contributed to this release!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Druid 0.10.0 release</title>
@@ -2376,315 +2411,6 @@ In a new console, edit a file called query.body:&lt;/p&gt;
 } ]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Congratulations, you&amp;#39;ve queried the data we just loaded! In our next post, we&amp;#39;ll move on to Querying our Data.&lt;/p&gt;
-</content>
-	</entry>
-	
-	<entry>
-		<title>Understanding Druid Via Twitter Data</title>
-		<link href="http://druid.io/blog/2013/08/06/twitter-tutorial.html"/>
-		<updated>2013-08-06T00:00:00+00:00</updated>
-                <id>http://druid.io/blog/2013/08/06/twitter-tutorial</id>
-                <author><name>Russell Jurney</name></author>
-                <summary type="html">&lt;p&gt;Druid is a rockin&amp;#39; exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10&amp;#39;s of billions of events per day for the &lt;a href=&quot;http://www.metamarkets.com&quot;&gt;Metamarkets&lt;/a&gt; platform, and Metamarkets is committed to building Druid in open source.&lt;/p&gt;
-</summary>
-		<content type="html">&lt;p&gt;Druid is a rockin&amp;#39; exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid drives 10&amp;#39;s of billions of events per day for the &lt;a href=&quot;http://www.metamarkets.com&quot;&gt;Metamarkets&lt;/a&gt; platform, and Metamarkets is committed to building Druid in open source.&lt;/p&gt;
-
-&lt;h2 id=&quot;about-druid&quot;&gt;About Druid&lt;/h2&gt;
-
-&lt;p&gt;Thanks for taking an interest in Druid. This tutorial will help clarify some core Druid concepts. We will go through one of the Real-time examples and issue some basic Druid queries. The data source we&amp;#39;ll be working with is the &lt;a href=&quot;https://dev.twitter.com/docs/streaming-apis/streams/public&quot;&gt;Twitter spritzer stream&lt;/a&gt;. If you are ready to explore Druid, brave its challenges, and maybe learn a thing or two, read on!&lt;/p&gt;
-
-&lt;h2 id=&quot;setting-up&quot;&gt;Setting Up&lt;/h2&gt;
-
-&lt;p&gt;There are two ways to setup Druid: download a tarball, or build it from source.&lt;/p&gt;
-
-&lt;h3 id=&quot;download-a-tarball&quot;&gt;Download a Tarball&lt;/h3&gt;
-
-&lt;p&gt;We&amp;#39;ve built a tarball that contains everything you&amp;#39;ll need. You&amp;#39;ll find it &lt;a href=&quot;http://static.druid.io/artifacts/releases/druid-services-0.5.6-SNAPSHOT-bin.tar.gz&quot;&gt;here&lt;/a&gt;.
-Download this to a directory of your choosing.&lt;/p&gt;
-
-&lt;p&gt;You can extract the awesomeness within by issuing:
-&lt;pre&gt;tar -zxvf druid-services-0.5.6-SNAPSHOT-bin.tar.gz&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;If you cd into the directory:
-&lt;pre&gt;cd druid-services-0.5.6-SNAPSHOT&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;You should see a bunch of files:
-* run_example_server.sh
-* run_example_client.sh
-* run_ec2.sh
-* LICENSE, config, examples, lib directories&lt;/p&gt;
-
-&lt;h3 id=&quot;clone-and-build-from-source&quot;&gt;Clone and Build from Source&lt;/h3&gt;
-
-&lt;p&gt;The other way to setup Druid is from source via git. To do so, run these commands:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;git clone git@github.com:metamx/druid.git
-cd druid
-./build.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;You should see a bunch of files: &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;DruidCorporateCLA.pdf README      common      examples    indexer     pom.xml     server
-DruidIndividualCLA.pdf  build.sh    doc     group_by.body   install     publications    services
-LICENSE     client      eclipse_formatting.xml  index-common    merger      realtime
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;You can find the example executables in the examples/bin directory:
-* run_example_server.sh
-* run_example_client.sh&lt;/p&gt;
-
-&lt;h2 id=&quot;running-example-scripts&quot;&gt;Running Example Scripts&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;#39;s start doing stuff. You can start a Druid Realtime node by issuing:
-&lt;pre&gt;./run_example_server.sh&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;Select &amp;quot;twitter&amp;quot;. &lt;/p&gt;
-
-&lt;p&gt;You&amp;#39;ll need to register a new application with the twitter API, which only takes a minute. Go to &lt;a href=&quot;https://dev.twitter.com/apps/new&quot;&gt;https://dev.twitter.com/apps/new&lt;/a&gt; and fill out the form and submit. Don&amp;#39;t worry, the home page and callback url can be anything. This will generate keys for the Twitter example application. Take note of the values for consumer key/secret and access token/secret.&lt;/p&gt;
-
-&lt;p&gt;Enter your credentials when prompted.&lt;/p&gt;
-
-&lt;p&gt;Once the node starts up you will see a bunch of logs about setting up properties and connecting to the data source. If you see crazy exceptions, you probably typed in your login information incorrectly. If the server started properly you will see a message like this that repeats periodically:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
-2013-05-17 23:04:59,793 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;These messages indicate you are ingesting events. The Druid real time-node ingests events in an in-memory buffer. Periodically, these events will be persisted to disk. Persisting to disk generates a whole bunch of logs:
-&lt;pre&gt;&lt;code&gt;
-2013-05-17 23:06:40,918 INFO [chief-twitterstream] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Submitting persist runnable for dataSource[twitterstream]
-2013-05-17 23:06:40,920 INFO [twitterstream-incremental-persist] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - DataSource[twitterstream], Interval[2013-05-17T23:00:00.000Z/2013-05-18T00:00:00.000Z], persisting Hydrant[FireHydrant{index=com.metamx.druid.index.v1.IncrementalIndex@126212dd, queryable=com.metamx.druid.index.IncrementalIndexSegment@64c47498, count=0}]
-2013-05-17 23:06:40,937 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting persist for interval[2013-05-17T23:00:00.000Z/2013-05-17T23:07:00.000Z], rows[4,666]
-2013-05-17 23:06:41,039 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed index.drd in 11 millis.
-2013-05-17 23:06:41,070 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed dim conversions in 31 millis.
-2013-05-17 23:06:41,275 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.CompressedPools - Allocating new chunkEncoder[1]
-2013-05-17 23:06:41,332 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed walk through of 4,666 rows in 262 millis.
-2013-05-17 23:06:41,334 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[htags] with cardinality[634]
-2013-05-17 23:06:41,381 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[htags] in 49 millis.
-2013-05-17 23:06:41,382 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[lang] with cardinality[19]
-2013-05-17 23:06:41,398 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[lang] in 17 millis.
-2013-05-17 23:06:41,398 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Starting dimension[utc_offset] with cardinality[32]
-2013-05-17 23:06:41,413 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - Completed dimension[utc_offset] in 15 millis.
-2013-05-17 23:06:41,413 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexMerger - outDir[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] completed inverted.drd in 81 millis.
-2013-05-17 23:06:41,425 INFO [twitterstream-incremental-persist] com.metamx.druid.index.v1.IndexIO$DefaultIndexIOHandler - Converting v8[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0/v8-tmp] to v9[/tmp/example/twitter_realtime/basePersist/twitterstream/2013-05-17T23:00:00.000Z_2013-05-18T00:00:00.000Z/0]
-2013-05-17 23:06:41,426 INFO [twitterstream-incremental-persist] 
-... ETC
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;The logs are about building different columns, probably not the most exciting stuff (they might as well be in Vulcan) if are you learning about Druid for the first time. Nevertheless, if you are interested in the details of our real-time architecture and why we persist indexes to disk, I suggest you read our &lt;a href=&quot;http://static.druid.io/docs/druid.pdf&quot;&gt;White Paper&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Okay, things are about to get real (-time). To query the real-time node you&amp;#39;ve spun up, you can issue:
-&lt;pre&gt;./run_example_client.sh&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;Select &amp;quot;twitter&amp;quot; once again. This script issues GroupByQuerys to the twitter data we&amp;#39;ve been ingesting. The query looks like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;groupBy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;twitterstream&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;dimensions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;lang&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;utc_offset&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;aggregations&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;doubleSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;filter&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;selector&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;dimension&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;lang&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;value&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;en&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;intervals&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00/2020-01-01T00&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This is a &lt;strong&gt;groupBy&lt;/strong&gt; query, which you may be familiar with from SQL. We are grouping, or aggregating, via the &lt;strong&gt;dimensions&lt;/strong&gt; field: [&amp;quot;lang&amp;quot;, &amp;quot;utc_offset&amp;quot;]. We are &lt;strong&gt;filtering&lt;/strong&gt; via the &lt;strong&gt;&amp;quot;lang&amp;quot;&lt;/strong&gt; dimension, to only look at english tweets. Our &lt;strong&gt;aggregations&lt;/strong&gt; are what we are calculating: a row count, and the sum of the tweets in our data.&lt;/p&gt;
-
-&lt;p&gt;The result looks something like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;utc_offset&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;-10800&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;lang&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;en&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;81&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;utc_offset&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;-14400&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;177&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;lang&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;en&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;154&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This data, plotted in a time series/distribution, looks something like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://metamarkets.com/wp-content/uploads/2013/06/tweets_timezone_offset.png&quot; alt=&quot;Timezone / Tweets Scatter Plot&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;This groupBy query is a bit complicated and we&amp;#39;ll return to it later. For the time being, just make sure you are getting some blocks of data back. If you are having problems, make sure you have &lt;a href=&quot;http://curl.haxx.se/&quot;&gt;curl&lt;/a&gt; installed. Control+C to break out of the client script.&lt;/p&gt;
-
-&lt;h2 id=&quot;querying-druid&quot;&gt;Querying Druid&lt;/h2&gt;
-
-&lt;p&gt;In your favorite editor, create the file:
-&lt;pre&gt;time_boundary_query.body&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;Druid queries are JSON blobs which are relatively painless to create programmatically, but an absolute pain to write by hand. So anyway, we are going to create a Druid query by hand. Add the following to the file you just created:
-&lt;pre&gt;&lt;code&gt;{ 
-  &amp;quot;queryType&amp;quot;  : &amp;quot;timeBoundary&amp;quot;,
-  &amp;quot;dataSource&amp;quot; : &amp;quot;twitterstream&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://github.com/metamx/druid/wiki/TimeBoundaryQuery&quot;&gt;TimeBoundaryQuery&lt;/a&gt; is one of the simplest Druid queries. To run the query, you can issue:
-&lt;pre&gt;&lt;code&gt; curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @time_boundary_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;We get something like this JSON back:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;minTime&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;maxTime&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T20:50:00.000Z&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;That&amp;#39;s the result. What information do you think the result is conveying? 
-...
-If you said the result is indicating the maximum and minimum timestamps of the events ingested we&amp;#39;ve seen thus far (summarized to a minutely granularity), you are absolutely correct. I can see you are a person legitimately interested in learning about Druid. Let&amp;#39;s explore a bit further.&lt;/p&gt;
-
-&lt;p&gt;Return to your favorite editor and create the file:
-&lt;pre&gt;timeseries_query.body&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;We are going to make a slightly more complicated query, the &lt;a href=&quot;https://github.com/metamx/druid/wiki/TimeseriesQuery&quot;&gt;TimeseriesQuery&lt;/a&gt;. Copy and paste the following into the file:
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;queryType&amp;quot;:&amp;quot;timeseries&amp;quot;,
-  &amp;quot;dataSource&amp;quot;:&amp;quot;twitterstream&amp;quot;,
-  &amp;quot;intervals&amp;quot;:[&amp;quot;2010-01-01/2020-01-01&amp;quot;],
-  &amp;quot;granularity&amp;quot;:&amp;quot;all&amp;quot;,
-  &amp;quot;aggregations&amp;quot;:[
-      { &amp;quot;type&amp;quot;: &amp;quot;count&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;rows&amp;quot;},
-      { &amp;quot;type&amp;quot;: &amp;quot;doubleSum&amp;quot;, &amp;quot;fieldName&amp;quot;: &amp;quot;tweets&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;tweets&amp;quot;}
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;You are probably wondering, what are these granularities and aggregations things? What the query is doing is aggregating some metrics over some span of time. 
-To issue the query and get some results, run the following in your command line:
-&lt;pre&gt;&lt;code&gt;curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @timeseries_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;Once again, you should get a JSON blob of text back with your results, that looks something like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;358562.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;272271&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;If you issue the query again, you should notice your results updating.&lt;/p&gt;
-
-&lt;p&gt;Right now all the results you are getting back are being aggregated into a single timestamp bucket. What if we wanted to see our aggregations on a per minute basis? What field can we change in the query to accomplish this?&lt;/p&gt;
-
-&lt;p&gt;If you loudly exclaimed &amp;quot;we can change granularity to minute&amp;quot;, you are absolutely correct again! We can specify different granularities to bucket our results, like so:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;queryType&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;timeseries&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;dataSource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;twitterstream&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;intervals&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;2010-01-01/2020-01-01&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;granularity&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;minute&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;aggregations&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;doubleSum&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;fieldName&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This gives us something like the following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:09:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2650.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2120&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:10:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3401.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2609&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2013-06-10T19:11:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;result&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3472.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;rows&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2610&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2 id=&quot;solving-a-problem&quot;&gt;Solving a Problem&lt;/h2&gt;
-
-&lt;p&gt;One of Druid&amp;#39;s main powers is to provide answers to problems, so let&amp;#39;s pose a problem. What if we wanted to know what the top hash tags are, ordered by the number tweets, where the language is english, over the last few minutes you&amp;#39;ve been reading this tutorial? To solve this problem, we have to return to the query we introduced at the very beginning of this tutorial, the &lt;a href=&quot;https://github.com/metamx/druid/wiki/GroupByQuery&quot;&gt;GroupByQuery&lt;/a&gt;. It would be nice if we could group our results by a dimension value and somehow sort those results... and it turns out we can! &lt;/p&gt;
-
-&lt;p&gt;Let&amp;#39;s create the file:
-&lt;pre&gt;group_by_query.body&lt;/pre&gt;
-and put the following in there:
-&lt;pre&gt;&lt;code&gt;{
-    &amp;quot;queryType&amp;quot;: &amp;quot;groupBy&amp;quot;,
-    &amp;quot;dataSource&amp;quot;: &amp;quot;twitterstream&amp;quot;,
-    &amp;quot;granularity&amp;quot;: &amp;quot;all&amp;quot;,
-    &amp;quot;dimensions&amp;quot;: [&amp;quot;htags&amp;quot;],
-    &amp;quot;orderBy&amp;quot;: {&amp;quot;type&amp;quot;:&amp;quot;default&amp;quot;, &amp;quot;columns&amp;quot;:[{&amp;quot;dimension&amp;quot;: &amp;quot;tweets&amp;quot;, &amp;quot;direction&amp;quot;:&amp;quot;DESCENDING&amp;quot;}], &amp;quot;limit&amp;quot;:5},
-    &amp;quot;aggregations&amp;quot;:[
-      { &amp;quot;type&amp;quot;: &amp;quot;longSum&amp;quot;, &amp;quot;fieldName&amp;quot;: &amp;quot;tweets&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;tweets&amp;quot;}
-    ],
-    &amp;quot;filter&amp;quot;: {&amp;quot;type&amp;quot;: &amp;quot;selector&amp;quot;, &amp;quot;dimension&amp;quot;: &amp;quot;lang&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;en&amp;quot; },
-    &amp;quot;intervals&amp;quot;:[&amp;quot;2012-10-01T00:00/2020-01-01T00&amp;quot;]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;Woah! Our query just got a way more complicated. Now we have these &lt;a href=&quot;https://github.com/metamx/druid/wiki/Filters&quot;&gt;Filters&lt;/a&gt; things and this &lt;a href=&quot;https://github.com/metamx/druid/wiki/OrderBy&quot;&gt;OrderBy&lt;/a&gt; thing. Fear not, it turns out the new objects we&amp;#39;ve introduced to our query can help define the format of our results and provide an answer to our question.&lt;/p&gt;
-
-&lt;p&gt;If you issue the query:
-&lt;pre&gt;&lt;code&gt;curl -X POST &amp;#39;http://localhost:8080/druid/v2/?pretty&amp;#39; -H &amp;#39;content-type: application/json&amp;#39;  -d @group_by_query.body&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-
-&lt;p&gt;You should hopefully see an answer to our question. For my twitter stream, it looks like this:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2660&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;htags&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;android&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1944&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;htags&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;E3&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1927&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;htags&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;15SueñosPendientes&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1717&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;htags&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;ipad&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-01T00:00:00.000Z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;quot;event&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;tweets&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1515&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;htags&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;IDidntTextYouBackBecause&amp;quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Feel free to tweak other query parameters to answer other questions you may have about the data.&lt;/p&gt;
-
-&lt;h2 id=&quot;additional-information&quot;&gt;Additional Information&lt;/h2&gt;
-
-&lt;p&gt;This tutorial is merely showcasing a small fraction of what Druid can do. If you are interested in more information about Druid, including setting up a more sophisticated Druid cluster, please read the other links in our wiki.&lt;/p&gt;
-
-&lt;p&gt;And thus concludes our journey! Hopefully you learned a thing or two about Druid real-time ingestion, querying Druid, and how Druid can be used to solve problems. If you have additional questions, feel free to post in our &lt;a href=&quot;http://www.groups.google.com/forum/#!forum/druid-development&quot;&gt;google groups page&lt;/a&gt;.&lt;/p&gt;
 </content>
 	</entry>
 	
