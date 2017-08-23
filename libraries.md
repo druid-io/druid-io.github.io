@@ -29,6 +29,7 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [ruby-druid/ruby-druid](https://github.com/ruby-druid/ruby-druid) - A ruby client for Druid
 * [redBorder/druid_config](https://github.com/redBorder/druid_config) - A ruby client to configure and check the status of a Druid Cluster
+* [andremleblanc/druiddb-ruby](https://github.com/andremleblanc/druiddb-ruby) - A Ruby client for Druid using the Kafka Indexing Service
 
 #### SQL
 
