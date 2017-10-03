@@ -144,7 +144,9 @@ If there is no match, it returns the dimension value as is.
 
 ```json
 {
-  "type" : "regex", "expr" : <regular_expression>,
+  "type" : "regex",
+  "expr" : <regular_expression>,
+  "index" : <group to extract, default 1>
   "replaceMissingValue" : true,
   "replaceMissingValueWith" : "foobar"
 }
@@ -152,6 +154,9 @@ If there is no match, it returns the dimension value as is.
 
 For example, using `"expr" : "(\\w\\w\\w).*"` will transform
 `'Monday'`, `'Tuesday'`, `'Wednesday'` into `'Mon'`, `'Tue'`, `'Wed'`.
+
+If "index" is set, it will control which group from the match to extract. Index zero extracts the string matching the
+entire pattern.
 
 If the `replaceMissingValue` property is true, the extraction function will transform dimension values that do not match the regex pattern to a user-specified String. Default value is `false`.
 
@@ -505,23 +510,6 @@ or without setting "locale" (in this case, the current value of the default loca
 ```json
 {
   "type" : "lower"
-}
-```
-
-### Bucket Extraction Function
-
-Bucket extraction function is used to bucket numerical values in each range of the given size by converting them to the same base value. Non numeric values are converted to null.
-
-* `size` : the size of the buckets (optional, default 1)
-* `offset` : the offset for the buckets (optional, default 0)
-
-The following extraction function creates buckets of 5 starting from 2. In this case, values in the range of [2, 7) will be converted to 2, values in [7, 12) will be converted to 7, etc.
-
-```json
-{
-  "type" : "bucket",
-  "size" : 5,
-  "offset" : 2
 }
 ```
 

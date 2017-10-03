@@ -104,16 +104,18 @@ You can access table and column metadata through JDBC using `connection.getMetaD
 
 The following SQL queries and features may be executed using approximate algorithms:
 
-- `COUNT(DISTINCT col)` and `APPROX_COUNT_DISTINCT(col)` aggregations use
+- `COUNT(DISTINCT col)` and `APPROX_COUNT_DISTINCT(col)` aggregations by default use
 [HyperLogLog](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf), a fast approximate distinct counting
-algorithm. If you need exact distinct counts, you can instead use
-`SELECT COUNT(*) FROM (SELECT DISTINCT col FROM data_source)`, which will use a slower and more resource intensive exact
-algorithm.
+algorithm. To disable this behavior for `COUNT(DISTINCT col)`, and use exact distinct counts, set
+"useApproximateCountDistinct" to "false", either through query context or through broker configuration.
+`APPROX_COUNT_DISTINCT(col)` is always approximate, regardless of this setting.
 - TopN-style queries with a single grouping column, like
 `SELECT col1, SUM(col2) FROM data_source GROUP BY col1 ORDER BY SUM(col2) DESC LIMIT 100`, by default will be executed
 as [TopN queries](topnquery.html), which use an approximate algorithm. To disable this behavior, and use exact
 algorithms for topN-style queries, set "useApproximateTopN" to "false", either through query context or through broker
 configuration.
+
+In both cases, the exact algorithms are generally slower and more resource intensive.
 
 ### Time functions
 
@@ -126,6 +128,16 @@ Druid's SQL language supports a number of time operations, including:
 
 By default, time operations use the UTC time zone. You can change the time zone for time operations by setting the
 connection context parameter "sqlTimeZone" to the name of the time zone, like "America/Los_Angeles".
+
+### Query-time lookups
+
+Druid [query-time lookups](lookups.html) can be accessed through the `LOOKUP(expression, lookupName)` function. The
+"lookupName" must refer to a lookup you have registered with Druid's lookup framework. For example, the following
+query can be used to perform a groupBy on looked-up values:
+
+```sql
+SELECT LOOKUP(col, 'my_lookup') AS col_with_lookup FROM data_source GROUP BY LOOKUP(col, 'my_lookup')
+```
 
 ### Subqueries
 
@@ -188,6 +200,7 @@ The broker's [built-in SQL server](../querying/sql.html) can be configured throu
 |`druid.sql.avatica.connectionIdleTimeout`|Avatica client connection idle timeout.|PT30M|
 |`druid.sql.avatica.maxConnections`|Maximum number of open connections for the Avatica server. These are not HTTP connections, but are logical client connections that may span multiple HTTP connections.|25|
 |`druid.sql.avatica.maxStatementsPerConnection`|Maximum number of simultaneous open statements per Avatica client connection.|4|
+|`druid.sql.avatica.maxRowsPerFrame`|Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and `maxRowsPerFrame` will be used.|100,000|
 |`druid.sql.http.enable`|Whether to enable a simple JSON over HTTP route at `/druid/v2/sql/`.|true|
 
 #### SQL Planner Configuration
@@ -229,7 +242,6 @@ language. Some unsupported SQL features include:
 Additionally, some Druid features are not supported by the SQL language. Some unsupported Druid features include:
 
 - [Multi-value dimensions](multi-value-dimensions.html).
-- [Query-time lookups](lookups.html).
 - [DataSketches](../development/extensions-core/datasketches-aggregators.html).
 
 ## Third-party SQL libraries

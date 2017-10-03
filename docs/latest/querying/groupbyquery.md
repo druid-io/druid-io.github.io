@@ -141,8 +141,11 @@ on-heap by default, but it can optionally store aggregated values off-heap.
 Query API and results are compatible between the two engines; however, there are some differences from a cluster
 configuration perspective:
 
-- groupBy v1 merges results in heap, whereas groupBy v2 merges results off-heap. As a result, optimal configuration for
-your Druid nodes may involve less heap (-Xmx, -Xms) and more direct memory (-XX:MaxDirectMemorySize).
+- groupBy v1 controls resource usage using a row-based limit (maxResults) whereas groupBy v2 uses bytes-based limits.
+In addition, groupBy v1 merges results on-heap, whereas groupBy v2 merges results off-heap. These factors mean that
+memory tuning and resource limits behave differently between v1 and v2. In particular, due to this, some queries
+that can complete successfully in one engine may exceed resource limits and fail with the other engine. See the
+"Memory tuning and resource limits" section for more details.
 - groupBy v1 imposes no limit on the number of concurrently running queries, whereas groupBy v2 controls memory usage
 by using a finite-sized merge buffer pool. By default, the number of merge buffers is 1/4 the number of processing
 threads. You can adjust this as necessary to balance concurrency and memory usage.
@@ -150,6 +153,37 @@ threads. You can adjust this as necessary to balance concurrency and memory usag
 historical nodes.
 - groupBy v1 supports using [chunkPeriod](query-context.html) to parallelize merging on the broker, whereas groupBy v2
 ignores chunkPeriod.
+
+#### Memory tuning and resource limits
+
+When using groupBy v2, three parameters control resource usage and limits:
+
+- druid.processing.buffer.sizeBytes: size of the off-heap hash table used for aggregation, per query, in bytes. At
+most druid.processing.numMergeBuffers of these will be created at once, which also serves as an upper limit on the
+number of concurrently running groupBy queries.
+- druid.query.groupBy.maxMergingDictionarySize: size of the on-heap dictionary used when grouping on strings, per query,
+in bytes. Note that this is based on a rough estimate of the dictionary size, not the actual size.
+- druid.query.groupBy.maxOnDiskStorage: amount of space on disk used for aggregation, per query, in bytes. By default,
+this is 0, which means aggregation will not use disk.
+
+If maxOnDiskStorage is 0 (the default) then a query that exceeds either the on-heap dictionary limit, or the off-heap
+aggregation table limit, will fail with a "Resource limit exceeded" error describing the limit that was exceeded.
+
+If maxOnDiskStorage is greater than 0, queries that exceed the in-memory limits will start using disk for aggregation.
+In this case, when either the on-heap dictionary or off-heap hash table fills up, partially aggregated records will be
+sorted and flushed to disk. Then, both in-memory structures will be cleared out for further aggregation. Queries that
+then go on to exceed maxOnDiskStorage will fail with a "Resource limit exceeded" error indicating that they ran out of
+disk space.
+
+With groupBy v2, cluster operators should make sure that the off-heap hash tables and on-heap merging dictionaries
+will not exceed available memory for the maximum possible concurrent query load (given by
+druid.processing.numMergeBuffers).
+
+When using groupBy v1, all aggregation is done on-heap, and resource limits are done through the parameter
+druid.query.groupBy.maxResults. This is a cap on the maximum number of results in a result set. Queries that exceed
+this limit will fail with a "Resource limit exceeded" error indicating they exceeded their row limit. Cluster
+operators should make sure that the on-heap aggregations will not exceed available JVM heap space for the expected
+concurrent query load.
 
 #### Alternatives
 
@@ -182,6 +216,7 @@ When using the "v2" strategy, the following runtime properties apply:
 |`druid.query.groupBy.bufferGrouperMaxLoadFactor`|Maximum load factor of the off-heap hash table used for grouping results. When the load factor exceeds this size, the table will be grown or spilled to disk. Set to 0 to use a reasonable default.|0|
 |`druid.query.groupBy.maxMergingDictionarySize`|Maximum amount of heap space (approximately) to use for the string dictionary during merging. When the dictionary exceeds this size, a spill to disk will be triggered.|100000000|
 |`druid.query.groupBy.maxOnDiskStorage`|Maximum amount of disk space to use, per-query, for spilling result sets to disk when either the merging buffer or the dictionary fills up. Queries that exceed this limit will fail. Set to zero to disable disk spilling.|0 (disabled)|
+|`druid.query.groupBy.singleThreaded`|Merge results using a single thread.|false|
 
 This may require allocating more direct memory. The amount of direct memory needed by Druid is at least
 `druid.processing.buffer.sizeBytes * (druid.processing.numMergeBuffers + druid.processing.numThreads + 1)`. You can
@@ -204,11 +239,13 @@ When using the "v2" strategy, the following query context parameters apply:
 |Property|Description|
 |--------|-----------|
 |`groupByStrategy`|Overrides the value of `druid.query.groupBy.defaultStrategy` for this query.|
+|`groupByIsSingleThreaded`|Overrides the value of `druid.query.groupBy.singleThreaded` for this query.|
 |`bufferGrouperInitialBuckets`|Overrides the value of `druid.query.groupBy.bufferGrouperInitialBuckets` for this query.|
 |`bufferGrouperMaxLoadFactor`|Overrides the value of `druid.query.groupBy.bufferGrouperMaxLoadFactor` for this query.|
 |`maxMergingDictionarySize`|Can be used to lower the value of `druid.query.groupBy.maxMergingDictionarySize` for this query.|
 |`maxOnDiskStorage`|Can be used to lower the value of `druid.query.groupBy.maxOnDiskStorage` for this query.|
 |`sortByDimsFirst`|Sort the results first by dimension values and then by timestamp.|
+|`forcePushDownLimit`|When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.|
 
 When using the "v1" strategy, the following query context parameters apply:
 
