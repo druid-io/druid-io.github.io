@@ -59,9 +59,9 @@ since you will be editing the configurations and then copying the modified distr
 of your servers.
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.10.0-bin.tar.gz
-tar -xzf druid-0.10.0-bin.tar.gz
-cd druid-0.10.0
+curl -O http://static.druid.io/artifacts/releases/druid-0.10.1-bin.tar.gz
+tar -xzf druid-0.10.1-bin.tar.gz
+cd druid-0.10.1
 ```
 
 In this package, you'll find:
@@ -121,7 +121,7 @@ druid.indexer.logs.s3Prefix=druid/indexing-logs
 
 In `conf/druid/_common/common.runtime.properties`,
 
-- Set `druid.extensions.loadList=["io.druid.extensions:druid-hdfs-storage"]`.
+- Set `druid.extensions.loadList=["druid-hdfs-storage"]`.
 
 - Comment out the configurations for local storage under "Deep Storage" and "Indexing service logs".
 
@@ -189,12 +189,12 @@ In this simple cluster, you will deploy a single Druid Coordinator, a
 single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metadata store on the same server.
 
 In `conf/druid/_common/common.runtime.properties`, replace
-"zk.host.ip" with the IP address of the machine that runs your ZK instance:
+"zk.service.host" with the address of the machine that runs your ZK instance:
 
 - `druid.zk.service.host`
 
 In `conf/druid/_common/common.runtime.properties`, replace
-"metadata.store.ip" with the IP address of the machine that you will use as your metadata store:
+"metadata.storage.*" with the address of the machine that you will use as your metadata store:
 
 - `druid.metadata.storage.connector.connectURI`
 - `druid.metadata.storage.connector.host`
@@ -286,7 +286,7 @@ server. If you have been editing the configurations on your local machine, you c
 copy them:
 
 ```bash
-rsync -az druid-0.10.0/ COORDINATION_SERVER:druid-0.10.0/
+rsync -az druid-0.10.1/ COORDINATION_SERVER:druid-0.10.1/
 ```
 
 Log on to your coordination server and install Zookeeper:

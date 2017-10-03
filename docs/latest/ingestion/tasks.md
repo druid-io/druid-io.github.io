@@ -104,7 +104,6 @@ See [Ingestion](../ingestion/index.html)
 |type|The task type, this should always be "index".|none|yes|
 |firehose|Specify a [Firehose](../ingestion/firehose.html) here.|none|yes|
 |appendToExisting|Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs (which can be forced by setting 'forceExtendableShardSpecs' in the tuning config).|false|no|
-|skipFirehoseCaching|By default the IndexTask will fully read the supplied firehose to disk before processing the data. This prevents the task from doing multiple remote fetches and enforces determinism if more than one pass through the data is required. It also allows the task to retry fetching the data if the firehose throws an exception during reading. This requires sufficient disk space for the temporary cache.|false|no|
 
 #### TuningConfig
 
@@ -121,6 +120,7 @@ The tuningConfig is optional and default parameters will be used if no tuningCon
 |buildV9Directly|Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.|true|no|
 |forceExtendableShardSpecs|Forces use of extendable shardSpecs. Experimental feature intended for use with the [Kafka indexing service extension](../development/extensions-core/kafka-ingestion.html).|false|no|
 |reportParseExceptions|If true, exceptions encountered during parsing will be thrown and will halt ingestion; if false, unparseable rows and fields will be skipped.|false|no|
+|publishTimeout|Milliseconds to wait for publishing segments. It must be >= 0, where 0 means to wait forever.|0|no|
 
 #### IndexSpec
 
@@ -183,6 +183,24 @@ The grammar is:
     "rollup": <whether or not to rollup data during a merge>,
     "buildV9Directly": <true or false, default true>,
     "segments": <JSON list of DataSegment objects to merge>
+}
+```
+
+### Same Interval Merge Task
+
+Same Interval Merge task is a shortcut of merge task, all segments in the interval are going to be merged.
+
+The grammar is:
+
+```json
+{
+    "type": "same_interval_merge",
+    "id": <task_id>,
+    "dataSource": <task_datasource>,
+    "aggregations": <list of aggregators>,
+    "rollup": <whether or not to rollup data during a merge>,
+    "buildV9Directly": <true or false, default true>,
+    "interval": <DataSegment objects in this interval are going to be merged>
 }
 ```
 
