@@ -147,9 +147,9 @@ OSes</a>.</p>
 <p>First, download and unpack the release archive. It&#39;s best to do this on a single machine at first,
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.10.0-bin.tar.gz
-tar -xzf druid-0.10.0-bin.tar.gz
-<span class="nb">cd</span> druid-0.10.0
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.10.1-bin.tar.gz
+tar -xzf druid-0.10.1-bin.tar.gz
+<span class="nb">cd</span> druid-0.10.1
 </code></pre></div>
 <p>In this package, you&#39;ll find:</p>
 
@@ -207,7 +207,7 @@ druid.indexer.logs.s3Prefix=druid/indexing-logs
 <p>In <code>conf/druid/_common/common.runtime.properties</code>,</p>
 
 <ul>
-<li><p>Set <code>druid.extensions.loadList=[&quot;io.druid.extensions:druid-hdfs-storage&quot;]</code>.</p></li>
+<li><p>Set <code>druid.extensions.loadList=[&quot;druid-hdfs-storage&quot;]</code>.</p></li>
 <li><p>Comment out the configurations for local storage under &quot;Deep Storage&quot; and &quot;Indexing service logs&quot;.</p></li>
 <li><p>Uncomment and configure appropriate values in the &quot;For HDFS&quot; sections of &quot;Deep Storage&quot; and
 &quot;Indexing service logs&quot;.</p></li>
@@ -274,14 +274,14 @@ are loading data using Hadoop or Elastic MapReduce.</p>
 single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metadata store on the same server.</p>
 
 <p>In <code>conf/druid/_common/common.runtime.properties</code>, replace
-&quot;zk.host.ip&quot; with the IP address of the machine that runs your ZK instance:</p>
+&quot;zk.service.host&quot; with the address of the machine that runs your ZK instance:</p>
 
 <ul>
 <li><code>druid.zk.service.host</code></li>
 </ul>
 
 <p>In <code>conf/druid/_common/common.runtime.properties</code>, replace
-&quot;metadata.store.ip&quot; with the IP address of the machine that you will use as your metadata store:</p>
+&quot;metadata.storage.*&quot; with the address of the machine that you will use as your metadata store:</p>
 
 <ul>
 <li><code>druid.metadata.storage.connector.connectURI</code></li>
@@ -379,7 +379,7 @@ rather than on the Coordinator server.
 <p>Copy the Druid distribution and your edited configurations to your coordination
 server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
 copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az druid-0.10.0/ COORDINATION_SERVER:druid-0.10.0/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az druid-0.10.1/ COORDINATION_SERVER:druid-0.10.1/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz -o zookeeper-3.4.9.tar.gz

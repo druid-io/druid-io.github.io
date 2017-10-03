@@ -97,8 +97,13 @@
 </thead><tbody>
 <tr>
 <td>timeout</td>
-<td><code>0</code> (no timeout)</td>
-<td>Query timeout in milliseconds, beyond which unfinished queries will be cancelled.</td>
+<td><code>druid.server.http.defaultQueryTimeout</code></td>
+<td>Query timeout in millis, beyond which unfinished queries will be cancelled. 0 timeout means <code>no timeout</code>. To set the default timeout, see <a href="broker.html">broker configuration</a></td>
+</tr>
+<tr>
+<td>maxScatterGatherBytes</td>
+<td><code>druid.server.http.maxScatterGatherBytes</code></td>
+<td>Maximum number of bytes gathered from data nodes such as historicals and realtime processes to execute a query. This parameter can be used to further reduce <code>maxScatterGatherBytes</code> limit at query time. See <a href="broker.html">broker configuration</a> for more details.</td>
 </tr>
 <tr>
 <td>priority</td>
@@ -113,12 +118,12 @@
 <tr>
 <td>useCache</td>
 <td><code>true</code></td>
-<td>Flag indicating whether to leverage the query cache for this query. This may be overridden in the broker or historical node configuration</td>
+<td>Flag indicating whether to leverage the query cache for this query. When set to false, it disables reading from the query cache for this query. When set to true, Druid uses druid.broker.cache.useCache or druid.historical.cache.useCache to determine whether or not to read from the query cache</td>
 </tr>
 <tr>
 <td>populateCache</td>
 <td><code>true</code></td>
-<td>Flag indicating whether to save the results of the query to the query cache. Primarily used for debugging. This may be overriden in the broker or historical node configuration</td>
+<td>Flag indicating whether to save the results of the query to the query cache. Primarily used for debugging. When set to false, it disables saving the results of this query to the query cache. When set to true, Druid uses druid.broker.cache.populateCache or druid.historical.cache.populateCache to determine whether or not to save the results of this query to the query cache</td>
 </tr>
 <tr>
 <td>bySegment</td>
@@ -134,6 +139,16 @@
 <td>chunkPeriod</td>
 <td><code>P0D</code> (off)</td>
 <td>At the broker node level, long interval queries (of any type) may be broken into shorter interval queries to parallelize merging more than normal. Broken up queries will use a larger share of cluster resources, but may be able to complete faster as a result. Use ISO 8601 periods. For example, if this property is set to <code>P1M</code> (one month), then a query covering a year would be broken into 12 smaller queries. The broker uses its query processing executor service to initiate processing for query chunks, so make sure &quot;druid.processing.numThreads&quot; is configured appropriately on the broker. <a href="groupbyquery.html">groupBy queries</a> do not support chunkPeriod by default, although they do if using the legacy &quot;v1&quot; engine.</td>
+</tr>
+<tr>
+<td>serializeDateTimeAsLong</td>
+<td><code>false</code></td>
+<td>If true, DateTime is serialized as long in the result returned by broker and the data transportation between broker and compute node</td>
+</tr>
+<tr>
+<td>serializeDateTimeAsLongInner</td>
+<td><code>false</code></td>
+<td>If true, DateTime is serialized as long in the data transportation between broker and compute node</td>
 </tr>
 </tbody></table>
 

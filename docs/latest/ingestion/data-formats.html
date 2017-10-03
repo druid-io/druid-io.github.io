@@ -141,9 +141,7 @@ parsing data will not be as efficient as writing a native Java parser or using a
 <p>If you have nested JSON, <a href="flatten-json.html">Druid can automatically flatten it for you</a>.</p>
 
 <h3 id="csv">CSV</h3>
-
-<p>Since the CSV data cannot contain the column names (no header is allowed), these must be added before that data can be processed:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
@@ -154,10 +152,25 @@ parsing data will not be as efficient as writing a native Java parser or using a
     <span class="p">}</span>
   <span class="p">}</span>
 </code></pre></div>
-<p>The <code>columns</code> field must match the columns of your input data in the same order.</p>
+<h4 id="csv-index-tasks">CSV Index Tasks</h4>
 
-<h3 id="tsv">TSV</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+<p>If your input files contain a header, the <code>columns</code> field is optional and you don&#39;t need to set.
+Instead, you can set the <code>hasHeaderRow</code> field to true, which makes Druid automatically extract the column information from the header.
+Otherwise, you must set the <code>columns</code> field and ensure that field must match the columns of your input data in the same order.</p>
+
+<p>Also, you can skip some header rows by setting <code>skipHeaderRows</code> in your parseSpec. If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set,
+<code>skipHeaderRows</code> is first applied. For example, if you set <code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will
+skip the first two lines and then extract column information from the third line.</p>
+
+<p>Note that <code>hasHeaderRow</code> and <code>skipHeaderRows</code> are effective only for non-Hadoop batch index tasks. Other types of index
+tasks will fail with an exception.</p>
+
+<h4 id="other-csv-ingestion-tasks">Other CSV Ingestion Tasks</h4>
+
+<p>The <code>columns</code> field must be included and and ensure that the order of the fields matches the columns of your input data in the same order.</p>
+
+<h3 id="tsv-delimited">TSV (Delimited)</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
@@ -169,9 +182,24 @@ parsing data will not be as efficient as writing a native Java parser or using a
     <span class="p">}</span>
   <span class="p">}</span>
 </code></pre></div>
-<p>The <code>columns</code> field must match the columns of your input data in the same order. </p>
-
 <p>Be sure to change the <code>delimiter</code> to the appropriate delimiter for your data. Like CSV, you must specify the columns and which subset of the columns you want indexed.</p>
+
+<h4 id="tsv-delimited-index-tasks">TSV (Delimited) Index Tasks</h4>
+
+<p>If your input files contain a header, the <code>columns</code> field is optional and you don&#39;t need to set.
+Instead, you can set the <code>hasHeaderRow</code> field to true, which makes Druid automatically extract the column information from the header.
+Otherwise, you must set the <code>columns</code> field and ensure that field must match the columns of your input data in the same order.</p>
+
+<p>Also, you can skip some header rows by setting <code>skipHeaderRows</code> in your parseSpec. If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set,
+<code>skipHeaderRows</code> is first applied. For example, if you set <code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will
+skip the first two lines and then extract column information from the third line.</p>
+
+<p>Note that <code>hasHeaderRow</code> and <code>skipHeaderRows</code> are effective only for non-Hadoop batch index tasks. Other types of index
+tasks will fail with an exception.</p>
+
+<h4 id="other-tsv-delimited-ingestion-tasks">Other TSV (Delimited) Ingestion Tasks</h4>
+
+<p>The <code>columns</code> field must be included and and ensure that the order of the fields matches the columns of your input data in the same order.</p>
 
 <h3 id="regex">Regex</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>

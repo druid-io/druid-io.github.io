@@ -145,6 +145,51 @@ A sample local firehose spec is shown below:</p>
 </tr>
 </tbody></table>
 
+<h4 id="httpfirehose">HttpFirehose</h4>
+
+<p>This Firehose can be used to read the data from remote sites via HTTP.
+A sample http firehose spec is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;uris&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://example.com/uri1&quot;</span><span class="p">,</span> <span class="s2">&quot;http://example2.com/uri2&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The below configurations can be optionally used for tuning the firehose performance.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>maxCacheCapacityBytes</td>
+<td>Maximum size of the cache space in bytes. 0 means disabling cache. Cached files are not removed until the ingestion task completes.</td>
+<td>1073741824</td>
+</tr>
+<tr>
+<td>maxFetchCapacityBytes</td>
+<td>Maximum size of the fetch space in bytes. 0 means disabling prefetch. Prefetched files are removed immediately once they are read.</td>
+<td>1073741824</td>
+</tr>
+<tr>
+<td>prefetchTriggerBytes</td>
+<td>Threshold to trigger prefetching http objects.</td>
+<td>maxFetchCapacityBytes / 2</td>
+</tr>
+<tr>
+<td>fetchTimeout</td>
+<td>Timeout for fetching a http object.</td>
+<td>60000</td>
+</tr>
+<tr>
+<td>maxFetchRetry</td>
+<td>Maximum retry for fetching a http object.</td>
+<td>3</td>
+</tr>
+</tbody></table>
+
 <h4 id="ingestsegmentfirehose">IngestSegmentFirehose</h4>
 
 <p>This Firehose can be used to read the data from existing druid segments.

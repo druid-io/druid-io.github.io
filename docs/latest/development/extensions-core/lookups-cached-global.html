@@ -336,7 +336,7 @@ So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the e
 <tr>
 <td><code>columns</code></td>
 <td>The list of columns in the csv file</td>
-<td>yes</td>
+<td>no if <code>hasHeaderRow</code> is set</td>
 <td><code>null</code></td>
 </tr>
 <tr>
@@ -351,7 +351,23 @@ So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the e
 <td>no</td>
 <td>The second column</td>
 </tr>
+<tr>
+<td><code>hasHeaderRow</code></td>
+<td>A flag to indicate that column information can be extracted from the input files&#39; header row</td>
+<td>no</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>skipHeaderRows</code></td>
+<td>Number of header rows to be skipped</td>
+<td>no</td>
+<td>0</td>
+</tr>
 </tbody></table>
+
+<p>If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set, <code>skipHeaderRows</code> is first applied. For example, if you set
+<code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will skip the first two lines and then extract column information
+from the third line.</p>
 
 <p><em>example input</em></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar,something,foo
@@ -378,7 +394,7 @@ truck,something3,buck
 </thead><tbody>
 <tr>
 <td><code>columns</code></td>
-<td>The list of columns in the csv file</td>
+<td>The list of columns in the tsv file</td>
 <td>yes</td>
 <td><code>null</code></td>
 </tr>
@@ -406,7 +422,23 @@ truck,something3,buck
 <td>no</td>
 <td>(<code>\u0001</code>)</td>
 </tr>
+<tr>
+<td><code>hasHeaderRow</code></td>
+<td>A flag to indicate that column information can be extracted from the input files&#39; header row</td>
+<td>no</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>skipHeaderRows</code></td>
+<td>Number of header rows to be skipped</td>
+<td>no</td>
+<td>0</td>
+</tr>
 </tbody></table>
+
+<p>If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set, <code>skipHeaderRows</code> is first applied. For example, if you set
+<code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will skip the first two lines and then extract column information
+from the third line.</p>
 
 <p><em>example input</em></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar|something,1|foo

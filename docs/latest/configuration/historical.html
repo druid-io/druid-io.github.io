@@ -186,7 +186,7 @@
 <tr>
 <td><code>druid.segmentCache.numBootstrapThreads</code></td>
 <td>How many segments to load concurrently from local storage at startup.</td>
-<td>1</td>
+<td>Same as numLoadingThreads</td>
 </tr>
 </tbody></table>
 
@@ -206,12 +206,17 @@
 <tr>
 <td><code>druid.server.http.numThreads</code></td>
 <td>Number of threads for HTTP requests.</td>
-<td>10</td>
+<td>max(10, (Number of cores * 17) / 16 + 2) + 30</td>
 </tr>
 <tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
 <td>PT5m</td>
+</tr>
+<tr>
+<td><code>druid.server.http.defaultQueryTimeout</code></td>
+<td>Query timeout in millis, beyond which unfinished queries will be cancelled</td>
+<td>300000</td>
 </tr>
 </tbody></table>
 

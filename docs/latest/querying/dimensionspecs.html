@@ -229,13 +229,18 @@ before getting passed to the extraction function.</p>
 <p>Returns the first matching group for the given regular expression.
 If there is no match, it returns the dimension value as is.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="err">&lt;group</span> <span class="err">to</span> <span class="err">extract</span><span class="p">,</span> <span class="err">default</span> <span class="err">1&gt;</span>
   <span class="nt">&quot;replaceMissingValue&quot;</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span> <span class="p">:</span> <span class="s2">&quot;foobar&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>For example, using <code>&quot;expr&quot; : &quot;(\\w\\w\\w).*&quot;</code> will transform
 <code>&#39;Monday&#39;</code>, <code>&#39;Tuesday&#39;</code>, <code>&#39;Wednesday&#39;</code> into <code>&#39;Mon&#39;</code>, <code>&#39;Tue&#39;</code>, <code>&#39;Wed&#39;</code>.</p>
+
+<p>If &quot;index&quot; is set, it will control which group from the match to extract. Index zero extracts the string matching the
+entire pattern.</p>
 
 <p>If the <code>replaceMissingValue</code> property is true, the extraction function will transform dimension values that do not match the regex pattern to a user-specified String. Default value is <code>false</code>.</p>
 
@@ -524,22 +529,6 @@ Optionally user can specify the language to use in order to perform upper or low
 <p>or without setting &quot;locale&quot; (in this case, the current value of the default locale for this instance of the Java Virtual Machine.)</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;lower&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="bucket-extraction-function">Bucket Extraction Function</h3>
-
-<p>Bucket extraction function is used to bucket numerical values in each range of the given size by converting them to the same base value. Non numeric values are converted to null.</p>
-
-<ul>
-<li><code>size</code> : the size of the buckets (optional, default 1)</li>
-<li><code>offset</code> : the offset for the buckets (optional, default 0)</li>
-</ul>
-
-<p>The following extraction function creates buckets of 5 starting from 2. In this case, values in the range of [2, 7) will be converted to 2, values in [7, 12) will be converted to 7, etc.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;bucket&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-  <span class="nt">&quot;offset&quot;</span> <span class="p">:</span> <span class="mi">2</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="bucket-extraction-function">Bucket Extraction Function</h3>

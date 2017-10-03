@@ -94,9 +94,9 @@
 
 <ul>
 <li><a href="../querying/aggregations.html#javascript-aggregator">Aggregators</a></li>
-<li><a href="../querying/aggregations.html#javascript-extraction-function">Extraction functions</a></li>
-<li><a href="../querying/aggregations.html#javascript-filter">Filters</a></li>
-<li><a href="../querying/aggregations.html#javascript-post-aggregator">Post-aggregators</a></li>
+<li><a href="../querying/dimensionspecs.html#javascript-extraction-function">Extraction functions</a></li>
+<li><a href="../querying/filters.html#javascript-filter">Filters</a></li>
+<li><a href="../querying/post-aggregations.html#javascript-post-aggregator">Post-aggregators</a></li>
 <li><a href="../ingestion/data-formats.html#javascript">Input parsers</a></li>
 <li><a href="../development/router.html#javascript">Router strategy</a></li>
 <li><a href="../configuration/indexing-service.html#javascript">Worker select strategy</a></li>
@@ -110,7 +110,7 @@ without needing to write and deploy Druid extensions.</p>
 <h2 id="security">Security</h2>
 
 <p>Druid does not execute JavaScript functions in a sandbox, so they have full access to the machine. So Javascript
-functions allow users to execute arbutrary code inside druid process. So, by default, Javascript is disabled.
+functions allow users to execute arbitrary code inside druid process. So, by default, Javascript is disabled.
 However, on dev/staging environments or secured production environments you can enable those by setting
 the <a href="../configuration/index.html">configuration property</a>
 <code>druid.javascript.enabled = true</code>.</p>

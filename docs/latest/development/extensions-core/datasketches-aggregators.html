@@ -131,7 +131,7 @@ Note that you can use <code>thetaSketch</code> aggregator on columns which were 
 </tr>
 <tr>
 <td>size</td>
-<td>Must be a power of 2. Internally, size refers to the maximum number of entries sketch object will retain. Higher size means higher accuracy but more space to store sketches. Note that after you index with a particular size, druid will persist sketch in segments and you will use size greater or equal to that at query time. See <a href="http://datasketches.github.io/docs/ThetaSize.html">theta-size</a> for details. In general, We recommend just sticking to default size.</td>
+<td>Must be a power of 2. Internally, size refers to the maximum number of entries sketch object will retain. Higher size means higher accuracy but more space to store sketches. Note that after you index with a particular size, druid will persist sketch in segments and you will use size greater or equal to that at query time. See the <a href="https://datasketches.github.io/docs/Theta/ThetaSize.html">DataSketches site</a> for details. In general, We recommend just sticking to default size.</td>
 <td>no, defaults to 16384</td>
 </tr>
 </tbody></table>

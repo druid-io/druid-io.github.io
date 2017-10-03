@@ -97,7 +97,7 @@ Aggregations can also be specified as part of many queries at query time.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>Please note the count aggregator counts the number of Druid rows, which does not always reflect the number of raw events ingested. 
-This is because Druid rolls up data at ingestion time. To 
+This is because Druid can be configured to roll up data at ingestion time. To 
 count the number of ingested rows of data, include a count aggregator at ingestion time, and a longSum aggregator at 
 query time.</p>
 

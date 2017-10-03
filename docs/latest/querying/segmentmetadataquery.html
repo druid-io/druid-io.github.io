@@ -146,7 +146,7 @@
 </tr>
 <tr>
 <td>analysisTypes</td>
-<td>A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to [&quot;cardinality&quot;, &quot;interval&quot;, &quot;minmax&quot;]. See section <a href="#analysistypes">analysisTypes</a> for more details.</td>
+<td>A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to [&quot;cardinality&quot;, &quot;interval&quot;, &quot;minmax&quot;], but can be overridden with using this <a href="../configuration/broker.html#segment-metadata-query-config">BrokerConfig</a>. See section <a href="#analysistypes">analysisTypes</a> for more details.</td>
 <td>no</td>
 </tr>
 <tr>
@@ -215,7 +215,10 @@ undefined.</p>
 
 <p>This is a list of properties that determines the amount of information returned about the columns, i.e. analyses to be performed on the columns.</p>
 
-<p>By default, the &quot;cardinality&quot;, &quot;size&quot;, &quot;interval&quot;, and &quot;minmax&quot; types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.</p>
+<p>By default, the &quot;cardinality&quot;, &quot;interval&quot;, and &quot;minmax&quot; types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.</p>
+
+<p>The default analysis types can be set in the broker configuration via:
+  <code>druid.query.segmentMetadata.defaultAnalysisTypes</code></p>
 
 <p>Types of column analyses are described below:</p>
 

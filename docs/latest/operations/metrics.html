@@ -517,6 +517,12 @@
 <td>dataSource.</td>
 <td>Greater than 0, depends on the time carried in event</td>
 </tr>
+<tr>
+<td><code>ingest/kafka/lag</code></td>
+<td>Applicable for Kafka Indexing Service. Total lag between the offsets consumed by the Kafka indexing tasks and latest offsets in Kafka brokers across all partitions. Minimum emission period for this metric is a minute.</td>
+<td>dataSource.</td>
+<td>Greater than 0, should not be a very high number</td>
+</tr>
 </tbody></table>
 
 <p>Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0. </p>

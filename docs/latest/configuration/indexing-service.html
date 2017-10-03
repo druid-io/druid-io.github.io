@@ -529,8 +529,8 @@ Caution: Automatic log file deletion typically works based on log file modificat
 </thead><tbody>
 <tr>
 <td><code>selectStrategy</code></td>
-<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>fillCapacityWithAffinity</code>, <code>equalDistribution</code> and <code>javascript</code>.</td>
-<td>fillCapacity</td>
+<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>fillCapacityWithAffinity</code>, <code>equalDistribution</code>, <code>equalDistributionWithAffinity</code> and <code>javascript</code>.</td>
+<td>equalDistribution</td>
 </tr>
 <tr>
 <td><code>autoScaler</code></td>
@@ -613,6 +613,31 @@ Caution: Automatic log file deletion typically works based on log file modificat
 <td>required; must be <code>equalDistribution</code></td>
 </tr>
 </tbody></table>
+
+<h5 id="equal-distribution-with-affinity">Equal Distribution With Affinity</h5>
+
+<p>An affinity config can be provided.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>equalDistributionWithAffinity</code>.</td>
+<td>required; must be <code>equalDistributionWithAffinity</code></td>
+</tr>
+<tr>
+<td><code>affinity</code></td>
+<td>Exactly same with <code>fillCapacityWithAffinity</code> &#39;s affinity.</td>
+<td>{}</td>
+</tr>
+</tbody></table>
+
+<p>Tasks will try to be assigned to preferred workers. Equal Distribution strategy is used if no preference for a datasource specified.</p>
 
 <h5 id="javascript">Javascript</h5>
 

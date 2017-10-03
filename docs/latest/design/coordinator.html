@@ -135,6 +135,15 @@ Note that if all segments in database are deleted(or marked unused), then coordi
 <p>Returns the current leader coordinator of the cluster.</p>
 
 <ul>
+<li><code>/druid/coordinator/v1/isLeader</code></li>
+</ul>
+
+<p>Returns a JSON object with field &quot;leader&quot;, either true or false, indicating if this server is the current leader
+coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
+This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
+at the load balancer.</p>
+
+<ul>
 <li><code>/druid/coordinator/v1/loadstatus</code></li>
 </ul>
 
@@ -280,7 +289,7 @@ Note that if all segments in database are deleted(or marked unused), then coordi
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}</code></li>
 </ul>
 
-<p>Returns a set of segment ids for an ISO8601 interval. Note that the interval is delimited by a <code>_</code> instead of a <code>/</code></p>
+<p>Returns a set of segment ids for an ISO8601 interval. Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?simple</code></li>
@@ -370,6 +379,8 @@ Note that if all segments in database are deleted(or marked unused), then coordi
 
 <h4 id="intervals">Intervals</h4>
 
+<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+
 <ul>
 <li><code>/druid/coordinator/v1/intervals</code></li>
 </ul>
@@ -455,6 +466,8 @@ Note that if all segments in database are deleted(or marked unused), then coordi
 </ul>
 
 <p>Runs a <a href="../ingestion/tasks.html">Kill task</a> for a given interval and datasource.</p>
+
+<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>

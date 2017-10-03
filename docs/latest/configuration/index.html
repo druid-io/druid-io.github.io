@@ -121,11 +121,6 @@
 <td><code>hadoop-dependencies</code> (This is a relative path to Druid&#39;s working directory</td>
 </tr>
 <tr>
-<td><code>druid.extensions.hadoopContainerDruidClasspath</code></td>
-<td>Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.</td>
-<td>null</td>
-</tr>
-<tr>
 <td><code>druid.extensions.loadList</code></td>
 <td>A JSON array of extensions to load from extension directories by Druid. If it is not specified, its value will be <code>null</code> and Druid will load all the extensions under <code>druid.extensions.directory</code>. If its value is empty list <code>[]</code>, then no extensions will be loaded at all. It is also allowed to specify absolute path of other custom extensions not stored in the common extensions directory.</td>
 <td>null</td>
@@ -134,6 +129,32 @@
 <td><code>druid.extensions.searchCurrentClassloader</code></td>
 <td>This is a boolean flag that determines if Druid will search the main classloader for extensions.  It defaults to true but can be turned off if you have reason to not automatically add all modules on the classpath.</td>
 <td>true</td>
+</tr>
+<tr>
+<td><code>druid.extensions.hadoopContainerDruidClasspath</code></td>
+<td>Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.extensions.addExtensionsToHadoopContainer</code></td>
+<td>Only applicable if <code>druid.extensions.hadoopContainerDruidClasspath</code> is provided. If set to true, then extensions specified in the loadList are added to hadoop container classpath. Note that when <code>druid.extensions.hadoopContainerDruidClasspath</code> is not provided then extensions are always added to hadoop container classpath.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h3 id="modules">Modules</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.modules.excludeList</code></td>
+<td>A JSON array of canonical class names (e. g. <code>&quot;io.druid.somepackage.SomeModule&quot;</code>) of module classes which shouldn&#39;t be loaded, even if they are found in extensions specified by <code>druid.extensions.loadList</code>, or in the list of core modules specified to be loaded on a particular Druid node type. Useful when some useful extension contains some module, which shouldn&#39;t be loaded on some Druid node type because some dependencies of that module couldn&#39;t be satisfied.</td>
+<td>[]</td>
 </tr>
 </tbody></table>
 

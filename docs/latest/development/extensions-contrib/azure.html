@@ -167,6 +167,9 @@
     <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>This firehose provides caching and prefetching features. In IndexTask, a firehose can be read twice if intervals or
+shardSpecs are not specified, and, in this case, caching can be useful. Prefetching is preferred when direct scan of objects is slow.</p>
+
 <table><thead>
 <tr>
 <th>property</th>
@@ -177,7 +180,7 @@
 </thead><tbody>
 <tr>
 <td>type</td>
-<td>This should be &quot;static-azure-blobstore&quot;.</td>
+<td>This should be <code>static-azure-blobstore</code>.</td>
 <td>N/A</td>
 <td>yes</td>
 </tr>
@@ -186,6 +189,36 @@
 <td>JSON array of <a href="https://msdn.microsoft.com/en-us/library/azure/ee691964.aspx">Azure blobs</a>.</td>
 <td>N/A</td>
 <td>yes</td>
+</tr>
+<tr>
+<td>maxCacheCapacityBytes</td>
+<td>Maximum size of the cache space in bytes. 0 means disabling cache. Cached files are not removed until the ingestion task completes.</td>
+<td>1073741824</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxFetchCapacityBytes</td>
+<td>Maximum size of the fetch space in bytes. 0 means disabling prefetch. Prefetched files are removed immediately once they are read.</td>
+<td>1073741824</td>
+<td>no</td>
+</tr>
+<tr>
+<td>prefetchTriggerBytes</td>
+<td>Threshold to trigger prefetching Azure objects.</td>
+<td>maxFetchCapacityBytes / 2</td>
+<td>no</td>
+</tr>
+<tr>
+<td>fetchTimeout</td>
+<td>Timeout for fetching an Azure object.</td>
+<td>60000</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxFetchRetry</td>
+<td>Maximum retry for fetching an Azure object.</td>
+<td>3</td>
+<td>no</td>
 </tr>
 </tbody></table>
 

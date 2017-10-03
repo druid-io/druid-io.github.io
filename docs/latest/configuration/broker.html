@@ -164,12 +164,22 @@
 <tr>
 <td><code>druid.server.http.numThreads</code></td>
 <td>Number of threads for HTTP requests.</td>
-<td>10</td>
+<td>max(10, (Number of cores * 17) / 16 + 2) + 30</td>
 </tr>
 <tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
 <td>PT5m</td>
+</tr>
+<tr>
+<td><code>druid.server.http.defaultQueryTimeout</code></td>
+<td>Query timeout in millis, beyond which unfinished queries will be cancelled</td>
+<td>300000</td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxScatterGatherBytes</code></td>
+<td>Maximum number of bytes gathered from data nodes such as historicals and realtime processes to execute a query. This is an advance configuration that allows to protect in case broker is under heavy load and not utilizing the data gathered in memory fast enough and leading to OOMs. This limit can be further reduced at query time using <code>maxScatterGatherBytes</code> in the context. Note that having large limit is not necessarily bad if broker is never under heavy concurrent load in which case data gathered is processed quickly and freeing up the memory used.</td>
+<td>Long.MAX_VALUE</td>
 </tr>
 <tr>
 <td><code>druid.broker.http.numConnections</code></td>
@@ -299,6 +309,11 @@ line.</p>
 <td><code>druid.query.segmentMetadata.defaultHistory</code></td>
 <td>When no interval is specified in the query, use a default interval of defaultHistory before the end time of the most recent segment, specified in ISO8601 format. This property also controls the duration of the default interval used by GET /druid/v2/datasources/{dataSourceName} interactions for retrieving datasource dimensions/metrics.</td>
 <td>P1W</td>
+</tr>
+<tr>
+<td><code>druid.query.segmentMetadata.defaultAnalysisTypes</code></td>
+<td>This can be used to set the Default Analysis Types for all segment metadata queries, this can be overridden when making the query</td>
+<td>[&quot;cardinality&quot;, &quot;interval&quot;, &quot;minmax&quot;]</td>
 </tr>
 </tbody></table>
 

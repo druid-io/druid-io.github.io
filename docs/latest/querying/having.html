@@ -112,9 +112,8 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Note that behavior of the &quot;filter&quot; HavingSpec on an output field named &quot;__time&quot; differs from most other HavingSpecs.
-Unlike most other HavingSpecs, it will act on each row&#39;s timestamp rather than an output field named &quot;__time&quot;. We
-recommend avoiding naming output fields &quot;__time&quot;. Future versions of Druid may enforce this.</p>
+<p>You can use &quot;filter&quot; HavingSpecs to filter on the timestamp of result rows by applying a filter to the &quot;__time&quot;
+column.</p>
 
 <h3 id="numeric-filters">Numeric filters</h3>
 

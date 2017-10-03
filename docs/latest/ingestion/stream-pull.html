@@ -344,6 +344,12 @@ the indexing service.</p>
 <td>no (default == 0)</td>
 </tr>
 <tr>
+<td>alertTimeout</td>
+<td>long</td>
+<td>Milliseconds timeout after which an alert is created if the task isn&#39;t finished by then. This allows users to monitor tasks that are failing to finish and give up the worker slot for any unexpected errors.</td>
+<td>no (default == 0)</td>
+</tr>
+<tr>
 <td>indexSpec</td>
 <td>Object</td>
 <td>Tune how data is indexed. See below for more information.</td>

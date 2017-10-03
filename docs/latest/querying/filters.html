@@ -99,6 +99,15 @@
 
 <p>The selector filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
+<h3 id="column-comparison-filter">Column Comparison filter</h3>
+
+<p>The column comparison filter is similar to the selector filter, but instead compares dimensions to each other. For example:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;columnComparison&quot;</span><span class="p">,</span> <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;dimension_a&gt;</span><span class="p">,</span> <span class="err">&lt;dimension_b&gt;</span><span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+<p>This is the equivalent of <code>WHERE &lt;dimension_a&gt; = &lt;dimension_b&gt;</code>.</p>
+
+<p><code>dimensions</code> is list of <a href="./dimensionspecs.html">DimensionSpecs</a>, making it possible to apply an extraction function if needed.</p>
+
 <h3 id="regular-expression-filter">Regular expression filter</h3>
 
 <p>The regular expression filter is similar to the selector filter, but using regular expressions. It matches the specified dimension with the given pattern. The pattern can be any standard <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Java regular expression</a>.</p>

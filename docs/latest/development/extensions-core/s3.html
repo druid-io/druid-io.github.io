@@ -138,6 +138,9 @@
     <span class="nt">&quot;uris&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;s3://foo/bar/file.gz&quot;</span><span class="p">,</span> <span class="s2">&quot;s3://bar/foo/file2.gz&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>This firehose provides caching and prefetching features. In IndexTask, a firehose can be read twice if intervals or
+shardSpecs are not specified, and, in this case, caching can be useful. Prefetching is preferred when direct scan of objects is slow.</p>
+
 <table><thead>
 <tr>
 <th>property</th>
@@ -148,7 +151,7 @@
 </thead><tbody>
 <tr>
 <td>type</td>
-<td>This should be &quot;static-s3&quot;</td>
+<td>This should be <code>static-s3</code>.</td>
 <td>N/A</td>
 <td>yes</td>
 </tr>
@@ -156,7 +159,43 @@
 <td>uris</td>
 <td>JSON array of URIs where s3 files to be ingested are located.</td>
 <td>N/A</td>
-<td>yes</td>
+<td><code>uris</code> or <code>prefixes</code> must be set</td>
+</tr>
+<tr>
+<td>prefixes</td>
+<td>JSON array of URI prefixes for the locations of s3 files to be ingested.</td>
+<td>N/A</td>
+<td><code>uris</code> or <code>prefixes</code> must be set</td>
+</tr>
+<tr>
+<td>maxCacheCapacityBytes</td>
+<td>Maximum size of the cache space in bytes. 0 means disabling cache. Cached files are not removed until the ingestion task completes.</td>
+<td>1073741824</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxFetchCapacityBytes</td>
+<td>Maximum size of the fetch space in bytes. 0 means disabling prefetch. Prefetched files are removed immediately once they are read.</td>
+<td>1073741824</td>
+<td>no</td>
+</tr>
+<tr>
+<td>prefetchTriggerBytes</td>
+<td>Threshold to trigger prefetching s3 objects.</td>
+<td>maxFetchCapacityBytes / 2</td>
+<td>no</td>
+</tr>
+<tr>
+<td>fetchTimeout</td>
+<td>Timeout for fetching an s3 object.</td>
+<td>60000</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxFetchRetry</td>
+<td>Maximum retry for fetching an s3 object.</td>
+<td>3</td>
+<td>no</td>
 </tr>
 </tbody></table>
 
