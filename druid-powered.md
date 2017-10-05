@@ -282,6 +282,9 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
+## Tech Mpire
+Tech Mpire provides performance-based advertising to help mobile app advertisers acquire their new users wherever they are in the digital world. At the core of Tech Mpire is nxus®, our comprehensive ad network platform which connects the global demand from advertisers to the most effective sources of supply, using proprietary recommendation algorithms. We use Druid to power the campaign performance report, providing us with sub-second analytical reporting to support near real-time decision making and optimisation for our advertiser’s campaigns.
+
 ## Tencent
 
 Tencent SCRM product use Druid for customer behavior analysis.
