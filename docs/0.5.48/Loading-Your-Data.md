@@ -1,6 +1,8 @@
 ---
 layout: doc_page
+published: true
 ---
+
 Once you have a realtime node working, it is time to load your own data to see how Druid performs.
 
 Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [Firehose](Firehose.html).
@@ -189,7 +191,7 @@ Instructions for booting a Zookeeper and then Kafka cluster are available [here]
   } ]
   ```
 
-Now you're ready for [Querying Your Data](Querying-Your-Data.html)!
+Now you're ready for [Querying Your Data](Querying-your-data.html)!
 
 ## Loading Data with the HadoopDruidIndexer ##
 
@@ -408,4 +410,4 @@ Now its time to run the Hadoop [Batch-ingestion](Batch-ingestion.html) job, Hado
        com.metamx.druid.indexer.HadoopDruidIndexerMain batchConfig.json
   ```
 
-You can now move on to [Querying Your Data](Querying-Your-Data.html)!
+You can now move on to [Querying Your Data](Querying-your-data.html)!
