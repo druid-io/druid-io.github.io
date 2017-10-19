@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0-rc1">API documentation</a></p>
+          <h1 id="topn-queries">TopN queries</h1>
+
+<p>TopN queries return a sorted set of results for the values in a given dimension according to some criteria. Conceptually, they can be thought of as an approximate <a href="../querying/groupbyquery.html">GroupByQuery</a> over a single dimension with an <a href="../querying/limitspec.html">Ordering</a> spec. TopNs are much faster and resource efficient than GroupBys for this use case. These types of queries take a topN query object and return an array of JSON objects where each object represents a value asked for by the topN query.</p>
+
+<p>TopNs are approximate in that each node will rank their top K results and only return those top K results to the broker. K, by default in Druid, is <code>max(1000, threshold)</code>. In practice, this means that if you ask for the top 1000 items ordered, the correctness of the first ~900 items will be 100%, and the ordering of the results after that is not guaranteed. TopNs can be made more accurate by increasing the threshold.</p>
+
+<p>A topN query object looks like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_data&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_dim&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;some_value&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;dim2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;some_other_val&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;some_metric&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;some_metric&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;postAggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;average&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fn&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;some_metric&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;some_metric&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;2013-08-31T00:00:00.000/2013-09-03T00:00:00.000&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>There are 11 parts to a topN query.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>queryType</td>
+<td>This String should always be &quot;topN&quot;; this is the first thing Druid looks at to figure out how to interpret the query</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dataSource</td>
+<td>A String or Object defining the data source to query, very similar to a table in a relational database. See <a href="../querying/datasource.html">DataSource</a> for more information.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td>Defines the granularity to bucket query results. See <a href="../querying/granularities.html">Granularities</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>See <a href="../querying/filters.html">Filters</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>aggregations</td>
+<td>See <a href="../querying/aggregations.html">Aggregations</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>postAggregations</td>
+<td>See <a href="../querying/post-aggregations.html">Post Aggregations</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>dimension</td>
+<td>A String or JSON object defining the dimension that you want the top taken for. For more info, see <a href="../querying/dimensionspecs.html">DimensionSpecs</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>threshold</td>
+<td>An integer defining the N in the topN (i.e. how many results you want in the top list)</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>metric</td>
+<td>A String or JSON object specifying the metric to sort by for the top list. For more info, see <a href="../querying/topnmetricspec.html">TopNMetricSpec</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>context</td>
+<td>See <a href="../querying/query-context.html">Context</a></td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>Please note the context JSON object is also available for topN queries and should be used with the same caution as the timeseries case.
+The format of the results would look like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2013-08-31T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1_val&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span>
+        <span class="nt">&quot;some_metrics&quot;</span><span class="p">:</span> <span class="mi">10669</span><span class="p">,</span>
+        <span class="nt">&quot;average&quot;</span><span class="p">:</span> <span class="mf">96.11711711711712</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;another_dim1_val&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">88</span><span class="p">,</span>
+        <span class="nt">&quot;some_metrics&quot;</span><span class="p">:</span> <span class="mi">28344</span><span class="p">,</span>
+        <span class="nt">&quot;average&quot;</span><span class="p">:</span> <span class="mf">322.09090909090907</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1_val3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
+        <span class="nt">&quot;some_metrics&quot;</span><span class="p">:</span> <span class="mi">871</span><span class="p">,</span>
+        <span class="nt">&quot;average&quot;</span><span class="p">:</span> <span class="mf">12.442857142857143</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1_val4&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">62</span><span class="p">,</span>
+        <span class="nt">&quot;some_metrics&quot;</span><span class="p">:</span> <span class="mi">815</span><span class="p">,</span>
+        <span class="nt">&quot;average&quot;</span><span class="p">:</span> <span class="mf">13.14516129032258</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1_val5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+        <span class="nt">&quot;some_metrics&quot;</span><span class="p">:</span> <span class="mi">2787</span><span class="p">,</span>
+        <span class="nt">&quot;average&quot;</span><span class="p">:</span> <span class="mf">46.45</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="behavior-on-multi-value-dimensions">Behavior on multi-value dimensions</h3>
+
+<p>topN queries can group on multi-value dimensions. When grouping on a multi-value dimension, <em>all</em> values
+from matching rows will be used to generate one group per value. It&#39;s possible for a query to return more groups than
+there are rows. For example, a topN on the dimension <code>tags</code> with filter <code>&quot;t1&quot; AND &quot;t3&quot;</code> would match only row1, and
+generate a result with three groups: <code>t1</code>, <code>t2</code>, and <code>t3</code>. If you only need to include values that match
+your filter, you can use a <a href="dimensionspecs.html#filtered-dimensionspecs">filtered dimensionSpec</a>. This can also
+improve performance.</p>
+
+<p>See <a href="multi-value-dimensions.html">Multi-value dimensions</a> for more details.</p>
+
+<h3 id="aliasing">Aliasing</h3>
+
+<p>The current TopN algorithm is an approximate algorithm. The top 1000 local results from each segment are returned for merging to determine the global topN. As such, the topN algorithm is approximate in both rank and results. Approximate results <em>ONLY APPLY WHEN THERE ARE MORE THAN 1000 DIM VALUES</em>. A topN over a dimension with fewer than 1000 unique dimension values can be considered accurate in rank and accurate in aggregates.</p>
+
+<p>The threshold can be modified from it&#39;s default 1000 via the server parameter <code>druid.query.topN.minTopNThreshold</code> which need to restart servers to take effect or set <code>minTopNThreshold</code> in query context which take effect per query. </p>
+
+<p>If you are wanting the top 100 of a high cardinality, uniformly distributed dimension ordered by some low-cardinality, uniformly distributed dimension, you are potentially going to get aggregates back that are missing data.</p>
+
+<p>To put it another way, the best use cases for topN are when you can have confidence that the overall results are uniformly in the top. For example, if a particular site ID is in the top 10 for some metric for every hour of every day, then it will probably be accurate in the topN over multiple days. But if a site barely in the top 1000 for any given hour, but over the whole query granularity is in the top 500 (example: a site which gets highly uniform traffic co-mingling in the dataset with sites with highly periodic data), then a top500 query may not have that particular site a the exact rank, and may not be accurate for that particular site&#39;s aggregates.</p>
+
+<p>Before continuing in this section, please consider if you really need exact results. Getting exact results is a very resource intensive process. For the vast majority of &quot;useful&quot; data results, an approximate topN algorithm supplies plenty of accuracy.</p>
+
+<p>Users wishing to get an <em>exact rank and exact aggregates</em> topN over a dimension with greater than 1000 unique values should issue a groupBy query and sort the results themselves. This is very computationally expensive for high-cardinality dimensions.</p>
+
+<p>Users who can tolerate <em>approximate rank</em> topN over a dimension with greater than 1000 unique values, but require <em>exact aggregates</em> can issue two queries. One to get the approximate topN dimension values, and another topN with dimension selection filters which only use the topN results of the first.</p>
+
+<h4 id="example-first-query">Example First query:</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_longSum&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span>
+             <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;tpch_year&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;l_orderkey&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1900-01-09T00:00:00.000Z/2992-01-10T00:00:00.000Z&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="example-second-query">Example second query:</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_TAX_doubleSum&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;L_TAX_&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span>
+             <span class="p">},</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_DISCOUNT_doubleSum&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;L_DISCOUNT_&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span>
+             <span class="p">},</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_EXTENDEDPRICE_doubleSum&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;L_EXTENDEDPRICE_&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span>
+             <span class="p">},</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_longSum&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span>
+             <span class="p">},</span>
+             <span class="p">{</span>
+                 <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+                 <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+             <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;tpch_year&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;l_orderkey&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;l_orderkey&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;103136&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;l_orderkey&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;1648672&quot;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1900-01-09T00:00:00.000Z/2992-01-10T00:00:00.000Z&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;metric&quot;</span><span class="p">:</span> <span class="s2">&quot;L_QUANTITY_&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.11.0-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
