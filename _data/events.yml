@@ -1,14 +1,14 @@
-- date: 2017-05-27
-  name: "Introduction to Druid, fast distributed data store"
-  info: JEEConf, Kyiv, Ukraine
-  link: http://jeeconf.com/program/introduction-to-druid-fast-distributed-data-store/
+- date: 2017-11-04
+  name: "Building an Open Source Analytics Solution with Kafka and Druid"
+  info: ODSC West 2017
+  link: https://odsc.com/california
 
-- date: 2017-06-13
-  name: "Interactive Analytics with Apache Hive and Druid"
-  info: Hadoop Summit 2017
-  link: https://dataworkssummit.com/san-jose-2017/sessions/interactive-analytics-with-apache-hive-and-druid/
+- date: 2017-11-28
+  name: "Druid Bay Area November Meetup"
+  info: Druid Meetup
+  link: https://www.meetup.com/druidio/events/244687034
 
-- date: 2017-06-13
-  name: "Druid : Sub-Second OLAP queries over Petabytes of Streaming Data"
-  info: Hadoop Summit 2017
-  link: https://dataworkssummit.com/san-jose-2017/sessions/druid-sub-second-olap-queries-over-petabytes-of-streaming-data/
+- date: 2018-03-18
+  name: "NoSQL no more: SQL on Druid with Apache Calcite"
+  info: Strata San Jose 2018
+  link: https://conferences.oreilly.com/strata/strata-ca/public/schedule/detail/64024
