@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0-rc2">API documentation</a></p>
+          <h1 id="schema-design">Schema Design</h1>
+
+<p>This page is meant to assist users in designing a schema for data to be ingested in Druid. Druid intakes denormalized data 
+and columns are one of three types: a timestamp, a dimension, or a measure (or a metric/aggregator as they are 
+known in Druid). This follows the <a href="https://en.wikipedia.org/wiki/Online_analytical_processing#Overview_of_OLAP_systems">standard naming convention</a> 
+of OLAP data.</p>
+
+<p>For more detailed information:</p>
+
+<ul>
+<li>Every row in Druid must have a timestamp. Data is always partitioned by time, and every query has a time filter. Query results can also be broken down by time buckets like minutes, hours, days, and so on.</li>
+<li>Dimensions are fields that can be filtered on or grouped by. They are always single Strings, arrays of Strings, single Longs, single Doubles or single Floats.</li>
+<li>Metrics are fields that can be aggregated. They are often stored as numbers (integers or floats) but can also be stored as complex objects like HyperLogLog sketches or approximate histogram sketches.</li>
+</ul>
+
+<p>Typical production tables (or datasources as they are known in Druid) have fewer than 100 dimensions and fewer 
+than 100 metrics, although, based on user testimony, datasources with thousands of dimensions have been created.</p>
+
+<p>Below, we outline some best practices with schema design:</p>
+
+<h2 id="numeric-dimensions">Numeric dimensions</h2>
+
+<p>If the user wishes to ingest a column as a numeric-typed dimension (Long, Double or Float), it is necessary to specify the type of the column in the <code>dimensions</code> section of the <code>dimensionsSpec</code>. If the type is omitted, Druid will ingest a column as the default String type.</p>
+
+<p>There are performance tradeoffs between string and numeric columns. Numeric columns are generally faster to group on
+than string columns. But unlike string columns, numeric columns don&#39;t have indexes, so they are generally slower to
+filter on.</p>
+
+<p>See <a href="../ingestion/index.html#dimension-schema">Dimension Schema</a> for more information.</p>
+
+<h2 id="high-cardinality-dimensions-e-g-unique-ids">High cardinality dimensions (e.g. unique IDs)</h2>
+
+<p>In practice, we see that exact counts for unique IDs are often not required. Storing unique IDs as a column will kill 
+<a href="../design/index.html">roll-up</a>, and impact compression. Instead, storing a sketch of the number of the unique IDs seen, and using that 
+sketch as part of aggregations, will greatly improve performance (up to orders of magnitude performance improvement), and significantly reduce storage. 
+Druid&#39;s <code>hyperUnique</code> aggregator is based off of Hyperloglog and can be used for unique counts on a high cardinality dimension. 
+For more information, see <a href="https://www.youtube.com/watch?v=Hpd3f_MLdXo">here</a>.</p>
+
+<h2 id="nested-dimensions">Nested dimensions</h2>
+
+<p>At the time of this writing, Druid does not support nested dimensions. Nested dimensions need to be flattened. For example, 
+if you have data of the following form:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;foo&quot;:{&quot;bar&quot;: 3}}
+</code></pre></div>
+<p>then before indexing it, you should transform it to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;foo_bar&quot;: 3}
+</code></pre></div>
+<h2 id="counting-the-number-of-ingested-events">Counting the number of ingested events</h2>
+
+<p>A count aggregator at ingestion time can be used to count the number of events ingested. However, it is important to note 
+that when you query for this metric, you should use a <code>longSum</code> aggregator. A <code>count</code> aggregator at query time will return 
+the number of Druid rows for the time interval, which can be used to determine what the roll-up ratio was.</p>
+
+<p>To clarify with an example, if your ingestion spec contains:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
+&quot;metricsSpec&quot; : [
+      {
+        &quot;type&quot; : &quot;count&quot;,
+        &quot;name&quot; : &quot;count&quot;
+      },
+...
+</code></pre></div>
+<p>You should query for the number of ingested rows with:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
+&quot;aggregations&quot;: [
+    { &quot;type&quot;: &quot;longSum&quot;, &quot;name&quot;: &quot;numIngestedEvents&quot;, &quot;fieldName&quot;: &quot;count&quot; },
+...
+</code></pre></div>
+<h2 id="schema-less-dimensions">Schema-less dimensions</h2>
+
+<p>If the <code>dimensions</code> field is left empty in your ingestion spec, Druid will treat every column that is not the timestamp column, 
+a dimension that has been excluded, or a metric column as a dimension. It should be noted that because of <a href="https://github.com/druid-io/druid/issues/658">#658</a> 
+these segments will be slightly larger than if the list of dimensions was explicitly specified in lexicographic order. This limitation 
+does not impact query correctness- just storage requirements.</p>
+
+<p>Note that when using schema-less ingestion, all dimensions will be ingested as String-typed dimensions.</p>
+
+<h2 id="including-the-same-column-as-a-dimension-and-a-metric">Including the same column as a dimension and a metric</h2>
+
+<p>One workflow with unique IDs is to be able to filter on a particular ID, while still being able to do fast unique counts on the ID column. 
+If you are not using schema-less dimensions, this use case is supported by setting the <code>name</code> of the metric to something different than the dimension. 
+If you are using schema-less dimensions, the best practice here is to include the same column twice, once as a dimension, and as a <code>hyperUnique</code> metric. This may involve 
+some work at ETL time.</p>
+
+<p>As an example, for schema-less dimensions, repeat the same column:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;device_id_dim&quot;:123, &quot;device_id_met&quot;:123}
+</code></pre></div>
+<p>and in your <code>metricsSpec</code>, include:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{ &quot;type&quot; : &quot;hyperUnique&quot;, &quot;name&quot; : &quot;devices&quot;, &quot;fieldName&quot; : &quot;device_id_met&quot; }
+</code></pre></div>
+<p><code>device_id_dim</code> should automatically get picked up as a dimension.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.11.0-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

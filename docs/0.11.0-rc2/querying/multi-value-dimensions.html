@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0-rc2">API documentation</a></p>
+          <h1 id="multi-value-dimensions">Multi-value dimensions</h1>
+
+<p>Druid supports &quot;multi-value&quot; string dimensions. These are generated when an input field contains an array of values
+instead of a single value (e.e. JSON arrays, or a TSV field containing one or more <code>listDelimiter</code> characters).</p>
+
+<p>This document describes the behavior of groupBy (topN has similar behavior) queries on multi-value dimensions when they
+are used as a dimension being grouped by. See the section on multi-value columns in
+<a href="../design/segments.html#multi-value-columns">segments</a> for internal representation details.</p>
+
+<h2 id="querying-multi-value-dimensions">Querying multi-value dimensions</h2>
+
+<p>Suppose, you have a dataSource with a segment that contains the following rows, with a multi-value dimension
+called <code>tags</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;: &quot;2011-01-12T00:00:00.000Z&quot;, &quot;tags&quot;: [&quot;t1&quot;,&quot;t2&quot;,&quot;t3&quot;]}  #row1
+{&quot;timestamp&quot;: &quot;2011-01-13T00:00:00.000Z&quot;, &quot;tags&quot;: [&quot;t3&quot;,&quot;t4&quot;,&quot;t5&quot;]}  #row2
+{&quot;timestamp&quot;: &quot;2011-01-14T00:00:00.000Z&quot;, &quot;tags&quot;: [&quot;t5&quot;,&quot;t6&quot;,&quot;t7&quot;]}  #row3
+{&quot;timestamp&quot;: &quot;2011-01-14T00:00:00.000Z&quot;, &quot;tags&quot;: []}                #row4
+</code></pre></div>
+<h3 id="filtering">Filtering</h3>
+
+<p>All query types, as well as <a href="aggregations.html#filtered-aggregator">filtered aggregators</a>, can filter on multi-value
+dimensions. Filters follow these rules on multi-value dimensions:</p>
+
+<ul>
+<li>Value filters (like &quot;selector&quot;, &quot;bound&quot;, and &quot;in&quot;) match a row if any of the values of a multi-value dimension match
+the filter.</li>
+<li>The Column Comparison filter will match a row if the dimensions have any overlap.</li>
+<li>Value filters that match <code>null</code> or <code>&quot;&quot;</code> (empty string) will match empty cells in a multi-value dimension.</li>
+<li>Logical expression filters behave the same way they do on single-value dimensions: &quot;and&quot; matches a row if all
+underlying filters match that row; &quot;or&quot; matches a row if any underlying filters match that row; &quot;not&quot; matches a row
+if the underlying filter does not match the row.</li>
+</ul>
+
+<p>For example, this &quot;or&quot; filter would match row1 and row2 of the dataset above, but not row3:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;type&quot;: &quot;or&quot;,
+  &quot;fields&quot;: [
+    {
+      &quot;type&quot;: &quot;selector&quot;,
+      &quot;dimension&quot;: &quot;tags&quot;,
+      &quot;value&quot;: &quot;t1&quot;
+    },
+    {
+      &quot;type&quot;: &quot;selector&quot;,
+      &quot;dimension&quot;: &quot;tags&quot;,
+      &quot;value&quot;: &quot;t3&quot;
+    }
+  ]
+}
+</code></pre></div>
+<p>This &quot;and&quot; filter would match only row1 of the dataset above:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;type&quot;: &quot;and&quot;,
+  &quot;fields&quot;: [
+    {
+      &quot;type&quot;: &quot;selector&quot;,
+      &quot;dimension&quot;: &quot;tags&quot;,
+      &quot;value&quot;: &quot;t1&quot;
+    },
+    {
+      &quot;type&quot;: &quot;selector&quot;,
+      &quot;dimension&quot;: &quot;tags&quot;,
+      &quot;value&quot;: &quot;t3&quot;
+    }
+  ]
+}
+</code></pre></div>
+<p>This &quot;selector&quot; filter would match row4 of the dataset above:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;type&quot;: &quot;selector&quot;,
+  &quot;dimension&quot;: &quot;tags&quot;,
+  &quot;value&quot;: null
+}
+</code></pre></div>
+<h3 id="grouping">Grouping</h3>
+
+<p>topN and groupBy queries can group on multi-value dimensions. When grouping on a multi-value dimension, <em>all</em> values
+from matching rows will be used to generate one group per value. It&#39;s possible for a query to return more groups than
+there are rows. For example, a topN on the dimension <code>tags</code> with filter <code>&quot;t1&quot; AND &quot;t3&quot;</code> would match only row1, and
+generate a result with three groups: <code>t1</code>, <code>t2</code>, and <code>t3</code>. If you only need to include values that match
+your filter, you can use a <a href="dimensionspecs.html#filtered-dimensionspecs">filtered dimensionSpec</a>. This can also
+improve performance.</p>
+
+<h3 id="example-groupby-query-with-no-filtering">Example: GroupBy query with no filtering</h3>
+
+<p>See <a href="groupbyquery.html">GroupBy querying</a> for details.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;1970-01-01T00:00:00.000Z/3000-01-01T00:00:00.000Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>returns following result.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t1&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t2&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t4&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t5&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t6&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t7&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>notice how original rows are &quot;exploded&quot; into multiple rows and merged.</p>
+
+<h3 id="example-groupby-query-with-a-selector-query-filter">Example: GroupBy query with a selector query filter</h3>
+
+<p>See <a href="filters.html">query filters</a> for details of selector query filter.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;1970-01-01T00:00:00.000Z/3000-01-01T00:00:00.000Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;t3&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>returns following result.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t1&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t2&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t4&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t5&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>You might be surprised to see inclusion of &quot;t1&quot;, &quot;t2&quot;, &quot;t4&quot; and &quot;t5&quot; in the results. It happens because query filter is applied on the row before explosion. For multi-value dimensions, selector filter for &quot;t3&quot; would match row1 and row2, after which exploding is done. For multi-value dimensions, query filter matches a row if any individual value inside the multiple values matches the query filter.</p>
+
+<h3 id="example-groupby-query-with-a-selector-query-filter-and-additional-filter-in-dimensions-attributes">Example: GroupBy query with a selector query filter and additional filter in &quot;dimensions&quot; attributes</h3>
+
+<p>To solve the problem above and to get only rows for &quot;t3&quot; returned, you would have to use a &quot;filtered dimension spec&quot; as in the query below.</p>
+
+<p>See section on filtered dimensionSpecs in <a href="dimensionspecs.html#filtered-dimensionspecs">dimensionSpecs</a> for details.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;1970-01-01T00:00:00.000Z/3000-01-01T00:00:00.000Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;t3&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;listFiltered&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;delegate&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="s2">&quot;tags&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;t3&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>returns the following result.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;1970-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;t3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>Note that, for groupBy queries, you could get similar result with a <a href="having.html">having spec</a> but using a filtered dimensionSpec is much more efficient because that gets applied at the lowest level in the query processing pipeline. Having specs are applied at the outermost level of groupBy query processing.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.11.0-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
