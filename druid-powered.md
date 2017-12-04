@@ -282,6 +282,9 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
+## TalkingData
+[TalkingData](http://www.talkingdata.com/) is China’s largest independent Big Data service platform. TalkingData uses Druid with Atomcube, an extension for enhancement, to power analyze online application and advertising data.
+
 ## Tech Mpire
 Tech Mpire provides performance-based advertising to help mobile app advertisers acquire their new users wherever they are in the digital world. At the core of Tech Mpire is nxus®, our comprehensive ad network platform which connects the global demand from advertisers to the most effective sources of supply, using proprietary recommendation algorithms. We use Druid to power the campaign performance report, providing us with sub-second analytical reporting to support near real-time decision making and optimisation for our advertiser’s campaigns.
 
@@ -312,6 +315,10 @@ ViralGains uses Druid for real-time analysis of millions of viral video views, s
 ## Virool
 
 Druid powers Virool’s real time analytics of over 1 billion raw events per day. We query this data to gain a deep understanding of all of our inventory sources, from exchanges to direct partners, everything is available with lightning fast query times. Druid puts the power and flexibility of big data in each of our Viroolian’s hands.
+
+## Walmart
+
+* [Event Stream Analytics at Walmart with Druid](https://medium.com/walmartlabs/event-stream-analytics-at-walmart-with-druid-dcf1a37ceda7)
 
 ## Wikimedia Foundation
 
@@ -351,9 +358,5 @@ Youku Tudou employs Druid for real-time advertising analysis of huge volumes of 
 ## Zhihu
 
 [Zhihu](https://www.zhihu.com/) is a Chinese question-and-answer website. In Zhihu, Druid is used to power clients' interactive queries, data reports, A/B testing and performance monitoring. Almost 1T per day data is ingested into druid cluster, and we are strongly depending on thetaSketch aggregator for computing cardinality and retention, looking forward to more improvement on DataSketch.
-
-## TalkingData
-[TalkingData](http://www.talkingdata.com/) is China’s largest independent Big Data service platform. TalkingData uses Druid with Atomcube, an extension for enhancement, to power analyze online application and advertising data.
-<hr/>
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md)
