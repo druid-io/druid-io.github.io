@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="schema-design">Schema Design</h1>
 
 <p>This page is meant to assist users in designing a schema for data to be ingested in Druid. Druid intakes denormalized data 
@@ -95,7 +95,7 @@ of OLAP data.</p>
 
 <ul>
 <li>Every row in Druid must have a timestamp. Data is always partitioned by time, and every query has a time filter. Query results can also be broken down by time buckets like minutes, hours, days, and so on.</li>
-<li>Dimensions are fields that can be filtered on or grouped by. They are always single Strings, arrays of Strings, single Longs, or single Floats.</li>
+<li>Dimensions are fields that can be filtered on or grouped by. They are always single Strings, arrays of Strings, single Longs, single Doubles or single Floats.</li>
 <li>Metrics are fields that can be aggregated. They are often stored as numbers (integers or floats) but can also be stored as complex objects like HyperLogLog sketches or approximate histogram sketches.</li>
 </ul>
 
@@ -106,7 +106,7 @@ than 100 metrics, although, based on user testimony, datasources with thousands 
 
 <h2 id="numeric-dimensions">Numeric dimensions</h2>
 
-<p>If the user wishes to ingest a column as a numeric-typed dimension (Long or Float), it is necessary to specify the type of the column in the <code>dimensions</code> section of the <code>dimensionsSpec</code>. If the type is omitted, Druid will ingest a column as the default String type.</p>
+<p>If the user wishes to ingest a column as a numeric-typed dimension (Long, Double or Float), it is necessary to specify the type of the column in the <code>dimensions</code> section of the <code>dimensionsSpec</code>. If the type is omitted, Druid will ingest a column as the default String type.</p>
 
 <p>There are performance tradeoffs between string and numeric columns. Numeric columns are generally faster to group on
 than string columns. But unlike string columns, numeric columns don&#39;t have indexes, so they are generally slower to

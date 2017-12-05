@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="json-flatten-spec">JSON Flatten Spec</h1>
 
 <table><thead>
@@ -125,7 +125,7 @@
 <tr>
 <td>type</td>
 <td>String</td>
-<td>Type of the field, &quot;root&quot; or &quot;path&quot;.</td>
+<td>Type of the field, &quot;root&quot;, &quot;path&quot; or &quot;jq&quot;.</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -137,8 +137,8 @@
 <tr>
 <td>expr</td>
 <td>String</td>
-<td>Defines an expression for accessing the field within the JSON object, using <a href="https://github.com/jayway/JsonPath">JsonPath</a> notation. Only used for type &quot;path&quot;, otherwise ignored.</td>
-<td>only for type &quot;path&quot;</td>
+<td>Defines an expression for accessing the field within the JSON object, using <a href="https://github.com/jayway/JsonPath">JsonPath</a> notation for type &quot;path&quot;, and <a href="https://github.com/eiiches/jackson-jq">jackson-jq</a> for type &quot;jq&quot;. This field is only used for type &quot;path&quot; and &quot;jq&quot;, otherwise ignored.</td>
+<td>only for type &quot;path&quot; or &quot;jq&quot;</td>
 </tr>
 </tbody></table>
 
@@ -215,6 +215,16 @@
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
         <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;second-food&quot;</span><span class="p">,</span>
         <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.thing.food[1]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;first-food-by-jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;.thing.food[1]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-total&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;.hello | sum&quot;</span>
       <span class="p">}</span>
     <span class="p">]</span>
   <span class="p">},</span>
@@ -260,6 +270,7 @@
 <li>If auto field discovery is enabled, any discovered field with the same name as one already defined in the field specs will be skipped and not added twice.</li>
 <li>The JSON input must be a JSON object at the root, not an array. e.g., {&quot;valid&quot;: &quot;true&quot;} and {&quot;valid&quot;:[1,2,3]} are supported but [{&quot;invalid&quot;: &quot;true&quot;}] and [1,2,3] are not.</li>
 <li><a href="http://jsonpath.herokuapp.com/">http://jsonpath.herokuapp.com/</a> is useful for testing the path expressions.</li>
+<li>jackson-jq supports subset of <a href="https://stedolan.github.io/jq/">./jq</a> syntax.  Please refer jackson-jq document.</li>
 </ul>
 
         </div>

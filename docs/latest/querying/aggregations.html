@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="aggregations">Aggregations</h1>
 
 <p>Aggregations can be provided at ingestion time as part of the ingestion spec as a way of summarizing data before it enters Druid. 
@@ -113,8 +113,13 @@ query time.</p>
 
 <h4 id="doublesum-aggregator"><code>doubleSum</code> aggregator</h4>
 
-<p>Computes the sum of values as 64-bit floating point value. Similar to <code>longSum</code></p>
+<p>Computes and stores the sum of values as 64-bit floating point value. Similar to <code>longSum</code></p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="floatsum-aggregator"><code>floatSum</code> aggregator</h4>
+
+<p>Computes and stores the sum of values as 32-bit floating point value. Similar to <code>longSum</code> and <code>doubleSum</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;floatSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="min-max-aggregators">Min / Max aggregators</h3>
 
@@ -127,6 +132,16 @@ query time.</p>
 
 <p><code>doubleMax</code> computes the maximum of all metric values and Double.NEGATIVE_INFINITY</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleMax&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="floatmin-aggregator"><code>floatMin</code> aggregator</h4>
+
+<p><code>floatMin</code> computes the minimum of all metric values and Float.POSITIVE_INFINITY</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;floatMin&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="floatmax-aggregator"><code>floatMax</code> aggregator</h4>
+
+<p><code>floatMax</code> computes the maximum of all metric values and Float.NEGATIVE_INFINITY</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;floatMax&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="longmin-aggregator"><code>longMin</code> aggregator</h4>
 
@@ -158,6 +173,24 @@ query time.</p>
 <p><code>doubleLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleLast&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="floatfirst-aggregator"><code>floatFirst</code> aggregator</h4>
+
+<p><code>floatFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;floatFirst&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="floatlast-aggregator"><code>floatLast</code> aggregator</h4>
+
+<p><code>floatLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;floatLast&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span>
 <span class="p">}</span>
@@ -221,10 +254,15 @@ instead of the cardinality aggregator if you do not care about the individual va
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
-  <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
+  <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false),</span>
+  <span class="nt">&quot;round&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Each individual element of the &quot;fields&quot; list can be a String or <a href="../querying/dimensionspecs.html">DimensionSpec</a>. A String dimension in the fields list is equivalent to a DefaultDimensionSpec (no transformations).</p>
+
+<p>The HyperLogLog algorithm generates decimal estimates with some error. &quot;round&quot; can be set to true to round off estimated
+values to whole numbers. Note that even with rounding, the cardinality is still an estimate. The &quot;round&quot; field only
+affects query-time behavior, and is ignored at ingestion-time.</p>
 
 <h4 id="cardinality-by-value">Cardinality by value</h4>
 
@@ -291,11 +329,16 @@ This is equivalent to something akin to</p>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;isInputHyperUnique&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+  <span class="nt">&quot;isInputHyperUnique&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;round&quot;</span> <span class="p">:</span> <span class="kc">false</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>isInputHyperUnique can be set to true to index pre-computed HLL (Base64 encoded output from druid-hll is expected).
-The isInputHyperUnique field only affects ingestion-time behavior, and is ignored at query time.</p>
+<p>&quot;isInputHyperUnique&quot; can be set to true to index pre-computed HLL (Base64 encoded output from druid-hll is expected).
+The &quot;isInputHyperUnique&quot; field only affects ingestion-time behavior, and is ignored at query-time.</p>
+
+<p>The HyperLogLog algorithm generates decimal estimates with some error. &quot;round&quot; can be set to true to round off estimated
+values to whole numbers. Note that even with rounding, the cardinality is still an estimate. The &quot;round&quot; field only
+affects query-time behavior, and is ignored at ingestion-time.</p>
 
 <p>For more approximate aggregators, please see <a href="../development/extensions-core/datasketches-aggregators.html">theta sketches</a>.</p>
 

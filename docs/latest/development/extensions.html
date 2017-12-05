@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="druid-extensions">Druid extensions</h1>
 
 <p>Druid implements an extension system that allows for adding functionality at runtime. Extensions
@@ -188,6 +188,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <td>PostgreSQL metadata store.</td>
 <td><a href="../development/extensions-core/postgresql.html">link</a></td>
 </tr>
+<tr>
+<td>simple-client-sslcontext</td>
+<td>Simple SSLContext provider module to be used by internal HttpClient talking to other nodes over HTTPS.</td>
+<td><a href="../development/extensions-core/simple-client-sslcontext.html">link</a></td>
+</tr>
 </tbody></table>
 
 <h1 id="community-extensions">Community Extensions</h1>
@@ -254,6 +259,11 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td><a href="../development/extensions-contrib/rabbitmq.html">link</a></td>
 </tr>
 <tr>
+<td>druid-redis-cache</td>
+<td>A cache implementation for Druid based on Redis.</td>
+<td><a href="../development/extensions-contrib/redis-cache.html">link</a></td>
+</tr>
+<tr>
 <td>druid-rocketmq</td>
 <td>RocketMQ firehose.</td>
 <td><a href="../development/extensions-contrib/rocketmq.html">link</a></td>
@@ -292,11 +302,6 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>druid-thrift-extensions</td>
 <td>Support thrift ingestion</td>
 <td><a href="../development/extensions-contrib/thrift.html">link</a></td>
-</tr>
-<tr>
-<td>scan-query</td>
-<td>Scan query</td>
-<td><a href="../development/extensions-contrib/scan-query.html">link</a></td>
 </tr>
 </tbody></table>
 

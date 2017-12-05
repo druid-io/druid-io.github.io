@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="post-aggregations">Post-Aggregations</h1>
 
 <p>Post-aggregations are specifications of processing that should happen on aggregated values as they come out of Druid. If you include a post aggregation as part of a query, make sure to include all aggregators the post-aggregator requires.</p>
@@ -121,12 +121,18 @@ of resulting values when sorting results (this can be useful for topN queries fo
   <span class="nt">&quot;ordering&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">null</span> <span class="err">(default)</span><span class="p">,</span> <span class="err">or</span> <span class="nt">&quot;numericFirst&quot;</span><span class="err">&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="field-accessor-post-aggregator">Field accessor post-aggregator</h3>
+<h3 id="field-accessor-post-aggregators">Field accessor post-aggregators</h3>
 
-<p>This returns the value produced by the specified <a href="../querying/aggregations.html">aggregator</a>.</p>
+<p>These post-aggregators return the value produced by the specified <a href="../querying/aggregations.html">aggregator</a>.</p>
 
-<p><code>fieldName</code> refers to the output name of the aggregator given in the <a href="../querying/aggregations.html">aggregations</a> portion of the query.</p>
+<p><code>fieldName</code> refers to the output name of the aggregator given in the <a href="../querying/aggregations.html">aggregations</a> portion of the query.
+For complex aggregators, like &quot;cardinality&quot; and &quot;hyperUnique&quot;, the <code>type</code> of the post-aggregator determines what
+the post-aggregator will return. Use type &quot;fieldAccess&quot; to return the raw aggregation object, or use type
+&quot;finalizingFieldAccess&quot; to return a finalized value, such as an estimated cardinality.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;finalizingFieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="constant-post-aggregator">Constant post-aggregator</h3>
 
@@ -175,7 +181,11 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 <h3 id="hyperunique-cardinality-post-aggregator">HyperUnique Cardinality post-aggregator</h3>
 
 <p>The hyperUniqueCardinality post aggregator is used to wrap a hyperUnique object such that it can be used in post aggregations.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;hyperUniqueCardinality&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span>  <span class="p">:</span> <span class="err">&lt;the</span> <span class="err">name</span> <span class="err">field</span> <span class="err">value</span> <span class="err">of</span> <span class="err">the</span> <span class="err">hyperUnique</span> <span class="err">aggregator&gt;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;hyperUniqueCardinality&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span>  <span class="p">:</span> <span class="err">&lt;the</span> <span class="err">name</span> <span class="err">field</span> <span class="err">value</span> <span class="err">of</span> <span class="err">the</span> <span class="err">hyperUnique</span> <span class="err">aggregator&gt;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>It can be used in a sample calculation as so:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;aggregations&quot;</span> <span class="err">:</span> <span class="p">[{</span>
@@ -192,6 +202,10 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
     <span class="p">]</span>
   <span class="p">}]</span>
 </code></pre></div>
+<p>This post-aggregator will inherit the rounding behavior of the aggregator it references. Note that this inheritance
+is only effective if you directly reference an aggregator. Going through another post-aggregator, for example, will
+cause the user-specified rounding behavior to get lost and default to &quot;no rounding&quot;.</p>
+
 <h2 id="example-usage">Example Usage</h2>
 
 <p>In this example, let’s calculate a simple percentage using post aggregators. Let’s imagine our data set has a metric called &quot;total&quot;.</p>

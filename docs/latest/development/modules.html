@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
 
 <p>Druid uses a module system that allows for the addition of extensions at runtime.</p>
@@ -93,12 +93,21 @@
 <p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of the things listed below.  This means that we honor our <a href="./versioning.html">versioning strategy</a> for changes that affect the interfaces called out on this page, but other interfaces are deemed &quot;internal&quot; and can be changed in an incompatible manner even between patch releases.</p>
 
 <ol>
-<li>Add a new deep storage implementation</li>
-<li>Add a new Firehose</li>
-<li>Add Aggregators</li>
-<li>Add Complex metrics</li>
-<li>Add new Query types</li>
-<li>Add new Jersey resources</li>
+<li>Add a new deep storage implementation by extending the <code>io.druid.segment.loading.DataSegment*</code> and
+<code>io.druid.tasklogs.TaskLog*</code> classes.</li>
+<li>Add a new Firehose by extending <code>io.druid.data.input.FirehoseFactory</code>.</li>
+<li>Add a new input parser by extending <code>io.druid.data.input.impl.InputRowParser</code>.</li>
+<li>Add a new string-based input format by extending <code>io.druid.data.input.impl.ParseSpec</code>.</li>
+<li>Add Aggregators by extending <code>io.druid.query.aggregation.AggregatorFactory</code>, <code>io.druid.query.aggregation.Aggregator</code>,
+and <code>io.druid.query.aggregation.BufferAggregator</code>.</li>
+<li>Add PostAggregators by extending <code>io.druid.query.aggregation.PostAggregator</code>.</li>
+<li>Add ExtractionFns by extending <code>io.druid.query.extraction.ExtractionFn</code>.</li>
+<li>Add Complex metrics by extending <code>io.druid.segment.serde.ComplexMetricsSerde</code>.</li>
+<li>Add new Query types by extending <code>io.druid.query.QueryRunnerFactory</code>, <code>io.druid.query.QueryToolChest</code>, and
+<code>io.druid.query.Query</code>.</li>
+<li>Add new Jersey resources by calling <code>Jerseys.addResource(binder, clazz)</code>.</li>
+<li>Add new Jetty filters by extending <code>io.druid.server.initialization.jetty.ServletFilterHolder</code>.</li>
+<li>Add new secret providers by extending <code>io.druid.metadata.PasswordProvider</code>.</li>
 <li>Bundle your extension with all the other Druid extensions</li>
 </ol>
 
@@ -256,6 +265,20 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 <p>Adding new Jersey resources to a module requires calling the following code to bind the resource in the module:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </code></pre></div>
+<h3 id="adding-a-new-password-provider-implementation">Adding a new Password Provider implementation</h3>
+
+<p>You will need to implement <code>io.druid.metadata.PasswordProvider</code> interface. For every place where Druid uses PasswordProvider, a new instance of the implementation will be created,
+thus make sure all the necessary information required for fetching each password is supplied during object instantiation.
+In your implementation of <code>io.druid.initialization.DruidModule</code>, <code>getJacksonModules</code> should look something like this -</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>    <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="k">new</span> <span class="n">SimpleModule</span><span class="o">(</span><span class="s">&quot;SomePasswordProviderModule&quot;</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">registerSubtypes</span><span class="o">(</span>
+                <span class="k">new</span> <span class="n">NamedType</span><span class="o">(</span><span class="n">SomePasswordProvider</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;some&quot;</span><span class="o">)</span>
+            <span class="o">)</span>
+    <span class="o">);</span>
+</code></pre></div>
+<p>where <code>SomePasswordProvider</code> is the implementation of <code>PasswordProvider</code> interface, you can have a look at <code>io.druid.metadata.EnvironmentVariablePasswordProvider</code> for example.</p>
+
 <h3 id="bundle-your-extension-with-all-the-other-druid-extensions">Bundle your extension with all the other Druid extensions</h3>
 
 <p>When you do <code>mvn install</code>, Druid extensions will be packaged within the Druid tarball and <code>extensions</code> directory, which are both underneath <code>distribution/target/</code>.</p>

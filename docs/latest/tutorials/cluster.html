@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="clustering">Clustering</h1>
 
 <p>Druid is designed to be deployed as a scalable, fault-tolerant cluster.</p>
@@ -147,9 +147,9 @@ OSes</a>.</p>
 <p>First, download and unpack the release archive. It&#39;s best to do this on a single machine at first,
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.10.1-bin.tar.gz
-tar -xzf druid-0.10.1-bin.tar.gz
-<span class="nb">cd</span> druid-0.10.1
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.11.0-bin.tar.gz
+tar -xzf druid-0.11.0-bin.tar.gz
+<span class="nb">cd</span> druid-0.11.0
 </code></pre></div>
 <p>In this package, you&#39;ll find:</p>
 
@@ -379,12 +379,12 @@ rather than on the Coordinator server.
 <p>Copy the Druid distribution and your edited configurations to your coordination
 server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
 copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az druid-0.10.1/ COORDINATION_SERVER:druid-0.10.1/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az druid-0.11.0/ COORDINATION_SERVER:druid-0.11.0/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz -o zookeeper-3.4.9.tar.gz
-tar -xzf zookeeper-3.4.9.tar.gz
-<span class="nb">cd</span> zookeeper-3.4.9
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
+tar -xzf zookeeper-3.4.10.tar.gz
+<span class="nb">cd</span> zookeeper-3.4.10
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 </code></pre></div>

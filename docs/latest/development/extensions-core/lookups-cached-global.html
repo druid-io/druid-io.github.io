@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="globally-cached-lookups">Globally Cached Lookups</h1>
 
 <div class="note caution">
@@ -134,7 +134,8 @@ and are small enough to reasonably populate on a node. This usually means tens t
        <span class="p">},</span>
        <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
        <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;mykeyColumn&quot;</span><span class="p">,</span>
-       <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;MyValueColumn&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;myValueColumn&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;myFilterSQL (Where clause statement  e.g LOOKUPTYPE=1)&quot;</span><span class="p">,</span>
        <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
     <span class="p">},</span>
     <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
@@ -191,9 +192,10 @@ and are small enough to reasonably populate on a node. This usually means tens t
            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
            <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
          <span class="p">},</span>
-         <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_id&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_name&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupValues&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_id&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_text&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;value_type=&#39;country&#39;&quot;</span><span class="p">,</span>
          <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
@@ -548,6 +550,12 @@ will not be included in the lookup.</p>
 <td>The column in <code>table</code> which contains the values</td>
 <td>Yes</td>
 <td></td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>The filter to use when selecting lookups, this is used to create a where clause on lookup population</td>
+<td>No</td>
+<td>No Filter</td>
 </tr>
 <tr>
 <td><code>tsColumn</code></td>

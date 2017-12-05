@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="druid-concepts">Druid Concepts</h1>
 
 <p>Druid is an open source data store designed for <a href="http://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a> queries on event data.
@@ -113,6 +113,27 @@ Metrics are usually numeric values, and computations include operations such as 
 Also known as measures in standard OLAP terminology.</p></li>
 </ul>
 
+<h2 id="sharding-the-data">Sharding the Data</h2>
+
+<p>Druid shards are called <code>segments</code> and Druid always first shards data by time. In our compacted data set, we can create two segments, one for each hour of data.</p>
+
+<p>For example:</p>
+
+<p>Segment <code>sampleData_2011-01-01T01:00:00:00Z_2011-01-01T02:00:00:00Z_v1_0</code> contains</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+ 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+</code></pre></div>
+<p>Segment <code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0</code> contains</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+ 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
+</code></pre></div>
+<p>Segments are self-contained containers for the time interval of data they hold. Segments
+contain data stored in compressed column orientations, along with the indexes for those columns. Druid queries only understand how to
+scan segments.</p>
+
+<p>Segments are uniquely identified by a datasource, interval, version, and an optional partition number.
+Examining our example segments, the segments are named following this convention: <code>dataSource_interval_version_partitionNumber</code></p>
+
 <h2 id="roll-up">Roll-up</h2>
 
 <p>The individual events in our example data set are not very interesting because there may be trillions of such events. 
@@ -135,26 +156,15 @@ This storage reduction does come at a cost; as we roll up data, we lose the abil
 the rollup granularity is the minimum granularity you will be able to explore data at and events are floored to this granularity. 
 Hence, Druid ingestion specs define this granularity as the <code>queryGranularity</code> of the data. The lowest supported <code>queryGranularity</code> is millisecond.</p>
 
-<h2 id="sharding-the-data">Sharding the Data</h2>
+<h3 id="roll-up-modes">Roll-up modes</h3>
 
-<p>Druid shards are called <code>segments</code> and Druid always first shards data by time. In our compacted data set, we can create two segments, one for each hour of data.</p>
+<p>Druid supports two roll-up modes, i.e., <em>perfect roll-up</em> and <em>best-effort roll-up</em>. In the perfect roll-up mode, Druid guarantees that input data are perfectly aggregated at ingestion time. Meanwhile, in the best-effort roll-up, input data might not be perfectly aggregated and thus there can be multiple segments holding the rows which should belong to the same segment with the perfect roll-up since they have the same dimension value and their timestamps fall into the same interval.</p>
 
-<p>For example:</p>
+<p>The perfect roll-up mode encompasses an additional preprocessing step to determine intervals and shardSpecs before actual data ingestion if they are not specified in the ingestionSpec. This preprocessing step usually scans the entire input data which might increase the ingestion time. The <a href="./ingestion/batch-ingestion.html">Hadoop indexing task</a> always runs with this perfect roll-up mode.</p>
 
-<p>Segment <code>sampleData_2011-01-01T01:00:00:00Z_2011-01-01T02:00:00:00Z_v1_0</code> contains</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
- 2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
-</code></pre></div>
-<p>Segment <code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0</code> contains</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> 2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
- 2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
-</code></pre></div>
-<p>Segments are self-contained containers for the time interval of data they hold. Segments
-contain data stored in compressed column orientations, along with the indexes for those columns. Druid queries only understand how to
-scan segments.</p>
+<p>On the contrary, the best-effort roll-up mode doesn&#39;t require any preprocessing step, but the size of ingested data might be larger than that of the perfect roll-up. All types of <a href="./ingestion/stream-ingestion.html">streaming indexing (i.e., realtime index task, kafka indexing service, ...)</a> run with this mode.</p>
 
-<p>Segments are uniquely identified by a datasource, interval, version, and an optional partition number. 
-Examining our example segments, the segments are named following this convention: <code>dataSource_interval_version_partitionNumber</code></p>
+<p>Finally, the <a href="./ingestion/tasks.html">native index task</a> supports both modes and you can choose either one which fits to your application.</p>
 
 <h2 id="indexing-the-data">Indexing the Data</h2>
 

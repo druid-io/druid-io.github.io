@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="lookups">Lookups</h1>
 
 <div class="note caution">
@@ -131,11 +131,11 @@ For example, you might have all historicals be part of <code>__default</code>, a
 The tiers for lookups are completely independent of historical tiers.</p>
 
 <p>These configs are accessed using JSON through the following URI template</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/lookups/{tier}/{id}
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;/druid/coordinator/v1/lookups/config/{tier}/{id}
 </code></pre></div>
 <p>All URIs below are assumed to have <code>http://&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code> prepended.</p>
 
-<p>If you have NEVER configured lookups before, you MUST post an empty json object <code>{}</code> to <code>/druid/coordinator/v1/lookups</code> to initialize the configuration.</p>
+<p>If you have NEVER configured lookups before, you MUST post an empty json object <code>{}</code> to <code>/druid/coordinator/v1/lookups/config</code> to initialize the configuration.</p>
 
 <p>These endpoints will return one of the following results:</p>
 
@@ -156,7 +156,7 @@ The coordinator periodically checks if any of the nodes need to load/drop lookup
 
 <h2 id="bulk-update">Bulk update</h2>
 
-<p>Lookups can be updated in bulk by posting a JSON object to <code>/druid/coordinator/v1/lookups</code>. The format of the json object is as follows:</p>
+<p>Lookups can be updated in bulk by posting a JSON object to <code>/druid/coordinator/v1/lookups/config</code>. The format of the json object is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;&lt;tierName&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;&lt;lookupName&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -269,9 +269,9 @@ The coordinator periodically checks if any of the nodes need to load/drop lookup
 
 <h2 id="update-lookup">Update Lookup</h2>
 
-<p>A <code>POST</code> to a particular lookup extractor factory via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code> will update that specific extractor factory.</p>
+<p>A <code>POST</code> to a particular lookup extractor factory via <code>/druid/coordinator/v1/lookups/config/{tier}/{id}</code> will update that specific extractor factory.</p>
 
-<p>For example, a post to <code>/druid/coordinator/v1/lookups/realtime_customer1/site_id_customer1</code> might contain the following:</p>
+<p>For example, a post to <code>/druid/coordinator/v1/lookups/config/realtime_customer1/site_id_customer1</code> might contain the following:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookupExtractorFactory&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -288,7 +288,7 @@ The coordinator periodically checks if any of the nodes need to load/drop lookup
 
 <p>A <code>GET</code> to a particular lookup extractor factory is accomplished via <code>/druid/coordinator/v1/lookups/{tier}/{id}</code></p>
 
-<p>Using the prior example, a <code>GET</code> to <code>/druid/coordinator/v1/lookups/realtime_customer2/site_id_customer2</code> should return</p>
+<p>Using the prior example, a <code>GET</code> to <code>/druid/coordinator/v1/lookups/config/realtime_customer2/site_id_customer2</code> should return</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookupExtractorFactory&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -301,16 +301,16 @@ The coordinator periodically checks if any of the nodes need to load/drop lookup
 </code></pre></div>
 <h2 id="delete-lookup">Delete Lookup</h2>
 
-<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/{tier}/{id}</code> will remove that lookup from the cluster.</p>
+<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/config/{tier}/{id}</code> will remove that lookup from the cluster.</p>
 
 <h2 id="list-tier-names">List tier names</h2>
 
-<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups</code> will return a list of known tier names in the dynamic configuration.
+<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups/config</code> will return a list of known tier names in the dynamic configuration.
 To discover a list of tiers currently active in the cluster <strong>instead of</strong> ones known in the dynamic configuration, the parameter <code>discover=true</code> can be added as per <code>/druid/coordinator/v1/lookups?discover=true</code>.</p>
 
 <h2 id="list-lookup-names">List lookup names</h2>
 
-<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups/{tier}</code> will return a list of known lookup names for that tier.</p>
+<p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups/config/{tier}</code> will return a list of known lookup names for that tier.</p>
 
 <h1 id="additional-api-related-to-status-of-configured-lookups">Additional API related to status of configured lookups</h1>
 
@@ -448,6 +448,26 @@ The return value will be the json representation of the factory.</p>
 <td><code>druid.lookup.snapshotWorkingDir</code></td>
 <td>Working path used to store snapshot of current lookup configuration, leaving this property null will disable snapshot/bootstrap utility</td>
 <td>null</td>
+</tr>
+<tr>
+<td><code>druid.lookup.enableLookupSyncOnStartup</code></td>
+<td>Enable the lookup synchronization process with coordinator on startup. The queryable nodes will fetch and load the lookups from the coordinator instead of waiting for the coordinator to load the lookups for them. Users may opt to disable this option if there are no lookups configured in the cluster.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.lookup.numLookupLoadingThreads</code></td>
+<td>Number of threads for loading the lookups in parallel on startup. This thread pool is destroyed once startup is done. It is not kept during the lifetime of the JVM</td>
+<td>Available Processors / 2</td>
+</tr>
+<tr>
+<td><code>druid.lookup.coordinatorFetchRetries</code></td>
+<td>How many times to retry to fetch the lookup bean list from coordinator, during the sync on startup.</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>druid.lookup.lookupStartRetries</code></td>
+<td>How many times to retry to start each lookup, either during the sync on startup, or during the runtime.</td>
+<td>3</td>
 </tr>
 </tbody></table>
 

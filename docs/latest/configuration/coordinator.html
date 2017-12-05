@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="coordinator-node-configuration">Coordinator Node Configuration</h1>
 
 <p>For general Coordinator Node information, see <a href="../design/coordinator.html">here</a>.</p>
@@ -107,9 +107,14 @@
 <td>InetAddress.getLocalHost().getCanonicalHostName()</td>
 </tr>
 <tr>
-<td><code>druid.port</code></td>
+<td><code>druid.plaintextPort</code></td>
 <td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
 <td>8081</td>
+</tr>
+<tr>
+<td><code>druid.tlsPort</code></td>
+<td>TLS port for HTTPS connector, if <a href="../operations/tls-support.html">druid.enableTlsPort</a> is set then this config will be used. If <code>druid.host</code> contains port then that port will be ignored. This should be a non-negative Integer.</td>
+<td>8281</td>
 </tr>
 <tr>
 <td><code>druid.service</code></td>
@@ -179,7 +184,7 @@
 </tr>
 <tr>
 <td><code>druid.coordinator.balancer.strategy</code></td>
-<td>Specify the type of balancing strategy that the coordinator should use to distribute segments among the historicals. Use <code>diskNormalized</code> to distribute segments among nodes so that the disks fill up uniformly and use <code>random</code> to randomly pick nodes to distribute segments.</td>
+<td>Specify the type of balancing strategy that the coordinator should use to distribute segments among the historicals. <code>cachingCost</code> is logically equivalent to <code>cost</code> but is more CPU-efficient on large clusters and will replace <code>cost</code> in the future versions, users are invited to try it. Use <code>diskNormalized</code> to distribute segments among nodes so that the disks fill up uniformly and use <code>random</code> to randomly pick nodes to distribute segments.</td>
 <td><code>cost</code></td>
 </tr>
 <tr>
@@ -328,6 +333,11 @@
 <td><code>killAllDataSources</code></td>
 <td>Send kill tasks for ALL dataSources if property <code>druid.coordinator.kill.on</code> is true. If this is set to true then <code>killDataSourceWhitelist</code> must not be specified or be empty list.</td>
 <td>false</td>
+</tr>
+<tr>
+<td><code>maxSegmentsInNodeLoadingQueue</code></td>
+<td>The maximum number of segments that could be queued for loading to any given server. This parameter could be used to speed up segments loading process, especially if there are &quot;slow&quot; nodes in the cluster (with low loading speed) or if too much segments scheduled to be replicated to some particular node (faster loading could be preferred to better segments distribution). Desired value depends on segments loading speed, acceptable replication time and number of nodes. Value 1000 could be a start point for a rather big cluster. Default value is 0 (loading queue is unbounded)</td>
+<td>0</td>
 </tr>
 </tbody></table>
 

@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <p>For general Indexing Service information, see <a href="../design/indexing-service.html">here</a>.</p>
 
 <h2 id="runtime-configuration">Runtime Configuration</h2>
@@ -92,7 +92,7 @@
 
 <h3 id="must-be-set-on-overlord-and-middle-manager">Must be set on Overlord and Middle Manager</h3>
 
-<h4 id="node-configs">Node Configs</h4>
+<h4 id="overlord-node-configs">Overlord Node Configs</h4>
 
 <table><thead>
 <tr>
@@ -107,14 +107,50 @@
 <td>InetAddress.getLocalHost().getCanonicalHostName()</td>
 </tr>
 <tr>
-<td><code>druid.port</code></td>
+<td><code>druid.plaintextPort</code></td>
 <td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
 <td>8090</td>
+</tr>
+<tr>
+<td><code>druid.tlsPort</code></td>
+<td>TLS port for HTTPS connector, if <a href="../operations/tls-support.html">druid.enableTlsPort</a> is set then this config will be used. If <code>druid.host</code> contains port then that port will be ignored. This should be a non-negative Integer.</td>
+<td>8290</td>
 </tr>
 <tr>
 <td><code>druid.service</code></td>
 <td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
 <td>druid/overlord</td>
+</tr>
+</tbody></table>
+
+<h4 id="middlemanager-node-configs">MiddleManager Node Configs</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.host</code></td>
+<td>The host for the current node. This is used to advertise the current processes location as reachable from another node and should generally be specified such that <code>http://${druid.host}/</code> could actually talk to this process</td>
+<td>InetAddress.getLocalHost().getCanonicalHostName()</td>
+</tr>
+<tr>
+<td><code>druid.plaintextPort</code></td>
+<td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
+<td>8091</td>
+</tr>
+<tr>
+<td><code>druid.tlsPort</code></td>
+<td>TLS port for HTTPS connector, if <a href="../operations/tls-support.html">druid.enableTlsPort</a> is set then this config will be used. If <code>druid.host</code> contains port then that port will be ignored. This should be a non-negative Integer.</td>
+<td>8291</td>
+</tr>
+<tr>
+<td><code>druid.service</code></td>
+<td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
+<td>druid/middlemanager</td>
 </tr>
 </tbody></table>
 
@@ -486,7 +522,7 @@ Caution: Automatic log file deletion typically works based on log file modificat
 <p>A sample worker config spec is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;selectStrategy&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fillCapacityWithAffinity&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fillCapacity&quot;</span><span class="p">,</span>
     <span class="nt">&quot;affinityConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;affinity&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;datasource1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;host1:port&quot;</span><span class="p">,</span> <span class="s2">&quot;host2:port&quot;</span><span class="p">],</span>
@@ -529,7 +565,7 @@ Caution: Automatic log file deletion typically works based on log file modificat
 </thead><tbody>
 <tr>
 <td><code>selectStrategy</code></td>
-<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>fillCapacityWithAffinity</code>, <code>equalDistribution</code>, <code>equalDistributionWithAffinity</code> and <code>javascript</code>.</td>
+<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>equalDistribution</code>, and <code>javascript</code>.</td>
 <td>equalDistribution</td>
 </tr>
 <tr>
@@ -549,56 +585,12 @@ Caution: Automatic log file deletion typically works based on log file modificat
 </code></pre></div>
 <h4 id="worker-select-strategy">Worker Select Strategy</h4>
 
-<h5 id="fill-capacity">Fill Capacity</h5>
-
-<p>Workers are assigned tasks until capacity.</p>
-
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>fillCapacity</code>.</td>
-<td>required; must be <code>fillCapacity</code></td>
-</tr>
-</tbody></table>
-
-<p>Note that, if <code>druid.indexer.runner.pendingTasksRunnerNumThreads</code> is set to n (&gt; 1) then it means to fill n workers upto capacity simultaneously and then moving on.</p>
-
-<h5 id="fill-capacity-with-affinity">Fill Capacity With Affinity</h5>
-
-<p>An affinity config can be provided.</p>
-
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>fillCapacityWithAffinity</code>.</td>
-<td>required; must be <code>fillCapacityWithAffinity</code></td>
-</tr>
-<tr>
-<td><code>affinity</code></td>
-<td>JSON object mapping a datasource String name to a list of indexing service middle manager host:port String values. Druid doesn&#39;t perform DNS resolution, so the &#39;host&#39; value must match what is configured on the middle manager and what the middle manager announces itself as (examine the Overlord logs to see what your middle manager announces itself as).</td>
-<td>{}</td>
-</tr>
-</tbody></table>
-
-<p>Tasks will try to be assigned to preferred workers. Fill capacity strategy is used if no preference for a datasource specified.</p>
-
-<p>Note that, if <code>druid.indexer.runner.pendingTasksRunnerNumThreads</code> is set to n (&gt; 1) then it means to fill n preferred workers upto capacity simultaneously and then moving on.</p>
+<p>Worker select strategies control how Druid assigns tasks to middleManagers.</p>
 
 <h5 id="equal-distribution">Equal Distribution</h5>
 
-<p>The workers with the least amount of tasks is assigned the task.</p>
+<p>Tasks are assigned to the middleManager with the most available capacity at the time the task begins running. This is
+useful if you want work evenly distributed across your middleManagers.</p>
 
 <table><thead>
 <tr>
@@ -612,11 +604,21 @@ Caution: Automatic log file deletion typically works based on log file modificat
 <td><code>equalDistribution</code>.</td>
 <td>required; must be <code>equalDistribution</code></td>
 </tr>
+<tr>
+<td><code>affinityConfig</code></td>
+<td><a href="#affinity">Affinity config</a> object</td>
+<td>null (no affinity)</td>
+</tr>
 </tbody></table>
 
-<h5 id="equal-distribution-with-affinity">Equal Distribution With Affinity</h5>
+<h5 id="fill-capacity">Fill Capacity</h5>
 
-<p>An affinity config can be provided.</p>
+<p>Tasks are assigned to the worker with the most currently-running tasks at the time the task begins running. This is
+useful in situations where you are elastically auto-scaling middleManagers, since it will tend to pack some full and
+leave others empty. The empty ones can be safely terminated.</p>
+
+<p>Note that if <code>druid.indexer.runner.pendingTasksRunnerNumThreads</code> is set to <em>N</em> &gt; 1, then this strategy will fill <em>N</em>
+middleManagers up to capacity simultaneously, rather than a single middleManager.</p>
 
 <table><thead>
 <tr>
@@ -627,17 +629,15 @@ Caution: Automatic log file deletion typically works based on log file modificat
 </thead><tbody>
 <tr>
 <td><code>type</code></td>
-<td><code>equalDistributionWithAffinity</code>.</td>
-<td>required; must be <code>equalDistributionWithAffinity</code></td>
+<td><code>fillCapacity</code>.</td>
+<td>required; must be <code>fillCapacity</code></td>
 </tr>
 <tr>
-<td><code>affinity</code></td>
-<td>Exactly same with <code>fillCapacityWithAffinity</code> &#39;s affinity.</td>
-<td>{}</td>
+<td><code>affinityConfig</code></td>
+<td><a href="#affinity">Affinity config</a> object</td>
+<td>null (no affinity)</td>
 </tr>
 </tbody></table>
-
-<p>Tasks will try to be assigned to preferred workers. Equal Distribution strategy is used if no preference for a datasource specified.</p>
 
 <h5 id="javascript">Javascript</h5>
 
@@ -675,6 +675,30 @@ its better to write a druid extension module with extending current worker selec
 <div class="note info">
 JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
+
+<h5 id="affinity">Affinity</h5>
+
+<p>Affinity configs can be provided to the <em>equalDistribution</em> and <em>fillCapacity</em> strategies using the &quot;affinityConfig&quot;
+field. If not provided, the default is to not use affinity at all.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>affinity</code></td>
+<td>JSON object mapping a datasource String name to a list of indexing service middleManager host:port String values. Druid doesn&#39;t perform DNS resolution, so the &#39;host&#39; value must match what is configured on the middleManager and what the middleManager announces itself as (examine the Overlord logs to see what your middleManager announces itself as).</td>
+<td>{}</td>
+</tr>
+<tr>
+<td><code>strong</code></td>
+<td>With weak affinity (the default), tasks for a dataSource may be assigned to other middleManagers if their affinity-mapped middleManagers are not able to run all pending tasks in the queue for that dataSource. With strong affinity, tasks for a dataSource will only ever be assigned to their affinity-mapped middleManagers, and will wait in the pending queue if necessary.</td>
+<td>false</td>
+</tr>
+</tbody></table>
 
 <h4 id="autoscaler">Autoscaler</h4>
 
@@ -728,7 +752,7 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 <tr>
 <td><code>druid.indexer.runner.allowedPrefixes</code></td>
 <td>Whitelist of prefixes for configs that can be passed down to child peons.</td>
-<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;io.druid&quot;, &quot;user.timezone&quot;,&quot;file.encoding&quot;</td>
+<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;io.druid&quot;, &quot;user.timezone&quot;, &quot;file.encoding&quot;, &quot;java.io.tmpdir&quot;, &quot;hadoop&quot;</td>
 </tr>
 <tr>
 <td><code>druid.indexer.runner.compressZnodes</code></td>
@@ -762,12 +786,17 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 </tr>
 <tr>
 <td><code>druid.indexer.runner.startPort</code></td>
-<td>The port that peons begin running on.</td>
+<td>Starting port used for peon processes, should be greater than 1023.</td>
 <td>8100</td>
 </tr>
 <tr>
+<td><code>druid.indexer.runner.tlsStartPort</code></td>
+<td>Starting TLS port for peon processes, should be greater than 1023.</td>
+<td>8300</td>
+</tr>
+<tr>
 <td><code>druid.indexer.runner.separateIngestionEndpoint</code></td>
-<td><em>Deprecated.</em> Use separate server and consequently separate jetty thread pool for ingesting events</td>
+<td><em>Deprecated.</em> Use separate server and consequently separate jetty thread pool for ingesting events. Not supported with TLS.</td>
 <td>false</td>
 </tr>
 <tr>

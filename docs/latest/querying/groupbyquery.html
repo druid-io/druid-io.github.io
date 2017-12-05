@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="groupby-queries">groupBy Queries</h1>
 
 <p>These types of queries take a groupBy query object and return an array of JSON objects where each object represents a
@@ -282,6 +282,9 @@ threads. You can adjust this as necessary to balance concurrency and memory usag
 historical nodes.</li>
 <li>groupBy v1 supports using <a href="query-context.html">chunkPeriod</a> to parallelize merging on the broker, whereas groupBy v2
 ignores chunkPeriod.</li>
+<li>groupBy v2 supports both array-based aggregation and hash-based aggregation. The array-based aggregation is used only
+when the grouping key is a single indexed string column. In array-based aggregation, the dictionary-encoded value is used
+as the index, so the aggregated values in the array can be accessed directly without finding buckets based on hashing.</li>
 </ul>
 
 <h4 id="memory-tuning-and-resource-limits">Memory tuning and resource limits</h4>
@@ -458,6 +461,10 @@ line.</p>
 <tr>
 <td><code>forcePushDownLimit</code></td>
 <td>When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
+</tr>
+<tr>
+<td><code>forceHashAggregation</code></td>
+<td>Force to use hash-based aggregation.</td>
 </tr>
 </tbody></table>
 

@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="stream-pull-ingestion">Stream Pull Ingestion</h1>
 
 <p>If you have an external service that you want to pull data from, you have two options. The simplest
@@ -312,12 +312,6 @@ the indexing service.</p>
 <td>Object</td>
 <td>This describes the shard that is represented by this server. This must be specified properly in order to have multiple realtime nodes indexing the same data stream in a <a href="#sharding">sharded fashion</a>.</td>
 <td>no (default == &#39;NoneShardSpec&#39;)</td>
-</tr>
-<tr>
-<td>buildV9Directly</td>
-<td>Boolean</td>
-<td>Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.</td>
-<td>no (default == true)</td>
 </tr>
 <tr>
 <td>persistThreadPriority</td>

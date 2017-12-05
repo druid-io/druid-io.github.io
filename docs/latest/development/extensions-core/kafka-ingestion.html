@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="kafka-indexing-service">Kafka Indexing Service</h1>
 
 <p>The Kafka indexing service enables the configuration of <em>supervisors</em> on the Overlord, which facilitate ingestion from
@@ -253,12 +253,6 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td>Object</td>
 <td>Tune how data is indexed, see &#39;IndexSpec&#39; below for more details.</td>
 <td>no</td>
-</tr>
-<tr>
-<td><code>buildV9Directly</code></td>
-<td>Boolean</td>
-<td>Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.</td>
-<td>no (default == true)</td>
 </tr>
 <tr>
 <td><code>reportParseExceptions</code></td>
@@ -464,6 +458,12 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td><code>lateMessageRejectionPeriod</code></td>
 <td>ISO8601 Period</td>
 <td>Configure tasks to reject messages with timestamps earlier than this period before the task was created; for example if this is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps earlier than <em>2016-01-01T11:00Z</em> will be dropped. This may help prevent concurrency issues if your data stream has late messages and you have multiple pipelines that need to operate on the same segments (e.g. a realtime and a nightly batch ingestion pipeline).</td>
+<td>no (default == none)</td>
+</tr>
+<tr>
+<td><code>earlyMessageRejectionPeriod</code></td>
+<td>ISO8601 Period</td>
+<td>Configure tasks to reject messages with timestamps later than this period after the task was created; for example if this is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps later than <em>2016-01-01T13:00Z</em> will be dropped.</td>
 <td>no (default == none)</td>
 </tr>
 <tr>

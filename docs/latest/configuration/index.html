@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="configuring-druid">Configuring Druid</h1>
 
 <p>This describes the common configuration shared by all Druid nodes. These configurations can be defined in the <code>common.runtime.properties</code> file.</p>
@@ -283,11 +283,6 @@
 <td><code>druid.zk.paths.indexer.statusPath</code></td>
 <td>Parent path for announcement of task statuses.</td>
 <td><code>${druid.zk.paths.indexer.base}/status</code></td>
-</tr>
-<tr>
-<td><code>druid.zk.paths.indexer.leaderLatchPath</code></td>
-<td>Used for Overlord leader election.</td>
-<td><code>${druid.zk.paths.indexer.base}/leaderLatchPath</code></td>
 </tr>
 </tbody></table>
 
@@ -577,7 +572,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 <tr>
 <td><code>com.metamx.metrics.SysMonitor</code></td>
-<td>This uses the <a href="http://www.hyperic.com/products/sigar">SIGAR library</a> to report on various system activities and statuses. Make sure to add the <a href="https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132.jar">sigar library jar</a> to your classpath if using this monitor.</td>
+<td>This uses the <a href="http://www.hyperic.com/products/sigar">SIGAR library</a> to report on various system activities and statuses.</td>
 </tr>
 <tr>
 <td><code>io.druid.server.metrics.HistoricalMetricsMonitor</code></td>
@@ -585,7 +580,19 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 <tr>
 <td><code>com.metamx.metrics.JvmMonitor</code></td>
-<td>Reports JVM-related statistics.</td>
+<td>Reports various JVM-related statistics.</td>
+</tr>
+<tr>
+<td><code>com.metamx.metrics.JvmCpuMonitor</code></td>
+<td>Reports statistics of CPU consumption by the JVM.</td>
+</tr>
+<tr>
+<td><code>com.metamx.metrics.CpuAcctDeltaMonitor</code></td>
+<td>Reports consumed CPU as per the cpuacct cgroup.</td>
+</tr>
+<tr>
+<td><code>com.metamx.metrics.JvmThreadsMonitor</code></td>
+<td>Reports Thread statistics in the JVM, like numbers of total, daemon, started, died threads.</td>
 </tr>
 <tr>
 <td><code>io.druid.segment.realtime.RealtimeMetricsMonitor</code></td>
@@ -598,6 +605,10 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <tr>
 <td><code>io.druid.server.metrics.QueryCountStatsMonitor</code></td>
 <td>Reports how many queries have been successful/failed/interrupted.</td>
+</tr>
+<tr>
+<td><code>io.druid.server.emitter.HttpEmitterMonitor</code></td>
+<td>Reports internal metrics of <code>http</code> or <code>parametrized</code> emitter (see below). Must not be used with another emitter type. See the description of the metrics here: https://github.com/druid-io/druid/pull/4973.</td>
 </tr>
 </tbody></table>
 
@@ -614,7 +625,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </thead><tbody>
 <tr>
 <td><code>druid.emitter</code></td>
-<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, or &quot;http&quot; will initialize one of the emitter modules. value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
+<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, &quot;http&quot; or &quot;parametrized&quot; will initialize one of the emitter modules. value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
 <td>noop</td>
 </tr>
 </tbody></table>
@@ -650,11 +661,6 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 </thead><tbody>
 <tr>
-<td><code>druid.emitter.http.timeOut</code></td>
-<td>The timeout for data reads.</td>
-<td>PT5M</td>
-</tr>
-<tr>
 <td><code>druid.emitter.http.flushMillis</code></td>
 <td>How often the internal message buffer is flushed (data is sent).</td>
 <td>60000</td>
@@ -665,9 +671,61 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td>500</td>
 </tr>
 <tr>
+<td><code>druid.emitter.http.basicAuthentication</code></td>
+<td>Login and password for authentification in &quot;login:password&quot; form, e. g. <code>druid.emitter.http.basicAuthentication=admin:adminpassword</code></td>
+<td>not specified = no authentification</td>
+</tr>
+<tr>
+<td>`druid.emitter.http.flushTimeOut</td>
+<td>The timeout after which an event should be sent to the endpoint, even if internal buffers are not filled, in milliseconds.</td>
+<td>not specified = no timeout</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.batchingStrategy</code></td>
+<td>The strategy of how the batch is formatted. &quot;ARRAY&quot; means <code>[event1,event2]</code>, &quot;NEWLINES&quot; means <code>event1\nevent2</code>, ONLY_EVENTS means <code>event1event2</code>.</td>
+<td>ARRAY</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.maxBatchSize</code></td>
+<td>The maximum batch size, in bytes.</td>
+<td>5191680 (i. e. 5 MB)</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.batchQueueSizeLimit</code></td>
+<td>The maximum number of batches in emitter queue, if there are problems with emitting.</td>
+<td>50</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.minHttpTimeoutMillis</code></td>
+<td>If the speed of filling batches imposes timeout smaller than that, not even trying to send batch to endpoint, because it will likely fail, not being able to send the data that fast. Configure this depending based on emitter/successfulSending/minTimeMs metric. Reasonable values are 10ms..100ms.</td>
+<td>0</td>
+</tr>
+<tr>
 <td><code>druid.emitter.http.recipientBaseUrl</code></td>
 <td>The base URL to emit messages to. Druid will POST JSON to be consumed at the HTTP endpoint specified by this property.</td>
-<td>none</td>
+<td>none, required config</td>
+</tr>
+</tbody></table>
+
+<h4 id="parametrized-http-emitter-module">Parametrized Http Emitter Module</h4>
+
+<p><code>druid.emitter.parametrized.httpEmitting.*</code> configs correspond to the configs of Http Emitter Modules, see above.
+Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.httpEmitting.flushMillis</code>,
+<code>druid.emitter.parametrized.httpEmitting.flushCount</code>, etc.</p>
+
+<p>The additional configs are:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.parametrized.recipientBaseUrlPattern</code></td>
+<td>The URL pattern to send an event to, based on the event&#39;s feed. E. g. <code>http://foo.bar/{feed}</code>, that will send event to <code>http://foo.bar/metrics</code> if the event&#39;s feed is &quot;metrics&quot;.</td>
+<td>none, required config</td>
 </tr>
 </tbody></table>
 
@@ -719,7 +777,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 <tr>
 <td><code>druid.metadata.storage.connector.password</code></td>
-<td>The password provider or String password used to connect with.</td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password used to connect with.</td>
 <td>none</td>
 </tr>
 <tr>
@@ -771,39 +829,6 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td><code>druid.metadata.storage.tables.audit</code></td>
 <td>The table to use for audit history of configuration changes e.g. Coordinator rules.</td>
 <td>druid_audit</td>
-</tr>
-</tbody></table>
-
-<h4 id="password-provider">Password Provider</h4>
-
-<p>Environment variable password provider provides password by looking at specified environment variable. Use this in order to avoid specifying password in runtime.properties file.
-e.g </p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;METADATA_STORAGE_PASSWORD&quot;</span>   
-<span class="p">}</span>
-</code></pre></div>
-<p>The values are described below. </p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>password provider type</td>
-<td>Yes: <code>environment</code></td>
-</tr>
-<tr>
-<td><code>variable</code></td>
-<td>String</td>
-<td>environment variable to read password from</td>
-<td>Yes</td>
 </tr>
 </tbody></table>
 
@@ -943,6 +968,7 @@ e.g </p>
 <table><thead>
 <tr>
 <th>Property</th>
+<th>Possible Values</th>
 <th>Description</th>
 <th>Default</th>
 </tr>
@@ -951,19 +977,23 @@ e.g </p>
 <td><code>druid.cache.type</code></td>
 <td><code>local</code>, <code>memcached</code></td>
 <td>The type of cache to use for queries.</td>
+<td><code>local</code></td>
 </tr>
 <tr>
 <td><code>druid.(broker&#124;historical&#124;realtime).cache.unCacheable</code></td>
 <td>All druid query types</td>
 <td>All query types to not cache.</td>
+<td>[&quot;groupBy&quot;, &quot;select&quot;]</td>
 </tr>
 <tr>
 <td><code>druid.(broker&#124;historical&#124;realtime).cache.useCache</code></td>
+<td>true, false</td>
 <td>Whether to use cache for getting query results.</td>
 <td>false</td>
 </tr>
 <tr>
 <td><code>druid.(broker&#124;historical&#124;realtime).cache.populateCache</code></td>
+<td>true, false</td>
 <td>Whether to populate cache.</td>
 <td>false</td>
 </tr>
@@ -1126,6 +1156,27 @@ the following properties.</p>
 <div class="note info">
 JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
+
+<h3 id="double-column-storage">Double Column storage</h3>
+
+<p>Druid&#39;s storage layer uses a 32-bit float representation to store columns created by the 
+doubleSum, doubleMin, and doubleMax aggregators at indexing time. To instead use 64-bit floats
+for these columns, please set the system-wide property <code>druid.indexing.doubleStorage=double</code>.
+This will become the default behavior in a future version of Druid.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexing.doubleStorage</code></td>
+<td>Set to &quot;double&quot; to use 64-bit double representation for double columns.</td>
+<td>float</td>
+</tr>
+</tbody></table>
 
         </div>
         <div class="col-md-3">

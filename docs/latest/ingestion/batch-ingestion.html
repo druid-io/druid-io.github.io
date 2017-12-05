@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.10.1">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
           <h1 id="batch-data-ingestion">Batch Data Ingestion</h1>
 
 <p>Druid can load data from static files through a variety of methods described here.</p>
@@ -389,12 +389,6 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <td>Object</td>
 <td>Tune how data is indexed. See below for more information.</td>
 <td>no</td>
-</tr>
-<tr>
-<td>buildV9Directly</td>
-<td>Boolean</td>
-<td>Whether to build a v9 index directly instead of first building a v8 index and then converting it to v9 format.</td>
-<td>no (default == true)</td>
 </tr>
 <tr>
 <td>numBackgroundPersistThreads</td>
