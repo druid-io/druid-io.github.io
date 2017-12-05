@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.10.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.10.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
+          <h1 id="druid-quickstart">Druid Quickstart</h1>
+
+<p>In this quickstart, we will download Druid, set up it up on a single machine, load some data, and query the data.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>You will need:</p>
+
+<ul>
+<li>Java 8 or higher</li>
+<li>Linux, Mac OS X, or other Unix-like OS (Windows is not supported)</li>
+<li>8G of RAM</li>
+<li>2 vCPUs</li>
+</ul>
+
+<p>On Mac OS X, you can use <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Oracle&#39;s JDK
+8</a> to install
+Java.</p>
+
+<p>On Linux, your OS package manager should be able to help for Java. If your Ubuntu-
+based OS does not have a recent enough version of Java, WebUpd8 offers <a href="http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html">packages for those
+OSes</a>.</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>To install Druid, issue the following commands in your terminal:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.11.0-bin.tar.gz
+tar -xzf druid-0.11.0-bin.tar.gz
+<span class="nb">cd</span> druid-0.11.0
+</code></pre></div>
+<p>In the package, you should find:</p>
+
+<ul>
+<li><code>LICENSE</code> - the license files.</li>
+<li><code>bin/</code> - scripts useful for this quickstart.</li>
+<li><code>conf/*</code> - template configurations for a clustered setup.</li>
+<li><code>conf-quickstart/*</code> - configurations for this quickstart.</li>
+<li><code>extensions/*</code> - all Druid extensions.</li>
+<li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies.</li>
+<li><code>lib/*</code> - all included software packages for core Druid.</li>
+<li><code>quickstart/*</code> - files useful for this quickstart.</li>
+</ul>
+
+<h2 id="start-up-zookeeper">Start up Zookeeper</h2>
+
+<p>Druid currently has a dependency on <a href="http://zookeeper.apache.org/">Apache ZooKeeper</a> for distributed coordination. You&#39;ll
+need to download and run Zookeeper.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
+tar -xzf zookeeper-3.4.10.tar.gz
+<span class="nb">cd</span> zookeeper-3.4.10
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
+</code></pre></div>
+<h2 id="start-up-druid-services">Start up Druid services</h2>
+
+<p>With Zookeeper running, return to the druid-0.11.0 directory. In that directory, issue the command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/init
+</code></pre></div>
+<p>This will setup up some directories for you. Next, you can start up the Druid processes in different terminal windows.
+This tutorial runs every Druid process on the same system. In a large distributed production cluster,
+many of these Druid processes can still be co-located together.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf-quickstart/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;conf-quickstart/druid/_common:conf-quickstart/druid/historical:lib/*&quot;</span> io.druid.cli.Main server historical
+java <span class="sb">`</span>cat conf-quickstart/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;conf-quickstart/druid/_common:conf-quickstart/druid/broker:lib/*&quot;</span> io.druid.cli.Main server broker
+java <span class="sb">`</span>cat conf-quickstart/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;conf-quickstart/druid/_common:conf-quickstart/druid/coordinator:lib/*&quot;</span> io.druid.cli.Main server coordinator
+java <span class="sb">`</span>cat conf-quickstart/druid/overlord/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;conf-quickstart/druid/_common:conf-quickstart/druid/overlord:lib/*&quot;</span> io.druid.cli.Main server overlord
+java <span class="sb">`</span>cat conf-quickstart/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;conf-quickstart/druid/_common:conf-quickstart/druid/middleManager:lib/*&quot;</span> io.druid.cli.Main server middleManager
+</code></pre></div>
+<p>You should see a log message printed out for each service that starts up.</p>
+
+<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit from the running java processes. If you
+want a clean start after stopping the services, delete the <code>var</code> directory and run the <code>init</code> script again.</p>
+
+<p>Once every service has started, you are now ready to load data.</p>
+
+<h2 id="load-batch-data">Load batch data</h2>
+
+<p>We&#39;ve included a sample of Wikipedia edits from September 12, 2015 to get you started.</p>
+
+<div class="note info">
+This section shows you how to load data in batches, but you can skip ahead to learn how to <a href="quickstart.html#load-streaming-data">load
+streams in real-time</a>. Druid's streaming ingestion can load data
+with virtually no delay between events occurring and being available for queries.
+</div>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29">dimensions</a> (attributes you can
+filter and split on) in the Wikipedia dataset, other than time, are:</p>
+
+<ul>
+<li>channel</li>
+<li>cityName</li>
+<li>comment</li>
+<li>countryIsoCode</li>
+<li>countryName</li>
+<li>isAnonymous</li>
+<li>isMinor</li>
+<li>isNew</li>
+<li>isRobot</li>
+<li>isUnpatrolled</li>
+<li>metroCode</li>
+<li>namespace</li>
+<li>page</li>
+<li>regionIsoCode</li>
+<li>regionName</li>
+<li>user</li>
+</ul>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Measure_%28data_warehouse%29">measures</a>, or <em>metrics</em> as they are known in Druid (values you can aggregate)
+in the Wikipedia dataset are:</p>
+
+<ul>
+<li>count</li>
+<li>added</li>
+<li>deleted</li>
+<li>delta</li>
+<li>user_unique</li>
+</ul>
+
+<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. We&#39;ve included
+a task that loads the <code>wikiticker-2015-09-12-sampled.json</code> file included in the archive. To submit
+this task, POST it to Druid in a new terminal window from the druid-0.11.0 directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/wikiticker-index.json localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>Which will print the ID of the task if the submission was successful:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_hadoop_wikipedia_2013-10-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+</code></pre></div>
+<p>To view the status of your ingestion task, go to your overlord console:
+<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+
+<p>After your ingestion task finishes, the data will be loaded by historical nodes and available for
+querying within a minute or two. You can monitor the progress of loading your data in the
+coordinator console, by checking whether there is a datasource &quot;wikiticker&quot; with a blue circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p>Once the data is fully available, you can immediately query it&mdash; to see how, skip to the <a href="#query-data">Query
+data</a> section below. Or, continue to the <a href="#load-your-own-data">Load your own data</a>
+section if you&#39;d like to load a different dataset.</p>
+
+<h2 id="load-streaming-data">Load streaming data</h2>
+
+<p>To load streaming data, we are going to push events into Druid
+over a simple HTTP API. To do this we will use [Tranquility], a high level data producer
+library for Druid.</p>
+
+<p>To download Tranquility, issue the following commands in your terminal:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.0.tgz
+tar -xzf tranquility-distribution-0.8.0.tgz
+<span class="nb">cd</span> tranquility-distribution-0.8.0
+</code></pre></div>
+<p>We&#39;ve included a configuration file in <code>conf-quickstart/tranquility/server.json</code> as part of the Druid distribution
+for a <em>metrics</em> datasource. We&#39;re going to start the Tranquility server process, which can be used to push events
+directly to Druid.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/tranquility server -configFile &lt;path_to_druid_distro&gt;/conf-quickstart/tranquility/server.json
+</code></pre></div>
+<div class="note info">
+This section shows you how to load data using Tranquility Server, but Druid also supports a wide
+variety of <a href="../ingestion/stream-ingestion.html#stream-push">other streaming ingestion options</a>, including from
+popular streaming systems like Kafka, Storm, Samza, and Spark Streaming.
+</div>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29">dimensions</a> (attributes you can
+filter and split on) for this datasource are flexible. It&#39;s configured for <em>schemaless dimensions</em>,
+meaning it will accept any field in your JSON input as a dimension.</p>
+
+<p>The metrics (also called
+<a href="https://en.wikipedia.org/wiki/Measure_%28data_warehouse%29">measures</a>; values
+you can aggregate) in this datasource are:</p>
+
+<ul>
+<li>count</li>
+<li>value_sum (derived from <code>value</code> in the input)</li>
+<li>value_min (derived from <code>value</code> in the input)</li>
+<li>value_max (derived from <code>value</code> in the input)</li>
+</ul>
+
+<p>We&#39;ve included a script that can generate some random sample metrics to load into this datasource.
+To use it, simply run in your Druid distribution repository:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/generate-example-metrics <span class="p">|</span> curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> --data-binary @- http://localhost:8200/v1/post/metrics
+</code></pre></div>
+<p>Which will print something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;result&quot;:{&quot;received&quot;:25,&quot;sent&quot;:25}}
+</code></pre></div>
+<p>This indicates that the HTTP server received 25 events from you, and sent 25 to Druid. Note that
+this may take a few seconds to finish the first time you run it, as Druid resources must be
+allocated to the ingestion task. Subsequent POSTs should complete quickly.</p>
+
+<p>Once the data is sent to Druid, you can immediately <a href="#query-data">query it</a>.</p>
+
+<h2 id="query-data">Query data</h2>
+
+<h3 id="direct-druid-queries">Direct Druid queries</h3>
+
+<p>Druid supports a rich <a href="../querying/querying.html">family of JSON-based
+queries</a>. We&#39;ve included an example topN query
+in <code>quickstart/wikiticker-top-pages.json</code> that will find the most-edited articles in this dataset:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -L -H<span class="s1">&#39;Content-Type: application/json&#39;</span> -XPOST --data-binary @quickstart/wikiticker-top-pages.json http://localhost:8082/druid/v2/?pretty
+</code></pre></div>
+<h2 id="visualizing-data">Visualizing data</h2>
+
+<p>Druid is ideal for power user-facing analytic applications. There are a number of different open source applications to
+visualize and explore data in Druid. We recommend trying <a href="https://github.com/implydata/pivot">Pivot</a>,
+<a href="https://github.com/airbnb/superset">Superset</a>, or <a href="https://github.com/metabase/metabase">Metabase</a> to start
+visualizing the data you just ingested.</p>
+
+<p>If you installed Pivot for example, you should be able to view your data in your browser at <a href="http://localhost:9090/">localhost:9090</a>.</p>
+
+<h3 id="sql-and-other-query-libraries">SQL and other query libraries</h3>
+
+<p>There are many more query tools for Druid than we&#39;ve included here, including SQL
+engines, and libraries for various languages like Python and Ruby. Please see <a href="../development/libraries.html">the list of
+libraries</a> for more information.</p>
+
+<h2 id="clustered-setup">Clustered setup</h2>
+
+<p>This quickstart sets you up with all services running on a single machine. The next step is to <a href="ingestion.html">load
+your own data</a>. Or, you can skip ahead to <a href="cluster.html">running a distributed cluster</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.11.0/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
