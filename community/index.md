@@ -79,6 +79,7 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
 | [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
+| [Maxime Beauchemin](https://github.com/mistercrunch)  | Lyft                   |
 | [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
 | [Navis Ryu](https://github.com/navis)                 | SK Telecom             |
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
