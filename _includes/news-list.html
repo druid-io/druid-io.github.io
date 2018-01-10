@@ -4,11 +4,11 @@
   <div class="list-title">
     News & Updates
   </div>
-  {% for item in site.data.news %}
+  {% for page in site.posts limit: 3 %}
   <p>
-    <a href="{{ item.link }}">
-      <span>{{ item.name }}</span><br>
-      <span class="text-muted">{{ item.date | date: "%b %e %Y" }}</span>
+    <a href="{{ page.url }}">
+      <span>{{ page.title }}</span><br>
+      <span class="text-muted">{{ page.date | date: "%b %e, %Y" }}</span>
     </a>
   </p>
   {% endfor %}
