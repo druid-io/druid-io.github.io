@@ -193,6 +193,10 @@ You can learn more about the AOC at http://netsil.com/download/
 
 Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data. 
 
+## Ona
+
+Ona <https://ona.io> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources. 
+
 ## OneAPM
 
 OneAPM <http://oneapm.com> is an IT service compmay focusing on Application Performance Management (APM). In OneAPM, Druid is used to power clients' interactive queries on performance data collected from their applications in realtime.
