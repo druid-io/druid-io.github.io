@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.11.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0-rc1">API documentation</a></p>
+          <h1 id="filter-groupby-query-results">Filter groupBy Query Results</h1>
+
+<p>A having clause is a JSON object identifying which rows from a groupBy query should be returned, by specifying conditions on aggregated values.</p>
+
+<p>It is essentially the equivalent of the HAVING clause in SQL.</p>
+
+<p>Druid supports the following types of having clauses.</p>
+
+<h3 id="query-filters">Query filters</h3>
+
+<p>Query filter HavingSpecs allow all <a href="filters.html">Druid query filters</a> to be used in the Having part of the query.</p>
+
+<p>The grammar for a query filter HavingSpec is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="err">&lt;any</span> <span class="err">Druid</span> <span class="err">query</span> <span class="err">filter&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>For example, to use a selector filter:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension_value&gt;&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You can use &quot;filter&quot; HavingSpecs to filter on the timestamp of result rows by applying a filter to the &quot;__time&quot;
+column.</p>
+
+<h3 id="numeric-filters">Numeric filters</h3>
+
+<p>The simplest having clause is a numeric filter.
+Numeric filters can be used as the base filters for more complex boolean expressions of filters.</p>
+
+<p>Here&#39;s an example of a having-clause numeric filter:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;myAggMetric&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="equal-to">Equal To</h4>
+
+<p>The equalTo filter will match rows with a specific aggregate value.
+The grammar for an <code>equalTo</code> filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is the equivalent of <code>HAVING &lt;aggregate&gt; = &lt;value&gt;</code>.</p>
+
+<h4 id="greater-than">Greater Than</h4>
+
+<p>The greaterThan filter will match rows with aggregate values greater than the given value.
+The grammar for a <code>greaterThan</code> filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is the equivalent of <code>HAVING &lt;aggregate&gt; &gt; &lt;value&gt;</code>.</p>
+
+<h4 id="less-than">Less Than</h4>
+
+<p>The lessThan filter will match rows with aggregate values less than the specified value.
+The grammar for a <code>greaterThan</code> filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lessThan&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is the equivalent of <code>HAVING &lt;aggregate&gt; &lt; &lt;value&gt;</code>.</p>
+
+<h3 id="dimension-selector-filter">Dimension Selector Filter</h3>
+
+<h4 id="dimselector">dimSelector</h4>
+
+<p>The dimSelector filter will match rows with dimension values equal to the specified value.
+The grammar for a <code>dimSelector</code> filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimSelector&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="logical-expression-filters">Logical expression filters</h3>
+
+<h4 id="and">AND</h4>
+
+<p>The grammar for an AND filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The having clauses in <code>havingSpecs</code> can be any other having clause defined on this page.</p>
+
+<h4 id="or">OR</h4>
+
+<p>The grammar for an OR filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The having clauses in <code>havingSpecs</code> can be any other having clause defined on this page.</p>
+
+<h4 id="not">NOT</h4>
+
+<p>The grammar for a NOT filter is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;havingSpec&quot;</span><span class="p">:</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The having clause specified at <code>havingSpec</code> can be any other having clause defined on this page.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.0-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
