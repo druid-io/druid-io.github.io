@@ -262,6 +262,7 @@ Retargetly is a Data Management Platform that enables publishers and advertisers
 Sift Science provides an online trust platform that online businesses use to prevent fraud and abuse. We use Druid as a tool to gain real-time insights about our data and machine learning models.
 
 ## Sina Weibo
+Weibo Advertising Platform deploys Druid as realtime data tool for online advertising analytics and business intelligence(BI). Druid processes TBs of realtime data per day with latency in one minute.
 
 Weibo UVE(Unified Value Evaluation) team of Advertising Platform is using Druid as the realtime analysis tool of the data insight system, which processing billions events everyday.
 
