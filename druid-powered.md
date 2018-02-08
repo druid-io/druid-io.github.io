@@ -266,6 +266,10 @@ Weibo Advertising Platform deploys Druid as realtime data tool for online advert
 
 Weibo UVE(Unified Value Evaluation) team of Advertising Platform is using Druid as the realtime analysis tool of the data insight system, which processing billions events everyday.
 
+## Singular
+
+Druid is the primary data store used for ad-hoc analytics in Singular, enabling our customers to generate insights based on real-time and historical data.
+
 ## SK Telecom
 
 SK Telecom is the leading telecommunication and platform solution company. Druid enable us to discover the business insight interactively from telecommunication, manufacturing big data.
