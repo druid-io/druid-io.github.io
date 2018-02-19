@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.11.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0-rc3">API documentation</a></p>
+          <p>For general Indexing Service information, see <a href="../design/indexing-service.html">here</a>.</p>
+
+<h2 id="runtime-configuration">Runtime Configuration</h2>
+
+<p>The indexing service uses several of the global configs in <a href="../configuration/index.html">Configuration</a> and has the following set of configurations as well:</p>
+
+<h3 id="must-be-set-on-overlord-and-middle-manager">Must be set on Overlord and Middle Manager</h3>
+
+<h4 id="overlord-node-configs">Overlord Node Configs</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.host</code></td>
+<td>The host for the current node. This is used to advertise the current processes location as reachable from another node and should generally be specified such that <code>http://${druid.host}/</code> could actually talk to this process</td>
+<td>InetAddress.getLocalHost().getCanonicalHostName()</td>
+</tr>
+<tr>
+<td><code>druid.plaintextPort</code></td>
+<td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
+<td>8090</td>
+</tr>
+<tr>
+<td><code>druid.tlsPort</code></td>
+<td>TLS port for HTTPS connector, if <a href="../operations/tls-support.html">druid.enableTlsPort</a> is set then this config will be used. If <code>druid.host</code> contains port then that port will be ignored. This should be a non-negative Integer.</td>
+<td>8290</td>
+</tr>
+<tr>
+<td><code>druid.service</code></td>
+<td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
+<td>druid/overlord</td>
+</tr>
+</tbody></table>
+
+<h4 id="middlemanager-node-configs">MiddleManager Node Configs</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.host</code></td>
+<td>The host for the current node. This is used to advertise the current processes location as reachable from another node and should generally be specified such that <code>http://${druid.host}/</code> could actually talk to this process</td>
+<td>InetAddress.getLocalHost().getCanonicalHostName()</td>
+</tr>
+<tr>
+<td><code>druid.plaintextPort</code></td>
+<td>This is the port to actually listen on; unless port mapping is used, this will be the same port as is on <code>druid.host</code></td>
+<td>8091</td>
+</tr>
+<tr>
+<td><code>druid.tlsPort</code></td>
+<td>TLS port for HTTPS connector, if <a href="../operations/tls-support.html">druid.enableTlsPort</a> is set then this config will be used. If <code>druid.host</code> contains port then that port will be ignored. This should be a non-negative Integer.</td>
+<td>8291</td>
+</tr>
+<tr>
+<td><code>druid.service</code></td>
+<td>The name of the service. This is used as a dimension when emitting metrics and alerts to differentiate between the various services</td>
+<td>druid/middlemanager</td>
+</tr>
+</tbody></table>
+
+<h4 id="task-logging">Task Logging</h4>
+
+<p>If you are running the indexing service in remote mode, the task logs must be stored in S3, Azure Blob Store, Google Cloud Storage or HDFS.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.type</code></td>
+<td>Choices:noop, s3, azure, google, hdfs, file. Where to store task logs</td>
+<td>file</td>
+</tr>
+</tbody></table>
+
+<p>You can also configure the Overlord to automatically retain the task logs only for last x milliseconds by configuring following additional properties.
+Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid nodes and backing store nodes might result in un-intended behavior.  </p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.kill.enabled</code></td>
+<td>Boolean value for whether to enable deletion of old task logs.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.durationToRetain</code></td>
+<td>Required if kill is enabled. In milliseconds, task logs to be retained created in last x milliseconds.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.initialDelay</code></td>
+<td>Optional. Number of milliseconds after overlord start when first auto kill is run.</td>
+<td>random value less than 300000 (5 mins)</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.kill.delay</code></td>
+<td>Optional. Number of milliseconds of delay between successive executions of auto kill run.</td>
+<td>21600000 (6 hours)</td>
+</tr>
+</tbody></table>
+
+<h5 id="file-task-logs">File Task Logs</h5>
+
+<p>Store task logs in the local filesystem.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.directory</code></td>
+<td>Local filesystem path.</td>
+<td>log</td>
+</tr>
+</tbody></table>
+
+<h5 id="s3-task-logs">S3 Task Logs</h5>
+
+<p>Store task logs in S3.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.s3Bucket</code></td>
+<td>S3 bucket name.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.s3Prefix</code></td>
+<td>S3 key prefix.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="azure-blob-store-task-logs">Azure Blob Store Task Logs</h4>
+
+<p>Store task logs in Azure Blob Store.</p>
+
+<p>Note: this uses the same storage account as the deep storage module for azure.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.container</code></td>
+<td>The Azure Blob Store container to write logs to</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.prefix</code></td>
+<td>The path to prepend to logs</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h4 id="google-cloud-storage-task-logs">Google Cloud Storage Task Logs</h4>
+
+<p>Store task logs in Google Cloud Storage.</p>
+
+<p>Note: this uses the same storage settings as the deep storage module for google.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.bucket</code></td>
+<td>The Google Cloud Storage bucket to write logs to</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.indexer.logs.prefix</code></td>
+<td>The path to prepend to logs</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h5 id="hdfs-task-logs">HDFS Task Logs</h5>
+
+<p>Store task logs in HDFS.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.logs.directory</code></td>
+<td>The directory to store logs.</td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<h3 id="overlord-configs">Overlord Configs</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.runner.type</code></td>
+<td>Choices &quot;local&quot; or &quot;remote&quot;. Indicates whether tasks should be run locally or in a distributed environment.</td>
+<td>local</td>
+</tr>
+<tr>
+<td><code>druid.indexer.storage.type</code></td>
+<td>Choices are &quot;local&quot; or &quot;metadata&quot;. Indicates whether incoming tasks should be stored locally (in heap) or in metadata storage. Storing incoming tasks in metadata storage allows for tasks to be resumed if the overlord should fail.</td>
+<td>local</td>
+</tr>
+<tr>
+<td><code>druid.indexer.storage.recentlyFinishedThreshold</code></td>
+<td>A duration of time to store task results.</td>
+<td>PT24H</td>
+</tr>
+<tr>
+<td><code>druid.indexer.queue.maxSize</code></td>
+<td>Maximum number of active tasks at one time.</td>
+<td>Integer.MAX_VALUE</td>
+</tr>
+<tr>
+<td><code>druid.indexer.queue.startDelay</code></td>
+<td>Sleep this long before starting overlord queue management. This can be useful to give a cluster time to re-orient itself after e.g. a widespread network issue.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.queue.restartDelay</code></td>
+<td>Sleep this long when overlord queue management throws an exception before trying again.</td>
+<td>PT30S</td>
+</tr>
+<tr>
+<td><code>druid.indexer.queue.storageSyncRate</code></td>
+<td>Sync overlord state this often with an underlying task persistence mechanism.</td>
+<td>PT1M</td>
+</tr>
+</tbody></table>
+
+<p>The following configs only apply if the overlord is running in remote mode:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.runner.taskAssignmentTimeout</code></td>
+<td>How long to wait after a task as been assigned to a middle manager before throwing an error.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.minWorkerVersion</code></td>
+<td>The minimum middle manager version to send tasks to.</td>
+<td>&quot;0&quot;</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.compressZnodes</code></td>
+<td>Indicates whether or not the overlord should expect middle managers to compress Znodes.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxZnodeBytes</code></td>
+<td>The maximum size Znode in bytes that can be created in Zookeeper.</td>
+<td>524288</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.taskCleanupTimeout</code></td>
+<td>How long to wait before failing a task after a middle manager is disconnected from Zookeeper.</td>
+<td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.taskShutdownLinkTimeout</code></td>
+<td>How long to wait on a shutdown request to a middle manager before timing out</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.pendingTasksRunnerNumThreads</code></td>
+<td>Number of threads to allocate pending-tasks to workers, must be at least 1.</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxRetriesBeforeBlacklist</code></td>
+<td>Number of consecutive times the middle manager can fail tasks,  before the worker is blacklisted, must be at least 1</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.workerBlackListBackoffTime</code></td>
+<td>How long to wait before a task is whitelisted again. This value should be greater that the value set for taskBlackListCleanupPeriod.</td>
+<td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.workerBlackListCleanupPeriod</code></td>
+<td>A duration after which the cleanup thread will startup to clean blacklisted workers.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxPercentageBlacklistWorkers</code></td>
+<td>The maximum percentage of workers to blacklist, this must be between 0 and 100.</td>
+<td>20</td>
+</tr>
+</tbody></table>
+
+<p>There are additional configs for autoscaling (if it is enabled):</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.autoscale.strategy</code></td>
+<td>Choices are &quot;noop&quot; or &quot;ec2&quot;. Sets the strategy to run when autoscaling is required.</td>
+<td>noop</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.doAutoscale</code></td>
+<td>If set to &quot;true&quot; autoscaling will be enabled.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.provisionPeriod</code></td>
+<td>How often to check whether or not new middle managers should be added.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.terminatePeriod</code></td>
+<td>How often to check when middle managers should be removed.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.originTime</code></td>
+<td>The starting reference timestamp that the terminate period increments upon.</td>
+<td>2012-01-01T00:55:00.000Z</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.workerIdleTimeout</code></td>
+<td>How long can a worker be idle (not a run task) before it can be considered for termination.</td>
+<td>PT90M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.maxScalingDuration</code></td>
+<td>How long the overlord will wait around for a middle manager to show up before giving up.</td>
+<td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.numEventsToTrack</code></td>
+<td>The number of autoscaling related events (node creation and termination) to track.</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.pendingTaskTimeout</code></td>
+<td>How long a task can be in &quot;pending&quot; state before the overlord tries to scale up.</td>
+<td>PT30S</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.workerVersion</code></td>
+<td>If set, will only create nodes of set version during autoscaling. Overrides dynamic configuration.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.indexer.autoscale.workerPort</code></td>
+<td>The port that middle managers will run on.</td>
+<td>8080</td>
+</tr>
+</tbody></table>
+
+<h4 id="dynamic-configuration">Dynamic Configuration</h4>
+
+<p>The overlord can dynamically change worker behavior.</p>
+
+<p>The JSON object can be submitted to the overlord via a POST request at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker
+</code></pre></div>
+<p>Optional Header Parameters for auditing the config change can also be specified.</p>
+
+<table><thead>
+<tr>
+<th>Header Param Name</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>X-Druid-Author</code></td>
+<td>author making the config change</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>X-Druid-Comment</code></td>
+<td>comment describing the change being done</td>
+<td>&quot;&quot;</td>
+</tr>
+</tbody></table>
+
+<p>A sample worker config spec is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;selectStrategy&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fillCapacity&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;affinityConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;affinity&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;datasource1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;host1:port&quot;</span><span class="p">,</span> <span class="s2">&quot;host2:port&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;datasource2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;host3:port&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;autoScaler&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ec2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;minNumWorkers&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;maxNumWorkers&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="nt">&quot;envConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;availabilityZone&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1a&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;nodeData&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;amiId&quot;</span><span class="p">:</span> <span class="s2">&quot;${AMI}&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;instanceType&quot;</span><span class="p">:</span> <span class="s2">&quot;c3.8xlarge&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;minInstances&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;maxInstances&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;securityGroupIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;${IDs}&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;keyName&quot;</span><span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="err">KEY_NAME</span><span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;userData&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;impl&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;${SCRIPT_COMMAND}&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;versionReplacementString&quot;</span><span class="p">:</span> <span class="s2">&quot;:VERSION:&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="kc">null</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Issuing a GET request at the same URL will return the current worker config spec that is currently in place. The worker config spec list above is just a sample for EC2 and it is possible to extend the code base for other deployment environments. A description of the worker config spec is shown below.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>selectStrategy</code></td>
+<td>How to assign tasks to middle managers. Choices are <code>fillCapacity</code>, <code>equalDistribution</code>, and <code>javascript</code>.</td>
+<td>equalDistribution</td>
+</tr>
+<tr>
+<td><code>autoScaler</code></td>
+<td>Only used if autoscaling is enabled. See below.</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+<p>To view the audit history of worker config issue a GET request to the URL -</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?interval=&lt;interval&gt;
+</code></pre></div>
+<p>default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in overlord runtime.properties.</p>
+
+<p>To view last <n> entries of the audit history of worker config issue a GET request to the URL -</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/worker/history?count=&lt;n&gt;
+</code></pre></div>
+<h4 id="worker-select-strategy">Worker Select Strategy</h4>
+
+<p>Worker select strategies control how Druid assigns tasks to middleManagers.</p>
+
+<h5 id="equal-distribution">Equal Distribution</h5>
+
+<p>Tasks are assigned to the middleManager with the most available capacity at the time the task begins running. This is
+useful if you want work evenly distributed across your middleManagers.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>equalDistribution</code>.</td>
+<td>required; must be <code>equalDistribution</code></td>
+</tr>
+<tr>
+<td><code>affinityConfig</code></td>
+<td><a href="#affinity">Affinity config</a> object</td>
+<td>null (no affinity)</td>
+</tr>
+</tbody></table>
+
+<h5 id="fill-capacity">Fill Capacity</h5>
+
+<p>Tasks are assigned to the worker with the most currently-running tasks at the time the task begins running. This is
+useful in situations where you are elastically auto-scaling middleManagers, since it will tend to pack some full and
+leave others empty. The empty ones can be safely terminated.</p>
+
+<p>Note that if <code>druid.indexer.runner.pendingTasksRunnerNumThreads</code> is set to <em>N</em> &gt; 1, then this strategy will fill <em>N</em>
+middleManagers up to capacity simultaneously, rather than a single middleManager.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>fillCapacity</code>.</td>
+<td>required; must be <code>fillCapacity</code></td>
+</tr>
+<tr>
+<td><code>affinityConfig</code></td>
+<td><a href="#affinity">Affinity config</a> object</td>
+<td>null (no affinity)</td>
+</tr>
+</tbody></table>
+
+<h5 id="javascript">Javascript</h5>
+
+<p>Allows defining arbitrary logic for selecting workers to run task using a JavaScript function.
+The function is passed remoteTaskRunnerConfig, map of workerId to available workers and task to be executed and returns the workerId on which the task should be run or null if the task cannot be run.
+It can be used for rapid development of missing features where the worker selection logic is to be changed or tuned often.
+If the selection logic is quite complex and cannot be easily tested in javascript environment,
+its better to write a druid extension module with extending current worker selection strategies written in java.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>javascript</code>.</td>
+<td>required; must be <code>javascript</code></td>
+</tr>
+<tr>
+<td><code>function</code></td>
+<td>String representing javascript function</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>Example: a function that sends batch_index_task to workers 10.0.0.1 and 10.0.0.2 and all other tasks to other available workers.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+&quot;type&quot;:&quot;javascript&quot;,
+&quot;function&quot;:&quot;function (config, zkWorkers, task) {\nvar batch_workers = new java.util.ArrayList();\nbatch_workers.add(\&quot;10.0.0.1\&quot;);\nbatch_workers.add(\&quot;10.0.0.2\&quot;);\nworkers = zkWorkers.keySet().toArray();\nvar sortedWorkers = new Array()\n;for(var i = 0; i &lt; workers.length; i++){\n sortedWorkers[i] = workers[i];\n}\nArray.prototype.sort.call(sortedWorkers,function(a, b){return zkWorkers.get(b).getCurrCapacityUsed() - zkWorkers.get(a).getCurrCapacityUsed();});\nvar minWorkerVer = config.getMinWorkerVersion();\nfor (var i = 0; i &lt; sortedWorkers.length; i++) {\n var worker = sortedWorkers[i];\n  var zkWorker = zkWorkers.get(worker);\n  if(zkWorker.canRunTask(task) &amp;&amp; zkWorker.isValidVersion(minWorkerVer)){\n    if(task.getType() == &#39;index_hadoop&#39; &amp;&amp; batch_workers.contains(worker)){\n      return worker;\n    } else {\n      if(task.getType() != &#39;index_hadoop&#39; &amp;&amp; !batch_workers.contains(worker)){\n        return worker;\n      }\n    }\n  }\n}\nreturn null;\n}&quot;
+}
+</code></pre></div>
+<div class="note info">
+JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
+</div>
+
+<h5 id="affinity">Affinity</h5>
+
+<p>Affinity configs can be provided to the <em>equalDistribution</em> and <em>fillCapacity</em> strategies using the &quot;affinityConfig&quot;
+field. If not provided, the default is to not use affinity at all.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>affinity</code></td>
+<td>JSON object mapping a datasource String name to a list of indexing service middleManager host:port String values. Druid doesn&#39;t perform DNS resolution, so the &#39;host&#39; value must match what is configured on the middleManager and what the middleManager announces itself as (examine the Overlord logs to see what your middleManager announces itself as).</td>
+<td>{}</td>
+</tr>
+<tr>
+<td><code>strong</code></td>
+<td>With weak affinity (the default), tasks for a dataSource may be assigned to other middleManagers if their affinity-mapped middleManagers are not able to run all pending tasks in the queue for that dataSource. With strong affinity, tasks for a dataSource will only ever be assigned to their affinity-mapped middleManagers, and will wait in the pending queue if necessary.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h4 id="autoscaler">Autoscaler</h4>
+
+<p>Amazon&#39;s EC2 is currently the only supported autoscaler.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>minNumWorkers</code></td>
+<td>The minimum number of workers that can be in the cluster at any given time.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>maxNumWorkers</code></td>
+<td>The maximum number of workers that can be in the cluster at any given time.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>availabilityZone</code></td>
+<td>What availability zone to run in.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>nodeData</code></td>
+<td>A JSON object that describes how to launch new nodes.</td>
+<td>none; required</td>
+</tr>
+<tr>
+<td><code>userData</code></td>
+<td>A JSON object that describes how to configure new nodes. If you have set druid.indexer.autoscale.workerVersion, this must have a versionReplacementString. Otherwise, a versionReplacementString is not necessary.</td>
+<td>none; optional</td>
+</tr>
+</tbody></table>
+
+<h3 id="middlemanager-configs">MiddleManager Configs</h3>
+
+<p>Middle managers pass their configurations down to their child peons. The middle manager requires the following configs:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.runner.allowedPrefixes</code></td>
+<td>Whitelist of prefixes for configs that can be passed down to child peons.</td>
+<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;io.druid&quot;, &quot;user.timezone&quot;, &quot;file.encoding&quot;, &quot;java.io.tmpdir&quot;, &quot;hadoop&quot;</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.compressZnodes</code></td>
+<td>Indicates whether or not the middle managers should compress Znodes.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.classpath</code></td>
+<td>Java classpath for the peon.</td>
+<td>System.getProperty(&quot;java.class.path&quot;)</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.javaCommand</code></td>
+<td>Command required to execute java.</td>
+<td>java</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.javaOpts</code></td>
+<td><em>DEPRECATED</em> A string of -X Java options to pass to the peon&#39;s JVM. Quotable parameters or parameters with spaces are encouraged to use javaOptsArray</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.javaOptsArray</code></td>
+<td>A json array of strings to be passed in as options to the peon&#39;s jvm. This is additive to javaOpts and is recommended for properly handling arguments which contain quotes or spaces like <code>[&quot;-XX:OnOutOfMemoryError=kill -9 %p&quot;]</code></td>
+<td><code>[]</code></td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.maxZnodeBytes</code></td>
+<td>The maximum size Znode in bytes that can be created in Zookeeper.</td>
+<td>524288</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.startPort</code></td>
+<td>Starting port used for peon processes, should be greater than 1023.</td>
+<td>8100</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.tlsStartPort</code></td>
+<td>Starting TLS port for peon processes, should be greater than 1023.</td>
+<td>8300</td>
+</tr>
+<tr>
+<td><code>druid.indexer.runner.separateIngestionEndpoint</code></td>
+<td><em>Deprecated.</em> Use separate server and consequently separate jetty thread pool for ingesting events. Not supported with TLS.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.worker.ip</code></td>
+<td>The IP of the worker.</td>
+<td>localhost</td>
+</tr>
+<tr>
+<td><code>druid.worker.version</code></td>
+<td>Version identifier for the middle manager.</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.worker.capacity</code></td>
+<td>Maximum number of tasks the middle manager can accept.</td>
+<td>Number of available processors - 1</td>
+</tr>
+</tbody></table>
+
+<h4 id="peon-configs">Peon Configs</h4>
+
+<p>Although peons inherit the configurations of their parent middle managers, explicit child peon configs in middle manager can be set by prefixing them with:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.fork.property
+</code></pre></div>
+<p>Additional peon configs include:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.peon.mode</code></td>
+<td>Choices are &quot;local&quot; and &quot;remote&quot;. Setting this to local means you intend to run the peon as a standalone node (Not recommended).</td>
+<td>remote</td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.baseDir</code></td>
+<td>Base temporary working directory.</td>
+<td><code>System.getProperty(&quot;java.io.tmpdir&quot;)</code></td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.baseTaskDir</code></td>
+<td>Base temporary working directory for tasks.</td>
+<td><code>${druid.indexer.task.baseDir}/persistent/tasks</code></td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.defaultHadoopCoordinates</code></td>
+<td>Hadoop version to use with HadoopIndexTasks that do not request a particular version.</td>
+<td>org.apache.hadoop:hadoop-client:2.3.0</td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.defaultRowFlushBoundary</code></td>
+<td>Highest row count before persisting to disk. Used for indexing generating tasks.</td>
+<td>75000</td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.directoryLockTimeout</code></td>
+<td>Wait this long for zombie peons to exit before giving up on their replacements.</td>
+<td>PT10M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.gracefulShutdownTimeout</code></td>
+<td>Wait this long on middleManager restart for restorable tasks to gracefully exit.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.hadoopWorkingPath</code></td>
+<td>Temporary working directory for Hadoop tasks.</td>
+<td><code>/tmp/druid-indexing</code></td>
+</tr>
+<tr>
+<td><code>druid.indexer.task.restoreTasksOnRestart</code></td>
+<td>If true, middleManagers will attempt to stop tasks gracefully on shutdown and restore them on restart.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.indexer.server.maxChatRequests</code></td>
+<td>Maximum number of concurrent requests served by a task&#39;s chat handler. Set to 0 to disable limiting.</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<p>If the deprecated <code>druid.indexer.runner.separateIngestionEndpoint</code> property is set to true then following configurations
+are available for the ingestion server at peon:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.indexer.server.chathandler.http.numThreads</code></td>
+<td><em>Deprecated.</em> Number of threads for HTTP requests.</td>
+<td>Math.max(10, (Number of available processors * 17) / 16 + 2) + 30</td>
+</tr>
+<tr>
+<td><code>druid.indexer.server.chathandler.http.maxIdleTime</code></td>
+<td><em>Deprecated.</em> The Jetty max idle time for a connection.</td>
+<td>PT5m</td>
+</tr>
+</tbody></table>
+
+<p>If the peon is running in remote mode, there must be an overlord up and running. Peons in remote mode can set the following configurations:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.peon.taskActionClient.retry.minWait</code></td>
+<td>The minimum retry time to communicate with overlord.</td>
+<td>PT5S</td>
+</tr>
+<tr>
+<td><code>druid.peon.taskActionClient.retry.maxWait</code></td>
+<td>The maximum retry time to communicate with overlord.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.peon.taskActionClient.retry.maxRetryCount</code></td>
+<td>The maximum number of retries to communicate with overlord.</td>
+<td>60</td>
+</tr>
+</tbody></table>
+
+<h5 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h5>
+
+<p>When new segments are created, Druid temporarily stores some pre-processed data in some buffers. Currently two types of
+<em>medium</em> exist for those buffers: <em>temporary files</em> and <em>off-heap memory</em>.</p>
+
+<p><em>Temporary files</em> (<code>tmpFile</code>) are stored under the task working directory (see <code>druid.indexer.task.baseTaskDir</code>
+configuration above) and thus share it&#39;s mounting properies, e. g. they could be backed by HDD, SSD or memory (tmpfs).
+This type of medium may do unnecessary disk I/O and requires some disk space to be available.</p>
+
+<p><em>Off-heap memory medium</em> (<code>offHeapMemory</code>) creates buffers in off-heap memory of a JVM process that is running a task.
+This type of medium is preferred, but it may require to allow the JVM to have more off-heap memory, by changing
+<code>-XX:MaxDirectMemorySize</code> configuration. It is not yet understood how does the required off-heap memory size relates
+to the size of the segments being created. But definitely it doesn&#39;t make sense to add more extra off-heap memory,
+than the configured maximum <em>heap</em> size (<code>-Xmx</code>) for the same JVM.</p>
+
+<p>For most types of tasks SegmentWriteOutMediumFactory could be configured per-task (see <a href="../ingestion/tasks.html">Tasks</a>
+page, &quot;TuningConfig&quot; section), but if it&#39;s not specified for a task, or it&#39;s not supported for a particular task type,
+then the value from the configuration below is used:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.peon.defaultSegmentWriteOutMediumFactory</code></td>
+<td><code>tmpFile</code> or <code>offHeapMemory</code>, see explanation above</td>
+<td><code>tmpFile</code></td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.0-rc3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
