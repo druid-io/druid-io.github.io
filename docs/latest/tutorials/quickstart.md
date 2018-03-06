@@ -28,9 +28,9 @@ OSes](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.htm
 To install Druid, issue the following commands in your terminal:
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.11.0-bin.tar.gz
-tar -xzf druid-0.11.0-bin.tar.gz
-cd druid-0.11.0
+curl -O http://static.druid.io/artifacts/releases/druid-latest-bin.tar.gz
+tar -xzf druid-latest-bin.tar.gz
+cd druid-latest
 ```
 
 In the package, you should find:
@@ -50,16 +50,16 @@ Druid currently has a dependency on [Apache ZooKeeper](http://zookeeper.apache.o
 need to download and run Zookeeper.
 
 ```bash
-curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
-tar -xzf zookeeper-3.4.10.tar.gz
-cd zookeeper-3.4.10
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
+tar -xzf zookeeper-3.4.11.tar.gz
+cd zookeeper-3.4.11
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 ```
 
 ## Start up Druid services
 
-With Zookeeper running, return to the druid-0.11.0 directory. In that directory, issue the command:
+With Zookeeper running, return to the druid-latest directory. In that directory, issue the command:
 
 ```bash
 bin/init
@@ -125,7 +125,7 @@ in the Wikipedia dataset are:
 
 To load this data into Druid, you can submit an *ingestion task* pointing to the file. We've included
 a task that loads the `wikiticker-2015-09-12-sampled.json` file included in the archive. To submit
-this task, POST it to Druid in a new terminal window from the druid-0.11.0 directory:
+this task, POST it to Druid in a new terminal window from the druid-latest directory:
 
 ```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/wikiticker-index.json localhost:8090/druid/indexer/v1/task

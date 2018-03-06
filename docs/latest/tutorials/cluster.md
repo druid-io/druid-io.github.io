@@ -59,9 +59,9 @@ since you will be editing the configurations and then copying the modified distr
 of your servers.
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-0.11.0-bin.tar.gz
-tar -xzf druid-0.11.0-bin.tar.gz
-cd druid-0.11.0
+curl -O http://static.druid.io/artifacts/releases/druid-latest-bin.tar.gz
+tar -xzf druid-latest-bin.tar.gz
+cd druid-latest
 ```
 
 In this package, you'll find:
@@ -202,9 +202,8 @@ In `conf/druid/_common/common.runtime.properties`, replace
 <div class="note caution">
 In production, we recommend running 2 servers, each running a Druid Coordinator
 and a Druid Overlord. We also recommend running a ZooKeeper cluster on its own dedicated hardware,
-as well as  replicated [metadata
-storage](http://druid.io/docs/latest/dependencies/metadata-storage.html) such as MySQL or
-PostgreSQL, on its own dedicated hardware.
+as well as replicated <a href = "http://druid.io/docs/latest/dependencies/metadata-storage.html">metadata storage</a>
+such as MySQL or PostgreSQL, on its own dedicated hardware.
 </div>
 
 ## Tune Druid processes that serve queries
@@ -286,15 +285,15 @@ server. If you have been editing the configurations on your local machine, you c
 copy them:
 
 ```bash
-rsync -az druid-0.11.0/ COORDINATION_SERVER:druid-0.11.0/
+rsync -az druid-latest/ COORDINATION_SERVER:druid-latest/
 ```
 
 Log on to your coordination server and install Zookeeper:
 
 ```bash
-curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
-tar -xzf zookeeper-3.4.10.tar.gz
-cd zookeeper-3.4.10
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
+tar -xzf zookeeper-3.4.11.tar.gz
+cd zookeeper-3.4.11
 cp conf/zoo_sample.cfg conf/zoo.cfg
 ./bin/zkServer.sh start
 ```
