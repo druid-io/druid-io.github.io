@@ -136,14 +136,17 @@ WHERE clause can also reference a subquery, like <code>WHERE col1 IN (SELECT foo
 as <a href="#query-execution">semi-joins</a>, described below.</p>
 
 <p>The GROUP BY clause refers to columns in the FROM table. Using GROUP BY, DISTINCT, or any aggregation functions will
-trigger an aggregation query using one of Druid&#39;s <a href="#query-execution">three native aggregation query types</a>.</p>
+trigger an aggregation query using one of Druid&#39;s <a href="#query-execution">three native aggregation query types</a>. GROUP BY
+can refer to an expression or a select clause ordinal position (like <code>GROUP BY 2</code> to group by the second selected
+column).</p>
 
 <p>The HAVING clause refers to columns that are present after execution of GROUP BY. It can be used to filter on either
 grouping expressions or aggregated values. It can only be used together with GROUP BY.</p>
 
 <p>The ORDER BY clause refers to columns that are present after execution of GROUP BY. It can be used to order the results
-based on either grouping expressions or aggregated values. The ORDER BY expression can be a column name, alias, or
-ordinal position (like <code>ORDER BY 2</code> to order by the second column). ORDER BY can only be used together with GROUP BY.</p>
+based on either grouping expressions or aggregated values. ORDER BY can refer to an expression or a select clause
+ordinal position (like <code>ORDER BY 2</code> to order by the second selected column). For non-aggregation queries, ORDER BY
+can only order by the <code>__time</code> column. For aggregation queries, ORDER BY can order by any column.</p>
 
 <p>The LIMIT clause can be used to limit the number of rows returned. It can be used with any query type. It is pushed down
 to data nodes for queries that run with the native TopN query type, but not the native GroupBy query type. Future
@@ -237,12 +240,20 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Logarithm (base 10).</td>
 </tr>
 <tr>
-<td><code>POW(expr, power)</code></td>
+<td><code>POWER(expr, power)</code></td>
 <td>expr to a power.</td>
 </tr>
 <tr>
 <td><code>SQRT(expr)</code></td>
 <td>Square root.</td>
+</tr>
+<tr>
+<td><code>TRUNCATE(expr[, digits])</code></td>
+<td>Truncate expr to a specific number of decimal digits. If digits is negative, then this truncates that many places to the left of the decimal point. Digits defaults to zero if not specified.</td>
+</tr>
+<tr>
+<td><code>TRUNC(expr[, digits])</code></td>
+<td>Synonym for <code>TRUNCATE</code>.</td>
 </tr>
 <tr>
 <td><code>x + y</code></td>
@@ -261,8 +272,8 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Division.</td>
 </tr>
 <tr>
-<td><code>x % y</code></td>
-<td>Mod.</td>
+<td><code>MOD(x, y)</code></td>
+<td>Modulo (remainder of x divided by y).</td>
 </tr>
 </tbody></table>
 
@@ -281,8 +292,20 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>\</td>
 </tr>
 <tr>
-<td><code>CHARACTER_LENGTH(expr)</code></td>
+<td><code>LENGTH(expr)</code></td>
 <td>Length of expr in UTF-16 code units.</td>
+</tr>
+<tr>
+<td><code>CHAR_LENGTH(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
+</tr>
+<tr>
+<td><code>CHARACTER_LENGTH(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
+</tr>
+<tr>
+<td><code>STRLEN(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
 </tr>
 <tr>
 <td><code>LOOKUP(expr, lookupName)</code></td>
@@ -301,12 +324,20 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Replaces pattern with replacement in expr, and returns the result.</td>
 </tr>
 <tr>
+<td><code>STRPOS(haystack, needle)</code></td>
+<td>Returns the index of needle within haystack, starting from 1. If the needle is not found, returns 0.</td>
+</tr>
+<tr>
 <td><code>SUBSTRING(expr, index, [length])</code></td>
 <td>Returns a substring of expr starting at index, with a max length, both measured in UTF-16 code units.</td>
 </tr>
 <tr>
-<td>`TRIM([BOTH</td>
-<td>LEADING</td>
+<td><code>SUBSTR(expr, index, [length])</code></td>
+<td>Synonym for SUBSTRING.</td>
+</tr>
+<tr>
+<td>`TRIM([BOTH \</td>
+<td>LEADING \</td>
 </tr>
 <tr>
 <td><code>BTRIM(expr[, chars])</code></td>
@@ -351,6 +382,10 @@ over the connection time zone.</p>
 <td>Current date in the connection&#39;s time zone.</td>
 </tr>
 <tr>
+<td><code>DATE_TRUNC(&lt;unit&gt;, &lt;timestamp_expr&gt;)</code></td>
+<td>Rounds down a timestamp, returning it as a new timestamp. Unit can be &#39;milliseconds&#39;, &#39;second&#39;, &#39;minute&#39;, &#39;hour&#39;, &#39;day&#39;, &#39;week&#39;, &#39;month&#39;, &#39;quarter&#39;, &#39;year&#39;, &#39;decade&#39;, &#39;century&#39;, or &#39;millenium&#39;.</td>
+</tr>
+<tr>
 <td><code>TIME_FLOOR(&lt;timestamp_expr&gt;, &lt;period&gt;, [&lt;origin&gt;, [&lt;timezone&gt;]])</code></td>
 <td>Rounds down a timestamp, returning it as a new timestamp. Period can be any ISO8601 period, like P3M (quarters) or PT12H (half-days). The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;. This function is similar to <code>FLOOR</code> but is more flexible.</td>
 </tr>
@@ -391,6 +426,10 @@ over the connection time zone.</p>
 <td>Rounds up a timestamp, returning it as a new timestamp. Unit can be SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, or YEAR.</td>
 </tr>
 <tr>
+<td><code>TIMESTAMPADD(&lt;unit&gt;, &lt;count&gt;, &lt;timestamp&gt;)</code></td>
+<td>Equivalent to <code>timestamp + count * INTERVAL &#39;1&#39; UNIT</code>.</td>
+</tr>
+<tr>
 <td>`timestamp_expr { + \</td>
 <td>- } <interval_expr>`</td>
 </tr>
@@ -427,6 +466,14 @@ over the connection time zone.</p>
 <tr>
 <td><code>x &lt;= y</code></td>
 <td>Less than or equal to.</td>
+</tr>
+<tr>
+<td><code>x BETWEEN y AND z</code></td>
+<td>Equivalent to <code>x &gt;= y AND x &lt;= z</code>.</td>
+</tr>
+<tr>
+<td><code>x NOT BETWEEN y AND z</code></td>
+<td>Equivalent to <code>x &lt; y OR x &gt; z</code>.</td>
 </tr>
 <tr>
 <td><code>x LIKE pattern [ESCAPE esc]</code></td>
@@ -536,6 +583,8 @@ over the connection time zone.</p>
 <ul>
 <li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
 <li><a href="../development/extensions-core/datasketches-aggregators.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/geo.html">Spatial filters</a>.</li>
+<li><a href="querying.html#query-cancellation">Query cancellation</a>.</li>
 </ul>
 
 <h2 id="data-types-and-casts">Data types and casts</h2>
@@ -728,15 +777,22 @@ of configuration.</li>
 <h3 id="json-over-http">JSON over HTTP</h3>
 
 <p>You can make Druid SQL queries using JSON over HTTP by posting to the endpoint <code>/druid/v2/sql/</code>. The request should
-be a JSON object with a &quot;query&quot; field, like <code>{&quot;query&quot; : &quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39;&quot;}</code>. You can
-use <em>curl</em> to send these queries from the command-line:</p>
+be a JSON object with a &quot;query&quot; field, like <code>{&quot;query&quot; : &quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39;&quot;}</code>.</p>
+
+<p>Results are available in two formats: &quot;object&quot; (the default; a JSON array of JSON objects), and &quot;array&quot; (a JSON array
+of JSON arrays). In &quot;object&quot; form, each row&#39;s field names will match the column names from your SQL query. In &quot;array&quot;
+form, each row&#39;s values are returned in the order specified in your SQL query.</p>
+
+<p>You can use <em>curl</em> to send SQL queries from the command-line:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ cat query.json
-<span class="o">{</span><span class="s2">&quot;query&quot;</span>:<span class="s2">&quot;SELECT COUNT(*) FROM data_source&quot;</span><span class="o">}</span>
+<span class="o">{</span><span class="s2">&quot;query&quot;</span>:<span class="s2">&quot;SELECT COUNT(*) AS TheCount FROM data_source&quot;</span><span class="o">}</span>
 
 $ curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> http://BROKER:8082/druid/v2/sql/ -d @query.json
-<span class="o">[{</span><span class="s2">&quot;EXPR</span><span class="nv">$0</span><span class="s2">&quot;</span>:24433<span class="o">}]</span>
+<span class="o">[{</span><span class="s2">&quot;TheCount&quot;</span>:24433<span class="o">}]</span>
 </code></pre></div>
-<p>You can also provide <a href="#connection-context">connection context parameters</a> by adding a &quot;context&quot; map, like:</p>
+<p>Metadata is available over the HTTP API by querying the <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>.</p>
+
+<p>Finally, you can also provide <a href="#connection-context">connection context parameters</a> by adding a &quot;context&quot; map, like:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;context&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -744,8 +800,6 @@ $ curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Metadata is available over the HTTP API by querying the <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>.</p>
-
 <h3 id="jdbc">JDBC</h3>
 
 <p>You can make Druid SQL queries using the <a href="https://calcite.apache.org/avatica/downloads/">Avatica JDBC driver</a>. Once
@@ -775,15 +829,23 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>. Parameterized queries (using <code>?</code> or other placeholders) don&#39;t work properly,
 so avoid those.</p>
 
+<h4 id="connection-stickiness">Connection Stickiness</h4>
+
 <p>Druid&#39;s JDBC server does not share connection state between brokers. This means that if you&#39;re using JDBC and have
 multiple Druid brokers, you should either connect to a specific broker, or use a load balancer with sticky sessions
 enabled.</p>
+
+<p>The Druid Router node provides connection stickiness when balancing JDBC requests. Please see <a href="../development/router.html">Router</a> documentation for more details.</p>
+
+<p>Note that the non-JDBC <a href="#json-over-http">JSON over HTTP</a> API is stateless and does not require stickiness.</p>
 
 <h3 id="connection-context">Connection context</h3>
 
 <p>Druid SQL supports setting connection parameters on the client. The parameters in the table below affect SQL planning.
 All other context parameters you provide will be attached to Druid queries and can affect how they run. See
 <a href="query-context.html">Query context</a> for details on the possible options.</p>
+
+<p>Connection context can be specified as JDBC connection properties or as a &quot;context&quot; object in the JSON API.</p>
 
 <table><thead>
 <tr>
@@ -813,8 +875,6 @@ All other context parameters you provide will be attached to Druid queries and c
 <td>druid.sql.planner.useFallback on the broker</td>
 </tr>
 </tbody></table>
-
-<p>Connection context can be specified as JDBC connection properties or as a &quot;context&quot; object in the JSON API.</p>
 
 <h3 id="retrieving-metadata">Retrieving metadata</h3>
 

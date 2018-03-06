@@ -117,6 +117,12 @@ for both broker and historical nodes, when defined in the common properties file
 
 <h4 id="local-cache">Local Cache</h4>
 
+<div class="note caution">
+DEPRECATED: Use caffeine instead
+</div>
+
+<p>The local cache is deprecated in favor of the Caffeine cache, and may be removed in a future version of Druid. The Caffeine cache affords significantly better performance and control over eviction behavior compared to <code>local</code> cache, and is recommended in any situation where you are using JRE 8u60 or higher.</p>
+
 <p>A simple in-memory LRU cache. Local cache resides in JVM heap memory, so if you enable it, make sure you increase heap size accordingly.</p>
 
 <table><thead>
@@ -140,6 +146,86 @@ for both broker and historical nodes, when defined in the common properties file
 <td><code>druid.cache.logEvictionCount</code></td>
 <td>If non-zero, log cache eviction every <code>logEvictionCount</code> items.</td>
 <td>0</td>
+</tr>
+</tbody></table>
+
+<h3 id="caffeine-cache">Caffeine Cache</h3>
+
+<p>A highly performant local cache implementation for Druid based on <a href="https://github.com/ben-manes/caffeine">Caffeine</a>. Requires a JRE8u60 or higher if using <code>COMMON_FJP</code>.</p>
+
+<h5 id="configuration">Configuration</h5>
+
+<p>Below are the configuration options known to this module:</p>
+
+<table><thead>
+<tr>
+<th><code>runtime.properties</code></th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.cache.type</code></td>
+<td>Set this to <code>caffeine</code></td>
+<td><code>local</code></td>
+</tr>
+<tr>
+<td><code>druid.cache.sizeInBytes</code></td>
+<td>The maximum size of the cache in bytes on heap.</td>
+<td>None (unlimited)</td>
+</tr>
+<tr>
+<td><code>druid.cache.expireAfter</code></td>
+<td>The time (in ms) after an access for which a cache entry may be expired</td>
+<td>None (no time limit)</td>
+</tr>
+<tr>
+<td><code>druid.cache.cacheExecutorFactory</code></td>
+<td>The executor factory to use for Caffeine maintenance. One of <code>COMMON_FJP</code>, <code>SINGLE_THREAD</code>, or <code>SAME_THREAD</code></td>
+<td>ForkJoinPool common pool (<code>COMMON_FJP</code>)</td>
+</tr>
+<tr>
+<td><code>druid.cache.evictOnClose</code></td>
+<td>If a close of a namespace (ex: removing a segment from a node) should cause an eager eviction of associated cache values</td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+
+<h5 id="druid-cache-cacheexecutorfactory"><code>druid.cache.cacheExecutorFactory</code></h5>
+
+<p>Here are the possible values for <code>druid.cache.cacheExecutorFactory</code>, which controls how maintenance tasks are run</p>
+
+<ul>
+<li><code>COMMON_FJP</code> (default) use the common ForkJoinPool. Should use with <a href="https://github.com/druid-io/druid/pull/4810#issuecomment-329922810">JRE 8u60 or higher</a>. Older versions of the JRE may have worse performance than newer JRE versions.</li>
+<li><code>SINGLE_THREAD</code> Use a single-threaded executor.</li>
+<li><code>SAME_THREAD</code> Cache maintenance is done eagerly.</li>
+</ul>
+
+<h4 id="metrics">Metrics</h4>
+
+<p>In addition to the normal cache metrics, the caffeine cache implementation also reports the following in both <code>total</code> and <code>delta</code></p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Normal value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>query/cache/caffeine/*/requests</code></td>
+<td>Count of hits or misses</td>
+<td>hit + miss</td>
+</tr>
+<tr>
+<td><code>query/cache/caffeine/*/loadTime</code></td>
+<td>Length of time caffeine spends loading new values (unused feature)</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>query/cache/caffeine/*/evictionBytes</code></td>
+<td>Size in bytes that have been evicted from the cache</td>
+<td>Varies, should tune cache <code>sizeInBytes</code> so that <code>sizeInBytes</code>/<code>evictionBytes</code> is approximately the rate of cache churn you desire</td>
 </tr>
 </tbody></table>
 
@@ -220,6 +306,16 @@ If there is an L1 miss and L2 hit, it will also populate L1.</p>
 <td><code>druid.cache.l2.*</code></td>
 <td>Prefix for L2 cache settings, see description for L1.</td>
 <td>defaults are the same as for the given cache type.</td>
+</tr>
+<tr>
+<td><code>druid.cache.useL2</code></td>
+<td>A boolean indicating whether to query L2 cache, if it&#39;s a miss in L1. It makes sense to configure this to <code>false</code> on historical nodes, if L2 is a remote cache like <code>memcached</code>, and this cache also used on brokers, because in this case if a query reached historical it means that a broker didn&#39;t find corresponding results in the same remote cache, so a query to the remote cache from historical is guaranteed to be a miss.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>druid.cache.populateL2</code></td>
+<td>A boolean indicating whether to put results into L2 cache.</td>
+<td><code>true</code></td>
 </tr>
 </tbody></table>
 

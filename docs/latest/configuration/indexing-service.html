@@ -324,7 +324,7 @@ Caution: Automatic log file deletion typically works based on log file modificat
 </thead><tbody>
 <tr>
 <td><code>druid.indexer.runner.type</code></td>
-<td>Choices &quot;local&quot; or &quot;remote&quot;. Indicates whether tasks should be run locally or in a distributed environment.</td>
+<td>Choices &quot;local&quot; or &quot;remote&quot;. Indicates whether tasks should be run locally or in a distributed environment. Experimental task runner &quot;httpRemote&quot; is also available which is same as &quot;remote&quot; but uses HTTP to interact with Middle Manaters instead of Zookeeper.</td>
 <td>local</td>
 </tr>
 <tr>
@@ -927,6 +927,39 @@ are available for the ingestion server at peon:</p>
 <td><code>druid.peon.taskActionClient.retry.maxRetryCount</code></td>
 <td>The maximum number of retries to communicate with overlord.</td>
 <td>60</td>
+</tr>
+</tbody></table>
+
+<h5 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h5>
+
+<p>When new segments are created, Druid temporarily stores some pre-processed data in some buffers. Currently two types of
+<em>medium</em> exist for those buffers: <em>temporary files</em> and <em>off-heap memory</em>.</p>
+
+<p><em>Temporary files</em> (<code>tmpFile</code>) are stored under the task working directory (see <code>druid.indexer.task.baseTaskDir</code>
+configuration above) and thus share it&#39;s mounting properies, e. g. they could be backed by HDD, SSD or memory (tmpfs).
+This type of medium may do unnecessary disk I/O and requires some disk space to be available.</p>
+
+<p><em>Off-heap memory medium</em> (<code>offHeapMemory</code>) creates buffers in off-heap memory of a JVM process that is running a task.
+This type of medium is preferred, but it may require to allow the JVM to have more off-heap memory, by changing
+<code>-XX:MaxDirectMemorySize</code> configuration. It is not yet understood how does the required off-heap memory size relates
+to the size of the segments being created. But definitely it doesn&#39;t make sense to add more extra off-heap memory,
+than the configured maximum <em>heap</em> size (<code>-Xmx</code>) for the same JVM.</p>
+
+<p>For most types of tasks SegmentWriteOutMediumFactory could be configured per-task (see <a href="../ingestion/tasks.html">Tasks</a>
+page, &quot;TuningConfig&quot; section), but if it&#39;s not specified for a task, or it&#39;s not supported for a particular task type,
+then the value from the configuration below is used:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.peon.defaultSegmentWriteOutMediumFactory</code></td>
+<td><code>tmpFile</code> or <code>offHeapMemory</code>, see explanation above</td>
+<td><code>tmpFile</code></td>
 </tr>
 </tbody></table>
 

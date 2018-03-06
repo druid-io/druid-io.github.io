@@ -166,7 +166,7 @@ and are small enough to reasonably populate on a node. This usually means tens t
 </tr>
 <tr>
 <td><code>injective</code></td>
-<td>If the underlying map is injective (keys and values are unique) then optimizations can occur internally by setting this to <code>true</code></td>
+<td>If the underlying map is <a href="../../querying/lookups.html#query-execution">injective</a> (keys and values are unique) then optimizations can occur internally by setting this to <code>true</code></td>
 <td>No</td>
 <td><code>false</code></td>
 </tr>
@@ -240,6 +240,11 @@ setting namespaces (broker, peon, historical)</p>
 <td><code>druid.lookup.namespace.cache.type</code></td>
 <td>Specifies the type of caching to be used by the namespaces. May be one of [<code>offHeap</code>, <code>onHeap</code>]. <code>offHeap</code> uses a temporary file for off-heap storage of the namespace (memory mapped files). <code>onHeap</code> stores all cache on the heap in standard java map types.</td>
 <td><code>onHeap</code></td>
+</tr>
+<tr>
+<td><code>druid.lookup.namespace.numExtractionThreads</code></td>
+<td>The number of threads in the thread pool dedicated for lookup extraction and updates. This number may need to be scaled up, if you have a lot of lookups and they take long time to extract, to avoid timeouts.</td>
+<td>2</td>
 </tr>
 </tbody></table>
 

@@ -162,8 +162,6 @@ The default values are <code>replaceMissingValueWith = null</code> and <code>ret
 
 <p>It is illegal to set <code>retainMissingValue = true</code> and also specify a <code>replaceMissingValueWith</code>.</p>
 
-<p>A property of <code>injective</code> specifies if optimizations can be used which assume there is no combining of multiple names into one. For example: If ABC123 is the only key that maps to SomeCompany, that can be optimized since it is a unique lookup. But if both ABC123 and DEF456 BOTH map to SomeCompany, then that is NOT a unique lookup. Setting this value to true and setting <code>retainMissingValue</code> to FALSE (the default) may cause undesired behavior.</p>
-
 <p>A property <code>optimize</code> can be supplied to allow optimization of lookup based extraction filter (by default <code>optimize = true</code>).</p>
 
 <p>The second kind where it is not possible to pass at query time due to their size, will be based on an external lookup table or resource that is already registered via configuration file or/and coordinator.</p>
@@ -367,75 +365,50 @@ representing the number of milliseconds since January 1, 1970 UTC.</p>
 JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
 
-<h3 id="lookup-extraction-function">Lookup extraction function</h3>
+<h3 id="registered-lookup-extraction-function">Registered lookup extraction function</h3>
 
-<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values. 
-For more documentation on using lookups, please see <a href="../querying/lookups.html">here</a>. 
-Explicit lookups allow you to specify a set of keys and values to use when performing the extraction.</p>
+<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values.
+For more documentation on using lookups, please see <a href="../querying/lookups.html">Lookups</a>.
+The &quot;registeredLookup&quot; extraction function lets you refer to a lookup that has been registered in the cluster-wide
+configuration.</p>
+
+<p>An example:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;MISSING&quot;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;registeredLookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup_name&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A lookup can be of type <code>namespace</code> or <code>map</code>. A <code>map</code> lookup is passed as part of the query. 
-A <code>namespace</code> lookup is populated on all the nodes which handle queries as per <a href="../querying/lookups.html">lookups</a></p>
-
-<p>A property of <code>retainMissingValue</code> and <code>replaceMissingValueWith</code> can be specified at query time to hint how to handle missing values. Setting <code>replaceMissingValueWith</code> to <code>&quot;&quot;</code> has the same effect as setting it to <code>null</code> or omitting the property. Setting <code>retainMissingValue</code> to true will use the dimension&#39;s original value if it is not found in the lookup. The default values are <code>replaceMissingValueWith = null</code> and <code>retainMissingValue = false</code> which causes missing values to be treated as missing.</p>
+<p>A property of <code>retainMissingValue</code> and <code>replaceMissingValueWith</code> can be specified at query time to hint how to handle
+missing values. Setting <code>replaceMissingValueWith</code> to <code>&quot;&quot;</code> has the same effect as setting it to <code>null</code> or omitting the
+property. Setting <code>retainMissingValue</code> to true will use the dimension&#39;s original value if it is not found in the lookup.
+The default values are <code>replaceMissingValueWith = null</code> and <code>retainMissingValue = false</code> which causes missing values to
+be treated as missing.</p>
 
 <p>It is illegal to set <code>retainMissingValue = true</code> and also specify a <code>replaceMissingValueWith</code>.</p>
 
-<p>A property of <code>injective</code> specifies if optimizations can be used which assume there is no combining of multiple names into one. For example: If ABC123 is the only key that maps to SomeCompany, that can be optimized since it is a unique lookup. But if both ABC123 and DEF456 BOTH map to SomeCompany, then that is NOT a unique lookup. Setting this value to true and setting <code>retainMissingValue</code> to FALSE (the default) may cause undesired behavior.</p>
+<p>A property of <code>injective</code> can override the lookup&#39;s own sense of whether or not it is
+<a href="lookups.html#query-execution">injective</a>. If left unspecified, Druid will use the registered cluster-wide lookup
+configuration.</p>
 
-<p>A property <code>optimize</code> can be supplied to allow optimization of lookup based extraction filter (by default <code>optimize = true</code>). 
+<p>A property <code>optimize</code> can be supplied to allow optimization of lookup based extraction filter (by default <code>optimize = true</code>).
 The optimization layer will run on the broker and it will rewrite the extraction filter as clause of selector filters.
-For instance the following filter </p>
+For instance the following filter</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
         <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span>
         <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bar_1&quot;</span><span class="p">,</span>
         <span class="nt">&quot;extractionFn&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;registeredLookup&quot;</span><span class="p">,</span>
             <span class="nt">&quot;optimize&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nt">&quot;lookup&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
-                <span class="nt">&quot;map&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;product_1&quot;</span><span class="p">:</span> <span class="s2">&quot;bar_1&quot;</span><span class="p">,</span>
-                    <span class="nt">&quot;product_3&quot;</span><span class="p">:</span> <span class="s2">&quot;bar_1&quot;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
+            <span class="nt">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;some_lookup_name&quot;</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>will be rewritten as</p>
+<p>will be rewritten as the following simpler query, assuming a lookup that maps &quot;product_1&quot; and &quot;product_3&quot; to the value
+&quot;bar_1&quot;:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
    <span class="nt">&quot;filter&quot;</span><span class="p">:{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;or&quot;</span><span class="p">,</span>
@@ -458,27 +431,43 @@ For instance the following filter </p>
    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A null dimension value can be mapped to a specific value by specifying the empty string as the key.
+<p>A null dimension value can be mapped to a specific value by specifying the empty string as the key in your lookup file.
 This allows distinguishing between a null dimension and a lookup resulting in a null.
 For example, specifying <code>{&quot;&quot;:&quot;bar&quot;,&quot;bat&quot;:&quot;baz&quot;}</code> with dimension values <code>[null, &quot;foo&quot;, &quot;bat&quot;]</code> and replacing missing values with <code>&quot;oof&quot;</code> will yield results of <code>[&quot;bar&quot;, &quot;oof&quot;, &quot;baz&quot;]</code>.
 Omitting the empty string key will cause the missing value to take over. For example, specifying <code>{&quot;bat&quot;:&quot;baz&quot;}</code> with dimension values <code>[null, &quot;foo&quot;, &quot;bat&quot;]</code> and replacing missing values with <code>&quot;oof&quot;</code> will yield results of <code>[&quot;oof&quot;, &quot;oof&quot;, &quot;baz&quot;]</code>.</p>
 
-<h3 id="registered-lookup-extraction-function">Registered Lookup Extraction Function</h3>
+<h3 id="inline-lookup-extraction-function">Inline lookup extraction function</h3>
 
-<p>While it is recommended that the <a href="#lookup-dimensionspecs">lookup dimension spec</a> be used whenever possible, any lookup that is registered for use as a lookup dimension spec can be used as a dimension extraction.</p>
+<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values.
+For more documentation on using lookups, please see <a href="../querying/lookups.html">Lookups</a>.
+The &quot;lookup&quot; extraction function lets you specify an inline lookup map without registering one in the cluster-wide
+configuration.</p>
 
-<p>The specification for dimension extraction using dimension specification named lookups is formatted as per the following example:</p>
+<p>Examples:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;registeredLookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lookup&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup_name&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+  <span class="p">},</span>
   <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookup&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;map&quot;</span><span class="p">:{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;baz&quot;</span><span class="p">:</span><span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;retainMissingValue&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;replaceMissingValueWith&quot;</span><span class="p">:</span><span class="s2">&quot;MISSING&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>All the flags for <a href="#lookup-extraction-function">lookup extraction function</a> apply here as well.</p>
+<p>The inline lookup should be of type <code>map</code>.</p>
 
-<p>In general, the dimension specification should be used. This dimension <strong>extraction</strong> implementation is made available for testing, validation, and transitioning from dimension extraction to the dimension specification style lookups.
-There is also a chance that a feature uses dimension extraction in such a way that it is not applied to dimension specification lookups. Such a scenario should be brought to the attention of the development mailing list.</p>
+<p>The properties <code>retainMissingValue</code>, <code>replaceMissingValueWith</code>, <code>injective</code>, and <code>optimize</code> behave similarly to the
+<a href="#registered-lookup-extraction-function">registered lookup extraction function</a>.</p>
 
 <h3 id="cascade-extraction-function">Cascade Extraction Function</h3>
 

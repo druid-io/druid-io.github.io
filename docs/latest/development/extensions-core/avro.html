@@ -115,10 +115,13 @@
 <tr>
 <td>parseSpec</td>
 <td>JSON Object</td>
-<td>Specifies the timestamp and dimensions of the data. Should be a timeAndDims parseSpec.</td>
+<td>Specifies the timestamp and dimensions of the data. Should be an &quot;avro&quot; parseSpec.</td>
 <td>yes</td>
 </tr>
 </tbody></table>
+
+<p>An Avro parseSpec can contain a <a href="../../ingestion/flatten-spec.html">flattenSpec</a> using either the &quot;root&quot; or &quot;path&quot;
+field types, which can be used to read nested Avro records. The &quot;jq&quot; field type is not currently supported for Avro.</p>
 
 <p>For example, using Avro stream parser with schema repo Avro bytes decoder:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;parser&quot;</span> <span class="err">:</span> <span class="p">{</span>
@@ -135,9 +138,10 @@
     <span class="p">}</span>
   <span class="p">},</span>
   <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;avro&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">timestampSpec&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">dimensionsSpec&gt;</span>
+    <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">dimensionsSpec&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="err">&lt;optional&gt;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -146,6 +150,12 @@
 <p>If <code>type</code> is not included, the avroBytesDecoder defaults to <code>schema_repo</code>.</p>
 
 <h5 id="inline-schema-based-avro-bytes-decoder">Inline Schema Based Avro Bytes Decoder</h5>
+
+<div class="note info">
+The "schema_inline" decoder reads Avro records using a fixed schema and does not support schema migration. If you
+may need to migrate schemas in the future, consider one of the other decoders, all of which use a message header that
+allows the parser to identify the proper Avro schema for reading records.
+</div>
 
 <p>This decoder can be used if all the input events can be read using the same schema. In that case schema can be specified in the input task json itself as described below.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>...
@@ -335,7 +345,7 @@ Details can be found in Schema Registry <a href="http://docs.confluent.io/curren
 <tr>
 <td>parseSpec</td>
 <td>JSON Object</td>
-<td>Specifies the timestamp and dimensions of the data. Should be a timeAndDims parseSpec.</td>
+<td>Specifies the timestamp and dimensions of the data. Should be an &quot;avro&quot; parseSpec.</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -346,6 +356,9 @@ Details can be found in Schema Registry <a href="http://docs.confluent.io/curren
 </tr>
 </tbody></table>
 
+<p>An Avro parseSpec can contain a <a href="../../ingestion/flatten-spec.html">flattenSpec</a> using either the &quot;root&quot; or &quot;path&quot;
+field types, which can be used to read nested Avro records. The &quot;jq&quot; field type is not currently supported for Avro.</p>
+
 <p>For example, using Avro Hadoop parser with custom reader&#39;s schema file:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>  
@@ -355,9 +368,10 @@ Details can be found in Schema Registry <a href="http://docs.confluent.io/curren
       <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;avro_hadoop&quot;</span><span class="p">,</span>
         <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;avro&quot;</span><span class="p">,</span>
           <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">timestampSpec&gt;</span><span class="p">,</span>
-          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">dimensionsSpec&gt;</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="err">&lt;standard</span> <span class="err">dimensionsSpec&gt;</span><span class="p">,</span>
+          <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="err">&lt;optional&gt;</span>
         <span class="p">}</span>
       <span class="p">}</span>
     <span class="p">},</span>

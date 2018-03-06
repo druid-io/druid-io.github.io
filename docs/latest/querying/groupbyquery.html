@@ -312,13 +312,35 @@ disk space.</p>
 
 <p>With groupBy v2, cluster operators should make sure that the off-heap hash tables and on-heap merging dictionaries
 will not exceed available memory for the maximum possible concurrent query load (given by
-druid.processing.numMergeBuffers).</p>
+druid.processing.numMergeBuffers). See <a href="../operations/performance-faq.html">How much direct memory does Druid use?</a> for more details.</p>
 
 <p>When using groupBy v1, all aggregation is done on-heap, and resource limits are done through the parameter
 druid.query.groupBy.maxResults. This is a cap on the maximum number of results in a result set. Queries that exceed
 this limit will fail with a &quot;Resource limit exceeded&quot; error indicating they exceeded their row limit. Cluster
 operators should make sure that the on-heap aggregations will not exceed available JVM heap space for the expected
 concurrent query load.</p>
+
+<h4 id="performance-tuning-for-groupby-v2">Performance tuning for groupBy v2</h4>
+
+<h5 id="limit-pushdown-optimization">Limit pushdown optimization</h5>
+
+<p>Druid pushes down the <code>limit</code> spec in groupBy queries to the segments on historicals wherever possible to early prune unnecessary intermediate results and minimize the amount of data transferred to brokers. By default, this technique is applied only when all fields in the <code>orderBy</code> spec is a subset of the grouping keys. This is because the <code>limitPushDown</code> doesn&#39;t guarantee the exact results if the <code>orderBy</code> spec includes any fields that are not in the grouping keys. However, you can enable this technique even in such cases if you can sacrifice some accuracy for fast query processing like in topN queries. See <code>forceLimitPushDown</code> in <a href="#groupby-v2-configurations">advanced groupBy v2 configurations</a>.</p>
+
+<h5 id="optimizing-hash-table">Optimizing hash table</h5>
+
+<p>The groupBy v2 engine uses an open addressing hash table for aggregation. The hash table is initalized with a given initial bucket number and gradually grows on buffer full. On hash collisions, the linear probing technique is used.</p>
+
+<p>The default number of initial buckets is 1024 and the default max load factor of the hash table is 0.7. If you can see too many collisions in the hash table, you can adjust these numbers. See <code>bufferGrouperInitialBuckets</code> and <code>bufferGrouperMaxLoadFactor</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
+
+<h5 id="parallel-combine">Parallel combine</h5>
+
+<p>Once a historical finishes aggregation using the hash table, it sorts aggregates and merge them before sending to the broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads (configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging aggregates which is an http thread to send data to brokers.</p>
+
+<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
+
+<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well. This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
+
+<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the degree of intermeidate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
 
 <h4 id="alternatives">Alternatives</h4>
 
@@ -341,9 +363,15 @@ indexing mechanism, and runs the outer query on these materialized results. &quo
 inner query&#39;s results stream with off-heap fact map and on-heap string dictionary that can spill to disk. Both
 strategy perform the outer query on the broker in a single-threaded fashion.</p>
 
-<h4 id="server-configuration">Server configuration</h4>
+<h4 id="configurations">Configurations</h4>
 
-<p>When using the &quot;v2&quot; strategy, the following runtime properties apply:</p>
+<p>This section describes the configurations for groupBy queries. You can set system-wide configurations by adding them to runtime properties or query-specific configurations by adding them to query contexts. All runtime properties are prefixed by <code>druid.query.groupBy</code>.</p>
+
+<h4 id="commonly-tuned-configurations">Commonly tuned configurations</h4>
+
+<h5 id="configurations-for-groupby-v2">Configurations for groupBy v2</h5>
+
+<p>Supported runtime properties:</p>
 
 <table><thead>
 <tr>
@@ -352,21 +380,6 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 <th>Default</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>druid.query.groupBy.defaultStrategy</code></td>
-<td>Default groupBy query strategy.</td>
-<td>v2</td>
-</tr>
-<tr>
-<td><code>druid.query.groupBy.bufferGrouperInitialBuckets</code></td>
-<td>Initial number of buckets in the off-heap hash table used for grouping results. Set to 0 to use a reasonable default.</td>
-<td>0</td>
-</tr>
-<tr>
-<td><code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code></td>
-<td>Maximum load factor of the off-heap hash table used for grouping results. When the load factor exceeds this size, the table will be grown or spilled to disk. Set to 0 to use a reasonable default.</td>
-<td>0</td>
-</tr>
 <tr>
 <td><code>druid.query.groupBy.maxMergingDictionarySize</code></td>
 <td>Maximum amount of heap space (approximately) to use for the string dictionary during merging. When the dictionary exceeds this size, a spill to disk will be triggered.</td>
@@ -377,19 +390,31 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 <td>Maximum amount of disk space to use, per-query, for spilling result sets to disk when either the merging buffer or the dictionary fills up. Queries that exceed this limit will fail. Set to zero to disable disk spilling.</td>
 <td>0 (disabled)</td>
 </tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
 <tr>
-<td><code>druid.query.groupBy.singleThreaded</code></td>
-<td>Merge results using a single thread.</td>
-<td>false</td>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>maxMergingDictionarySize</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxMergingDictionarySize</code> for this query.</td>
+</tr>
+<tr>
+<td><code>maxOnDiskStorage</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxOnDiskStorage</code> for this query.</td>
 </tr>
 </tbody></table>
 
-<p>This may require allocating more direct memory. The amount of direct memory needed by Druid is at least
-<code>druid.processing.buffer.sizeBytes * (druid.processing.numMergeBuffers + druid.processing.numThreads + 1)</code>. You can
-ensure at least this amount of direct memory is available by providing <code>-XX:MaxDirectMemorySize=&lt;VALUE&gt;</code> at the command
-line.</p>
+<h4 id="advanced-configurations">Advanced configurations</h4>
 
-<p>When using the &quot;v1&quot; strategy, the following runtime properties apply:</p>
+<h5 id="common-configuragions-for-all-groupby-strategies">Common configuragions for all groupBy strategies</h5>
+
+<p>Supported runtime properties:</p>
 
 <table><thead>
 <tr>
@@ -404,6 +429,126 @@ line.</p>
 <td>v2</td>
 </tr>
 <tr>
+<td><code>druid.query.groupBy.singleThreaded</code></td>
+<td>Merge results using a single thread.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>groupByStrategy</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.defaultStrategy</code> for this query.</td>
+</tr>
+<tr>
+<td><code>groupByIsSingleThreaded</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.singleThreaded</code> for this query.</td>
+</tr>
+</tbody></table>
+
+<h5 id="groupby-v2-configurations">GroupBy v2 configurations</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.bufferGrouperInitialBuckets</code></td>
+<td>Initial number of buckets in the off-heap hash table used for grouping results. Set to 0 to use a reasonable default (1024).</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code></td>
+<td>Maximum load factor of the off-heap hash table used for grouping results. When the load factor exceeds this size, the table will be grown or spilled to disk. Set to 0 to use a reasonable default (0.7).</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.forceHashAggregation</code></td>
+<td>Force to use hash-based aggregation.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.intermediateCombineDegree</code></td>
+<td>Number of intermediate nodes combined together in the combining tree. Higher degrees will need less threads which might be helpful to improve the query performance by reducing the overhead of too many threads if the server has sufficiently powerful cpu cores.</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.numParallelCombineThreads</code></td>
+<td>Hint for the number of parallel combining threads. This should be larger than 1 to turn on the parallel combining feature. The actual number of threads used for parallel combining is min(<code>druid.query.groupBy.numParallelCombineThreads</code>, <code>druid.processing.numThreads</code>).</td>
+<td>1 (disabled)</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bufferGrouperInitialBuckets</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperInitialBuckets</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>bufferGrouperMaxLoadFactor</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>forceHashAggregation</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.forceHashAggregation</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>intermediateCombineDegree</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.intermediateCombineDegree</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>numParallelCombineThreads</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.numParallelCombineThreads</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>sortByDimsFirst</code></td>
+<td>Sort the results first by dimension values and then by timestamp.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>forceLimitPushDown</code></td>
+<td>When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h5 id="groupby-v1-configurations">GroupBy v1 configurations</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
 <td><code>druid.query.groupBy.maxIntermediateRows</code></td>
 <td>Maximum number of intermediate rows for the per-segment grouping engine. This is a tuning parameter that does not impose a hard limit; rather, it potentially shifts merging work from the per-segment engine to the overall merging index. Queries that exceed this limit will not fail.</td>
 <td>50000</td>
@@ -413,88 +558,31 @@ line.</p>
 <td>Maximum number of results. Queries that exceed this limit will fail.</td>
 <td>500000</td>
 </tr>
-<tr>
-<td><code>druid.query.groupBy.singleThreaded</code></td>
-<td>Merge results using a single thread.</td>
-<td>false</td>
-</tr>
 </tbody></table>
 
-<h4 id="query-context">Query context</h4>
-
-<p>When using the &quot;v2&quot; strategy, the following query context parameters apply:</p>
+<p>Supported query contexts:</p>
 
 <table><thead>
 <tr>
-<th>Property</th>
+<th>Key</th>
 <th>Description</th>
+<th>Default</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>groupByStrategy</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.defaultStrategy</code> for this query.</td>
-</tr>
-<tr>
-<td><code>groupByIsSingleThreaded</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.singleThreaded</code> for this query.</td>
-</tr>
-<tr>
-<td><code>bufferGrouperInitialBuckets</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperInitialBuckets</code> for this query.</td>
-</tr>
-<tr>
-<td><code>bufferGrouperMaxLoadFactor</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code> for this query.</td>
-</tr>
-<tr>
-<td><code>maxMergingDictionarySize</code></td>
-<td>Can be used to lower the value of <code>druid.query.groupBy.maxMergingDictionarySize</code> for this query.</td>
-</tr>
-<tr>
-<td><code>maxOnDiskStorage</code></td>
-<td>Can be used to lower the value of <code>druid.query.groupBy.maxOnDiskStorage</code> for this query.</td>
-</tr>
-<tr>
-<td><code>sortByDimsFirst</code></td>
-<td>Sort the results first by dimension values and then by timestamp.</td>
-</tr>
-<tr>
-<td><code>forcePushDownLimit</code></td>
-<td>When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
-</tr>
-<tr>
-<td><code>forceHashAggregation</code></td>
-<td>Force to use hash-based aggregation.</td>
-</tr>
-</tbody></table>
-
-<p>When using the &quot;v1&quot; strategy, the following query context parameters apply:</p>
-
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>groupByStrategy</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.defaultStrategy</code> for this query.</td>
-</tr>
-<tr>
-<td><code>groupByIsSingleThreaded</code></td>
-<td>Overrides the value of <code>druid.query.groupBy.singleThreaded</code> for this query.</td>
-</tr>
 <tr>
 <td><code>maxIntermediateRows</code></td>
 <td>Can be used to lower the value of <code>druid.query.groupBy.maxIntermediateRows</code> for this query.</td>
+<td>None</td>
 </tr>
 <tr>
 <td><code>maxResults</code></td>
 <td>Can be used to lower the value of <code>druid.query.groupBy.maxResults</code> for this query.</td>
+<td>None</td>
 </tr>
 <tr>
 <td><code>useOffheap</code></td>
 <td>Set to true to store aggregations off-heap when merging results.</td>
+<td>false</td>
 </tr>
 </tbody></table>
 

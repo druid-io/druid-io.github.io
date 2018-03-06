@@ -93,8 +93,7 @@ the <a href="stream-push.html">stream push method</a>.</p>
 <p>Another option is <em>stream pull</em>. With this approach, a Druid Realtime Node ingests data from a
 <a href="../ingestion/firehose.html">Firehose</a> connected to the data you want to
 read. The Druid quickstart and tutorials do not include information about how to set up standalone realtime nodes, but 
-they can be used in place for Tranquility server and the indexing service. Please note that Realtime nodes have very properties than 
-the indexing service.</p>
+they can be used in place for Tranquility server and the indexing service. Please note that Realtime nodes have different properties and roles than the indexing service.</p>
 
 <h2 id="realtime-node-ingestion">Realtime Node Ingestion</h2>
 
@@ -342,6 +341,12 @@ the indexing service.</p>
 <td>long</td>
 <td>Milliseconds timeout after which an alert is created if the task isn&#39;t finished by then. This allows users to monitor tasks that are failing to finish and give up the worker slot for any unexpected errors.</td>
 <td>no (default == 0)</td>
+</tr>
+<tr>
+<td>segmentWriteOutMediumFactory</td>
+<td>String</td>
+<td>Segment write-out medium to use when creating segments. See <a href="../configuration/indexing-service.html">Indexing Service Configuration</a> page, &quot;SegmentWriteOutMediumFactory&quot; section for explanation and available options.</td>
+<td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used)</td>
 </tr>
 <tr>
 <td>indexSpec</td>
@@ -596,6 +601,13 @@ This can be difficult to manage at scale, especially with multiple partitions.</
 
 <p>Each standalone realtime node has its own set of logs. Diagnosing errors across many partitions across many servers may be 
 difficult to manage and track at scale.</p>
+
+<h2 id="deployment-notes">Deployment Notes</h2>
+
+<p>Stream ingestion may generate a large number of small segments because it&#39;s difficult to optimize the segment size at
+ingestion time. The number of segments will increase over time, and this might cause the query performance issue. </p>
+
+<p>Details on how to optimize the segment size can be found on <a href="../../operations/segment-optimization.html">Segment size optimization</a>.</p>
 
         </div>
         <div class="col-md-3">

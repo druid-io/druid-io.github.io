@@ -160,7 +160,7 @@
 </thead><tbody>
 <tr>
 <td><code>druid.segmentCache.locations</code></td>
-<td>Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides. This value cannot be NULL or EMPTY. Here is an example <code>druid.segmentCache.locations=[{&quot;path&quot;: &quot;/mnt/druidSegments&quot;, &quot;maxSize&quot;: 10000}]</code>.</td>
+<td>Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides. This value cannot be NULL or EMPTY. Here is an example <code>druid.segmentCache.locations=[{&quot;path&quot;: &quot;/mnt/druidSegments&quot;, &quot;maxSize&quot;: 10000}, &quot;freeSpacePercent&quot;: 1.0]</code>. &quot;freeSpacePercent&quot; is optional, if provided then enforces that much of free disk partition space while storing segments. But, it depends on File.getTotalSpace() and File.getFreeSpace() methods, so enable if only if they work for your File System.</td>
 <td>none</td>
 </tr>
 <tr>
@@ -184,11 +184,18 @@
 <td>5000 (5 seconds)</td>
 </tr>
 <tr>
+<td><code>druid.segmentCache.numLoadingThreads</code></td>
+<td>How many segments to drop or load concurrently from from deep storage.</td>
+<td>10</td>
+</tr>
+<tr>
 <td><code>druid.segmentCache.numBootstrapThreads</code></td>
 <td>How many segments to load concurrently from local storage at startup.</td>
-<td>1</td>
+<td>Same as numLoadingThreads</td>
 </tr>
 </tbody></table>
+
+<p>In <code>druid.segmentCache.locations</code>, <em>freeSpacePercent</em> was added because <em>maxSize</em> setting is only a theoretical limit and assumes that much space will always be available for storing segments. In case of any druid bug leading to unaccounted segment files left alone on disk or some other process writing stuff to disk, This check can start failing segment loading early before filling up the disk completely and leaving the host usable otherwise.</p>
 
 <h3 id="query-configs">Query Configs</h3>
 
@@ -209,14 +216,34 @@
 <td>max(10, (Number of cores * 17) / 16 + 2) + 30</td>
 </tr>
 <tr>
+<td><code>druid.server.http.queueSize</code></td>
+<td>Size of the worker queue used by Jetty server to temporarily store incoming client connections. If this value is set and a request is rejected by jetty because queue is full then client would observe request failure with TCP connection being closed immediately with a completely empty response from server.</td>
+<td>Unbounded</td>
+</tr>
+<tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
 <td>PT5m</td>
 </tr>
 <tr>
+<td><code>druid.server.http.enableRequestLimit</code></td>
+<td>If enabled, no requests would be queued in jetty queue and &quot;HTTP 429 Too Many Requests&quot; error response would be sent.</td>
+<td>false</td>
+</tr>
+<tr>
 <td><code>druid.server.http.defaultQueryTimeout</code></td>
 <td>Query timeout in millis, beyond which unfinished queries will be cancelled</td>
 <td>300000</td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxQueryTimeout</code></td>
+<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
+<td>Long.MAX_VALUE</td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxRequestHeaderSize</code></td>
+<td>Maximum size of a request header in bytes. Larger headers consume more memory and can make a server more vulnerable to denial of service attacks.</td>
+<td>8 * 1024</td>
 </tr>
 </tbody></table>
 

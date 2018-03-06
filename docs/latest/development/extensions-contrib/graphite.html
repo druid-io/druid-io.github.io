@@ -150,7 +150,13 @@ The pickle protocol is more efficient and supports sending batches of metrics (p
 </tr>
 <tr>
 <td><code>druid.emitter.graphite.alertEmitters</code></td>
-<td>List of emitters where alerts will be forwarded to.</td>
+<td>List of emitters where alerts will be forwarded to. This is a JSON list of emitter names, e.g. <code>[&quot;logging&quot;, &quot;http&quot;]</code></td>
+<td>no</td>
+<td>empty list (no forwarding)</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.requestLogEmitters</code></td>
+<td>List of emitters where request logs (i.e., query logging events sent to emitters when <code>druid.request.logging.type</code> is set to <code>emitter</code>) will be forwarded to. This is a JSON list of emitter names, e.g. <code>[&quot;logging&quot;, &quot;http&quot;]</code></td>
 <td>no</td>
 <td>empty list (no forwarding)</td>
 </tr>
@@ -167,6 +173,14 @@ The pickle protocol is more efficient and supports sending batches of metrics (p
 <td>1000 (1 sec)</td>
 </tr>
 </tbody></table>
+
+<h3 id="supported-event-types">Supported event types</h3>
+
+<p>The graphite emitter only emits service metric events to graphite (See http://druid.io/docs/latest/operations/metrics.html for a list of metrics).</p>
+
+<p>Alerts and request logs are not sent to graphite. These event types are not well represented in Graphite, which is more suited for timeseries views on numeric metrics, vs. storing non-numeric log events.</p>
+
+<p>Instead, alerts and request logs are optionally forwarded to other emitter implementations, specified by <code>druid.emitter.graphite.alertEmitters</code> and <code>druid.emitter.graphite.requestLogEmitters</code> respectively.</p>
 
 <h3 id="druid-to-graphite-event-converter">Druid to Graphite Event Converter</h3>
 

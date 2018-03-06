@@ -139,7 +139,7 @@
 </tr>
 <tr>
 <td><code>druid.coordinator.period.indexingPeriod</code></td>
-<td>How often to send indexing tasks to the indexing service. Only applies if merge or conversion is turned on.</td>
+<td>How often to send compact/merge/conversion tasks to the indexing service. It&#39;s recommended to be longer than <code>druid.manager.segments.pollDuration</code></td>
 <td>PT1800S (30 mins)</td>
 </tr>
 <tr>
@@ -201,6 +201,46 @@
 <td><code>druid.coordinator.asOverlord.overlordService</code></td>
 <td>Required, if <code>druid.coordinator.asOverlord.enabled</code> is <code>true</code>. This must be same value as <code>druid.service</code> on standalone Overlord nodes and <code>druid.selectors.indexing.serviceName</code> on Middle Managers.</td>
 <td>NULL</td>
+</tr>
+</tbody></table>
+
+<h3 id="segment-management">Segment Management</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.announcer.type</code></td>
+<td>batch or http</td>
+<td>Segment discovery method to use. &quot;http&quot; enables discovering segments using HTTP instead of zookeeper.</td>
+<td>batch</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.loadqueuepeon.type</code></td>
+<td>curator or http</td>
+<td>Whether to use &quot;http&quot; or &quot;curator&quot; implementation to assign segment loads/drops to historical</td>
+<td>curator</td>
+</tr>
+</tbody></table>
+
+<h4 id="additional-config-when-http-loadqueuepeon-is-used">Additional config when &quot;http&quot; loadqueuepeon is used</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.coordinator.loadqueuepeon.http.batchSize</code></td>
+<td>Number of segment load/drop requests to batch in one HTTP request. Note that it must be smaller than <code>druid.segmentCache.numLoadingThreads</code> config on historical node.</td>
+<td>1</td>
 </tr>
 </tbody></table>
 
@@ -391,6 +431,66 @@
 <td>30_000</td>
 </tr>
 </tbody></table>
+
+<h2 id="compaction-configuration">Compaction Configuration</h2>
+
+<p>Compaction configurations can also be set or updated dynamically without restarting coordinators. For segment compaction,
+please see <a href="../design/coordinator.html#compacting-segments">Compacting Segments</a>.</p>
+
+<p>A description of the compaction config is:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>dataSource</code></td>
+<td>dataSource name to be compacted.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>taskPriority</code></td>
+<td><a href="../ingestion/tasks.html#task-priorities">Priority</a> of compact task.</td>
+<td>no (default = 25)</td>
+</tr>
+<tr>
+<td><code>targetCompactionSizeBytes</code></td>
+<td>The target segment size of compaction. The actual size of a compact segment might be slightly larger or smaller than this value.</td>
+<td>no (default = 838860800)</td>
+</tr>
+<tr>
+<td><code>numTargetCompactionSegments</code></td>
+<td>Max number of segments to compact together.</td>
+<td>no (default = 150)</td>
+</tr>
+<tr>
+<td><code>skipOffsetFromLatest</code></td>
+<td>The offset for searching segments to be compacted. Strongly recommended to set for realtime dataSources.</td>
+<td>no (default = &quot;P1D&quot;)</td>
+</tr>
+<tr>
+<td><code>tuningConfig</code></td>
+<td>Tuning config for compact tasks. See below <a href="#compact-task-tuningconfig">Compact Task TuningConfig</a>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>taskContext</code></td>
+<td><a href="../ingestion/tasks.html#task-context">Task context</a> for compact tasks.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>An example of compaction config is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikiticker&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;targetCompactionSizeBytes&quot;</span><span class="p">:</span> <span class="mi">800000000</span><span class="p">,</span>
+  <span class="nt">&quot;skipOffsetFromLatest&quot;</span><span class="p">:</span> <span class="s2">&quot;P1D&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>For realtime dataSources, it&#39;s recommended to set <code>skipOffsetFromLatest</code> to some sufficiently large values to avoid frequent compact task failures.</p>
 
         </div>
         <div class="col-md-3">

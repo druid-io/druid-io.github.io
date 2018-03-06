@@ -185,6 +185,18 @@ druid.server.http.numThreads=100
 <td>All custom strategies to use for routing.</td>
 <td>[{&quot;type&quot;:&quot;timeBoundary&quot;},{&quot;type&quot;:&quot;priority&quot;}]</td>
 </tr>
+<tr>
+<td><code>druid.router.avatica.balancer.type</code></td>
+<td>String representing an AvaticaConnectionBalancer name</td>
+<td>Class to use for balancing Avatica queries across brokers</td>
+<td>rendezvousHash</td>
+</tr>
+<tr>
+<td><code>druid.router.http.maxRequestBufferSize</code></td>
+<td>Maximum size of the buffer used to write requests when forwarding them to the broker. This should be set to atleast the maxHeaderSize allowed on the broker</td>
+<td>8 * 1024</td>
+<td></td>
+</tr>
 </tbody></table>
 
 <h2 id="router-strategies">Router Strategies</h2>
@@ -220,6 +232,32 @@ druid.server.http.numThreads=100
 <div class="note info">
 JavaScript-based functionality is disabled by default. Please refer to the Druid <a href="../development/javascript.html">JavaScript programming guide</a> for guidelines about using Druid's JavaScript functionality, including instructions on how to enable it.
 </div>
+
+<h2 id="avatica-query-balancing">Avatica Query Balancing</h2>
+
+<p>All Avatica JDBC requests with a given connection ID must be routed to the same broker, since Druid brokers do not share connection state with each other.</p>
+
+<p>To accomplish this, Druid provides two built-in balancers that use rendezvous hashing and consistent hashing of a request&#39;s connection ID respectively to assign requests to brokers.</p>
+
+<p>Note that when multiple routers are used, all routers should have identical balancer configuration to ensure that they make the same routing decisions.</p>
+
+<h3 id="rendezvous-hash-balancer">Rendezvous Hash Balancer</h3>
+
+<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Rendezvous_hashing">Rendezvous Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a broker.</p>
+
+<p>To use this balancer, specify the following property:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.router.avatica.balancer.type=rendezvousHash
+</code></pre></div>
+<p>If no <code>druid.router.avatica.balancer</code> property is set, the Router will also default to using the Rendezvous Hash Balancer.</p>
+
+<h3 id="consistent-hash-balancer">Consistent Hash Balancer</h3>
+
+<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Consistent_hashing">Consistent Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a broker.</p>
+
+<p>To use this balancer, specify the following property:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.router.avatica.balancer.type=consistentHash
+</code></pre></div>
+<p>This is a non-default implementation that is provided for experimentation purposes. The consistent hasher has longer setup times on initialization and when the set of brokers changes, but has a faster broker assignment time than the rendezous hasher when tested with 5 brokers. Benchmarks for both implementations have been provided in <code>ConsistentHasherBenchmark</code> and <code>RendezvousHasherBenchmark</code>. The consistent hasher also requires locking, while the rendezvous hasher does not.</p>
 
 <h2 id="http-endpoints">HTTP Endpoints</h2>
 

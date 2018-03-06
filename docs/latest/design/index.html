@@ -160,11 +160,11 @@ Hence, Druid ingestion specs define this granularity as the <code>queryGranulari
 
 <p>Druid supports two roll-up modes, i.e., <em>perfect roll-up</em> and <em>best-effort roll-up</em>. In the perfect roll-up mode, Druid guarantees that input data are perfectly aggregated at ingestion time. Meanwhile, in the best-effort roll-up, input data might not be perfectly aggregated and thus there can be multiple segments holding the rows which should belong to the same segment with the perfect roll-up since they have the same dimension value and their timestamps fall into the same interval.</p>
 
-<p>The perfect roll-up mode encompasses an additional preprocessing step to determine intervals and shardSpecs before actual data ingestion if they are not specified in the ingestionSpec. This preprocessing step usually scans the entire input data which might increase the ingestion time. The <a href="./ingestion/batch-ingestion.html">Hadoop indexing task</a> always runs with this perfect roll-up mode.</p>
+<p>The perfect roll-up mode encompasses an additional preprocessing step to determine intervals and shardSpecs before actual data ingestion if they are not specified in the ingestionSpec. This preprocessing step usually scans the entire input data which might increase the ingestion time. The <a href="../ingestion/batch-ingestion.html">Hadoop indexing task</a> always runs with this perfect roll-up mode.</p>
 
-<p>On the contrary, the best-effort roll-up mode doesn&#39;t require any preprocessing step, but the size of ingested data might be larger than that of the perfect roll-up. All types of <a href="./ingestion/stream-ingestion.html">streaming indexing (i.e., realtime index task, kafka indexing service, ...)</a> run with this mode.</p>
+<p>On the contrary, the best-effort roll-up mode doesn&#39;t require any preprocessing step, but the size of ingested data might be larger than that of the perfect roll-up. All types of <a href="../ingestion/stream-ingestion.html">streaming indexing (i.e., realtime index task, kafka indexing service, ...)</a> run with this mode.</p>
 
-<p>Finally, the <a href="./ingestion/tasks.html">native index task</a> supports both modes and you can choose either one which fits to your application.</p>
+<p>Finally, the <a href="../ingestion/tasks.html">native index task</a> supports both modes and you can choose either one which fits to your application.</p>
 
 <h2 id="indexing-the-data">Indexing the Data</h2>
 

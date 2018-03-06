@@ -172,9 +172,19 @@
 <td>max(10, (Number of cores * 17) / 16 + 2) + 30</td>
 </tr>
 <tr>
+<td><code>druid.server.http.queueSize</code></td>
+<td>Size of the worker queue used by Jetty server to temporarily store incoming client connections. If this value is set and a request is rejected by jetty because queue is full then client would observe request failure with TCP connection being closed immediately with a completely empty response from server.</td>
+<td>Unbounded</td>
+</tr>
+<tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
 <td>PT5m</td>
+</tr>
+<tr>
+<td><code>druid.server.http.enableRequestLimit</code></td>
+<td>If enabled, no requests would be queued in jetty queue and &quot;HTTP 429 Too Many Requests&quot; error response would be sent.</td>
+<td>false</td>
 </tr>
 <tr>
 <td><code>druid.server.http.defaultQueryTimeout</code></td>
@@ -200,6 +210,21 @@
 <td><code>druid.broker.http.readTimeout</code></td>
 <td>The timeout for data reads from historical and real-time processes.</td>
 <td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.broker.http.unusedConnectionTimeout</code></td>
+<td>The timeout for idle connections in connection pool. This timeout should be less than <code>druid.broker.http.readTimeout</code>. Set this timeout = ~90% of <code>druid.broker.http.readTimeout</code></td>
+<td><code>PT4M</code></td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxQueryTimeout</code></td>
+<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
+<td>Long.MAX_VALUE</td>
+</tr>
+<tr>
+<td><code>druid.server.http.maxRequestHeaderSize</code></td>
+<td>Maximum size of a request header in bytes. Larger headers consume more memory and can make a server more vulnerable to denial of service attacks.</td>
+<td>8 * 1024</td>
 </tr>
 </tbody></table>
 
@@ -365,6 +390,24 @@ line.</p>
 </tbody></table>
 
 <p>See <a href="caching.html">cache configuration</a> for how to configure cache settings.</p>
+
+<h3 id="segment-discovery">Segment Discovery</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Possible Values</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.announcer.type</code></td>
+<td>batch or http</td>
+<td>Segment discovery method to use. &quot;http&quot; enables discovering segments using HTTP instead of zookeeper.</td>
+<td>batch</td>
+</tr>
+</tbody></table>
 
 <h3 id="others">Others</h3>
 

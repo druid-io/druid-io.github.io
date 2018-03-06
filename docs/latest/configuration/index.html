@@ -131,6 +131,11 @@
 <td>true</td>
 </tr>
 <tr>
+<td><code>druid.extensions.useExtensionClassloaderFirst</code></td>
+<td>This is a boolean flag that determines if Druid extensions should prefer loading classes from their own jars rather than jars bundled with Druid. If false, extensions must be compatible with classes provided by any jars bundled with Druid. If true, extensions may depend on conflicting versions.</td>
+<td>false</td>
+</tr>
+<tr>
 <td><code>druid.extensions.hadoopContainerDruidClasspath</code></td>
 <td>Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.</td>
 <td>null</td>
@@ -553,7 +558,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 <tr>
 <td><code>druid.monitoring.monitors</code></td>
-<td>Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with <code>druid.monitoring.monitors=[&quot;com.metamx.metrics.SysMonitor&quot;,&quot;com.metamx.metrics.JvmMonitor&quot;]</code>.</td>
+<td>Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with <code>druid.monitoring.monitors=[&quot;io.druid.java.util.metrics.SysMonitor&quot;,&quot;io.druid.java.util.metrics.JvmMonitor&quot;]</code>.</td>
 <td>none (no monitors)</td>
 </tr>
 </tbody></table>
@@ -571,7 +576,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td>Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and and errors.</td>
 </tr>
 <tr>
-<td><code>com.metamx.metrics.SysMonitor</code></td>
+<td><code>io.druid.java.util.metrics.SysMonitor</code></td>
 <td>This uses the <a href="http://www.hyperic.com/products/sigar">SIGAR library</a> to report on various system activities and statuses.</td>
 </tr>
 <tr>
@@ -579,19 +584,19 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td>Reports statistics on Historical nodes.</td>
 </tr>
 <tr>
-<td><code>com.metamx.metrics.JvmMonitor</code></td>
+<td><code>io.druid.java.util.metrics.JvmMonitor</code></td>
 <td>Reports various JVM-related statistics.</td>
 </tr>
 <tr>
-<td><code>com.metamx.metrics.JvmCpuMonitor</code></td>
+<td><code>io.druid.java.util.metrics.JvmCpuMonitor</code></td>
 <td>Reports statistics of CPU consumption by the JVM.</td>
 </tr>
 <tr>
-<td><code>com.metamx.metrics.CpuAcctDeltaMonitor</code></td>
+<td><code>io.druid.java.util.metrics.CpuAcctDeltaMonitor</code></td>
 <td>Reports consumed CPU as per the cpuacct cgroup.</td>
 </tr>
 <tr>
-<td><code>com.metamx.metrics.JvmThreadsMonitor</code></td>
+<td><code>io.druid.java.util.metrics.JvmThreadsMonitor</code></td>
 <td>Reports Thread statistics in the JVM, like numbers of total, daemon, started, died threads.</td>
 </tr>
 <tr>
@@ -607,7 +612,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td>Reports how many queries have been successful/failed/interrupted.</td>
 </tr>
 <tr>
-<td><code>io.druid.server.emitter.HttpEmitterMonitor</code></td>
+<td><code>io.druid.server.emitter.HttpEmittingMonitor</code></td>
 <td>Reports internal metrics of <code>http</code> or <code>parametrized</code> emitter (see below). Must not be used with another emitter type. See the description of the metrics here: https://github.com/druid-io/druid/pull/4973.</td>
 </tr>
 </tbody></table>
@@ -676,7 +681,7 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <td>not specified = no authentification</td>
 </tr>
 <tr>
-<td>`druid.emitter.http.flushTimeOut</td>
+<td><code>druid.emitter.http.flushTimeOut</code></td>
 <td>The timeout after which an event should be sent to the endpoint, even if internal buffers are not filled, in milliseconds.</td>
 <td>not specified = no timeout</td>
 </tr>
@@ -688,12 +693,12 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <tr>
 <td><code>druid.emitter.http.maxBatchSize</code></td>
 <td>The maximum batch size, in bytes.</td>
-<td>5191680 (i. e. 5 MB)</td>
+<td>the minimum of (10% of JVM heap size divided by 2) or (5191680 (i. e. 5 MB))</td>
 </tr>
 <tr>
 <td><code>druid.emitter.http.batchQueueSizeLimit</code></td>
 <td>The maximum number of batches in emitter queue, if there are problems with emitting.</td>
-<td>50</td>
+<td>the maximum of (2) or (10% of the JVM heap size divided by 5MB)</td>
 </tr>
 <tr>
 <td><code>druid.emitter.http.minHttpTimeoutMillis</code></td>
@@ -707,11 +712,58 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 </tr>
 </tbody></table>
 
+<h4 id="http-emitter-module-tls-overrides">Http Emitter Module TLS Overrides</h4>
+
+<p>When emitting events to a TLS-enabled receiver, the Http Emitter will by default use an SSLContext obtained via the process described at <a href="../operations/tls-support.html#druids-internal-communication-over-tls">Druid&#39;s internal communication over TLS</a>, i.e., the same SSLContext that would be used for internal communications between Druid nodes.</p>
+
+<p>In some use cases it may be desirable to have the Http Emitter use its own separate truststore configuration. For example, there may be organizational policies that prevent the TLS-enabled metrics receiver&#39;s certificate from being added to the same truststore used by Druid&#39;s internal HTTP client.</p>
+
+<p>The following properties allow the Http Emitter to use its own truststore configuration when building its SSLContext.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.http.ssl.useDefaultJavaContext</code></td>
+<td>If set to true, the HttpEmitter will use <code>SSLContext.getDefault()</code>, the default Java SSLContext, and all other properties below are ignored.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStorePath</code></td>
+<td>The file path or URL of the TLS/SSL Key store where trusted root certificates are stored. If this is unspecified, the Http Emitter will use the same SSLContext as Druid&#39;s internal HTTP client, as described in the beginning of this section, and all other properties below are ignored.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStoreType</code></td>
+<td>The type of the key store where trusted root certificates are stored.</td>
+<td><code>java.security.KeyStore.getDefaultType()</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStoreAlgorithm</code></td>
+<td>Algorithm to be used by TrustManager to validate certificate chains</td>
+<td><code>javax.net.ssl.TrustManagerFactory.getDefaultAlgorithm()</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStorePassword</code></td>
+<td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.protocol</code></td>
+<td>TLS protocol to use.</td>
+<td>&quot;TLSv1.2&quot;</td>
+</tr>
+</tbody></table>
+
 <h4 id="parametrized-http-emitter-module">Parametrized Http Emitter Module</h4>
 
 <p><code>druid.emitter.parametrized.httpEmitting.*</code> configs correspond to the configs of Http Emitter Modules, see above.
 Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.httpEmitting.flushMillis</code>,
-<code>druid.emitter.parametrized.httpEmitting.flushCount</code>, etc.</p>
+<code>druid.emitter.parametrized.httpEmitting.flushCount</code>, <code>druid.emitter.parametrized.httpEmitting.ssl.trustStorePath</code>, etc.</p>
 
 <p>The additional configs are:</p>
 
