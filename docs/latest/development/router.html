@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.11.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.11.0">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0">API documentation</a></p>
           <h1 id="router-node">Router Node</h1>
 
 <p>You should only ever need the router node if you have a Druid cluster well into the terabyte range. The router node can be used to route queries to different broker nodes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
