@@ -147,7 +147,7 @@ sections:
 Next, start Druid Kafka ingestion:
 
 ```bash
-bin/tranquility kafka -configFile ../druid-latest/conf-quickstart/tranquility/kafka.json
+bin/tranquility kafka -configFile ../druid-0.12.0/conf-quickstart/tranquility/kafka.json
 ```
 
 - If your Tranquility server or Kafka is already running, stop it (CTRL-C) and
