@@ -217,13 +217,6 @@ at-least-once design and can lead to duplicated events.</li>
 historical data, we recommend a <a href="../tutorials/ingestion.html#hybrid-batch-streaming">hybrid batch/streaming</a>
 architecture.</p>
 
-<h3 id="deployment-notes">Deployment Notes</h3>
-
-<p>Stream ingestion may generate a large number of small segments because it&#39;s difficult to optimize the segment size at
-ingestion time. The number of segments will increase over time, and this might cuase the query performance issue. </p>
-
-<p>Details on how to optimize the segment size can be found on <a href="../../operations/segment-optimization.html">Segment size optimization</a>.</p>
-
 <h2 id="documentation">Documentation</h2>
 
 <p>Tranquility documentation be found <a href="https://github.com/druid-io/tranquility/blob/master/README.md">here</a>.</p>

@@ -602,13 +602,6 @@ This can be difficult to manage at scale, especially with multiple partitions.</
 <p>Each standalone realtime node has its own set of logs. Diagnosing errors across many partitions across many servers may be 
 difficult to manage and track at scale.</p>
 
-<h2 id="deployment-notes">Deployment Notes</h2>
-
-<p>Stream ingestion may generate a large number of small segments because it&#39;s difficult to optimize the segment size at
-ingestion time. The number of segments will increase over time, and this might cause the query performance issue. </p>
-
-<p>Details on how to optimize the segment size can be found on <a href="../../operations/segment-optimization.html">Segment size optimization</a>.</p>
-
         </div>
         <div class="col-md-3">
           <div class="searchbox">

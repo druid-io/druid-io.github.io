@@ -212,11 +212,6 @@
 <td>PT15M</td>
 </tr>
 <tr>
-<td><code>druid.broker.http.unusedConnectionTimeout</code></td>
-<td>The timeout for idle connections in connection pool. This timeout should be less than <code>druid.broker.http.readTimeout</code>. Set this timeout = ~90% of <code>druid.broker.http.readTimeout</code></td>
-<td><code>PT4M</code></td>
-</tr>
-<tr>
 <td><code>druid.server.http.maxQueryTimeout</code></td>
 <td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
 <td>Long.MAX_VALUE</td>

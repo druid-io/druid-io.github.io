@@ -90,17 +90,15 @@
 Lookups are an <a href="../development/experimental.html">experimental</a> feature.
 </div>
 
-<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values, allowing join-like
-functionality. Applying lookups in Druid is similar to joining a dimension table in a data warehouse. See
-<a href="../querying/dimensionspecs.html">dimension specs</a> for more information. For the purpose of these documents, a &quot;key&quot;
-refers to a dimension value to match, and a &quot;value&quot; refers to its replacement. So if you wanted to map
-<code>appid-12345</code> to <code>Super Mega Awesome App</code> then the key would be <code>appid-12345</code> and the value would be
-<code>Super Mega Awesome App</code>.</p>
+<p>Lookups are a concept in Druid where dimension values are (optionally) replaced with new values. 
+See <a href="../querying/dimensionspecs.html">dimension specs</a> for more information. For the purpose of these documents, 
+a &quot;key&quot; refers to a dimension value to match, and a &quot;value&quot; refers to its replacement. 
+So if you wanted to rename <code>appid-12345</code> to <code>Super Mega Awesome App</code> then the key would be <code>appid-12345</code> and the value 
+would be <code>Super Mega Awesome App</code>. </p>
 
-<p>It is worth noting that lookups support not just use cases where keys map one-to-one to unique values, such as country
-code and country name, but also support use cases where multiple IDs map to the same value, e.g. multiple app-ids
-mapping to a single account manager. When lookups are one-to-one, Druid is able to apply additional optimizations at
-query time; see <a href="#query-execution">Query execution</a> below for more details.</p>
+<p>It is worth noting that lookups support use cases where keys map to unique values (injective) such as a country code and 
+a country name, and also supports use cases where multiple IDs map to the same value, e.g. multiple app-ids belonging to 
+a single account manager.</p>
 
 <p>Lookups do not have history. They always use the current data. This means that if the chief account manager for a 
 particular app-id changes, and you issue a query with a lookup to store the app-id to account manager relationship, 
@@ -118,32 +116,6 @@ lookup as per <a href="../querying/dimensionspecs.html">dimension specs</a>.</p>
 <li>Globally cached lookups from local files, remote URIs, or JDBC through <a href="../development/extensions-core/lookups-cached-global.html">lookups-cached-global</a>.</li>
 <li>Globally cached lookups from a Kafka topic through <a href="../development/extensions-core/kafka-extraction-namespace.html">kafka-extraction-namespace</a>.</li>
 </ul>
-
-<h2 id="query-execution">Query Execution</h2>
-
-<p>When executing an aggregation query involving lookups, Druid can decide to apply lookups either while scanning and
-aggregating rows, or to apply them after aggregation is complete. It is more efficient to apply lookups after
-aggregation is complete, so Druid will do this if it can. Druid decides this by checking if the lookup is marked
-as &quot;injective&quot; or not. In general, you should set this property for any lookup that is naturally one-to-one, to allow
-Druid to run your queries as fast as possible.</p>
-
-<p>Injective lookups should include <em>all</em> possible keys that may show up in your dataset, and should also map all keys to
-<em>unique values</em>. This matters because non-injective lookups may map different keys to the same value, which must be
-accounted for during aggregation, lest query results contain two result values that should have been aggregated into
-one.</p>
-
-<p>This lookup is injective (assuming it contains all possible keys from your data):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1 -&gt; Foo
-2 -&gt; Bar
-3 -&gt; Billy
-</code></pre></div>
-<p>But this one is not, since both &quot;2&quot; and &quot;3&quot; map to the same key:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1 -&gt; Foo
-2 -&gt; Bar
-3 -&gt; Bar
-</code></pre></div>
-<p>To tell Druid that your lookup is injective, you must specify <code>&quot;injective&quot; : true</code> in the lookup configuration. Druid
-will not detect this automatically.</p>
 
 <h2 id="dynamic-configuration">Dynamic Configuration</h2>
 
