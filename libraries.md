@@ -45,6 +45,10 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [ing-bank/scruid](https://github.com/ing-bank/scruid) - A Scala client for Druid
 
+#### Java
+
+* [zapr/druidry](https://github.com/zapr-oss/druidry) - A Java Client and query generator for Druid
+
 
 Other Druid Distributions
 -------------------------
