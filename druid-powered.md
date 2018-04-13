@@ -14,6 +14,14 @@ Druid powers slice and dice analytics on both historical and realtime-time metri
 
 At Alibaba Search Group, we use Druid for real-time analytics of users' interaction with its popular e-commerce site.
 
+## Allegro
+
+[Allegro](https://allegro.tech/about-us/) is the most popular Polish shopping destination with about 14 million users monthly and over 1.5 million items sold on the platform daily.
+We have been using Druid since 2016 as business intelligence platform to power our clickstream analytics, marketing automation, anomaly detection, technical metrics and more.
+Our cluster (432 CPUs, 1300GB of RAM on historicals) processes billions of realtime events loaded from [Kafka](https://kafka.apache.org/) 
+and hundreds batch indexing jobs on daily basis.
+It's a pleasure to work with Druid, extraordinarily efficient and exceptionally stable platform with vibrant community.
+
 ## Appsflyer
 
 Druid is the major player in the real-time analytics pipeline at Appsflyer, and it serves as customer facing analytics database for dashboard reporting.
