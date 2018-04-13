@@ -1,9 +1,4 @@
-- date: 2018-03-07
-  name: "NoSQL no more: SQL on Druid with Apache Calcite"
-  info: Strata San Jose 2018
-  link: https://conferences.oreilly.com/strata/strata-ca/public/schedule/detail/64024
-
-- date: 2018-03-13
-  name: "Druid Bay Area Meetup @ eBay"
-  info: Druid Meetup
-  link: https://www.meetup.com/druidio/events/244687034
+- date: 2018-04-18
+  name: "Three Weird Tips for High Performance Analytics Applications"
+  info: DataEngConf SF 2018
+  link: http://www.dataengconf.com/schedule
