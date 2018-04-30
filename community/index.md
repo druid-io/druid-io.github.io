@@ -6,11 +6,15 @@ layout: simple_page
 
 ## Community
 
-Most discussion about Druid happens over email, github, and IRC.
+Most discussion about Druid happens over email and GitHub.
 
-* **User Google Group** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user) for general discussion
-* **Development Google Group** [druid-development@googlegroups.com](https://groups.google.com/d/forum/druid-development) for discussion about project development
-* **Github** [druid-io/druid](https://github.com/druid-io/druid) issues and pull requests (watch to subscribe)
+The Druid community is in the process of migrating to Apache by way of the Apache Incubator. As we proceed
+along this path, our site will move from http://druid.io/ to https://druid.apache.org/, and our mailing lists
+and Git repositories will be migrated as well.
+
+* **User mailing list** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user) for general discussion
+* **Development mailing list** [dev@druid.apache.org](https://lists.apache.org/list.html?dev@druid.apache.org) for discussion about project development
+* **GitHub** [druid-io/druid](https://github.com/druid-io/druid) issues and pull requests (watch to subscribe)
 * **IRC** `#druid-dev` on irc.freenode.net
 
 ## Contributing
