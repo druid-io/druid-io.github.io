@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>	
+  <head>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | Downloads</title>
+<title>Druid | </title>
 <link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -36,7 +36,8 @@
 
 
   </head>
-  <body>	
+
+  <body>
     <!-- Start page_header include -->
 <div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
@@ -52,7 +53,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=" active"><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
         <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
@@ -66,60 +67,72 @@
 
 
     <div class="druid-header">
-  <div class="container">
-    <h1>Download</h1>
-    <h4></h4>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-
-      <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-0.12.0-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.0-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.0 Stable</a><br>
-
-      <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/0.12.0/development/versioning.html">Versioning</a> section for how we describe releases.
-
-      <h4>Stable Release</h4>
-
-      <p>The current stable is tagged at version 0.12.0.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.0-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.0-bin.tar.gz');return false;">druid-0.12.0-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.0.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.0.tar.gz');return false;">mysql-metadata-storage-0.12.0.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/0.12.0/operations/including-extensions.html">Include Extensions</a>)
-
-      <p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz');return false;">tranquility-distribution-0.8.2.tgz</a>.</p>
-
-      <h4>Next Release Candidate</h4>
-      
-      <p>The current release candidate is tagged at version 0.12.1-rc1.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.1-rc1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.1-rc1-bin.tar.gz');return false;">druid-0.12.1-rc1-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1-rc1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1-rc1.tar.gz');return false;">mysql-metadata-storage-0.12.1-rc1.tar.gz</a>.
-
-      
-
-      <h2>Release Notes</h2>
-
-      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
     </div>
-  </div>
-</div>
-</div>
 
-<script>
-var trackDownload = function(type, url) {
-   ga('send', 'event', 'download', type, url, {'hitCallback':
-     function () {
-     document.location = url;
-     }
-   });
-}
-</script>
+    <div class="container">
+      
+      
+      
 
-    
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1-rc1">API documentation</a></p>
+          <h1 id="loading-streams">Loading streams</h1>
+
+<p>Streams can be ingested in Druid using either <a href="https://github.com/druid-io/tranquility">Tranquility</a> (a Druid-aware 
+client) and the <a href="../design/indexing-service.html">indexing service</a> or through standalone <a href="../design/realtime.html">Realtime nodes</a>. 
+The first approach will be more complex to set up, but also offers scalability and high availability characteristics that advanced production 
+setups may require. The second approach has some known <a href="../ingestion/stream-pull.html#limitations">limitations</a>.</p>
+
+<h2 id="stream-push">Stream push</h2>
+
+<p>If you have a program that generates a stream, then you can push that stream directly into Druid in 
+real-time. With this approach, Tranquility is embedded in your data-producing application. 
+Tranquility comes with bindings for the 
+Storm and Samza stream processors. It also has a direct API that can be used from any JVM-based 
+program, such as Spark Streaming or a Kafka consumer.</p>
+
+<p>Tranquility handles partitioning, replication, service discovery, and schema rollover for you, 
+seamlessly and without downtime. You only have to define your Druid schema.</p>
+
+<p>For examples and more information, please see the <a href="https://github.com/druid-io/tranquility">Tranquility README</a>.</p>
+
+<h2 id="stream-pull">Stream pull</h2>
+
+<p>If you have an external service that you want to pull data from, you have two options. The simplest 
+option is to set up a &quot;copying&quot; service that reads from the data source and writes to Druid using 
+the <a href="#stream-push">stream push method</a>.</p>
+
+<p>Another option is <em>stream pull</em>. With this approach, a Druid Realtime Node ingests data from a
+<a href="../ingestion/firehose.html">Firehose</a> connected to the data you want to
+read. Druid includes builtin firehoses for Kafka, RabbitMQ, and various other streaming systems.</p>
+
+<h2 id="more-information">More information</h2>
+
+<p>For more information on loading streaming data via a push based approach, please see <a href="../ingestion/stream-push.html">here</a>.</p>
+
+<p>For more information on loading streaming data via a pull based approach, please see <a href="../ingestion/stream-pull.html">here</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Start page_footer include -->
 <footer class="druid-footer">
 <div class="container">
@@ -159,6 +172,23 @@ var trackDownload = function(type, url) {
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
 
-    
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
   </body>
 </html>
