@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1-rc2">API documentation</a></p>
+          <h1 id="thrift">Thrift</h1>
+
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-thrift-extensions</code>.</p>
+
+<p>This extension enables Druid to ingest thrift compact data online (<code>ByteBuffer</code>) and offline (SequenceFile of type <code>&lt;Writable, BytesWritable&gt;</code> or LzoThriftBlock File).</p>
+
+<p>You may want to use another version of thrift, change the dependency in pom and compile yourself.</p>
+
+<h2 id="thrift-parser">Thrift Parser</h2>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>thrift</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data. Should be a Json parseSpec.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>thriftJar</td>
+<td>String</td>
+<td>path of thrift jar, if not provided, it will try to find the thrift class in classpath. Thrift jar in batch ingestion should be uploaded to HDFS first and configure <code>jobProperties</code> with <code>&quot;tmpjars&quot;:&quot;/path/to/your/thrift.jar&quot;</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td>thriftClass</td>
+<td>String</td>
+<td>classname of thrift</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Realtime Ingestion (tranquility example)</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;dataSources&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;book&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{</span>          <span class="p">},</span>
+        <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thrift&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;thriftClass&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.thrift.Book&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+            <span class="err">...</span>
+          <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">}</span>
+  <span class="p">}],</span>
+  <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>To use it with tranquility,</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/tranquility kafka <span class="se">\</span>
+  -configFile <span class="nv">$jsonConfig</span> <span class="se">\</span>
+  -Ddruid.extensions.directory<span class="o">=</span>/path/to/extensions <span class="se">\</span>
+  -Ddruid.extensions.loadList<span class="o">=</span><span class="s1">&#39;[&quot;druid-thrift-extensions&quot;]&#39;</span>
+</code></pre></div>
+<p>Hadoop-client is also needed, you may copy all the hadoop-client dependency jars into directory <code>druid-thrift-extensions</code> to make is simple.</p>
+
+<ul>
+<li>Batch Ingestion - <code>inputFormat</code> and <code>tmpjars</code> should be set.</li>
+</ul>
+
+<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig could be one of <code>&quot;org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat&quot;</code> and <code>com.twitter.elephantbird.mapreduce.input.LzoThriftBlockInputFormat</code>. Be carefull, when <code>LzoThriftBlockInputFormat</code> is used, thrift class must be provided twice.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;book&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;thrift&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;jarPath&quot;</span><span class="p">:</span> <span class="s2">&quot;book.jar&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;thriftClass&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.thrift.Book&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="err">...</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat&quot;</span><span class="p">,</span>
+        <span class="err">//</span> <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;com.twitter.elephantbird.mapreduce.input.LzoThriftBlockInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;/user/to/some/book.seq&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;jobProperties&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;tmpjars&quot;</span><span class="p">:</span><span class="s2">&quot;/user/h_user_profile/du00/druid/test/book.jar&quot;</span><span class="p">,</span>
+        <span class="err">//</span> <span class="nt">&quot;elephantbird.class.for.MultiInputFormat&quot;</span> <span class="p">:</span> <span class="s2">&quot;${YOUR_THRIFT_CLASS_NAME}&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1-rc2">API documentation</a></p>
+          <h1 id="approximate-histogram-aggregator">Approximate Histogram aggregator</h1>
+
+<p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-histogram</code> as an extension.</p>
+
+<p>This aggregator is based on
+<a href="http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf">http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf</a>
+to compute approximate histograms, with the following modifications:
+- some tradeoffs in accuracy were made in the interest of speed (see below)
+- the sketch maintains the exact original data as long as the number of
+  distinct data points is fewer than the resolutions (number of centroids),
+  increasing accuracy when there are few data points, or when dealing with
+  discrete data points. You can find some of the details in <a href="https://metamarkets.com/2013/histograms/">this post</a>.</p>
+
+<p>Approximate histogram sketches are still experimental for a reason, and you
+should understand the limitations of the current implementation before using
+them. The approximation is heavily data-dependent, which makes it difficult to
+give good general guidelines, so you should experiment and see what parameters
+work well for your data.</p>
+
+<p>Here are a few things to note before using them:</p>
+
+<ul>
+<li>As indicated in the original paper, there are no formal error bounds on the
+approximation. In practice, the approximation gets worse if the distribution
+is skewed.</li>
+<li>The algorithm is order-dependent, so results can vary for the same query, due
+to variations in the order in which results are merged.</li>
+<li>In general, the algorithm only works well if the data that comes is randomly
+distributed (i.e. if data points end up sorted in a column, approximation
+will be horrible)</li>
+<li>We traded accuracy for aggregation speed, taking some shortcuts when adding
+histograms together, which can lead to pathological cases if your data is
+ordered in some way, or if your distribution has long tails. It should be
+cheaper to increase the resolution of the sketch to get the accuracy you need.</li>
+</ul>
+
+<p>That being said, those sketches can be useful to get a first order approximation
+when averages are not good enough. Assuming most rows in your segment store
+fewer data points than the resolution of histogram, you should be able to use
+them for monitoring purposes and detect meaningful variations with a few
+hundred centroids. To get good accuracy readings on 95th percentiles with
+millions of rows of data, you may want to use several thousand centroids,
+especially with long tails, since that&#39;s where the approximation will be worse.</p>
+
+<h3 id="creating-approxiate-histogram-sketches-at-ingestion-time">Creating approxiate histogram sketches at ingestion time</h3>
+
+<p>To use this feature, an &quot;approxHistogram&quot; or &quot;approxHistogramFold&quot; aggregator must be included at
+indexing time. The ingestion aggregator can only apply to numeric values. If you use &quot;approxHistogram&quot;
+then any input rows missing the value will be considered to have a value of 0, while with &quot;approxHistogramFold&quot;
+such rows will be ignored.</p>
+
+<p>To query for results, an &quot;approxHistogramFold&quot; aggregator must be included in the
+query.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;approxHistogram or approxHistogramFold (at ingestion time), approxHistogramFold (at query time)&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;resolution&quot;</span> <span class="p">:</span> <span class="err">&lt;integer&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;numBuckets&quot;</span> <span class="p">:</span> <span class="err">&lt;integer&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;lowerLimit&quot;</span> <span class="p">:</span> <span class="err">&lt;float&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;upperLimit&quot;</span> <span class="p">:</span> <span class="err">&lt;float&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>resolution</code></td>
+<td>Number of centroids (data points) to store. The higher the resolution, the more accurate results are, but the slower the computation will be.</td>
+<td>50</td>
+</tr>
+<tr>
+<td><code>numBuckets</code></td>
+<td>Number of output buckets for the resulting histogram. Bucket intervals are dynamic, based on the range of the underlying data. Use a post-aggregator to have finer control over the bucketing scheme</td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>lowerLimit</code>/<code>upperLimit</code></td>
+<td>Restrict the approximation to the given range. The values outside this range will be aggregated into two centroids. Counts of values outside this range are still maintained.</td>
+<td>-INF/+INF</td>
+</tr>
+</tbody></table>
+
+<h3 id="approximate-histogram-post-aggregators">Approximate Histogram post-aggregators</h3>
+
+<p>Post-aggregators are used to transform opaque approximate histogram sketches
+into bucketed histogram representations, as well as to compute various
+distribution metrics such as quantiles, min, and max.</p>
+
+<h4 id="equal-buckets-post-aggregator">Equal buckets post-aggregator</h4>
+
+<p>Computes a visual representation of the approximate histogram with a given number of equal-sized bins.
+Bucket intervals are based on the range of the underlying data.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalBuckets&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregator_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;numBuckets&quot;</span><span class="p">:</span> <span class="err">&lt;count&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="buckets-post-aggregator">Buckets post-aggregator</h4>
+
+<p>Computes a visual representation given an initial breakpoint, offset, and a bucket size.</p>
+
+<p>Bucket size determines the width of the binning interval.</p>
+
+<p>Offset determines the value on which those interval bins align.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;buckets&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregator_name&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;bucketSize&quot;</span><span class="p">:</span> <span class="err">&lt;bucket_size&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="err">&lt;offset&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="custom-buckets-post-aggregator">Custom buckets post-aggregator</h4>
+
+<p>Computes a visual representation of the approximate histogram with bins laid out according to the given breaks.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;customBuckets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;breaks&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="min-post-aggregator">min post-aggregator</h4>
+
+<p>Returns the minimum value of the underlying approximate histogram aggregator</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="max-post-aggregator">max post-aggregator</h4>
+
+<p>Returns the maximum value of the underlying approximate histogram aggregator</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="quantile-post-aggregator">quantile post-aggregator</h4>
+
+<p>Computes a single quantile based on the underlying approximate histogram aggregator</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantile&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;probability&quot;</span> <span class="p">:</span> <span class="err">&lt;quantile&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<h4 id="quantiles-post-aggregator">quantiles post-aggregator</h4>
+
+<p>Computes an array of quantiles based on the underlying approximate histogram aggregator</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;probabilities&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

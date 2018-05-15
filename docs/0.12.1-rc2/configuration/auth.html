@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1-rc2">API documentation</a></p>
+          <h1 id="authentication-and-authorization">Authentication and Authorization</h1>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.auth.authenticationChain</code></td>
+<td>JSON List of Strings</td>
+<td>List of Authenticator type names</td>
+<td>[&quot;allowAll&quot;]</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.escalator.type</code></td>
+<td>String</td>
+<td>Type of the Escalator that should be used for internal Druid communications. This Escalator must use an authentication scheme that is supported by an Authenticator in <code>druid.auth.authenticationChain</code>.</td>
+<td>&quot;noop&quot;</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.auth.authorizers</code></td>
+<td>JSON List of Strings</td>
+<td>List of Authorizer type names</td>
+<td>[&quot;allowAll&quot;]</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.auth.allowUnauthenticatedHttpOptions</code></td>
+<td>Boolean</td>
+<td>If true, skip authentication checks for HTTP OPTIONS requests. This is needed for certain use cases, such as supporting CORS pre-flight requests. Note that disabling authentication checks for OPTIONS requests will allow unauthenticated users to determine what Druid endpoints are valid (by checking if the OPTIONS request returns a 200 instead of 404), so enabling this option may reveal information about server configuration, including information about what extensions are loaded (if those extensions add endpoints).</td>
+<td>false</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h2 id="enabling-authentication-authorization">Enabling Authentication/Authorization</h2>
+
+<h2 id="authentication-chain">Authentication Chain</h2>
+
+<p>Authentication decisions are handled by a chain of Authenticator instances. A request will be checked by Authenticators in the sequence defined by the <code>druid.auth.authenticationChain</code>.</p>
+
+<p>Authenticator implementions are provided by extensions.</p>
+
+<p>For example, the following authentication chain definition enables the Kerberos and HTTP Basic authenticators, from the <code>druid-kerberos</code> and <code>druid-basic-security</code> core extensions, respectively:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticationChain=[&quot;kerberos&quot;, &quot;basic&quot;]
+</code></pre></div>
+<p>A request will pass through all Authenticators in the chain, until one of the Authenticators successfully authenticates the request or sends an HTTP error response. Authenticators later in the chain will be skipped after the first successful authentication or if the request is terminated with an error response.</p>
+
+<p>If no Authenticator in the chain successfully authenticated a request or sent an HTTP error response, an HTTP error response will be sent at the end of the chain.</p>
+
+<p>Druid includes a built-in Authenticator, used for the default unsecured configuration.</p>
+
+<h3 id="allowall-authenticator">AllowAll Authenticator</h3>
+
+<p>This built-in Authenticator authenticates all requests, and always directs them to an Authorizer named &quot;allowAll&quot;. It is not intended to be used for anything other than the default unsecured configuration.</p>
+
+<h2 id="escalator">Escalator</h2>
+
+<p>The <code>druid.escalator.type</code> property determines what authentication scheme should be used for internal Druid cluster communications (such as when a broker node communicates with historical nodes for query processing).</p>
+
+<p>The Escalator chosen for this property must use an authentication scheme that is supported by an Authenticator in `druid.auth.authenticationChain. Authenticator extension implementors must also provide a corresponding Escalator implementation if they intend to use a particular authentication scheme for internal Druid communications.</p>
+
+<h3 id="noop-escalator">Noop Escalator</h3>
+
+<p>This built-in default Escalator is intended for use only with the default AllowAll Authenticator and Authorizer.</p>
+
+<h2 id="authorizers">Authorizers</h2>
+
+<p>Authorization decisions are handled by an Authorizer. The <code>druid.auth.authorizers</code> property determines what Authorizer implementations will be active.</p>
+
+<p>There are two built-in Authorizers, &quot;default&quot; and &quot;noop&quot;. Other implementations are provided by extensions.</p>
+
+<p>For example, the following authorizers definition enables the &quot;basic&quot; implementation from <code>druid-basic-security</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authorizers=[&quot;basic&quot;]
+</code></pre></div>
+<p>Only a single Authorizer will authorize any given request.</p>
+
+<p>Druid includes one built in authorizer:</p>
+
+<h3 id="allowall-authorizer">AllowAll Authorizer</h3>
+
+<p>The Authorizer with type name &quot;allowAll&quot; accepts all requests.</p>
+
+<h2 id="default-unsecured-configuration">Default Unsecured Configuration</h2>
+
+<p>When <code>druid.auth.authenticationChain</code> is left empty or unspecified, Druid will create an authentication chain with a single AllowAll Authenticator named &quot;allowAll&quot;.</p>
+
+<p>When <code>druid.auth.authorizers</code> is left empty or unspecified, Druid will create a single AllowAll Authorizer named &quot;allowAll&quot;.</p>
+
+<p>The default value of <code>druid.escalator.type</code> is &quot;noop&quot; to match the default unsecured Authenticator/Authorizer configurations.</p>
+
+<h2 id="authenticator-to-authorizer-routing">Authenticator to Authorizer Routing</h2>
+
+<p>When an Authenticator successfully authenticates a request, it must attach a AuthenticationResult to the request, containing an information about the identity of the requester, as well as the name of the Authorizer that should authorize the authenticated request.</p>
+
+<p>An Authenticator implementation should provide some means through configuration to allow users to select what Authorizer(s) the Authenticator should route requests to.</p>
+
+<h2 id="internal-system-user">Internal System User</h2>
+
+<p>Internal requests between Druid nodes (non-user initiated communications) need to have authentication credentials attached. </p>
+
+<p>These requests should be run as an &quot;internal system user&quot;, an identity that represents the Druid cluster itself, with full access permissions.</p>
+
+<p>The details of how the internal system user is defined is left to extension implementations.</p>
+
+<h3 id="authorizer-internal-system-user-handling">Authorizer Internal System User Handling</h3>
+
+<p>Authorizers implementations must recognize and authorize an identity for the &quot;internal system user&quot;, with full access permissions.</p>
+
+<h3 id="authenticator-and-escalator-internal-system-user-handling">Authenticator and Escalator Internal System User Handling</h3>
+
+<p>An Authenticator implementation that is intended to support internal Druid communications must recognize credentials for the &quot;internal system user&quot;, as provided by a corresponding Escalator implementation.</p>
+
+<p>An Escalator must implement three methods related to the internal system user:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>  <span class="kd">public</span> <span class="n">HttpClient</span> <span class="nf">createEscalatedClient</span><span class="o">(</span><span class="n">HttpClient</span> <span class="n">baseClient</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">jetty</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">HttpClient</span> <span class="nf">createEscalatedJettyClient</span><span class="o">(</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">jetty</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">HttpClient</span> <span class="n">baseClient</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="n">AuthenticationResult</span> <span class="nf">createEscalatedAuthenticationResult</span><span class="o">();</span>
+</code></pre></div>
+<p><code>createEscalatedClient</code> returns an wrapped HttpClient that attaches the credentials of the &quot;internal system user&quot; to requests.</p>
+
+<p><code>createEscalatedJettyClient</code> is similar to <code>createEscalatedClient</code>, except that it operates on a Jetty HttpClient.</p>
+
+<p><code>createEscalatedAuthenticationResult</code> returns an AuthenticationResult containing the identity of the &quot;internal system user&quot;.</p>
+
+<h2 id="reserved-name-configuration-property">Reserved Name Configuration Property</h2>
+
+<p>For extension implementers, please note that the following configuration properties are reserved for the names of Authenticators and Authorizers:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticator.&lt;authenticator-name&gt;.name=&lt;authenticator-name&gt;
+druid.auth.authorizer.&lt;authorizer-name&gt;.name=&lt;authorizer-name&gt;
+</code></pre></div>
+<p>These properties provide the authenticator and authorizer names to the implementations as @JsonProperty parameters, potentially useful when multiple authenticators or authorizers of the same type are configured.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1-rc2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
