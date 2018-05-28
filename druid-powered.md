@@ -180,6 +180,10 @@ N3TWORK uses Druid for real-time analysis of its Internet of Interests social
 entertainment network. It uses Druid analytics both to optimize user
 experiences and to guide the evolution of its product.
 
+## Naver
+
+* [Web Analytics at Scale with Druid](https://www.slideshare.net/JasonJungsuHEO/web-analytics-at-scale-with-druid-at-navercom)
+
 ## Netflix
 
 Netflix engineers use Druid to aggregate multiple data streams, ingesting up to
