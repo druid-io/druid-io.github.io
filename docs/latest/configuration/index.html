@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
           <h1 id="configuring-druid">Configuring Druid</h1>
 
 <p>This describes the common configuration shared by all Druid nodes. These configurations can be defined in the <code>common.runtime.properties</code> file.</p>
@@ -688,12 +688,12 @@ That is, it allows Druid to keep the connections of Exhibitor-supervised ZooKeep
 <tr>
 <td><code>druid.emitter.http.maxBatchSize</code></td>
 <td>The maximum batch size, in bytes.</td>
-<td>5191680 (i. e. 5 MB)</td>
+<td>the minimum of (10% of JVM heap size divided by 2) or (5191680 (i. e. 5 MB))</td>
 </tr>
 <tr>
 <td><code>druid.emitter.http.batchQueueSizeLimit</code></td>
 <td>The maximum number of batches in emitter queue, if there are problems with emitting.</td>
-<td>50</td>
+<td>the maximum of (2) or (10% of the JVM heap size divided by 5MB)</td>
 </tr>
 <tr>
 <td><code>druid.emitter.http.minHttpTimeoutMillis</code></td>

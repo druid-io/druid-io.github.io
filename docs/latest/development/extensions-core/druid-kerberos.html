@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
           <h1 id="druid-kerberos">Druid-Kerberos</h1>
 
 <p>Druid Extension to enable Authentication for Druid Nodes using Kerberos.
@@ -115,20 +115,6 @@ druid.auth.authenticator.MyKerberosAuthenticator.type=kerberos
 <th>required</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>druid.auth.authenticator.kerberos.internalClientPrincipal</code></td>
-<td><code>druid@EXAMPLE.COM</code></td>
-<td>Principal user name, used for internal node communication</td>
-<td>empty</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>druid.auth.authenticator.kerberos.internalClientKeytab</code></td>
-<td><code>/etc/security/keytabs/druid.keytab</code></td>
-<td>Path to keytab file used for internal node communication</td>
-<td>empty</td>
-<td>Yes</td>
-</tr>
 <tr>
 <td><code>druid.auth.authenticator.kerberos.serverPrincipal</code></td>
 <td><code>HTTP/_HOST@EXAMPLE.COM</code></td>
@@ -188,6 +174,49 @@ If required, multiple rules can be be joined by newline character and specified 
 <p>In Active Directory environment, SPNEGO token in the Authorization header includes PAC (Privilege Access Certificate) information,
 which includes all security groups for the user. In some cases when the user belongs to many security groups the header to grow beyond what druid can handle by default.
 In such cases, max request header size that druid can handle can be increased by setting <code>druid.server.http.maxRequestHeaderSize</code> (default 8Kb) and <code>druid.router.http.maxRequestBufferSize</code> (default 8Kb).</p>
+
+<h2 id="configuring-kerberos-escalated-client">Configuring Kerberos Escalated Client</h2>
+
+<p>Druid internal nodes communicate with each other using an escalated http Client. A Kerberos enabled escalated HTTP Client can be configured by following properties -  </p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Example Values</th>
+<th>Description</th>
+<th>Default</th>
+<th>required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.escalator.type</code></td>
+<td><code>kerberos</code></td>
+<td>Type of Escalator client used for internal node communication.</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.escalator.internalClientPrincipal</code></td>
+<td><code>druid@EXAMPLE.COM</code></td>
+<td>Principal user name, used for internal node communication</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.escalator.internalClientKeytab</code></td>
+<td><code>/etc/security/keytabs/druid.keytab</code></td>
+<td>Path to keytab file used for internal node communication</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.escalator.authorizerName</code></td>
+<td><code>MyBasicAuthorizer</code></td>
+<td>Authorizer that requests should be directed to.</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
 
 <h2 id="accessing-druid-http-end-points-when-kerberos-security-is-enabled">Accessing Druid HTTP end points when kerberos security is enabled</h2>
 

@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
         <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
         <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
@@ -83,7 +83,7 @@
       <div class="row">
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.0">API documentation</a></p>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
           <h1 id="coordinator-node-configuration">Coordinator Node Configuration</h1>
 
 <p>For general Coordinator Node information, see <a href="../design/coordinator.html">here</a>.</p>
@@ -161,6 +161,11 @@
 <td><code>druid.coordinator.load.timeout</code></td>
 <td>The timeout duration for when the coordinator assigns a segment to a historical node.</td>
 <td>PT15M</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.kill.pendingSegments.on</code></td>
+<td>Boolean flag for whether or not the coordinator clean up old entries in the <code>pendingSegments</code> table of metadata store. If set to true, coordinator will check the created time of most recently complete task. If it doesn&#39;t exist, it finds the created time of the earlist running/pending/waiting tasks. Once the created time is found, then for all dataSources not in the <code>killPendingSegmentsSkipList</code> (see <a href="#dynamic-configuration">Dynamic configuration</a>), coordinator will ask the overlord to clean up the entries 1 day or more older than the found created time in the <code>pendingSegments</code> table. This will be done periodically based on <code>druid.coordinator.period</code> specified.</td>
+<td>false</td>
 </tr>
 <tr>
 <td><code>druid.coordinator.kill.on</code></td>
@@ -366,13 +371,18 @@
 </tr>
 <tr>
 <td><code>killDataSourceWhitelist</code></td>
-<td>List of dataSources for which kill tasks are sent if property <code>druid.coordinator.kill.on</code> is true.</td>
+<td>List of dataSources for which kill tasks are sent if property <code>druid.coordinator.kill.on</code> is true. This can be a list of comma-separated dataSources or a JSON array.</td>
 <td>none</td>
 </tr>
 <tr>
 <td><code>killAllDataSources</code></td>
 <td>Send kill tasks for ALL dataSources if property <code>druid.coordinator.kill.on</code> is true. If this is set to true then <code>killDataSourceWhitelist</code> must not be specified or be empty list.</td>
 <td>false</td>
+</tr>
+<tr>
+<td><code>killPendingSegmentsSkipList</code></td>
+<td>List of dataSources for which pendingSegments are <em>NOT</em> cleaned up if property <code>druid.coordinator.kill.pendingSegments.on</code> is true. This can be a list of comma-separated dataSources or a JSON array.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>maxSegmentsInNodeLoadingQueue</code></td>
