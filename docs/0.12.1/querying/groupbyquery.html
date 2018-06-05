@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="groupby-queries">groupBy Queries</h1>
+
+<p>These types of queries take a groupBy query object and return an array of JSON objects where each object represents a
+grouping asked for by the query.</p>
+
+<div class="note info">
+Note: If you are doing aggregations with time as your only grouping, or an ordered groupBy over a single dimension,
+consider <a href="timeseriesquery.html">Timeseries</a> and <a href="topnquery.html">TopN</a> queries as well as
+groupBy. Their performance may be better in some cases. See <a href="#alternatives">Alternatives</a> below for more details.
+</div>
+
+<p>An example groupBy query object is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;device&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;limitSpec&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="nt">&quot;limit&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;data_transfer&quot;</span><span class="p">]</span> <span class="p">},</span>
+  <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;carrier&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;AT&amp;T&quot;</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> 
+        <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;make&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Apple&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;make&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Samsung&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;total_usage&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;user_count&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_transfer&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;data_transfer&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;postAggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;avg_usage&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fn&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;data_transfer&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;total_usage&quot;</span> <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;having&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;total_usage&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>There are 11 main parts to a groupBy query:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>queryType</td>
+<td>This String should always be &quot;groupBy&quot;; this is the first thing Druid looks at to figure out how to interpret the query</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dataSource</td>
+<td>A String or Object defining the data source to query, very similar to a table in a relational database. See <a href="../querying/datasource.html">DataSource</a> for more information.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensions</td>
+<td>A JSON list of dimensions to do the groupBy over; or see <a href="../querying/dimensionspecs.html">DimensionSpec</a> for ways to extract dimensions.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>limitSpec</td>
+<td>See <a href="../querying/limitspec.html">LimitSpec</a>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>having</td>
+<td>See <a href="../querying/having.html">Having</a>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td>Defines the granularity of the query. See <a href="../querying/granularities.html">Granularities</a></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>See <a href="../querying/filters.html">Filters</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>aggregations</td>
+<td>See <a href="../querying/aggregations.html">Aggregations</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>postAggregations</td>
+<td>See <a href="../querying/post-aggregations.html">Post Aggregations</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>context</td>
+<td>An additional JSON Object which can be used to specify certain flags.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>To pull it all together, the above query would return <em>n*m</em> data points, up to a maximum of 5000 points, where n is the cardinality of the <code>country</code> dimension, m is the cardinality of the <code>device</code> dimension, each day between 2012-01-01 and 2012-01-03, from the <code>sample_datasource</code> table. Each data point contains the (long) sum of <code>total_usage</code> if the value of the data point is greater than 100, the (double) sum of <code>data_transfer</code> and the (double) result of <code>total_usage</code> divided by <code>data_transfer</code> for the filter set for a particular grouping of <code>country</code> and <code>device</code>. The output looks like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> 
+  <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;country&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;device&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;total_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;data_transfer&quot;</span> <span class="p">:</span><span class="err">&lt;some_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;avg_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_avg_usage_value&gt;</span>
+    <span class="p">}</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:12.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dim1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_dim_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;dim2&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_dim_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;sample_name1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;sample_name2&quot;</span> <span class="p">:</span><span class="err">&lt;some_other_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;avg_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_avg_usage_value&gt;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+<span class="err">...</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="behavior-on-multi-value-dimensions">Behavior on multi-value dimensions</h3>
+
+<p>groupBy queries can group on multi-value dimensions. When grouping on a multi-value dimension, <em>all</em> values
+from matching rows will be used to generate one group per value. It&#39;s possible for a query to return more groups than
+there are rows. For example, a groupBy on the dimension <code>tags</code> with filter <code>&quot;t1&quot; AND &quot;t3&quot;</code> would match only row1, and
+generate a result with three groups: <code>t1</code>, <code>t2</code>, and <code>t3</code>. If you only need to include values that match
+your filter, you can use a <a href="dimensionspecs.html#filtered-dimensionspecs">filtered dimensionSpec</a>. This can also
+improve performance.</p>
+
+<p>See <a href="multi-value-dimensions.html">Multi-value dimensions</a> for more details.</p>
+
+<h3 id="implementation-details">Implementation details</h3>
+
+<h4 id="strategies">Strategies</h4>
+
+<p>GroupBy queries can be executed using two different strategies. The default strategy for a cluster is determined by the
+&quot;druid.query.groupBy.defaultStrategy&quot; runtime property on the broker. This can be overridden using &quot;groupByStrategy&quot; in
+the query context. If neither the context field nor the property is set, the &quot;v2&quot; strategy will be used.</p>
+
+<ul>
+<li><p>&quot;v2&quot;, the default, is designed to offer better performance and memory management. This strategy generates
+per-segment results using a fully off-heap map. Data nodes merge the per-segment results using a fully off-heap
+concurrent facts map combined with an on-heap string dictionary. This may optionally involve spilling to disk. Data
+nodes return sorted results to the broker, which merges result streams using an N-way merge. The broker materializes
+the results if necessary (e.g. if the query sorts on columns other than its dimensions). Otherwise, it streams results
+back as they are merged.</p></li>
+<li><p>&quot;v1&quot;, a legacy engine, generates per-segment results on data nodes (historical, realtime, middleManager) using a map which
+is partially on-heap (dimension keys and the map itself) and partially off-heap (the aggregated values). Data nodes then
+merge the per-segment results using Druid&#39;s indexing mechanism. This merging is multi-threaded by default, but can
+optionally be single-threaded. The broker merges the final result set using Druid&#39;s indexing mechanism again. The broker
+merging is always single-threaded. Because the broker merges results using the indexing mechanism, it must materialize
+the full result set before returning any results. On both the data nodes and the broker, the merging index is fully
+on-heap by default, but it can optionally store aggregated values off-heap.</p></li>
+</ul>
+
+<h4 id="differences-between-v1-and-v2">Differences between v1 and v2</h4>
+
+<p>Query API and results are compatible between the two engines; however, there are some differences from a cluster
+configuration perspective:</p>
+
+<ul>
+<li>groupBy v1 controls resource usage using a row-based limit (maxResults) whereas groupBy v2 uses bytes-based limits.
+In addition, groupBy v1 merges results on-heap, whereas groupBy v2 merges results off-heap. These factors mean that
+memory tuning and resource limits behave differently between v1 and v2. In particular, due to this, some queries
+that can complete successfully in one engine may exceed resource limits and fail with the other engine. See the
+&quot;Memory tuning and resource limits&quot; section for more details.</li>
+<li>groupBy v1 imposes no limit on the number of concurrently running queries, whereas groupBy v2 controls memory usage
+by using a finite-sized merge buffer pool. By default, the number of merge buffers is 1/4 the number of processing
+threads. You can adjust this as necessary to balance concurrency and memory usage.</li>
+<li>groupBy v1 supports caching on either the broker or historical nodes, whereas groupBy v2 only supports caching on
+historical nodes.</li>
+<li>groupBy v1 supports using <a href="query-context.html">chunkPeriod</a> to parallelize merging on the broker, whereas groupBy v2
+ignores chunkPeriod.</li>
+<li>groupBy v2 supports both array-based aggregation and hash-based aggregation. The array-based aggregation is used only
+when the grouping key is a single indexed string column. In array-based aggregation, the dictionary-encoded value is used
+as the index, so the aggregated values in the array can be accessed directly without finding buckets based on hashing.</li>
+</ul>
+
+<h4 id="memory-tuning-and-resource-limits">Memory tuning and resource limits</h4>
+
+<p>When using groupBy v2, three parameters control resource usage and limits:</p>
+
+<ul>
+<li>druid.processing.buffer.sizeBytes: size of the off-heap hash table used for aggregation, per query, in bytes. At
+most druid.processing.numMergeBuffers of these will be created at once, which also serves as an upper limit on the
+number of concurrently running groupBy queries.</li>
+<li>druid.query.groupBy.maxMergingDictionarySize: size of the on-heap dictionary used when grouping on strings, per query,
+in bytes. Note that this is based on a rough estimate of the dictionary size, not the actual size.</li>
+<li>druid.query.groupBy.maxOnDiskStorage: amount of space on disk used for aggregation, per query, in bytes. By default,
+this is 0, which means aggregation will not use disk.</li>
+</ul>
+
+<p>If maxOnDiskStorage is 0 (the default) then a query that exceeds either the on-heap dictionary limit, or the off-heap
+aggregation table limit, will fail with a &quot;Resource limit exceeded&quot; error describing the limit that was exceeded.</p>
+
+<p>If maxOnDiskStorage is greater than 0, queries that exceed the in-memory limits will start using disk for aggregation.
+In this case, when either the on-heap dictionary or off-heap hash table fills up, partially aggregated records will be
+sorted and flushed to disk. Then, both in-memory structures will be cleared out for further aggregation. Queries that
+then go on to exceed maxOnDiskStorage will fail with a &quot;Resource limit exceeded&quot; error indicating that they ran out of
+disk space.</p>
+
+<p>With groupBy v2, cluster operators should make sure that the off-heap hash tables and on-heap merging dictionaries
+will not exceed available memory for the maximum possible concurrent query load (given by
+druid.processing.numMergeBuffers). See <a href="../operations/performance-faq.html">How much direct memory does Druid use?</a> for more details.</p>
+
+<p>When using groupBy v1, all aggregation is done on-heap, and resource limits are done through the parameter
+druid.query.groupBy.maxResults. This is a cap on the maximum number of results in a result set. Queries that exceed
+this limit will fail with a &quot;Resource limit exceeded&quot; error indicating they exceeded their row limit. Cluster
+operators should make sure that the on-heap aggregations will not exceed available JVM heap space for the expected
+concurrent query load.</p>
+
+<h4 id="performance-tuning-for-groupby-v2">Performance tuning for groupBy v2</h4>
+
+<h5 id="limit-pushdown-optimization">Limit pushdown optimization</h5>
+
+<p>Druid pushes down the <code>limit</code> spec in groupBy queries to the segments on historicals wherever possible to early prune unnecessary intermediate results and minimize the amount of data transferred to brokers. By default, this technique is applied only when all fields in the <code>orderBy</code> spec is a subset of the grouping keys. This is because the <code>limitPushDown</code> doesn&#39;t guarantee the exact results if the <code>orderBy</code> spec includes any fields that are not in the grouping keys. However, you can enable this technique even in such cases if you can sacrifice some accuracy for fast query processing like in topN queries. See <code>forceLimitPushDown</code> in <a href="#groupby-v2-configurations">advanced groupBy v2 configurations</a>.</p>
+
+<h5 id="optimizing-hash-table">Optimizing hash table</h5>
+
+<p>The groupBy v2 engine uses an open addressing hash table for aggregation. The hash table is initalized with a given initial bucket number and gradually grows on buffer full. On hash collisions, the linear probing technique is used.</p>
+
+<p>The default number of initial buckets is 1024 and the default max load factor of the hash table is 0.7. If you can see too many collisions in the hash table, you can adjust these numbers. See <code>bufferGrouperInitialBuckets</code> and <code>bufferGrouperMaxLoadFactor</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
+
+<h5 id="parallel-combine">Parallel combine</h5>
+
+<p>Once a historical finishes aggregation using the hash table, it sorts aggregates and merge them before sending to the broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads (configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging aggregates which is an http thread to send data to brokers.</p>
+
+<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
+
+<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well. This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
+
+<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the degree of intermeidate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
+
+<h4 id="alternatives">Alternatives</h4>
+
+<p>There are some situations where other query types may be a better choice than groupBy.</p>
+
+<ul>
+<li><p>For queries with no &quot;dimensions&quot; (i.e. grouping by time only) the <a href="timeseriesquery.html">Timeseries query</a> will
+generally be faster than groupBy. The major differences are that it is implemented in a fully streaming manner (taking
+advantage of the fact that segments are already sorted on time) and does not need to use a hash table for merging.</p></li>
+<li><p>For queries with a single &quot;dimensions&quot; element (i.e. grouping by one string dimension), the <a href="topnquery.html">TopN query</a>
+will sometimes be faster than groupBy. This is especially true if you are ordering by a metric and find approximate
+results acceptable.</p></li>
+</ul>
+
+<h4 id="nested-groupbys">Nested groupBys</h4>
+
+<p>Nested groupBys (dataSource of type &quot;query&quot;) are performed differently for &quot;v1&quot; and &quot;v2&quot;. The broker first runs the
+inner groupBy query in the usual way. &quot;v1&quot; strategy then materializes the inner query&#39;s results on-heap with Druid&#39;s
+indexing mechanism, and runs the outer query on these materialized results. &quot;v2&quot; strategy runs the outer query on the
+inner query&#39;s results stream with off-heap fact map and on-heap string dictionary that can spill to disk. Both
+strategy perform the outer query on the broker in a single-threaded fashion.</p>
+
+<h4 id="configurations">Configurations</h4>
+
+<p>This section describes the configurations for groupBy queries. You can set system-wide configurations by adding them to runtime properties or query-specific configurations by adding them to query contexts. All runtime properties are prefixed by <code>druid.query.groupBy</code>.</p>
+
+<h4 id="commonly-tuned-configurations">Commonly tuned configurations</h4>
+
+<h5 id="configurations-for-groupby-v2">Configurations for groupBy v2</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.maxMergingDictionarySize</code></td>
+<td>Maximum amount of heap space (approximately) to use for the string dictionary during merging. When the dictionary exceeds this size, a spill to disk will be triggered.</td>
+<td>100000000</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.maxOnDiskStorage</code></td>
+<td>Maximum amount of disk space to use, per-query, for spilling result sets to disk when either the merging buffer or the dictionary fills up. Queries that exceed this limit will fail. Set to zero to disable disk spilling.</td>
+<td>0 (disabled)</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>maxMergingDictionarySize</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxMergingDictionarySize</code> for this query.</td>
+</tr>
+<tr>
+<td><code>maxOnDiskStorage</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxOnDiskStorage</code> for this query.</td>
+</tr>
+</tbody></table>
+
+<h4 id="advanced-configurations">Advanced configurations</h4>
+
+<h5 id="common-configuragions-for-all-groupby-strategies">Common configuragions for all groupBy strategies</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.defaultStrategy</code></td>
+<td>Default groupBy query strategy.</td>
+<td>v2</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.singleThreaded</code></td>
+<td>Merge results using a single thread.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>groupByStrategy</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.defaultStrategy</code> for this query.</td>
+</tr>
+<tr>
+<td><code>groupByIsSingleThreaded</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.singleThreaded</code> for this query.</td>
+</tr>
+</tbody></table>
+
+<h5 id="groupby-v2-configurations">GroupBy v2 configurations</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.bufferGrouperInitialBuckets</code></td>
+<td>Initial number of buckets in the off-heap hash table used for grouping results. Set to 0 to use a reasonable default (1024).</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code></td>
+<td>Maximum load factor of the off-heap hash table used for grouping results. When the load factor exceeds this size, the table will be grown or spilled to disk. Set to 0 to use a reasonable default (0.7).</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.forceHashAggregation</code></td>
+<td>Force to use hash-based aggregation.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.intermediateCombineDegree</code></td>
+<td>Number of intermediate nodes combined together in the combining tree. Higher degrees will need less threads which might be helpful to improve the query performance by reducing the overhead of too many threads if the server has sufficiently powerful cpu cores.</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.numParallelCombineThreads</code></td>
+<td>Hint for the number of parallel combining threads. This should be larger than 1 to turn on the parallel combining feature. The actual number of threads used for parallel combining is min(<code>druid.query.groupBy.numParallelCombineThreads</code>, <code>druid.processing.numThreads</code>).</td>
+<td>1 (disabled)</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bufferGrouperInitialBuckets</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperInitialBuckets</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>bufferGrouperMaxLoadFactor</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.bufferGrouperMaxLoadFactor</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>forceHashAggregation</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.forceHashAggregation</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>intermediateCombineDegree</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.intermediateCombineDegree</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>numParallelCombineThreads</code></td>
+<td>Overrides the value of <code>druid.query.groupBy.numParallelCombineThreads</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>sortByDimsFirst</code></td>
+<td>Sort the results first by dimension values and then by timestamp.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>forceLimitPushDown</code></td>
+<td>When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+<h5 id="groupby-v1-configurations">GroupBy v1 configurations</h5>
+
+<p>Supported runtime properties:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.query.groupBy.maxIntermediateRows</code></td>
+<td>Maximum number of intermediate rows for the per-segment grouping engine. This is a tuning parameter that does not impose a hard limit; rather, it potentially shifts merging work from the per-segment engine to the overall merging index. Queries that exceed this limit will not fail.</td>
+<td>50000</td>
+</tr>
+<tr>
+<td><code>druid.query.groupBy.maxResults</code></td>
+<td>Maximum number of results. Queries that exceed this limit will fail.</td>
+<td>500000</td>
+</tr>
+</tbody></table>
+
+<p>Supported query contexts:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>maxIntermediateRows</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxIntermediateRows</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>Can be used to lower the value of <code>druid.query.groupBy.maxResults</code> for this query.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>useOffheap</code></td>
+<td>Set to true to store aggregations off-heap when merging results.</td>
+<td>false</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

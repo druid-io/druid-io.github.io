@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="updating-existing-data">Updating Existing Data</h1>
+
+<p>Once you ingest some data in a dataSource for an interval and create Druid segments, you might want to make changes to 
+the ingested data. There are several ways this can be done.</p>
+
+<h5 id="updating-dimension-values">Updating Dimension Values</h5>
+
+<p>If you have a dimension where values need to be updated frequently, try first using <a href="../querying/lookups.html">lookups</a>. A 
+classic use case of lookups is when you have an ID dimension stored in a Druid segment, and want to map the ID dimension to a 
+human-readable String value that may need to be updated periodically.</p>
+
+<h5 id="rebuilding-segments-reindexing">Rebuilding Segments (Reindexing)</h5>
+
+<p>If lookups are not sufficient, you can entirely rebuild Druid segments for specific intervals of time. Rebuilding a segment 
+is known as reindexing the data. For example, if you want to add or remove columns from your existing segments, or you want to 
+change the rollup granularity of your segments, you will have to reindex your data.</p>
+
+<p>We recommend keeping a copy of your raw data around in case you ever need to reindex your data.</p>
+
+<h5 id="dealing-with-delayed-events-delta-ingestion">Dealing with Delayed Events (Delta Ingestion)</h5>
+
+<p>If you have a batch ingestion pipeline and have delayed events come in and want to append these events to existing 
+segments and avoid the overhead of rebuilding new segments with reindexing, you can use delta ingestion.</p>
+
+<h3 id="reindexing-and-delta-ingestion-with-hadoop-batch-ingestion">Reindexing and Delta Ingestion with Hadoop Batch Ingestion</h3>
+
+<p>This section assumes the reader understands how to do batch ingestion using Hadoop. See 
+<a href="batch-ingestion.html">batch-ingestion</a> for more information. Hadoop batch-ingestion can be used for reindexing and delta ingestion.</p>
+
+<p>Druid uses an <code>inputSpec</code> in the <code>ioConfig</code> to know where the data to be ingested is located and how to read it. 
+For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</code> spec types allow you to read data stored in deep storage.</p>
+
+<p>There are other types of <code>inputSpec</code> to enable reindexing and delta ingestion.</p>
+
+<h4 id="datasource"><code>dataSource</code></h4>
+
+<p>This is a type of <code>inputSpec</code> that reads data already stored inside Druid.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String.</td>
+<td>This should always be &#39;dataSource&#39;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>ingestionSpec</td>
+<td>JSON object.</td>
+<td>Specification of Druid segments to be loaded. See below.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>maxSplitSize</td>
+<td>Number</td>
+<td>Enables combining multiple segments into single Hadoop InputSplit according to size of segments. With -1, druid calculates max split size based on user specified number of map task(mapred.map.tasks or mapreduce.job.maps). By default, one split is made for one segment.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>Here is what goes inside <code>ingestionSpec</code>:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dataSource</td>
+<td>String</td>
+<td>Druid dataSource name from which you are loading the data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>List</td>
+<td>A list of strings representing ISO-8601 Intervals.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>segments</td>
+<td>List</td>
+<td>List of segments from which to read data from, by default it is obtained automatically. You can obtain list of segments to put here by making a POST query to coordinator at url /druid/coordinator/v1/metadata/datasources/segments?full with list of intervals specified in the request paylod e.g. [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]. You may want to provide this list manually in order to ensure that segments read are exactly same as they were at the time of task submission, task would fail if the list provided by the user does not match with state of database when the task actually runs.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>JSON</td>
+<td>See <a href="../querying/filters.html">Filters</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>dimensions</td>
+<td>Array of String</td>
+<td>Name of dimension columns to load. By default, the list will be constructed from parseSpec. If parseSpec does not have an explicit list of dimensions then all the dimension columns present in stored data will be read.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>metrics</td>
+<td>Array of String</td>
+<td>Name of metric columns to load. By default, the list will be constructed from the &quot;name&quot; of all the configured aggregators.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>ignoreWhenNoSegments</td>
+<td>boolean</td>
+<td>Whether to ignore this ingestionSpec if no segments were found. Default behavior is to throw error when no segments were found.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>For example</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;ioConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;inputSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;dataSource&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;ingestionSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2014-10-20T00:00:00Z/P2W&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="multi"><code>multi</code></h4>
+
+<p>This is a composing inputSpec to combine other inputSpecs. This inputSpec is used for delta ingestion. Please note that you can have only one <code>dataSource</code> as child of <code>multi</code> inputSpec.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>children</td>
+<td>Array of JSON objects</td>
+<td>List of JSON objects containing other inputSpecs.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For example:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;ioConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;inputSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;multi&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;children&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;dataSource&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;ingestionSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;</span><span class="p">],</span>
+          <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;test1&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;loadSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/tmp/index1.zip&quot;</span>
+              <span class="p">},</span>
+              <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="s2">&quot;host&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;metrics&quot;</span><span class="p">:</span> <span class="s2">&quot;visited_sum,unique_hosts&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;shardSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+              <span class="p">},</span>
+              <span class="nt">&quot;binaryVersion&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+              <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+              <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;test1_2000-01-01T00:00:00.000Z_3000-01-01T00:00:00.000Z_v2&quot;</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;/path/to/more/wikipedia/data/&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>  
+  <span class="p">},</span>
+  <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>It is STRONGLY RECOMMENDED to provide list of segments in <code>dataSource</code> inputSpec explicitly so that your delta ingestion task is idempotent. You can obtain that list of segments by making following call to the coordinator.
+POST <code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code>
+Request Body: [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
+
+<h3 id="reindexing-without-hadoop-batch-ingestion">Reindexing without Hadoop Batch Ingestion</h3>
+
+<p>This section assumes the reader understands how to do batch ingestion without Hadoop using the <a href="../ingestion/tasks.html#index-task">IndexTask</a>,<br>
+which uses a &quot;firehose&quot; to know where and how to read the input data. <a href="firehose.html#ingestsegmentfirehose">IngestSegmentFirehose</a> 
+can be used to read data from segments inside Druid. Note that IndexTask is to be used for prototyping purposes only as 
+it has to do all processing inside a single process and can&#39;t scale. Please use Hadoop batch ingestion for production 
+scenarios dealing with more than 1GB of data.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

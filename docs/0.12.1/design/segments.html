@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="segments">Segments</h1>
+
+<p>Druid stores its index in <em>segment files</em>, which are partitioned by
+time. In a basic setup, one segment file is created for each time
+interval, where the time interval is configurable in the
+<code>segmentGranularity</code> parameter of the <code>granularitySpec</code>, which is
+documented <a href="../ingestion/batch-ingestion.html">here</a>.  For druid to
+operate well under heavy query load, it is important for the segment
+file size to be within the recommended range of 300mb-700mb. If your
+segment files are larger than this range, then consider either
+changing the granularity of the time interval or partitioning your
+data and tweaking the <code>targetPartitionSize</code> in your <code>partitioningSpec</code>
+(a good starting point for this parameter is 5 million rows).  See the
+sharding section below and the &#39;Partitioning specification&#39; section of
+the <a href="../ingestion/batch-ingestion.html">Batch ingestion</a> documentation
+for more information.</p>
+
+<h3 id="a-segment-files-core-data-structures">A segment file&#39;s core data structures</h3>
+
+<p>Here we describe the internal structure of segment files, which is
+essentially <em>columnar</em>: the data for each column is laid out in
+separate data structures. By storing each column separately, Druid can
+decrease query latency by scanning only those columns actually needed
+for a query.  There are three basic column types: the timestamp
+column, dimension columns, and metric columns, as illustrated in the
+image below:</p>
+
+<p><img src="../../img/druid-column-types.png" alt="Druid column types" title="Druid Column Types"></p>
+
+<p>The timestamp and metric columns are simple: behind the scenes each of
+these is an array of integer or floating point values compressed with
+LZ4. Once a query knows which rows it needs to select, it simply
+decompresses these, pulls out the relevant rows, and applies the
+desired aggregation operator. As with all columns, if a query doesn’t
+require a column, then that column’s data is just skipped over.</p>
+
+<p>Dimensions columns are different because they support filter and
+group-by operations, so each dimension requires the following
+three data structures:</p>
+
+<ol>
+<li>A dictionary that maps values (which are always treated as strings) to integer IDs,</li>
+<li>A list of the column’s values, encoded using the dictionary in 1, and</li>
+<li>For each distinct value in the column, a bitmap that indicates which rows contain that value.</li>
+</ol>
+
+<p>Why these three data structures? The dictionary simply maps string
+values to integer ids so that the values in 2 and 3 can be
+represented compactly. The bitmaps in 3 -- also known as <em>inverted
+indexes</em> allow for quick filtering operations (specifically, bitmaps
+are convenient for quickly applying AND and OR operators). Finally,
+the list of values in 2 is needed for <em>group by</em> and <em>TopN</em>
+queries. In other words, queries that solely aggregate metrics based
+on filters do not need to touch the list of dimension values stored in
+2.</p>
+
+<p>To get a concrete sense of these data structures, consider the ‘page’
+column from the example data above.  The three data structures that
+represent this dimension are illustrated in the diagram below. </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1: Dictionary that encodes column values
+  {
+    &quot;Justin Bieber&quot;: 0,
+    &quot;Ke$ha&quot;:         1
+  }
+
+2: Column data
+  [0,
+   0,
+   1,
+   1]
+
+3: Bitmaps - one for each unique value of the column
+  value=&quot;Justin Bieber&quot;: [1,1,0,0]
+  value=&quot;Ke$ha&quot;:         [0,0,1,1]
+</code></pre></div>
+<p>Note that the bitmap is different from the first two data structures:
+whereas the first two grow linearly in the size of the data (in the
+worst case), the size of the bitmap section is the product of data
+size * column cardinality. Compression will help us here though
+because we know that for each row in &#39;column data&#39;, there will only be a
+single bitmap that has non-zero entry. This means that high cardinality
+columns will have extremely sparse, and therefore highly compressible,
+bitmaps. Druid exploits this using compression algorithms that are
+specially suited for bitmaps, such as roaring bitmap compression.</p>
+
+<h3 id="multi-value-columns">Multi-value columns</h3>
+
+<p>If a data source makes use of multi-value columns, then the data
+structures within the segment files look a bit different. Let&#39;s
+imagine that in the example above, the second row were tagged with
+both the &#39;Ke$ha&#39; <em>and</em> &#39;Justin Bieber&#39; topics. In this case, the three
+data structures would now look as follows:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>1: Dictionary that encodes column values
+  {
+    &quot;Justin Bieber&quot;: 0,
+    &quot;Ke$ha&quot;:         1
+  }
+
+2: Column data
+  [0,
+   [0,1],  &lt;--Row value of multi-value column can have array of values
+   1,
+   1]
+
+3: Bitmaps - one for each unique value
+  value=&quot;Justin Bieber&quot;: [1,1,0,0]
+  value=&quot;Ke$ha&quot;:         [0,1,1,1]
+                            ^
+                            |
+                            |
+    Multi-value column has multiple non-zero entries
+</code></pre></div>
+<p>Note the changes to the second row in the column data and the Ke$ha
+bitmap. If a row has more than one value for a column, its entry in
+the &#39;column data&#39; is an array of values. Additionally, a row with <em>n</em>
+values in &#39;column data&#39; will have <em>n</em> non-zero valued entries in
+bitmaps.</p>
+
+<h2 id="naming-convention">Naming Convention</h2>
+
+<p>Identifiers for segments are typically constructed using the segment datasource, interval start time (in ISO 8601 format), interval end time (in ISO 8601 format), and a version. If data is additionally sharded beyond a time range, the segment identifier will also contain a partition number.</p>
+
+<p>An example segment identifier may be:
+datasource_intervalStart_intervalEnd_version_partitionNum</p>
+
+<h2 id="segment-components">Segment Components</h2>
+
+<p>Behind the scenes, a segment is comprised of several files, listed below.</p>
+
+<ul>
+<li><p><code>version.bin</code></p>
+
+<p>4 bytes representing the current segment version as an integer. E.g., for v9 segments, the version is 0x0, 0x0, 0x0, 0x9</p></li>
+<li><p><code>meta.smoosh</code></p>
+
+<p>A file with metadata (filenames and offsets) about the contents of the other <code>smoosh</code> files</p></li>
+<li><p><code>XXXXX.smoosh</code></p>
+
+<p>There are some number of these files, which are concatenated binary data</p>
+
+<p>The <code>smoosh</code> files represent multiple files &quot;smooshed&quot; together in order to minimize the number of file descriptors that must be open to house the data. They are files of up to 2GB in size (to match the limit of a memory mapped ByteBuffer in Java). The <code>smoosh</code> files house individual files for each of the columns in the data as well as an <code>index.drd</code> file with extra metadata about the segment.</p>
+
+<p>There is also a special column called <code>__time</code> that refers to the time column of the segment. This will hopefully become less and less special as the code evolves, but for now it’s as special as my Mommy always told me I am.</p></li>
+</ul>
+
+<p>In the codebase, segments have an internal format version. The current segment format version is <code>v9</code>.</p>
+
+<h2 id="format-of-a-column">Format of a column</h2>
+
+<p>Each column is stored as two parts:</p>
+
+<ol>
+<li> A Jackson-serialized ColumnDescriptor</li>
+<li> The rest of the binary for the column</li>
+</ol>
+
+<p>A ColumnDescriptor is essentially an object that allows us to use jackson’s polymorphic deserialization to add new and interesting methods of serialization with minimal impact to the code. It consists of some metadata about the column (what type is it, is it multi-value, etc.) and then a list of serde logic that can deserialize the rest of the binary.</p>
+
+<h2 id="sharding-data-to-create-segments">Sharding Data to Create Segments</h2>
+
+<h3 id="sharding">Sharding</h3>
+
+<p>Multiple segments may exist for the same interval of time for the same datasource. These segments form a <code>block</code> for an interval.
+Depending on the type of <code>shardSpec</code> that is used to shard the data, Druid queries may only complete if a <code>block</code> is complete. That is to say, if a block consists of 3 segments, such as:</p>
+
+<p><code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_0</code></p>
+
+<p><code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_1</code></p>
+
+<p><code>sampleData_2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z_v1_2</code></p>
+
+<p>All 3 segments must be loaded before a query for the interval <code>2011-01-01T02:00:00:00Z_2011-01-01T03:00:00:00Z</code> completes.</p>
+
+<p>The exception to this rule is with using linear shard specs. Linear shard specs do not force &#39;completeness&#39; and queries can complete even if shards are not loaded in the system.
+For example, if your real-time ingestion creates 3 segments that were sharded with linear shard spec, and only two of the segments were loaded in the system, queries would return results only for those 2 segments.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

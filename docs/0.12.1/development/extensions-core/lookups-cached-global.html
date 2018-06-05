@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.0/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.0/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="globally-cached-lookups">Globally Cached Lookups</h1>
+
+<div class="note caution">
+Lookups are an <a href="../experimental.html">experimental</a> feature.
+</div>
+
+<p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-lookups-cached-global</code> as an extension.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<div class="note caution">
+Static configuration is no longer supported. Lookups can be configured through
+<a href="../../querying/lookups.html#configuration">dynamic configuration</a>.
+</div>
+
+<p>Globally cached lookups are appropriate for lookups which are not possible to pass at query time due to their size,
+or are not desired to be passed at query time because the data is to reside in and be handled by the Druid servers,
+and are small enough to reasonably populate on a node. This usually means tens to tens of thousands of entries per lookup.</p>
+
+<p>Globally cached lookups all draw from the same cache pool, allowing each node to have a fixed cache pool that can be used by cached lookups.</p>
+
+<p>Globally cached lookups can be specified as part of the <a href="../../querying/lookups.html">cluster wide config for lookups</a> as a type of <code>cachedNamespace</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;file:/tmp/prefix/&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span>
+           <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;value&quot;</span>
+         <span class="p">]</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT5M&quot;</span>
+     <span class="p">},</span>
+     <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">0</span>
+ <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+         <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;mykeyColumn&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;myValueColumn&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;myFilterSQL (Where clause statement  e.g LOOKUPTYPE=1)&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+    <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The parameters are as follows</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>extractionNamespace</code></td>
+<td>Specifies how to populate the local cache. See below</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>firstCacheTimeout</code></td>
+<td>How long to wait (in ms) for the first run of the cache to populate. 0 indicates to not wait</td>
+<td>No</td>
+<td><code>0</code> (do not wait)</td>
+</tr>
+<tr>
+<td><code>injective</code></td>
+<td>If the underlying map is <a href="../../querying/lookups.html#query-execution">injective</a> (keys and values are unique) then optimizations can occur internally by setting this to <code>true</code></td>
+<td>No</td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+
+<p>If <code>firstCacheTimeout</code> is set to a non-zero value, it should be less than <code>druid.manager.lookups.hostUpdateTimeout</code>. If <code>firstCacheTimeout</code> is NOT set, then management is essentially asynchronous and does not know if a lookup succeeded or failed in starting. In such a case logs from the lookup nodes should be monitored for repeated failures.</p>
+
+<p>Proper functionality of globally cached lookups requires the following extension to be loaded on the broker, peon, and historical nodes:
+<code>druid-lookups-cached-global</code></p>
+
+<h2 id="example-configuration">Example configuration</h2>
+
+<p>In a simple case where only one <a href="../../querying/lookups.html#dynamic-configuration">tier</a> exists (<code>realtime_customer2</code>) with one <code>cachedNamespace</code> lookup called <code>country_code</code>, the resulting configuration json looks similar to the following:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;realtime_customer2&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+           <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+         <span class="p">},</span>
+         <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupValues&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_id&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_text&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;value_type=&#39;country&#39;&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+      <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Where the coordinator endpoint <code>/druid/coordinator/v1/lookups/realtime_customer2/country_code</code> should return</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_id&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="cache-settings">Cache Settings</h2>
+
+<p>Lookups are cached locally on historical nodes. The following are settings used by the nodes which service queries when 
+setting namespaces (broker, peon, historical)</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.lookup.namespace.cache.type</code></td>
+<td>Specifies the type of caching to be used by the namespaces. May be one of [<code>offHeap</code>, <code>onHeap</code>]. <code>offHeap</code> uses a temporary file for off-heap storage of the namespace (memory mapped files). <code>onHeap</code> stores all cache on the heap in standard java map types.</td>
+<td><code>onHeap</code></td>
+</tr>
+<tr>
+<td><code>druid.lookup.namespace.numExtractionThreads</code></td>
+<td>The number of threads in the thread pool dedicated for lookup extraction and updates. This number may need to be scaled up, if you have a lot of lookups and they take long time to extract, to avoid timeouts.</td>
+<td>2</td>
+</tr>
+</tbody></table>
+
+<p>The cache is populated in different ways depending on the settings below. In general, most namespaces employ 
+a <code>pollPeriod</code> at the end of which time they poll the remote resource of interest for updates.</p>
+
+<p><code>onHeap</code> uses <code>ConcurrentMap</code>s in the java heap, and thus affects garbage collection and heap sizing.
+<code>offHeap</code> uses a 10MB on-heap buffer and MapDB using memory-mapped files in the java temporary directory.
+So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the extra will be kept in memory as page cache, and paged in and out by general OS tunings.</p>
+
+<h1 id="supported-lookups">Supported Lookups</h1>
+
+<p>For additional lookups, please see our <a href="../extensions.html">extensions list</a>.</p>
+
+<h2 id="uri-lookup">URI lookup</h2>
+
+<p>The remapping values for each globally cached lookup can be specified by a json object as per the following examples:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/some/key/prefix/renames-0003.gz&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;columns&quot;</span><span class="p">:[</span><span class="s2">&quot;key&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="s2">&quot;PT5M&quot;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;uriPrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/some/key/prefix/&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fileRegex&quot;</span><span class="p">:</span><span class="s2">&quot;renames-[0-9]*\\.gz&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespaceParseSpec&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;columns&quot;</span><span class="p">:[</span><span class="s2">&quot;key&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="s2">&quot;PT5M&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>pollPeriod</code></td>
+<td>Period between polling for updates</td>
+<td>No</td>
+<td>0 (only once)</td>
+</tr>
+<tr>
+<td><code>uri</code></td>
+<td>URI for the file of interest</td>
+<td>No</td>
+<td>Use <code>uriPrefix</code></td>
+</tr>
+<tr>
+<td><code>uriPrefix</code></td>
+<td>A URI which specifies a directory (or other searchable resource) in which to search for files</td>
+<td>No</td>
+<td>Use <code>uri</code></td>
+</tr>
+<tr>
+<td><code>fileRegex</code></td>
+<td>Optional regex for matching the file name under <code>uriPrefix</code>. Only used if <code>uriPrefix</code> is used</td>
+<td>No</td>
+<td><code>&quot;.*&quot;</code></td>
+</tr>
+<tr>
+<td><code>namespaceParseSpec</code></td>
+<td>How to interpret the data at the URI</td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>One of either <code>uri</code> xor <code>uriPrefix</code> must be specified.</p>
+
+<p>The <code>pollPeriod</code> value specifies the period in ISO 8601 format between checks for replacement data for the lookup. If the source of the lookup is capable of providing a timestamp, the lookup will only be updated if it has changed since the prior tick of <code>pollPeriod</code>. A value of 0, an absent parameter, or <code>null</code> all mean populate once and do not attempt to look for new data later. Whenever an poll occurs, the updating system will look for a file with the most recent timestamp and assume that one with the most recent data set, replacing the local cache of the lookup data.</p>
+
+<p>The <code>namespaceParseSpec</code> can be one of a number of values. Each of the examples below would rename foo to bar, baz to bat, and buck to truck. All parseSpec types assumes each input is delimited by a new line. See below for the types of parseSpec supported.</p>
+
+<p>Only ONE file which matches the search will be used. For most implementations, the discriminator for choosing the URIs is by whichever one reports the most recent timestamp for its modification time.</p>
+
+<h3 id="csv-lookupparsespec">csv lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>columns</code></td>
+<td>The list of columns in the csv file</td>
+<td>no if <code>hasHeaderRow</code> is set</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The name of the column containing the key</td>
+<td>no</td>
+<td>The first column</td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The name of the column containing the value</td>
+<td>no</td>
+<td>The second column</td>
+</tr>
+<tr>
+<td><code>hasHeaderRow</code></td>
+<td>A flag to indicate that column information can be extracted from the input files&#39; header row</td>
+<td>no</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>skipHeaderRows</code></td>
+<td>Number of header rows to be skipped</td>
+<td>no</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<p>If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set, <code>skipHeaderRows</code> is first applied. For example, if you set
+<code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will skip the first two lines and then extract column information
+from the third line.</p>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar,something,foo
+bat,something2,baz
+truck,something3,buck
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="tsv-lookupparsespec">tsv lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>columns</code></td>
+<td>The list of columns in the tsv file</td>
+<td>yes</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The name of the column containing the key</td>
+<td>no</td>
+<td>The first column</td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The name of the column containing the value</td>
+<td>no</td>
+<td>The second column</td>
+</tr>
+<tr>
+<td><code>delimiter</code></td>
+<td>The delimiter in the file</td>
+<td>no</td>
+<td>tab (<code>\t</code>)</td>
+</tr>
+<tr>
+<td><code>listDelimiter</code></td>
+<td>The list delimiter in the file</td>
+<td>no</td>
+<td>(<code>\u0001</code>)</td>
+</tr>
+<tr>
+<td><code>hasHeaderRow</code></td>
+<td>A flag to indicate that column information can be extracted from the input files&#39; header row</td>
+<td>no</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>skipHeaderRows</code></td>
+<td>Number of header rows to be skipped</td>
+<td>no</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<p>If both <code>skipHeaderRows</code> and <code>hasHeaderRow</code> options are set, <code>skipHeaderRows</code> is first applied. For example, if you set
+<code>skipHeaderRows</code> to 2 and <code>hasHeaderRow</code> to true, Druid will skip the first two lines and then extract column information
+from the third line.</p>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bar|something,1|foo
+bat|something,2|baz
+truck|something,3|buck
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="s2">&quot;somethingElse&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;|&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="customjson-lookupparsespec">customJson lookupParseSpec</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>keyFieldName</code></td>
+<td>The field name of the key</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>valueFieldName</code></td>
+<td>The field name of the value</td>
+<td>yes</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span> <span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;buck&quot;</span><span class="p">,</span> <span class="nt">&quot;somethingElse&quot;</span><span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;customJson&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;keyFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueFieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>With customJson parsing, if the value field for a particular row is missing or null then that line will be skipped, and
+will not be included in the lookup.</p>
+
+<h3 id="simplejson-lookupparsespec">simpleJson lookupParseSpec</h3>
+
+<p>The <code>simpleJson</code> lookupParseSpec does not take any parameters. It is simply a line delimited json file where the field is the key, and the field&#39;s value is the value.</p>
+
+<p><em>example input</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;baz&quot;</span><span class="p">:</span> <span class="s2">&quot;bat&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;buck&quot;</span><span class="p">:</span> <span class="s2">&quot;truck&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><em>example namespaceParseSpec</em></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;namespaceParseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;simpleJson&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="jdbc-lookup">JDBC lookup</h2>
+
+<p>The JDBC lookups will poll a database to populate its local cache. If the <code>tsColumn</code> is set it must be able to accept comparisons in the format <code>&#39;2015-01-01 00:00:00&#39;</code>. For example, the following must be valid sql for the table <code>SELECT * FROM some_lookup_table WHERE timestamp_column &gt;  &#39;2015-01-01 00:00:00&#39;</code>. If <code>tsColumn</code> is set, the caching service will attempt to only poll values that were written <em>after</em> the last sync. If <code>tsColumn</code> is not set, the entire table is pulled every time.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>The namespace to define</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>connectorConfig</code></td>
+<td>The connector config to use</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td>The table which contains the key value pairs</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>keyColumn</code></td>
+<td>The column in <code>table</code> which contains the keys</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>valueColumn</code></td>
+<td>The column in <code>table</code> which contains the values</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>The filter to use when selecting lookups, this is used to create a where clause on lookup population</td>
+<td>No</td>
+<td>No Filter</td>
+</tr>
+<tr>
+<td><code>tsColumn</code></td>
+<td>The column in <code>table</code> which contains when the key was updated</td>
+<td>No</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td><code>pollPeriod</code></td>
+<td>How often to poll the DB</td>
+<td>No</td>
+<td>0 (only once)</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;createTables&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span><span class="s2">&quot;jdbc:mysql://localhost:3306/druid&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="s2">&quot;diurd&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="s2">&quot;some_lookup_table&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span><span class="s2">&quot;the_old_dim_value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span><span class="s2">&quot;the_new_dim_value&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span><span class="s2">&quot;timestamp_column&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;pollPeriod&quot;</span><span class="p">:</span><span class="mi">600000</span>
+<span class="p">}</span>
+</code></pre></div>
+<h1 id="introspection">Introspection</h1>
+
+<p>Globally cached lookups have introspection points at <code>/keys</code> and <code>/values</code> which return a complete set of the keys and values (respectively) in the lookup. Introspection to <code>/</code> returns the entire map. Introspection to <code>/version</code> returns the version indicator for the lookup.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
