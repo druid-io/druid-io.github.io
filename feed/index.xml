@@ -5,9 +5,42 @@
   <subtitle>Real²time Exploratory Analytics on Large Datasets</subtitle>
   <link type="application/atom+xml" href="http://druid.io/feed/" rel="self"/>
   <link type="text/html" href="http://druid.io/" rel="alternate"/>
-	<updated>2018-06-05T22:01:29+00:00</updated>
+	<updated>2018-06-08T21:16:28+00:00</updated>
         <id>http://druid.io/</id>
 	
+	
+	<entry>
+		<title>Druid 0.12.1 release</title>
+		<link href="http://druid.io/blog/2018/06/08/druid-0-12-1.html"/>
+		<updated>2018-06-08T00:00:00+00:00</updated>
+                <id>http://druid.io/blog/2018/06/08/druid-0-12-1</id>
+                <author><name>Druid PMC</name></author>
+                <summary type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.12.1&lt;/a&gt;!&lt;/p&gt;
+</summary>
+		<content type="html">&lt;p&gt;We&amp;#39;re excited to announce the general availability of our latest release, &lt;a href=&quot;/downloads.html&quot;&gt;Druid 0.12.1&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;Druid 0.12.1 contains stability improvements and bug fixes from 10 contributors. &lt;/p&gt;
+
+&lt;p&gt;Major improvements include:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Large performance improvements for coordinator&amp;#39;s loadstatus API&lt;/li&gt;
+&lt;li&gt;More memory limiting for HttpPostEmitter&lt;/li&gt;
+&lt;li&gt;Fix several issues of Kerberos Authentication&lt;/li&gt;
+&lt;li&gt;Fix SQLMetadataSegmentManager to allow successive start and stop&lt;/li&gt;
+&lt;li&gt;Fix default interval handling in SegmentMetadataQuery&lt;/li&gt;
+&lt;li&gt;Support HTTP OPTIONS request&lt;/li&gt;
+&lt;li&gt;Fix a bug of different segments of the same segment id in Kafka indexing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can download the release here: &lt;a href=&quot;/downloads.html&quot;&gt;http://druid.io/downloads.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The full release notes are here:
+&lt;a href=&quot;https://github.com/druid-io/druid/releases/druid-0.12.1&quot;&gt;https://github.com/druid-io/druid/releases/druid-0.12.1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to everyone who contributed to this release!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Druid 0.12.0 release</title>
@@ -1984,32 +2017,6 @@ whirr.druid.pusher.s3.bucket=dummy_s3_bucket
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;bin/whirr destroy-cluster --config recipes/druid.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We hope Apache Whirr makes experimenting with Druid easier than ever!&lt;/p&gt;
-</content>
-	</entry>
-	
-	<entry>
-		<title>Upcoming Events</title>
-		<link href="http://druid.io/blog/2013/09/16/upcoming-events.html"/>
-		<updated>2013-09-16T00:00:00+00:00</updated>
-                <id>http://druid.io/blog/2013/09/16/upcoming-events</id>
-                <author><name></name></author>
-                <summary type="html">&lt;p&gt;Druid hits the road this fall, with presentations in the Bay Area, North Carolina and New York!&lt;/p&gt;
-</summary>
-		<content type="html">&lt;p&gt;Druid hits the road this fall, with presentations in the Bay Area, North Carolina and New York!&lt;/p&gt;
-
-&lt;h2 id=&quot;about-druid&quot;&gt;About Druid&lt;/h2&gt;
-
-&lt;p&gt;Druid is a rockin&amp;#39; exploratory analytical data store capable of offering interactive query of big data in realtime - as data is ingested. Druid cost effectively drives 10&amp;#39;s of billions of events per day for the &lt;a href=&quot;http://www.metamarkets.com&quot;&gt;Metamarkets&lt;/a&gt; platform, and Metamarkets is committed to building Druid in open source.&lt;/p&gt;
-
-&lt;h2 id=&quot;upcoming-druid-events-in-2013&quot;&gt;Upcoming Druid Events in 2013&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;9/24 at Flurry in SF, at the &lt;a href=&quot;http://www.meetup.com/Real-time-Big-Data/events/139221542/&quot;&gt;Real-time Big Data meetup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;10/23-24 in Raleigh, NC at &lt;a href=&quot;http://www.allthingsopen.org&quot;&gt;All Things Open&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;10/26-31 at Strata in &lt;a href=&quot;http://strataconf.com/stratany2013?intcmp=il-strata-stny13-franchise-page&quot;&gt;New York City&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Come learn the way of the Druid at these events!&lt;/p&gt;
 </content>
 	</entry>
 	
