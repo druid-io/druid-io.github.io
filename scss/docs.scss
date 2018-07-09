@@ -1,0 +1,171 @@
+@import "variables";
+
+.doc-container {
+  margin-top: 28px;
+}
+
+.doc-content {
+  pre, pre code {
+    overflow: auto;
+    white-space: pre;
+    word-wrap: normal;
+  }
+
+  img {
+    max-width: 847.5px;
+  }
+
+  code {
+    background-color: #e0e0e0;
+  }
+
+  pre code {
+    background-color: transparent;
+  }
+
+  table,
+  pre {
+    margin: 35px 0 35px 0;
+  }
+
+  table,
+  table > thead > tr > th,
+  table > tbody > tr > th,
+  table > tfoot > tr > th,
+  table > thead > tr > td,
+  table > tbody > tr > td,
+  table > tfoot > tr > td {
+    border: 1px solid #dddddd;
+  }
+
+  table > thead > tr > th,
+  table > thead > tr > td {
+    border-bottom-width: 2px;
+  }
+
+  table > tbody > tr:nth-child(odd) > td,
+  table > tbody > tr:nth-child(odd) > th {
+    background-color: #f9f9f9;
+  }
+
+  table > tbody > tr:hover > td,
+  table > tbody > tr:hover > th,
+  table > tbody > tr:focus > td,
+  table > tbody > tr:focus > th {
+    background-color: #d5d5d5;
+  }
+
+  table code {
+    background-color: transparent;
+  }
+
+  td, th {
+    padding: 5px;
+  }
+
+  .note {
+    position: relative;
+    display: block;
+    padding: 10px 14px 10px 42px;
+    margin: 35px 0 35px 0;
+    background: light-gray;
+    border-radius: 3px;
+    line-height: 170%;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 0;
+      bottom: 0;
+      width: 42px;
+      background-position: 10px 9px;
+      background-size: 22px 22px;
+      background-repeat: no-repeat;
+    }
+
+    &.info {
+      background: rgba(51, 200, 208, 0.26);
+      border-left: 2px solid rgba(51, 200, 208, 0.5);
+
+      &:after {
+        background-image: url(/img/note-info.svg);
+      }
+    }
+
+    &.caution {
+      background: rgba(249, 169, 86, 0.26);
+      border-left: 2px solid rgba(249, 169, 86, 0.5);
+
+      &:after {
+        background-image: url(/img/note-caution.svg);
+      }
+    }
+  }
+}
+
+.toc {
+  ul {
+    list-style: none;
+    list-style-position: inside;
+    color: $link;
+    line-height: 1.9em;
+
+    li {
+      color: $light-text;
+      list-style-type: none;
+      margin-left: 0;
+
+      a {
+        color: $link;
+        display: block;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 20px;
+    }
+  }
+}
+
+.searchbox {
+  position: relative;
+  height: 26px;
+  margin-top: 17px;
+
+  .gsc-search-button, .searchbox .gsib_b {
+    display: none;
+  }
+
+  input {
+    background: white !important;
+    width: 100% !important;
+    padding: 5px 8px !important;
+    font-size: 13px !important;
+    border: 1px solid #dfdfdf !important;
+    height: 30px !important;
+    text-indent: 0 !important;
+    border-radius: 2px !important;
+
+    &:hover {
+      border-color: #c4c4c4 !important;
+    }
+
+    &:focus {
+      border-color: #c4c4c4 !important;
+    }
+  }
+
+  form, table, tbody, tr, td, .gsc-input-box {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+  }
+}

@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/css/news-list.css">
 
 <div class="item-list">
-  <div class="list-title">
-    News & Updates
-  </div>
+  <h3>
+    Latest releases
+  </h3>
   {% for item in site.data.news %}
   <p>
     <a href="{{ item.link }}">
-      <span>{{ item.name }}</span><br>
+      <span class="title">{{ item.name }}</span><br>
       <span class="text-muted">{{ item.date | date: "%b %e %Y" }}</span>
     </a>
   </p>
