@@ -1,7 +1,8 @@
 ---
 title: Powered by Druid
-subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md">Add Your Company</a>
+subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md"><span class="fa fa-plus"></span> Add Your Company</a>
 layout: simple_page
+sectionid: powered-by
 ---
 
 There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
@@ -18,7 +19,7 @@ At Alibaba Search Group, we use Druid for real-time analytics of users' interact
 
 [Allegro](https://allegro.tech/about-us/) is the most popular Polish shopping destination with about 14 million users monthly and over 1.5 million items sold on the platform daily.
 We have been using Druid since 2016 as business intelligence platform to power our clickstream analytics, marketing automation, anomaly detection, technical metrics and more.
-Our cluster (432 CPUs, 1300GB of RAM on historicals) processes billions of realtime events loaded from [Kafka](https://kafka.apache.org/) 
+Our cluster (432 CPUs, 1300GB of RAM on historicals) processes billions of realtime events loaded from [Kafka](https://kafka.apache.org/)
 and hundreds batch indexing jobs on daily basis.
 It's a pleasure to work with Druid, extraordinarily efficient and exceptionally stable platform with vibrant community.
 
@@ -54,7 +55,7 @@ Cisco uses Druid to power a real-time analytics platform for network flow data.
 
 ## Criteo
 
-Criteo is using druid to provide its customers with user-centric analytics & reporting. 
+Criteo is using druid to provide its customers with user-centric analytics & reporting.
 With more than 1 billion unique users reached per month, 3 billion ads displayed per day, and a 70% growth in 2014, Criteo's previous stack was hard pressed keeping with the load. Replacing it with druid helped us achieved linear scalability while letting our customers explore their data in new and interactive ways.
 
 * [Real Time Metrics on Tracker Calls](http://labs.criteo.com/2016/02/real-time-metrics-on-tracker-calls/)
@@ -108,16 +109,16 @@ Imply uses Druid to power public demos and to power our internal monitoring and 
 * [Pivot: An Open Source Data Exploration UI for Druid](http://imply.io/post/2015/10/26/hello-pivot.html)
 * [A Tour Through the "Big Data" Zoo](http://imply.io/post/2015/11/04/big-data-zoo.html)
 * [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
-* [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid) 
-* [Compressing Longs in Druid](https://imply.io/post/2016/12/07/compressing-longs.html) 
+* [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid)
+* [Compressing Longs in Druid](https://imply.io/post/2016/12/07/compressing-longs.html)
 
 ## Inmobi
 
-Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies. 
+Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies.
 
 ## Interactive Intelligence
 
-At ININ we're using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend. 
+At ININ we're using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend.
 
 ## Italiaonline
 
@@ -153,7 +154,7 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 ## Marchex
 
 Marchex uses Druid to provide data for Marchex Call Analytics' new customer facing Speech Analytics dashboards.
-Druid's fast aggregation is critical for providing deep insights into call performance for its customers, 
+Druid's fast aggregation is critical for providing deep insights into call performance for its customers,
 enabling them to spot trends and improve performance of both marketing campaigns and call centers.
 
 ## Metamarkets
@@ -165,8 +166,8 @@ ad-hoc queries at a 95th percentile query time of around 1 second.
 
 ## Monetate
 
-Druid is a critical component in Monetate's personalization platform, where it 
-acts as the serving layer of a lambda architecture.  As such, Druid powers 
+Druid is a critical component in Monetate's personalization platform, where it
+acts as the serving layer of a lambda architecture.  As such, Druid powers
 numerous real-time dashboards that provide marketers valuable insights into
 campaign performance and customer behavior.
 
@@ -203,11 +204,11 @@ You can learn more about the AOC at http://netsil.com/download/
 
 ## Nielsen (Nielsen Marketing Cloud)
 
-Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data. 
+Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data.
 
 ## Ona
 
-Ona <https://ona.io> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources. 
+Ona <https://ona.io> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources.
 
 ## OneAPM
 
@@ -255,7 +256,7 @@ is what they have to say:
 
 ## PubNative
 
-PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events. 
+PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events.
 
 ## Raygun
 
@@ -265,7 +266,7 @@ Raygun is a full stack software intelligence platform that monitors your applica
 
 ## Redborder
 
-redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org 
+redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org
 
 ## Retargetly
 

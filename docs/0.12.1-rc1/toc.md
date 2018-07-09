@@ -2,7 +2,7 @@
 layout: toc
 ---
 
-## Getting Started
+### Getting Started
   * [Concepts](/docs/VERSION/design/)
   * [Quickstart](/docs/VERSION/tutorials/quickstart.html)
   * [Loading Data](/docs/VERSION/tutorials/ingestion.html)
@@ -11,7 +11,7 @@ layout: toc
     * [Loading from Kafka](/docs/VERSION/tutorials/tutorial-kafka.html)
   * [Clustering](/docs/VERSION/tutorials/cluster.html)
 
-## Data Ingestion
+### Data Ingestion
   * [Data Formats](/docs/VERSION/ingestion/data-formats.html)
   * [Data Schema](/docs/VERSION/ingestion/index.html)
   * [Schema Design](/docs/VERSION/ingestion/schema-design.html)
@@ -24,7 +24,7 @@ layout: toc
   * [Ingestion Tasks](/docs/VERSION/ingestion/tasks.html)
   * [FAQ](/docs/VERSION/ingestion/faq.html)
 
-## Querying
+### Querying
   * [Overview](/docs/VERSION/querying/querying.html)
   * [Timeseries](/docs/VERSION/querying/timeseriesquery.html)
   * [TopN](/docs/VERSION/querying/topnquery.html)
@@ -51,7 +51,7 @@ layout: toc
   * [Caching](/docs/VERSION/querying/caching.html)
   * [Sorting Orders](/docs/VERSION/querying/sorting-orders.html)
 
-## Design
+### Design
   * [Overview](/docs/VERSION/design/design.html)
   * Storage
     * [Segments](/docs/VERSION/design/segments.html)
@@ -66,7 +66,7 @@ layout: toc
     * [Metadata Storage](/docs/VERSION/dependencies/metadata-storage.html)
     * [ZooKeeper](/docs/VERSION/dependencies/zookeeper.html)
 
-## Operations
+### Operations
   * [Good Practices](/docs/VERSION/operations/recommendations.html)
   * [Including Extensions](/docs/VERSION/operations/including-extensions.html)
   * [Data Retention](/docs/VERSION/operations/rule-configuration.html)
@@ -82,7 +82,7 @@ layout: toc
   * [TLS Support](/docs/VERSION/operations/tls-support.html)
   * [Password Provider](/docs/VERSION/operations/password-provider.html)
 
-## Configuration
+### Configuration
   * [Common Configuration](/docs/VERSION/configuration/index.html)
   * [Indexing Service](/docs/VERSION/configuration/indexing-service.html)
   * [Coordinator](/docs/VERSION/configuration/coordinator.html)
@@ -92,7 +92,7 @@ layout: toc
   * [Configuring Logging](/docs/VERSION/configuration/logging.html)
   * [Configuring Authentication and Authorization](/docs/VERSION/configuration/auth.html)
   
-## Development
+### Development
   * [Overview](/docs/VERSION/development/overview.html)
   * [Libraries](/docs/VERSION/development/libraries.html)
   * [Extensions](/docs/VERSION/development/extensions.html)
@@ -109,6 +109,6 @@ layout: toc
     * [Kafka Indexing Service](/docs/VERSION/development/extensions-core/kafka-ingestion.html)
 
 
-## Misc
+### Misc
   * [Papers & Talks](/docs/VERSION/misc/papers-and-talks.html)
   * [Thanks](/thanks.html)

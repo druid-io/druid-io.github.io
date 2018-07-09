@@ -1,26 +1,63 @@
 <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="{% if page.sectionid == 'druid' %} active{% endif %}"><a href="/druid.html">Overview</a></li>
-        <li class="{% if page.sectionid == 'download' %} active{% endif %}"><a href="/downloads.html">Download</a></li>
-        <li class="{% if page.sectionid == 'docs' %} active{% endif %}"><a href="/docs/{{ site.druid_version }}/design/index.html">Docs</a></li>
-        <li class="{% if page.sectionid == 'community' %} active{% endif %}"><a href="/community/">Contribute</a></li>
-        <li class="{% if page.sectionid == 'blog' %} active{% endif %}"><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class="{% if page.sectionid == 'technology' %} active{% endif %}"><a href="/technology">Technology</a></li>
+        <li class="{% if page.sectionid == 'use-cases' %} active{% endif %}"><a href="/use-cases">Use Cases</a></li>
+        <li class="{% if page.sectionid == 'powered-by' %} active{% endif %}"><a href="/druid-powered">Powered By</a></li>
+        <li class="{% if page.sectionid == 'docs' %} active{% endif %}"><a href="/docs/latest/design/">Docs</a></li>
+        <li class="{% if page.sectionid == 'community' %} active{% endif %}"><a href="/community/">Community</a></li>
+        <li class="{% if page.sectionid == 'download' %} active{% endif %} button-link"><a href="/downloads.html">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->

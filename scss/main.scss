@@ -1,0 +1,245 @@
+@import "variables";
+@import "reset";
+
+html, body {
+	position:relative;
+	color: $dark;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+	font-size: 14px;
+  word-wrap:break-word;
+
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: 300;
+    line-height: 140%;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  h2 {
+    font-size: 2.4em;
+  }
+
+  h3 {
+    font-size: 2em;
+  }
+
+  h4 {
+    font-size: 1.6em;
+  }
+
+  h5 {
+    font-weight: bold;
+  }
+
+  h6 {
+    font-weight: bold;
+    color: $light-text;
+  }
+
+  p {
+    line-height: 170%;
+    margin-bottom: 14px;
+    margin-top: 14px;
+
+    &:first-child {
+      margin-top: 28px;
+    }
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  hr {
+    margin: 30px 0 30px 0;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  p, table, ul {
+    a {
+      color: $link;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  ul {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 170%;
+
+    li {
+      margin-left: 18px;
+      list-style-type: disc;
+    }
+  }
+
+  ol {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 170%;
+
+    li {
+      margin-left: 22px;
+      list-style-type: decimal;
+    }
+  }
+
+  table {
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    th {
+      font-weight: 700;
+    }
+
+    th, td {
+      padding: 5px;
+    }
+  }
+
+  blockquote {
+    font-size: 14px;
+    font-style: italic;
+    color: #777;
+  }
+}
+
+.druid-header {
+  padding: 24px 0 34px;
+  margin-bottom: 14px;
+  color: #1c1c26;
+  text-align: center;
+  background-image: url('/img/watermark-light.png');
+  background-size: 330px 330px;
+  background-repeat: no-repeat;
+  background-position: 18% -30px;
+  background-color: #EEE;
+  overflow: hidden;
+
+  h1 {
+    margin-top: 14px;
+    font-size: 2.8em;
+  }
+
+  h4 {
+    font-weight: 400;
+    font-size: 15px;
+    margin-top: -5px;
+    margin-bottom: 0;
+
+    a {
+      color: $link;
+
+      .fa {
+        margin-right: 4px;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.text-indent {
+   padding-left: 50px;
+}
+
+.text-indent-2 {
+   padding-left: 100px;
+}
+
+.text-indent-p p {
+   padding-left: 50px;
+}
+
+.image-large {
+  text-align: center;
+  margin-top: 28px;
+  margin-bottom: 28px;
+
+  img {
+    width: 100%;
+    max-width: 660px;
+  }
+}
+
+.large-button {
+  display: inline-block;
+  padding: 10px 22px;
+  color: white;
+  background: $link;
+  border-radius: 2px;
+  font-size: 15px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+
+  .fa {
+    margin-right: 3px;
+  }
+
+  &:hover {
+    background: darken($link, 10);
+    text-decoration: none;
+  }
+}
+
+.features {
+  margin-bottom: 28px;
+
+  .feature {
+    padding-left: 58px;
+
+    &:nth-child(3n-2) {
+      .fa {
+        background: $light-1;
+      }
+    }
+
+    &:nth-child(3n-1) {
+      .fa {
+        background: $light-2;
+      }
+    }
+
+    &:nth-child(3n) {
+      .fa {
+        background: $light-3;
+      }
+    }
+
+    .fa {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      border-radius: 40px;
+      text-align: center;
+      font-size: 17px;
+      background: $light-1;
+      color: $dark;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    h5 {
+      margin-bottom: 0;
+    }
+  }
+}

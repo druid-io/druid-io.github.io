@@ -28,7 +28,7 @@ list](https://groups.google.com/forum/#!forum/druid-development).
 
 To get started developing on Druid, we’ve created and tagged a set of [beginner
 friendly
-issues](https://github.com/druid-io/druid/labels/Difficulty%20-%20Easy) on
+issues](https://github.com/apache/incubator-druid/labels/Difficulty%20-%20Easy) on
 Github. Please use the [development
 list](https://groups.google.com/forum/#!forum/druid-development) to discuss the
 best ways to get started on any particular issue. Of course, feel free to
