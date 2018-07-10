@@ -1,3 +1,21 @@
+  - date: 2018-06-11
+    title: "Pushing druid metrics to Graphite Grafana with full metrics whitelist"
+    name: "Vishnu Rao"
+    link: https://mash213.wordpress.com/2018/06/11/pushing-druid-metrics-to-graphite-grafana/
+    company: DataSpark
+
+  - date: 2018-05-23
+    title: "Web analytics at scale with Druid at naver.com"
+    name: "Jason Heo & Doo Yong Kim"
+    link: https://www.slideshare.net/JasonJungsuHEO/web-analytics-at-scale-with-druid-at-navercom
+    company: Naver
+
+  - date: 2018-01-08
+    title: "How we built a Streaming Analytics Solution using Apache Kafka & Druid"
+    name: "Arpit Goliya"
+    link: https://medium.com/tecnolog%C3%ADa/how-we-built-a-streaming-analytics-solution-using-apache-kafka-druid-66c257adcd9a
+    company: Algoworks
+
   - date: 2017-11-24
     title: "Event Stream Analytics at Walmart with Druid"
     name: "Amaresh Nayak"
