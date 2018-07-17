@@ -384,4 +384,7 @@ Youku Tudou employs Druid for real-time advertising analysis of huge volumes of 
 
 [Zhihu](https://www.zhihu.com/) is a Chinese question-and-answer website. In Zhihu, Druid is used to power clients' interactive queries, data reports, A/B testing and performance monitoring. Almost 1T per day data is ingested into druid cluster, and we are strongly depending on thetaSketch aggregator for computing cardinality and retention, looking forward to more improvement on DataSketch.
 
+## Shopee
+At [Shopee](http://shopee.com/) Data Engineer Group, we use Druid for real-time analytics of users'(including seller and buyer) interaction with its popular e-commerce site.
+
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md)
