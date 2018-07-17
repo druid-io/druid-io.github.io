@@ -1,3 +1,9 @@
+  - date: 2018-06-19
+    title: "PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase"
+    name: "Deepika Khera & Kasi Natarajan"
+    link: https://dataworkssummit.com/san-jose-2018/session/paypal-merchant-ecosystem-using-apache-spark-hive-druid-and-hbase/
+    company: Paypal
+
   - date: 2018-06-11
     title: "Pushing druid metrics to Graphite Grafana with full metrics whitelist"
     name: "Vishnu Rao"

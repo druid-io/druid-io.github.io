@@ -251,6 +251,8 @@ is what they have to say:
 > seen a Open Source Community providing such a very high level of responsiveness for ANY
 > issue related to Druid setup and tuning.
 
+* [PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase](https://dataworkssummit.com/san-jose-2018/session/paypal-merchant-ecosystem-using-apache-spark-hive-druid-and-hbase/)
+
 ## PubNative
 
 PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events. 
