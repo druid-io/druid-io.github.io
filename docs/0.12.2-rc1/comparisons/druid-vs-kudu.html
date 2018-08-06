@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>	
+  <head>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | Downloads</title>
+<title>Druid | </title>
 <link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -36,7 +36,8 @@
 
 
   </head>
-  <body>	
+
+  <body>
     <!-- Start page_header include -->
 <div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
@@ -52,7 +53,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=" active"><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
         <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
         <li class=""><a href="/community/">Contribute</a></li>
         <li class=""><a href="/blog">Blog</a></li>
@@ -66,60 +67,53 @@
 
 
     <div class="druid-header">
-  <div class="container">
-    <h1>Download</h1>
-    <h4></h4>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-
-      <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.1 Stable</a><br>
-
-      <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/0.12.1/development/versioning.html">Versioning</a> section for how we describe releases.
-
-      <h4>Stable Release</h4>
-
-      <p>The current stable is tagged at version 0.12.1.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz');return false;">druid-0.12.1-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1.tar.gz');return false;">mysql-metadata-storage-0.12.1.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/0.12.1/operations/including-extensions.html">Include Extensions</a>)
-
-      <p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz');return false;">tranquility-distribution-0.8.2.tgz</a>.</p>
-
-      <h4>Next Release Candidate</h4>
-      
-      <p>The current release candidate is tagged at version 0.12.2-rc1.</p>
-
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz');return false;">druid-0.12.2-rc1-bin.tar.gz</a>.</p>
-
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.2-rc1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.2-rc1.tar.gz');return false;">mysql-metadata-storage-0.12.2-rc1.tar.gz</a>.
-
-      
-
-      <h2>Release Notes</h2>
-
-      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
     </div>
-  </div>
-</div>
-</div>
 
-<script>
-var trackDownload = function(type, url) {
-   ga('send', 'event', 'download', type, url, {'hitCallback':
-     function () {
-     document.location = url;
-     }
-   });
-}
-</script>
+    <div class="container">
+      
+      
+      
 
-    
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <h1 id="druid-vs-kudu">Druid vs Kudu</h1>
+
+<p>Kudu&#39;s storage format enables single row updates, whereas updates to existing Druid segments requires recreating the segment, so theoretically<br>
+the process for updating old values should be higher latency in Druid. However, the requirements in Kudu for maintaining extra head space to store 
+updates as well as organizing data by id instead of time has the potential to introduce some extra latency and accessing 
+of data that is not need to answer a query at query time. </p>
+
+<p>Druid summarizes/rollups up data at ingestion time, which in practice reduces the raw data that needs to be 
+stored significantly (up to 40 times on average), and increases performance of scanning raw data significantly. 
+Druid segments also contain bitmap indexes for fast filtering, which Kudu does not currently support. 
+Druid&#39;s segment architecture is heavily geared towards fast aggregates and filters, and for OLAP workflows. Appends are very 
+fast in Druid, whereas updates of older data is higher latency. This is by design as the data Druid is good for is typically event data, 
+and does not need to be updated too frequently. Kudu supports arbitrary primary keys with uniqueness constraints, and 
+efficient lookup by ranges of those keys. Kudu chooses not to include the execution engine, but supports sufficient 
+operations so as to allow node-local processing from the execution engines. This means that Kudu can support multiple frameworks on the same data (eg MR, Spark, and SQL). 
+Druid includes its own query layer that allows it to push down aggregations and computations directly to data nodes for faster query processing.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Start page_footer include -->
 <footer class="druid-footer">
 <div class="container">
@@ -159,6 +153,23 @@ var trackDownload = function(type, url) {
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
 
-    
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
   </body>
 </html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <h1 id="druid-extensions">Druid extensions</h1>
+
+<p>Druid implements an extension system that allows for adding functionality at runtime. Extensions
+are commonly used to add support for deep storages (like HDFS and S3), metadata stores (like MySQL
+and PostgreSQL), new aggregators, new input formats, and so on.</p>
+
+<p>Production clusters will generally use at least two extensions; one for deep storage and one for a
+metadata store. Many clusters will also use additional extensions.</p>
+
+<h2 id="including-extensions">Including extensions</h2>
+
+<p>Please see <a href="../operations/including-extensions.html">here</a>.</p>
+
+<h2 id="core-extensions">Core extensions</h2>
+
+<p>Core extensions are maintained by Druid committers.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Docs</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>druid-avro-extensions</td>
+<td>Support for data in Apache Avro data format.</td>
+<td><a href="../development/extensions-core/avro.html">link</a></td>
+</tr>
+<tr>
+<td>druid-basic-security</td>
+<td>Support for Basic HTTP authentication and role-based access control.</td>
+<td><a href="../development/extensions-core/druid-basic-security.html">link</a></td>
+</tr>
+<tr>
+<td>druid-caffeine-cache</td>
+<td>A local cache implementation backed by Caffeine.</td>
+<td><a href="../development/extensions-core/caffeine-cache.html">link</a></td>
+</tr>
+<tr>
+<td>druid-datasketches</td>
+<td>Support for approximate counts and set operations with <a href="http://datasketches.github.io/">DataSketches</a>.</td>
+<td><a href="../development/extensions-core/datasketches-aggregators.html">link</a></td>
+</tr>
+<tr>
+<td>druid-hdfs-storage</td>
+<td>HDFS deep storage.</td>
+<td><a href="../development/extensions-core/hdfs.html">link</a></td>
+</tr>
+<tr>
+<td>druid-histogram</td>
+<td>Approximate histograms and quantiles aggregator.</td>
+<td><a href="../development/extensions-core/approximate-histograms.html">link</a></td>
+</tr>
+<tr>
+<td>druid-kafka-eight</td>
+<td>Kafka ingest firehose (high level consumer) for realtime nodes.</td>
+<td><a href="../development/extensions-core/kafka-eight-firehose.html">link</a></td>
+</tr>
+<tr>
+<td>druid-kafka-extraction-namespace</td>
+<td>Kafka-based namespaced lookup. Requires namespace lookup extension.</td>
+<td><a href="../development/extensions-core/kafka-extraction-namespace.html">link</a></td>
+</tr>
+<tr>
+<td>druid-kafka-indexing-service</td>
+<td>Supervised exactly-once Kafka ingestion for the indexing service.</td>
+<td><a href="../development/extensions-core/kafka-ingestion.html">link</a></td>
+</tr>
+<tr>
+<td>druid-kerberos</td>
+<td>Kerberos authentication for druid nodes.</td>
+<td><a href="../development/extensions-core/druid-kerberos.html">link</a></td>
+</tr>
+<tr>
+<td>druid-lookups-cached-global</td>
+<td>A module for <a href="../querying/lookups.html">lookups</a> providing a jvm-global eager caching for lookups. It provides JDBC and URI implementations for fetching lookup data.</td>
+<td><a href="../development/extensions-core/lookups-cached-global.html">link</a></td>
+</tr>
+<tr>
+<td>druid-lookups-cached-single</td>
+<td>Per lookup caching module to support the use cases where a lookup need to be isolated from the global pool of lookups</td>
+<td><a href="../development/extensions-core/druid-lookups.html">link</a></td>
+</tr>
+<tr>
+<td>druid-protobuf-extensions</td>
+<td>Support for data in Protobuf data format.</td>
+<td><a href="../development/extensions-core/protobuf.html">link</a></td>
+</tr>
+<tr>
+<td>druid-s3-extensions</td>
+<td>Interfacing with data in AWS S3, and using S3 as deep storage.</td>
+<td><a href="../development/extensions-core/s3.html">link</a></td>
+</tr>
+<tr>
+<td>druid-stats</td>
+<td>Statistics related module including variance and standard deviation.</td>
+<td><a href="../development/extensions-core/stats.html">link</a></td>
+</tr>
+<tr>
+<td>mysql-metadata-storage</td>
+<td>MySQL metadata store.</td>
+<td><a href="../development/extensions-core/mysql.html">link</a></td>
+</tr>
+<tr>
+<td>postgresql-metadata-storage</td>
+<td>PostgreSQL metadata store.</td>
+<td><a href="../development/extensions-core/postgresql.html">link</a></td>
+</tr>
+<tr>
+<td>simple-client-sslcontext</td>
+<td>Simple SSLContext provider module to be used by internal HttpClient talking to other nodes over HTTPS.</td>
+<td><a href="../development/extensions-core/simple-client-sslcontext.html">link</a></td>
+</tr>
+</tbody></table>
+
+<h1 id="community-extensions">Community Extensions</h1>
+
+<div class="note caution">
+Community extensions are not maintained by Druid committers, although we accept patches from community members using these extensions. They may not have been as extensively tested as the core extensions.
+</div>
+
+<p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
+If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://groups.google.com/forum/#!forum/druid-development">druid-development group</a> to let us know!</p>
+
+<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate io.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Docs</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ambari-metrics-emitter</td>
+<td>Ambari Metrics Emitter</td>
+<td><a href="../development/extensions-contrib/ambari-metrics-emitter.html">link</a></td>
+</tr>
+<tr>
+<td>druid-azure-extensions</td>
+<td>Microsoft Azure deep storage.</td>
+<td><a href="../development/extensions-contrib/azure.html">link</a></td>
+</tr>
+<tr>
+<td>druid-cassandra-storage</td>
+<td>Apache Cassandra deep storage.</td>
+<td><a href="../development/extensions-contrib/cassandra.html">link</a></td>
+</tr>
+<tr>
+<td>druid-cloudfiles-extensions</td>
+<td>Rackspace Cloudfiles deep storage and firehose.</td>
+<td><a href="../development/extensions-contrib/cloudfiles.html">link</a></td>
+</tr>
+<tr>
+<td>druid-distinctcount</td>
+<td>DistinctCount aggregator</td>
+<td><a href="../development/extensions-contrib/distinctcount.html">link</a></td>
+</tr>
+<tr>
+<td>druid-kafka-eight-simpleConsumer</td>
+<td>Kafka ingest firehose (low level consumer).</td>
+<td><a href="../development/extensions-contrib/kafka-simple.html">link</a></td>
+</tr>
+<tr>
+<td>druid-orc-extensions</td>
+<td>Support for data in Apache Orc data format.</td>
+<td><a href="../development/extensions-contrib/orc.html">link</a></td>
+</tr>
+<tr>
+<td>druid-parquet-extensions</td>
+<td>Support for data in Apache Parquet data format. Requires druid-avro-extensions to be loaded.</td>
+<td><a href="../development/extensions-contrib/parquet.html">link</a></td>
+</tr>
+<tr>
+<td>druid-rabbitmq</td>
+<td>RabbitMQ firehose.</td>
+<td><a href="../development/extensions-contrib/rabbitmq.html">link</a></td>
+</tr>
+<tr>
+<td>druid-redis-cache</td>
+<td>A cache implementation for Druid based on Redis.</td>
+<td><a href="../development/extensions-contrib/redis-cache.html">link</a></td>
+</tr>
+<tr>
+<td>druid-rocketmq</td>
+<td>RocketMQ firehose.</td>
+<td><a href="../development/extensions-contrib/rocketmq.html">link</a></td>
+</tr>
+<tr>
+<td>druid-time-min-max</td>
+<td>Min/Max aggregator for timestamp.</td>
+<td><a href="../development/extensions-contrib/time-min-max.html">link</a></td>
+</tr>
+<tr>
+<td>druid-google-extensions</td>
+<td>Google Cloud Storage deep storage.</td>
+<td><a href="../development/extensions-contrib/google.html">link</a></td>
+</tr>
+<tr>
+<td>sqlserver-metadata-storage</td>
+<td>Microsoft SqlServer deep storage.</td>
+<td><a href="../development/extensions-contrib/sqlserver.html">link</a></td>
+</tr>
+<tr>
+<td>graphite-emitter</td>
+<td>Graphite metrics emitter</td>
+<td><a href="../development/extensions-contrib/graphite.html">link</a></td>
+</tr>
+<tr>
+<td>statsd-emitter</td>
+<td>StatsD metrics emitter</td>
+<td><a href="../development/extensions-contrib/statsd.html">link</a></td>
+</tr>
+<tr>
+<td>kafka-emitter</td>
+<td>Kafka metrics emitter</td>
+<td><a href="../development/extensions-contrib/kafka-emitter.html">link</a></td>
+</tr>
+<tr>
+<td>druid-thrift-extensions</td>
+<td>Support thrift ingestion</td>
+<td><a href="../development/extensions-contrib/thrift.html">link</a></td>
+</tr>
+</tbody></table>
+
+<h2 id="promoting-community-extension-to-core-extension">Promoting Community Extension to Core Extension</h2>
+
+<p>Please <a href="https://groups.google.com/forum/#!forum/druid-development">let us know</a> if you&#39;d like an extension to be promoted to core.
+If we see a community extension actively supported by the community, we can promote it to core based on community feedback.</p>
+
+<h1 id="creating-your-own-extensions">Creating your own Extensions</h1>
+
+<p>For information how to create your own extension, please see <a href="../development/modules.html">here</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

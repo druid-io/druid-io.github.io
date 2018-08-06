@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <p>This expression language supports the following operators (listed in decreasing order of precedence).</p>
+
+<table><thead>
+<tr>
+<th>Operators</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>!, -</td>
+<td>Unary NOT and Minus</td>
+</tr>
+<tr>
+<td>^</td>
+<td>Binary power op</td>
+</tr>
+<tr>
+<td>*, /, %</td>
+<td>Binary multiplicative</td>
+</tr>
+<tr>
+<td>+, -</td>
+<td>Binary additive</td>
+</tr>
+<tr>
+<td>&lt;, &lt;=, &gt;, &gt;=, ==, !=</td>
+<td>Binary Comparison</td>
+</tr>
+<tr>
+<td>&amp;&amp;,\</td>
+<td>\</td>
+</tr>
+</tbody></table>
+
+<p>Long, double, and string data types are supported. If a number contains a dot, it is interpreted as a double, otherwise it is interpreted as a long. That means, always add a &#39;.&#39; to your number if you want it interpreted as a double value. String literals should be quoted by single quotation marks.</p>
+
+<p>Multi-value types are not fully supported yet. Expressions may behave inconsistently on multi-value types, and you
+should not rely on the behavior in this case to stay the same in future releases.</p>
+
+<p>Expressions can contain variables. Variable names may contain letters, digits, &#39;_&#39; and &#39;$&#39;. Variable names must not begin with a digit. To escape other special characters, you can quote it with double quotation marks.</p>
+
+<p>For logical operators, a number is true if and only if it is positive (0 or negative value means false). For string type, it&#39;s the evaluation result of &#39;Boolean.valueOf(string)&#39;.</p>
+
+<p>The following built-in functions are available.</p>
+
+<h2 id="general-functions">General functions</h2>
+
+<table><thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cast</td>
+<td>cast(expr,&#39;LONG&#39; or &#39;DOUBLE&#39; or &#39;STRING&#39;) returns expr with specified type. exception can be thrown</td>
+</tr>
+<tr>
+<td>if</td>
+<td>if(predicate,then,else) returns &#39;then&#39; if &#39;predicate&#39; evaluates to a positive number, otherwise it returns &#39;else&#39;</td>
+</tr>
+<tr>
+<td>nvl</td>
+<td>nvl(expr,expr-for-null) returns &#39;expr-for-null&#39; if &#39;expr&#39; is null (or empty string for string type)</td>
+</tr>
+<tr>
+<td>like</td>
+<td>like(expr, pattern[, escape]) is equivalent to SQL <code>expr LIKE pattern</code></td>
+</tr>
+<tr>
+<td>case_searched</td>
+<td>case_searched(expr1, result1, [[expr2, result2, ...], else-result])</td>
+</tr>
+<tr>
+<td>case_simple</td>
+<td>case_simple(expr, value1, result1, [[value2, result2, ...], else-result])</td>
+</tr>
+</tbody></table>
+
+<h2 id="string-functions">String functions</h2>
+
+<table><thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>concat</td>
+<td>concatenate a list of strings</td>
+</tr>
+<tr>
+<td>like</td>
+<td>like(expr, pattern[, escape]) is equivalent to SQL <code>expr LIKE pattern</code></td>
+</tr>
+<tr>
+<td>lookup</td>
+<td>lookup(expr, lookup-name) looks up expr in a registered <a href="lookups.html">query-time lookup</a></td>
+</tr>
+<tr>
+<td>regexp_extract</td>
+<td>regexp_extract(expr, pattern[, index]) applies a regular expression pattern and extracts a capture group index, or null if there is no match. If index is unspecified or zero, returns the substring that matched the pattern.</td>
+</tr>
+<tr>
+<td>replace</td>
+<td>replace(expr, pattern, replacement) replaces pattern with replacement</td>
+</tr>
+<tr>
+<td>substring</td>
+<td>substring(expr, index, length) behaves like java.lang.String&#39;s substring</td>
+</tr>
+<tr>
+<td>strlen</td>
+<td>strlen(expr) returns length of a string in UTF-16 code units</td>
+</tr>
+<tr>
+<td>strpos</td>
+<td>strpos(haystack, needle) returns the position of the needle within the haystack, with indexes starting from 0. If the needle is not found then the function returns -1.</td>
+</tr>
+<tr>
+<td>trim</td>
+<td>trim(expr[, chars]) remove leading and trailing characters from <code>expr</code> if they are present in <code>chars</code>. <code>chars</code> defaults to &#39; &#39; (space) if not provided.</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim(expr[, chars]) remove leading characters from <code>expr</code> if they are present in <code>chars</code>. <code>chars</code> defaults to &#39; &#39; (space) if not provided.</td>
+</tr>
+<tr>
+<td>rtrim</td>
+<td>rtrim(expr[, chars]) remove trailing characters from <code>expr</code> if they are present in <code>chars</code>. <code>chars</code> defaults to &#39; &#39; (space) if not provided.</td>
+</tr>
+<tr>
+<td>lower</td>
+<td>lower(expr) converts a string to lowercase</td>
+</tr>
+<tr>
+<td>upper</td>
+<td>upper(expr) converts a string to uppercase</td>
+</tr>
+</tbody></table>
+
+<h2 id="time-functions">Time functions</h2>
+
+<table><thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>timestamp</td>
+<td>timestamp(expr[,format-string]) parses string expr into date then returns milli-seconds from java epoch. without &#39;format-string&#39; it&#39;s regarded as ISO datetime format</td>
+</tr>
+<tr>
+<td>unix_timestamp</td>
+<td>same with &#39;timestamp&#39; function but returns seconds instead</td>
+</tr>
+<tr>
+<td>timestamp_ceil</td>
+<td>timestamp_ceil(expr, period, [origin, [timezone]]) rounds up a timestamp, returning it as a new timestamp. Period can be any ISO8601 period, like P3M (quarters) or PT12H (half-days). The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+</tr>
+<tr>
+<td>timestamp_floor</td>
+<td>timestamp_floor(expr, period, [origin, [timezone]]) rounds down a timestamp, returning it as a new timestamp. Period can be any ISO8601 period, like P3M (quarters) or PT12H (half-days). The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+</tr>
+<tr>
+<td>timestamp_shift</td>
+<td>timestamp_shift(expr, period, step, [timezone]) shifts a timestamp by a period (step times), returning it as a new timestamp. Period can be any ISO8601 period. Step may be negative. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+</tr>
+<tr>
+<td>timestamp_extract</td>
+<td>timestamp_extract(expr, unit, [timezone]) extracts a time part from expr, returning it as a number. Unit can be EPOCH (number of seconds since 1970-01-01 00:00:00 UTC), SECOND, MINUTE, HOUR, DAY (day of month), DOW (day of week), DOY (day of year), WEEK (week of <a href="https://en.wikipedia.org/wiki/ISO_week_date">week year</a>), MONTH (1 through 12), QUARTER (1 through 4), or YEAR. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;</td>
+</tr>
+<tr>
+<td>timestamp_parse</td>
+<td>timestamp_parse(string expr, [pattern, [timezone]]) parses a string into a timestamp using a given <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat pattern</a>. If the pattern is not provided, this parses time strings in either ISO8601 or SQL format. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;, and will be used as the time zone for strings that do not include a time zone offset. Pattern and time zone must be literals. Strings that cannot be parsed as timestamps will be returned as nulls.</td>
+</tr>
+<tr>
+<td>timestamp_format</td>
+<td>timestamp_format(expr, [pattern, [timezone]]) formats a timestamp as a string with a given <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat pattern</a>, or ISO8601 if the pattern is not provided. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;. Pattern and time zone must be literals.</td>
+</tr>
+</tbody></table>
+
+<h2 id="math-functions">Math functions</h2>
+
+<p>See javadoc of java.lang.Math for detailed explanation for each function.</p>
+
+<table><thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>abs</td>
+<td>abs(x) would return the absolute value of x</td>
+</tr>
+<tr>
+<td>acos</td>
+<td>acos(x) would return the arc cosine of x</td>
+</tr>
+<tr>
+<td>asin</td>
+<td>asin(x) would return the arc sine of x</td>
+</tr>
+<tr>
+<td>atan</td>
+<td>atan(x) would return the arc tangent of x</td>
+</tr>
+<tr>
+<td>atan2</td>
+<td>atan2(y, x) would return the angle theta from the conversion of rectangular coordinates (x, y) to polar * coordinates (r, theta)</td>
+</tr>
+<tr>
+<td>cbrt</td>
+<td>cbrt(x) would return the cube root of x</td>
+</tr>
+<tr>
+<td>ceil</td>
+<td>ceil(x) would return the smallest (closest to negative infinity) double value that is greater than or equal to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>copysign</td>
+<td>copysign(x) would return the first floating-point argument with the sign of the second floating-point argument</td>
+</tr>
+<tr>
+<td>cos</td>
+<td>cos(x) would return the trigonometric cosine of x</td>
+</tr>
+<tr>
+<td>cosh</td>
+<td>cosh(x) would return the hyperbolic cosine of x</td>
+</tr>
+<tr>
+<td>div</td>
+<td>div(x,y) is integer division of x by y</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>exp(x) would return Euler&#39;s number raised to the power of x</td>
+</tr>
+<tr>
+<td>expm1</td>
+<td>expm1(x) would return e^x-1</td>
+</tr>
+<tr>
+<td>floor</td>
+<td>floor(x) would return the largest (closest to positive infinity) double value that is less than or equal to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>getExponent</td>
+<td>getExponent(x) would return the unbiased exponent used in the representation of x</td>
+</tr>
+<tr>
+<td>hypot</td>
+<td>hypot(x, y) would return sqrt(x^2+y^2) without intermediate overflow or underflow</td>
+</tr>
+<tr>
+<td>log</td>
+<td>log(x) would return the natural logarithm of x</td>
+</tr>
+<tr>
+<td>log10</td>
+<td>log10(x) would return the base 10 logarithm of x</td>
+</tr>
+<tr>
+<td>log1p</td>
+<td>log1p(x) would the natural logarithm of x + 1</td>
+</tr>
+<tr>
+<td>max</td>
+<td>max(x, y) would return the greater of two values</td>
+</tr>
+<tr>
+<td>min</td>
+<td>min(x, y) would return the smaller of two values</td>
+</tr>
+<tr>
+<td>nextafter</td>
+<td>nextafter(x, y) would return the floating-point number adjacent to the x in the direction of the y</td>
+</tr>
+<tr>
+<td>nextUp</td>
+<td>nextUp(x) would return the floating-point value adjacent to x in the direction of positive infinity</td>
+</tr>
+<tr>
+<td>pow</td>
+<td>pow(x, y) would return the value of the x raised to the power of y</td>
+</tr>
+<tr>
+<td>remainder</td>
+<td>remainder(x, y) would return the remainder operation on two arguments as prescribed by the IEEE 754 standard</td>
+</tr>
+<tr>
+<td>rint</td>
+<td>rint(x) would return value that is closest in value to x and is equal to a mathematical integer</td>
+</tr>
+<tr>
+<td>round</td>
+<td>round(x) would return the closest long value to x, with ties rounding up</td>
+</tr>
+<tr>
+<td>scalb</td>
+<td>scalb(d, sf) would return d * 2^sf rounded as if performed by a single correctly rounded floating-point multiply to a member of the double value set</td>
+</tr>
+<tr>
+<td>signum</td>
+<td>signum(x) would return the signum function of the argument x</td>
+</tr>
+<tr>
+<td>sin</td>
+<td>sin(x) would return the trigonometric sine of an angle x</td>
+</tr>
+<tr>
+<td>sinh</td>
+<td>sinh(x) would return the hyperbolic sine of x</td>
+</tr>
+<tr>
+<td>sqrt</td>
+<td>sqrt(x) would return the correctly rounded positive square root of x</td>
+</tr>
+<tr>
+<td>tan</td>
+<td>tan(x) would return the trigonometric tangent of an angle x</td>
+</tr>
+<tr>
+<td>tanh</td>
+<td>tanh(x) would return the hyperbolic tangent of x</td>
+</tr>
+<tr>
+<td>todegrees</td>
+<td>todegrees(x) converts an angle measured in radians to an approximately equivalent angle measured in degrees</td>
+</tr>
+<tr>
+<td>toradians</td>
+<td>toradians(x) converts an angle measured in degrees to an approximately equivalent angle measured in radians</td>
+</tr>
+<tr>
+<td>ulp</td>
+<td>ulp(x) would return the size of an ulp of the argument x</td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

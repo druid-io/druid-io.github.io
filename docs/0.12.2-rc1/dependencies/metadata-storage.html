@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <h1 id="metadata-storage">Metadata Storage</h1>
+
+<p>The Metadata Storage is an external dependency of Druid. Druid uses it to store
+various metadata about the system, but not to store the actual data. There are
+a number of tables used for various purposes described below.</p>
+
+<p>Derby is the default metadata store for Druid, however, it is not suitable for production. 
+<a href="../development/extensions-core/mysql.html">MySQL</a> and <a href="../development/extensions-core/postgresql.html">PostgreSQL</a> are more production suitable metadata stores.</p>
+
+<div class="note caution">
+Derby is not suitable for production use as a metadata store. Use MySQL or PostgreSQL instead.
+</div>
+
+<h2 id="using-derby">Using derby</h2>
+
+<p>Add the following to your Druid configuration.</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">druid.metadata.storage.type</span><span class="o">=</span><span class="s">derby</span>
+<span class="na">druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:derby://localhost:1527//opt/var/druid_state/derby;create=true</span>
+</code></pre></div>
+<h2 id="mysql">MySQL</h2>
+
+<p>See <a href="../development/extensions-core/mysql.html">mysql-metadata-storage extension documentation</a>.  </p>
+
+<h2 id="postgresql">PostgreSQL</h2>
+
+<p>See <a href="../development/extensions-core/postgresql.html">postgresql-metadata-storage</a>. </p>
+
+<h2 id="metadata-storage-tables">Metadata Storage Tables</h2>
+
+<h3 id="segments-table">Segments Table</h3>
+
+<p>This is dictated by the <code>druid.metadata.storage.tables.segments</code> property.</p>
+
+<p>This table stores metadata about the segments that are available in the system.
+The table is polled by the <a href="../design/coordinator.html">Coordinator</a> to
+determine the set of segments that should be available for querying in the
+system. The table has two main functional columns, the other columns are for
+indexing purposes.</p>
+
+<p>The <code>used</code> column is a boolean &quot;tombstone&quot;. A 1 means that the segment should
+be &quot;used&quot; by the cluster (i.e. it should be loaded and available for requests).
+A 0 means that the segment should not be actively loaded into the cluster. We
+do this as a means of removing segments from the cluster without actually
+removing their metadata (which allows for simpler rolling back if that is ever
+an issue).</p>
+
+<p>The <code>payload</code> column stores a JSON blob that has all of the metadata for the segment (some of the data stored in this payload is redundant with some of the columns in the table, that is intentional). This looks something like</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+ <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2012-05-23T00:00:00.000Z/2012-05-24T00:00:00.000Z&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="s2">&quot;2012-05-24T00:10:00.046Z&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;loadSpec&quot;</span><span class="p">:{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;s3_zip&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bucket&quot;</span><span class="p">:</span><span class="s2">&quot;bucket_for_segment&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="s2">&quot;path/to/segment/on/s3&quot;</span>
+ <span class="p">},</span>
+ <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="s2">&quot;comma-delimited-list-of-dimension-names&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="s2">&quot;comma-delimited-list-of-metric-names&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;shardSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">},</span>
+ <span class="nt">&quot;binaryVersion&quot;</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span>
+ <span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="err">size_of_segment</span><span class="p">,</span>
+ <span class="nt">&quot;identifier&quot;</span><span class="p">:</span><span class="s2">&quot;wikipedia_2012-05-23T00:00:00.000Z_2012-05-24T00:00:00.000Z_2012-05-23T00:10:00.046Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Note that the format of this blob can and will change from time-to-time.</p>
+
+<h3 id="rule-table">Rule Table</h3>
+
+<p>The rule table is used to store the various rules about where segments should
+land. These rules are used by the <a href="../design/coordinator.html">Coordinator</a>
+  when making segment (re-)allocation decisions about the cluster.</p>
+
+<h3 id="config-table">Config Table</h3>
+
+<p>The config table is used to store runtime configuration objects. We do not have
+many of these yet and we are not sure if we will keep this mechanism going
+forward, but it is the beginnings of a method of changing some configuration
+parameters across the cluster at runtime.</p>
+
+<h3 id="task-related-tables">Task-related Tables</h3>
+
+<p>There are also a number of tables created and used by the <a href="../design/indexing-service.html">Indexing
+Service</a> in the course of its work.</p>
+
+<h3 id="audit-table">Audit Table</h3>
+
+<p>The Audit table is used to store the audit history for configuration changes
+e.g rule changes done by <a href="../design/coordinator.html">Coordinator</a> and other
+config changes.</p>
+
+<h2 id="accessed-by">Accessed By:</h2>
+
+<p>The Metadata Storage is accessed only by:</p>
+
+<ol>
+<li>Indexing Service Nodes (if any)</li>
+<li>Realtime Nodes (if any)</li>
+<li>Coordinator Nodes</li>
+</ol>
+
+<p>Thus you need to give permissions (eg in AWS Security Groups)  only for these machines to access the Metadata storage.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

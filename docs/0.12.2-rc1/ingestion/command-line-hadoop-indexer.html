@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <h1 id="command-line-hadoop-indexer">Command Line Hadoop Indexer</h1>
+
+<p>To run:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:&lt;hadoop_config_dir&gt; io.druid.cli.Main index hadoop &lt;spec_file&gt;
+</code></pre></div>
+<h2 id="options">Options</h2>
+
+<ul>
+<li>&quot;--coordinate&quot; - provide a version of Hadoop to use. This property will override the default Hadoop coordinates. Once specified, Druid will look for those Hadoop dependencies from the location specified by <code>druid.extensions.hadoopDependenciesDir</code>.</li>
+<li>&quot;--no-default-hadoop&quot; - don&#39;t pull down the default hadoop version</li>
+</ul>
+
+<h2 id="spec-file">Spec file</h2>
+
+<p>The spec file needs to contain a JSON object where the contents are the same as the &quot;spec&quot; field in the Hadoop index task. 
+In addition, the following fields need to be added to the ioConfig:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>      &quot;ioConfig&quot; : {
+        ...
+        &quot;metadataUpdateSpec&quot; : {
+          &quot;type&quot;:&quot;mysql&quot;,
+          &quot;connectURI&quot; : &quot;jdbc:mysql://localhost:3306/druid&quot;,
+          &quot;password&quot; : &quot;diurd&quot;,
+          &quot;segmentTable&quot; : &quot;druid_segments&quot;,
+          &quot;user&quot; : &quot;druid&quot;
+        },
+        &quot;segmentOutputPath&quot; : &quot;/MyDirectory/data/index/output&quot;
+      },
+</code></pre></div>
+<p>and the following field need to be added to the tuningConfig:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  &quot;tuningConfig&quot; : {
+   ...
+    &quot;workingPath&quot;: &quot;/tmp&quot;,
+    ...
+  }
+</code></pre></div>
+<h4 id="metadata-update-job-spec">Metadata Update Job Spec</h4>
+
+<p>This is a specification of the properties that tell the job how to update metadata such that the Druid cluster will see the output segments and load them.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>&quot;metadata&quot; is the only value available.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>connectURI</td>
+<td>String</td>
+<td>A valid JDBC url to metadata storage.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>user</td>
+<td>String</td>
+<td>Username for db.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>password</td>
+<td>String</td>
+<td>password for db.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>segmentTable</td>
+<td>String</td>
+<td>Table to use in DB.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>These properties should parrot what you have configured for your <a href="../design/coordinator.html">Coordinator</a>.</p>
+
+<h4 id="segmentoutputpath-config">segmentOutputPath Config</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>segmentOutputPath</td>
+<td>String</td>
+<td>the path to dump segments into.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="workingpath-config">workingPath Config</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>workingPath</td>
+<td>String</td>
+<td>the working path to use for intermediate results (results between Hadoop jobs).</td>
+<td>no (default == &#39;/tmp/druid-indexing&#39;)</td>
+</tr>
+</tbody></table>
+
+<p>Please note that the command line Hadoop indexer doesn&#39;t have the locking capabilities of the indexing service, so if you choose to use it, 
+you have to take caution to not override segments created by real-time processing (if you that a real-time pipeline set up).</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

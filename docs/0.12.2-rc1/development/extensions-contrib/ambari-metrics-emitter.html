@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2-rc1">API documentation</a></p>
+          <h1 id="ambari-metrics-emitter">Ambari Metrics Emitter</h1>
+
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>ambari-metrics-emitter</code> extension.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This extension emits druid metrics to a ambari-metrics carbon server.
+Events are sent after been <a href="http://ambari-metrics.readthedocs.org/en/latest/feeding-carbon.html#the-pickle-protocol">pickled</a>; the size of the batch is configurable. </p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>All the configuration parameters for ambari-metrics emitter are under <code>druid.emitter.ambari-metrics</code>.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.ambari-metrics.hostname</code></td>
+<td>The hostname of the ambari-metrics server.</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.port</code></td>
+<td>The port of the ambari-metrics server.</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.protocol</code></td>
+<td>The protocol used to send metrics to ambari metrics collector. One of http/https</td>
+<td>no</td>
+<td>http</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.trustStorePath</code></td>
+<td>Path to trustStore to be used for https</td>
+<td>no</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.trustStoreType</code></td>
+<td>trustStore type to be used for https</td>
+<td>no</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.trustStoreType</code></td>
+<td>trustStore password to be used for https</td>
+<td>no</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.batchSize</code></td>
+<td>Number of events to send as one batch.</td>
+<td>no</td>
+<td>100</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.eventConverter</code></td>
+<td>Filter and converter of druid events to ambari-metrics timeline event(please see next section).</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.flushPeriod</code></td>
+<td>Queue flushing period in milliseconds.</td>
+<td>no</td>
+<td>1 minute</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.maxQueueSize</code></td>
+<td>Maximum size of the queue used to buffer events.</td>
+<td>no</td>
+<td><code>MAX_INT</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.alertEmitters</code></td>
+<td>List of emitters where alerts will be forwarded to.</td>
+<td>no</td>
+<td>empty list (no forwarding)</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.emitWaitTime</code></td>
+<td>wait time in milliseconds to try to send the event otherwise emitter will throwing event.</td>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.emitter.ambari-metrics.waitForEventTime</code></td>
+<td>waiting time in milliseconds if necessary for an event to become available.</td>
+<td>no</td>
+<td>1000 (1 sec)</td>
+</tr>
+</tbody></table>
+
+<h3 id="druid-to-ambari-metrics-timeline-event-converter">Druid to Ambari Metrics Timeline Event Converter</h3>
+
+<p>Ambari Metrics Timeline Event Converter defines a mapping between druid metrics name plus dimensions to a timeline event metricName.
+ambari-metrics metric path is organized using the following schema:
+<code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].&lt;druid metrics dimensions&gt;.&lt;druid metrics name&gt;</code>
+Properly naming the metrics is critical to avoid conflicts, confusing data and potentially wrong interpretation later on.</p>
+
+<p>Example <code>druid.historical.hist-host1:8080.MyDataSourceName.GroupBy.query/time</code>:</p>
+
+<ul>
+<li><code>druid</code> -&gt; namespace prefix </li>
+<li><code>historical</code> -&gt; service name </li>
+<li><code>hist-host1:8080</code> -&gt; druid hostname</li>
+<li><code>MyDataSourceName</code> -&gt; dimension value </li>
+<li><code>GroupBy</code> -&gt; dimension value</li>
+<li><code>query/time</code> -&gt; metric name</li>
+</ul>
+
+<p>We have two different implementation of event converter:</p>
+
+<h4 id="send-all-converter">Send-All converter</h4>
+
+<p>The first implementation called <code>all</code>, will send all the druid service metrics events. 
+The path will be in the form <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].&lt;dimensions values ordered by dimension&#39;s name&gt;.&lt;metric&gt;</code>
+User has control of <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">druid.emitter.ambari-metrics.eventConverter=</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="nt">&quot;namespacePrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;druid.test&quot;</span><span class="p">,</span> <span class="nt">&quot;appName&quot;</span><span class="p">:</span><span class="s2">&quot;druid&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="white-list-based-converter">White-list based converter</h4>
+
+<p>The second implementation called <code>whiteList</code>, will send only the white listed metrics and dimensions.
+Same as for the <code>all</code> converter user has control of <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].</code>
+White-list based converter comes with the following  default white list map located under resources in <code>./src/main/resources/defaultWhiteListMap.json</code></p>
+
+<p>Although user can override the default white list map by supplying a property called <code>mapPath</code>.
+This property is a String containing  the path for the file containing <strong>white list map Json object</strong>.
+For example the following converter will read the map from the file <code>/pathPrefix/fileName.json</code>.  </p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">druid.emitter.ambari-metrics.eventConverter=</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;whiteList&quot;</span><span class="p">,</span> <span class="nt">&quot;namespacePrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;druid.test&quot;</span><span class="p">,</span> <span class="nt">&quot;ignoreHostname&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span> <span class="nt">&quot;appName&quot;</span><span class="p">:</span><span class="s2">&quot;druid&quot;</span><span class="p">,</span> <span class="nt">&quot;mapPath&quot;</span><span class="p">:</span><span class="s2">&quot;/pathPrefix/fileName.json&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Druid emits a huge number of metrics we highly recommend to use the <code>whiteList</code> converter</strong></p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
