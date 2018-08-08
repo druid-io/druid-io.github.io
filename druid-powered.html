@@ -7,14 +7,14 @@
 <meta name="author" content="druid">
 
 <title>Druid | Powered by Druid</title>
-<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,44 +38,81 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
-        <li class=""><a href="/community/">Contribute</a></li>
-        <li class=""><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=" active"><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->
 
 
     <div class="druid-header">
   <div class="container">
     <h1>Powered by Druid</h1>
-    <h4><a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md">Add Your Company</a></h4>
+    <h4><a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md"><span class="fa fa-plus"></span> Add Your Company</a></h4>
   </div>
 </div>
 
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <p>There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone&#39;s use cases in the near future.</p>
+      <p>There are numerous companies of various sizes in production with Druid. Some of them are listed below.</p>
 
 <h2 id="airbnb">Airbnb</h2>
 
@@ -89,7 +126,7 @@
 
 <p><a href="https://allegro.tech/about-us/">Allegro</a> is the most popular Polish shopping destination with about 14 million users monthly and over 1.5 million items sold on the platform daily.
 We have been using Druid since 2016 as business intelligence platform to power our clickstream analytics, marketing automation, anomaly detection, technical metrics and more.
-Our cluster (432 CPUs, 1300GB of RAM on historicals) processes billions of realtime events loaded from <a href="https://kafka.apache.org/">Kafka</a> 
+Our cluster (432 CPUs, 1300GB of RAM on historicals) processes billions of realtime events loaded from <a href="https://kafka.apache.org/">Kafka</a>
 and hundreds batch indexing jobs on daily basis.
 It&#39;s a pleasure to work with Druid, extraordinarily efficient and exceptionally stable platform with vibrant community.</p>
 
@@ -127,7 +164,7 @@ It&#39;s a pleasure to work with Druid, extraordinarily efficient and exceptiona
 
 <h2 id="criteo">Criteo</h2>
 
-<p>Criteo is using druid to provide its customers with user-centric analytics &amp; reporting. 
+<p>Criteo is using druid to provide its customers with user-centric analytics &amp; reporting.
 With more than 1 billion unique users reached per month, 3 billion ads displayed per day, and a 70% growth in 2014, Criteo&#39;s previous stack was hard pressed keeping with the load. Replacing it with druid helped us achieved linear scalability while letting our customers explore their data in new and interactive ways.</p>
 
 <ul>
@@ -185,20 +222,20 @@ Didi uses Druid as a core component of our real-time bigdata processing pipeline
 <p>Imply uses Druid to power public demos and to power our internal monitoring and metrics.</p>
 
 <ul>
-<li><a href="http://imply.io/post/2015/10/26/hello-pivot.html">Pivot: An Open Source Data Exploration UI for Druid</a></li>
-<li><a href="http://imply.io/post/2015/11/04/big-data-zoo.html">A Tour Through the &quot;Big Data&quot; Zoo</a></li>
-<li><a href="http://imply.io/post/2015/12/10/failure.html">Architecting Distributed Databases for Failure</a></li>
-<li><a href="http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid">Building a Streaming Analytics Stack with Apache Kafka and Druid</a> </li>
-<li><a href="https://imply.io/post/2016/12/07/compressing-longs.html">Compressing Longs in Druid</a> </li>
+<li><a href="https://imply.io/post/hello-pivot">Pivot: An Open Source Data Exploration UI for Druid</a></li>
+<li><a href="https://imply.io/post/big-data-zoo">A Tour Through the &quot;Big Data&quot; Zoo</a></li>
+<li><a href="https://imply.io/post/failure">Architecting Distributed Databases for Failure</a></li>
+<li><a href="http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid">Building a Streaming Analytics Stack with Apache Kafka and Druid</a></li>
+<li><a href="https://imply.io/post/compressing-longs">Compressing Longs in Druid</a></li>
 </ul>
 
 <h2 id="inmobi">Inmobi</h2>
 
-<p>Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies. </p>
+<p>Inmobi is a mobile advertising and discovery platform. We use Druid majorly for internal realtime reporting and analysis. We also use Caravel backed by Druid, which allows users to build interactive dashboards. Apart from that, we use Druid as a Datastore for faster ingestion of large amount of data and to query this data at sub second latencies.</p>
 
 <h2 id="interactive-intelligence">Interactive Intelligence</h2>
 
-<p>At ININ we&#39;re using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend. </p>
+<p>At ININ we&#39;re using Druid within a Lambda architecture to drive cloud based call center analytics. Many of our realtime dashboards, downloadable reports, and public APIs utilize Druid on the backend.</p>
 
 <h2 id="italiaonline">Italiaonline</h2>
 
@@ -238,7 +275,7 @@ Italiaonline is the first Italian internet company, with the two most visited we
 <h2 id="marchex">Marchex</h2>
 
 <p>Marchex uses Druid to provide data for Marchex Call Analytics&#39; new customer facing Speech Analytics dashboards.
-Druid&#39;s fast aggregation is critical for providing deep insights into call performance for its customers, 
+Druid&#39;s fast aggregation is critical for providing deep insights into call performance for its customers,
 enabling them to spot trends and improve performance of both marketing campaigns and call centers.</p>
 
 <h2 id="metamarkets">Metamarkets</h2>
@@ -250,8 +287,8 @@ ad-hoc queries at a 95th percentile query time of around 1 second.</p>
 
 <h2 id="monetate">Monetate</h2>
 
-<p>Druid is a critical component in Monetate&#39;s personalization platform, where it 
-acts as the serving layer of a lambda architecture.  As such, Druid powers 
+<p>Druid is a critical component in Monetate&#39;s personalization platform, where it
+acts as the serving layer of a lambda architecture.  As such, Druid powers
 numerous real-time dashboards that provide marketers valuable insights into
 campaign performance and customer behavior.</p>
 
@@ -296,11 +333,11 @@ activity and content flow.</p>
 
 <h2 id="nielsen-nielsen-marketing-cloud">Nielsen (Nielsen Marketing Cloud)</h2>
 
-<p>Nielsen Marketing Cloud uses Druid as it&#39;s core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data. </p>
+<p>Nielsen Marketing Cloud uses Druid as it&#39;s core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data.</p>
 
 <h2 id="ona">Ona</h2>
 
-<p>Ona <a href="https://ona.io">https://ona.io</a> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources. </p>
+<p>Ona <a href="https://ona.io">https://ona.io</a> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources.</p>
 
 <h2 id="oneapm">OneAPM</h2>
 
@@ -354,7 +391,7 @@ issue related to Druid setup and tuning.</p>
 
 <h2 id="pubnative">PubNative</h2>
 
-<p>PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events. </p>
+<p>PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events.</p>
 
 <h2 id="raygun">Raygun</h2>
 
@@ -366,7 +403,7 @@ issue related to Druid setup and tuning.</p>
 
 <h2 id="redborder">Redborder</h2>
 
-<p>redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org </p>
+<p>redBorder is an open source, scale out, cybersecurity analytics platform based on Druid. We hope its full-blown web interface, dashboard and report systems, and ready-to-use real-time pipeline foster other Druid users to create a strong community around it. To see more, please visit redborder.org</p>
 
 <h2 id="retargetly">Retargetly</h2>
 
@@ -513,16 +550,16 @@ A one-stop shop taking advantage of proprietary technology to analyze and reach 
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing.html">License</a>
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -541,7 +578,7 @@ A one-stop shop taking advantage of proprietary technology to analyze and reach 
   ga('send', 'pageview');
 
 </script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->

@@ -7,14 +7,14 @@
 <meta name="author" content="druid">
 
 <title>Druid | Benchmarking Druid</title>
-<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,30 +38,67 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
-        <li class=""><a href="/community/">Contribute</a></li>
-        <li class=""><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->
 
 
@@ -100,7 +137,7 @@ mainly because of its popularity, and to provide a point of comparison with
 a storage engine that most users will be familiar with.</p>
 
 <p>All the code to run the benchmarks as well as the <a href="https://github.com/druid-io/druid-benchmark/tree/master/results">raw result data</a> are
-available on GitHub in the <a href="https://github.com/druid-io/druid-benchmark">druid-benchmark</a> repository.</p>
+available on GitHub in the <a href="https://github.com/apache/incubator-druid-benchmark">druid-benchmark</a> repository.</p>
 
 <blockquote>
 <p>We would like to encourage our readers to run the benchmarks themselves and
@@ -150,7 +187,7 @@ number of aggretions and filters.</li>
 </ul>
 
 <p>The SQL equivalent of the Druid queries is shown below. Druid queries are
-generated directly in our <a href="https://github.com/druid-io/druid-benchmark/blob/master/benchmark-druid.R">benchmarking script</a> using <a href="https://github.com/metamx/RDruid/">RDruid</a>.</p>
+generated directly in our <a href="https://github.com/apache/incubator-druid-benchmark/blob/master/benchmark-druid.R">benchmarking script</a> using <a href="https://github.com/metamx/RDruid/">RDruid</a>.</p>
 
 <script src="https://gist.github.com/xvrl/9552286.js?file=queries.sql"></script>
 
@@ -175,7 +212,7 @@ generate the <code>lineitem</code> table.</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>./dbgen -TL -s1         <span class="c1"># 1GB</span>
 ./dbgen -TL -s100 -C100 <span class="c1"># 100GB / 100 chunks</span>
 </code></pre></div>
-<p>There is also a <a href="https://github.com/druid-io/druid-benchmark/blob/master/generate-data.sh"><code>generate-data.sh</code></a> script in our repository to help write
+<p>There is also a <a href="https://github.com/apache/incubator-druid-benchmark/blob/master/generate-data.sh"><code>generate-data.sh</code></a> script in our repository to help write
 compressed data directly when generating large data sets.</p>
 </blockquote>
 
@@ -222,7 +259,7 @@ made, and segment replication has been turned off in the datasource <a href="/do
 rules</a>.</p>
 
 <p>Complete <a href="https://github.com/druid-io/druid-benchmark/tree/master/config">Druid and JVM configuration parameters</a> are published in our
-<a href="https://github.com/druid-io/druid-benchmark">repository</a>.</p>
+<a href="https://github.com/apache/incubator-druid-benchmark">repository</a>.</p>
 
 <h3 id="mysql">MySQL</h3>
 
@@ -247,7 +284,7 @@ setting <code>innodb_buffer_pool_size</code> to very large values.</p>
 <p>We use the <a href="/docs/latest/Indexing-Service.html">Druid indexing service</a> configured to use
 an Amazon EMR Hadoop cluster to load the data and create the necessary Druid
 segments. The data is being loaded off of S3, so you will have to adjust the
-input paths in the <a href="https://github.com/druid-io/druid-benchmark/blob/master/lineitem.task.json">task descriptor files</a> to point to your
+input paths in the <a href="https://github.com/apache/incubator-druid-benchmark/blob/master/lineitem.task.json">task descriptor files</a> to point to your
 own hadoop input path, as well as provide your own hadoop coordinates artifact.</p>
 
 <script src="https://gist.github.com/xvrl/9552286.js?file=load-druid.sh"></script>
@@ -340,7 +377,7 @@ top_100_parts_details 1.3785018 4.540
 <p>For the much larger data set, on a single node, Druid can take advantage of all
 8 cores, parallelizing workload across multiple segments at once. Since only
 about 15GB of RAM is available for segment data, not all of it can be paged into
-memory at once, especially when querying multiple columns at a time. Segments 
+memory at once, especially when querying multiple columns at a time. Segments
 will get paged in and out by the operating system, and having SSD storage in this
 case significantly helps to reduce the amount of time spent paging data in.</p>
 
@@ -364,16 +401,16 @@ take several hours.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># 100GB data set (single node)
 # median query times (seconds) - 20 runs Druid, 3-5 runs MySQL
 
-                query          druid    mysql 
-  count_star_interval       2.632399   177.95 
-              sum_all      14.503592   663.93 
-       sum_all_filter      10.202358   590.96 
-         sum_all_year      14.481295   673.97 
-            sum_price       4.240469   624.21 
-   top_100_commitdate       7.402270   706.64 
-        top_100_parts     113.565130  9961.12 
-top_100_parts_details     181.108950 12173.46 
- top_100_parts_filter      57.717676  5516.37 
+                query          druid    mysql
+  count_star_interval       2.632399   177.95
+              sum_all      14.503592   663.93
+       sum_all_filter      10.202358   590.96
+         sum_all_year      14.481295   673.97
+            sum_price       4.240469   624.21
+   top_100_commitdate       7.402270   706.64
+        top_100_parts     113.565130  9961.12
+top_100_parts_details     181.108950 12173.46
+ top_100_parts_filter      57.717676  5516.37
 </code></pre></div>
 <h1 id="scaling-up-druid">Scaling up Druid</h1>
 
@@ -427,17 +464,6 @@ We are planning to write a blog post dedicated to performance tuning where we
 will address those questions more directly.</p>
 
       </div>
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'druidio';
-        (function() {
-         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-         })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
   </div>
 </div>
@@ -449,16 +475,16 @@ will address those questions more directly.</p>
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing.html">License</a>
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -477,7 +503,7 @@ will address those questions more directly.</p>
   ga('send', 'pageview');
 
 </script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->

@@ -7,14 +7,14 @@
 <meta name="author" content="druid">
 
 <title>Druid | Interactive Analytics at Scale</title>
-<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,30 +38,67 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
-        <li class=""><a href="/community/">Contribute</a></li>
-        <li class=""><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->
 
 
@@ -70,10 +107,10 @@
 <main class="druid-masthead">
   <div class="container">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2 text-center">
-    <p class="lead"><b>Druid</b> is a high-performance, column-oriented, distributed data store.</p>
-    <p><a class="btn btn-lg" href="downloads.html"><span class="fa fa-download"></span> Download</a>
-    <a class="btn btn-lg" href="https://github.com/druid-io/druid/"><span class="fa fa-github"></span> GitHub</a></p>
+    <div class="text-center">
+    <p class="lead">Apache Druid (incubating) is a high performance analytics data store for event-driven data.</p>
+    <p><a class="button" href="/downloads"><span class="fa fa-download"></span> Download</a>
+    <a class="button" href="https://github.com/apache/incubator-druid/"><span class="fab fa-github"></span> GitHub</a></p>
   </div>
   </div>
   </div>
@@ -83,122 +120,156 @@
   <div class="row">
 
     <div class="col-md-9">
-      <div class="top-news">
-        <link rel="stylesheet" href="/css/news-list.css">
-
-<div class="item-list">
-  <div class="list-title">
-    News & Updates
-  </div>
-  
-  <p>
-    <a href="/blog/2018/06/08/druid-0-12-1.html">
-      <span>Druid 0.12.1 Released</span><br>
-      <span class="text-muted">Jun  8 2018</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="/blog/2018/03/08/druid-0-12-0.html">
-      <span>Druid 0.12.0 Released</span><br>
-      <span class="text-muted">Mar  8 2018</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="/blog/2017/12/04/druid-0-11-0.html">
-      <span>Druid 0.11.0 Released</span><br>
-      <span class="text-muted">Dec  4 2017</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="/blog/2017/08/22/druid-0-10-1.html">
-      <span>Druid 0.10.1 Released</span><br>
-      <span class="text-muted">Aug 22 2017</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="/blog/2017/04/18/druid-0-10-0.html">
-      <span>Druid 0.10.0 Released</span><br>
-      <span class="text-muted">Apr 18 2017</span>
-    </a>
-  </p>
-  
-</div>
-
+      <h2>
+        Overview
+      </h2>
+      <p>
+Druid is primarily used to store, query, and analyze large event streams. Examples of event streams include user generated data such as clickstreams, application generated data such as performance metrics, and machine generated data such as network flows and server metrics. Druid is optimized for sub-second queries to slice-and-dice, drill down, search, filter, and aggregate this data. Druid is commonly used to power interactive applications where performance, concurrency, and uptime are important.
+      </p>
+      <div class="image-large">
+        <img src="img/diagram-1.png" style="max-width: 580px;">
       </div>
+      <p>
+Druid was initially created to power a scalable, visual, multi-tenant application where users could not only rapidly slice and dice data to create ad-hoc reports, but also interactively explore data to quickly determine the root cause of patterns and anomalies. Druid is designed from the ground up for sub-second queries, which are critical in interactive applications as <a href="https://www.nngroup.com/articles/response-times-3-important-limits/">usability studies</a> have shown that humans get distracted and lose their train of thought if responses take longer than a second.
+      </p>
+      <h2>
+        Design
+      </h2>
+      <p>
+        Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics. Core design ideas include:
+      </p>
       <div class="features">
+        <div class="feature">
+          <span class="fa fa-columns fa"></span>
+          <h5>Column-oriented storage</h5>
+          <p>
+            Druid stores and compresses each column individually, and only needs to read the ones needed for a particular query, which supports fast scans, rankings, and groupBys.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-search fa"></span>
+          <h5>Native search indexes</h5>
+          <p>
+            Druid creates inverted indexes for string values for fast search and filter.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-tint fa"></span>
+          <h5>Streaming and batch ingest</h5>
+          <p>
+            Out-of-the-box connectors for Apache Kafka, HDFS, AWS S3, stream processors, and more.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-stream fa"></span>
+          <h5>Flexible schemas</h5>
+          <p>
+            Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-clock fa"></span>
+          <h5>Time-optimized partitioning</h5>
+          <p>
+            Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-align-left fa"></span>
+          <h5>SQL support</h5>
+          <p>
+            In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-expand fa"></span>
+          <h5>Horizontally scalable</h5>
+          <p>
+            Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-balance-scale fa"></span>
+          <h5>Easy to operate</h5>
+          <p>
+            Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
+          </p>
+        </div>
+      </div>
+      <p>
+        To learn more, read our <a href="/technology">Technology</a> page.
+      </p>
 
-        <span class="fa fa-rocket fa"></span><br>
-        <h3>Interactive Queries</h3>
-        <p>
-          Issue sub-second ad-hoc queries to group, filter, and aggregate data. Druid is ideal for powering multi-tenant user-facing applications. 
-        </p>
+      <h2>
+        Use cases
+      </h2>
+      <p>
+        Druid is proven in production at the <a href="druid-powered">world’s leading companies</a>, with the largest installations having more than a thousand servers, ingesting over 10 million events per second, and supporting thousands of concurrent queries per second. Druid is used to:
+      </p>
+      <div class="features">
+        <div></div>
+        <div class="feature">
+          <span class="fa fa-rocket fa"></span>
+          <h5>Analyze performance</h5>
+          <p>
+            Create interactive dashboards with full drill down capabilities. Analyze performance of digital products, track mobile app usage, or monitor site reliability.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-exclamation-triangle fa"></span>
+          <h5>Diagnose problems</h5>
+          <p>
+            Find the root cause of issues. Troubleshoot netflow bottlenecks, analyze security threats, or diagnose software crashes.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-users fa"></span>
+          <h5>Find commonalities</h5>
+          <p>
+            Find common attributes among events. Identify shared components in defective products, or determine patterns in top performing products.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-money-bill-wave-alt fa"></span>
+          <h5>Increase efficiency</h5>
+          <p>
+            Improve product engagement. Optimize ad-spend in digital marketing campaigns or increase user engagement in online products.
+          </p>
+        </div>
+      </div>
+      <p>
+        To learn more, read our <a href="/use-cases">Use Cases</a> page.
+      </p>
 
-        <span class="fa fa-feed fa"></span><br>
-        <h3>Real-time Streams</h3>
-        <p>
-          Explore events immediately after they occur. Ingest data in streams or batches to unify real-time and historical views.
-        </p>
-
-        <span class="fa fa-database fa"></span><br>
-        <h3>Horizontally Scalable</h3>
-        <p>
-          Existing Druid clusters have scaled to petabytes of data and
-          trillions of events, ingesting millions of events every second. Druid is
-          extremely cost effective, even at scale. 
-        </p>
-
-        <span class="fa fa-gears fa"></span><br>
-        <h3>Deploy Anywhere</h3>
-        <p>
-          Druid runs on commodity hardware. Deploy it in the cloud or
-          on-premise. Integrate with existing big data systems such as
-          Hadoop, Spark, Kafka, Storm, Flink, and Samza.
-        </p>
-
-        <span class="fa fa-comments fa"></span><br>
-        <h3>Vibrant Community</h3>
-        <p>
-          Druid is a community led project. <a href="/community">Join the fast growing community</a> and
-          work with developers from across the world.
-        </p>
-
+      <h2>
+        Learn more
+      </h2>
+      <div class="features">
+        <div></div>
+        <div></div>
+        <div class="feature">
+          <span class="fa fa-flag-checkered fa"></span>
+          <h5>Quickstart</h5>
+          <p>
+            <a href="/docs/latest/tutorials/quickstart">Get started with Druid</a> in minutes. Load your own data and query it.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-chart-bar fa"></span>
+          <h5>Visualize</h5>
+          <p>
+            Visualize data in Druid with <a href='https://github.com/implydata/pivot'>Pivot</a> and <a href='https://github.com/apache/incubator-superset'>Superset</a>.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-question-circle fa"></span>
+          <h5>FAQ</h5>
+          <p>
+            Learn about some of the <a href='faq'>most common questions about Druid</a>.
+          </p>
+        </div>
       </div>
 
-      <h3 class="more">Learn More:</h3>
-
-      <div class="features learn">
-
-        <span class="fa fa-smile-o fa"></span><br>
-        <h3>Powered by Druid</h3>
-        <p>
-          <a href="/druid-powered.html">Learn more</a> about how many different organizations use Druid in production.
-        </p>
-
-        <span class="fa fa-flag-checkered fa"></span><br>
-        <h3>Quickstart</h3>
-        <p>
-          Try the <a href="/docs/0.12.1/tutorials/quickstart.html">quickstart</a> and get started in minutes. Load your own data and query it.
-        </p>
-
-        <span class="fa fa-book fa"></span><br>
-        <h3>Introduction</h3>
-        <p>
-          <a href="/docs/0.12.1/design/index.html">Learn more</a> about the high level architecture and concepts behind Druid.
-        </p>
-
-        <span class="fa fa-bar-chart fa"></span><br>
-        <h3>Powerful UIs and Rich Client Libraries</h3>
-        <p>
-          Visualize data with <a href="https://github.com/implydata/pivot">Pivot</a> and <a
-          href="https://github.com/airbnb/superset">Superset</a>.
-          Query data in <a href="/libraries.html">many different languages</a>.
-        </p>
-
-      </div>
     </div>
 
     <div class="col-md-3">
@@ -206,41 +277,41 @@
         <link rel="stylesheet" href="/css/news-list.css">
 
 <div class="item-list">
-  <div class="list-title">
-    News & Updates
-  </div>
+  <h3>
+    Latest releases
+  </h3>
   
   <p>
     <a href="/blog/2018/06/08/druid-0-12-1.html">
-      <span>Druid 0.12.1 Released</span><br>
+      <span class="title">Druid 0.12.1 Released</span><br>
       <span class="text-muted">Jun  8 2018</span>
     </a>
   </p>
   
   <p>
     <a href="/blog/2018/03/08/druid-0-12-0.html">
-      <span>Druid 0.12.0 Released</span><br>
+      <span class="title">Druid 0.12.0 Released</span><br>
       <span class="text-muted">Mar  8 2018</span>
     </a>
   </p>
   
   <p>
     <a href="/blog/2017/12/04/druid-0-11-0.html">
-      <span>Druid 0.11.0 Released</span><br>
+      <span class="title">Druid 0.11.0 Released</span><br>
       <span class="text-muted">Dec  4 2017</span>
     </a>
   </p>
   
   <p>
     <a href="/blog/2017/08/22/druid-0-10-1.html">
-      <span>Druid 0.10.1 Released</span><br>
+      <span class="title">Druid 0.10.1 Released</span><br>
       <span class="text-muted">Aug 22 2017</span>
     </a>
   </p>
   
   <p>
     <a href="/blog/2017/04/18/druid-0-10-0.html">
-      <span>Druid 0.10.0 Released</span><br>
+      <span class="title">Druid 0.10.0 Released</span><br>
       <span class="text-muted">Apr 18 2017</span>
     </a>
   </p>
@@ -251,9 +322,9 @@
       <link rel="stylesheet" href="/css/news-list.css">
 
 <div class="item-list">
-  <div class="list-title">
+  <h3>
     Upcoming Events
-  </div>
+  </h3>
   
   <div class="event">
     <div class="mini-cal">
@@ -266,25 +337,25 @@
     </div>
     <p>
       <a href="https://www.meetup.com/druidio/events/252515792/">
-        Druid Meetup<br>
+        <span class ="title">Druid Meetup</span><br>
         <span class="text-muted">Druid Bay Area Meetup @ Lyft</span>
       </a>
     </p>
   </div>
   
-  <a class="btn btn-default btn-xs" href="http://www.meetup.com/druidio/">Join Our Meetup Group!</a>
+  <a class="btn btn-default btn-xs" href="https://www.meetup.com/druidio/">Join Our Meetup Group!</a>
 </div>
 
       <link rel="stylesheet" href="/css/news-list.css">
 
 <div class="item-list">
-  <div class="list-title">
+  <h3>
     Featured Content
-  </div>
+  </h3>
   
   <p>
     <a href="https://dataworkssummit.com/san-jose-2018/session/paypal-merchant-ecosystem-using-apache-spark-hive-druid-and-hbase/">
-      PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase<br>
+      <span class="title">PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase</span><br>
       <span class="text-muted">Deepika Khera & Kasi Natarajan - </span>
       <span class="text-muted">Paypal</span><br>
       <span class="text-muted">Jun 19 2018</span>
@@ -293,7 +364,7 @@
   
   <p>
     <a href="https://mash213.wordpress.com/2018/06/11/pushing-druid-metrics-to-graphite-grafana/">
-      Pushing druid metrics to Graphite Grafana with full metrics whitelist<br>
+      <span class="title">Pushing druid metrics to Graphite Grafana with full metrics whitelist</span><br>
       <span class="text-muted">Vishnu Rao - </span>
       <span class="text-muted">DataSpark</span><br>
       <span class="text-muted">Jun 11 2018</span>
@@ -302,7 +373,7 @@
   
   <p>
     <a href="https://www.slideshare.net/JasonJungsuHEO/web-analytics-at-scale-with-druid-at-navercom">
-      Web analytics at scale with Druid at naver.com<br>
+      <span class="title">Web analytics at scale with Druid at naver.com</span><br>
       <span class="text-muted">Jason Heo & Doo Yong Kim - </span>
       <span class="text-muted">Naver</span><br>
       <span class="text-muted">May 23 2018</span>
@@ -311,7 +382,7 @@
   
   <p>
     <a href="https://medium.com/tecnolog%C3%ADa/how-we-built-a-streaming-analytics-solution-using-apache-kafka-druid-66c257adcd9a">
-      How we built a Streaming Analytics Solution using Apache Kafka & Druid<br>
+      <span class="title">How we built a Streaming Analytics Solution using Apache Kafka & Druid</span><br>
       <span class="text-muted">Arpit Goliya - </span>
       <span class="text-muted">Algoworks</span><br>
       <span class="text-muted">Jan  8 2018</span>
@@ -320,7 +391,7 @@
   
   <p>
     <a href="https://medium.com/walmartlabs/event-stream-analytics-at-walmart-with-druid-dcf1a37ceda7">
-      Event Stream Analytics at Walmart with Druid<br>
+      <span class="title">Event Stream Analytics at Walmart with Druid</span><br>
       <span class="text-muted">Amaresh Nayak - </span>
       <span class="text-muted">Walmart</span><br>
       <span class="text-muted">Nov 24 2017</span>
@@ -330,6 +401,15 @@
 </div>
     </div>
 
+  </div>
+
+  <div class="row disclaimer">
+    <div class="col-md-2"></div>
+    <div class="offset-md-2 col-md-8">
+      Disclaimer: Apache Druid is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by the Apache Incubator.
+      Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects.
+      While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+    </div>
   </div>
 </div>
 
@@ -341,16 +421,16 @@
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing.html">License</a>
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -369,7 +449,7 @@
   ga('send', 'pageview');
 
 </script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->

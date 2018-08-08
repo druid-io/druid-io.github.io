@@ -6,15 +6,15 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | Downloads</title>
-<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<title>Druid | Download</title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,30 +38,67 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=" active"><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
-        <li class=""><a href="/community/">Contribute</a></li>
-        <li class=""><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" active button-link"><a href="/downloads">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->
 
 
@@ -75,49 +112,50 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
+      <h2 id="stable-release">Stable release</h2>
 
-      <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.1 Stable</a><br>
+<p>The current Druid stable release is 0.12.1. This version is recommended for production use.</p>
 
-      <h2>Current Versions</h2>
-      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/0.12.1/development/versioning.html">Versioning</a> section for how we describe releases.
+<p>
+<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.1 release</a><br>
+</p>
 
-      <h4>Stable Release</h4>
+<h2 id="release-candidate">Release candidate</h2>
 
-      <p>The current stable is tagged at version 0.12.1.</p>
+<p>The current Druid release candidate is 0.12.2-rc1.</p>
 
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.1-bin.tar.gz');return false;">druid-0.12.1-bin.tar.gz</a>.</p>
+<p>
+<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.2-rc1 release candidate</a><br>
+</p>
 
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1.tar.gz');return false;">mysql-metadata-storage-0.12.1.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/0.12.1/operations/including-extensions.html">Include Extensions</a>)
+<h2 id="get-started">Get started</h2>
 
-      <p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz');return false;">tranquility-distribution-0.8.2.tgz</a>.</p>
+<p>To get started with Druid, visit the <a href="/docs/latest/tutorials/quickstart.html">quickstart</a>.</p>
 
-      <h4>Next Release Candidate</h4>
-      
-      <p>The current release candidate is tagged at version 0.12.2-rc1.</p>
+<p>To learn more about releases, please visit the <a href="/docs/latest/development/versioning.html">versioning page</a>.</p>
 
-      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-0.12.2-rc1-bin.tar.gz');return false;">druid-0.12.2-rc1-bin.tar.gz</a>.</p>
+<h2 id="optional-dependencies">Optional dependencies</h2>
 
-      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.2-rc1.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.2-rc1.tar.gz');return false;">mysql-metadata-storage-0.12.2-rc1.tar.gz</a>.
+<h3 id="mysql-metadata-store">MySQL metadata store</h3>
 
-      
+<p>Due to licensing considerations, we&#39;ve separated the MySQL <a href="/docs/latest/dependencies/metadata-storage">metadata store</a> extension from main Druid release.
+If you are deploying a distributed cluster and would like to use the MySQL metadata store, please untar this tarball and follow <a href="/docs/latest/operations/including-extensions">these steps</a>.</p>
 
-      <h2>Release Notes</h2>
+<p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-0.12.1.tar.gz">mysql-metadata-storage-0.12.1.tar.gz</a></p>
 
-      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+<p>Note that other metadata store extensions, including PostgreSQL, are included in the main Druid tarball and do not require separate downloads.</p>
+
+<h3 id="tranquility">Tranquility</h3>
+
+<p>Tranquility is a library to load streaming data into Druid. It is commonly deployed as the final stage in a series of jobs in a stream processor such as Apache Flink or Kafka Streams.</p>
+
+<p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz">tranquility-distribution-0.8.2.tgz</a>.</p>
+
+<p>Note that Tranquility is not required in order to load streaming data: you can also use Druid&#39;s <a href="/docs/latest/development/extensions-core/kafka-ingestion.html">Kafka indexing service</a> to load directly from Kafka.</p>
+
     </div>
   </div>
 </div>
-</div>
-
-<script>
-var trackDownload = function(type, url) {
-   ga('send', 'event', 'download', type, url, {'hitCallback':
-     function () {
-     document.location = url;
-     }
-   });
-}
-</script>
 
     
     <!-- Start page_footer include -->
@@ -126,16 +164,16 @@ var trackDownload = function(type, url) {
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing.html">License</a>
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -154,7 +192,7 @@ var trackDownload = function(type, url) {
   ga('send', 'pageview');
 
 </script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
