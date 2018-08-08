@@ -15,9 +15,9 @@ Druid merges key characteristics of each of the 3 systems into its ingestion lay
 
 ## Integration
 
-Druid is complementary to many open source data technologies in the Apache Software Foundation including Apache Kafka, Apache Hadoop, Apache Samza, and more.
+Druid is complementary to many open source data technologies in the Apache Software Foundation including Apache Kafka, Apache Hadoop, Apache Flink, and more.
 
-Druid typically sits between a storage layer and the end user, and acts as a query layer to serve analytic workloads.
+Druid typically sits between a storage or processing layer and the end user, and acts as a query layer to serve analytic workloads.
 
 <div class="image-large">
   <img src="img/diagram-3.png" style="max-width: 580px;">
