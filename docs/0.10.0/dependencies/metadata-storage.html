@@ -7,14 +7,14 @@
 <meta name="author" content="druid">
 
 <title>Druid | </title>
-<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -39,71 +39,41 @@
 
   <body>
     <!-- Start page_header include -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<div class="top-navigator">
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
-    <div class="left-cont">
-      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="right-cont">
-      <ul class="links">
-        <li class=""><a href="/technology">Technology</a></li>
-        <li class=""><a href="/use-cases">Use Cases</a></li>
-        <li class=""><a href="/druid-powered">Powered By</a></li>
-        <li class=""><a href="/docs/latest/design/">Docs</a></li>
-        <li class=""><a href="/community/">Community</a></li>
-        <li class=" button-link"><a href="/downloads">Download</a></li>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=""><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
       </ul>
     </div>
   </div>
-  <div class="action-button menu-icon">
-    <span class="fa fa-bars"></span> MENU
-  </div>
-  <div class="action-button menu-icon-close">
-    <span class="fa fa-times"></span> MENU
-  </div>
 </div>
-
-<script type="text/javascript">
-  var $menu = $('.right-cont');
-  var $menuIcon = $('.menu-icon');
-  var $menuIconClose = $('.menu-icon-close');
-
-  function showMenu() {
-    $menu.fadeIn(100);
-    $menuIcon.fadeOut(100);
-    $menuIconClose.fadeIn(100);
-  }
-
-  $menuIcon.click(showMenu);
-
-  function hideMenu() {
-    $menu.fadeOut(100);
-    $menuIconClose.fadeOut(100);
-    $menuIcon.fadeIn(100);
-  }
-
-  $menuIconClose.click(hideMenu);
-
-  $(window).resize(function() {
-    if ($(window).width() >= 840) {
-      $menu.fadeIn(100);
-      $menuIcon.fadeOut(100);
-      $menuIconClose.fadeOut(100);
-    }
-    else {
-      $menu.fadeOut(100);
-      $menuIcon.fadeIn(100);
-      $menuIconClose.fadeOut(100);
-    }
-  });
-</script>
-
 <!-- Stop page_header include -->
 
 
-    <div class="container doc-container">
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
       
       
       
@@ -235,16 +205,16 @@ config changes.</p>
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing">License</a>
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -263,7 +233,7 @@ config changes.</p>
   ga('send', 'pageview');
 
 </script>
-<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->

@@ -7,14 +7,14 @@
 <meta name="author" content="druid">
 
 <title>Druid | Druid Community</title>
-<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,67 +38,30 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<div class="top-navigator">
+<div class="navbar navbar-inverse navbar-static-top druid-nav">
   <div class="container">
-    <div class="left-cont">
-      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="right-cont">
-      <ul class="links">
-        <li class=""><a href="/technology">Technology</a></li>
-        <li class=""><a href="/use-cases">Use Cases</a></li>
-        <li class=""><a href="/druid-powered">Powered By</a></li>
-        <li class=""><a href="/docs/latest/design/">Docs</a></li>
-        <li class=" active"><a href="/community/">Community</a></li>
-        <li class=" button-link"><a href="/downloads">Download</a></li>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="/druid.html">Overview</a></li>
+        <li class=""><a href="/downloads.html">Download</a></li>
+        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
+        <li class=" active"><a href="/community/">Contribute</a></li>
+        <li class=""><a href="/blog">Blog</a></li>
+        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
+        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
       </ul>
     </div>
   </div>
-  <div class="action-button menu-icon">
-    <span class="fa fa-bars"></span> MENU
-  </div>
-  <div class="action-button menu-icon-close">
-    <span class="fa fa-times"></span> MENU
-  </div>
 </div>
-
-<script type="text/javascript">
-  var $menu = $('.right-cont');
-  var $menuIcon = $('.menu-icon');
-  var $menuIconClose = $('.menu-icon-close');
-
-  function showMenu() {
-    $menu.fadeIn(100);
-    $menuIcon.fadeOut(100);
-    $menuIconClose.fadeIn(100);
-  }
-
-  $menuIcon.click(showMenu);
-
-  function hideMenu() {
-    $menu.fadeOut(100);
-    $menuIconClose.fadeOut(100);
-    $menuIcon.fadeIn(100);
-  }
-
-  $menuIconClose.click(hideMenu);
-
-  $(window).resize(function() {
-    if ($(window).width() >= 840) {
-      $menu.fadeIn(100);
-      $menuIcon.fadeOut(100);
-      $menuIconClose.fadeOut(100);
-    }
-    else {
-      $menu.fadeOut(100);
-      $menuIcon.fadeIn(100);
-      $menuIconClose.fadeOut(100);
-    }
-  });
-</script>
-
 <!-- Stop page_header include -->
 
 
@@ -123,7 +86,7 @@ and Git repositories will be migrated as well.</p>
 <ul>
 <li><strong>User mailing list</strong> <a href="https://groups.google.com/forum/#!forum/druid-user">druid-user@googlegroups.com</a> for general discussion</li>
 <li><strong>Development mailing list</strong> <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> for discussion about project development</li>
-<li><strong>GitHub</strong> <a href="https://github.com/apache/incubator-druid">druid-io/druid</a> issues and pull requests (watch to subscribe)</li>
+<li><strong>GitHub</strong> <a href="https://github.com/druid-io/druid">druid-io/druid</a> issues and pull requests (watch to subscribe)</li>
 <li><strong>IRC</strong> <code>#druid-dev</code> on irc.freenode.net</li>
 </ul>
 
@@ -137,7 +100,7 @@ of anything from minor fixes to big new features.</p>
 <p>If you have an itch to scratch, then by all means do that! Fixing bugs you run
 into, or adding features you need, are both immensely helpful.</p>
 
-<p>If you&#39;re looking for some starter projects, we maintain a <a href="https://github.com/apache/incubator-druid/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty+-+Easy%22">list of issues</a> suitable
+<p>If you&#39;re looking for some starter projects, we maintain a <a href="https://github.com/druid-io/druid/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty+-+Easy%22">list of issues</a> suitable
 for new developers.</p>
 
 <p>There are plenty of ways to help outside writing Druid code. <em>Code review of pull requests</em>
@@ -166,7 +129,7 @@ exception is major architectural changes or API changes, and/or changes to</p>
 committers (one of them could also be the author of the pull request). For those, it can help to discuss things
 on the <a href="https://groups.google.com/d/forum/druid-development">druid-development list</a> or a github issue beforehand.</p>
 
-<p>In general please follow the <a href="https://github.com/apache/incubator-druid/blob/master/CONTRIBUTING.md">contributing guidelines</a>
+<p>In general please follow the <a href="https://github.com/druid-io/druid/blob/master/CONTRIBUTING.md">contributing guidelines</a>
 when sending in pull requests. This will help review proceed as quickly as
 possible.</p>
 
@@ -189,8 +152,12 @@ by others.</p>
 </tr>
 </thead><tbody>
 <tr>
+<td><a href="https://github.com/guobingkun">Bingkun Guo</a></td>
+<td>Google</td>
+</tr>
+<tr>
 <td><a href="https://github.com/drcrallen">Charles Allen</a></td>
-<td>Snap</td>
+<td>Metamarkets</td>
 </tr>
 <tr>
 <td><a href="https://github.com/dclim">David Lim</a></td>
@@ -198,7 +165,7 @@ by others.</p>
 </tr>
 <tr>
 <td><a href="https://github.com/cheddar">Eric Tschetter</a></td>
-<td>Splunk</td>
+<td>Yahoo!</td>
 </tr>
 <tr>
 <td><a href="https://github.com/fjy">Fangjin Yang</a></td>
@@ -210,7 +177,7 @@ by others.</p>
 </tr>
 <tr>
 <td><a href="https://github.com/himanshug">Himanshu Gupta</a></td>
-<td>Splunk</td>
+<td>Yahoo!</td>
 </tr>
 <tr>
 <td><a href="https://github.com/jihoonson">Jihoon Son</a></td>
@@ -219,14 +186,6 @@ by others.</p>
 <tr>
 <td><a href="https://github.com/jon-wei">Jonathan Wei</a></td>
 <td>Imply</td>
-</tr>
-<tr>
-<td><a href="https://github.com/julianhyde">Julian Hyde</a></td>
-<td>Looker</td>
-</tr>
-<tr>
-<td><a href="https://github.com/junrao">Jun Rao</a></td>
-<td>Confluent</td>
 </tr>
 <tr>
 <td><a href="https://github.com/kurtyoung">Kurt Young</a></td>
@@ -254,15 +213,15 @@ by others.</p>
 </tr>
 <tr>
 <td><a href="https://github.com/pjain1">Parag Jain</a></td>
-<td>Lyft</td>
+<td>Yahoo</td>
 </tr>
 <tr>
-<td><a href="https://github.com/ptgoetz">P. Taylor Goetz</a></td>
-<td>EPAM</td>
+<td><a href="https://github.com/rasahner">Robin Sahner</a></td>
+<td>Yahoo</td>
 </tr>
 <tr>
 <td><a href="https://github.com/leventov">Roman Leventov</a></td>
-<td>Snap</td>
+<td>Metamarkets</td>
 </tr>
 <tr>
 <td><a href="https://github.com/xvrl">Xavier Léauté</a></td>
@@ -286,7 +245,7 @@ looking for is an interest in ongoing contributions to Druid.</p>
 <li>Pull requests which have just one +1 from a committer couldn&#39;t be merged earlier than after 3 working days since PR submission.</li>
 <li>A pull request with just one +1 could be merged only by (or in coordination with) the committer who provided the review. Because the reviewer may think that the PR is complex or risky enough that needs another pair of eyes to look at it. If this is the case, the first reviewer should indicate this in the PR approval message.</li>
 <li>If a pull request has two or more +1&#39;s from committers who are not the author, it could be merged immediately and by any committer. But still, enough time since the PR submission should pass to give folks a reasonable chance to indicate a desire to comment on the pull request. AKA: don&#39;t merge a pull request that was submitted Friday evening until at least 1~2 regular work days have passed. Use good judgement here.</li>
-<li>Major architectural and backwards incompatible changes, or changes which have long-term maintainance consequences (see examples in <a href="#getting-your-changes-accepted">the &quot;Getting your changes accepted&quot; section above</a>), should have at least three +1&#39;s from committers, on the &quot;design&quot; level of review. One approval could be from the author of the PR. The first committer who indicates that a PR needs design review should add the <code>Design Review</code> tag to such a pull request.</li>
+<li>Major architectural and backwards incompatible changes, or changes which have long-term maintainance consequences (see examples in <a href="#getting-your-changes-accepted">the &quot;Getting your changes accepted&quot; section above</a>), should have at least three +1&#39;s from committers, on the &quot;design&quot; level of review. One approval could be from the author of the PR. The first committer who indicates that a PR needs design review should add the <code>Design Review</code> tag to such a pull request. </li>
 <li>Travis-CI should pass or have some <strong>very</strong> good reason why it won&#39;t pass for a pull request.</li>
 <li>You reasonably believe that all comments have been addressed.</li>
 <li>You are expected to be the champion for your own pull requests.</li>
@@ -328,16 +287,16 @@ mailing lists, websites, social media channels, etc.</li>
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing">License</a>
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing.html">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -356,7 +315,7 @@ mailing lists, websites, social media channels, etc.</li>
   ga('send', 'pageview');
 
 </script>
-<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
