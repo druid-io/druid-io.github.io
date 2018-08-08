@@ -19,15 +19,15 @@ Druid is a registered trademark of Metamarkets Group Inc.
 
 ## Does Druid use or embed any other open source software?
 
-Druid uses
+Druid uses 
 
 - Hadoop
 - Kafka
 - MySQL
-- ZooKeeper
+- ZooKeeper  
 
 
-Druid *embeds*
+Druid *embeds* 
 
 - Curator
 - Jackson
@@ -35,5 +35,5 @@ Druid *embeds*
 - Joda Time
 - Ning Compress
 
-See the [NOTICE file](https://github.com/apache/incubator-druid/blob/master/NOTICE)
+See the [NOTICE file](https://github.com/druid-io/druid/blob/master/NOTICE)
 for other software included as part of Druid.

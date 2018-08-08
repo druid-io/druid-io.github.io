@@ -12,7 +12,14 @@ sectionid: docs
   <body>
     {% include page_header.html %}
 
-    <div class="container doc-container">
+    <div class="druid-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <h4></h4>
+      </div>
+    </div>
+
+    <div class="container">
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
       {% if version == 'latest' %}

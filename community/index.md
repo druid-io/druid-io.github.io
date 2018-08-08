@@ -14,7 +14,7 @@ and Git repositories will be migrated as well.
 
 * **User mailing list** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user) for general discussion
 * **Development mailing list** [dev@druid.apache.org](https://lists.apache.org/list.html?dev@druid.apache.org) for discussion about project development
-* **GitHub** [druid-io/druid](https://github.com/apache/incubator-druid) issues and pull requests (watch to subscribe)
+* **GitHub** [druid-io/druid](https://github.com/druid-io/druid) issues and pull requests (watch to subscribe)
 * **IRC** `#druid-dev` on irc.freenode.net
 
 ## Contributing
@@ -27,7 +27,7 @@ of anything from minor fixes to big new features.
 If you have an itch to scratch, then by all means do that! Fixing bugs you run
 into, or adding features you need, are both immensely helpful.
 
-If you're looking for some starter projects, we maintain a [list of issues](https://github.com/apache/incubator-druid/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty+-+Easy%22) suitable
+If you're looking for some starter projects, we maintain a [list of issues](https://github.com/druid-io/druid/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty+-+Easy%22) suitable
 for new developers.
 
 There are plenty of ways to help outside writing Druid code. *Code review of pull requests*
@@ -54,7 +54,7 @@ warrant additional design and compatibility review. Such pull requests require d
 committers (one of them could also be the author of the pull request). For those, it can help to discuss things
 on the [druid-development list](https://groups.google.com/d/forum/druid-development) or a github issue beforehand.
 
-In general please follow the [contributing guidelines](https://github.com/apache/incubator-druid/blob/master/CONTRIBUTING.md)
+In general please follow the [contributing guidelines](https://github.com/druid-io/druid/blob/master/CONTRIBUTING.md)
 when sending in pull requests. This will help review proceed as quickly as
 possible.
 
@@ -72,25 +72,24 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 
 | Name                                                  | Organization           |
 | ----------------------------------------------------- | ---------------------- |
-| [Charles Allen](https://github.com/drcrallen)         | Snap                   |
+| [Bingkun Guo](https://github.com/guobingkun)          | Google                 |
+| [Charles Allen](https://github.com/drcrallen)         | Metamarkets            |
 | [David Lim](https://github.com/dclim)                 | Imply                  |
-| [Eric Tschetter](https://github.com/cheddar)          | Splunk                 |
+| [Eric Tschetter](https://github.com/cheddar)          | Yahoo!                 |
 | [Fangjin Yang](https://github.com/fjy)                | Imply                  |
 | [Gian Merlino](https://github.com/gianm)              | Imply                  |
-| [Himanshu Gupta](https://github.com/himanshug)        | Splunk                 |
+| [Himanshu Gupta](https://github.com/himanshug)        | Yahoo!                 |
 | [Jihoon Son](https://github.com/jihoonson)            | Imply                  |
 | [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
-| [Julian Hyde](https://github.com/julianhyde)          | Looker                 |
-| [Jun Rao](https://github.com/junrao)                  | Confluent              |
 | [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
 | [Maxime Beauchemin](https://github.com/mistercrunch)  | Lyft                   |
 | [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
 | [Navis Ryu](https://github.com/navis)                 | SK Telecom             |
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
-| [Parag Jain](https://github.com/pjain1)               | Lyft                   |
-| [P. Taylor Goetz](https://github.com/ptgoetz)         | EPAM                   |
-| [Roman Leventov](https://github.com/leventov)         | Snap                   |
+| [Parag Jain](https://github.com/pjain1)               | Yahoo                  |
+| [Robin Sahner](https://github.com/rasahner)           | Yahoo                  |
+| [Roman Leventov](https://github.com/leventov)         | Metamarkets            |
 | [Xavier Léauté](https://github.com/xvrl)              | Confluent              |
 
 ### Becoming a committer
@@ -107,7 +106,7 @@ If you are an official Druid committer then congratulations! You are part of a f
 1. Pull requests which have just one +1 from a committer couldn't be merged earlier than after 3 working days since PR submission.
 1. A pull request with just one +1 could be merged only by (or in coordination with) the committer who provided the review. Because the reviewer may think that the PR is complex or risky enough that needs another pair of eyes to look at it. If this is the case, the first reviewer should indicate this in the PR approval message.
 1. If a pull request has two or more +1's from committers who are not the author, it could be merged immediately and by any committer. But still, enough time since the PR submission should pass to give folks a reasonable chance to indicate a desire to comment on the pull request. AKA: don't merge a pull request that was submitted Friday evening until at least 1~2 regular work days have passed. Use good judgement here.
-1. Major architectural and backwards incompatible changes, or changes which have long-term maintainance consequences (see examples in [the "Getting your changes accepted" section above](#getting-your-changes-accepted)), should have at least three +1's from committers, on the "design" level of review. One approval could be from the author of the PR. The first committer who indicates that a PR needs design review should add the `Design Review` tag to such a pull request.
+1. Major architectural and backwards incompatible changes, or changes which have long-term maintainance consequences (see examples in [the "Getting your changes accepted" section above](#getting-your-changes-accepted)), should have at least three +1's from committers, on the "design" level of review. One approval could be from the author of the PR. The first committer who indicates that a PR needs design review should add the `Design Review` tag to such a pull request. 
 1. Travis-CI should pass or have some **very** good reason why it won't pass for a pull request.
 1. You reasonably believe that all comments have been addressed.
 1. You are expected to be the champion for your own pull requests.

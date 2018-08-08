@@ -1,0 +1,61 @@
+---
+title: Downloads
+layout: html_page
+sectionid: download
+---
+
+<div class="druid-header">
+  <div class="container">
+    <h1>Download</h1>
+    <h4></h4>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+      <p><a class="btn btn-lg download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} Stable</a><br>
+
+      <h2>Current Versions</h2>
+      <p>A version may be declared as a release candidate if it has been deployed to a sizable production cluster. Release candidates are declared as stable after we feel fairly confident there are no major bugs in the version. Check out the <a href="/docs/{{site.druid_version}}/development/versioning.html">Versioning</a> section for how we describe releases.
+
+      <h4>Stable Release</h4>
+
+      <p>The current stable is tagged at version {{site.druid_stable_version}}.</p>
+
+      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;">druid-{{site.druid_stable_version}}-bin.tar.gz</a>.</p>
+
+      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_stable_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_stable_version}}.tar.gz</a>. (Due to licensing, we've separated MySQL metadata store extension from main Druid release. If you would like to use it, please untar this tarball and follow the steps in <a href="/docs/{{site.druid_stable_version}}/operations/including-extensions.html">Include Extensions</a>)
+
+      <p>Tranquility: <a href="http://static.druid.io/tranquility/releases/tranquility-distribution-{{ site.tranquility_stable_version }}.tgz" onclick="trackDownload('link', 'http://static.druid.io/tranquility/releases/tranquility-distribution-{{ site.tranquility_stable_version }}.tgz');return false;">tranquility-distribution-{{ site.tranquility_stable_version }}.tgz</a>.</p>
+
+      <h4>Next Release Candidate</h4>
+      {% if site.druid_rc_version == null || site.druid_rc_version.length == 0 %}
+      <p>There is no release candidate at this time.</p>
+      {% else %}
+      <p>The current release candidate is tagged at version {{site.druid_rc_version}}.</p>
+
+      <p>Druid: <a href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz');return false;">druid-{{site.druid_rc_version}}-bin.tar.gz</a>.</p>
+
+      <p>MySQL metadata store extension: <a href="http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz" onclick="trackDownload('link', 'http://static.druid.io/artifacts/releases/mysql-metadata-storage-{{ site.druid_rc_version }}.tar.gz');return false;">mysql-metadata-storage-{{site.druid_rc_version}}.tar.gz</a>.
+
+      {% endif %}
+
+      <h2>Release Notes</h2>
+
+      <p>Release notes for stables are available on <a href="https://github.com/druid-io/druid/releases">github</a>.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+var trackDownload = function(type, url) {
+   ga('send', 'event', 'download', type, url, {'hitCallback':
+     function () {
+     document.location = url;
+     }
+   });
+}
+</script>

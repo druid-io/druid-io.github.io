@@ -127,13 +127,13 @@
   - date: 2016-03-09
     title: "Architecting Druid for Failure"
     name: Fangjin Yang
-    company: Imply
+    company: Imply 
     link: https://www.oreilly.com/learning/architecting-druid-for-failure?cmp=tw-data-na-article-lgen_beta_post_tweet
 
   - date: 2016-02-24
     title: "Fast ETL pipelines for Big Data With Kafka, Flink and Druid"
     name: Luis Claudio Rodrigues da Silveira
-    company: Paraná Electoral Regional Court
+    company: Paraná Electoral Regional Court 
     link: https://www.linkedin.com/pulse/fast-etl-pipelines-apache-kafka-flink-druid-rodrigues-da-silveira
 
   - date: 2016-02-18
@@ -146,13 +146,13 @@
     title: "embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications"
     name: Ruchir Shah
     company: eBay
-    link: http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/
+    link: http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/  
 
   - date: 2015-12-15
     title: "Online Analytical Processing with Apache Flink and Druid"
-    name: Christian Kreutzfeldt
+    name: Christian Kreutzfeldt 
     company: Otto Group Business Intelligence
-    link: http://mnxfst.tumblr.com/post/135282541497/online-analytical-processing-with-apache-flink-and
+    link: http://mnxfst.tumblr.com/post/135282541497/online-analytical-processing-with-apache-flink-and 
 
   - date: 2015-12-07
     title: "Druid and Pulsar"
@@ -171,7 +171,7 @@
     name: Vadim Ogievetksy
     company: Imply
     link: http://imply.io/post/2015/10/26/hello-pivot.html
-
+ 
   - date: 2015-09-18
     title: "Combining Druid and Spark: Interactive and Flexible Analytics at Scale"
     name: Harish Butani

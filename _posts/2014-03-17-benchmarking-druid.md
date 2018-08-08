@@ -129,7 +129,7 @@ and always run fully parallelized.
 > queries from taking up all compute resources at once. By default the maximum
 > interval that a single chunk can span is set to 1 month, which works well
 > for most production data sets Druid is being used for.
->
+> 
 > Interval chunking can be disabled by setting `druid.query.chunkPeriod` and
 > `druid.query.topN.chunkPeriod` to a very large value compared to the time
 > range of the data (in this case we used `P10Y`).
@@ -249,7 +249,7 @@ top_100_parts_details 1.3785018 4.540
 For the much larger data set, on a single node, Druid can take advantage of all
 8 cores, parallelizing workload across multiple segments at once. Since only
 about 15GB of RAM is available for segment data, not all of it can be paged into
-memory at once, especially when querying multiple columns at a time. Segments
+memory at once, especially when querying multiple columns at a time. Segments 
 will get paged in and out by the operating system, and having SSD storage in this
 case significantly helps to reduce the amount of time spent paging data in.
 
@@ -275,16 +275,16 @@ take several hours.
 # 100GB data set (single node)
 # median query times (seconds) - 20 runs Druid, 3-5 runs MySQL
 
-                query          druid    mysql
-  count_star_interval       2.632399   177.95
-              sum_all      14.503592   663.93
-       sum_all_filter      10.202358   590.96
-         sum_all_year      14.481295   673.97
-            sum_price       4.240469   624.21
-   top_100_commitdate       7.402270   706.64
-        top_100_parts     113.565130  9961.12
-top_100_parts_details     181.108950 12173.46
- top_100_parts_filter      57.717676  5516.37
+                query          druid    mysql 
+  count_star_interval       2.632399   177.95 
+              sum_all      14.503592   663.93 
+       sum_all_filter      10.202358   590.96 
+         sum_all_year      14.481295   673.97 
+            sum_price       4.240469   624.21 
+   top_100_commitdate       7.402270   706.64 
+        top_100_parts     113.565130  9961.12 
+top_100_parts_details     181.108950 12173.46 
+ top_100_parts_filter      57.717676  5516.37 
 ```
 
 # Scaling up Druid
@@ -341,12 +341,12 @@ optimal configuration settings and pick good segment size/sharding properties.
 We are planning to write a blog post dedicated to performance tuning where we
 will address those questions more directly.
 
-[generate-data.sh]: https://github.com/apache/incubator-druid-benchmark/blob/master/generate-data.sh
-[benchmarking script]: https://github.com/apache/incubator-druid-benchmark/blob/master/benchmark-druid.R
-[lineitem.task.json]: https://github.com/apache/incubator-druid-benchmark/blob/master/lineitem.task.json
+[generate-data.sh]: https://github.com/druid-io/druid-benchmark/blob/master/generate-data.sh
+[benchmarking script]: https://github.com/druid-io/druid-benchmark/blob/master/benchmark-druid.R
+[lineitem.task.json]: https://github.com/druid-io/druid-benchmark/blob/master/lineitem.task.json
 [scaling-druid]: /blog/2012/01/19/scaling-the-druid-data-store.html
 [talks]: https://speakerdeck.com/druidio/
-[druid-benchmark]: https://github.com/apache/incubator-druid-benchmark
+[druid-benchmark]: https://github.com/druid-io/druid-benchmark
 [configs]: https://github.com/druid-io/druid-benchmark/tree/master/config
 [results]: https://github.com/druid-io/druid-benchmark/tree/master/results
 [TPC-H benchmark]: http://www.tpc.org/tpch/

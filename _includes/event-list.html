@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="/css/news-list.css">
 
 <div class="item-list">
-  <h3>
+  <div class="list-title">
     Upcoming Events
-  </h3>
+  </div>
   {% for event in site.data.events limit: 7 %}
   <div class="event">
     <div class="mini-cal">
@@ -16,11 +16,11 @@
     </div>
     <p>
       <a href="{{ event.link }}">
-        <span class ="title">{{ event.name }}</span><br>
+        {{ event.name }}<br>
         <span class="text-muted">{{ event.info }}</span>
       </a>
     </p>
   </div>
   {% endfor %}
-  <a class="btn btn-default btn-xs" href="https://www.meetup.com/druidio/">Join Our Meetup Group!</a>
+  <a class="btn btn-default btn-xs" href="http://www.meetup.com/druidio/">Join Our Meetup Group!</a>
 </div>
