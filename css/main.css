@@ -1,0 +1,197 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+* {
+  box-sizing: border-box;
+  vertical-align: top; }
+
+body * {
+  position: relative; }
+
+a {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: inherit; }
+
+div, span {
+  cursor: inherit; }
+
+text {
+  cursor: default; }
+
+button, input, textarea {
+  border: 0;
+  margin: 0; }
+  button:focus, input:focus, textarea:focus {
+    outline: none; }
+
+html, body {
+  position: relative;
+  color: #1C1C26;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  word-wrap: break-word; }
+  html h1, html h2, html h3, html h4, html h5, html h6, html .h1, html .h2, html .h3, html .h4, html .h5, html .h6, body h1, body h2, body h3, body h4, body h5, body h6, body .h1, body .h2, body .h3, body .h4, body .h5, body .h6 {
+    font-weight: 300;
+    line-height: 140%;
+    margin-bottom: 14px;
+    margin-top: 28px; }
+  html h1, body h1 {
+    font-size: 3em; }
+  html h2, body h2 {
+    font-size: 2.4em; }
+  html h3, body h3 {
+    font-size: 2em; }
+  html h4, body h4 {
+    font-size: 1.6em; }
+  html h5, body h5 {
+    font-weight: bold; }
+  html h6, body h6 {
+    font-weight: bold;
+    color: #999999; }
+  html p, body p {
+    line-height: 170%;
+    margin-bottom: 14px;
+    margin-top: 14px; }
+    html p:first-child, body p:first-child {
+      margin-top: 28px; }
+  html strong, body strong {
+    font-weight: 700; }
+  html hr, body hr {
+    margin: 30px 0 30px 0; }
+  html a, body a {
+    cursor: pointer; }
+  html p a, html table a, html ul a, body p a, body table a, body ul a {
+    color: #4860CC;
+    cursor: pointer; }
+    html p a:hover, html table a:hover, html ul a:hover, body p a:hover, body table a:hover, body ul a:hover {
+      text-decoration: underline; }
+  html ul, body ul {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 170%; }
+    html ul li, body ul li {
+      margin-left: 18px;
+      list-style-type: disc; }
+  html ol, body ol {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 170%; }
+    html ol li, body ol li {
+      margin-left: 22px;
+      list-style-type: decimal; }
+  html table, body table {
+    margin-top: 14px;
+    margin-bottom: 14px; }
+    html table th, body table th {
+      font-weight: 700; }
+    html table th, html table td, body table th, body table td {
+      padding: 5px; }
+  html blockquote, body blockquote {
+    font-size: 14px;
+    font-style: italic;
+    color: #777; }
+
+.druid-header {
+  padding: 24px 0 34px;
+  margin-bottom: 14px;
+  color: #1c1c26;
+  text-align: center;
+  background-image: url("/img/watermark-light.png");
+  background-size: 330px 330px;
+  background-repeat: no-repeat;
+  background-position: 18% -30px;
+  background-color: #EEE;
+  overflow: hidden; }
+  .druid-header h1 {
+    margin-top: 14px;
+    font-size: 2.8em; }
+  .druid-header h4 {
+    font-weight: 400;
+    font-size: 15px;
+    margin-top: -5px;
+    margin-bottom: 0; }
+    .druid-header h4 a {
+      color: #4860CC; }
+      .druid-header h4 a .fa {
+        margin-right: 4px; }
+      .druid-header h4 a:hover {
+        text-decoration: underline; }
+
+.text-indent {
+  padding-left: 50px; }
+
+.text-indent-2 {
+  padding-left: 100px; }
+
+.text-indent-p p {
+  padding-left: 50px; }
+
+.image-large {
+  text-align: center;
+  margin-top: 28px;
+  margin-bottom: 28px; }
+  .image-large img {
+    width: 100%;
+    max-width: 660px; }
+
+.large-button {
+  display: inline-block;
+  padding: 10px 22px;
+  color: white;
+  background: #4860CC;
+  border-radius: 2px;
+  font-size: 15px;
+  margin-top: 14px;
+  margin-bottom: 14px; }
+  .large-button .fa {
+    margin-right: 3px; }
+  .large-button:hover {
+    background: #3148b0;
+    text-decoration: none; }
+
+.features {
+  margin-bottom: 28px; }
+  .features .feature {
+    padding-left: 58px; }
+    .features .feature:nth-child(3n-2) .fa {
+      background: #CBD2F2; }
+    .features .feature:nth-child(3n-1) .fa {
+      background: #BCE8DA; }
+    .features .feature:nth-child(3n) .fa {
+      background: #F5D6B8; }
+    .features .feature .fa {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      border-radius: 40px;
+      text-align: center;
+      font-size: 17px;
+      background: #CBD2F2;
+      color: #1C1C26; }
+    .features .feature p {
+      margin-top: 0; }
+    .features .feature h5 {
+      margin-bottom: 0; }

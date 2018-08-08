@@ -1,0 +1,56 @@
+.druid-masthead {
+  padding: 40px 20px 32px 20px;
+  background-color: #424250;
+  text-align: center;
+  margin: 0 auto 20px;
+  margin-bottom: 14px;
+  color: white;
+  overflow: hidden;
+  background-image: url("/img/watermark-dark.png");
+  background-size: 800px auto;
+  background-repeat: no-repeat;
+  background-position: 26% -76px; }
+  .druid-masthead .button {
+    display: inline-block;
+    min-width: 155px;
+    margin: 3px 0;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 2px;
+    background: #AAB4E1;
+    color: #1C1C26;
+    transition: background-color 0.1s ease; }
+    .druid-masthead .button .fa, .druid-masthead .button .fab {
+      font-size: 16px;
+      margin-right: 3px; }
+    .druid-masthead .button:hover, .druid-masthead .button:active {
+      background: white;
+      text-decoration: none; }
+    .druid-masthead .button:first-child {
+      margin-right: 12px; }
+  .druid-masthead .lead {
+    font-size: 1.6em;
+    line-height: 1.7em;
+    font-weight: 300;
+    margin-top: 8px;
+    margin-bottom: 26px; }
+  .druid-masthead b {
+    font-weight: 700; }
+
+.bottom-news {
+  display: block; }
+
+.disclaimer {
+  margin-top: 12px;
+  font-size: 11px;
+  color: #aaa; }
+  .disclaimer a:hover {
+    text-decoration: underline; }
+
+@media (max-width: 500px) {
+  .druid-masthead .lead {
+    font-size: 1.4em; }
+  .druid-masthead .button {
+    min-width: 130px; } }

@@ -1,0 +1,28 @@
+footer {
+  line-height: 1.8em; }
+  footer a:hover {
+    color: #4860CC; }
+  footer .license {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #aaa; }
+    footer .license a:hover {
+      text-decoration: underline; }
+
+footer .license {
+  margin-top: 12px;
+  font-size: 11px;
+  color: #aaa; }
+  footer .license a:hover {
+    color: #4860CC;
+    text-decoration: underline; }
+
+.druid-footer {
+  padding: 32px 0 48px 0;
+  background-color: #f3f3f3;
+  border-top: 1px solid white;
+  margin-top: 50px; }
+  .druid-footer .fa, .druid-footer .fab {
+    font-size: 18px;
+    margin: 6px 0;
+    color: #4860CC; }

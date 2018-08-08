@@ -1,0 +1,122 @@
+.doc-container {
+  margin-top: 28px; }
+
+.doc-content pre, .doc-content pre code {
+  overflow: auto;
+  white-space: pre;
+  word-wrap: normal; }
+
+.doc-content img {
+  max-width: 847.5px; }
+
+.doc-content code {
+  background-color: #e0e0e0; }
+
+.doc-content pre code {
+  background-color: transparent; }
+
+.doc-content table,
+.doc-content pre {
+  margin: 35px 0 35px 0; }
+
+.doc-content table,
+.doc-content table > thead > tr > th,
+.doc-content table > tbody > tr > th,
+.doc-content table > tfoot > tr > th,
+.doc-content table > thead > tr > td,
+.doc-content table > tbody > tr > td,
+.doc-content table > tfoot > tr > td {
+  border: 1px solid #dddddd; }
+
+.doc-content table > thead > tr > th,
+.doc-content table > thead > tr > td {
+  border-bottom-width: 2px; }
+
+.doc-content table > tbody > tr:nth-child(odd) > td,
+.doc-content table > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9; }
+
+.doc-content table > tbody > tr:hover > td,
+.doc-content table > tbody > tr:hover > th,
+.doc-content table > tbody > tr:focus > td,
+.doc-content table > tbody > tr:focus > th {
+  background-color: #d5d5d5; }
+
+.doc-content table code {
+  background-color: transparent; }
+
+.doc-content td, .doc-content th {
+  padding: 5px; }
+
+.doc-content .note {
+  position: relative;
+  display: block;
+  padding: 10px 14px 10px 42px;
+  margin: 35px 0 35px 0;
+  background: light-gray;
+  border-radius: 3px;
+  line-height: 170%; }
+  .doc-content .note:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    bottom: 0;
+    width: 42px;
+    background-position: 10px 9px;
+    background-size: 22px 22px;
+    background-repeat: no-repeat; }
+  .doc-content .note.info {
+    background: rgba(51, 200, 208, 0.26);
+    border-left: 2px solid rgba(51, 200, 208, 0.5); }
+    .doc-content .note.info:after {
+      background-image: url(/img/note-info.svg); }
+  .doc-content .note.caution {
+    background: rgba(249, 169, 86, 0.26);
+    border-left: 2px solid rgba(249, 169, 86, 0.5); }
+    .doc-content .note.caution:after {
+      background-image: url(/img/note-caution.svg); }
+
+.toc ul {
+  list-style: none;
+  list-style-position: inside;
+  color: #4860CC;
+  line-height: 1.9em; }
+  .toc ul li {
+    color: #999999;
+    list-style-type: none;
+    margin-left: 0; }
+    .toc ul li a {
+      color: #4860CC;
+      display: block; }
+      .toc ul li a:hover {
+        text-decoration: underline; }
+  .toc ul ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 20px; }
+
+.searchbox {
+  position: relative;
+  height: 26px;
+  margin-top: 17px; }
+  .searchbox .gsc-search-button, .searchbox .searchbox .gsib_b {
+    display: none; }
+  .searchbox input {
+    background: white !important;
+    width: 100% !important;
+    padding: 5px 8px !important;
+    font-size: 13px !important;
+    border: 1px solid #dfdfdf !important;
+    height: 30px !important;
+    text-indent: 0 !important;
+    border-radius: 2px !important; }
+    .searchbox input:hover {
+      border-color: #c4c4c4 !important; }
+    .searchbox input:focus {
+      border-color: #c4c4c4 !important; }
+  .searchbox form, .searchbox table, .searchbox tbody, .searchbox tr, .searchbox td, .searchbox .gsc-input-box {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important; }

@@ -19,6 +19,11 @@ gulp
 npm run run
 ```
 
+## Notes
+
+Ideally we would not be checking in the `css` directory and just build it as part of the deploy process.
+
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/druid-io/druid-io.github.io/blob/src/CONTRIBUTING.md).
+
