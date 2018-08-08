@@ -1,6 +1,6 @@
 ---
 title: Frequently Asked Questions
-subtitle: Don't see your question here? <a href='/community.html'>Ask us</a>
+subtitle: Don't see your question here? <a href='/community'>Ask us</a>
 layout: simple_page
 sectionid: faq
 ---
@@ -51,6 +51,8 @@ Aggregating metrics and filtering on dimensions (which are roughly equivalent to
 Druid can be deployed on commodity hardware in any *NIX based environment.
 A Druid cluster consists of several different processes, each designed to do a small set of things very well (ingestion, querying, coordination, etc).
 Many of these processes can be co-located and deployed together on the same hardware as described [here](/docs/latest/tutorials/quickstart.html).
+
+Druid was initially created in the cloud, and runs well in AWS, GCP, Azure, and other cloud environments.
 
 
 ### Where does Druid fit in my existing Hadoop-based data stack?
