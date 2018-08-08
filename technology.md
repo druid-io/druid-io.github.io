@@ -119,4 +119,11 @@ As such, Druid possesses several features to ensure uptime and no data loss.
       As data volumes or cluster usage grows, resources can be added to ensure performance and stability are not impacted.
          </p>
   </div>
+  <div class="feature">
+    <span class="fa fa-balance-scale fa"></span>
+    <h5>Easy to operate</h5>
+    <p>
+      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
+    </p>
+  </div>
 </div>
