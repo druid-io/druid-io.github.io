@@ -5,7 +5,7 @@ layout: simple_page
 sectionid: powered-by
 ---
 
-There are numerous companies of various sizes in production with Druid. This list is incomplete and we hope to add everyone's use cases in the near future.
+There are numerous companies of various sizes in production with Druid.
 
 ## Airbnb
 
@@ -106,11 +106,11 @@ At Hulu, we use Druid to power our analytics platform that enables us to interac
 
 Imply uses Druid to power public demos and to power our internal monitoring and metrics.
 
-* [Pivot: An Open Source Data Exploration UI for Druid](http://imply.io/post/2015/10/26/hello-pivot.html)
-* [A Tour Through the "Big Data" Zoo](http://imply.io/post/2015/11/04/big-data-zoo.html)
-* [Architecting Distributed Databases for Failure](http://imply.io/post/2015/12/10/failure.html)
+* [Pivot: An Open Source Data Exploration UI for Druid](https://imply.io/post/hello-pivot)
+* [A Tour Through the "Big Data" Zoo](https://imply.io/post/big-data-zoo)
+* [Architecting Distributed Databases for Failure](https://imply.io/post/failure)
 * [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid)
-* [Compressing Longs in Druid](https://imply.io/post/2016/12/07/compressing-longs.html)
+* [Compressing Longs in Druid](https://imply.io/post/compressing-longs)
 
 ## Inmobi
 
