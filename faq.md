@@ -43,7 +43,7 @@ Druid at its core is an analytics engine and as such, it can support numerical a
 Druid is an analytics engine, but it does share some characteristics with timeseries databases.
 Like in timeseries databases, Druid is optimized for data where a timestamp is present.
 Druid partitions data by time, and queries that include a time filter will be significantly faster than those that do not.
-Aggregating metrics and filtering on dimensions (which are roughly equivalent to TSDBs' tags) is very fast when a time filter is present. Compared to TSDBs, Druid is significantly faster when grouping, searching, and filtering on tags that are not time, and when computing complex analytics such as histograms and quantiles.
+Aggregating metrics and filtering on dimensions (which are roughly equivalent to TSDBs' tags) is very fast when a time filter is present. Compared to TSDBs, Druid is significantly faster when grouping, searching, and filtering on tags that are not time, and when computing complex metrics such as histograms and quantiles.
 
 
 ### How is Druid deployed?
