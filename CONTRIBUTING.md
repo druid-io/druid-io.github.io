@@ -11,4 +11,4 @@ When submitting a pull request (PR), please use the following guidelines:
 - For any documentation changes (in the "docs" folder), please submit pull requests to the [main Druid
   repo](https://github.com/druid-io/druid-io.github.io). All Druid
   documentation is hosted under
-  [https://github.com/druid-io/druid/tree/master/docs/content](https://github.com/druid-io/druid/tree/master/docs/content).
+  [https://github.com/apache/incubator-druid/tree/master/docs/content](https://github.com/apache/incubator-druid/tree/master/docs/content).
