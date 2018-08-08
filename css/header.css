@@ -1,215 +1,90 @@
-.druid-masthead {
-  padding: 44px 0 24px;
-  background-color: #EEE;
-  text-align: center;
-  margin: 0 auto 20px;
-}
+.top-navigator {
+  background: #1C1C26;
+  height: 54px; }
+  .top-navigator .left-cont .druid-logo {
+    display: inline-block;
+    height: 54px;
+    width: 120px;
+    margin-bottom: -2px;
+    background-position: center;
+    background-image: url("/img/druid_nav.png");
+    background-size: 105px 36px;
+    background-repeat: no-repeat; }
+  .top-navigator .right-cont {
+    position: absolute;
+    top: 0;
+    right: 15px; }
+    .top-navigator .right-cont ul {
+      margin: 0; }
+    .top-navigator .right-cont li {
+      line-height: 54px;
+      display: inline-block;
+      font-size: 15px;
+      margin: 0; }
+      .top-navigator .right-cont li.active a {
+        color: white; }
+      .top-navigator .right-cont li.active:after {
+        content: '';
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        right: 0; }
+      .top-navigator .right-cont li a {
+        display: block;
+        padding-left: 8px;
+        padding-right: 8px;
+        color: #AAB4E1; }
+        .top-navigator .right-cont li a:hover {
+          text-decoration: none;
+          color: white; }
+      .top-navigator .right-cont li.button-link {
+        margin-left: 8px; }
+        .top-navigator .right-cont li.button-link a {
+          display: inline-block;
+          height: 32px;
+          line-height: 32px;
+          margin-top: 9px;
+          background: #AAB4E1;
+          border-radius: 2px;
+          padding: 0 10px;
+          color: #1C1C26;
+          font-weight: 600;
+          min-width: 106px;
+          text-align: center; }
+          .top-navigator .right-cont li.button-link a:hover {
+            background: white; }
+  .top-navigator .action-button {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: white;
+    padding: 8px 16px;
+    background: rgba(170, 180, 225, 0.3);
+    text-align: center;
+    border-radius: 2px;
+    cursor: pointer;
+    display: none;
+    font-size: 14px;
+    line-height: 18px; }
+    .top-navigator .action-button .fa {
+      margin-right: 6px; }
+    .top-navigator .action-button:hover {
+      background: rgba(170, 180, 225, 0.4); }
 
-.druid-masthead .btn-lg {
-  min-width: 145px;
-  margin: 3px 6px;
-  font-size: 1.2em;
-  padding: 8px;
-  color: white;
-  background: #1776BB;
-  transition: background-color 0.1s ease;
-}
-
-.druid-masthead .btn-lg:hover,
-.druid-masthead .btn-lg:active {
-  background: #0C62A0;
-}
-
-.druid-masthead .text-muted {
-  color: rgba(177,186,198,.7);
-  /* color: #c3c3c5; */
-}
-
-.druid-masthead .lead {
-  font-size: 1.5em;
-  font-weight: 400;
-  margin-top: 8px;
-  margin-bottom: 26px;
-}
-
-.druid-masterhead b {
-  font-weight: 700;
-}
-
-.druid-footer {
-  padding: 40px 0;
-  /* background-color: #eee; */
-  background-color: #f3f3f3;
-  border-top: 1px solid white;
-  margin-top: 50px;
-}
-
-.druid-header {
-  padding: 30px 0 30px;
-  margin-bottom: 40px;
-  color: #1c1c26;
-  text-align: center;
-  background-image: url('/img/druid_watermark_30.png');
-  background-size: 400px 400px;
-  background-repeat: no-repeat;
-  background-position: 10% -90px;
-  background-color: #EEE;
-  /*box-shadow: 0px 2px 9px rgba(0,0,0,.2);*/
-  overflow: hidden;
-}
-
-.druid-header h1 {
-  font-size: 34px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.druid-panel {
-  background-color: #2e2e2e;
-  background-color: #1C1C26;
-  color: #fff;
-  padding: 30px 0 40px 0;
-  margin-top: 50px;
-  margin-bottom: -50px;
-}
-
-.druid-panel a {
-  color: rgba(177,186,198,.7)
-}
-
-.druid-panel h3 {
-  color: #2ceefb
-}
-
-.blog h2 {
-  font-weight: 400;
-  font-size: 24px;
-}
-
-.druid-logo {
-  display: block;
-  width: 120px;
-  height: 25px;
-  background-position:center;
-  background-image: url('/img/druid_nav.png');
-  background-size: 88px 25px;
-  background-repeat: no-repeat;
-  margin-top: -2px;
-}
-
-.druid-booticon {
-  display: block;
-  text-align: center;
-  width: 340px;
-  height: 144px;
-  line-height: 140px;
-  font-size: 64px;
-  border-radius: 20px;
-  /* border: 1px solid #fff; */
-}
-
-.druid-mark {
-  color: #2ceefb;
-  font-size: 1.69em;
-  line-height: 30%;
-  font-weight: 100;
-}
-.druid-logotype {
-  color: #fff;
-  font-family: 'Open Sans';
-  letter-spacing: .05em;
-  font-style: italic;
-  font-weight: 100;
-}
-
-.btn.download {
-  display: block;
-  width: 260px;
-  margin: auto;
-  color: white;
-  background: #1776BB;
-  text-align: center;
-  background-position: center;
-  transition: background-color 0.1s ease;
-}
-
-.btn.download:hover,
-.btn.download:active {
-  background: #0C62A0;
-}
-
-.druid-nav {
-  margin-bottom: 0;
-  background-color: #1C1C26;
-  border: 0px;
-}
-
-.druid-nav .navbar-inverse{
-  border-color: transparent;
-}
-
-.druid-nav .navbar-nav>.active>a {
-  background-color: #0d0d12;
-  border-bottom: 3px solid #2ceefb;
-  padding-bottom: 12px;
-}
-
-.druid-sidebar.affix {
-  top: 10px;
-}
-
-.druid-sidebar .nav>.active>a {
-  border-left: 3px solid #2ceefb;
-  padding-left: 12px;
-}
-
-/* bootstrap overrides */
-
-a {
-  color: #2576CC;
-}
-
-a:hover, a:focus {
-  /* color: #1a5491; */
-  color: #b1bac6;
-  text-decoration: none;
-}
-
-.navbar-inverse .navbar-nav>li>a {
-  color: rgba(177,186,198,.7);
-  transition: color 0.1s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.15em
-}
-
-.nav>li>a {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-/* .navbar-collapse { */
-/*    padding-left: 20px; */
-/*    padding-right: 5px; */
-/*    margin-left: 15px; */
-/* } */
-
-.social-button.twitter {
-  background: 10px center no-repeat url('/img/twitter.png');
-  padding-left: 40px;
-}
-
-.header-li {
-  margin-left: 0px;
-}
-
-.header-a {
-  margin-right: 0px;
-  margin-left: -12px;
-}
-
-@media only screen and (max-width : 767px) {
-  .navbar-collapse li a {
-    padding-left: 25px;
-  }
-}
-
+@media (max-width: 840px) {
+  .top-navigator {
+    height: auto;
+    min-height: 54px; }
+    .top-navigator .right-cont {
+      position: relative;
+      display: block;
+      display: none;
+      padding-bottom: 28px; }
+      .top-navigator .right-cont ul {
+        margin-left: 20px; }
+      .top-navigator .right-cont li {
+        display: block;
+        line-height: 42px; }
+    .top-navigator .action-button.menu-icon {
+      display: block; } }

@@ -6,15 +6,15 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | FAQ</title>
-<link rel="alternate" type="application/atom+xml" href="http://druid.io/feed">
+<title>Druid | Frequently Asked Questions</title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="//static.druid.io/web-assets/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/footer.css">
@@ -38,110 +38,146 @@
   </head>
   <body>	
     <!-- Start page_header include -->
-<div class="navbar navbar-inverse navbar-static-top druid-nav">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="druid-logo"></span></a>
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
     </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="/druid.html">Overview</a></li>
-        <li class=""><a href="/downloads.html">Download</a></li>
-        <li class=""><a href="/docs/0.12.1/design/index.html">Docs</a></li>
-        <li class=""><a href="/community/">Contribute</a></li>
-        <li class=""><a href="/blog">Blog</a></li>
-        <li><a href="https://twitter.com/druidio/" class="fa fa-twitter"></a></li>
-        <li><a href="https://github.com/druid-io/druid/" class="fa fa-github"></a></li>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
       </ul>
     </div>
   </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
 </div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
 <!-- Stop page_header include -->
 
 
     <div class="druid-header">
   <div class="container">
-    <h1 class='index' id='frequently_asked_questions'>Frequently Asked Questions</h1>
-    <h4>Don't see your question here? <a href='/community.html#converse'>Ask us</a>.</h4>
+    <h1>Frequently Asked Questions</h1>
+    <h4>Don't see your question here? <a href='/community.html'>Ask us</a></h4>
   </div>
 </div>
-
 
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <h2 id='memory'>Is Druid in-memory?</h2>
-      
-      <p>Given that it is impossible to process data with a modern processor without first loading the data into memory, yes, it is in-memory. The earliest iterations of Druid didn&#8217;t allow for data to be paged in from and out to disk, so we often called it an &#8220;in-memory&#8221; system. However, we very quickly realized that RAM hasn&#8217;t become cheap enough to actually store all data in RAM and sell a product at a price-point that customers are willing to pay. Since the Summer of 2011, we have leveraged memory-mapping to allow us to page data between disk and memory and extend the amount of data a single node can load up to the size of its disks.</p>
+      <h3 id="is-druid-a-data-warehouse-when-should-i-use-druid-over-redshift-bigquery">Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery?</h3>
 
-      <p>That said, as we made the shift, we didn&#8217;t want to compromise on the ability to configure the system to run such that everything is essentially in memory. To this end, individual Historical nodes can be configured with the maximum amount of data they should be given. Couple that with the Coordinator&#8217;s ability to assign data blocks to different &#8220;tiers&#8221; based on differing query requirements and Druid essentially becomes a system that can be configured across the whole spectrum of performance requirements. Configuration can be such that all data can be in memory and processed, it can be such that data is heavily over-committed compared to the amount of memory available, and it can also be that the most recent month of data is in memory, while everything else is over-committed.</p>
+<p>Druid is not a true data warehouse.
+Although Druid incorporates architecture ideas from data warehouses, such as column-oriented storage, it does not support the full set of features that standard data warehouses do, such as complex joins.
+Data warehouses are optimized for supporting complex SQL queries where results may take minutes or hours to complete.
+In exchange for the flexibility, data warehouses are rarely used to power interactive UIs.
+Data warehouses further lack true streaming ingest capability, or strong multi-tenancy support (supporting queries from thousands of concurrent users).</p>
 
-      <h2 id='external'>What external dependencies does Druid have?</h2>
-      <p>Druid has three external dependencies that must be running in order for the Druid cluster to operate</p>
-      <div class="text-indent">
-	<ol>
-	  <li>Deep Storage</li>
-	  <li>Metadata Storage (MySQL or Postgres)</li>
-	  <li>ZooKeeper</li>
-	</ol>
-      </div>
+<p>Druid is optimized for sub-second queries to slice-and-dice, drill down, search, filter, and aggregate event streams.
+Druid is commonly used to power interactive applications where performance, concurrency, and uptime are important.</p>
 
-      <h2 id='what_is_deep_storage'>What is &#8220;deep storage&#8221;?</h2>
-      <p>Simply put, deep storage is some storage infrastructure that Druid depends on for data availability. If this infrastructure goes down, then Druid cannot load new data into the system, nor can it recover from failures in the cluster. As long as this infrastructure is operational, Druid Historical nodes cannot lose data.</p>
+<p>Consider using Druid over a data warehouse if your use case involves powering an interactive application, where many users will be making concurrent queries for the data.
+Consider using Druid if your data is primarily operational, where you will need to explain trends and patterns, or troubleshoot issues.</p>
 
-      <p>A more technical description of Deep Storage and the options available exists in our docs.<br /><a href='/docs/latest/dependencies/deep-storage.html'>Deep Storage</a></p>
+<h3 id="is-druid-a-sql-on-hadoop-solution-when-should-i-use-druid-over-presto-hive">Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive?</h3>
 
-      <h2 id='non-structured'>Can Druid accept non-structured data?</h2>
-      <p>Druid requires some structure to the data it ingests. In general data should consist of a timestamp, dimensions and metrics. These are discussed in a bit more detail in our original blog post: <a href='blog/2011/04/30/introducing-druid.html'>Introducing Druid: Real-Time Analytics at a Billion Rows Per Second</a></p>
+<p>Druid supports SQL and can load data from Hadoop, but it is not considered a SQL-on-Hadoop system.
+In most SQL-on-Hadoop solutions, compute and storage are separated systems.
+By contrast, in Druid, compute and storage are colocated to maximize performance.</p>
 
-      <h2 id='time-series'>Does Druid only accept data with a timestamp?</h2>
-      <p>No, although timestamped data will trigger certain optimizations and queries will generally perform better.</p>
+<p>The use cases of SQL-on-Hadoop solutions are identical to traditional data warehouses, and the previous section on Druid vs data warehouses still holds true.</p>
 
-      <h2 id='zookeeper'>Isn&#8217;t Zookeeper a single point of failure?</h2>
-      <p>No, Zookeeper can be deployed to withstand a configurable number of individual node failures. Also, if ZooKeeper goes down, the cluster will continue to operate.</p>
-      <p>Losing ZooKeeper does, however, mean that the cluster cannot add new data segments, nor can it effectively react to the lose of one of the nodes. So, while it is safe to lose access to ZooKeeper, it is definitely a degraded state.</p>
+<h3 id="is-druid-a-log-aggregation-log-search-system-when-should-i-use-druid-over-elastic-splunk">Is Druid a log aggregation/log search system? When should I use Druid over Elastic/Splunk?</h3>
 
-      <h2 id='master'>Isn&#8217;t the Coordinator a single point of failure?</h2>
-      <p>No, the &#8220;Coordinator&#8221; process is merely used for cluster coordination. It is <strong><em>not</em></strong> involved in the query path. Losing all coordinators means that new segments will not be loaded by historical nodes, i.e. no new data will enter the cluster. Also, segment balancing decisions will not be made, so it stops the cluster from being able to effectively scale up and down. Just like ZooKeeper, losing the coordinators puts the cluster in a degraded state, but it will keep operating just fine.</p>
-      <p>Also, there can be multiple coordinator nodes deployed. Extra coordinators will act as &#8220;hot spares&#8221; in case the active coordinator is lost.</p>
+<p>Druid uses inverted indexes (in particular, compressed bitmaps) for fast searching and filtering, but it is not generally considered a search system.
+While Druid contains many features commonly found in search systems, such as the ability to stream in structured and semi-structured data and the ability to search and filter the data, Druid isn’t commonly used to ingest text logs and run full text search queries over the text logs.
+However, Druid is often used to ingest and analyze semi-structured data such as JSON.</p>
 
-      <h2 id='mas-queries'>Do all queries go through the coordinator?</h2>
-      <p>Queries <strong><em>never</em></strong> touch the coordinator. Ever.</p>
+<p>Druid at its core is an analytics engine and as such, it can support numerical aggregations, groupBys (including multi-dimensional groupBys), and other analytic workloads faster and more efficiently than search systems.</p>
 
-      <h2 id='mas-dies'>Can I query Druid even after the coordinator dies?</h2>
-      <p>Yes, the coordinator has no impact on queries.</p>
+<h3 id="is-druid-a-timeseries-database-when-should-i-use-druid-over-influxdb-opentsdb-prometheus">Is Druid a timeseries database? When should I use Druid over InfluxDB/OpenTSDB/Prometheus?</h3>
 
-      <h2 id='update'>How do I update data?</h2>
-      <p>Updating data means that you have to re-generate the segments for the time period that you need to update. This can be done by reindexing the data for that time period. Once the indexer finishes, the Druid cluster will swap the new segment in and stop serving the old segment.</p>
+<p>Druid is an analytics engine, but it does share some characteristics with timeseries databases.
+Like in timeseries databases, Druid is optimized for data where a timestamp is present.
+Druid partitions data by time, and queries that include a time filter will be significantly faster than those that do not.
+Aggregating metrics and filtering on dimensions (which are roughly equivalent to TSDBs&#39; tags) is very fast when a time filter is present.</p>
 
-      <h2 id='ind-serv'>What is the Indexing Service, do I need that?</h2>
-      <p>The Indexing Service is a job scheduling service for various Druid ingestion tasks.</p>
-      <p>More information can be found in the docs:</p>
-      <p><a href="/docs/latest/design/indexing-service.html">Indexing Service</a></p>
+<h3 id="how-is-druid-deployed">How is Druid deployed?</h3>
 
-      <h2 id='elasticsearch'>How does Druid compare to Elasticsearch?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-elasticsearch.html'>Druid vs Elasticsearch</a></p>
+<p>Druid can be deployed on commodity hardware in any *NIX based environment.
+A Druid cluster consists of several different processes, each designed to do a small set of things very well (ingestion, querying, coordination, etc).
+Many of these processes can be co-located and deployed together on the same hardware as described <a href="/docs/latest/tutorials/quickstart.html">here</a>.</p>
 
-      <h2 id='key-value'>How does Druid compare to Key/Value Stores (HBase/Cassandra)?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-key-value.html'>Druid vs Key/Value Stores</a></p>
+<h3 id="where-does-druid-fit-in-my-existing-hadoop-based-data-stack">Where does Druid fit in my existing Hadoop-based data stack?</h3>
 
-      <h2 id='kudu'>How does Druid compare to Kudu?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-kudu.html'>Druid vs Kudu</a></p>
+<p>Druid typically connects to a source of raw data such as a message bus such as Apache Kafka, or a filesystem such as HDFS.
+Druid ingests an optimized, column-oriented, indexed copy of your data and serves analytics workloads on top of it.</p>
 
-      <h2 id='redshift'>How does Druid compare to Redshift?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-redshift.html'>Druid vs Redshift</a></p>
+<p>A common streaming data oriented setup involving Druid looks like this:
+Raw data → Kafka → Stream processor (optional, typically for ETL) → Kafka (optional) → Druid → Application/user</p>
 
-      <h2 id='spark'>How does Druid compare to Spark?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-spark.html'>Druid vs Spark</a></p>
+<p>A common batch/static file oriented setup involving Druid looks like this:
+Raw data → Kafka (optional) → HDFS → ETL process (optional) → Druid → Application/user</p>
 
-      <h2 id='sql-on-hadoop'>How does Druid compare to SQL-on-Hadoop (Impala/Drill/Spark SQL/Presto)?</h2>
-      <p><a href='/docs/latest/comparisons/druid-vs-sql-on-hadoop.html'>Druid vs SQL-on-Hadoop</a></p>
+<p>The same Druid cluster can serve both the streaming and batch path.</p>
+
+<h3 id="is-druid-in-memory">Is Druid in-memory?</h3>
+
+<p>The earliest iterations of Druid didn’t allow for data to be paged in from and out to disk, so we often called it an “in-memory” system.
+However, we very quickly realized that RAM hasn’t become cheap enough to actually store all data in RAM and sell a product at a price-point that customers are willing to pay.
+Over the last few years, we have leveraged memory-mapping to allow us to page data between disk and memory and extend the amount of data a single node can load up to the size of its disks.</p>
+
+<p>That said, as we made the shift, we didn’t want to compromise on the ability to configure the system to run such that everything is essentially in memory.
+To this end, individual Historical nodes can be configured with the maximum amount of data they should be given.
+Couple that with the Coordinator’s ability to assign data blocks to different “tiers” based on differing query requirements and Druid essentially becomes a system that can be configured across the whole spectrum of performance requirements.
+Configuration can be such that all data can be in memory and processed, it can be such that data is heavily over-committed compared to the amount of memory available, and it can also be that the most recent month of data is in memory, while everything else is over-committed.</p>
 
     </div>
   </div>
@@ -154,16 +190,16 @@
   <div class="text-center">
     <p>
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered.html">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq.html">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing.html">License</a>
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
     </p>
   </div>
   <div class="text-center">
-    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-lg fa-comments"></span></a>&ensp;·&ensp;
-    <a href="https://twitter.com/druidio"><span class="fa fa-lg fa-twitter"></span></a>&ensp;·&ensp;
-    <a href="https://github.com/druid-io/druid"><span class="fa fa-lg fa-github"></span></a>
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
@@ -182,7 +218,7 @@
   ga('send', 'pageview');
 
 </script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
