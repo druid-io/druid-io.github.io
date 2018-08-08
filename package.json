@@ -1,0 +1,22 @@
+{
+  "name": "druid-website",
+  "version": "0.1.0",
+  "description": "Druid Website",
+  "keywords": [
+    "druid",
+    "website"
+  ],
+  "private": true,
+  "scripts": {
+    "run": "bundle exec jekyll serve --future --port 4001 --safe",
+    "watch": "gulp watch",
+    "compile": "gulp all; bundle exec jekyll build"
+  },
+  "dependencies": {
+    "broken-link-checker": "0.7.8",
+    "glob": "7.1.2",
+    "gulp": "3.9.1",
+    "gulp-sass": "4.0.1",
+    "node-sass": "4.9.2"
+  }
+}

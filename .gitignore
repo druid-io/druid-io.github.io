@@ -3,3 +3,5 @@ Gemfile.lock
 .DS_store
 .idea
 .jekyll-metadata
+node_modules
+private

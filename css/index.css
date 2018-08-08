@@ -1,71 +1,56 @@
-.main-marketing {
-  padding: 30px 0 30px 0;
-}
-
-.main-marketing a {
-  color: #333;
-}
-
-.main-marketing h2 {
-  margin-top: 20px;
-  font-weight: 400;
-}
-
-.features .fa {
-  position: absolute;
-  margin-top: 16px;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  border-radius: 40px;
+.druid-masthead {
+  padding: 40px 20px 32px 20px;
+  background-color: #424250;
   text-align: center;
-  font-size: 1.7em;
-  background: #33C8D0;
-  color: #FFF;
-}
-
-.features h3 {
-  margin-top: 0;
-  font-weight: 600;
-  font-size: 20px;
-  color: #195C8C;
-  margin-bottom: 8px;
-}
-
-.features h3,
-.features p {
-  margin-left: 70px;
-}
-
-.features.learn .fa {
-  background: #F9A956;
-}
-
-h3.more {
-  font-weight: 600;
-  font-size: 20px;
-  color: #999;
-  margin-top: 40px;
-}
-
-.top-news {
-  display: none;
-}
+  margin: 0 auto 20px;
+  margin-bottom: 14px;
+  color: white;
+  overflow: hidden;
+  background-image: url("/img/watermark-dark.png");
+  background-size: 800px auto;
+  background-repeat: no-repeat;
+  background-position: 26% -76px; }
+  .druid-masthead .button {
+    display: inline-block;
+    min-width: 155px;
+    margin: 3px 0;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 2px;
+    background: #AAB4E1;
+    color: #1C1C26;
+    transition: background-color 0.1s ease; }
+    .druid-masthead .button .fa, .druid-masthead .button .fab {
+      font-size: 16px;
+      margin-right: 3px; }
+    .druid-masthead .button:hover, .druid-masthead .button:active {
+      background: white;
+      text-decoration: none; }
+    .druid-masthead .button:first-child {
+      margin-right: 12px; }
+  .druid-masthead .lead {
+    font-size: 1.6em;
+    line-height: 1.7em;
+    font-weight: 300;
+    margin-top: 8px;
+    margin-bottom: 26px; }
+  .druid-masthead b {
+    font-weight: 700; }
 
 .bottom-news {
-  display: block;
-}
+  display: block; }
 
-@media screen and (max-width: 991px) {
-  .top-news {
-    display: block;
-  }
+.disclaimer {
+  margin-top: 12px;
+  font-size: 11px;
+  color: #aaa; }
+  .disclaimer a:hover {
+    text-decoration: underline; }
 
-  .bottom-news {
-    display: none;
-  }
-
-  .features.learn {
-    margin-bottom: 40px;
-  }
-}
+@media (max-width: 500px) {
+  .druid-masthead .lead {
+    font-size: 1.4em; }
+  .druid-masthead .button {
+    min-width: 130px; } }

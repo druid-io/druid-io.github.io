@@ -1,0 +1,141 @@
+@import "variables";
+
+$header-height: 54px;
+
+.top-navigator {
+  background: #1C1C26;
+  height: $header-height;
+
+  .left-cont {
+    .druid-logo {
+      display: inline-block;
+      height: $header-height;
+      width: 120px;
+      margin-bottom: -2px;
+      background-position:center;
+      background-image: url('/img/druid_nav.png');
+      background-size: 105px 36px;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .right-cont {
+    position: absolute;
+    top: 0;
+    right: 15px;
+
+    ul {
+      margin: 0;
+    }
+
+    li {
+      line-height: $header-height;
+      display: inline-block;
+      font-size: 15px;
+      margin: 0;
+
+      &.active {
+        a {
+          color: white;
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+      }
+
+      a {
+        display: block;
+        padding-left: 8px;
+        padding-right: 8px;
+        color: $link-light;
+
+        &:hover {
+          text-decoration: none;
+          color: white;
+        }
+      }
+
+      &.button-link {
+        margin-left: 8px;
+
+        a {
+          display: inline-block;
+          height: 32px;
+          line-height: 32px;
+          margin-top: 9px;
+          background: $link-light;
+          border-radius: 2px;
+          padding: 0 10px;
+          color: $dark;
+          font-weight: 600;
+          min-width: 106px;
+          text-align: center;
+
+          &:hover {
+            background: white;
+          }
+        }
+      }
+    }
+  }
+
+  .action-button {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: white;
+    padding: 8px 16px;
+    background: rgba($link-light, 0.3);
+    text-align: center;
+    //width: 34px;
+    border-radius: 2px;
+    cursor: pointer;
+    display: none;
+
+    font-size: 14px;
+    line-height: 18px;
+
+    .fa {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background: rgba($link-light, 0.4);
+    }
+  }
+}
+
+@media (max-width: 840px) {
+  .top-navigator {
+    height: auto;
+    min-height: $header-height;
+
+    .right-cont {
+      position: relative;
+      display: block;
+      display: none;
+      padding-bottom: 28px;
+
+      ul {
+        margin-left: 20px;
+      }
+
+      li {
+        display: block;
+        line-height: 42px;
+      }
+    }
+
+    .action-button {
+      &.menu-icon {
+        display: block;
+      }
+    }
+  }
+}
