@@ -42,7 +42,7 @@ Similar to the user activity use case, this data can be about how users are inte
 Druid can be used to drill into how different components of an application are performing, identify bottlenecks, and troubleshoot issues.
 
 Unlike many traditional solutions, there are few limits to the volume, complexity, and throughput of the data.
-Rapidly analyze applications events with thousands of attributes, and compute complex metrics on load, performance, and usage.
+Rapidly analyze application events with thousands of attributes, and compute complex metrics on load, performance, and usage.
 For example, rank API endpoints based on 95th percentile query latency, and slice and dice how these metrics change based on any ad-hoc set of attributes such as time of day, user demographic, or datacenter location.
 
 ## IoT and device metrics
@@ -52,8 +52,8 @@ Ingest machine generated data in real-time, and perform rapid ad-hoc analytics t
 
 Unlike many traditional timeseries databases, Druid is an analytics engine at heart.
 Druid combines ideas of timeseries databases, column-oriented analytic databases, and search systems.
-Druid combines time-based partitioning, column-oriented storage, and search indexes in a single system.
-This means time-based queries, numerical aggregations, and search and filter queries are extremely fast.
+Druid supports time-based partitioning, column-oriented storage, and search indexes in a single system.
+This means time-based queries, numerical aggregations, and search and filter queries are all extremely fast.
 
 You can include millions of unique dimension values with your metrics, and arbitrarily group and filter on any combination of dimensions (dimensions in Druid are similar to tags in TSDBs).
 You can group and rank on tags, and compute a variety of complex metrics.

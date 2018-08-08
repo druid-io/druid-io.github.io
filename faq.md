@@ -1,6 +1,6 @@
 ---
 title: Frequently Asked Questions
-subtitle: Don't see your question here? <a href='/community.html'>Ask us</a>
+subtitle: Don't see your question here? <a href='/community'>Ask us</a>
 layout: simple_page
 sectionid: faq
 ---
@@ -23,8 +23,12 @@ Consider using Druid if your data is primarily operational, where you will need 
 ### Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive?
 
 Druid supports SQL and can load data from Hadoop, but it is not considered a SQL-on-Hadoop system.
-In most SQL-on-Hadoop solutions, compute and storage are separated systems.
-By contrast, in Druid, compute and storage are colocated to maximize performance.
+There are some similarities and several differences in the technologies.
+In most SQL-on-Hadoop solutions, compute and storage are separated systems, and data is loaded from storage into the compute layer as needed by queries.
+Druid separates compute and store in that there is a source of raw data, and an indexed copy of that data in Druid.
+However, indexed data is not created on-demand from queries.
+Data must be indexed in Druid before it can be queried.
+This gives Druid a significant performance edge over traditional SQL-on-Hadoop solutions.
 
 The use cases of SQL-on-Hadoop solutions are identical to traditional data warehouses, and the previous section on Druid vs data warehouses still holds true.
 
@@ -44,13 +48,16 @@ Druid is an analytics engine, but it does share some characteristics with timese
 Like in timeseries databases, Druid is optimized for data where a timestamp is present.
 Druid partitions data by time, and queries that include a time filter will be significantly faster than those that do not.
 Aggregating metrics and filtering on dimensions (which are roughly equivalent to TSDBs' tags) is very fast when a time filter is present.
+Compared to TSDBs, Druid is significantly faster when grouping, searching, and filtering on tags that are not time, and when computing complex metrics such as histograms and quantiles.
 
 
 ### How is Druid deployed?
 
 Druid can be deployed on commodity hardware in any *NIX based environment.
 A Druid cluster consists of several different processes, each designed to do a small set of things very well (ingestion, querying, coordination, etc).
-Many of these processes can be co-located and deployed together on the same hardware as described [here](/docs/latest/tutorials/quickstart.html).
+Many of these processes can be co-located and deployed together on the same hardware as described [here](/docs/latest/tutorials/quickstart).
+
+Druid was initially created in the cloud, and runs well in AWS, GCP, Azure, and other cloud environments.
 
 
 ### Where does Druid fit in my existing Hadoop-based data stack?
