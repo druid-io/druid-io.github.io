@@ -5,7 +5,7 @@ layout: simple_page
 sectionid: powered-by
 ---
 
-There are numerous companies of various sizes in production with Druid.
+There are numerous companies of various sizes in production with Druid. Some of them are listed below.
 
 ## Airbnb
 
