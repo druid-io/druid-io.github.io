@@ -43,8 +43,9 @@
   display: block; }
 
 .disclaimer {
-  margin-top: 12px;
+  margin-top: 42px;
   font-size: 11px;
+  line-height: 170%;
   color: #aaa; }
   .disclaimer a:hover {
     text-decoration: underline; }
