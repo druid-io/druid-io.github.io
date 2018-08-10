@@ -150,17 +150,11 @@
 <td>String representation of Orc struct type info. If not specified, auto constructed from parseSpec but all metric columns are dropped</td>
 <td>no</td>
 </tr>
-<tr>
-<td>mapFieldNameFormat</td>
-<td>String</td>
-<td>String format for resolving the flatten map fields. Default is <code>&lt;PARENT&gt;_&lt;CHILD&gt;</code>.</td>
-<td>no</td>
-</tr>
 </tbody></table>
 
 <p>For example of <code>typeString</code>, string column col1 and array of string column col2 is represented by <code>&quot;struct&lt;col1:string,col2:array&lt;string&gt;&gt;&quot;</code>.</p>
 
-<p>Currently, it only supports java primitive types, array of java primitive types and map of java primitive types. Thus, compound types &#39;list&#39; and &#39;map&#39; in <a href="https://orc.apache.org/docs/types.html">ORC types</a> are supported. Note that, list of list is not supported, nor map of compound types. For map types, values will be exploded to several columns where column names will be resolved via <code>mapFieldNameFormat</code>.</p>
+<p>Currently, it only supports java primitive types and array of java primitive types, which means only &#39;list&#39; of compound types in <a href="https://orc.apache.org/docs/types.html">ORC types</a> is supported (list of list is not supported).  </p>
 
 <p>For example of hadoop indexing:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -200,8 +194,7 @@
             <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
           <span class="p">}</span>
         <span class="p">},</span>
-        <span class="nt">&quot;typeString&quot;</span><span class="p">:</span> <span class="s2">&quot;struct&lt;time:string,name:string&gt;&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;mapFieldNameFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;PARENT&gt;_&lt;CHILD&gt;&quot;</span>
+        <span class="nt">&quot;typeString&quot;</span><span class="p">:</span> <span class="s2">&quot;struct&lt;time:string,name:string&gt;&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>

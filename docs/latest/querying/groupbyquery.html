@@ -364,30 +364,13 @@ concurrent query load.</p>
 
 <h5 id="parallel-combine">Parallel combine</h5>
 
-<p>Once a historical finishes aggregation using the hash table, it sorts the aggregated results and merges them before sending to the
-broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads
-(configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging
-aggregates which is an http thread to send data to brokers.</p>
+<p>Once a historical finishes aggregation using the hash table, it sorts aggregates and merge them before sending to the broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads (configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging aggregates which is an http thread to send data to brokers.</p>
 
-<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared
-between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available
-processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take
-longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
+<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
 
-<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck
-of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well.
-This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in
-<a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when
-data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
+<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well. This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
 
-<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each
-intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge
-aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they
-need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the
-degree of intermediate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
-
-<p>Please note that each historical needs two merge buffers to process a groupBy v2 query with parallel combine: one for
-computing intermediate aggregates from each segment and another for combining intermediate aggregates in parallel.</p>
+<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the degree of intermeidate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
 
 <h4 id="alternatives">Alternatives</h4>
 
@@ -412,7 +395,9 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 
 <h4 id="configurations">Configurations</h4>
 
-<p>This section describes the configurations for groupBy queries. You can set the runtime properties in the <code>runtime.properties</code> file on broker, historical, and MiddleManager nodes. You can set the query context parameters through the <a href="query-context.html">query context</a>.</p>
+<p>This section describes the configurations for groupBy queries. You can set system-wide configurations by adding them to runtime properties or query-specific configurations by adding them to query contexts. All runtime properties are prefixed by <code>druid.query.groupBy</code>.</p>
+
+<h4 id="commonly-tuned-configurations">Commonly tuned configurations</h4>
 
 <h5 id="configurations-for-groupby-v2">Configurations for groupBy v2</h5>
 

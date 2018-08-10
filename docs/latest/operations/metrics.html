@@ -417,24 +417,6 @@
 <td></td>
 <td>0</td>
 </tr>
-<tr>
-<td><code>*/put/ok</code></td>
-<td>Number of new cache entries successfully cached.</td>
-<td></td>
-<td>Varies, but more than zero.</td>
-</tr>
-<tr>
-<td><code>*/put/error</code></td>
-<td>Number of new cache entries that could not be cached due to errors.</td>
-<td></td>
-<td>Varies, but more than zero.</td>
-</tr>
-<tr>
-<td><code>*/put/oversized</code></td>
-<td>Number of potential new cache entries that were skipped due to being too large (based on <code>druid.{broker,historical,realtime}.cache.maxEntrySize</code> properties).</td>
-<td></td>
-<td>Varies.</td>
-</tr>
 </tbody></table>
 
 <h4 id="memcached-only-metrics">Memcached only metrics</h4>
@@ -478,103 +460,91 @@
 <tr>
 <td><code>ingest/events/thrownAway</code></td>
 <td>Number of events rejected because they are outside the windowPeriod.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>0</td>
 </tr>
 <tr>
 <td><code>ingest/events/unparseable</code></td>
 <td>Number of events rejected because the events are unparseable.</td>
-<td>dataSource, taskId, taskType.</td>
-<td>0</td>
-</tr>
-<tr>
-<td><code>ingest/events/duplicate</code></td>
-<td>Number of events rejected because the events are duplicated.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>0</td>
 </tr>
 <tr>
 <td><code>ingest/events/processed</code></td>
 <td>Number of events successfully processed per emission period.</td>
-<td>dataSource, taskId, taskType.</td>
-<td>Equal to your # of events per</td>
-</tr>
-<tr>
-<td>emission period.</td>
-<td></td>
-<td></td>
-<td></td>
+<td>dataSource.</td>
+<td>Equal to your # of events per emission period.</td>
 </tr>
 <tr>
 <td><code>ingest/rows/output</code></td>
 <td>Number of Druid rows persisted.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Your # of events with rollup.</td>
 </tr>
 <tr>
 <td><code>ingest/persists/count</code></td>
 <td>Number of times persist occurred.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Depends on configuration.</td>
 </tr>
 <tr>
 <td><code>ingest/persists/time</code></td>
 <td>Milliseconds spent doing intermediate persist.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Depends on configuration. Generally a few minutes at most.</td>
 </tr>
 <tr>
 <td><code>ingest/persists/cpu</code></td>
 <td>Cpu time in Nanoseconds spent on doing intermediate persist.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Depends on configuration. Generally a few minutes at most.</td>
 </tr>
 <tr>
 <td><code>ingest/persists/backPressure</code></td>
 <td>Milliseconds spent creating persist tasks and blocking waiting for them to finish.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>0 or very low</td>
 </tr>
 <tr>
 <td><code>ingest/persists/failed</code></td>
 <td>Number of persists that failed.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>0</td>
 </tr>
 <tr>
 <td><code>ingest/handoff/failed</code></td>
 <td>Number of handoffs that failed.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>0</td>
 </tr>
 <tr>
 <td><code>ingest/merge/time</code></td>
 <td>Milliseconds spent merging intermediate segments</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Depends on configuration. Generally a few minutes at most.</td>
 </tr>
 <tr>
 <td><code>ingest/merge/cpu</code></td>
 <td>Cpu time in Nanoseconds spent on merging intermediate segments.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Depends on configuration. Generally a few minutes at most.</td>
 </tr>
 <tr>
 <td><code>ingest/handoff/count</code></td>
 <td>Number of handoffs that happened.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Varies. Generally greater than 0 once every segment granular period if cluster operating normally</td>
 </tr>
 <tr>
 <td><code>ingest/sink/count</code></td>
 <td>Number of sinks not handoffed.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>1~3</td>
 </tr>
 <tr>
 <td><code>ingest/events/messageGap</code></td>
 <td>Time gap between the data time in event and current system time.</td>
-<td>dataSource, taskId, taskType.</td>
+<td>dataSource.</td>
 <td>Greater than 0, depends on the time carried in event</td>
 </tr>
 <tr>
@@ -599,38 +569,26 @@
 </thead><tbody>
 <tr>
 <td><code>task/run/time</code></td>
-<td>Milliseconds taken to run a task.</td>
-<td>dataSource, taskId, taskType, taskStatus.</td>
+<td>Milliseconds taken to run task.</td>
+<td>dataSource, taskType, taskStatus.</td>
 <td>Varies.</td>
-</tr>
-<tr>
-<td><code>task/action/log/time</code></td>
-<td>Milliseconds taken to log a task action to the audit log.</td>
-<td>dataSource, taskId, taskType</td>
-<td>&lt; 1000 (subsecond)</td>
-</tr>
-<tr>
-<td><code>task/action/run/time</code></td>
-<td>Milliseconds taken to execute a task action.</td>
-<td>dataSource, taskId, taskType</td>
-<td>Varies from subsecond to a few seconds, based on action type.</td>
 </tr>
 <tr>
 <td><code>segment/added/bytes</code></td>
 <td>Size in bytes of new segments created.</td>
-<td>dataSource, taskId, taskType, interval.</td>
+<td>dataSource, taskType, interval.</td>
 <td>Varies.</td>
 </tr>
 <tr>
 <td><code>segment/moved/bytes</code></td>
 <td>Size in bytes of segments moved/archived via the Move Task.</td>
-<td>dataSource, taskId, taskType, interval.</td>
+<td>dataSource, taskType, interval.</td>
 <td>Varies.</td>
 </tr>
 <tr>
 <td><code>segment/nuked/bytes</code></td>
 <td>Size in bytes of segments deleted via the Kill Task.</td>
-<td>dataSource, taskId, taskType, interval.</td>
+<td>dataSource, taskType, interval.</td>
 <td>Varies.</td>
 </tr>
 </tbody></table>
@@ -904,25 +862,13 @@
 <tr>
 <td><code>ingest/events/buffered</code></td>
 <td>Number of events queued in the EventReceiverFirehose&#39;s buffer</td>
-<td>serviceName, dataSource, taskId, taskType, bufferCapacity</td>
-<td></td>
-</tr>
-<tr>
-<td>.</td>
-<td>Equal</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>to current # of events in the buffer queue.</td>
-<td></td>
-<td></td>
-<td></td>
+<td>serviceName, dataSource, taskId, bufferCapacity.</td>
+<td>Equal to current # of events in the buffer queue.</td>
 </tr>
 <tr>
 <td><code>ingest/bytes/received</code></td>
 <td>Number of bytes received by the EventReceiverFirehose.</td>
-<td>serviceName, dataSource, taskId, taskType.</td>
+<td>serviceName, dataSource, taskId.</td>
 <td>Varies.</td>
 </tr>
 </tbody></table>

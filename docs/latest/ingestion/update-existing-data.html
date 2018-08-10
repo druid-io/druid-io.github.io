@@ -150,7 +150,7 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 
 <h4 id="datasource"><code>dataSource</code></h4>
 
-<p>This is a type of <code>inputSpec</code> that reads data already stored inside Druid. This is used to allow &quot;re-indexing&quot; data and for &quot;delta-ingestion&quot; described later in <code>multi</code> type inputSpec.</p>
+<p>This is a type of <code>inputSpec</code> that reads data already stored inside Druid.</p>
 
 <table><thead>
 <tr>
@@ -175,13 +175,7 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 <tr>
 <td>maxSplitSize</td>
 <td>Number</td>
-<td>Enables combining multiple segments into single Hadoop InputSplit according to size of segments. With -1, druid calculates max split size based on user specified number of map task(mapred.map.tasks or mapreduce.job.maps). By default, one split is made for one segment. maxSplitSize is specified in bytes.</td>
-<td>no</td>
-</tr>
-<tr>
-<td>useNewAggs</td>
-<td>Boolean</td>
-<td>If &quot;false&quot;, then list of aggregators in &quot;metricsSpec&quot; of hadoop indexing task must be same as that used in original indexing task while ingesting raw data. Default value is &quot;false&quot;. This field can be set to &quot;true&quot; when &quot;inputSpec&quot; type is &quot;dataSource&quot; and not &quot;multi&quot; to enable arbitrary aggregators while reindexing. See below for &quot;multi&quot; type support for delta-ingestion.</td>
+<td>Enables combining multiple segments into single Hadoop InputSplit according to size of segments. With -1, druid calculates max split size based on user specified number of map task(mapred.map.tasks or mapreduce.job.maps). By default, one split is made for one segment.</td>
 <td>no</td>
 </tr>
 </tbody></table>
@@ -255,8 +249,7 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 </code></pre></div>
 <h4 id="multi"><code>multi</code></h4>
 
-<p>This is a composing inputSpec to combine other inputSpecs. This inputSpec is used for delta ingestion. You can also use a <code>multi</code> inputSpec to combine data from multiple dataSources. However, each particular dataSource can only be specified one time.
-Note that, &quot;useNewAggs&quot; must be set to default value false to support delta-ingestion.</p>
+<p>This is a composing inputSpec to combine other inputSpecs. This inputSpec is used for delta ingestion. Please note that you can have only one <code>dataSource</code> as child of <code>multi</code> inputSpec.</p>
 
 <table><thead>
 <tr>

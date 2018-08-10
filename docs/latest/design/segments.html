@@ -125,7 +125,7 @@ operate well under heavy query load, it is important for the segment
 file size to be within the recommended range of 300mb-700mb. If your
 segment files are larger than this range, then consider either
 changing the granularity of the time interval or partitioning your
-data and tweaking the <code>targetPartitionSize</code> in your <code>partitionsSpec</code>
+data and tweaking the <code>targetPartitionSize</code> in your <code>partitioningSpec</code>
 (a good starting point for this parameter is 5 million rows).  See the
 sharding section below and the &#39;Partitioning specification&#39; section of
 the <a href="../ingestion/batch-ingestion.html">Batch ingestion</a> documentation

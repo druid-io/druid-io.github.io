@@ -182,9 +182,6 @@
 
 <p>As with the S3 blobstore, it is assumed to be gzipped if the extension ends in .gz</p>
 
-<p>This firehose is <em>splittable</em> and can be used by <a href="../../ingestion/native_tasks.html#parallel-index-task">native parallel index tasks</a>.
-Since each split represents an object in this firehose, each worker task of <code>index_parallel</code> will read an object.</p>
-
 <p>Sample spec:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static-azure-blobstore&quot;</span><span class="p">,</span>

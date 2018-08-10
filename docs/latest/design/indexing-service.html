@@ -143,10 +143,35 @@ In local mode overlord is also responsible for creating peons for executing task
 Local mode is typically used for simple workflows.  In remote mode, the overlord and middle manager are run in separate processes and you can run each on a different server.
 This mode is recommended if you intend to use the indexing service as the single endpoint for all Druid indexing.</p>
 
-<h4 id="http-endpoints">HTTP Endpoints</h4>
+<h4 id="leadership-status">Leadership status</h4>
 
-<p>For a list of API endpoints supported by the Overlord, please see the <a href="../operations/api-reference.html#overlord">API reference</a>.</p>
+<p>If you have multiple overlords, just one is leading at any given time. The others are on standby. To get the current
+leader overlord of the cluster, call:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/leader
+</code></pre></div>
+<p>To see if a given server is the current leader overlord of the cluster, call:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/isLeader
+</code></pre></div>
+<p>This returns a JSON object with field &quot;leader&quot;, either true or false. In addition, this call returns HTTP 200 if the
+server is the current leader and HTTP 404 if not. This is suitable for use as a load balancer status check if you
+only want the active leader to be considered in-service at the load balancer.</p>
 
+<h4 id="submitting-tasks-and-querying-task-status">Submitting Tasks and Querying Task Status</h4>
+
+<p>Tasks are submitted to the overlord node in the form of JSON objects. Tasks can be submitted via POST requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task
+</code></pre></div>
+<p>this will return the taskId of the submitted task.</p>
+
+<p>Tasks can be shut down via POST requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/shutdown
+</code></pre></div>
+<p>Task statuses can be retrieved via GET requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/status
+</code></pre></div>
+<p>Task segments can be retrieved via GET requests to:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/druid/indexer/v1/task/{taskId}/segments
+</code></pre></div>
 <h4 id="overlord-console">Overlord Console</h4>
 
 <p>The overlord console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
@@ -179,6 +204,16 @@ druid.indexer.runner.maxPercentageBlacklistWorkers
 <h2 id="tasks">Tasks</h2>
 
 <p>See <a href="../ingestion/tasks.html">Tasks</a>.</p>
+
+<h2 id="http-endpoints">HTTP Endpoints</h2>
+
+<h3 id="get">GET</h3>
+
+<ul>
+<li><code>/status</code></li>
+</ul>
+
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
 
         </div>
         <div class="col-md-3">
