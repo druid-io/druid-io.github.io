@@ -9,7 +9,7 @@ This tutorial demonstrates how to configure retention rules on a datasource to s
 For this tutorial, we'll assume you've already downloaded Druid as described in 
 the [single-machine quickstart](index.html) and have it running on your local machine. 
 
-It will also be helpful to have finished [Tutorial: Loading a file](/docs/VERSION/tutorials/tutorial-batch.html) and [Tutorial: Querying data](/docs/VERSION/tutorials/tutorial-query.html).
+It will also be helpful to have finished [Tutorial: Loading a file](../tutorials/tutorial-batch.html) and [Tutorial: Querying data](../tutorials/tutorial-query.html).
 
 ## Load the example data
 
@@ -89,4 +89,4 @@ If instead you want to retain data based on how old it is (e.g., retain data tha
 
 ## Further reading
 
-* [Load rules](/docs/VERSION/operations/rule-configuration.html)
+* [Load rules](../operations/rule-configuration.html)

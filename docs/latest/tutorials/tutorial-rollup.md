@@ -11,7 +11,7 @@ This tutorial will demonstrate the effects of roll-up on an example dataset.
 For this tutorial, we'll assume you've already downloaded Druid as described in 
 the [single-machine quickstart](index.html) and have it running on your local machine.
 
-It will also be helpful to have finished [Tutorial: Loading a file](/docs/VERSION/tutorials/tutorial-batch.html) and [Tutorial: Querying data](/docs/VERSION/tutorials/tutorial-query.html).
+It will also be helpful to have finished [Tutorial: Loading a file](../tutorials/tutorial-batch.html) and [Tutorial: Querying data](../tutorials/tutorial-query.html).
 
 ## Example data
 
@@ -95,7 +95,7 @@ We will see how these definitions are used after we load this data.
 
 ## Load the example data
 
-From the druid-${DRUIDVERSION} package root, run the following command:
+From the Druid package root, run the following command:
 
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-index.json http://localhost:8090/druid/indexer/v1/task

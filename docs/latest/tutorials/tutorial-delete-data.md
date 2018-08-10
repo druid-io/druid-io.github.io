@@ -9,7 +9,7 @@ This tutorial demonstrates how to delete existing data.
 For this tutorial, we'll assume you've already downloaded Druid as described in 
 the [single-machine quickstart](index.html) and have it running on your local machine. 
 
-Completing [Tutorial: Configuring retention](/docs/VERSION/tutorials/tutorial-retention.html) first is highly recommended, as we will be using retention rules in this tutorial.
+Completing [Tutorial: Configuring retention](../tutorials/tutorial-retention.html) first is highly recommended, as we will be using retention rules in this tutorial.
 
 ## Load initial data
 
@@ -48,7 +48,7 @@ In the `rule #2` box at the bottom, click `Drop` and `Forever`.
 
 This will cause the first 12 segments of `deletion-tutorial` to be dropped. However, these dropped segments are not removed from deep storage.
 
-You can see that all 24 segments are still present in deep storage by listing the contents of `druid-{DRUIDVERSION}/var/druid/segments/deletion-tutorial`:
+You can see that all 24 segments are still present in deep storage by listing the contents of `var/druid/segments/deletion-tutorial`:
 
 ```
 $ ls -l1 var/druid/segments/deletion-tutorial/

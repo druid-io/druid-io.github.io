@@ -20,7 +20,7 @@ For this tutorial, we've provided a Dockerfile for a Hadoop 2.7.3 cluster, which
 
 This Dockerfile and related files are located at `examples/hadoop/docker`.
 
-From the druid-${DRUIDVERSION} package root, run the following commands to build a Docker image named "druid-hadoop-demo" with version tag "2.7.3":
+From the druid package root, run the following commands to build a Docker image named "druid-hadoop-demo" with version tag "2.7.3":
 
 ```
 cd examples/hadoop/docker
@@ -80,7 +80,7 @@ The `Unable to load native-hadoop library for your platform... using builtin-jav
 
 ### Copy input data to the Hadoop container
 
-From the druid-${DRUIDVERSION} package root on the host, copy the `quickstart/wikiticker-2015-09-12-sampled.json.gz` sample data to the shared folder:
+From the druid package root on the host, copy the `quickstart/wikiticker-2015-09-12-sampled.json.gz` sample data to the shared folder:
 
 ```
 cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
