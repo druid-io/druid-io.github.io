@@ -98,9 +98,12 @@ Later on, if you'd like to stop the services, CTRL-C to exit from the running ja
 want a clean start after stopping the services, delete the `log` and `var` directory and run the `init` script again.
 
 From the druid-0.12.2 directory:
-```
+
+```bash
 rm -rf log
+
 rm -rf var
+
 bin/init
 ```
 
