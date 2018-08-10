@@ -2,29 +2,48 @@
 layout: toc
 ---
 
-### Getting Started
-  * [Concepts](/docs/VERSION/design/)
-  * [Quickstart](/docs/VERSION/tutorials/quickstart.html)
-  * [Loading Data](/docs/VERSION/tutorials/ingestion.html)
-    * [Loading from Files](/docs/VERSION/tutorials/tutorial-batch.html)
-    * [Loading from Streams](/docs/VERSION/tutorials/tutorial-streams.html)
-    * [Loading from Kafka](/docs/VERSION/tutorials/tutorial-kafka.html)
+## Getting Started
+  * [Design](/docs/VERSION/design/index.html)
+    * [What is Druid?](/docs/VERSION/design/index.html#what-is-druid)
+    * [When should I use Druid](/docs/VERSION/design/index.html#when-to-use-druid)
+    * [Architecture](/docs/VERSION/design/index.html#architecture)
+    * [Datasources & Segments](/docs/VERSION/design/index.html#datasources-and-segments)
+    * [Query processing](/docs/VERSION/design/index.html#query-processing)
+    * [External dependencies](/docs/VERSION/design/index.html#external-dependencies)
+    * [Ingestion overview](/docs/VERSION/ingestion/overview.html)
+  * [Quickstart](/docs/VERSION/tutorials/index.html)
+    * [Tutorial: Loading a file](/docs/VERSION/tutorials/tutorial-batch.html)
+    * [Tutorial: Loading stream data from Kafka](/docs/VERSION/tutorials/tutorial-kafka.html)
+    * [Tutorial: Loading a file using Hadoop](/docs/VERSION/tutorials/tutorial-batch-hadoop.html)
+    * [Tutorial: Loading stream data using HTTP push](/docs/VERSION/tutorials/tutorial-tranquility.html)
+    * [Tutorial: Querying data](/docs/VERSION/tutorials/tutorial-query.html)
+  * [Further tutorials](/docs/VERSION/tutorials/advanced.html)
+    * [Tutorial: Rollup](/docs/VERSION/tutorials/rollup.html)
+    * [Tutorial: Configuring retention](/docs/VERSION/tutorials/tutorial-retention.html)
+    * [Tutorial: Updating existing data](/docs/VERSION/tutorials/tutorial-update-data.html)
+    * [Tutorial: Compacting segments](/docs/VERSION/tutorials/tutorial-compaction.html)
+    * [Tutorial: Deleting data](/docs/VERSION/tutorials/tutorial-delete-data.html)
+    * [Tutorial: Writing your own ingestion specs](/docs/VERSION/tutorials/tutorial-ingestion-spec.html)
   * [Clustering](/docs/VERSION/tutorials/cluster.html)
 
-### Data Ingestion
+## Data Ingestion
+  * [Ingestion overview](/docs/VERSION/ingestion/overview.html)
   * [Data Formats](/docs/VERSION/ingestion/data-formats.html)
-  * [Data Schema](/docs/VERSION/ingestion/index.html)
+  * [Ingestion Spec](/docs/VERSION/ingestion/index.html)
   * [Schema Design](/docs/VERSION/ingestion/schema-design.html)
   * [Schema Changes](/docs/VERSION/ingestion/schema-changes.html)
   * [Batch File Ingestion](/docs/VERSION/ingestion/batch-ingestion.html)
+    * [Native Batch Ingestion](docs/VERSION/ingestion/native_tasks.html)
+    * [Hadoop Batch Ingestion](docs/VERSION/ingestion/hadoop.html)
   * [Stream Ingestion](/docs/VERSION/ingestion/stream-ingestion.html)
     * [Stream Push](/docs/VERSION/ingestion/stream-push.html)
     * [Stream Pull](/docs/VERSION/ingestion/stream-pull.html)
   * [Updating Existing Data](/docs/VERSION/ingestion/update-existing-data.html)
   * [Ingestion Tasks](/docs/VERSION/ingestion/tasks.html)
+  * [Transform Specs](/docs/VERSION/ingestion/transform-spec.html)
   * [FAQ](/docs/VERSION/ingestion/faq.html)
 
-### Querying
+## Querying
   * [Overview](/docs/VERSION/querying/querying.html)
   * [Timeseries](/docs/VERSION/querying/timeseriesquery.html)
   * [TopN](/docs/VERSION/querying/topnquery.html)
@@ -50,8 +69,9 @@ layout: toc
   * [Multitenancy](/docs/VERSION/querying/multitenancy.html)
   * [Caching](/docs/VERSION/querying/caching.html)
   * [Sorting Orders](/docs/VERSION/querying/sorting-orders.html)
+  * [Virtual Columns](/docs/VERSION/querying/virtual-columns.html)
 
-### Design
+## Design
   * [Overview](/docs/VERSION/design/design.html)
   * Storage
     * [Segments](/docs/VERSION/design/segments.html)
@@ -66,7 +86,14 @@ layout: toc
     * [Metadata Storage](/docs/VERSION/dependencies/metadata-storage.html)
     * [ZooKeeper](/docs/VERSION/dependencies/zookeeper.html)
 
-### Operations
+## Operations
+  * [API Reference](/docs/VERSION/operations/api-reference.html)
+    * [Coordinator](/docs/VERSION/operations/api-reference.html#coordinator)
+    * [Overlord](/docs/VERSION/operations/api-reference.html#overlord)
+    * [MiddleManager](/docs/VERSION/operations/api-reference.html#middlemanager)
+    * [Peon](/docs/VERSION/operations/api-reference.html#peon)
+    * [Broker](/docs/VERSION/operations/api-reference.html#broker)
+    * [Historical](/docs/VERSION/operations/api-reference.html#historical)
   * [Good Practices](/docs/VERSION/operations/recommendations.html)
   * [Including Extensions](/docs/VERSION/operations/including-extensions.html)
   * [Data Retention](/docs/VERSION/operations/rule-configuration.html)
@@ -82,17 +109,21 @@ layout: toc
   * [TLS Support](/docs/VERSION/operations/tls-support.html)
   * [Password Provider](/docs/VERSION/operations/password-provider.html)
 
-### Configuration
-  * [Common Configuration](/docs/VERSION/configuration/index.html)
-  * [Indexing Service](/docs/VERSION/configuration/indexing-service.html)
-  * [Coordinator](/docs/VERSION/configuration/coordinator.html)
-  * [Historical](/docs/VERSION/configuration/historical.html)
-  * [Broker](/docs/VERSION/configuration/broker.html)
-  * [Realtime](/docs/VERSION/configuration/realtime.html)
+## Configuration
+  * [Configuration Reference](/docs/VERSION/configuration/index.html)
+  * [Recommended Configuration File Organization](/docs/VERSION/configuration/index.html#recommended-configuration-file-organization)
+  * [JVM Configuration Best Practices](/docs/VERSION/configuration/index.html#jvm-configuration-best-practices)
+  * [Common Configuration](/docs/VERSION/configuration/index.html#common-configurations)
+  * [Coordinator](/docs/VERSION/configuration/index.html#coordinator)
+  * [Overlord](/docs/VERSION/configuration/index.html#overlord)
+  * [MiddleManager & Peons](/docs/VERSION/configuration/index.html#middle-manager-and-peons)
+  * [Broker](/docs/VERSION/configuration/index.html#broker)
+  * [Historical](/docs/VERSION/configuration/index.html#historical)
+  * [Caching](/docs/VERSION/configuration/index.html#cache-configuration)
+  * [General Query Configuration](/docs/VERSION/configuration/index.html#general-query-configuration)
   * [Configuring Logging](/docs/VERSION/configuration/logging.html)
-  * [Configuring Authentication and Authorization](/docs/VERSION/configuration/auth.html)
   
-### Development
+## Development
   * [Overview](/docs/VERSION/development/overview.html)
   * [Libraries](/docs/VERSION/development/libraries.html)
   * [Extensions](/docs/VERSION/development/extensions.html)
@@ -103,12 +134,13 @@ layout: toc
   * Experimental Features
     * [Overview](/docs/VERSION/development/experimental.html)
     * [Approximate Histograms and Quantiles](/docs/VERSION/development/extensions-core/approximate-histograms.html)
-    * [Datasketches](/docs/VERSION/development/extensions-core/datasketches-aggregators.html)
+    * [Datasketches](/docs/VERSION/development/extensions-core/datasketches-extension.html)
     * [Geographic Queries](/docs/VERSION/development/geo.html)
     * [Router](/docs/VERSION/development/router.html)
     * [Kafka Indexing Service](/docs/VERSION/development/extensions-core/kafka-ingestion.html)
 
 
-### Misc
+## Misc
+  * [Druid Expressions Language](/docs/VERSION/misc/math-expr.html)
   * [Papers & Talks](/docs/VERSION/misc/papers-and-talks.html)
   * [Thanks](/thanks.html)
