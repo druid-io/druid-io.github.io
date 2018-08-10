@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <h1 id="json-flatten-spec">JSON Flatten Spec</h1>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>useFieldDiscovery</td>
+<td>Boolean</td>
+<td>If true, interpret all fields with singular values (not a map or list) and flat lists (lists of singular values) at the root level as columns.</td>
+<td>no (default == true)</td>
+</tr>
+<tr>
+<td>fields</td>
+<td>JSON Object array</td>
+<td>Specifies the fields of interest and how they are accessed</td>
+<td>no (default == [])</td>
+</tr>
+</tbody></table>
+
+<p>Defining the JSON Flatten Spec allows nested JSON fields to be flattened during ingestion time. Only the JSON ParseSpec supports flattening.</p>
+
+<p>&#39;fields&#39; is a list of JSON Objects, describing the field names and how the fields are accessed:</p>
+
+<h2 id="json-field-spec">JSON Field Spec</h2>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Type of the field, &quot;root&quot;, &quot;path&quot; or &quot;jq&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>This string will be used as the column name when the data has been ingested.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>expr</td>
+<td>String</td>
+<td>Defines an expression for accessing the field within the JSON object, using <a href="https://github.com/jayway/JsonPath">JsonPath</a> notation for type &quot;path&quot;, and <a href="https://github.com/eiiches/jackson-jq">jackson-jq</a> for type &quot;jq&quot;. This field is only used for type &quot;path&quot; and &quot;jq&quot;, otherwise ignored.</td>
+<td>only for type &quot;path&quot; or &quot;jq&quot;</td>
+</tr>
+</tbody></table>
+
+<p>Suppose the event JSON has the following form:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+ <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T12:10:53.155Z&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;dim1&quot;</span><span class="p">:</span> <span class="s2">&quot;qwerty&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;dim2&quot;</span><span class="p">:</span> <span class="s2">&quot;asdf&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;dim3&quot;</span><span class="p">:</span> <span class="s2">&quot;zxcv&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;ignore_me&quot;</span><span class="p">:</span> <span class="s2">&quot;ignore this&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;metrica&quot;</span><span class="p">:</span> <span class="mi">9999</span><span class="p">,</span>
+ <span class="nt">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;bar&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span><span class="p">},</span>
+ <span class="nt">&quot;foo.bar&quot;</span><span class="p">:</span> <span class="s2">&quot;def&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;nestmet&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;val&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">},</span>
+ <span class="nt">&quot;hello&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span>
+ <span class="nt">&quot;mixarray&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="p">{</span><span class="nt">&quot;last&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}],</span>
+ <span class="nt">&quot;world&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="nt">&quot;hey&quot;</span><span class="p">:</span> <span class="s2">&quot;there&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nt">&quot;tree&quot;</span><span class="p">:</span> <span class="s2">&quot;apple&quot;</span><span class="p">}],</span>
+ <span class="nt">&quot;thing&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;food&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sandwich&quot;</span><span class="p">,</span> <span class="s2">&quot;pizza&quot;</span><span class="p">]}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The column &quot;metrica&quot; is a Long metric column, &quot;hello&quot; is an array of Double metrics, and &quot;nestmet.val&quot; is a nested Long metric. All other columns are dimensions.</p>
+
+<p>To flatten this JSON, the parseSpec could be defined as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;dim1&quot;</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;dim2&quot;</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;foo.bar&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.foo.bar&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;foo.bar&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;path-metric&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.nestmet.val&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.hello[0]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-4&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.hello[4]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;world-hey&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.world[0].hey&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;worldtree&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.world[1].tree&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;first-food&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.thing.food[0]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;second-food&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.thing.food[1]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;first-food-by-jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;.thing.food[1]&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jq&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hello-total&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;.hello | sum&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+   <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+   <span class="nt">&quot;dimensionsExclusions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ignore_me&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+   <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Fields &quot;dim3&quot;, &quot;ignore_me&quot;, and &quot;metrica&quot; will be automatically discovered because &#39;useFieldDiscovery&#39; is true, so they have been omitted from the field spec list.</p>
+
+<p>&quot;ignore_me&quot; will be automatically discovered but excluded as specified by dimensionsExclusions.</p>
+
+<p>Aggregators should use the metric column names as defined in the flattenSpec. Using the example above:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metricsSpec&quot;</span> <span class="err">:</span> <span class="p">[</span> 
+<span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;path-metric-sum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;path-metric&quot;</span>
+<span class="p">},</span> 
+<span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;hello-0-sum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;hello-0&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;metrica-sum&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;metrica&quot;</span>
+<span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>Note that:</p>
+
+<ul>
+<li>For convenience, when defining a root-level field, it is possible to define only the field name, as a string, shown with &quot;dim2&quot; above.</li>
+<li>Enabling &#39;useFieldDiscovery&#39; will only autodetect fields at the root level with a single value (not a map or list), as well as fields referring to a list of single values. In the example above, &quot;dim1&quot;, &quot;dim2&quot;, &quot;dim3&quot;, &quot;ignore_me&quot;, &quot;metrica&quot;, and &quot;foo.bar&quot; (at the root) would be automatically detected as columns. The &quot;hello&quot; field is a list of Doubles and will be autodiscovered, but note that the example ingests the individual list members as separate fields. The &quot;world&quot; field must be explicitly defined because its value is a map. The &quot;mixarray&quot; field, while similar to &quot;hello&quot;, must also be explicitly defined because its last value is a map.<br></li>
+<li>Duplicate field definitions are not allowed, an exception will be thrown.</li>
+<li>If auto field discovery is enabled, any discovered field with the same name as one already defined in the field specs will be skipped and not added twice.</li>
+<li>The JSON input must be a JSON object at the root, not an array. e.g., {&quot;valid&quot;: &quot;true&quot;} and {&quot;valid&quot;:[1,2,3]} are supported but [{&quot;invalid&quot;: &quot;true&quot;}] and [1,2,3] are not.</li>
+<li><a href="http://jsonpath.herokuapp.com/">http://jsonpath.herokuapp.com/</a> is useful for testing the path expressions.</li>
+<li>jackson-jq supports subset of <a href="https://stedolan.github.io/jq/">./jq</a> syntax.  Please refer jackson-jq document.</li>
+</ul>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

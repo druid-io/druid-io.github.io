@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <h1 id="druid-basic-security">Druid Basic Security</h1>
+
+<p>This extension adds:
+- an Authenticator which supports <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic authentication</a>
+- an Authorizer which implements basic role-based access control</p>
+
+<p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-basic-security</code> as an extension.</p>
+
+<p>Please see <a href="../../configuration/auth.html">Authentication and Authorization</a> for more information on the extension interfaces being implemented.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>The examples in the section will use &quot;MyBasicAuthenticator&quot; and &quot;MyBasicAuthorizer&quot; as names for the Authenticator and Authorizer.</p>
+
+<p>These properties are not tied to specific Authenticator or Authorizer instances.</p>
+
+<p>These configuration properties should be added to the common runtime properties file.</p>
+
+<h3 id="properties">Properties</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.auth.basic.common.pollingPeriod</code></td>
+<td>Defines in milliseconds how often nodes should poll the coordinator for the current authenticator/authorizer database state.</td>
+<td>60000</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.basic.common.maxRandomDelay</code></td>
+<td>Defines in milliseconds the amount of random delay to add to the pollingPeriod, to spread polling requests across time.</td>
+<td>6000</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.basic.common.maxSyncRetries</code></td>
+<td>Determines how many times a service will retry if the authentication/authorization database state sync with the coordinator fails.</td>
+<td>10</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.basic.common.cacheDirectory</code></td>
+<td>If defined, snapshots of the basic Authenticator and Authorizer database caches will be stored on disk in this directory. If this property is defined, when a service is starting, it will attempt to initialize its caches from these on-disk snapshots, if the service is unable to initialize its state by communicating with the coordinator.</td>
+<td>null</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<h3 id="creating-an-authenticator">Creating an Authenticator</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticatorChain=[&quot;MyBasicAuthenticator&quot;]
+
+druid.auth.authenticator.MyBasicAuthenticator.type=basic
+druid.auth.authenticator.MyBasicAuthenticator.initialAdminPassword=password1
+druid.auth.authenticator.MyBasicAuthenticator.initialInternalClientPassword=password2
+druid.auth.authenticator.MyBasicAuthenticator.authorizerName=MyBasicAuthorizer
+</code></pre></div>
+<p>To use the Basic authenticator, add an authenticator with type <code>basic</code> to the authenticatorChain. </p>
+
+<p>Configuration of the named authenticator is assigned through properties with the form:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticator.&lt;authenticatorName&gt;.&lt;authenticatorProperty&gt;
+</code></pre></div>
+<p>The configuration examples in the rest of this document will use &quot;MyBasicAuthenticator&quot; as the name of the authenticator being configured.</p>
+
+<h4 id="properties">Properties</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.initialAdminPassword</code></td>
+<td>Initial password for the automatically created default admin user. If no password is specified, the default admin user will not be created. If the default admin user already exists, setting this property will affect its password.</td>
+<td>null</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.initialInternalClientPassword</code></td>
+<td>Initial password for the default internal system user, used for internal node communication. If no password is specified, the default internal system user will not be created. If the default internal system user already exists, setting this property will affect its password.</td>
+<td>null</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.enableCacheNotifications</code></td>
+<td>If true, the coordinator will notify Druid nodes whenever a configuration change to this Authenticator occurs, allowing them to immediately update their state without waiting for polling.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.cacheNotificationTimeout</code></td>
+<td>The timeout in milliseconds for the cache notifications.</td>
+<td>5000</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.credentialIterations</code></td>
+<td>Number of iterations to use for password hashing.</td>
+<td>10000</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.MyBasicAuthenticator.authorizerName</code></td>
+<td>Authorizer that requests should be directed to</td>
+<td>N/A</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="creating-an-escalator">Creating an Escalator</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span># Escalator
+druid.escalator.type=basic
+druid.escalator.internalClientUsername=druid_system
+druid.escalator.internalClientPassword=password2
+druid.escalator.authorizerName=MyBasicAuthorizer
+</code></pre></div>
+<h4 id="properties">Properties</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.escalator.internalClientUsername</code></td>
+<td>The escalator will use this username for requests made as the internal systerm user.</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.escalator.internalClientPassword</code></td>
+<td>The escalator will use this password for requests made as the internal system user.</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.escalator.authorizerName</code></td>
+<td>Authorizer that requests should be directed to.</td>
+<td>n/a</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="creating-an-authorizer">Creating an Authorizer</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authorizers=[&quot;MyBasicAuthorizer&quot;]
+
+druid.auth.authorizer.MyBasicAuthorizer.type=basic
+</code></pre></div>
+<p>To use the Basic authorizer, add an authenticator with type <code>basic</code> to the authorizers list.</p>
+
+<p>Configuration of the named authenticator is assigned through properties with the form:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authorizer.&lt;authorizerName&gt;.&lt;authorizerProperty&gt;
+</code></pre></div>
+<h4 id="properties">Properties</h4>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.auth.authorizer.MyBasicAuthorizer.enableCacheNotifications</code></td>
+<td>If true, the coordinator will notify Druid nodes whenever a configuration change to this Authorizer occurs, allowing them to immediately update their state without waiting for polling.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>druid.auth.authorizer.MyBasicAuthorizer.cacheNotificationTimeout</code></td>
+<td>The timeout in milliseconds for the cache notifications.</td>
+<td>5000</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="coordinator-security-api">Coordinator Security API</h3>
+
+<p>To use these APIs, a user needs read/write permissions for the CONFIG resource type with name &quot;security&quot;.</p>
+
+<h4 id="authentication-api">Authentication API</h4>
+
+<p>Root path: <code>/druid-ext/basic-security/authentication</code></p>
+
+<p>Each API endpoint includes {authenticatorName}, specifying which Authenticator instance is being configured.</p>
+
+<h5 id="user-credential-management">User/Credential Management</h5>
+
+<p><code>GET(/druid-ext/basic-security/authentication/db/{authenticatorName}/users)</code>
+Return a list of all user names.</p>
+
+<p><code>GET(/druid-ext/basic-security/authentication/db/{authenticatorName}/users/{userName})</code>
+Return the name and credentials information of the user with name {userName}</p>
+
+<p><code>POST(/druid-ext/basic-security/authentication/db/{authenticatorName}/users/{userName})</code>
+Create a new user with name {userName}</p>
+
+<p><code>DELETE(/druid-ext/basic-security/authentication/db/{authenticatorName}/users/{userName})</code>
+Delete the user with name {userName}</p>
+
+<p><code>POST(/druid-ext/basic-security/authentication/db/{authenticatorName}/users/{userName}/credentials)</code>
+Assign a password used for HTTP basic authentication for {userName}
+Content: JSON password request object</p>
+
+<p>Example request body:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;password&quot;: &quot;helloworld&quot;
+}
+</code></pre></div>
+<h5 id="cache-load-status">Cache Load Status</h5>
+
+<p><code>GET(/druid-ext/basic-security/authentication/loadStatus)</code>
+Return the current load status of the local caches of the authentication database.</p>
+
+<h4 id="authorization-api">Authorization API</h4>
+
+<p>Root path: <code>/druid-ext/basic-security/authorization</code></p>
+
+<p>Each API endpoint includes {authorizerName}, specifying which Authorizer instance is being configured.</p>
+
+<h5 id="user-creation-deletion">User Creation/Deletion</h5>
+
+<p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/users)</code>
+Return a list of all user names.</p>
+
+<p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName})</code>
+Return the name and role information of the user with name {userName}</p>
+
+<p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName})</code>
+Create a new user with name {userName}</p>
+
+<p><code>DELETE(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName})</code>
+Delete the user with name {userName}</p>
+
+<h4 id="role-creation-deletion">Role Creation/Deletion</h4>
+
+<p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/roles)</code>
+Return a list of all role names.</p>
+
+<p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName})</code>
+Return name and permissions for the role named {roleName}</p>
+
+<p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName})</code>
+Create a new role with name {roleName}.
+Content: username string</p>
+
+<p><code>DELETE(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName})</code>
+Delete the role with name {roleName}.</p>
+
+<h4 id="role-assignment">Role Assignment</h4>
+
+<p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName}/roles/{roleName})</code>
+Assign role {roleName} to user {userName}.</p>
+
+<p><code>DELETE(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName}/roles/{roleName})</code>
+Unassign role {roleName} from user {userName}</p>
+
+<h4 id="permissions">Permissions</h4>
+
+<p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName}/permissions)</code>
+Set the permissions of {roleName}. This replaces the previous set of permissions on the role.</p>
+
+<p>Content: List of JSON Resource-Action objects, e.g.:
+<code>
+[
+{ 
+  &quot;resource&quot;: {
+    &quot;name&quot;: &quot;wiki.*&quot;,
+    &quot;type&quot;: &quot;DATASOURCE&quot;
+  },
+  &quot;action&quot;: &quot;READ&quot;
+},
+{ 
+  &quot;resource&quot;: {
+    &quot;name&quot;: &quot;wikiticker&quot;,
+    &quot;type&quot;: &quot;DATASOURCE&quot;
+  },
+  &quot;action&quot;: &quot;WRITE&quot;
+}
+]
+</code></p>
+
+<p>The &quot;name&quot; field for resources in the permission definitions are regexes used to match resource names during authorization checks. </p>
+
+<p>Please see <a href="#defining-permissions">Defining permissions</a> for more details.</p>
+
+<h5 id="cache-load-status">Cache Load Status</h5>
+
+<p><code>GET(/druid-ext/basic-security/authorization/loadStatus)</code>
+Return the current load status of the local caches of the authorization database.</p>
+
+<h2 id="default-user-accounts">Default user accounts</h2>
+
+<h3 id="authenticator">Authenticator</h3>
+
+<p>If <code>druid.auth.authenticator.&lt;authenticator-name&gt;.initialAdminPassword</code> is set, a default admin user named &quot;admin&quot; will be created, with the specified initial password. If this configuration is omitted, the &quot;admin&quot; user will not be created.</p>
+
+<p>If <code>druid.auth.authenticator.&lt;authenticator-name&gt;.initialInternalClientPassword</code> is set, a default internal system user named &quot;druid_system&quot; will be created, with the specified initial password. If this configuration is omitted, the &quot;druid_system&quot; user will not be created. </p>
+
+<h3 id="authorizer">Authorizer</h3>
+
+<p>Each Authorizer will always have a default &quot;admin&quot; and &quot;druid_system&quot; user with full privileges.</p>
+
+<h2 id="defining-permissions">Defining permissions</h2>
+
+<p>There are two action types in Druid: READ and WRITE</p>
+
+<p>There are three resource types in Druid: DATASOURCE, CONFIG, and STATE.</p>
+
+<h3 id="datasource">DATASOURCE</h3>
+
+<p>Resource names for this type are datasource names. Specifying a datasource permission allows the administrator to grant users access to specific datasources.</p>
+
+<h3 id="config">CONFIG</h3>
+
+<p>There are two possible resource names for the &quot;CONFIG&quot; resource type, &quot;CONFIG&quot; and &quot;security&quot;. Granting a user access to CONFIG resources allows them to access the following endpoints.</p>
+
+<p>&quot;CONFIG&quot; resource name covers the following endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Node Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>/druid/coordinator/v1/config</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/worker</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/worker/history</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1/disable</code></td>
+<td>middleManager</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1/enable</code></td>
+<td>middleManager</td>
+</tr>
+</tbody></table>
+
+<p>&quot;security&quot; resource name covers the following endpoint:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Node Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>/druid/coordinator/v1/security</code></td>
+<td>coordinator</td>
+</tr>
+</tbody></table>
+
+<h3 id="state">STATE</h3>
+
+<p>There is only one possible resource name for the &quot;STATE&quot; config resource type, &quot;STATE&quot;. Granting a user access to STATE resources allows them to access the following endpoints.</p>
+
+<p>&quot;STATE&quot; resource name covers the following endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Node Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>/druid/coordinator/v1</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/coordinator/v1/rules</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/coordinator/v1/rules/history</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/coordinator/v1/servers</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/coordinator/v1/tiers</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid/broker/v1</code></td>
+<td>broker</td>
+</tr>
+<tr>
+<td><code>/druid/v2/candidates</code></td>
+<td>broker</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/leader</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/isLeader</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/action</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/workers</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/indexer/v1/scaling</code></td>
+<td>overlord</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1/enabled</code></td>
+<td>middleManager</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1/tasks</code></td>
+<td>middleManager</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1/task/{taskid}/shutdown</code></td>
+<td>middleManager</td>
+</tr>
+<tr>
+<td><code>/druid/worker/v1//task/{taskid}/log</code></td>
+<td>middleManager</td>
+</tr>
+<tr>
+<td><code>/druid/historical/v1</code></td>
+<td>historical</td>
+</tr>
+<tr>
+<td><code>/druid-internal/v1/segments/</code></td>
+<td>historical</td>
+</tr>
+<tr>
+<td><code>/druid-internal/v1/segments/</code></td>
+<td>peon</td>
+</tr>
+<tr>
+<td><code>/druid-internal/v1/segments/</code></td>
+<td>realtime</td>
+</tr>
+<tr>
+<td><code>/status</code></td>
+<td>all nodes</td>
+</tr>
+</tbody></table>
+
+<h2 id="configuration-propagation">Configuration Propagation</h2>
+
+<p>To prevent excessive load on the coordinator, the Authenticator and Authorizer user/role database state is cached on each Druid node.</p>
+
+<p>Each node will periodically poll the coordinator for the latest database state, controlled by the <code>druid.auth.basic.common.pollingPeriod</code> and <code>druid.auth.basic.common.maxRandomDelay</code> properties.</p>
+
+<p>When a configuration update occurs, the coordinator can optionally notify each node with the updated database state. This behavior is controlled by the <code>enableCacheNotifications</code> and <code>cacheNotificationTimeout</code> properties on Authenticators and Authorizers.</p>
+
+<p>Note that because of the caching, changes made to the user/role database may not be immediately reflected at each Druid node.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

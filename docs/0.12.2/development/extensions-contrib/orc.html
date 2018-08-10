@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.1/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <h1 id="orc">Orc</h1>
+
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-orc-extensions</code>.</p>
+
+<p>This extension enables Druid to ingest and understand the Apache Orc data format offline.</p>
+
+<h2 id="orc-hadoop-parser">Orc Hadoop Parser</h2>
+
+<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig must be set to <code>&quot;org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat&quot;</code>.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>orc</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data. Any parse spec that extends ParseSpec is possible but only their TimestampSpec and DimensionsSpec are used.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>typeString</td>
+<td>String</td>
+<td>String representation of Orc struct type info. If not specified, auto constructed from parseSpec but all metric columns are dropped</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>For example of <code>typeString</code>, string column col1 and array of string column col2 is represented by <code>&quot;struct&lt;col1:string,col2:array&lt;string&gt;&gt;&quot;</code>.</p>
+
+<p>Currently, it only supports java primitive types and array of java primitive types, which means only &#39;list&#39; of compound types in <a href="https://orc.apache.org/docs/types.html">ORC types</a> is supported (list of list is not supported).  </p>
+
+<p>For example of hadoop indexing:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;/data/path/in/HDFS/&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metadataUpdateSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;postgresql&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:postgresql://localhost/druid&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;asdf&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentTable&quot;</span><span class="p">:</span> <span class="s2">&quot;druid_segments&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;segmentOutputPath&quot;</span><span class="p">:</span> <span class="s2">&quot;tmp/segments&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;no_metrics&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;name&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;typeString&quot;</span><span class="p">:</span> <span class="s2">&quot;struct&lt;time:string,name:string&gt;&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+      <span class="p">}],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2015-12-31/2016-01-02&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;workingPath&quot;</span><span class="p">:</span> <span class="s2">&quot;tmp/working_path&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;partitionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;jobProperties&quot;</span> <span class="p">:</span> <span class="p">{},</span>
+      <span class="nt">&quot;leaveIntermediate&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Almost all the fields listed above are required, including <code>inputFormat</code>, <code>metadataUpdateSpec</code>(<code>type</code>, <code>connectURI</code>, <code>user</code>, <code>password</code>, <code>segmentTable</code>). Set <code>jobProperties</code> to make hdfs path timezone unrelated.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.2/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
