@@ -106,7 +106,6 @@
     <div class="container doc-container">
       
       
-      
 
       
       <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
@@ -114,8 +113,9 @@
 
       <div class="row">
         <div class="col-md-9 doc-content">
-          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.9.0-rc3">API documentation</a></p>
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
           <h1 id="topn-queries">TopN queries</h1>
 
 <p>TopN queries return a sorted set of results for the values in a given dimension according to some criteria. Conceptually, they can be thought of as an approximate <a href="../querying/groupbyquery.html">GroupByQuery</a> over a single dimension with an <a href="../querying/limitspec.html">Ordering</a> spec. TopNs are much faster and resource efficient than GroupBys for this use case. These types of queries take a topN query object and return an array of JSON objects where each object represents a value asked for by the topN query.</p>

@@ -106,7 +106,6 @@
     <div class="container doc-container">
       
       
-      
 
       
       <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
@@ -114,8 +113,9 @@
 
       <div class="row">
         <div class="col-md-9 doc-content">
-          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.8.0-rc1">API documentation</a></p>
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
           <h1 id="integrating-druid-with-other-technologies">Integrating Druid With Other Technologies</h1>
 
 <p>This page discusses how we can integrate druid with other technologies. Event streams can be stored in a distributed queue like Kafka, then it can be streamed to a distributed realtime computation system like Twitter Storm / Samza and then it can be feed into Druid via Tranquility plugin. With Tranquility, Middlemanager &amp; Peons will act as a realtime node and they handle realtime queries, segment handoff and realtime indexing.</p>

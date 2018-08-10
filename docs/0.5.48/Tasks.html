@@ -106,7 +106,6 @@
     <div class="container doc-container">
       
       
-      
 
       
       <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
@@ -114,8 +113,9 @@
 
       <div class="row">
         <div class="col-md-9 doc-content">
-          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.5.48">API documentation</a></p>
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
           <p>Tasks are run on workers and always operate on a single datasource. Once an indexer coordinator node accepts a task, a lock is created for the datasource and interval specified in the task. Tasks do not need to explicitly release locks, they are released upon task completion. Tasks may potentially release locks early if they desire. Tasks ids are unique by naming them using UUIDs or the timestamp in which the task was created. Tasks are also part of a &quot;task group&quot;, which is a set of tasks that can share interval locks.</p>
 
 <p>There are several different types of tasks.</p>
