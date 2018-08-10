@@ -67,7 +67,7 @@ The previous command posted sample events to the *wikipedia* Kafka topic which w
 
 After data is sent to the Kafka stream, it is immediately available for querying.
 
-Please follow the [query tutorial](../tutorial/tutorial-query.html) to run some example queries on the newly loaded data.
+Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some example queries on the newly loaded data.
 
 ## Cleanup
 

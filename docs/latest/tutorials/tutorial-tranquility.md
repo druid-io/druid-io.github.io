@@ -62,14 +62,11 @@ If you see a `sent` count of 0, retry the send command until the `sent` count al
 
 ## Querying your data
 
-Please follow the [query tutorial](../tutorial/tutorial-query.html) to run some example queries on the newly loaded data.
+Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some example queries on the newly loaded data.
 
 ## Cleanup
 
 If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these [reset instructions](index.html#resetting-the-cluster), as the other tutorials will write to the same "wikipedia" datasource.
-
-When cleaning up after running this Tranquility tutorial, it is also necessary to recomment the `tranquility-server` line in `quickstart/tutorial/conf/tutorial-cluster.conf` before restarting the cluster.
-
 
 ## Further reading
 

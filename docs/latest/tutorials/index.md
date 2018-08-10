@@ -167,18 +167,18 @@ The following tutorials demonstrate various methods of loading data into Druid, 
 
 This tutorial demonstrates how to perform a batch file load, using Druid's native batch ingestion.
 
-### [Tutorial: Loading stream data from Kafka](../tutorial-kafka.html)
+### [Tutorial: Loading stream data from Kafka](./tutorial-kafka.html)
 
 This tutorial demonstrates how to load streaming data from a Kafka topic.
 
-### [Tutorial: Loading a file using Hadoop](../tutorial-batch-hadoop.html)
+### [Tutorial: Loading a file using Hadoop](./tutorial-batch-hadoop.html)
 
 This tutorial demonstrates how to perform a batch file load, using a remote Hadoop cluster.
 
-### [Tutorial: Loading data using Tranquility](../tutorial-tranquility.html)
+### [Tutorial: Loading data using Tranquility](./tutorial-tranquility.html)
 
 This tutorial demonstrates how to load streaming data by pushing events to Druid using the Tranquility service.
 
-### [Tutorial: Writing your own ingestion spec](../tutorial-ingestion-spec.html)
+### [Tutorial: Writing your own ingestion spec](./tutorial-ingestion-spec.html)
 
 This tutorial demonstrates how to write a new ingestion spec and use it to load data.

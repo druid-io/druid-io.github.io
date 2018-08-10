@@ -201,11 +201,11 @@ indicating "fully available": [http://localhost:8081/#/](http://localhost:8081/#
 Your data should become fully available within a minute or two after the task completes. You can monitor this process on 
 your Coordinator console at [http://localhost:8081/#/](http://localhost:8081/#/).
 
-Please follow the [query tutorial](../tutorial/tutorial-query.html) to run some example queries on the newly loaded data.
+Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some example queries on the newly loaded data.
 
 ## Cleanup
 
-This tutorial is only meant to be used together with the [query tutorial](../tutorial/tutorial-query.html). 
+This tutorial is only meant to be used together with the [query tutorial](../tutorials/tutorial-query.html). 
 
 If you wish to go through any of the other tutorials, you will need to:
 * Shut down the cluster and reset the cluster state by following the [reset instructions](index.html#resetting-the-cluster).

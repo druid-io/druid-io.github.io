@@ -113,7 +113,7 @@ Additionally, we have an OR filter with three clauses:
 
 This filter selects the first 3 rows, and it will exclude the final "lion" row in the input data. Note that the filter is applied after the transformation.
 
-Let's submit this task now, which has been included at `quickstart/tutorial/transform-index.json`:
+Let's submit this task now, which has been included at `examples/transform-index.json`:
 
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
