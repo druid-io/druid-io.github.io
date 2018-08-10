@@ -18,7 +18,7 @@ layout: toc
     * [Tutorial: Loading stream data using HTTP push](/docs/VERSION/tutorials/tutorial-tranquility.html)
     * [Tutorial: Querying data](/docs/VERSION/tutorials/tutorial-query.html)
   * [Further tutorials](/docs/VERSION/tutorials/advanced.html)
-    * [Tutorial: Rollup](/docs/VERSION/tutorials/rollup.html)
+    * [Tutorial: Rollup](/docs/VERSION/tutorials/tutorial-rollup.html)
     * [Tutorial: Configuring retention](/docs/VERSION/tutorials/tutorial-retention.html)
     * [Tutorial: Updating existing data](/docs/VERSION/tutorials/tutorial-update-data.html)
     * [Tutorial: Compacting segments](/docs/VERSION/tutorials/tutorial-compaction.html)
