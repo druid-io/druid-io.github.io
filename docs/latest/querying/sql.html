@@ -322,6 +322,14 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>\</td>
 </tr>
 <tr>
+<td><code>CONCAT(expr, expr...)</code></td>
+<td>Concats a list of expressions.</td>
+</tr>
+<tr>
+<td><code>TEXTCAT(expr, expr)</code></td>
+<td>Two argument version of CONCAT.</td>
+</tr>
+<tr>
 <td><code>LENGTH(expr)</code></td>
 <td>Length of expr in UTF-16 code units.</td>
 </tr>
@@ -612,7 +620,9 @@ over the connection time zone.</p>
 
 <ul>
 <li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
-<li><a href="../development/extensions-core/datasketches-aggregators.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/extensions-core/datasketches-extension.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/geo.html">Spatial filters</a>.</li>
+<li><a href="querying.html#query-cancellation">Query cancellation</a>.</li>
 </ul>
 
 <h2 id="data-types-and-casts">Data types and casts</h2>
@@ -844,7 +854,7 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 
 <span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">connectionProperties</span><span class="o">))</span> <span class="o">{</span>
   <span class="k">try</span> <span class="o">(</span>
-      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
       <span class="kd">final</span> <span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
   <span class="o">)</span> <span class="o">{</span>
     <span class="k">while</span> <span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
@@ -885,22 +895,22 @@ All other context parameters you provide will be attached to Druid queries and c
 <tr>
 <td><code>sqlTimeZone</code></td>
 <td>Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
-<td>UTC</td>
+<td>druid.sql.planner.sqlTimeZone on the broker (default: UTC)</td>
 </tr>
 <tr>
 <td><code>useApproximateCountDistinct</code></td>
 <td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
-<td>druid.sql.planner.useApproximateCountDistinct on the broker</td>
+<td>druid.sql.planner.useApproximateCountDistinct on the broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useApproximateTopN</code></td>
 <td>Whether to use approximate <a href="topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="groupbyquery.html">GroupBy queries</a> will be used instead.</td>
-<td>druid.sql.planner.useApproximateTopN on the broker</td>
+<td>druid.sql.planner.useApproximateTopN on the broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useFallback</code></td>
 <td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
-<td>druid.sql.planner.useFallback on the broker</td>
+<td>druid.sql.planner.useFallback on the broker (default: false)</td>
 </tr>
 </tbody></table>
 
@@ -1087,7 +1097,7 @@ datasource &quot;foo&quot;, use the query:</p>
 <tr>
 <td><code>druid.sql.avatica.maxRowsPerFrame</code></td>
 <td>Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and <code>maxRowsPerFrame</code> will be used.</td>
-<td>100,000</td>
+<td>5,000</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
@@ -1143,6 +1153,11 @@ datasource &quot;foo&quot;, use the query:</p>
 <td><code>druid.sql.planner.useFallback</code></td>
 <td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
 <td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.sqlTimeZone</code></td>
+<td>Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+<td>UTC</td>
 </tr>
 </tbody></table>
 

@@ -288,7 +288,13 @@ line.</p>
 <td><code>druid.realtime.cache.unCacheable</code></td>
 <td>All druid query types</td>
 <td>All query types to not cache.</td>
-<td><code>[&quot;groupBy&quot;, &quot;select&quot;]</code></td>
+<td><code>[&quot;select&quot;]</code></td>
+</tr>
+<tr>
+<td><code>druid.realtime.cache.maxEntrySize</code></td>
+<td>positive integer or -1</td>
+<td>Maximum size of an individual cache entry (processed results for one segment), in bytes, or -1 for unlimited.</td>
+<td><code>1000000</code> (1MB)</td>
 </tr>
 </tbody></table>
 

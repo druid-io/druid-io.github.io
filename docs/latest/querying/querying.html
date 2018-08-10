@@ -233,6 +233,10 @@ endpoint can be used on the broker or router to cancel the query.</p>
 <td>The query exceeded a configured resource limit (e.g. groupBy maxResults).</td>
 </tr>
 <tr>
+<td><code>Unauthorized request.</code></td>
+<td>The query was denied due to security policy. Either the user was not recognized, or the user was recognized but does not have access to the requested resource.</td>
+</tr>
+<tr>
 <td><code>Unknown exception</code></td>
 <td>Some other exception occurred. Check errorMessage and errorClass for details, although keep in mind that the contents of those fields are free-form and may change from release to release.</td>
 </tr>

@@ -114,113 +114,142 @@
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
-          <h1 id="tutorial-load-your-own-batch-data">Tutorial: Load your own batch data</h1>
+          <h1 id="tutorial-loading-a-file">Tutorial: Loading a file</h1>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p>This tutorial shows you how to load your own data files into Druid.</p>
+<p>This tutorial demonstrates how to perform a batch file load, using Druid&#39;s native batch ingestion.</p>
 
 <p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
-the <a href="quickstart.html">single-machine quickstart</a> and have it running on your local machine. You 
+the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. You 
 don&#39;t need to have loaded any data yet.</p>
 
-<p>Once that&#39;s complete, you can load your own dataset by writing a custom ingestion spec.</p>
+<h2 id="preparing-the-data-and-the-ingestion-task-spec">Preparing the data and the ingestion task spec</h2>
 
-<h2 id="writing-an-ingestion-spec">Writing an ingestion spec</h2>
+<p>A data load is initiated by submitting an <em>ingestion task</em> spec to the Druid overlord. For this tutorial, we&#39;ll be loading the sample Wikipedia page edits data.</p>
 
-<p>When loading files into Druid, you will use Druid&#39;s <a href="../ingestion/batch-ingestion.html">batch loading</a> process.
-There&#39;s an example batch ingestion spec in <code>quickstart/wikiticker-index.json</code> that you can modify 
-for your own needs.</p>
-
-<p>The most important questions are:</p>
-
-<ul>
-<li>What should the dataset be called? This is the &quot;dataSource&quot; field of the &quot;dataSchema&quot;.</li>
-<li>Where is the dataset located? The file paths belong in the &quot;paths&quot; of the &quot;inputSpec&quot;. If you 
-want to load multiple files, you can provide them as a comma-separated string.</li>
-<li>Which field should be treated as a timestamp? This belongs in the &quot;column&quot; of the &quot;timestampSpec&quot;.</li>
-<li>Which fields should be treated as dimensions? This belongs in the &quot;dimensions&quot; of the &quot;dimensionsSpec&quot;.</li>
-<li>Which fields should be treated as metrics? This belongs in the &quot;metricsSpec&quot;.</li>
-<li>What time ranges (intervals) are being loaded? This belongs in the &quot;intervals&quot; of the &quot;granularitySpec&quot;.</li>
-</ul>
-
-<p>If your data does not have a natural sense of time, you can tag each row with the current time. 
-You can also tag all rows with a fixed timestamp, like &quot;2000-01-01T00:00:00.000Z&quot;.</p>
-
-<p>Let&#39;s use this pageviews dataset as an example. Druid supports TSV, CSV, and JSON out of the box. 
-Note that nested JSON objects are not supported, so if you do use JSON, you should provide a file 
-containing flattened objects.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
-<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T01:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
-<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-01T01:30:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
+<p>The Druid package includes the following sample native batch ingestion task spec at <code>quickstart/wikipedia-index.json</code>, shown here for convenience,
+which has been configured to read the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> input file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;type&quot; : &quot;index&quot;,
+  &quot;spec&quot; : {
+    &quot;dataSchema&quot; : {
+      &quot;dataSource&quot; : &quot;wikipedia&quot;,
+      &quot;parser&quot; : {
+        &quot;type&quot; : &quot;string&quot;,
+        &quot;parseSpec&quot; : {
+          &quot;format&quot; : &quot;json&quot;,
+          &quot;dimensionsSpec&quot; : {
+            &quot;dimensions&quot; : [
+              &quot;channel&quot;,
+              &quot;cityName&quot;,
+              &quot;comment&quot;,
+              &quot;countryIsoCode&quot;,
+              &quot;countryName&quot;,
+              &quot;isAnonymous&quot;,
+              &quot;isMinor&quot;,
+              &quot;isNew&quot;,
+              &quot;isRobot&quot;,
+              &quot;isUnpatrolled&quot;,
+              &quot;metroCode&quot;,
+              &quot;namespace&quot;,
+              &quot;page&quot;,
+              &quot;regionIsoCode&quot;,
+              &quot;regionName&quot;,
+              &quot;user&quot;,
+              { &quot;name&quot;: &quot;added&quot;, &quot;type&quot;: &quot;long&quot; },
+              { &quot;name&quot;: &quot;deleted&quot;, &quot;type&quot;: &quot;long&quot; },
+              { &quot;name&quot;: &quot;delta&quot;, &quot;type&quot;: &quot;long&quot; }
+            ]
+          },
+          &quot;timestampSpec&quot;: {
+            &quot;column&quot;: &quot;time&quot;,
+            &quot;format&quot;: &quot;iso&quot;
+          }
+        }
+      },
+      &quot;metricsSpec&quot; : [],
+      &quot;granularitySpec&quot; : {
+        &quot;type&quot; : &quot;uniform&quot;,
+        &quot;segmentGranularity&quot; : &quot;day&quot;,
+        &quot;queryGranularity&quot; : &quot;none&quot;,
+        &quot;intervals&quot; : [&quot;2015-09-12/2015-09-13&quot;],
+        &quot;rollup&quot; : false
+      }
+    },
+    &quot;ioConfig&quot; : {
+      &quot;type&quot; : &quot;index&quot;,
+      &quot;firehose&quot; : {
+        &quot;type&quot; : &quot;local&quot;,
+        &quot;baseDir&quot; : &quot;quickstart/&quot;,
+        &quot;filter&quot; : &quot;wikiticker-2015-09-12-sampled.json.gz&quot;
+      },
+      &quot;appendToExisting&quot; : false
+    },
+    &quot;tuningConfig&quot; : {
+      &quot;type&quot; : &quot;index&quot;,
+      &quot;targetPartitionSize&quot; : 5000000,
+      &quot;maxRowsInMemory&quot; : 25000,
+      &quot;forceExtendableShardSpecs&quot; : true
+    }
+  }
+}
 </code></pre></div>
-<p>Make sure the file has no newline at the end. If you save this to a file called &quot;pageviews.json&quot;, then for this dataset:</p>
+<p>This spec will create a datasource named &quot;wikipedia&quot;, </p>
 
-<ul>
-<li>Let&#39;s call the dataset &quot;pageviews&quot;.</li>
-<li>The data is located in &quot;pageviews.json&quot;.</li>
-<li>The timestamp is the &quot;time&quot; field.</li>
-<li>Good choices for dimensions are the string fields &quot;url&quot; and &quot;user&quot;.</li>
-<li>Good choices for metrics are a count of pageviews, and the sum of &quot;latencyMs&quot;. Collecting that 
-sum when we load the data will allow us to compute an average at query time as well.</li>
-<li>The data covers the time range 2015-09-01 (inclusive) through 2015-09-02 (exclusive).</li>
-</ul>
+<h2 id="load-batch-data">Load batch data</h2>
 
-<p>You can copy the existing <code>quickstart/wikiticker-index.json</code> indexing task to a new file:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp quickstart/wikiticker-index.json my-index-task.json
+<p>We&#39;ve included a sample of Wikipedia edits from September 12, 2015 to get you started.</p>
+
+<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. We&#39;ve included
+a task that loads the <code>wikiticker-2015-09-12-sampled.json.gz</code> file included in the archive. </p>
+
+<p>For convenience, the Druid package includes a batch ingestion helper script at <code>bin/post-index-task</code>.</p>
+
+<p>This script will POST an ingestion task to the Druid overlord and poll Druid until the data is available for querying.</p>
+
+<p>Run the following command from Druid package root:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/post-index-task --file quickstart/tutorial/wikipedia-index.json 
 </code></pre></div>
-<p>And modify it by altering these sections:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span> <span class="s2">&quot;pageviews&quot;</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;inputSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;pageviews.json&quot;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
-  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
-  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
-<span class="p">]</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;granularitySpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2015-09-01/2015-09-02&quot;</span><span class="p">]</span>
-<span class="p">}</span>
+<p>You should see output like the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Beginning indexing data for wikipedia
+Task started: index_wikipedia_2018-07-27T06:37:44.323Z
+Task log:     http://localhost:8090/druid/indexer/v1/task/index_wikipedia_2018-07-27T06:37:44.323Z/log
+Task status:  http://localhost:8090/druid/indexer/v1/task/index_wikipedia_2018-07-27T06:37:44.323Z/status
+Task index_wikipedia_2018-07-27T06:37:44.323Z still running...
+Task index_wikipedia_2018-07-27T06:37:44.323Z still running...
+Task finished with status: SUCCESS
+Completed indexing data for wikipedia. Now loading indexed data onto the cluster...
+wikipedia loading complete! You may now query your data
 </code></pre></div>
-<h2 id="running-the-task">Running the task</h2>
-
-<p>To actually run this task, first make sure that the indexing task can read <em>pageviews.json</em>:</p>
-
-<ul>
-<li>If you&#39;re running locally (no configuration for connecting to Hadoop; this is the default) then 
-place it in the root of the Druid distribution.</li>
-<li>If you configured Druid to connect to a Hadoop cluster, upload 
-the pageviews.json file to HDFS. You may need to adjust the <code>paths</code> in the ingestion spec.</li>
-</ul>
-
-<p>To kick off the indexing process, POST your indexing task to the Druid Overlord. In a standard Druid 
-install, the URL is <code>http://OVERLORD_IP:8090/druid/indexer/v1/task</code>.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json OVERLORD_IP:8090/druid/indexer/v1/task
-</code></pre></div>
-<p>If you&#39;re running everything on a single machine, you can use localhost:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @my-index-task.json localhost:8090/druid/indexer/v1/task
-</code></pre></div>
-<p>If anything goes wrong with this task (e.g. it finishes with status FAILED), you can troubleshoot 
-by visiting the &quot;Task log&quot; on the <a href="http://localhost:8090/console.html">overlord console</a>.</p>
-
 <h2 id="querying-your-data">Querying your data</h2>
 
-<p>Your data should become fully available within a minute or two. You can monitor this process on 
-your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+<p>Once the data is loaded, please follow the <a href="../tutorial/tutorial-query.html">query tutorial</a> to run some example queries on the newly loaded data.</p>
 
-<p>Once your data is fully available, you can query it using any of the 
-<a href="../querying/querying.html">supported query methods</a>.</p>
+<h2 id="cleanup">Cleanup</h2>
+
+<p>If you wish to go through any of the other ingestion tutorials, you will need to shut down the cluster and reset the cluster state by removing the contents of the <code>var</code> directory under the druid package, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+
+<h2 id="extra-loading-data-without-the-script">Extra: Loading data without the script</h2>
+
+<p>Let&#39;s briefly discuss how we would&#39;ve submitted the ingestion task without using the script. You do not need to run these commands.</p>
+
+<p>To submit the task, POST it to Druid in a new terminal window from the druid-latest directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>Which will print the ID of the task if the submission was successful:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+</code></pre></div>
+<p>To view the status of the ingestion task, go to the overlord console:
+<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+
+<p>After the ingestion task finishes, the data will be loaded by historical nodes and available for
+querying within a minute or two. You can monitor the progress of loading the data in the
+coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
 
 <h2 id="further-reading">Further reading</h2>
 

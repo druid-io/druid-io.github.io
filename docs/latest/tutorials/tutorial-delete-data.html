@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="tutorial-deleting-data">Tutorial: Deleting data</h1>
+
+<p>This tutorial demonstrates how to delete existing data.</p>
+
+<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
+the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. </p>
+
+<p>Completing <a href="/docs/VERSION/tutorials/tutorial-retention.html">Tutorial: Configuring retention</a> first is highly recommended, as we will be using retention rules in this tutorial.</p>
+
+<h2 id="load-initial-data">Load initial data</h2>
+
+<p>In this tutorial, we will use the Wikipedia edits data, with an indexing spec that creates hourly segments. This spec is located at <code>quickstart/tutorial/deletion-index.json</code>, and it creates a datasource called <code>deletion-tutorial</code>.</p>
+
+<p>Let&#39;s load this initial data:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/post-index-task --file quickstart/tutorial/deletion-index.json 
+</code></pre></div>
+<p>When the load finishes, open http://localhost:8081/#/datasources/deletion-tutorial in a browser.</p>
+
+<h2 id="how-to-permanently-delete-data">How to permanently delete data</h2>
+
+<p>Permanent deletion of a Druid segment has two steps:</p>
+
+<ol>
+<li>The segment must first be marked as &quot;unused&quot;. This occurs when a segment is dropped by retention rules, and when a user manually disables a segment through the Coordinator API. This tutorial will cover both cases.</li>
+<li>After segments have been marked as &quot;unused&quot;, a Kill Task will delete any &quot;unused&quot; segments from Druid&#39;s metadata store as well as deep storage.</li>
+</ol>
+
+<p>Let&#39;s drop some segments now, first with load rules, then manually.</p>
+
+<h2 id="drop-some-data-with-load-rules">Drop some data with load rules</h2>
+
+<p>As with the previous retention tutorial, there are currently 24 segments in the <code>deletion-tutorial</code> datasource.</p>
+
+<p>Click the <code>edit rules</code> button with a pencil icon at the upper left corner of the page.</p>
+
+<p>A rule configuration window will appear. Enter <code>tutorial</code> for both the user and changelog comment field.</p>
+
+<p>Now click the <code>+ Add a rule</code> button twice. </p>
+
+<p>In the <code>rule #1</code> box at the top, click <code>Load</code>, <code>Interval</code>, enter <code>2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z</code> in the interval box, and click <code>+ _default_tier replicant</code>.</p>
+
+<p>In the <code>rule #2</code> box at the bottom, click <code>Drop</code> and <code>Forever</code>.</p>
+
+<p>This will cause the first 12 segments of <code>deletion-tutorial</code> to be dropped. However, these dropped segments are not removed from deep storage.</p>
+
+<p>You can see that all 24 segments are still present in deep storage by listing the contents of <code>druid-{DRUIDVERSION}/var/druid/segments/deletion-tutorial</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/
+2015-09-12T00:00:00.000Z_2015-09-12T01:00:00.000Z
+2015-09-12T01:00:00.000Z_2015-09-12T02:00:00.000Z
+2015-09-12T02:00:00.000Z_2015-09-12T03:00:00.000Z
+2015-09-12T03:00:00.000Z_2015-09-12T04:00:00.000Z
+2015-09-12T04:00:00.000Z_2015-09-12T05:00:00.000Z
+2015-09-12T05:00:00.000Z_2015-09-12T06:00:00.000Z
+2015-09-12T06:00:00.000Z_2015-09-12T07:00:00.000Z
+2015-09-12T07:00:00.000Z_2015-09-12T08:00:00.000Z
+2015-09-12T08:00:00.000Z_2015-09-12T09:00:00.000Z
+2015-09-12T09:00:00.000Z_2015-09-12T10:00:00.000Z
+2015-09-12T10:00:00.000Z_2015-09-12T11:00:00.000Z
+2015-09-12T11:00:00.000Z_2015-09-12T12:00:00.000Z
+2015-09-12T12:00:00.000Z_2015-09-12T13:00:00.000Z
+2015-09-12T13:00:00.000Z_2015-09-12T14:00:00.000Z
+2015-09-12T14:00:00.000Z_2015-09-12T15:00:00.000Z
+2015-09-12T15:00:00.000Z_2015-09-12T16:00:00.000Z
+2015-09-12T16:00:00.000Z_2015-09-12T17:00:00.000Z
+2015-09-12T17:00:00.000Z_2015-09-12T18:00:00.000Z
+2015-09-12T18:00:00.000Z_2015-09-12T19:00:00.000Z
+2015-09-12T19:00:00.000Z_2015-09-12T20:00:00.000Z
+2015-09-12T20:00:00.000Z_2015-09-12T21:00:00.000Z
+2015-09-12T21:00:00.000Z_2015-09-12T22:00:00.000Z
+2015-09-12T22:00:00.000Z_2015-09-12T23:00:00.000Z
+2015-09-12T23:00:00.000Z_2015-09-13T00:00:00.000Z
+</code></pre></div>
+<h2 id="manually-disable-a-segment">Manually disable a segment</h2>
+
+<p>Let&#39;s manually disable a segment now. This will mark a segment as &quot;unused&quot;, but not remove it from deep storage.</p>
+
+<p>On http://localhost:8081/#/datasources/deletion-tutorial, click one of the remaining segments on the left for full details about the segment:</p>
+
+<p><img src="../tutorials/img/tutorial-deletion-01.png" alt="Segments" title="Segments"></p>
+
+<p>The top of the info box shows the full segment ID, e.g. <code>deletion-tutorial_2016-06-27T14:00:00.000Z_2016-06-27T15:00:00.000Z_2018-07-27T22:57:00.110Z</code> for the segment of hour 14.</p>
+
+<p>Let&#39;s disable the hour 14 segment by sending the following DELETE request to the coordinator, where {SEGMENT-ID} is the full segment ID shown in the info box:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -XDELETE http://localhost:8081/druid/coordinator/v1/datasources/deletion-tutorial/segments/{SEGMENT-ID}
+</code></pre></div>
+<p>After that command completes, you should see that the segment for hour 14 has been disabled:</p>
+
+<p><img src="../tutorials/img/tutorial-deletion-02.png" alt="Segments 2" title="Segments 2"></p>
+
+<p>Note that the hour 14 segment is still in deep storage:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/
+2015-09-12T00:00:00.000Z_2015-09-12T01:00:00.000Z
+2015-09-12T01:00:00.000Z_2015-09-12T02:00:00.000Z
+2015-09-12T02:00:00.000Z_2015-09-12T03:00:00.000Z
+2015-09-12T03:00:00.000Z_2015-09-12T04:00:00.000Z
+2015-09-12T04:00:00.000Z_2015-09-12T05:00:00.000Z
+2015-09-12T05:00:00.000Z_2015-09-12T06:00:00.000Z
+2015-09-12T06:00:00.000Z_2015-09-12T07:00:00.000Z
+2015-09-12T07:00:00.000Z_2015-09-12T08:00:00.000Z
+2015-09-12T08:00:00.000Z_2015-09-12T09:00:00.000Z
+2015-09-12T09:00:00.000Z_2015-09-12T10:00:00.000Z
+2015-09-12T10:00:00.000Z_2015-09-12T11:00:00.000Z
+2015-09-12T11:00:00.000Z_2015-09-12T12:00:00.000Z
+2015-09-12T12:00:00.000Z_2015-09-12T13:00:00.000Z
+2015-09-12T13:00:00.000Z_2015-09-12T14:00:00.000Z
+2015-09-12T14:00:00.000Z_2015-09-12T15:00:00.000Z
+2015-09-12T15:00:00.000Z_2015-09-12T16:00:00.000Z
+2015-09-12T16:00:00.000Z_2015-09-12T17:00:00.000Z
+2015-09-12T17:00:00.000Z_2015-09-12T18:00:00.000Z
+2015-09-12T18:00:00.000Z_2015-09-12T19:00:00.000Z
+2015-09-12T19:00:00.000Z_2015-09-12T20:00:00.000Z
+2015-09-12T20:00:00.000Z_2015-09-12T21:00:00.000Z
+2015-09-12T21:00:00.000Z_2015-09-12T22:00:00.000Z
+2015-09-12T22:00:00.000Z_2015-09-12T23:00:00.000Z
+2015-09-12T23:00:00.000Z_2015-09-13T00:00:00.000Z
+</code></pre></div>
+<h2 id="run-a-kill-task">Run a kill task</h2>
+
+<p>Now that we have disabled some segments, we can submit a Kill Task, which will delete the disabled segments from metadata and deep storage.</p>
+
+<p>A Kill Task spec has been provided at <code>quickstart/deletion-kill.json</code>. Submit this task to the Overlord with the following command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @quickstart/tutorial/deletion-kill.json http://localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>After this task completes, you can see that the disabled segments have now been removed from deep storage:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/
+2015-09-12T12:00:00.000Z_2015-09-12T13:00:00.000Z
+2015-09-12T13:00:00.000Z_2015-09-12T14:00:00.000Z
+2015-09-12T15:00:00.000Z_2015-09-12T16:00:00.000Z
+2015-09-12T16:00:00.000Z_2015-09-12T17:00:00.000Z
+2015-09-12T17:00:00.000Z_2015-09-12T18:00:00.000Z
+2015-09-12T18:00:00.000Z_2015-09-12T19:00:00.000Z
+2015-09-12T19:00:00.000Z_2015-09-12T20:00:00.000Z
+2015-09-12T20:00:00.000Z_2015-09-12T21:00:00.000Z
+2015-09-12T21:00:00.000Z_2015-09-12T22:00:00.000Z
+2015-09-12T22:00:00.000Z_2015-09-12T23:00:00.000Z
+2015-09-12T23:00:00.000Z_2015-09-13T00:00:00.000Z
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/latest/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

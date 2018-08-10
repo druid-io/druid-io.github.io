@@ -116,7 +116,7 @@
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
           <h1 id="historical-node">Historical Node</h1>
 
-<p>For Historical Node Configuration, see <a href="../configuration/historical.html">Historial Configuration</a>.</p>
+<p>For Historical Node Configuration, see <a href="../configuration/historical.html">Historical Configuration</a>.</p>
 
 <p>Historical nodes load up historical segments and expose them for querying.</p>
 
@@ -145,30 +145,7 @@
 
 <h2 id="http-endpoints">HTTP Endpoints</h2>
 
-<p>The historical node exposes several HTTP endpoints for interactions.</p>
-
-<h3 id="get">GET</h3>
-
-<ul>
-<li><code>/status</code></li>
-</ul>
-
-<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
-
-<ul>
-<li><code>/druid/historical/v1/loadstatus</code></li>
-</ul>
-
-<p>Returns JSON of the form <code>{&quot;cacheInitialized&quot;:&lt;value&gt;}</code>, where value is either <code>true</code> or <code>false</code> indicating if all
-segments in the local cache have been loaded. This can be used to know when a historical node is ready
-to be queried after a restart.</p>
-
-<ul>
-<li><code>/druid/historical/v1/readiness</code></li>
-</ul>
-
-<p>Similar to <code>/druid/historical/v1/loadstatus</code>, but instead of returning JSON with a flag, responses 200 OK if segments
-in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&#39;t.</p>
+<p>For a list of API endpoints supported by the Historical, please see the <a href="../operations/api-reference.html#historical">API reference</a>.</p>
 
         </div>
         <div class="col-md-3">

@@ -201,7 +201,7 @@ they can be used in place for Tranquility server and the indexing service. Pleas
     <span class="p">},</span>
     <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;realtime&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">75000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">,</span>
       <span class="nt">&quot;intermediatePersistPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
       <span class="nt">&quot;windowPeriod&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10m&quot;</span><span class="p">,</span>
       <span class="nt">&quot;basePersistDirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;\/tmp\/realtime\/basePersist&quot;</span><span class="p">,</span>
@@ -298,7 +298,13 @@ they can be used in place for Tranquility server and the indexing service. Pleas
 <td>maxRowsInMemory</td>
 <td>Integer</td>
 <td>The number of rows to aggregate before persisting. This number is the post-aggregation rows, so it is not equivalent to the number of input events, but the number of aggregated rows that those events result in. This is used to manage the required JVM heap size. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
-<td>no (default == 75000)</td>
+<td>no (default == 1000000)</td>
+</tr>
+<tr>
+<td>maxBytesInMemory</td>
+<td>Long</td>
+<td>The maximum number of bytes to keep in memory to aggregate before persisting. This is used to manage the required JVM heap size.</td>
+<td>no (default == One-sixth of max JVM memory)</td>
 </tr>
 <tr>
 <td>windowPeriod</td>
@@ -377,6 +383,12 @@ they can be used in place for Tranquility server and the indexing service. Pleas
 <td>String</td>
 <td>Segment write-out medium to use when creating segments. See <a href="../configuration/indexing-service.html">Indexing Service Configuration</a> page, &quot;SegmentWriteOutMediumFactory&quot; section for explanation and available options.</td>
 <td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used)</td>
+</tr>
+<tr>
+<td>dedupColumn</td>
+<td>String</td>
+<td>the column to judge whether this row is already in this segment, if so, throw away this row. If it is String type column, to reduce heap cost, use long type hashcode of this column&#39;s value to judge whether this row is already ingested, so there maybe very small chance to throw away a row that is not ingested before.</td>
+<td>no (default == null)</td>
 </tr>
 <tr>
 <td>indexSpec</td>
@@ -579,8 +591,14 @@ they can be used in place for Tranquility server and the indexing service. Pleas
 </tr>
 <tr>
 <td>maxRowsInMemory</td>
-<td>The max number of ingested rows to hold in memory before a flush to disk</td>
+<td>The max number of ingested rows to hold in memory before a flush to disk. Normally user does not need to set this, but depending on the nature of data, if rows are short in terms of bytes, user may not want to store a million rows in memory and this value should be set</td>
 <td>number of un-persisted post-aggregation rows in memory is also constrained by intermediatePersistPeriod</td>
+<td>use this to avoid running out of heap if too many rows in an intermediatePersistPeriod</td>
+</tr>
+<tr>
+<td>maxBytesInMemory</td>
+<td>The number of bytes to keep in memory before a flush to disk. Normally this is computed internally and user does not need to set it. This is based on a rough estimate of memory usage and not actual usage. The maximum heap memory usage for indexing is maxBytesInMemory * (2 + maxPendingPersists)</td>
+<td>number of un-persisted post-aggregation bytes in memory is also constrained by intermediatePersistPeriod</td>
 <td>use this to avoid running out of heap if too many rows in an intermediatePersistPeriod</td>
 </tr>
 </tbody></table>
@@ -631,6 +649,13 @@ This can be difficult to manage at scale, especially with multiple partitions.</
 
 <p>Each standalone realtime node has its own set of logs. Diagnosing errors across many partitions across many servers may be 
 difficult to manage and track at scale.</p>
+
+<h2 id="deployment-notes">Deployment Notes</h2>
+
+<p>Stream ingestion may generate a large number of small segments because it&#39;s difficult to optimize the segment size at
+ingestion time. The number of segments will increase over time, and this might cause the query performance issue. </p>
+
+<p>Details on how to optimize the segment size can be found on <a href="../../operations/segment-optimization.html">Segment size optimization</a>.</p>
 
         </div>
         <div class="col-md-3">

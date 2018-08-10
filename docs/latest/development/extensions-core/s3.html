@@ -127,40 +127,108 @@
 <table><thead>
 <tr>
 <th>Property</th>
-<th>Possible Values</th>
 <th>Description</th>
 <th>Default</th>
 </tr>
 </thead><tbody>
 <tr>
 <td><code>druid.s3.accessKey</code></td>
-<td></td>
 <td>S3 access key.</td>
 <td>Must be set.</td>
 </tr>
 <tr>
 <td><code>druid.s3.secretKey</code></td>
-<td></td>
 <td>S3 secret key.</td>
 <td>Must be set.</td>
 </tr>
 <tr>
 <td><code>druid.storage.bucket</code></td>
-<td></td>
 <td>Bucket to store in.</td>
 <td>Must be set.</td>
 </tr>
 <tr>
 <td><code>druid.storage.baseKey</code></td>
-<td></td>
 <td>Base key prefix to use, i.e. what directory.</td>
 <td>Must be set.</td>
 </tr>
+<tr>
+<td><code>druid.storage.sse.type</code></td>
+<td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="#server-side-encryption">Server-side encryption section</a> for more details.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.kms.keyId</code></td>
+<td>AWS KMS key ID. Can be empty if <code>druid.storage.sse.type</code> is <code>kms</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.custom.base64EncodedKey</code></td>
+<td>Base64-encoded key. Should be specified if <code>druid.storage.sse.type</code> is <code>custom</code>.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.disableChunkedEncoding</code></td>
+<td>Disables chunked encoding. See <a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#disableChunkedEncoding--">AWS document</a> for details.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.s3.enablePathStyleAccess</code></td>
+<td>Enables path style access. See <a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#enablePathStyleAccess--">AWS document</a> for details.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.s3.forceGlobalBucketAccessEnabled</code></td>
+<td>Enables global bucket access. See <a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#setForceGlobalBucketAccessEnabled-java.lang.Boolean-">AWS document</a> for details.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.s3.endpoint.url</code></td>
+<td>Service endpoint either with or without the protocol.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.endpoint.signingRegion</code></td>
+<td>Region to use for SigV4 signing of requests (e.g. us-west-1).</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.proxy.host</code></td>
+<td>Proxy host to connect through.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.proxy.port</code></td>
+<td>Port on the proxy host to connect through.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.proxy.username</code></td>
+<td>User name to use when connecting through a proxy.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.s3.proxy.password</code></td>
+<td>Password to use when connecting through a proxy.</td>
+<td>None</td>
+</tr>
 </tbody></table>
+
+<h2 id="server-side-encryption">Server-side encryption</h2>
+
+<p>You can enable <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">server-side encryption</a> by setting
+<code>druid.storage.sse.type</code> to a supported type of server-side encryption. The current supported types are:</p>
+
+<ul>
+<li>s3: <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Server-side encryption with S3-managed encryption keys</a></li>
+<li>kms: <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Server-side encryption with AWS KMS–Managed Keys</a></li>
+<li>custom: <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-side encryption with Customer-Provided Encryption Keys</a></li>
+</ul>
 
 <h2 id="statics3firehose">StaticS3Firehose</h2>
 
-<p>This firehose ingests events from a predefined list of S3 objects.</p>
+<p>This firehose ingests events from a predefined list of S3 objects.
+This firehose is <em>splittable</em> and can be used by <a href="../../ingestion/native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+Since each split represents an object in this firehose, each worker task of <code>index_parallel</code> will read an object.</p>
 
 <p>Sample spec:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>

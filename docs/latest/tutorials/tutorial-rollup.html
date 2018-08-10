@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.1">API documentation</a></p>
+          <h1 id="tutorial-roll-up">Tutorial: Roll-up</h1>
+
+<p>Druid can summarize raw data at ingestion time using a process we refer to as &quot;roll-up&quot;. Roll-up is a first-level aggregation operation over a selected set of columns that reduces the size of stored segments.</p>
+
+<p>This tutorial will demonstrate the effects of roll-up on an example dataset.</p>
+
+<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
+the <a href="index.html">single-machine quickstart</a> and have it running on your local machine.</p>
+
+<p>It will also be helpful to have finished <a href="/docs/VERSION/tutorials/tutorial-batch.html">Tutorial: Loading a file</a> and <a href="/docs/VERSION/tutorials/tutorial-query.html">Tutorial: Querying data</a>.</p>
+
+<h2 id="example-data">Example data</h2>
+
+<p>For this tutorial, we&#39;ll use a small sample of network flow event data, representing packet and byte counts for traffic from a source to a destination IP address that occurred within a particular second.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T01:01:35Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:20,&quot;bytes&quot;:9024}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:01:51Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:255,&quot;bytes&quot;:21133}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:01:59Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:11,&quot;bytes&quot;:5780}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:02:14Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:38,&quot;bytes&quot;:6289}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:02:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:377,&quot;bytes&quot;:359971}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:03:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:49,&quot;bytes&quot;:10204}
+{&quot;timestamp&quot;:&quot;2018-01-02T21:33:14Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;,&quot;packets&quot;:38,&quot;bytes&quot;:6289}
+{&quot;timestamp&quot;:&quot;2018-01-02T21:33:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;,&quot;packets&quot;:123,&quot;bytes&quot;:93999}
+{&quot;timestamp&quot;:&quot;2018-01-02T21:35:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;,&quot;packets&quot;:12,&quot;bytes&quot;:2818}
+</code></pre></div>
+<p>A file containing this sample input data is located at <code>quickstart/tutorial/rollup-data.json</code>.</p>
+
+<p>We&#39;ll ingest this data using the following ingestion task spec, located at <code>quickstart/tutorial/rollup-index.json</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
+  &quot;type&quot; : &quot;index&quot;,
+  &quot;spec&quot; : {
+    &quot;dataSchema&quot; : {
+      &quot;dataSource&quot; : &quot;rollup-tutorial&quot;,
+      &quot;parser&quot; : {
+        &quot;type&quot; : &quot;string&quot;,
+        &quot;parseSpec&quot; : {
+          &quot;format&quot; : &quot;json&quot;,
+          &quot;dimensionsSpec&quot; : {
+            &quot;dimensions&quot; : [
+              &quot;srcIP&quot;,
+              &quot;dstIP&quot;
+            ]
+          },
+          &quot;timestampSpec&quot;: {
+            &quot;column&quot;: &quot;timestamp&quot;,
+            &quot;format&quot;: &quot;iso&quot;
+          }
+        }
+      },
+      &quot;metricsSpec&quot; : [
+        { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
+        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
+        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; }
+      ],
+      &quot;granularitySpec&quot; : {
+        &quot;type&quot; : &quot;uniform&quot;,
+        &quot;segmentGranularity&quot; : &quot;week&quot;,
+        &quot;queryGranularity&quot; : &quot;minute&quot;,
+        &quot;intervals&quot; : [&quot;2018-01-01/2018-01-03&quot;],
+        &quot;rollup&quot; : true
+      }
+    },
+    &quot;ioConfig&quot; : {
+      &quot;type&quot; : &quot;index&quot;,
+      &quot;firehose&quot; : {
+        &quot;type&quot; : &quot;local&quot;,
+        &quot;baseDir&quot; : &quot;quickstart/tutorial&quot;,
+        &quot;filter&quot; : &quot;rollup-data.json&quot;
+      },
+      &quot;appendToExisting&quot; : false
+    },
+    &quot;tuningConfig&quot; : {
+      &quot;type&quot; : &quot;index&quot;,
+      &quot;targetPartitionSize&quot; : 5000000,
+      &quot;maxRowsInMemory&quot; : 25000,
+      &quot;forceExtendableShardSpecs&quot; : true
+    }
+  }
+}
+</code></pre></div>
+<p>Roll-up has been enabled by setting <code>&quot;rollup&quot; : true</code> in the <code>granularitySpec</code>.</p>
+
+<p>Note that we have <code>srcIP</code> and <code>dstIP</code> defined as dimensions, a longSum metric is defined for the <code>packets</code> and <code>bytes</code> columns, and the <code>queryGranularity</code> has been defined as <code>minute</code>. </p>
+
+<p>We will see how these definitions are used after we load this data.</p>
+
+<h2 id="load-the-example-data">Load the example data</h2>
+
+<p>From the druid-${DRUIDVERSION} package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/post-index-task --file quickstart/tutorial/rollup-index.json 
+</code></pre></div>
+<p>After the script completes, we will query the data.</p>
+
+<h2 id="query-the-example-data">Query the example data</h2>
+
+<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;rollup-tutorial&quot;;</code> query to see what data was ingested.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ bin/dsql
+Welcome to dsql, the command-line client for Druid SQL.
+Type &quot;\h&quot; for help.
+dsql&gt; select * from &quot;rollup-tutorial&quot;;
+┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ 2018-01-01T01:01:00.000Z │  35937 │     3 │ 2.2.2.2 │     286 │ 1.1.1.1 │
+│ 2018-01-01T01:02:00.000Z │ 366260 │     2 │ 2.2.2.2 │     415 │ 1.1.1.1 │
+│ 2018-01-01T01:03:00.000Z │  10204 │     1 │ 2.2.2.2 │      49 │ 1.1.1.1 │
+│ 2018-01-02T21:33:00.000Z │ 100288 │     2 │ 8.8.8.8 │     161 │ 7.7.7.7 │
+│ 2018-01-02T21:35:00.000Z │   2818 │     1 │ 8.8.8.8 │      12 │ 7.7.7.7 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+Retrieved 5 rows in 1.18s.
+
+dsql&gt; 
+</code></pre></div>
+<p>Let&#39;s look at the three events in the original input data that occurred during <code>2018-01-01T01:01</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T01:01:35Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:20,&quot;bytes&quot;:9024}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:01:51Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:255,&quot;bytes&quot;:21133}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:01:59Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:11,&quot;bytes&quot;:5780}
+</code></pre></div>
+<p>These three rows have been &quot;rolled up&quot; into the following row:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ 2018-01-01T01:01:00.000Z │  35937 │     3 │ 2.2.2.2 │     286 │ 1.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+</code></pre></div>
+<p>The input rows have been grouped by the timestamp and dimension columns <code>{timestamp, srcIP, dstIP}</code> with sum aggregations on the metric columns <code>packets</code> and <code>bytes</code>.</p>
+
+<p>Before the grouping occurs, the timestamps of the original input data are bucketed/floored by minute, due to the <code>&quot;queryGranularity&quot;:&quot;minute&quot;</code> setting in the ingestion spec.</p>
+
+<p>Likewise, these two events that occurred during <code>2018-01-01T01:02</code> have been rolled up:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T01:02:14Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:38,&quot;bytes&quot;:6289}
+{&quot;timestamp&quot;:&quot;2018-01-01T01:02:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:377,&quot;bytes&quot;:359971}
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ 2018-01-01T01:02:00.000Z │ 366260 │     2 │ 2.2.2.2 │     415 │ 1.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+</code></pre></div>
+<p>For the last event recording traffic between 1.1.1.1 and 2.2.2.2, no roll-up took place, because this was the only event that occurred during <code>2018-01-01T01:03</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T01:03:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;,&quot;packets&quot;:49,&quot;bytes&quot;:10204}
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ 2018-01-01T01:03:00.000Z │  10204 │     1 │ 2.2.2.2 │      49 │ 1.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+</code></pre></div>
+<p>Note that the <code>count</code> metric shows how many rows in the original input data contributed to the final &quot;rolled up&quot; row.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/latest/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
