@@ -121,7 +121,7 @@
 <p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
 the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. </p>
 
-<p>It will also be helpful to have finished <a href="/docs/VERSION/tutorials/tutorial-batch.html">Tutorial: Loading a file</a>, <a href="/docs/VERSION/tutorials/tutorial-query.html">Tutorial: Querying data</a>, and <a href="/docs/VERSION/tutorials/tutorial-rollup.html">Tutorial: Rollup</a>.</p>
+<p>It will also be helpful to have finished <a href="../tutorials/tutorial-batch.html">Tutorial: Loading a file</a>, <a href="../tutorials/tutorial-query.html">Tutorial: Querying data</a>, and <a href="../tutorials/tutorial-rollup.html">Tutorial: Rollup</a>.</p>
 
 <h2 id="example-data">Example data</h2>
 
@@ -668,7 +668,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 </code></pre></div>
 <h2 id="submit-the-task-and-query-the-data">Submit the task and query the data</h2>
 
-<p>From the druid-${DRUIDVERSION} package root, run the following command:</p>
+<p>From the druid package root, run the following command:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>After the script completes, we will query the data.</p>
