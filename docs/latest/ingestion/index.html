@@ -216,7 +216,8 @@
     <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
     <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
     <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;transformSpec&quot;</span> <span class="p">:</span> <span class="kc">null</span>
 <span class="p">}</span>
 </code></pre></div>
 <table><thead>
@@ -250,6 +251,12 @@
 <td>JSON Object</td>
 <td>Specifies how to create segments and roll up data.</td>
 <td>yes</td>
+</tr>
+<tr>
+<td>transformSpec</td>
+<td>JSON Object</td>
+<td>Specifes how to filter and transform input data. See <a href="../ingestion/transform-spec.html">transform specs</a>.</td>
+<td>no</td>
 </tr>
 </tbody></table>
 
@@ -584,6 +591,10 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
   <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="metricsspec">metricsSpec</h2>
+
+<p>The <code>metricsSpec</code> is a list of <a href="../querying/aggregations.html">aggregators</a>. If <code>rollup</code> is false in the granularity spec, the metrics spec should be an empty list and all columns should be defined in the <code>dimensionsSpec</code> instead (without rollup, there isn&#39;t a real distinction between dimensions and metrics at ingestion time). This is optional, however.</p>
+
 <h2 id="granularityspec">GranularitySpec</h2>
 
 <p>The default granularity spec is <code>uniform</code>, and can be changed by setting the <code>type</code> field.
@@ -658,6 +669,10 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 <td>yes for batch, no for real-time</td>
 </tr>
 </tbody></table>
+
+<h1 id="transform-spec">Transform Spec</h1>
+
+<p>Transform specs allow Druid to transform and filter input data during ingestion. See <a href="../ingestion/transform-spec.html">Transform specs</a></p>
 
 <h1 id="io-config">IO Config</h1>
 

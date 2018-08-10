@@ -147,7 +147,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 {&quot;ts&quot;:&quot;2018-01-01T02:33:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;, &quot;srcPort&quot;:4000, &quot;dstPort&quot;:5000, &quot;protocol&quot;: 17, &quot;packets&quot;:200, &quot;bytes&quot;:20000, &quot;cost&quot;: 34.5}
 {&quot;ts&quot;:&quot;2018-01-01T02:35:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;, &quot;srcPort&quot;:4000, &quot;dstPort&quot;:5000, &quot;protocol&quot;: 17, &quot;packets&quot;:300, &quot;bytes&quot;:30000, &quot;cost&quot;: 46.3}
 </code></pre></div>
-<p>Save the JSON contents above into a file called <code>ingestion-tutorial-data.json</code> in <code>quickstart/</code>.</p>
+<p>Save the JSON contents above into a file called <code>ingestion-tutorial-data.json</code> under <code>examples</code>.</p>
 
 <p>Let&#39;s walk through the process of defining an ingestion spec that can load this data. </p>
 
@@ -159,7 +159,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>Let&#39;s start with an empty <code>dataSchema</code> and add fields to it as we progress through the tutorial.</p>
 
-<p>Create a new file called <code>ingestion-tutorial-index.json</code> in <code>quickstart/</code> with the following contents:</p>
+<p>Create a new file called <code>ingestion-tutorial-index.json</code> under <code>examples</code> with the following contents:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{}</span>
 </code></pre></div>
 <p>We will be making successive edits to this ingestion spec as we progress through the tutorial.</p>
@@ -545,7 +545,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       &quot;type&quot; : &quot;index&quot;,
       &quot;firehose&quot; : {
         &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;quickstart/&quot;,
+        &quot;baseDir&quot; : &quot;examples/&quot;,
         &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
       }
     }
@@ -591,7 +591,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       &quot;type&quot; : &quot;index&quot;,
       &quot;firehose&quot; : {
         &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;quickstart/&quot;,
+        &quot;baseDir&quot; : &quot;examples/&quot;,
         &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
       }
     }
@@ -655,7 +655,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       &quot;type&quot; : &quot;index&quot;,
       &quot;firehose&quot; : {
         &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;quickstart/&quot;,
+        &quot;baseDir&quot; : &quot;examples/&quot;,
         &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
       }
     },
@@ -669,28 +669,74 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h2 id="submit-the-task-and-query-the-data">Submit the task and query the data</h2>
 
 <p>From the druid-${DRUIDVERSION} package root, run the following command:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/post-index-task --file quickstart/ingestion-tutorial-index.json 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>After the script completes, we will query the data.</p>
 
-<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;ingestion-tutorial&quot;;</code> query to see what data was ingested.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ bin/dsql
-Welcome to dsql, the command-line client for Druid SQL.
-Type &quot;\h&quot; for help.
-dsql&gt; select * from &quot;ingestion-tutorial&quot;;
-
-┌──────────────────────────┬───────┬──────┬───────┬─────────┬─────────┬─────────┬──────────┬─────────┬─────────┐
-│ __time                   │ bytes │ cost │ count │ dstIP   │ dstPort │ packets │ protocol │ srcIP   │ srcPort │
-├──────────────────────────┼───────┼──────┼───────┼─────────┼─────────┼─────────┼──────────┼─────────┼─────────┤
-│ 2018-01-01T01:01:00.000Z │  6000 │  4.9 │     3 │ 2.2.2.2 │    3000 │      60 │ 6        │ 1.1.1.1 │    2000 │
-│ 2018-01-01T01:02:00.000Z │  9000 │ 18.1 │     2 │ 2.2.2.2 │    7000 │      90 │ 6        │ 1.1.1.1 │    5000 │
-│ 2018-01-01T01:03:00.000Z │  6000 │  4.3 │     1 │ 2.2.2.2 │    7000 │      60 │ 6        │ 1.1.1.1 │    5000 │
-│ 2018-01-01T02:33:00.000Z │ 30000 │ 56.9 │     2 │ 8.8.8.8 │    5000 │     300 │ 17       │ 7.7.7.7 │    4000 │
-│ 2018-01-01T02:35:00.000Z │ 30000 │ 46.3 │     1 │ 8.8.8.8 │    5000 │     300 │ 17       │ 7.7.7.7 │    4000 │
-└──────────────────────────┴───────┴──────┴───────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
-Retrieved 5 rows in 0.12s.
-
-dsql&gt; 
+<p>Let&#39;s issue a <code>select * from &quot;ingestion-tutorial&quot;;</code> query to see what data was ingested.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/ingestion-tutorial-select-sql.json http://localhost:8082/druid/v2/sql
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
+  {
+    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
+    &quot;bytes&quot;: 6000,
+    &quot;cost&quot;: 4.9,
+    &quot;count&quot;: 3,
+    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
+    &quot;dstPort&quot;: 3000,
+    &quot;packets&quot;: 60,
+    &quot;protocol&quot;: &quot;6&quot;,
+    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
+    &quot;srcPort&quot;: 2000
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T01:02:00.000Z&quot;,
+    &quot;bytes&quot;: 9000,
+    &quot;cost&quot;: 18.1,
+    &quot;count&quot;: 2,
+    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
+    &quot;dstPort&quot;: 7000,
+    &quot;packets&quot;: 90,
+    &quot;protocol&quot;: &quot;6&quot;,
+    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
+    &quot;srcPort&quot;: 5000
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T01:03:00.000Z&quot;,
+    &quot;bytes&quot;: 6000,
+    &quot;cost&quot;: 4.3,
+    &quot;count&quot;: 1,
+    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
+    &quot;dstPort&quot;: 7000,
+    &quot;packets&quot;: 60,
+    &quot;protocol&quot;: &quot;6&quot;,
+    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
+    &quot;srcPort&quot;: 5000
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T02:33:00.000Z&quot;,
+    &quot;bytes&quot;: 30000,
+    &quot;cost&quot;: 56.9,
+    &quot;count&quot;: 2,
+    &quot;dstIP&quot;: &quot;8.8.8.8&quot;,
+    &quot;dstPort&quot;: 5000,
+    &quot;packets&quot;: 300,
+    &quot;protocol&quot;: &quot;17&quot;,
+    &quot;srcIP&quot;: &quot;7.7.7.7&quot;,
+    &quot;srcPort&quot;: 4000
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T02:35:00.000Z&quot;,
+    &quot;bytes&quot;: 30000,
+    &quot;cost&quot;: 46.3,
+    &quot;count&quot;: 1,
+    &quot;dstIP&quot;: &quot;8.8.8.8&quot;,
+    &quot;dstPort&quot;: 5000,
+    &quot;packets&quot;: 300,
+    &quot;protocol&quot;: &quot;17&quot;,
+    &quot;srcIP&quot;: &quot;7.7.7.7&quot;,
+    &quot;srcPort&quot;: 4000
+  }
+]
 </code></pre></div>
         </div>
         <div class="col-md-3">

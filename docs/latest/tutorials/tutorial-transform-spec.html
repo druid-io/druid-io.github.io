@@ -125,7 +125,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="sample-data">Sample data</h2>
 
-<p>We&#39;ve included sample data for this tutorial at <code>quickstart/tutorial/transform-data.json</code>, reproduced here for convenience:</p>
+<p>We&#39;ve included sample data for this tutorial at <code>examples/transform-data.json</code>, reproduced here for convenience:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T07:01:35Z&quot;,&quot;animal&quot;:&quot;octopus&quot;,  &quot;location&quot;:1, &quot;number&quot;:100}
 {&quot;timestamp&quot;:&quot;2018-01-01T05:01:35Z&quot;,&quot;animal&quot;:&quot;mongoose&quot;, &quot;location&quot;:2,&quot;number&quot;:200}
 {&quot;timestamp&quot;:&quot;2018-01-01T06:01:35Z&quot;,&quot;animal&quot;:&quot;snake&quot;, &quot;location&quot;:3, &quot;number&quot;:300}
@@ -194,7 +194,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       &quot;type&quot; : &quot;index&quot;,
       &quot;firehose&quot; : {
         &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;quickstart/tutorial&quot;,
+        &quot;baseDir&quot; : &quot;examples/&quot;,
         &quot;filter&quot; : &quot;transform-data.json&quot;
       },
       &quot;appendToExisting&quot; : false
@@ -220,20 +220,38 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>This filter selects the first 3 rows, and it will exclude the final &quot;lion&quot; row in the input data. Note that the filter is applied after the transformation.</p>
 
 <p>Let&#39;s submit this task now, which has been included at <code>quickstart/tutorial/transform-index.json</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/post-index-task --file quickstart/tutorial/transform-index.json
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <h2 id="query-the-transformed-data">Query the transformed data</h2>
 
-<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;transform-tutorial&quot;;</code> query to see what was ingested:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>dsql&gt; select * from &quot;transform-tutorial&quot;;
-┌──────────────────────────┬────────────────┬───────┬──────────┬────────┬───────────────┐
-│ __time                   │ animal         │ count │ location │ number │ triple-number │
-├──────────────────────────┼────────────────┼───────┼──────────┼────────┼───────────────┤
-│ 2018-01-01T05:01:00.000Z │ super-mongoose │     1 │        2 │    200 │           600 │
-│ 2018-01-01T06:01:00.000Z │ super-snake    │     1 │        3 │    300 │           900 │
-│ 2018-01-01T07:01:00.000Z │ super-octopus  │     1 │        1 │    100 │           300 │
-└──────────────────────────┴────────────────┴───────┴──────────┴────────┴───────────────┘
-Retrieved 3 rows in 0.03s.
+<p>Let&#39;s a <code>select * from &quot;transform-tutorial&quot;;</code> query to see what was ingested:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
+  {
+    &quot;__time&quot;: &quot;2018-01-01T05:01:00.000Z&quot;,
+    &quot;animal&quot;: &quot;super-mongoose&quot;,
+    &quot;count&quot;: 1,
+    &quot;location&quot;: 2,
+    &quot;number&quot;: 200,
+    &quot;triple-number&quot;: 600
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T06:01:00.000Z&quot;,
+    &quot;animal&quot;: &quot;super-snake&quot;,
+    &quot;count&quot;: 1,
+    &quot;location&quot;: 3,
+    &quot;number&quot;: 300,
+    &quot;triple-number&quot;: 900
+  },
+  {
+    &quot;__time&quot;: &quot;2018-01-01T07:01:00.000Z&quot;,
+    &quot;animal&quot;: &quot;super-octopus&quot;,
+    &quot;count&quot;: 1,
+    &quot;location&quot;: 1,
+    &quot;number&quot;: 100,
+    &quot;triple-number&quot;: 300
+  }
+]
 </code></pre></div>
 <p>The &quot;lion&quot; row has been discarded, the <code>animal</code> column has been transformed, and we have both the original and transformed <code>number</code> column.</p>
 

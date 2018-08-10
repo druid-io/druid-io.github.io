@@ -137,63 +137,7 @@ historical nodes. Once the historical nodes return their results, the broker wil
 
 <h2 id="http-endpoints">HTTP Endpoints</h2>
 
-<p>The broker node exposes several HTTP endpoints for interactions.</p>
-
-<h3 id="get">GET</h3>
-
-<ul>
-<li><code>/status</code></li>
-</ul>
-
-<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
-
-<ul>
-<li><code>/druid/v2/datasources</code></li>
-</ul>
-
-<p>Returns a list of queryable datasources.</p>
-
-<ul>
-<li><code>/druid/v2/datasources/{dataSourceName}</code></li>
-</ul>
-
-<p>Returns the dimensions and metrics of the datasource. Optionally, you can provide request parameter &quot;full&quot; to get list of served intervals with dimensions and metrics being served for those intervals. You can also provide request param &quot;interval&quot; explicitly to refer to a particular interval.</p>
-
-<p>If no interval is specified, a default interval spanning a configurable period before the current time will be used. The duration of this interval is specified in ISO8601 format via:</p>
-
-<p>druid.query.segmentMetadata.defaultHistory</p>
-
-<ul>
-<li><code>/druid/v2/datasources/{dataSourceName}/dimensions</code></li>
-</ul>
-
-<p>Returns the dimensions of the datasource.</p>
-
-<ul>
-<li><code>/druid/v2/datasources/{dataSourceName}/metrics</code></li>
-</ul>
-
-<p>Returns the metrics of the datasource.</p>
-
-<ul>
-<li><code>/druid/v2/datasources/{dataSourceName}/candidates?intervals={comma-separated-intervals-in-ISO8601-format}&amp;numCandidates={numCandidates}</code></li>
-</ul>
-
-<p>Returns segment information lists including server locations for the given datasource and intervals. If &quot;numCandidates&quot; is not specified, it will return all servers for each interval.</p>
-
-<ul>
-<li><code>/druid/broker/v1/loadstatus</code></li>
-</ul>
-
-<p>Returns a flag indicating if the broker knows about all segments in Zookeeper. This can be used to know when a broker node is ready to be queried after a restart.</p>
-
-<h3 id="post">POST</h3>
-
-<ul>
-<li><code>/druid/v2/candidates/</code></li>
-</ul>
-
-<p>Returns segment information lists including server locations for the given query.</p>
+<p>For a list of API endpoints supported by the Broker, please see the <a href="../operations/api-reference.html#broker">API reference</a>.</p>
 
         </div>
         <div class="col-md-3">

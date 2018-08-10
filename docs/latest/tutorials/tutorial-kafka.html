@@ -114,150 +114,65 @@
         <div class="col-md-9 doc-content">
           <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
-          <h1 id="tutorial-load-from-kafka">Tutorial: Load from Kafka</h1>
+          <h1 id="tutorial-load-streaming-data-from-kafka">Tutorial: Load streaming data from Kafka</h1>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p>This tutorial shows you how to load data from Kafka into Druid.</p>
+<p>This tutorial demonstrates how to load data from a Kafka stream, using the Druid Kafka indexing service.</p>
 
-<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid and Tranquility as described in
-the <a href="quickstart.html">single-machine quickstart</a> and have it running on your local machine. You
+<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
+the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. You 
 don&#39;t need to have loaded any data yet.</p>
 
-<div class="note info">
-This tutorial will show you how to load data from Kafka into Druid, but Druid additionally supports
-a wide variety of batch and streaming loading methods. See the <a href="../ingestion/batch-ingestion.html">Loading files</a>
-and <a href="../ingestion/stream-ingestion.html">Loading streams</a> pages for more information about other options,
-including from Hadoop, HTTP, Storm, Samza, Spark Streaming, and your own JVM apps.
-</div>
-
-<h2 id="start-kafka">Start Kafka</h2>
+<h2 id="download-and-start-kafka">Download and start Kafka</h2>
 
 <p><a href="http://kafka.apache.org/">Apache Kafka</a> is a high throughput message bus that works well with
-Druid.  For this tutorial, we will use Kafka 0.9.0.0. To download Kafka, issue the following
+Druid.  For this tutorial, we will use Kafka 0.10.2.0. To download Kafka, issue the following
 commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://www.us.apache.org/dist/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz
-tar -xzf kafka_2.11-0.9.0.0.tgz
-<span class="nb">cd</span> kafka_2.11-0.9.0.0
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O https://archive.apache.org/dist/kafka/0.10.2.0/kafka_2.11-0.10.2.0.tgz
+tar -xzf kafka_2.11-0.10.2.0.tgz
+<span class="nb">cd</span> kafka_2.11-0.10.2.0
 </code></pre></div>
 <p>Start a Kafka broker by running the following command in a new terminal:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-server-start.sh config/server.properties
 </code></pre></div>
-<p>Run this command to create a Kafka topic called <em>metrics</em>, to which we&#39;ll send data:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic metrics
+<p>Run this command to create a Kafka topic called <em>wikipedia</em>, to which we&#39;ll send data:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic wikipedia
 </code></pre></div>
-<h2 id="send-example-data">Send example data</h2>
+<h2 id="enable-druid-kafka-ingestion">Enable Druid Kafka ingestion</h2>
+
+<p>We will use Druid&#39;s Kafka indexing service to ingest messages from our newly created <em>wikipedia</em> topic. To start the
+service, we will need to submit a supervisor spec to the Druid overlord by running the following from the Druid package root:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> -d @examples/wikipedia-kafka-supervisor.json http://localhost:8090/druid/indexer/v1/supervisor
+</code></pre></div>
+<p>If the supervisor was successfully created, you will get a response containing the ID of the supervisor; in our case we should see <code>{&quot;id&quot;:&quot;wikipedia-kafka&quot;}</code>.</p>
+
+<p>For more details about what&#39;s going on here, check out the
+<a href="http://druid.io/docs//development/extensions-core/kafka-ingestion.html">Druid Kafka indexing service documentation</a>.</p>
+
+<h2 id="load-data">Load data</h2>
 
 <p>Let&#39;s launch a console producer for our topic and send some data!</p>
 
-<p>In your Druid directory, generate some metrics by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/generate-example-metrics
+<p>In your Kafka directory, run the following command, where {PATH_TO_DRUID} is replaced by the path to the Druid directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">export</span> <span class="nv">KAFKA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dfile.encoding=UTF-8&quot;</span>
+./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic wikipedia &lt; <span class="o">{</span>PATH_TO_DRUID<span class="o">}</span>/quickstart/wikiticker-2015-09-12-sampled.json
 </code></pre></div>
-<p>In your Kafka directory, run:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic metrics
-</code></pre></div>
-<p>The <em>kafka-console-producer</em> command is now awaiting input. Copy the generated example metrics,
-paste them into the <em>kafka-console-producer</em> terminal, and press enter. If you like, you can also
-paste more messages into the producer, or you can press CTRL-D to exit the console producer.</p>
-
-<p>You can immediately query this data, or you can skip ahead to the
-<a href="#loading-your-own-data">Loading your own data</a> section if you&#39;d like to load your own dataset.</p>
+<p>The previous command posted sample events to the <em>wikipedia</em> Kafka topic which were then ingested into Druid by the Kafka indexing service. You&#39;re now ready to run some queries!</p>
 
 <h2 id="querying-your-data">Querying your data</h2>
 
-<p>After sending data, you can immediately query it using any of the
-<a href="../querying/querying.html">supported query methods</a>.</p>
+<p>After data is sent to the Kafka stream, it is immediately available for querying.</p>
 
-<h2 id="loading-your-own-data">Loading your own data</h2>
+<p>Please follow the <a href="../tutorial/tutorial-query.html">query tutorial</a> to run some example queries on the newly loaded data.</p>
 
-<p>So far, you&#39;ve loaded data into Druid from Kafka using an ingestion spec that we&#39;ve included in the
-distribution. Each ingestion spec is designed to work with a particular dataset. You load your own
-data types into Imply by writing a custom ingestion spec.</p>
+<h2 id="cleanup">Cleanup</h2>
 
-<p>You can write a custom ingestion spec by starting from the bundled configuration in
-<code>conf-quickstart/tranquility/kafka.json</code> and modifying it for your own needs.</p>
-
-<p>The most important questions are:</p>
-
-<ul>
-<li>What should the dataset be called? This is the &quot;dataSource&quot; field of the &quot;dataSchema&quot;.</li>
-<li>Which field should be treated as a timestamp? This belongs in the &quot;column&quot; of the &quot;timestampSpec&quot;.</li>
-<li>Which fields should be treated as dimensions? This belongs in the &quot;dimensions&quot; of the &quot;dimensionsSpec&quot;.</li>
-<li>Which fields should be treated as measures? This belongs in the &quot;metricsSpec&quot;.</li>
-</ul>
-
-<p>Let&#39;s use a small JSON pageviews dataset in the topic <em>pageviews</em> as an example, with records like:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
-</code></pre></div>
-<p>First, create the topic:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor <span class="m">1</span> --partitions <span class="m">1</span> --topic pageviews
-</code></pre></div>
-<p>Next, edit <code>conf-quickstart/tranquility/kafka.json</code>:</p>
-
-<ul>
-<li>Let&#39;s call the dataset &quot;pageviews-kafka&quot;.</li>
-<li>The timestamp is the &quot;time&quot; field.</li>
-<li>Good choices for dimensions are the string fields &quot;url&quot; and &quot;user&quot;.</li>
-<li>Good choices for measures are a count of pageviews, and the sum of &quot;latencyMs&quot;. Collecting that
-sum when we load the data will allow us to compute an average at query time as well.</li>
-</ul>
-
-<p>You can edit the existing <code>conf-quickstart/tranquility/kafka.json</code> file by altering these
-sections:</p>
-
-<ol>
-<li>Change the key <code>&quot;metrics-kafka&quot;</code> under <code>&quot;dataSources&quot;</code> to <code>&quot;pageviews-kafka&quot;</code></li>
-<li>Alter these sections under the new <code>&quot;pageviews-kafka&quot;</code> key:
-<code>json
-&quot;dataSource&quot;: &quot;pageviews-kafka&quot;
-</code></li>
-</ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;timestampSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-       <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-       <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span>
-  <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;dimensionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
-       <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">]</span>
-  <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;metricsSpec&quot;</span><span class="err">:</span> <span class="p">[</span>
-       <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;views&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span>
-       <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;latencyMs&quot;</span><span class="p">}</span>
-  <span class="p">]</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;properties&quot;</span> <span class="err">:</span> <span class="p">{</span>
-       <span class="nt">&quot;task.partitions&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-       <span class="nt">&quot;task.replicants&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-       <span class="nt">&quot;topicPattern&quot;</span> <span class="p">:</span> <span class="s2">&quot;pageviews&quot;</span>
-  <span class="p">}</span>
-</code></pre></div>
-<p>Next, start Druid Kafka ingestion:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/tranquility kafka -configFile ../druid-0.12.1/conf-quickstart/tranquility/kafka.json
-</code></pre></div>
-<ul>
-<li>If your Tranquility server or Kafka is already running, stop it (CTRL-C) and
-start it up again.</li>
-</ul>
-
-<p>Finally, send some data to the Kafka topic. Let&#39;s start with these messages:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">}</span>
-<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
-<span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2000-01-01T00:00:00Z&quot;</span><span class="p">,</span> <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="nt">&quot;latencyMs&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">}</span>
-</code></pre></div>
-<p>Druid streaming ingestion requires relatively current messages (relative to a slack time controlled by the
-<a href="../ingestion/stream-ingestion.html#segmentgranularity-and-windowperiod">windowPeriod</a> value), so you should
-replace <code>2000-01-01T00:00:00Z</code> in these messages with the current time in ISO8601 format. You can
-get this by running:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>python -c <span class="s1">&#39;import datetime; print(datetime.datetime.utcnow().strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;))&#39;</span>
-</code></pre></div>
-<p>Update the timestamps in the JSON above, then copy and paste these messages into this console
-producer and press enter:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pageviews
-</code></pre></div>
-<p>That&#39;s it, your data should now be in Druid. You can immediately query it using any of the
-<a href="../querying/querying.html">supported query methods</a>.</p>
+<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-the-cluster">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
 
 <h2 id="further-reading">Further reading</h2>
 
-<p>To read more about loading streams, see our <a href="../ingestion/stream-ingestion.html">streaming ingestion documentation</a>.</p>
+<p>For more information on loading data from Kafka streams, please see the <a href="http://druid.io/docs//development/extensions-core/kafka-ingestion.html">Druid Kafka indexing service documentation</a>.</p>
 
         </div>
         <div class="col-md-3">

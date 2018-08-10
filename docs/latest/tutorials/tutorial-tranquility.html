@@ -131,27 +131,17 @@ don&#39;t need to have loaded any data yet.</p>
 <p>In the Druid package root, run the following commands:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz -o tranquility-distribution-0.8.2.tgz
 tar -xzf tranquility-distribution-0.8.2.tgz
-mv tranquility-distribution-0.8.2 tranquility
+cd tranquility-distribution-0.8.2
 </code></pre></div>
-<p>The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at <code>tranquility</code> under the druid-latest package root.</p>
+<h2 id="run-tranquility-server">Run Tranquility server</h2>
 
-<h2 id="enable-tranquility-server">Enable Tranquility Server</h2>
-
-<ul>
-<li>In your <code>quickstart/tutorial/conf/tutorial-cluster.conf</code>, uncomment the <code>tranquility-server</code> line.</li>
-<li>Stop your <em>bin/supervise</em> command (CTRL-C) and then restart it by again running <code>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf</code>.</li>
-</ul>
-
-<p>As part of the output of <em>supervise</em> you should see something like:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Running command[tranquility-server], logging to[/stage/druid-{DRUIDVERSION}/var/sv/tranquility-server.log]: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList=[]
+<p>Run the following command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/tranquility server -configFile ../examples/conf/tranquility/wikipedia-server.json -Ddruid.extensions.loadList=[]
 </code></pre></div>
-<p>You can check the log file in <code>var/sv/tranquility-server.log</code> to confirm that the server is starting up properly.</p>
-
 <h2 id="send-data">Send data</h2>
 
 <p>Let&#39;s send the sample Wikipedia edits data to Tranquility:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>gunzip -k quickstart/wikiticker-2015-09-12-sampled.json.gz 
-curl -XPOST -H&#39;Content-Type: application/json&#39; --data-binary @quickstart/wikiticker-2015-09-12-sampled.json http://localhost:8200/v1/post/wikipedia
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -XPOST -H&#39;Content-Type: application/json&#39; --data-binary @quickstart/wikiticker-2015-09-12-sampled.json http://localhost:8200/v1/post/wikipedia
 </code></pre></div>
 <p>Which will print something like:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;result&quot;:{&quot;received&quot;:39244,&quot;sent&quot;:39244}}
@@ -173,7 +163,7 @@ allocated to the ingestion task. Subsequent POSTs will complete quickly once thi
 
 <h2 id="cleanup">Cleanup</h2>
 
-<p>If you wish to go through any of the other ingestion tutorials, you will need to shut down the cluster and reset the cluster state by removing the contents of the <code>var</code> directory under the druid package, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-the-cluster">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
 
 <p>When cleaning up after running this Tranquility tutorial, it is also necessary to recomment the <code>tranquility-server</code> line in <code>quickstart/tutorial/conf/tutorial-cluster.conf</code> before restarting the cluster.</p>
 

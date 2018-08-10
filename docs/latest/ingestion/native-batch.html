@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <h1 id="native-batch-ingestion">Native batch ingestion</h1>
+
+<p>The &quot;Index Task&quot; is Druid&#39;s native batch ingestion mechanism. The task executes within the indexing service and does not require an external Hadoop setup to use. The grammar of the index task is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span><span class="s2">&quot;language&quot;</span><span class="p">,</span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span><span class="s2">&quot;newPage&quot;</span><span class="p">,</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span><span class="s2">&quot;namespace&quot;</span><span class="p">,</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;city&quot;</span><span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/indexing/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia_data.json&quot;</span>
+       <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">75000</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="task-properties">Task Properties</h2>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index&quot;.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>id</td>
+<td>The task ID. If this is not explicitly specified, Druid generates the task ID using task type, data source name, interval, and date-time stamp.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>spec</td>
+<td>The ingestion spec including the data schema, IOConfig, and TuningConfig. See below for more details.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>context</td>
+<td>Context containing various task configuration parameters. See below for more details.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h2 id="task-priority">Task Priority</h2>
+
+<p>Druid&#39;s indexing tasks use locks for atomic data ingestion. Each lock is acquired for the combination of a dataSource and an interval. Once a task acquires a lock, it can write data for the dataSource and the interval of the acquired lock unless the lock is released or preempted. Please see <a href="#locking">the below Locking section</a></p>
+
+<p>Each task has a priority which is used for lock acquisition. The locks of higher-priority tasks can preempt the locks of lower-priority tasks if they try to acquire for the same dataSource and interval. If some locks of a task are preempted, the behavior of the preempted task depends on the task implementation. Usually, most tasks finish as failed if they are preempted.</p>
+
+<p>Tasks can have different default priorities depening on their types. Here are a list of default priorities. Higher the number, higher the priority.</p>
+
+<table><thead>
+<tr>
+<th>task type</th>
+<th>default priority</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Realtime index task</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Batch index task</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Merge/Append/Compaction task</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Other tasks</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<p>You can override the task priority by setting your priority in the task context like below.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;context&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;priority&quot;</span> <span class="p">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="dataschema">DataSchema</h2>
+
+<p>This field is required.</p>
+
+<p>See <a href="../ingestion/index.html">Ingestion</a></p>
+
+<h2 id="ioconfig">IOConfig</h2>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index&quot;.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>firehose</td>
+<td>Specify a <a href="../ingestion/firehose.html">Firehose</a> here.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>appendToExisting</td>
+<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs (which can be forced by setting &#39;forceExtendableShardSpecs&#39; in the tuning config).</td>
+<td>false</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h2 id="tuningconfig">TuningConfig</h2>
+
+<p>The tuningConfig is optional and default parameters will be used if no tuningConfig is specified. See below for more details.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The task type, this should always be &quot;index&quot;.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>targetPartitionSize</td>
+<td>Used in sharding. Determines how many rows are in each segment.</td>
+<td>5000000</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxRowsInMemory</td>
+<td>Used in determining when intermediate persists to disk should occur.</td>
+<td>75000</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxTotalRows</td>
+<td>Total number of rows in segments waiting for being published. Used in determining when intermediate publish should occur.</td>
+<td>150000</td>
+<td>no</td>
+</tr>
+<tr>
+<td>numShards</td>
+<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if targetPartitionSize is set.</td>
+<td>null</td>
+<td>no</td>
+</tr>
+<tr>
+<td>indexSpec</td>
+<td>defines segment storage format options to be used at indexing time, see <a href="#indexspec">IndexSpec</a></td>
+<td>null</td>
+<td>no</td>
+</tr>
+<tr>
+<td>maxPendingPersists</td>
+<td>Maximum number of persists that can be pending but not started. If this limit would be exceeded by a new intermediate persist, ingestion will block until the currently-running persist finishes. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
+<td>0 (meaning one persist can be running concurrently with ingestion, and none can be queued up)</td>
+<td>no</td>
+</tr>
+<tr>
+<td>forceExtendableShardSpecs</td>
+<td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>false</td>
+<td>no</td>
+</tr>
+<tr>
+<td>forceGuaranteedRollup</td>
+<td>Forces guaranteeing the <a href="../design/index.html">perfect rollup</a>. The perfect rollup optimizes the total size of generated segments and querying time while indexing time will be increased. This flag cannot be used with either <code>appendToExisting</code> of IOConfig or <code>forceExtendableShardSpecs</code>. For more details, see the below <strong>Segment publishing modes</strong> section.</td>
+<td>false</td>
+<td>no</td>
+</tr>
+<tr>
+<td>reportParseExceptions</td>
+<td>If true, exceptions encountered during parsing will be thrown and will halt ingestion; if false, unparseable rows and fields will be skipped.</td>
+<td>false</td>
+<td>no</td>
+</tr>
+<tr>
+<td>publishTimeout</td>
+<td>Milliseconds to wait for publishing segments. It must be &gt;= 0, where 0 means to wait forever.</td>
+<td>0</td>
+<td>no</td>
+</tr>
+<tr>
+<td>segmentWriteOutMediumFactory</td>
+<td>Segment write-out medium to use when creating segments. See <a href="../configuration/indexing-service.html">Indexing Service Configuration</a> page, &quot;SegmentWriteOutMediumFactory&quot; section for explanation and available options.</td>
+<td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="indexspec">IndexSpec</h3>
+
+<p>The indexSpec defines segment storage format options to be used at indexing time, such as bitmap type and column
+compression formats. The indexSpec is optional and default parameters will be used if not specified.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bitmap</td>
+<td>Object</td>
+<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
+<td>no (defaults to Concise)</td>
+</tr>
+<tr>
+<td>dimensionCompression</td>
+<td>String</td>
+<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>metricCompression</td>
+<td>String</td>
+<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, <code>uncompressed</code>, or <code>none</code>.</td>
+<td>no (default == <code>LZ4</code>)</td>
+</tr>
+<tr>
+<td>longEncoding</td>
+<td>String</td>
+<td>Encoding format for metric and dimension columns with type long. Choose from <code>auto</code> or <code>longs</code>. <code>auto</code> encodes the values using offset or lookup table depending on column cardinality, and store them with variable size. <code>longs</code> stores the value as is with 8 bytes each.</td>
+<td>no (default == <code>longs</code>)</td>
+</tr>
+</tbody></table>
+
+<h4 id="bitmap-types">Bitmap types</h4>
+
+<p>For Concise bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>concise</code>.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>For Roaring bitmaps:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Must be <code>roaring</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>compressRunOnSerialization</td>
+<td>Boolean</td>
+<td>Use a run-length encoding where it is estimated as more space efficient.</td>
+<td>no (default == <code>true</code>)</td>
+</tr>
+</tbody></table>
+
+<h2 id="segment-publishing-modes">Segment publishing modes</h2>
+
+<p>While ingesting data using the Index task, it creates segments from the input data and publishes them. For segment publishing, the Index task supports two segment publishing modes, i.e., <em>bulk publishing mode</em> and <em>incremental publishing mode</em> for <a href="../design/index.html">perfect rollup and best-effort rollup</a>, respectively.</p>
+
+<p>In the bulk publishing mode, every segment is published at the very end of the index task. Until then, created segments are stored in the memory and local storage of the node running the index task. As a result, this mode might cause a problem due to limited storage capacity, and is not recommended to use in production.</p>
+
+<p>On the contrary, in the incremental publishing mode, segments are incrementally published, that is they can be published in the middle of the index task. More precisely, the index task collects data and stores created segments in the memory and disks of the node running that task until the total number of collected rows exceeds <code>maxTotalRows</code>. Once it exceeds, the index task immediately publishes all segments created until that moment, cleans all published segments up, and continues to ingest remaining data.</p>
+
+<p>To enable bulk publishing mode, <code>forceGuaranteedRollup</code> should be set in the TuningConfig. Note that this option cannot be used with either <code>forceExtendableShardSpecs</code> of TuningConfig or <code>appendToExisting</code> of IOConfig.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/latest/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
