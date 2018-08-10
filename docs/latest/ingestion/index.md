@@ -87,8 +87,7 @@ An example dataSchema is shown below:
     "segmentGranularity" : "DAY",
     "queryGranularity" : "NONE",
     "intervals" : [ "2013-08-31/2013-09-01" ]
-  },
-  "transformSpec" : null
+  }
 }
 ```
 
@@ -98,7 +97,6 @@ An example dataSchema is shown below:
 | parser | JSON Object | Specifies how ingested data can be parsed. | yes |
 | metricsSpec | JSON Object array | A list of [aggregators](../querying/aggregations.html). | yes |
 | granularitySpec | JSON Object | Specifies how to create segments and roll up data. | yes |
-| transformSpec | JSON Object | Specifes how to filter and transform input data. See [transform specs](../ingestion/transform-spec.html).| no |
 
 ## Parser
 
@@ -200,13 +198,7 @@ handle all formatting decisions on their own, without using the ParseSpec.
 #### Dimension Schema
 A dimension schema specifies the type and name of a dimension to be ingested.
 
-For string columns, the dimension schema can also be used to enable or disable bitmap indexing by setting the
-`createBitmapIndex` boolean. By default, bitmap indexes are enabled for all string columns. Only string columns can have
-bitmap indexes; they are not supported for numeric columns.
-
-For example, the following `dimensionsSpec` section from a `dataSchema` ingests one column as Long (`countryNum`), two
-columns as Float (`userLatitude`, `userLongitude`), and the other columns as Strings, with bitmap indexes disabled
-for the `comment` column.
+For example, the following `dimensionsSpec` section from a `dataSchema` ingests one column as Long (`countryNum`), two columns as Float (`userLatitude`, `userLongitude`), and the other columns as Strings:
 
 ```json
 "dimensionsSpec" : {
@@ -223,11 +215,6 @@ for the `comment` column.
     "country",
     "region",
     "city",
-    {
-      "type": "string",
-      "name": "comment",
-      "createBitmapIndex": false
-    },
     {
       "type": "long",
       "name": "countryNum"
@@ -246,9 +233,7 @@ for the `comment` column.
 }
 ```
 
-## metricsSpec
- The `metricsSpec` is a list of [aggregators](../querying/aggregations.html). If `rollup` is false in the granularity spec, the metrics spec should be an empty list and all columns should be defined in the `dimensionsSpec` instead (without rollup, there isn't a real distinction between dimensions and metrics at ingestion time). This is optional, however.
- 
+
 ## GranularitySpec
 
 The default granularity spec is `uniform`, and can be changed by setting the `type` field.
@@ -261,9 +246,9 @@ This spec is used to generated segments with uniform intervals.
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
 | segmentGranularity | string | The granularity to create segments at. | no (default == 'DAY') |
-| queryGranularity | string | The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of "minute" will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of 'NONE' means millisecond granularity.| no (default == 'NONE') |
+| queryGranularity | string | The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of "minute" will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. | no (default == 'NONE') |
 | rollup | boolean | rollup or not | no (default == true) |
-| intervals | string | A list of intervals for the raw data being ingested. Ignored for real-time ingestion. | no. If specified, batch ingestion tasks may skip determining partitions phase which results in faster ingestion. |
+| intervals | string | A list of intervals for the raw data being ingested. Ignored for real-time ingestion. | yes for batch, no for real-time |
 
 ### Arbitrary Granularity Spec
 
@@ -271,13 +256,9 @@ This spec is used to generate segments with arbitrary intervals (it tries to cre
 
 | Field | Type | Description | Required |
 |-------|------|-------------|----------|
-| queryGranularity | string | The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of "minute" will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of 'NONE' means millisecond granularity.| no (default == 'NONE') |
+| queryGranularity | string | The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of "minute" will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. | no (default == 'NONE') |
 | rollup | boolean | rollup or not | no (default == true) |
-| intervals | string | A list of intervals for the raw data being ingested. Ignored for real-time ingestion. | no. If specified, batch ingestion tasks may skip determining partitions phase which results in faster ingestion. |
-
-# Transform Spec
-
-Transform specs allow Druid to transform and filter input data during ingestion. See [Transform specs](../ingestion/transform-spec.html)
+| intervals | string | A list of intervals for the raw data being ingested. Ignored for real-time ingestion. | yes for batch, no for real-time |
 
 # IO Config
 

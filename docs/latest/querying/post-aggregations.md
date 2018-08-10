@@ -162,35 +162,14 @@ The format of the query JSON is as follows:
   "postAggregations" : [{
     "type"   : "arithmetic",
     "name"   : "average",
-    "fn"     : "/",
-    "fields" : [
-           { "type" : "fieldAccess", "name" : "tot", "fieldName" : "tot" },
-           { "type" : "fieldAccess", "name" : "rows", "fieldName" : "rows" }
-         ]
-  }]
-  ...
-}
-```
-
-
-```json
-{
-  ...
-  "aggregations" : [
-    { "type" : "doubleSum", "name" : "tot", "fieldName" : "total" },
-    { "type" : "doubleSum", "name" : "part", "fieldName" : "part" }
-  ],
-  "postAggregations" : [{
-    "type"   : "arithmetic",
-    "name"   : "part_percentage",
     "fn"     : "*",
     "fields" : [
        { "type"   : "arithmetic",
-         "name"   : "ratio",
+         "name"   : "div",
          "fn"     : "/",
          "fields" : [
-           { "type" : "fieldAccess", "name" : "part", "fieldName" : "part" },
-           { "type" : "fieldAccess", "name" : "tot", "fieldName" : "tot" }
+           { "type" : "fieldAccess", "name" : "tot", "fieldName" : "tot" },
+           { "type" : "fieldAccess", "name" : "rows", "fieldName" : "rows" }
          ]
        },
        { "type" : "constant", "name": "const", "value" : 100 }
