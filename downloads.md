@@ -12,14 +12,6 @@ The current Druid stable release is {{ site.druid_stable_version }}. This versio
 <a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
 </p>
 
-## Release candidate
-
-The current Druid release candidate is {{ site.druid_rc_version }}.
-
-<p>
-<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_rc_version }}-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download {{site.druid_rc_version}} release candidate</a><br>
-</p>
-
 ## Get started
 
 To get started with Druid, visit the [quickstart](/docs/latest/tutorials/quickstart.html).
