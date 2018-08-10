@@ -123,7 +123,7 @@
 <p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
 the <a href="index.html">single-machine quickstart</a> and have it running on your local machine.</p>
 
-<p>It will also be helpful to have finished <a href="/docs/VERSION/tutorials/tutorial-batch.html">Tutorial: Loading a file</a> and <a href="/docs/VERSION/tutorials/tutorial-query.html">Tutorial: Querying data</a>.</p>
+<p>It will also be helpful to have finished <a href="../tutorials/tutorial-batch.html">Tutorial: Loading a file</a> and <a href="../tutorials/tutorial-query.html">Tutorial: Querying data</a>.</p>
 
 <h2 id="example-data">Example data</h2>
 
@@ -201,7 +201,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="load-the-example-data">Load the example data</h2>
 
-<p>From the druid-${DRUIDVERSION} package root, run the following command:</p>
+<p>From the Druid package root, run the following command:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/rollup-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>After the data is loaded, we will query the data.</p>

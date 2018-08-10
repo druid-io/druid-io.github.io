@@ -121,7 +121,7 @@
 <p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
 the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. </p>
 
-<p>Completing <a href="/docs/VERSION/tutorials/tutorial-retention.html">Tutorial: Configuring retention</a> first is highly recommended, as we will be using retention rules in this tutorial.</p>
+<p>Completing <a href="../tutorials/tutorial-retention.html">Tutorial: Configuring retention</a> first is highly recommended, as we will be using retention rules in this tutorial.</p>
 
 <h2 id="load-initial-data">Load initial data</h2>
 
@@ -159,7 +159,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>This will cause the first 12 segments of <code>deletion-tutorial</code> to be dropped. However, these dropped segments are not removed from deep storage.</p>
 
-<p>You can see that all 24 segments are still present in deep storage by listing the contents of <code>druid-{DRUIDVERSION}/var/druid/segments/deletion-tutorial</code>:</p>
+<p>You can see that all 24 segments are still present in deep storage by listing the contents of <code>var/druid/segments/deletion-tutorial</code>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/
 2015-09-12T00:00:00.000Z_2015-09-12T01:00:00.000Z
 2015-09-12T01:00:00.000Z_2015-09-12T02:00:00.000Z

@@ -132,7 +132,7 @@
 
 <p>This Dockerfile and related files are located at <code>examples/hadoop/docker</code>.</p>
 
-<p>From the druid-${DRUIDVERSION} package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.7.3&quot;:</p>
+<p>From the druid package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.7.3&quot;:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd examples/hadoop/docker
 docker build -t druid-hadoop-demo:2.7.3 .
 </code></pre></div>
@@ -177,7 +177,7 @@ bash-4.1#
 
 <h3 id="copy-input-data-to-the-hadoop-container">Copy input data to the Hadoop container</h3>
 
-<p>From the druid-${DRUIDVERSION} package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
+<p>From the druid package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
 </code></pre></div>
 <h3 id="setup-hdfs-directories">Setup HDFS directories</h3>
