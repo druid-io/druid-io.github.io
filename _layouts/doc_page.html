@@ -15,11 +15,6 @@ sectionid: docs
     <div class="container doc-container">
       {% assign parts = (page.url | split: '/') %}
       {% assign version = parts[2] %}
-      {% if version == 'latest' %}
-         {% assign apiversion = site.druid_latest_version %}
-      {% else %}
-         {% assign apiversion = version %}
-      {% endif %}
 
       {% if version != site.druid_version and version != 'latest' %}
       <p> Looking for the <a href="/docs/{{ site.druid_version }}/">latest stable documentation</a>?</p>
