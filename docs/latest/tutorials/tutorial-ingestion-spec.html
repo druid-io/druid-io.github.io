@@ -137,15 +137,15 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <li><code>bytes</code>: number of bytes transmitted</li>
 <li><code>cost</code>: the cost of sending the traffic</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;ts&quot;:&quot;2018-01-01T01:01:35Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:2000, &quot;dstPort&quot;:3000, &quot;protocol&quot;: 6, &quot;packets&quot;:10, &quot;bytes&quot;:1000, &quot;cost&quot;: 1.4}
-{&quot;ts&quot;:&quot;2018-01-01T01:01:51Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:2000, &quot;dstPort&quot;:3000, &quot;protocol&quot;: 6, &quot;packets&quot;:20, &quot;bytes&quot;:2000, &quot;cost&quot;: 3.1}
-{&quot;ts&quot;:&quot;2018-01-01T01:01:59Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:2000, &quot;dstPort&quot;:3000, &quot;protocol&quot;: 6, &quot;packets&quot;:30, &quot;bytes&quot;:3000, &quot;cost&quot;: 0.4}
-{&quot;ts&quot;:&quot;2018-01-01T01:02:14Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:5000, &quot;dstPort&quot;:7000, &quot;protocol&quot;: 6, &quot;packets&quot;:40, &quot;bytes&quot;:4000, &quot;cost&quot;: 7.9}
-{&quot;ts&quot;:&quot;2018-01-01T01:02:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:5000, &quot;dstPort&quot;:7000, &quot;protocol&quot;: 6, &quot;packets&quot;:50, &quot;bytes&quot;:5000, &quot;cost&quot;: 10.2}
-{&quot;ts&quot;:&quot;2018-01-01T01:03:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:5000, &quot;dstPort&quot;:7000, &quot;protocol&quot;: 6, &quot;packets&quot;:60, &quot;bytes&quot;:6000, &quot;cost&quot;: 4.3}
-{&quot;ts&quot;:&quot;2018-01-01T02:33:14Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;, &quot;srcPort&quot;:4000, &quot;dstPort&quot;:5000, &quot;protocol&quot;: 17, &quot;packets&quot;:100, &quot;bytes&quot;:10000, &quot;cost&quot;: 22.4}
-{&quot;ts&quot;:&quot;2018-01-01T02:33:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;, &quot;srcPort&quot;:4000, &quot;dstPort&quot;:5000, &quot;protocol&quot;: 17, &quot;packets&quot;:200, &quot;bytes&quot;:20000, &quot;cost&quot;: 34.5}
-{&quot;ts&quot;:&quot;2018-01-01T02:35:45Z&quot;,&quot;srcIP&quot;:&quot;7.7.7.7&quot;, &quot;dstIP&quot;:&quot;8.8.8.8&quot;, &quot;srcPort&quot;:4000, &quot;dstPort&quot;:5000, &quot;protocol&quot;: 17, &quot;packets&quot;:300, &quot;bytes&quot;:30000, &quot;cost&quot;: 46.3}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">1.4</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:51Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">3.1</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:59Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">30</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:02:14Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">7000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">7.9</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:02:29Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">7000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">10.2</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:03:29Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">7000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">6000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.3</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T02:33:14Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">22.4</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T02:33:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">20000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">34.5</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T02:35:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">30000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">46.3</span><span class="p">}</span>
 </code></pre></div>
 <p>Save the JSON contents above into a file called <code>ingestion-tutorial-data.json</code> under <code>examples</code>.</p>
 
@@ -178,34 +178,34 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>A <code>dataSchema</code> has a <code>parser</code> field, which defines the parser that Druid will use to interpret the input data.</p>
 
 <p>Since our input data is represented as JSON strings, we&#39;ll use a <code>string</code> parser with <code>json</code> format:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="time-column">Time column</h3>
 
 <p>The <code>parser</code> needs to know how to extract the main timestamp field from the input data. When using a <code>json</code> type <code>parseSpec</code>, the timestamp is defined in a <code>timestampSpec</code>. </p>
 
 <p>The timestamp column in our input data is named &quot;ts&quot;, containing ISO 8601 timestamps, so let&#39;s add a <code>timestampSpec</code> with that information to the <code>parseSpec</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      }
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="column-types">Column types</h3>
 
@@ -227,22 +227,22 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>For this tutorial, let&#39;s enable rollup. This is specified with a <code>granularitySpec</code> on the <code>dataSchema</code>. </p>
 
 <p>Note that the <code>granularitySpec</code> lies outside of the <code>parser</code>. We will revist the <code>parser</code> soon when we define our dimensions and metrics.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      }
-    }
-  },
-  &quot;granularitySpec&quot; : {
-    &quot;rollup&quot; : true
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="choosing-dimensions-and-metrics">Choosing dimensions and metrics</h4>
 
@@ -260,31 +260,31 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="dimensions">Dimensions</h4>
 
 <p>Dimensions are specified with a <code>dimensionsSpec</code> inside the <code>parseSpec</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      },
-      &quot;dimensionsSpec&quot; : {
-        &quot;dimensions&quot;: [
-          &quot;srcIP&quot;,
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-        ]
-      }
-    }
-  },
-  &quot;granularitySpec&quot; : {
-    &quot;rollup&quot; : true
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Each dimension has a <code>name</code> and a <code>type</code>, where <code>type</code> can be &quot;long&quot;, &quot;float&quot;, &quot;double&quot;, or &quot;string&quot;.</p>
 
@@ -346,18 +346,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h3 id="no-rollup">No rollup</h3>
 
 <p>If we were not using rollup, all columns would be specified in the <code>dimensionsSpec</code>, e.g.:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>      &quot;dimensionsSpec&quot; : {
-        &quot;dimensions&quot;: [
-          &quot;srcIP&quot;,
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;packets&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;bytes&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;double&quot; }
-        ]
-      },
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>      <span class="s2">&quot;dimensionsSpec&quot;</span> <span class="err">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;double&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
 <h3 id="define-granularities">Define granularities</h3>
 
@@ -371,372 +371,372 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="segment-granularity">Segment granularity</h4>
 
 <p>Segment granularity is configured by the <code>segmentGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, we&#39;ll create hourly segments:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      },
-      &quot;dimensionsSpec&quot; : {
-        &quot;dimensions&quot;: [
-          &quot;srcIP&quot;,
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-        ]
-      }      
-    }
-  },
-  &quot;metricsSpec&quot; : [
-    { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-    { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-  ],
-  &quot;granularitySpec&quot; : {
-    &quot;type&quot; : &quot;uniform&quot;,
-    &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-    &quot;rollup&quot; : true
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>      
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Our input data has events from two separate hours, so this task will generate two segments.</p>
 
 <h4 id="query-granularity">Query granularity</h4>
 
 <p>The query granularity is configured by the <code>queryGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, let&#39;s use minute granularity:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      },
-      &quot;dimensionsSpec&quot; : {
-        &quot;dimensions&quot;: [
-          &quot;srcIP&quot;,
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-        ]
-      }      
-    }
-  },
-  &quot;metricsSpec&quot; : [
-    { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-    { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-  ],
-  &quot;granularitySpec&quot; : {
-    &quot;type&quot; : &quot;uniform&quot;,
-    &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-    &quot;queryGranularity&quot; : &quot;MINUTE&quot;
-    &quot;rollup&quot; : true
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>      
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span>
+    <span class="s2">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>To see the effect of the query granularity, let&#39;s look at this row from the raw input data:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;ts&quot;:&quot;2018-01-01T01:03:29Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:5000, &quot;dstPort&quot;:7000, &quot;protocol&quot;: 6, &quot;packets&quot;:60, &quot;bytes&quot;:6000, &quot;cost&quot;: 4.3}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:03:29Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">7000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">6000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.3</span><span class="p">}</span>
 </code></pre></div>
 <p>When this row is ingested with minute queryGranularity, Druid will floor the row&#39;s timestamp to minute buckets:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;ts&quot;:&quot;2018-01-01T01:03:00Z&quot;,&quot;srcIP&quot;:&quot;1.1.1.1&quot;, &quot;dstIP&quot;:&quot;2.2.2.2&quot;, &quot;srcPort&quot;:5000, &quot;dstPort&quot;:7000, &quot;protocol&quot;: 6, &quot;packets&quot;:60, &quot;bytes&quot;:6000, &quot;cost&quot;: 4.3}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:03:00Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">7000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">6000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.3</span><span class="p">}</span>
 </code></pre></div>
 <h4 id="define-an-interval-batch-only">Define an interval (batch only)</h4>
 
 <p>For batch tasks, it is necessary to define a time interval. Input rows with timestamps outside of the time interval will not be ingested.</p>
 
 <p>The interval is also specified in the <code>granularitySpec</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;dataSchema&quot; : {
-  &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-  &quot;parser&quot; : {
-    &quot;type&quot; : &quot;string&quot;,
-    &quot;parseSpec&quot; : {
-      &quot;format&quot; : &quot;json&quot;,
-      &quot;timestampSpec&quot; : {
-        &quot;format&quot; : &quot;iso&quot;,
-        &quot;column&quot; : &quot;ts&quot;
-      },
-      &quot;dimensionsSpec&quot; : {
-        &quot;dimensions&quot;: [
-          &quot;srcIP&quot;,
-          { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-          { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-          { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-        ]
-      }      
-    }
-  },
-  &quot;metricsSpec&quot; : [
-    { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-    { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-    { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-  ],
-  &quot;granularitySpec&quot; : {
-    &quot;type&quot; : &quot;uniform&quot;,
-    &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-    &quot;queryGranularity&quot; : &quot;MINUTE&quot;,
-    &quot;intervals&quot; : [&quot;2018-01-01/2018-01-02&quot;],
-    &quot;rollup&quot; : true
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>      
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018-01-01/2018-01-02&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h2 id="define-the-task-type">Define the task type</h2>
 
 <p>We&#39;ve now finished defining our <code>dataSchema</code>. The remaining steps are to place the <code>dataSchema</code> we created into an ingestion task spec, and specify the input source.</p>
 
 <p>The <code>dataSchema</code> is shared across all task types, but each task type has its own specification format. For this tutorial, we will use the native batch ingestion task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;type&quot; : &quot;index&quot;,
-  &quot;spec&quot; : {
-    &quot;dataSchema&quot; : {
-      &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-      &quot;parser&quot; : {
-        &quot;type&quot; : &quot;string&quot;,
-        &quot;parseSpec&quot; : {
-          &quot;format&quot; : &quot;json&quot;,
-          &quot;timestampSpec&quot; : {
-            &quot;format&quot; : &quot;iso&quot;,
-            &quot;column&quot; : &quot;ts&quot;
-          },
-          &quot;dimensionsSpec&quot; : {
-            &quot;dimensions&quot;: [
-              &quot;srcIP&quot;,
-              { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-              { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-            ]              
-          }      
-        }
-      },
-      &quot;metricsSpec&quot; : [
-        { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-        { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-      ],
-      &quot;granularitySpec&quot; : {
-        &quot;type&quot; : &quot;uniform&quot;,
-        &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-        &quot;queryGranularity&quot; : &quot;MINUTE&quot;,
-        &quot;intervals&quot; : [&quot;2018-01-01/2018-01-02&quot;],
-        &quot;rollup&quot; : true
-      }
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>              
+          <span class="p">}</span>      
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018-01-01/2018-01-02&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h2 id="define-the-input-source">Define the input source</h2>
 
 <p>Now let&#39;s define our input source, which is specified in an <code>ioConfig</code> object. Each task type has its own type of <code>ioConfig</code>. The native batch task uses &quot;firehoses&quot; to read input data, so let&#39;s configure a &quot;local&quot; firehose to read the example netflow data we saved earlier:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>    &quot;ioConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;firehose&quot; : {
-        &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;examples/&quot;,
-        &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
-      }
-    }
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;type&quot; : &quot;index&quot;,
-  &quot;spec&quot; : {
-    &quot;dataSchema&quot; : {
-      &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-      &quot;parser&quot; : {
-        &quot;type&quot; : &quot;string&quot;,
-        &quot;parseSpec&quot; : {
-          &quot;format&quot; : &quot;json&quot;,
-          &quot;timestampSpec&quot; : {
-            &quot;format&quot; : &quot;iso&quot;,
-            &quot;column&quot; : &quot;ts&quot;
-          },
-          &quot;dimensionsSpec&quot; : {
-            &quot;dimensions&quot;: [
-              &quot;srcIP&quot;,
-              { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-              { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-            ]
-          }      
-        }
-      },
-      &quot;metricsSpec&quot; : [
-        { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-        { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-      ],
-      &quot;granularitySpec&quot; : {
-        &quot;type&quot; : &quot;uniform&quot;,
-        &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-        &quot;queryGranularity&quot; : &quot;MINUTE&quot;,
-        &quot;intervals&quot; : [&quot;2018-01-01/2018-01-02&quot;],
-        &quot;rollup&quot; : true
-      }
-    },
-    &quot;ioConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;firehose&quot; : {
-        &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;examples/&quot;,
-        &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
-      }
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;ioConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">}</span>      
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018-01-01/2018-01-02&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h2 id="additional-tuning">Additional tuning</h2>
 
 <p>Each ingestion task has a <code>tuningConfig</code> section that allows users to tune various ingestion parameters.</p>
 
 <p>As an example, let&#39;s add a <code>tuningConfig</code> that sets a target segment size for the native batch ingestion task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>    &quot;tuningConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;targetPartitionSize&quot; : 5000000
-    }
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span>
+    <span class="p">}</span>
 </code></pre></div>
 <p>Note that each ingestion task has its own type of <code>tuningConfig</code>.</p>
 
 <h2 id="final-spec">Final spec</h2>
 
 <p>We&#39;ve finished defining the ingestion spec, it should now look like the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;type&quot; : &quot;index&quot;,
-  &quot;spec&quot; : {
-    &quot;dataSchema&quot; : {
-      &quot;dataSource&quot; : &quot;ingestion-tutorial&quot;,
-      &quot;parser&quot; : {
-        &quot;type&quot; : &quot;string&quot;,
-        &quot;parseSpec&quot; : {
-          &quot;format&quot; : &quot;json&quot;,
-          &quot;timestampSpec&quot; : {
-            &quot;format&quot; : &quot;iso&quot;,
-            &quot;column&quot; : &quot;ts&quot;
-          },
-          &quot;dimensionsSpec&quot; : {
-            &quot;dimensions&quot;: [
-              &quot;srcIP&quot;,
-              { &quot;name&quot; : &quot;srcPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;dstIP&quot;, &quot;type&quot; : &quot;string&quot; },
-              { &quot;name&quot; : &quot;dstPort&quot;, &quot;type&quot; : &quot;long&quot; },
-              { &quot;name&quot; : &quot;protocol&quot;, &quot;type&quot; : &quot;string&quot; }
-            ]
-          }      
-        }
-      },
-      &quot;metricsSpec&quot; : [
-        { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;packets&quot;, &quot;fieldName&quot; : &quot;packets&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;bytes&quot;, &quot;fieldName&quot; : &quot;bytes&quot; },
-        { &quot;type&quot; : &quot;doubleSum&quot;, &quot;name&quot; : &quot;cost&quot;, &quot;fieldName&quot; : &quot;cost&quot; }
-      ],
-      &quot;granularitySpec&quot; : {
-        &quot;type&quot; : &quot;uniform&quot;,
-        &quot;segmentGranularity&quot; : &quot;HOUR&quot;,
-        &quot;queryGranularity&quot; : &quot;MINUTE&quot;,
-        &quot;intervals&quot; : [&quot;2018-01-01/2018-01-02&quot;],
-        &quot;rollup&quot; : true
-      }
-    },
-    &quot;ioConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;firehose&quot; : {
-        &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;examples/&quot;,
-        &quot;filter&quot; : &quot;ingestion-tutorial-data.json&quot;
-      }
-    },
-    &quot;tuningConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;targetPartitionSize&quot; : 5000000
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;ts&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstIP&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;dstPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;protocol&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">}</span>      
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;packets&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;cost&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018-01-01/2018-01-02&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h2 id="submit-the-task-and-query-the-data">Submit the task and query the data</h2>
 
-<p>From the druid package root, run the following command:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
+<p>From the druid-0.12.2 package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>After the script completes, we will query the data.</p>
 
 <p>Let&#39;s issue a <code>select * from &quot;ingestion-tutorial&quot;;</code> query to see what data was ingested.</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/ingestion-tutorial-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;bytes&quot;: 6000,
-    &quot;cost&quot;: 4.9,
-    &quot;count&quot;: 3,
-    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
-    &quot;dstPort&quot;: 3000,
-    &quot;packets&quot;: 60,
-    &quot;protocol&quot;: &quot;6&quot;,
-    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
-    &quot;srcPort&quot;: 2000
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:02:00.000Z&quot;,
-    &quot;bytes&quot;: 9000,
-    &quot;cost&quot;: 18.1,
-    &quot;count&quot;: 2,
-    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
-    &quot;dstPort&quot;: 7000,
-    &quot;packets&quot;: 90,
-    &quot;protocol&quot;: &quot;6&quot;,
-    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
-    &quot;srcPort&quot;: 5000
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:03:00.000Z&quot;,
-    &quot;bytes&quot;: 6000,
-    &quot;cost&quot;: 4.3,
-    &quot;count&quot;: 1,
-    &quot;dstIP&quot;: &quot;2.2.2.2&quot;,
-    &quot;dstPort&quot;: 7000,
-    &quot;packets&quot;: 60,
-    &quot;protocol&quot;: &quot;6&quot;,
-    &quot;srcIP&quot;: &quot;1.1.1.1&quot;,
-    &quot;srcPort&quot;: 5000
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T02:33:00.000Z&quot;,
-    &quot;bytes&quot;: 30000,
-    &quot;cost&quot;: 56.9,
-    &quot;count&quot;: 2,
-    &quot;dstIP&quot;: &quot;8.8.8.8&quot;,
-    &quot;dstPort&quot;: 5000,
-    &quot;packets&quot;: 300,
-    &quot;protocol&quot;: &quot;17&quot;,
-    &quot;srcIP&quot;: &quot;7.7.7.7&quot;,
-    &quot;srcPort&quot;: 4000
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T02:35:00.000Z&quot;,
-    &quot;bytes&quot;: 30000,
-    &quot;cost&quot;: 46.3,
-    &quot;count&quot;: 1,
-    &quot;dstIP&quot;: &quot;8.8.8.8&quot;,
-    &quot;dstPort&quot;: 5000,
-    &quot;packets&quot;: 300,
-    &quot;protocol&quot;: &quot;17&quot;,
-    &quot;srcIP&quot;: &quot;7.7.7.7&quot;,
-    &quot;srcPort&quot;: 4000
-  }
-]
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.9</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">2000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:02:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">9000</span><span class="p">,</span>
+    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">18.1</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span>
+    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
+    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">5000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:03:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.3</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span>
+    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">5000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T02:33:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
+    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">56.9</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;17&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">4000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T02:35:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
+    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">46.3</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;17&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">4000</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

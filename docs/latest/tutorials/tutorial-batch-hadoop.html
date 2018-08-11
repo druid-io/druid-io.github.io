@@ -132,8 +132,8 @@
 
 <p>This Dockerfile and related files are located at <code>examples/hadoop/docker</code>.</p>
 
-<p>From the druid package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.7.3&quot;:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd examples/hadoop/docker
+<p>From the druid-0.12.2 package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.7.3&quot;:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> examples/hadoop/docker
 docker build -t druid-hadoop-demo:2.7.3 .
 </code></pre></div>
 <p>This will start building the Hadoop image. Once the image build is done, you should see the message <code>Successfully tagged druid-hadoop-demo:2.7.3</code> printed to the console.</p>
@@ -145,7 +145,7 @@ docker build -t druid-hadoop-demo:2.7.3 .
 <p>We&#39;ll need a shared folder between the host and the Hadoop container for transferring some files.</p>
 
 <p>Let&#39;s create some folders under <code>/tmp</code>, we will use these later when starting the Hadoop container:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>mkdir -p /tmp/shared
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mkdir -p /tmp/shared
 mkdir -p /tmp/shared/hadoop-xml
 </code></pre></div>
 <h3 id="configure-etc-hosts">Configure /etc/hosts</h3>
@@ -156,17 +156,17 @@ mkdir -p /tmp/shared/hadoop-xml
 <h3 id="start-the-hadoop-container">Start the Hadoop container</h3>
 
 <p>Once the <code>/tmp/shared</code> folder has been created and the <code>etc/hosts</code> entry has been added, run the following command to start the Hadoop container.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>docker run -it  -h druid-hadoop-demo -p 50010:50010 -p 50020:50020 -p 50075:50075 -p 50090:50090 -p 8020:8020 -p 10020:10020 -p 19888:19888 -p 8030:8030 -p 8031:8031 -p 8032:8032 -p 8033:8033 -p 8040:8040 -p 8042:8042 -p 8088:8088 -p 8443:8443 -p 2049:2049 -p 9000:9000 -p 49707:49707 -p 2122:2122  -p 34455:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>docker run -it  -h druid-hadoop-demo -p <span class="m">50010</span>:50010 -p <span class="m">50020</span>:50020 -p <span class="m">50075</span>:50075 -p <span class="m">50090</span>:50090 -p <span class="m">8020</span>:8020 -p <span class="m">10020</span>:10020 -p <span class="m">19888</span>:19888 -p <span class="m">8030</span>:8030 -p <span class="m">8031</span>:8031 -p <span class="m">8032</span>:8032 -p <span class="m">8033</span>:8033 -p <span class="m">8040</span>:8040 -p <span class="m">8042</span>:8042 -p <span class="m">8088</span>:8088 -p <span class="m">8443</span>:8443 -p <span class="m">2049</span>:2049 -p <span class="m">9000</span>:9000 -p <span class="m">49707</span>:49707 -p <span class="m">2122</span>:2122  -p <span class="m">34455</span>:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
 </code></pre></div>
 <p>Once the container is started, your terminal will attach to a bash shell running inside the container:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Starting sshd:                                             [  OK  ]
-18/07/26 17:27:15 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Starting namenodes on [druid-hadoop-demo]
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="m">18</span>/07/26 <span class="m">17</span>:27:15 WARN util.NativeCodeLoader: Unable to load native-hadoop library <span class="k">for</span> your platform... using builtin-java classes where applicable
+Starting namenodes on <span class="o">[</span>druid-hadoop-demo<span class="o">]</span>
 druid-hadoop-demo: starting namenode, logging to /usr/local/hadoop/logs/hadoop-root-namenode-druid-hadoop-demo.out
 localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-root-datanode-druid-hadoop-demo.out
-Starting secondary namenodes [0.0.0.0]
-0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-root-secondarynamenode-druid-hadoop-demo.out
-18/07/26 17:27:31 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Starting secondary namenodes <span class="o">[</span><span class="m">0</span>.0.0.0<span class="o">]</span>
+<span class="m">0</span>.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-root-secondarynamenode-druid-hadoop-demo.out
+<span class="m">18</span>/07/26 <span class="m">17</span>:27:31 WARN util.NativeCodeLoader: Unable to load native-hadoop library <span class="k">for</span> your platform... using builtin-java classes where applicable
 starting yarn daemons
 starting resourcemanager, logging to /usr/local/hadoop/logs/yarn--resourcemanager-druid-hadoop-demo.out
 localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-root-nodemanager-druid-hadoop-demo.out
@@ -177,21 +177,21 @@ bash-4.1#
 
 <h3 id="copy-input-data-to-the-hadoop-container">Copy input data to the Hadoop container</h3>
 
-<p>From the druid package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
+<p>From the druid-0.12.2 package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
 </code></pre></div>
 <h3 id="setup-hdfs-directories">Setup HDFS directories</h3>
 
 <p>In the Hadoop container&#39;s shell, run the following commands to setup the HDFS directories needed by this tutorial and copy the input data to HDFS.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cd /usr/local/hadoop/bin
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> /usr/local/hadoop/bin
 ./hadoop fs -mkdir /druid
 ./hadoop fs -mkdir /druid/segments
 ./hadoop fs -mkdir /quickstart
-./hadoop fs -chmod 777 /druid
-./hadoop fs -chmod 777 /druid/segments
-./hadoop fs -chmod 777 /quickstart
-./hadoop fs -chmod -R 777 /tmp
-./hadoop fs -chmod -R 777 /user
+./hadoop fs -chmod <span class="m">777</span> /druid
+./hadoop fs -chmod <span class="m">777</span> /druid/segments
+./hadoop fs -chmod <span class="m">777</span> /quickstart
+./hadoop fs -chmod -R <span class="m">777</span> /tmp
+./hadoop fs -chmod -R <span class="m">777</span> /user
 ./hadoop fs -put /shared/wikiticker-2015-09-12-sampled.json.gz /quickstart/wikiticker-2015-09-12-sampled.json.gz
 </code></pre></div>
 <p>If you encounter namenode errors such as <code>mkdir: Cannot create directory /druid. Name node is in safe mode.</code> when running this command, the Hadoop container is not finished initializing. When this occurs, wait a couple of minutes and retry the commands.</p>
@@ -203,10 +203,10 @@ bash-4.1#
 <h3 id="copy-hadoop-configuration-to-druid-classpath">Copy Hadoop configuration to Druid classpath</h3>
 
 <p>From the Hadoop container&#39;s shell, run the following command to copy the Hadoop .xml configuration files to the shared folder:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cp /usr/local/hadoop/etc/hadoop/*.xml /shared/hadoop-xml
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp /usr/local/hadoop/etc/hadoop/*.xml /shared/hadoop-xml
 </code></pre></div>
 <p>From the host machine, run the following, where {PATH_TO_DRUID} is replaced by the path to the Druid package.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>cp /tmp/shared/hadoop-xml/*.xml {PATH_TO_DRUID}/examples/conf/druid/_common/hadoop-xml/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp /tmp/shared/hadoop-xml/*.xml <span class="o">{</span>PATH_TO_DRUID<span class="o">}</span>/examples/conf/druid/_common/hadoop-xml/
 </code></pre></div>
 <h3 id="update-druid-segment-and-log-storage">Update Druid segment and log storage</h3>
 
@@ -279,7 +279,7 @@ your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:
 <p>This tutorial is only meant to be used together with the <a href="../tutorials/tutorial-query.html">query tutorial</a>. </p>
 
 <p>If you wish to go through any of the other tutorials, you will need to:
-* Shut down the cluster and reset the cluster state by following the <a href="index.html#resetting-the-cluster">reset instructions</a>.
+* Shut down the cluster and reset the cluster state by following the <a href="index.html#resetting-cluster-state">reset instructions</a>.
 * Revert the deep storage and task storage config back to local types in <code>examples/conf/druid/_common/common.runtime.properties</code>
 * Restart the cluster</p>
 

@@ -134,30 +134,30 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The spec we&#39;ll use for this tutorial is located at <code>examples/updates-init-index.json</code>. This spec creates a datasource called <code>updates-tutorial</code> from the <code>examples/updates-data.json</code> input file.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/updates-init-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-init-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>We have three initial rows containing an &quot;animal&quot; dimension and &quot;number&quot; metric:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;tiger&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 100
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T03:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;aardvark&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 42
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T03:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;giraffe&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 14124
-  }
-]
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;tiger&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">42</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;giraffe&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">14124</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <h3 id="overwrite-the-initial-data">Overwrite the initial data</h3>
 
@@ -168,30 +168,30 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Note that this task reads input from <code>examples/updates-data2.json</code>, and <code>appendToExisting</code> is set to <code>false</code> (indicating this is an overwrite).</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/updates-overwrite-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-overwrite-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>When Druid finishes loading the new segment from this overwrite task, the &quot;tiger&quot; row now has the value &quot;lion&quot;, the &quot;aardvark&quot; row has a different number, and the &quot;giraffe&quot; row has been replaced. It may take a couple of minutes for the changes to take effect:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;lion&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 100
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T03:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;aardvark&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 9999
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T04:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;bear&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 111
-  }
-]
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">9999</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">111</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <h2 id="append-to-the-data">Append to the data</h2>
 
@@ -200,114 +200,114 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The <code>examples/updates-append-index.json</code> task spec reads input from <code>examples/updates-data3.json</code> and will append its data to the <code>updates-tutorial</code> datasource. Note that <code>appendToExisting</code> is set to <code>true</code> in this spec.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/updates-append-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-append-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>When the new data is loaded, we can see two additional rows after &quot;octopus&quot;. Note that the new &quot;bear&quot; row with number 222 has not been rolled up with the existing bear-111 row, because the new data is held in a separate segment. The same applies to the two &quot;lion&quot; rows.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;lion&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 100
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T03:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;aardvark&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 9999
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T04:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;bear&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 111
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;lion&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 300
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T04:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;bear&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 222
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T05:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;mongoose&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 737
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T06:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;snake&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 1234
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T07:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;octopus&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 115
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T09:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;falcon&quot;,
-    &quot;count&quot;: 1,
-    &quot;number&quot;: 1241
-  }
-]
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">9999</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">111</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">300</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">222</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;mongoose&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">737</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">1234</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;octopus&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">115</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T09:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;falcon&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">1241</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <p>If we run a GroupBy query instead of a <code>select *</code>, we can see that the separate &quot;lion&quot; and &quot;bear&quot; rows will group together at query time:</p>
 
 <p><code>select __time, animal, SUM(&quot;count&quot;), SUM(&quot;number&quot;) from &quot;updates-tutorial&quot; group by __time, animal;</code></p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-groupby-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T01:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;lion&quot;,
-    &quot;EXPR$2&quot;: 2,
-    &quot;EXPR$3&quot;: 400
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T03:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;aardvark&quot;,
-    &quot;EXPR$2&quot;: 1,
-    &quot;EXPR$3&quot;: 9999
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T04:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;bear&quot;,
-    &quot;EXPR$2&quot;: 2,
-    &quot;EXPR$3&quot;: 333
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T05:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;mongoose&quot;,
-    &quot;EXPR$2&quot;: 1,
-    &quot;EXPR$3&quot;: 737
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T06:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;snake&quot;,
-    &quot;EXPR$2&quot;: 1,
-    &quot;EXPR$3&quot;: 1234
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T07:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;octopus&quot;,
-    &quot;EXPR$2&quot;: 1,
-    &quot;EXPR$3&quot;: 115
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T09:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;falcon&quot;,
-    &quot;EXPR$2&quot;: 1,
-    &quot;EXPR$3&quot;: 1241
-  }
-]
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">400</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">9999</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">333</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;mongoose&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">737</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">1234</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;octopus&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">115</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T09:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;falcon&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">1241</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

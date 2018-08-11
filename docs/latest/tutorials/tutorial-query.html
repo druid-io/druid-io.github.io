@@ -200,48 +200,48 @@
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-top-pages-sql.json http://localhost:8082/druid/v2/sql
 </code></pre></div>
 <p>The following results should be returned:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;page&quot;: &quot;Wikipedia:Vandalismusmeldung&quot;,
-    &quot;Edits&quot;: 33
-  },
-  {
-    &quot;page&quot;: &quot;User:Cyde/List of candidates for speedy deletion/Subpage&quot;,
-    &quot;Edits&quot;: 28
-  },
-  {
-    &quot;page&quot;: &quot;Jeremy Corbyn&quot;,
-    &quot;Edits&quot;: 27
-  },
-  {
-    &quot;page&quot;: &quot;Wikipedia:Administrators&#39; noticeboard/Incidents&quot;,
-    &quot;Edits&quot;: 21
-  },
-  {
-    &quot;page&quot;: &quot;Flavia Pennetta&quot;,
-    &quot;Edits&quot;: 20
-  },
-  {
-    &quot;page&quot;: &quot;Total Drama Presents: The Ridonculous Race&quot;,
-    &quot;Edits&quot;: 18
-  },
-  {
-    &quot;page&quot;: &quot;User talk:Dudeperson176123&quot;,
-    &quot;Edits&quot;: 18
-  },
-  {
-    &quot;page&quot;: &quot;Wikipédia:Le Bistro/12 septembre 2015&quot;,
-    &quot;Edits&quot;: 18
-  },
-  {
-    &quot;page&quot;: &quot;Wikipedia:In the news/Candidates&quot;,
-    &quot;Edits&quot;: 17
-  },
-  {
-    &quot;page&quot;: &quot;Wikipedia:Requests for page protection&quot;,
-    &quot;Edits&quot;: 17
-  }
-]
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Wikipedia:Vandalismusmeldung&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">33</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;User:Cyde/List of candidates for speedy deletion/Subpage&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">28</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Jeremy Corbyn&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">27</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Wikipedia:Administrators&#39; noticeboard/Incidents&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">21</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Flavia Pennetta&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">20</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Total Drama Presents: The Ridonculous Race&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">18</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;User talk:Dudeperson176123&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">18</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Wikipédia:Le Bistro/12 septembre 2015&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">18</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Wikipedia:In the news/Candidates&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">17</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;Wikipedia:Requests for page protection&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Edits&quot;</span><span class="p">:</span> <span class="mi">17</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <h3 id="pretty-printing">Pretty Printing</h3>
 
@@ -257,104 +257,104 @@
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-timeseries-sql.json http://localhost:8082/druid/v2/sql
 </code></pre></div>
 <p>The following results should be returned:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T00:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 1761
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T01:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 16208
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T02:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 14543
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T03:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 13101
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T04:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 12040
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T05:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 6399
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T06:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 9036
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T07:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 11409
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T08:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 11616
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T09:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 17509
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T10:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 19406
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T11:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 16284
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T12:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 18672
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T13:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 30520
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T14:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 18025
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T15:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 26399
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T16:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 24759
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T17:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 19634
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T18:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 17345
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T19:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 19305
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T20:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 22265
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T21:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 16394
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T22:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 16379
-  },
-  {
-    &quot;HourTime&quot;: &quot;2015-09-12T23:00:00.000Z&quot;,
-    &quot;LinesDeleted&quot;: 15289
-  }
-]
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">1761</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T01:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">16208</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T02:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">14543</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T03:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">13101</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T04:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">12040</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T05:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">6399</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T06:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">9036</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T07:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">11409</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T08:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">11616</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T09:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">17509</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T10:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">19406</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T11:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">16284</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T12:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">18672</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T13:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">30520</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T14:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">18025</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T15:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">26399</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T16:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">24759</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T17:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">19634</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T18:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">17345</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T19:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">19305</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T20:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">22265</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T21:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">16394</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T22:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">16379</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;HourTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12T23:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;LinesDeleted&quot;</span><span class="p">:</span> <span class="mi">15289</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <h4 id="groupby">GroupBy</h4>
 
@@ -362,28 +362,28 @@
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-groupby-sql.json http://localhost:8082/druid/v2/sql
 </code></pre></div>
 <p>The following results should be returned:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;channel&quot;: &quot;#en.wikipedia&quot;,
-    &quot;EXPR$1&quot;: 3045299
-  },
-  {
-    &quot;channel&quot;: &quot;#it.wikipedia&quot;,
-    &quot;EXPR$1&quot;: 711011
-  },
-  {
-    &quot;channel&quot;: &quot;#fr.wikipedia&quot;,
-    &quot;EXPR$1&quot;: 642555
-  },
-  {
-    &quot;channel&quot;: &quot;#ru.wikipedia&quot;,
-    &quot;EXPR$1&quot;: 640698
-  },
-  {
-    &quot;channel&quot;: &quot;#es.wikipedia&quot;,
-    &quot;EXPR$1&quot;: 634670
-  }
-]
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;#en.wikipedia&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$1&quot;</span><span class="p">:</span> <span class="mi">3045299</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;#it.wikipedia&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$1&quot;</span><span class="p">:</span> <span class="mi">711011</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;#fr.wikipedia&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$1&quot;</span><span class="p">:</span> <span class="mi">642555</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;#ru.wikipedia&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$1&quot;</span><span class="p">:</span> <span class="mi">640698</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;#es.wikipedia&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;EXPR$1&quot;</span><span class="p">:</span> <span class="mi">634670</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <h4 id="scan">Scan</h4>
 
@@ -421,15 +421,13 @@
 <p>An example query that explains the top pages query shown earlier has been provided at <code>examples/wikipedia-explain-sql.json</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-explain-top-pages-sql.json http://localhost:8082/druid/v2/sql
 </code></pre></div>
-<p>This will return the following plan:
-<code>
-[
-  {
-    &quot;PLAN&quot;: &quot;DruidQueryRel(query=[{\&quot;queryType\&quot;:\&quot;topN\&quot;,\&quot;dataSource\&quot;:{\&quot;type\&quot;:\&quot;table\&quot;,\&quot;name\&quot;:\&quot;wikipedia\&quot;},\&quot;virtualColumns\&quot;:[],\&quot;dimension\&quot;:{\&quot;type\&quot;:\&quot;default\&quot;,\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;outputName\&quot;:\&quot;d0\&quot;,\&quot;outputType\&quot;:\&quot;STRING\&quot;},\&quot;metric\&quot;:{\&quot;type\&quot;:\&quot;numeric\&quot;,\&quot;metric\&quot;:\&quot;a0\&quot;},\&quot;threshold\&quot;:10,\&quot;intervals\&quot;:{\&quot;type\&quot;:\&quot;intervals\&quot;,\&quot;intervals\&quot;:[\&quot;2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z\&quot;]},\&quot;filter\&quot;:null,\&quot;granularity\&quot;:{\&quot;type\&quot;:\&quot;all\&quot;},\&quot;aggregations\&quot;:[{\&quot;type\&quot;:\&quot;count\&quot;,\&quot;name\&quot;:\&quot;a0\&quot;}],\&quot;postAggregations\&quot;:[],\&quot;context\&quot;:{},\&quot;descending\&quot;:false}], signature=[{d0:STRING, a0:LONG}])\n&quot;
-  }
-]
-</code></p>
-
+<p>This will return the following plan:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;PLAN&quot;</span><span class="p">:</span> <span class="s2">&quot;DruidQueryRel(query=[{\&quot;queryType\&quot;:\&quot;topN\&quot;,\&quot;dataSource\&quot;:{\&quot;type\&quot;:\&quot;table\&quot;,\&quot;name\&quot;:\&quot;wikipedia\&quot;},\&quot;virtualColumns\&quot;:[],\&quot;dimension\&quot;:{\&quot;type\&quot;:\&quot;default\&quot;,\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;outputName\&quot;:\&quot;d0\&quot;,\&quot;outputType\&quot;:\&quot;STRING\&quot;},\&quot;metric\&quot;:{\&quot;type\&quot;:\&quot;numeric\&quot;,\&quot;metric\&quot;:\&quot;a0\&quot;},\&quot;threshold\&quot;:10,\&quot;intervals\&quot;:{\&quot;type\&quot;:\&quot;intervals\&quot;,\&quot;intervals\&quot;:[\&quot;2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z\&quot;]},\&quot;filter\&quot;:null,\&quot;granularity\&quot;:{\&quot;type\&quot;:\&quot;all\&quot;},\&quot;aggregations\&quot;:[{\&quot;type\&quot;:\&quot;count\&quot;,\&quot;name\&quot;:\&quot;a0\&quot;}],\&quot;postAggregations\&quot;:[],\&quot;context\&quot;:{},\&quot;descending\&quot;:false}], signature=[{d0:STRING, a0:LONG}])\n&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
 <h2 id="further-reading">Further reading</h2>
 
 <p>The <a href="../querying/querying.html">Queries documentation</a> has more information on Druid&#39;s native JSON queries.</p>

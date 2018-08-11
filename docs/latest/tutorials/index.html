@@ -162,7 +162,7 @@ tar -xzf druid-0.12.2-bin.tar.gz
 <p>Before proceeding, please download the <a href="../tutorials/tutorial-examples.tar.gz">tutorial examples package</a>. </p>
 
 <p>This tarball contains sample data and ingestion specs that will be used in the tutorials. </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -O http://druid.io/docs/0.12.2/tutorials/tutorial-examples.tar.gz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://druid.io/docs/0.12.2/tutorials/tutorial-examples.tar.gz
 tar zxvf tutorial-examples.tar.gz
 </code></pre></div>
 <h2 id="start-up-zookeeper">Start up Zookeeper</h2>
@@ -200,9 +200,7 @@ want a clean start after stopping the services, delete the <code>log</code> and 
 
 <p>From the druid-0.12.2 directory:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf log
-
 rm -rf var
-
 bin/init
 </code></pre></div>
 <h2 id="loading-data">Loading Data</h2>
@@ -236,27 +234,27 @@ bin/init
 <li>regionName</li>
 <li>user</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;timestamp&quot;:&quot;2015-09-12T20:03:45.018Z&quot;,
-  &quot;channel&quot;:&quot;#en.wikipedia&quot;,
-  &quot;namespace&quot;:&quot;Main&quot;
-  &quot;page&quot;:&quot;Spider-Man&#39;s powers and equipment&quot;,
-  &quot;user&quot;:&quot;foobar&quot;,
-  &quot;comment&quot;:&quot;/* Artificial web-shooters */&quot;,
-  &quot;cityName&quot;:&quot;New York&quot;,
-  &quot;regionName&quot;:&quot;New York&quot;,
-  &quot;regionIsoCode&quot;:&quot;NY&quot;,
-  &quot;countryName&quot;:&quot;United States&quot;,
-  &quot;countryIsoCode&quot;:&quot;US&quot;,
-  &quot;isAnonymous&quot;:false,
-  &quot;isNew&quot;:false,
-  &quot;isMinor&quot;:false,
-  &quot;isRobot&quot;:false,
-  &quot;isUnpatrolled&quot;:false,
-  &quot;added&quot;:99,
-  &quot;delta&quot;:99,
-  &quot;deleted&quot;:0,
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-09-12T20:03:45.018Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="s2">&quot;#en.wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;Main&quot;</span>
+  <span class="s2">&quot;page&quot;</span><span class="p">:</span><span class="s2">&quot;Spider-Man&#39;s powers and equipment&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;/* Artificial web-shooters */&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;cityName&quot;</span><span class="p">:</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;regionName&quot;</span><span class="p">:</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;regionIsoCode&quot;</span><span class="p">:</span><span class="s2">&quot;NY&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;countryName&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;countryIsoCode&quot;</span><span class="p">:</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;isAnonymous&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isNew&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isMinor&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isRobot&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isUnpatrolled&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;added&quot;</span><span class="p">:</span><span class="mi">99</span><span class="p">,</span>
+  <span class="nt">&quot;delta&quot;</span><span class="p">:</span><span class="mi">99</span><span class="p">,</span>
+  <span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>The following tutorials demonstrate various methods of loading data into Druid, including both batch and streaming use cases.</p>
 

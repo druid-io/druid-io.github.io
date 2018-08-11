@@ -129,22 +129,22 @@ don&#39;t need to have loaded any data yet.</p>
 <h2 id="download-tranquility">Download Tranquility</h2>
 
 <p>In the Druid package root, run the following commands:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz -o tranquility-distribution-0.8.2.tgz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz -o tranquility-distribution-0.8.2.tgz
 tar -xzf tranquility-distribution-0.8.2.tgz
-cd tranquility-distribution-0.8.2
+<span class="nb">cd</span> tranquility-distribution-0.8.2
 </code></pre></div>
 <h2 id="run-tranquility-server">Run Tranquility server</h2>
 
 <p>Run the following command:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>bin/tranquility server -configFile ../examples/conf/tranquility/wikipedia-server.json -Ddruid.extensions.loadList=[]
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/tranquility server -configFile ../examples/conf/tranquility/wikipedia-server.json -Ddruid.extensions.loadList<span class="o">=[]</span>
 </code></pre></div>
 <h2 id="send-data">Send data</h2>
 
 <p>Let&#39;s send the sample Wikipedia edits data to Tranquility:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -XPOST -H&#39;Content-Type: application/json&#39; --data-binary @quickstart/wikiticker-2015-09-12-sampled.json http://localhost:8200/v1/post/wikipedia
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> --data-binary @quickstart/wikiticker-2015-09-12-sampled.json http://localhost:8200/v1/post/wikipedia
 </code></pre></div>
 <p>Which will print something like:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;result&quot;:{&quot;received&quot;:39244,&quot;sent&quot;:39244}}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;result&quot;</span><span class="p">:{</span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="mi">39244</span><span class="p">,</span><span class="nt">&quot;sent&quot;</span><span class="p">:</span><span class="mi">39244</span><span class="p">}}</span>
 </code></pre></div>
 <p>This indicates that the HTTP server received 39,244 events from you, and sent 39,244 to Druid. This
 command may generate a &quot;connection refused&quot; error if you run it too quickly after enabling Tranquility
@@ -155,7 +155,7 @@ allocated to the ingestion task. Subsequent POSTs will complete quickly once thi
 <p>Once the data is sent to Druid, you can immediately query it.</p>
 
 <p>If you see a <code>sent</code> count of 0, retry the send command until the <code>sent</code> count also shows 39244:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;result&quot;:{&quot;received&quot;:39244,&quot;sent&quot;:0}}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;result&quot;</span><span class="p">:{</span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="mi">39244</span><span class="p">,</span><span class="nt">&quot;sent&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}}</span>
 </code></pre></div>
 <h2 id="querying-your-data">Querying your data</h2>
 
@@ -163,7 +163,7 @@ allocated to the ingestion task. Subsequent POSTs will complete quickly once thi
 
 <h2 id="cleanup">Cleanup</h2>
 
-<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-the-cluster">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-cluster-state">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
 
 <h2 id="further-reading">Further reading</h2>
 

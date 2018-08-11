@@ -126,87 +126,87 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h2 id="sample-data">Sample data</h2>
 
 <p>We&#39;ve included sample data for this tutorial at <code>examples/transform-data.json</code>, reproduced here for convenience:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;timestamp&quot;:&quot;2018-01-01T07:01:35Z&quot;,&quot;animal&quot;:&quot;octopus&quot;,  &quot;location&quot;:1, &quot;number&quot;:100}
-{&quot;timestamp&quot;:&quot;2018-01-01T05:01:35Z&quot;,&quot;animal&quot;:&quot;mongoose&quot;, &quot;location&quot;:2,&quot;number&quot;:200}
-{&quot;timestamp&quot;:&quot;2018-01-01T06:01:35Z&quot;,&quot;animal&quot;:&quot;snake&quot;, &quot;location&quot;:3, &quot;number&quot;:300}
-{&quot;timestamp&quot;:&quot;2018-01-01T01:01:35Z&quot;,&quot;animal&quot;:&quot;lion&quot;, &quot;location&quot;:4, &quot;number&quot;:300}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T07:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;octopus&quot;</span><span class="p">,</span>  <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T05:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;mongoose&quot;</span><span class="p">,</span> <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">200</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T06:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;snake&quot;</span><span class="p">,</span> <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">300</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;lion&quot;</span><span class="p">,</span> <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">300</span><span class="p">}</span>
 </code></pre></div>
 <h2 id="load-data-with-transform-specs">Load data with transform specs</h2>
 
 <p>We will ingest the sample data using the following spec, which demonstrates the use of transform specs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;type&quot; : &quot;index&quot;,
-  &quot;spec&quot; : {
-    &quot;dataSchema&quot; : {
-      &quot;dataSource&quot; : &quot;transform-tutorial&quot;,
-      &quot;parser&quot; : {
-        &quot;type&quot; : &quot;string&quot;,
-        &quot;parseSpec&quot; : {
-          &quot;format&quot; : &quot;json&quot;,
-          &quot;dimensionsSpec&quot; : {
-            &quot;dimensions&quot; : [
-              &quot;animal&quot;,
-              { &quot;name&quot;: &quot;location&quot;, &quot;type&quot;: &quot;long&quot; }
-            ]
-          },
-          &quot;timestampSpec&quot;: {
-            &quot;column&quot;: &quot;timestamp&quot;,
-            &quot;format&quot;: &quot;iso&quot;
-          }
-        }
-      },
-      &quot;metricsSpec&quot; : [
-        { &quot;type&quot; : &quot;count&quot;, &quot;name&quot; : &quot;count&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;number&quot;, &quot;fieldName&quot; : &quot;number&quot; },
-        { &quot;type&quot; : &quot;longSum&quot;, &quot;name&quot; : &quot;triple-number&quot;, &quot;fieldName&quot; : &quot;triple-number&quot; }
-      ],
-      &quot;granularitySpec&quot; : {
-        &quot;type&quot; : &quot;uniform&quot;,
-        &quot;segmentGranularity&quot; : &quot;week&quot;,
-        &quot;queryGranularity&quot; : &quot;minute&quot;,
-        &quot;intervals&quot; : [&quot;2018-01-01/2018-01-03&quot;],
-        &quot;rollup&quot; : true
-      },
-      &quot;transformSpec&quot;: {
-        &quot;transforms&quot;: [
-          {
-            &quot;type&quot;: &quot;expression&quot;,
-            &quot;name&quot;: &quot;animal&quot;,
-            &quot;expression&quot;: &quot;concat(&#39;super-&#39;, animal)&quot;
-          },
-          {
-            &quot;type&quot;: &quot;expression&quot;,
-            &quot;name&quot;: &quot;triple-number&quot;,
-            &quot;expression&quot;: &quot;number * 3&quot;
-          }
-        ],
-        &quot;filter&quot;: {
-          &quot;type&quot;:&quot;or&quot;,
-          &quot;fields&quot;: [
-            { &quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &quot;animal&quot;, &quot;value&quot;: &quot;super-mongoose&quot; },
-            { &quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &quot;triple-number&quot;, &quot;value&quot;: &quot;300&quot; },
-            { &quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &quot;location&quot;, &quot;value&quot;: &quot;3&quot; }
-          ]
-        }
-      }
-    },
-    &quot;ioConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;firehose&quot; : {
-        &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;examples/&quot;,
-        &quot;filter&quot; : &quot;transform-data.json&quot;
-      },
-      &quot;appendToExisting&quot; : false
-    },
-    &quot;tuningConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;targetPartitionSize&quot; : 5000000,
-      &quot;maxRowsInMemory&quot; : 25000,
-      &quot;forceExtendableShardSpecs&quot; : true
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;transform-tutorial&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;animal&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;number&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;triple-number&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;triple-number&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;week&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018-01-01/2018-01-03&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;transformSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;transforms&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;expression&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;expression&quot;</span><span class="p">:</span> <span class="s2">&quot;concat(&#39;super-&#39;, animal)&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;expression&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;triple-number&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;expression&quot;</span><span class="p">:</span> <span class="s2">&quot;number * 3&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;or&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;animal&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;super-mongoose&quot;</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;triple-number&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;300&quot;</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span> <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;transform-data.json&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;appendToExisting&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
+      <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>In the transform spec, we have two expression transforms:
 * <code>super-animal</code>: prepends &quot;super-&quot; to the values in the <code>animal</code> column. This will override the <code>animal</code> column with the transformed version, since the transform&#39;s name is <code>animal</code>.
@@ -220,38 +220,38 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>This filter selects the first 3 rows, and it will exclude the final &quot;lion&quot; row in the input data. Note that the filter is applied after the transformation.</p>
 
 <p>Let&#39;s submit this task now, which has been included at <code>examples/transform-index.json</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <h2 id="query-the-transformed-data">Query the transformed data</h2>
 
 <p>Let&#39;s a <code>select * from &quot;transform-tutorial&quot;;</code> query to see what was ingested:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X &#39;POST&#39; -H &#39;Content-Type:application/json&#39; -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[
-  {
-    &quot;__time&quot;: &quot;2018-01-01T05:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;super-mongoose&quot;,
-    &quot;count&quot;: 1,
-    &quot;location&quot;: 2,
-    &quot;number&quot;: 200,
-    &quot;triple-number&quot;: 600
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T06:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;super-snake&quot;,
-    &quot;count&quot;: 1,
-    &quot;location&quot;: 3,
-    &quot;number&quot;: 300,
-    &quot;triple-number&quot;: 900
-  },
-  {
-    &quot;__time&quot;: &quot;2018-01-01T07:01:00.000Z&quot;,
-    &quot;animal&quot;: &quot;super-octopus&quot;,
-    &quot;count&quot;: 1,
-    &quot;location&quot;: 1,
-    &quot;number&quot;: 100,
-    &quot;triple-number&quot;: 300
-  }
-]
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-mongoose&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">600</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-snake&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">900</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-octopus&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">300</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <p>The &quot;lion&quot; row has been discarded, the <code>animal</code> column has been transformed, and we have both the original and transformed <code>number</code> column.</p>
 

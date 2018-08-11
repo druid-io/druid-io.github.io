@@ -130,70 +130,70 @@ don&#39;t need to have loaded any data yet.</p>
 
 <p>We have provided an ingestion spec at <code>examples/wikipedia-index.json</code>, shown here for convenience,
 which has been configured to read the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> input file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  &quot;type&quot; : &quot;index&quot;,
-  &quot;spec&quot; : {
-    &quot;dataSchema&quot; : {
-      &quot;dataSource&quot; : &quot;wikipedia&quot;,
-      &quot;parser&quot; : {
-        &quot;type&quot; : &quot;string&quot;,
-        &quot;parseSpec&quot; : {
-          &quot;format&quot; : &quot;json&quot;,
-          &quot;dimensionsSpec&quot; : {
-            &quot;dimensions&quot; : [
-              &quot;channel&quot;,
-              &quot;cityName&quot;,
-              &quot;comment&quot;,
-              &quot;countryIsoCode&quot;,
-              &quot;countryName&quot;,
-              &quot;isAnonymous&quot;,
-              &quot;isMinor&quot;,
-              &quot;isNew&quot;,
-              &quot;isRobot&quot;,
-              &quot;isUnpatrolled&quot;,
-              &quot;metroCode&quot;,
-              &quot;namespace&quot;,
-              &quot;page&quot;,
-              &quot;regionIsoCode&quot;,
-              &quot;regionName&quot;,
-              &quot;user&quot;,
-              { &quot;name&quot;: &quot;added&quot;, &quot;type&quot;: &quot;long&quot; },
-              { &quot;name&quot;: &quot;deleted&quot;, &quot;type&quot;: &quot;long&quot; },
-              { &quot;name&quot;: &quot;delta&quot;, &quot;type&quot;: &quot;long&quot; }
-            ]
-          },
-          &quot;timestampSpec&quot;: {
-            &quot;column&quot;: &quot;time&quot;,
-            &quot;format&quot;: &quot;iso&quot;
-          }
-        }
-      },
-      &quot;metricsSpec&quot; : [],
-      &quot;granularitySpec&quot; : {
-        &quot;type&quot; : &quot;uniform&quot;,
-        &quot;segmentGranularity&quot; : &quot;day&quot;,
-        &quot;queryGranularity&quot; : &quot;none&quot;,
-        &quot;intervals&quot; : [&quot;2015-09-12/2015-09-13&quot;],
-        &quot;rollup&quot; : false
-      }
-    },
-    &quot;ioConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;firehose&quot; : {
-        &quot;type&quot; : &quot;local&quot;,
-        &quot;baseDir&quot; : &quot;quickstart/&quot;,
-        &quot;filter&quot; : &quot;wikiticker-2015-09-12-sampled.json.gz&quot;
-      },
-      &quot;appendToExisting&quot; : false
-    },
-    &quot;tuningConfig&quot; : {
-      &quot;type&quot; : &quot;index&quot;,
-      &quot;targetPartitionSize&quot; : 5000000,
-      &quot;maxRowsInMemory&quot; : 25000,
-      &quot;forceExtendableShardSpecs&quot; : true
-    }
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;channel&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;cityName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;comment&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;countryIsoCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;countryName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isAnonymous&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isMinor&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isNew&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isRobot&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isUnpatrolled&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;metroCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;page&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;regionIsoCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;regionName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2015-09-12/2015-09-13&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikiticker-2015-09-12-sampled.json.gz&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;appendToExisting&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
+      <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>This spec will create a datasource named &quot;wikipedia&quot;.</p>
 
@@ -228,7 +228,7 @@ your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:
 
 <h2 id="cleanup">Cleanup</h2>
 
-<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-the-cluster">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-cluster-state">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
 
 <h2 id="further-reading">Further reading</h2>
 
