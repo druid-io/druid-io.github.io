@@ -50,7 +50,7 @@ Before proceeding, please download the [tutorial examples package](../tutorials/
 
 This tarball contains sample data and ingestion specs that will be used in the tutorials. 
 
-```
+```bash
 curl -O http://druid.io/docs/0.12.2/tutorials/tutorial-examples.tar.gz
 tar zxvf tutorial-examples.tar.gz
 ```
@@ -101,9 +101,7 @@ From the druid-0.12.2 directory:
 
 ```bash
 rm -rf log
-
 rm -rf var
-
 bin/init
 ```
 
@@ -137,7 +135,7 @@ The sample data has the following columns, and an example event is shown below:
   * regionName
   * user
  
-```
+```json
 {
   "timestamp":"2015-09-12T20:03:45.018Z",
   "channel":"#en.wikipedia",

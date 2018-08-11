@@ -24,6 +24,7 @@ layout: toc
     * [Tutorial: Compacting segments](/docs/VERSION/tutorials/tutorial-compaction.html)
     * [Tutorial: Deleting data](/docs/VERSION/tutorials/tutorial-delete-data.html)
     * [Tutorial: Writing your own ingestion specs](/docs/VERSION/tutorials/tutorial-ingestion-spec.html)
+    * [Tutorial: Transforming input data](/docs/VERSION/tutorials/tutorial-transform-spec.html)
   * [Clustering](/docs/VERSION/tutorials/cluster.html)
 
 ## Data Ingestion
