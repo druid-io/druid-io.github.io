@@ -15,7 +15,7 @@ It will also be helpful to have finished [Tutorial: Loading a file](../tutorials
 
 We've included sample data for this tutorial at `examples/transform-data.json`, reproduced here for convenience:
 
-```
+```json
 {"timestamp":"2018-01-01T07:01:35Z","animal":"octopus",  "location":1, "number":100}
 {"timestamp":"2018-01-01T05:01:35Z","animal":"mongoose", "location":2,"number":200}
 {"timestamp":"2018-01-01T06:01:35Z","animal":"snake", "location":3, "number":300}
@@ -26,7 +26,7 @@ We've included sample data for this tutorial at `examples/transform-data.json`, 
 
 We will ingest the sample data using the following spec, which demonstrates the use of transform specs:
 
-```
+```json
 {
   "type" : "index",
   "spec" : {
@@ -115,7 +115,7 @@ This filter selects the first 3 rows, and it will exclude the final "lion" row i
 
 Let's submit this task now, which has been included at `examples/transform-index.json`:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
@@ -123,11 +123,11 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-index.j
 
 Let's a `select * from "transform-tutorial";` query to see what was ingested:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
 ```
 
-```
+```json
 [
   {
     "__time": "2018-01-01T05:01:00.000Z",

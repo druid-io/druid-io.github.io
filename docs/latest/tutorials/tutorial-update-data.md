@@ -23,7 +23,7 @@ The spec we'll use for this tutorial is located at `examples/updates-init-index.
 
 Let's submit that task:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-init-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
@@ -33,7 +33,7 @@ We have three initial rows containing an "animal" dimension and "number" metric:
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
 ```
 
-```
+```json
 [
   {
     "__time": "2018-01-01T01:01:00.000Z",
@@ -66,7 +66,7 @@ Note that this task reads input from `examples/updates-data2.json`, and `appendT
 
 Let's submit that task:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-overwrite-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
@@ -76,7 +76,7 @@ When Druid finishes loading the new segment from this overwrite task, the "tiger
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
 ```
 
-```
+```json
 [
   {
     "__time": "2018-01-01T01:01:00.000Z",
@@ -108,13 +108,13 @@ The `examples/updates-append-index.json` task spec reads input from `examples/up
 
 Let's submit that task:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-append-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
 When the new data is loaded, we can see two additional rows after "octopus". Note that the new "bear" row with number 222 has not been rolled up with the existing bear-111 row, because the new data is held in a separate segment. The same applies to the two "lion" rows.
 
-```
+```json
 [
   {
     "__time": "2018-01-01T01:01:00.000Z",
@@ -181,7 +181,7 @@ If we run a GroupBy query instead of a `select *`, we can see that the separate 
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-groupby-sql.json http://localhost:8082/druid/v2/sql
 ```
 
-```
+```json
 [
   {
     "__time": "2018-01-01T01:01:00.000Z",

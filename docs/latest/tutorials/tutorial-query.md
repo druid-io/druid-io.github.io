@@ -102,7 +102,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-top-pag
 
 The following results should be returned:
 
-```
+```json
 [
   {
     "page": "Wikipedia:Vandalismusmeldung",
@@ -165,7 +165,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-timeser
 
 The following results should be returned:
 
-```
+```json
 [
   {
     "HourTime": "2015-09-12T00:00:00.000Z",
@@ -275,7 +275,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-groupby
 
 The following results should be returned:
 
-```
+```json
 [
   {
     "channel": "#en.wikipedia",
@@ -347,7 +347,8 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-explain
 ```
 
 This will return the following plan:
-```
+
+```json
 [
   {
     "PLAN": "DruidQueryRel(query=[{\"queryType\":\"topN\",\"dataSource\":{\"type\":\"table\",\"name\":\"wikipedia\"},\"virtualColumns\":[],\"dimension\":{\"type\":\"default\",\"dimension\":\"page\",\"outputName\":\"d0\",\"outputType\":\"STRING\"},\"metric\":{\"type\":\"numeric\",\"metric\":\"a0\"},\"threshold\":10,\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z\"]},\"filter\":null,\"granularity\":{\"type\":\"all\"},\"aggregations\":[{\"type\":\"count\",\"name\":\"a0\"}],\"postAggregations\":[],\"context\":{},\"descending\":false}], signature=[{d0:STRING, a0:LONG}])\n"

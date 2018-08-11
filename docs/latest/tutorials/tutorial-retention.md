@@ -17,7 +17,7 @@ For this tutorial, we'll be using the Wikipedia edits sample data, with an inges
 
 The ingestion spec can be found at `examples/retention-index.json`. Let's submit that spec, which will create a datasource called `retention-tutorial`:
 
-```
+```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/retention-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
@@ -67,13 +67,11 @@ The segments for the first 12 hours of 2015-09-12 are now gone:
 
 The resulting retention rule chain is the following:
 
-```
-loadByInterval 2015-09-12T12/2015-09-13 (12 hours)
+* loadByInterval 2015-09-12T12/2015-09-13 (12 hours)
 
-dropForever
+* dropForever
 
-loadForever (default rule)
-```
+*  loadForever (default rule)
 
 The rule chain is evaluated from top to bottom, with the default rule chain always added at the bottom.
 
