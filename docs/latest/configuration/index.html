@@ -3436,16 +3436,16 @@ for both broker and historical nodes, when defined in the common properties file
 </thead><tbody>
 <tr>
 <td><code>druid.cache.type</code></td>
-<td><code>local</code>, <code>memcached</code>, <code>hybrid</code></td>
+<td><code>local</code>, <code>memcached</code>, <code>hybrid</code>, <code>caffeine</code></td>
 <td>The type of cache to use for queries. See below of the configuration options for each cache type</td>
-<td><code>local</code></td>
+<td><code>caffeine</code></td>
 </tr>
 </tbody></table>
 
 <h4 id="local-cache">Local Cache</h4>
 
 <div class="note caution">
-DEPRECATED: Use caffeine instead
+DEPRECATED: Use caffeine (default as of v0.12.0) instead
 </div>
 
 <p>The local cache is deprecated in favor of the Caffeine cache, and may be removed in a future version of Druid. The Caffeine cache affords significantly better performance and control over eviction behavior compared to <code>local</code> cache, and is recommended in any situation where you are using JRE 8u60 or higher.</p>
@@ -3493,8 +3493,8 @@ DEPRECATED: Use caffeine instead
 </thead><tbody>
 <tr>
 <td><code>druid.cache.type</code></td>
-<td>Set this to <code>caffeine</code></td>
-<td><code>local</code></td>
+<td>Set this to <code>caffeine</code> or leave out parameter</td>
+<td><code>caffeine</code></td>
 </tr>
 <tr>
 <td><code>druid.cache.sizeInBytes</code></td>
@@ -3617,16 +3617,16 @@ If there is an L1 miss and L2 hit, it will also populate L1.</p>
 <tr>
 <td><code>druid.cache.l1.type</code></td>
 <td>type of cache to use for L1 cache. See <code>druid.cache.type</code> configuration for valid types.</td>
-<td><code>local</code></td>
+<td><code>caffeine</code></td>
 </tr>
 <tr>
 <td><code>druid.cache.l2.type</code></td>
 <td>type of cache to use for L2 cache. See <code>druid.cache.type</code> configuration for valid types.</td>
-<td><code>local</code></td>
+<td><code>caffeine</code></td>
 </tr>
 <tr>
 <td><code>druid.cache.l1.*</code></td>
-<td>Any property valid for the given type of L1 cache can be set using this prefix. For instance, if you are using a <code>local</code> L1 cache, specify <code>druid.cache.l1.sizeInBytes</code> to set its size.</td>
+<td>Any property valid for the given type of L1 cache can be set using this prefix. For instance, if you are using a <code>caffeine</code> L1 cache, specify <code>druid.cache.l1.sizeInBytes</code> to set its size.</td>
 <td>defaults are the same as for the given cache type.</td>
 </tr>
 <tr>
