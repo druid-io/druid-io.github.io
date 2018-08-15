@@ -380,6 +380,10 @@ YeahMobi uses Druid to power a dashboard used for ad-tech analytics such as impr
 
 Youku Tudou employs Druid for real-time advertising analysis of huge volumes of data.
 
+## Youzan
+
+China Youzan is a SaaS company which principally engaged in retail science and technology. We use Druid for business intelligence (BI) analytics and application performance management (APM) metrics
+
 ## ZeroX
 
 [ZeroX](https://zero-x.co/) is a data analytics company that provides cloud hosted and privately managed Druid clusters.
@@ -394,10 +398,6 @@ Youku Tudou employs Druid for real-time advertising analysis of huge volumes of 
 
 ## Zuoyebang
 
-[Zuoyebang](http://www.zuoyebang.com/) is the most used K12 education platform, 7 out of every 10 K12 users are using Zuoyebang. At Zuoyebang DataPlatform Group, we use the druid in the advertising scene,  mainly related to advertising display,  click,  billing and other functions.  The performance and timeliness of druid can meet our OLAP queries very well.
-
-## Youzan
-
-China Youzan is a SaaS company which principally engaged in retail science and technology. We use Druid for business intelligence(BI) analytics and application performance management(APM) metrics
+[Zuoyebang](http://www.zuoyebang.com/) is the most used K12 education platform, 7 out of every 10 K12 users are using Zuoyebang. At Zuoyebang Data Platform Group, we use the Druid in the advertising scene,  mainly related to advertising display, click, billing, and other functions. The performance and timeliness of druid can meet our OLAP queries very well.
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md)
