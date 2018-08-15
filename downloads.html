@@ -120,6 +120,8 @@
 <a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-0.12.2-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.2-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.2 release</a><br>
 </p>
 
+<p>there are no release candidates at this time</p>
+
 <h2 id="get-started">Get started</h2>
 
 <p>To get started with Druid, visit the <a href="/docs/latest/tutorials/quickstart.html">quickstart</a>.</p>
@@ -183,6 +185,15 @@ If you are deploying a distributed cluster and would like to use the MySQL metad
   ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
