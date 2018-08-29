@@ -66,7 +66,7 @@ Condé Nast uses Druid to track billions of events across our two dozen brands, 
 
 ## Contiamo
 
-[Contiamo](www.contiamo.com) uses cutting edge technology to enable agile development and deployment of data-driven frontends and automations. Druid powers various dashboards and frontends that deal with large amounts of event based data.
+[Contiamo](https://www.contiamo.com) uses cutting edge technology to enable agile development and deployment of data-driven frontends and automations. Druid powers various dashboards and frontends that deal with large amounts of event based data.
 
 ## Delta Projects
 [Delta Projects](https://www.deltaprojects.com) uses Druid to power real-time audience and advertising analytics interfaces.
