@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <h1 id="what-is-druid">What is Druid?<a id="what-is-druid"></a></h1>
+
+<p>Druid is a data store designed for high-performance slice-and-dice analytics
+(&quot;<a href="http://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a>&quot;-style) on large data sets. Druid is most often
+used as a data store for powering GUI analytical applications, or as a backend for highly-concurrent APIs that need
+fast aggregations. Common application areas for Druid include:</p>
+
+<ul>
+<li>Clickstream analytics</li>
+<li>Network flow analytics</li>
+<li>Server metrics storage</li>
+<li>Application performance metrics</li>
+<li>Digital marketing analytics</li>
+<li>Business intelligence / OLAP</li>
+</ul>
+
+<p>Druid&#39;s key features are:</p>
+
+<ol>
+<li><strong>Columnar storage format.</strong> Druid uses column-oriented storage, meaning it only needs to load the exact columns
+needed for a particular query.  This gives a huge speed boost to queries that only hit a few columns. In addition, each
+column is stored optimized for its particular data type, which supports fast scans and aggregations.</li>
+<li><strong>Scalable distributed system.</strong> Druid is typically deployed in clusters of tens to hundreds of servers, and can
+offer ingest rates of millions of records/sec, retention of trillions of records, and query latencies of sub-second to a
+few seconds.</li>
+<li><strong>Massively parallel processing.</strong> Druid can process a query in parallel across the entire cluster.</li>
+<li><strong>Realtime or batch ingestion.</strong> Druid can ingest data either realtime (ingested data is immediately available for
+querying) or in batches.</li>
+<li><strong>Self-healing, self-balancing, easy to operate.</strong> As an operator, to scale the cluster out or in, simply add or
+remove servers and the cluster will rebalance itself automatically, in the background, without any downtime. If any
+Druid servers fail, the system will automatically route around the damage until those servers can be replaced. Druid
+is designed to run 24/7 with no need for planned downtimes for any reason, including configuration changes and software
+updates.</li>
+<li><strong>Cloud-native, fault-tolerant architecture that won&#39;t lose data.</strong> Once Druid has ingested your data, a copy is
+stored safely in <a href="#deep-storage">deep storage</a> (typically cloud storage, HDFS, or a shared filesystem). Your data can be
+recovered from deep storage even if every single Druid server fails. For more limited failures affecting just a few
+Druid servers, replication ensures that queries are still possible while the system recovers.</li>
+<li><strong>Indexes for quick filtering.</strong> Druid uses <a href="https://arxiv.org/pdf/1004.0403">CONCISE</a> or
+<a href="https://roaringbitmap.org/">Roaring</a> compressed bitmap indexes to create indexes that power fast filtering and
+searching across multiple columns.</li>
+<li><strong>Approximate algorithms.</strong> Druid includes algorithms for approximate count-distinct, approximate ranking, and
+computation of approximate histograms and quantiles. These algorithms offer bounded memory usage and are often
+substantially faster than exact computations. For situations where accuracy is more important than speed, Druid also
+offers exact count-distinct and exact ranking.</li>
+<li><strong>Automatic summarization at ingest time.</strong> Druid optionally supports data summarization at ingestion time. This
+summarization partially pre-aggregates your data, and can lead to big costs savings and performance boosts.</li>
+</ol>
+
+<h1 id="when-should-i-use-druid">When should I use Druid?<a id="when-to-use-druid"></a></h1>
+
+<p>Druid is likely a good choice if your use case fits a few of the following descriptors:</p>
+
+<ul>
+<li>Insert rates are very high, but updates are less common.</li>
+<li>Most of your queries are aggregation and reporting queries (&quot;group by&quot; queries). You may also have searching and
+scanning queries.</li>
+<li>You are targeting query latencies of 100ms to a few seconds.</li>
+<li>Your data has a time component (Druid includes optimizations and design choices specifically related to time).</li>
+<li>You may have more than one table, but each query hits just one big distributed table. Queries may potentially hit more
+than one smaller &quot;lookup&quot; table.</li>
+<li>You have high cardinality data columns (e.g. URLs, user IDs) and need fast counting and ranking over them.</li>
+<li>You want to load data from Kafka, HDFS, flat files, or object storage like Amazon S3.</li>
+</ul>
+
+<p>Situations where you would likely <em>not</em> want to use Druid include:</p>
+
+<ul>
+<li>You need low-latency updates of <em>existing</em> records using a primary key. Druid supports streaming inserts, but not streaming updates (updates are done using
+background batch jobs).</li>
+<li>You are building an offline reporting system where query latency is not very important.</li>
+<li>You want to do &quot;big&quot; joins (joining one big fact table to another big fact table).</li>
+</ul>
+
+<h1 id="architecture">Architecture</h1>
+
+<p>Druid has a multi-process, distributed architecture that is designed to be cloud-friendly and easy to operate. Each
+Druid process type can be configured and scaled independently, giving you maximum flexibility over your cluster. This
+design also provides enhanced fault tolerance: an outage of one component will not immediately affect other components.</p>
+
+<p>Druid&#39;s process types are:</p>
+
+<ul>
+<li><a href="../design/historical.html"><strong>Historical</strong></a> processes are the workhorses that handle storage and querying on &quot;historical&quot; data
+(including any streaming data that has been in the system long enough to be committed). Historical processes
+download segments from deep storage and respond to queries about these segments. They don&#39;t accept writes.</li>
+<li><a href="../design/middlemanager.html"><strong>MiddleManager</strong></a> processes handle ingestion of new data into the cluster. They are responsible
+for reading from external data sources and publishing new Druid segments.</li>
+<li><a href="../design/broker.html"><strong>Broker</strong></a> processes receive queries from external clients and forward those queries to Historicals and
+MiddleManagers. When Brokers receive results from those subqueries, they merge those results and return them to the
+caller. End users typically query Brokers rather than querying Historicals or MiddleManagers directly.</li>
+<li><a href="../design/coordinator.html"><strong>Coordinator</strong></a> processes watch over the Historical processes. They are responsible for assigning
+segments to specific servers, and for ensuring segments are well-balanced across Historicals.</li>
+<li><a href="../design/overlord.html"><strong>Overlord</strong></a> processes watch over the MiddleManager processes and are the controllers of data ingestion
+into Druid. They are responsible for assigning ingestion tasks to MiddleManagers and for coordinating segment
+publishing.</li>
+<li><a href="../development/router.html"><strong>Router</strong></a> processes are <em>optional</em> processes that provide a unified API gateway in front of Druid Brokers,
+Overlords, and Coordinators. They are optional since you can also simply contact the Druid Brokers, Overlords, and
+Coordinators directly.</li>
+</ul>
+
+<p>Druid processes can be deployed individually (one per physical server, virtual server, or container) or can be colocated
+on shared servers. One common colocation plan is a three-type plan:</p>
+
+<ol>
+<li>&quot;Data&quot; servers run Historical and MiddleManager processes.</li>
+<li>&quot;Query&quot; servers run Broker and (optionally) Router processes.</li>
+<li>&quot;Master&quot; servers run Coordinator and Overlord processes. They may run ZooKeeper as well.</li>
+</ol>
+
+<p>In addition to these process types, Druid also has three external dependencies. These are intended to be able to
+leverage existing infrastructure, where present.</p>
+
+<ul>
+<li><a href="#deep-storage"><strong>Deep storage</strong></a>, shared file storage accessible by every Druid server. This is typically going to
+be a distributed object store like S3 or HDFS, or a network mounted filesystem. Druid uses this to store any data that
+has been ingested into the system.</li>
+<li><a href="#metadata-storage"><strong>Metadata store</strong></a>, shared metadata storage. This is typically going to be a traditional RDBMS
+like PostgreSQL or MySQL.</li>
+<li><a href="#zookeeper"><strong>ZooKeeper</strong></a> is used for internal service discovery, coordination, and leader election.</li>
+</ul>
+
+<p>The idea behind this architecture is to make a Druid cluster simple to operate in production at scale. For example, the
+separation of deep storage and the metadata store from the rest of the cluster means that Druid processes are radically
+fault tolerant: even if every single Druid server fails, you can still relaunch your cluster from data stored in deep
+storage and the metadata store.</p>
+
+<p>The following diagram shows how queries and data flow through this architecture:</p>
+
+<p><img src="../../img/druid-architecture.png" width="800"/></p>
+
+<h1 id="datasources-and-segments">Datasources and segments</h1>
+
+<p>Druid data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
+partitioned by time and, optionally, further partitioned by other attributes. Each time range is called a &quot;chunk&quot; (for
+example, a single day, if your datasource is partitioned by day). Within a chunk, data is partitioned into one or more
+&quot;segments&quot;. Each segment is a single file, typically comprising up to a few million rows of data. Since segments are
+organized into time chunks, it&#39;s sometimes helpful to think of segments as living on a timeline like the following:</p>
+
+<p><img src="../../img/druid-timeline.png" width="800" /></p>
+
+<p>A datasource may have anywhere from just a few segments, up to hundreds of thousands and even millions of segments. Each
+segment starts life off being created on a MiddleManager, and at that point, is mutable and uncommitted. The segment
+building process includes the following steps, designed to produce a data file that is compact and supports fast
+queries:</p>
+
+<ul>
+<li>Conversion to columnar format</li>
+<li>Indexing with bitmap indexes</li>
+<li>Compression using various algorithms
+
+<ul>
+<li>Dictionary encoding with id storage minimization for String columns</li>
+<li>Bitmap compression for bitmap indexes</li>
+<li>Type-aware compression for all columns</li>
+</ul></li>
+</ul>
+
+<p>Periodically, segments are committed and published. At this point, they are written to <a href="#deep-storage">deep storage</a>, 
+become immutable, and move from MiddleManagers to the Historical processes (see <a href="#architecture">Architecture</a> above
+for details). An entry about the segment is also written to the <a href="#metadata-storage">metadata store</a>. This entry is a
+self-describing bit of metadata about the segment, including things like the schema of the segment, its size, and its
+location on deep storage. These entries are what the Coordinator uses to know what data <em>should</em> be available on the
+cluster.</p>
+
+<h1 id="query-processing">Query processing</h1>
+
+<p>Queries first enter the Broker, where the Broker will identify which segments have data that may pertain to that query.
+The list of segments is always pruned by time, and may also be pruned by other attributes depending on how your
+datasource is partitioned. The Broker will then identify which Historicals and MiddleManagers are serving those segments
+and send a rewritten subquery to each of those processes. The Historical/MiddleManager processes will take in the
+queries, process them and return results. The Broker receives results and merges them together to get the final answer,
+which it returns to the original caller.</p>
+
+<p>Broker pruning is an important way that Druid limits the amount of data that must be scanned for each query, but it is
+not the only way. For filters at a more granular level than what the Broker can use for pruning, indexing structures
+inside each segment allow Druid to figure out which (if any) rows match the filter set before looking at any row of
+data. Once Druid knows which rows match a particular query, it only accesses the specific columns it needs for that
+query. Within those columns, Druid can skip from row to row, avoiding reading data that doesn&#39;t match the query filter.</p>
+
+<p>So Druid uses three different techniques to maximize query performance:</p>
+
+<ul>
+<li>Pruning which segments are accessed for each query.</li>
+<li>Within each segment, using indexes to identify which rows must be accessed.</li>
+<li>Within each segment, only reading the specific rows and columns that are relevant to a particular query.</li>
+</ul>
+
+<h1 id="external-dependencies">External Dependencies</h1>
+
+<h2 id="deep-storage">Deep storage</h2>
+
+<p>Druid uses deep storage only as a backup of your data and as a way to transfer data in the background between
+Druid processes. To respond to queries, Historical processes do not read from deep storage, but instead read pre-fetched
+segments from their local disks before any queries are served. This means that Druid never needs to access deep storage
+during a query, helping it offer the best query latencies possible. It also means that you must have enough disk space
+both in deep storage and across your Historical processes for the data you plan to load.</p>
+
+<p>For more details, please see <a href="../dependencies/deep-storage.html">Deep storage dependency</a>.</p>
+
+<h2 id="metadata-storage">Metadata storage</h2>
+
+<p>The metadata storage holds various system metadata such as segment availability information and task information.</p>
+
+<p>For more details, please see <a href="..dependencies/metadata-storage.html">Metadata storage dependency</a></p>
+
+<h2 id="zookeeper">Zookeeper</h2>
+
+<p>Druid uses <a href="http://zookeeper.apache.org/">ZooKeeper</a> (ZK) for management of current cluster state.</p>
+
+<p>For more details, please see <a href="../dependencies/zookeeper.html">Zookeeper dependency</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.3-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

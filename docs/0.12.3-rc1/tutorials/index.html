@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <h1 id="druid-quickstart">Druid Quickstart</h1>
+
+<p>In this quickstart, we will download Druid, set it up on a single machine, load some data, and query the data.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>You will need:</p>
+
+<ul>
+<li>Java 8 or higher</li>
+<li>Linux, Mac OS X, or other Unix-like OS (Windows is not supported)</li>
+<li>8G of RAM</li>
+<li>2 vCPUs</li>
+</ul>
+
+<p>On Mac OS X, you can use <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Oracle&#39;s JDK
+8</a> to install
+Java.</p>
+
+<p>On Linux, your OS package manager should be able to help for Java. If your Ubuntu-
+based OS does not have a recent enough version of Java, WebUpd8 offers <a href="http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html">packages for those
+OSes</a>.</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>To install Druid, issue the following commands in your terminal:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.12.3-rc1-bin.tar.gz
+tar -xzf druid-0.12.3-rc1-bin.tar.gz
+<span class="nb">cd</span> druid-0.12.3-rc1
+</code></pre></div>
+<p>In the package, you should find:</p>
+
+<ul>
+<li><code>LICENSE</code> - the license files.</li>
+<li><code>bin/</code> - scripts useful for this quickstart.</li>
+<li><code>conf/*</code> - template configurations for a clustered setup.</li>
+<li><code>conf-quickstart/*</code> - configurations for this quickstart.</li>
+<li><code>extensions/*</code> - all Druid extensions.</li>
+<li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies.</li>
+<li><code>lib/*</code> - all included software packages for core Druid.</li>
+<li><code>quickstart/*</code> - files useful for this quickstart.</li>
+</ul>
+
+<h2 id="download-tutorial-example-files">Download tutorial example files</h2>
+
+<p>Before proceeding, please download the <a href="../tutorials/tutorial-examples.tar.gz">tutorial examples package</a>. </p>
+
+<p>This tarball contains sample data and ingestion specs that will be used in the tutorials. </p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://druid.io/docs/0.12.3-rc1/tutorials/tutorial-examples.tar.gz
+tar zxvf tutorial-examples.tar.gz
+</code></pre></div>
+<h2 id="start-up-zookeeper">Start up Zookeeper</h2>
+
+<p>Druid currently has a dependency on <a href="http://zookeeper.apache.org/">Apache ZooKeeper</a> for distributed coordination. You&#39;ll
+need to download and run Zookeeper.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
+tar -xzf zookeeper-3.4.10.tar.gz
+<span class="nb">cd</span> zookeeper-3.4.10
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
+</code></pre></div>
+<h2 id="start-up-druid-services">Start up Druid services</h2>
+
+<p>With Zookeeper running, return to the druid-0.12.3-rc1 directory. In that directory, issue the command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/init
+</code></pre></div>
+<p>This will setup up some directories for you. Next, you can start up the Druid processes in different terminal windows.
+This tutorial runs every Druid process on the same system. In a large distributed production cluster,
+many of these Druid processes can still be co-located together.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat examples/conf/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/coordinator:lib/*&quot;</span> io.druid.cli.Main server coordinator
+java <span class="sb">`</span>cat examples/conf/druid/overlord/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/overlord:lib/*&quot;</span> io.druid.cli.Main server overlord
+java <span class="sb">`</span>cat examples/conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/historical:lib/*&quot;</span> io.druid.cli.Main server historical
+java <span class="sb">`</span>cat examples/conf/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/middleManager:lib/*&quot;</span> io.druid.cli.Main server middleManager
+java <span class="sb">`</span>cat examples/conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/broker:lib/*&quot;</span> io.druid.cli.Main server broker
+</code></pre></div>
+<p>Once every service has started, you are now ready to load data.</p>
+
+<h3 id="resetting-cluster-state">Resetting cluster state</h3>
+
+<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the druid-0.12.3-rc1 package root. </p>
+
+<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit from the running java processes. If you
+want a clean start after stopping the services, delete the <code>log</code> and <code>var</code> directory and run the <code>init</code> script again.</p>
+
+<p>From the druid-0.12.3-rc1 directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf log
+rm -rf var
+bin/init
+</code></pre></div>
+<h2 id="loading-data">Loading Data</h2>
+
+<h3 id="tutorial-dataset">Tutorial Dataset</h3>
+
+<p>For the following data loading tutorials, we have included a sample data file containing Wikipedia page edit events that occurred on 2015-09-12.</p>
+
+<p>This sample data is located at <code>quickstart/wikipedia-2015-09-12-sampled.json.gz</code> from the Druid package root. The page edit events are stored as JSON objects in a text file.</p>
+
+<p>The sample data has the following columns, and an example event is shown below:</p>
+
+<ul>
+<li>added</li>
+<li>channel</li>
+<li>cityName</li>
+<li>comment</li>
+<li>countryIsoCode</li>
+<li>countryName</li>
+<li>deleted</li>
+<li>delta</li>
+<li>isAnonymous</li>
+<li>isMinor</li>
+<li>isNew</li>
+<li>isRobot</li>
+<li>isUnpatrolled</li>
+<li>metroCode</li>
+<li>namespace</li>
+<li>page</li>
+<li>regionIsoCode</li>
+<li>regionName</li>
+<li>user</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-09-12T20:03:45.018Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="s2">&quot;#en.wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;Main&quot;</span>
+  <span class="s2">&quot;page&quot;</span><span class="p">:</span><span class="s2">&quot;Spider-Man&#39;s powers and equipment&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;/* Artificial web-shooters */&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;cityName&quot;</span><span class="p">:</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;regionName&quot;</span><span class="p">:</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;regionIsoCode&quot;</span><span class="p">:</span><span class="s2">&quot;NY&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;countryName&quot;</span><span class="p">:</span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;countryIsoCode&quot;</span><span class="p">:</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;isAnonymous&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isNew&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isMinor&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isRobot&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;isUnpatrolled&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;added&quot;</span><span class="p">:</span><span class="mi">99</span><span class="p">,</span>
+  <span class="nt">&quot;delta&quot;</span><span class="p">:</span><span class="mi">99</span><span class="p">,</span>
+  <span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The following tutorials demonstrate various methods of loading data into Druid, including both batch and streaming use cases.</p>
+
+<h3 id="tutorial-loading-a-file"><a href="./tutorial-batch.html">Tutorial: Loading a file</a></h3>
+
+<p>This tutorial demonstrates how to perform a batch file load, using Druid&#39;s native batch ingestion.</p>
+
+<h3 id="tutorial-loading-stream-data-from-kafka"><a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a></h3>
+
+<p>This tutorial demonstrates how to load streaming data from a Kafka topic.</p>
+
+<h3 id="tutorial-loading-a-file-using-hadoop"><a href="./tutorial-batch-hadoop.html">Tutorial: Loading a file using Hadoop</a></h3>
+
+<p>This tutorial demonstrates how to perform a batch file load, using a remote Hadoop cluster.</p>
+
+<h3 id="tutorial-loading-data-using-tranquility"><a href="./tutorial-tranquility.html">Tutorial: Loading data using Tranquility</a></h3>
+
+<p>This tutorial demonstrates how to load streaming data by pushing events to Druid using the Tranquility service.</p>
+
+<h3 id="tutorial-writing-your-own-ingestion-spec"><a href="./tutorial-ingestion-spec.html">Tutorial: Writing your own ingestion spec</a></h3>
+
+<p>This tutorial demonstrates how to write a new ingestion spec and use it to load data.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.3-rc1/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
