@@ -151,6 +151,10 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 
 * [Reporting at LiquidM](http://liquidm.com/reporting-at-liquidm/)
 
+## Lyft
+
+* [Streaming SQL and Druid](https://youtu.be/ovZ9iAkQllo)
+
 ## Marchex
 
 Marchex uses Druid to provide data for Marchex Call Analytics' new customer facing Speech Analytics dashboards.
