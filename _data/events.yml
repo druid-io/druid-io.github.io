@@ -1,4 +1,9 @@
-- date: 2018-08-08
-  name: "Druid Meetup"
-  info: Druid Bay Area Meetup @ Lyft
-  link: https://www.meetup.com/druidio/events/252515792/
+- date: 2018-09-20
+  name: "Druid LA Meetup"
+  info: Druid LA Meetup @ Snap
+  link: https://www.meetup.com/druidio-la/events/254080924/
+
+- date: 2018-11-14
+  name: "Druid Bay Area Meetup"
+  info: Druid Bay Area Meetup @ Netflix (details coming soon)
+  link: https://www.meetup.com/druidio

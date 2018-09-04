@@ -1,3 +1,9 @@
+  - date: 2018-08-30
+    title: "Streaming SQL and Druid"
+    name: "Arup Malakar"
+    link: https://youtu.be/ovZ9iAkQllo
+    company: Lyft
+
   - date: 2018-06-19
     title: "PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase"
     name: "Deepika Khera & Kasi Natarajan"
