@@ -114,7 +114,11 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="stream-pull-ingestion">Stream Pull Ingestion</h1>
+          <div class="note info">
+NOTE: Realtime nodes are deprecated. Please use the <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a> for stream pull use cases instead. 
+</div>
+
+<h1 id="stream-pull-ingestion">Stream Pull Ingestion</h1>
 
 <p>If you have an external service that you want to pull data from, you have two options. The simplest
 option is to set up a &quot;copying&quot; service that reads from the data source and writes to Druid using

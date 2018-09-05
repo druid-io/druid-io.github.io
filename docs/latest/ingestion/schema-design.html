@@ -147,7 +147,7 @@ filter on.</p>
 <h2 id="high-cardinality-dimensions-e-g-unique-ids">High cardinality dimensions (e.g. unique IDs)</h2>
 
 <p>In practice, we see that exact counts for unique IDs are often not required. Storing unique IDs as a column will kill 
-<a href="../design/index.html">roll-up</a>, and impact compression. Instead, storing a sketch of the number of the unique IDs seen, and using that 
+<a href="../ingestion/index.html#rollup">roll-up</a>, and impact compression. Instead, storing a sketch of the number of the unique IDs seen, and using that 
 sketch as part of aggregations, will greatly improve performance (up to orders of magnitude performance improvement), and significantly reduce storage. 
 Druid&#39;s <code>hyperUnique</code> aggregator is based off of Hyperloglog and can be used for unique counts on a high cardinality dimension. 
 For more information, see <a href="https://www.youtube.com/watch?v=Hpd3f_MLdXo">here</a>.</p>
@@ -161,6 +161,8 @@ if you have data of the following form:</p>
 <p>then before indexing it, you should transform it to:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{&quot;foo_bar&quot;: 3}
 </code></pre></div>
+<p>Druid is capable of flattening JSON input data, please see <a href="../ingestion/flatten-json.html">Flatten JSON</a> for more details.</p>
+
 <h2 id="counting-the-number-of-ingested-events">Counting the number of ingested events</h2>
 
 <p>A count aggregator at ingestion time can be used to count the number of events ingested. However, it is important to note 

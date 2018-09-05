@@ -117,7 +117,7 @@
           <h1 id="hadoop-based-batch-ingestion">Hadoop-based Batch Ingestion</h1>
 
 <p>Hadoop-based batch ingestion in Druid is supported via a Hadoop-ingestion task. These tasks can be posted to a running
-instance of a Druid <a href="../design/indexing-service.html">overlord</a>. </p>
+instance of a Druid <a href="../design/overlord.html">overlord</a>. </p>
 
 <h2 id="command-line-hadoop-indexer">Command Line Hadoop Indexer</h2>
 
@@ -203,7 +203,7 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 </tr>
 <tr>
 <td>spec</td>
-<td>A Hadoop Index Spec. See <a href="../ingestion/batch-ingestion.html">Batch Ingestion</a></td>
+<td>A Hadoop Index Spec. See <a href="../ingestion/ingestion-spec.html">Ingestion</a></td>
 <td>yes</td>
 </tr>
 <tr>
@@ -218,11 +218,11 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 </tr>
 </tbody></table>
 
-<p>also note that, druid automatically computes the classpath for hadoop job containers that run in hadoop cluster. But, in case of conflicts between hadoop and druid&#39;s dependencies, you can manually specify the classpath by setting <code>druid.extensions.hadoopContainerDruidClasspath</code> property. See the extensions config in <a href="../configuration/index.html">base druid configuration</a>.</p>
+<p>also note that, druid automatically computes the classpath for hadoop job containers that run in hadoop cluster. But, in case of conflicts between hadoop and druid&#39;s dependencies, you can manually specify the classpath by setting <code>druid.extensions.hadoopContainerDruidClasspath</code> property. See the extensions config in <a href="../configuration/index.html#extensions">base druid configuration</a>.</p>
 
 <h2 id="dataschema">DataSchema</h2>
 
-<p>This field is required. See <a href="../ingestion/index.html">Ingestion</a>.</p>
+<p>This field is required. See <a href="../ingestion/ingestion-spec.html#dataschema">Ingestion Spec DataSchema</a>.</p>
 
 <h2 id="ioconfig">IOConfig</h2>
 
@@ -258,7 +258,7 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 <td>metadataUpdateSpec</td>
 <td>Object</td>
 <td>A specification of how to update the metadata for the druid cluster these segments belong to.</td>
-<td>yes</td>
+<td>Only used by the <a href="../ingestion/command-line-hadoop-indexer.html">CLI Hadoop Indexer</a>. This field must be null otherwise.</td>
 </tr>
 </tbody></table>
 
@@ -357,7 +357,7 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <td>workingPath</td>
 <td>String</td>
 <td>The working path to use for intermediate results (results between Hadoop jobs).</td>
-<td>no (default == &#39;/tmp/druid-indexing&#39;)</td>
+<td>Only used by the <a href="../ingestion/command-line-hadoop-indexer.html">CLI Hadoop Indexer</a>. The default is &#39;/tmp/druid-indexing&#39;. This field must be null otherwise.</td>
 </tr>
 <tr>
 <td>version</td>

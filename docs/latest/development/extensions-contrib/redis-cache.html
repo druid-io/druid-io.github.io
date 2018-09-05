@@ -122,9 +122,13 @@
 
 <p>Below are the configuration options known to this module:</p>
 
+<p>Note that just adding these properties does not enable the cache. You still need to add the <code>druid.&lt;nodetype&gt;.cache.useCache</code> and <code>druid.&lt;nodetype&gt;.cache.populateCache</code> properties for the nodes you want to enable the cache on as described in the <a href="../../configuration/index.html#cache-configuration">cache configuration docs</a>.</p>
+
+<p>A possible configuration would be to keep the properties below in your <code>common.runtime.properties</code> file (present on all nodes) and then add <code>druid.&lt;nodetype&gt;.cache.useCache</code> and <code>druid.&lt;nodetype&gt;.cache.populateCache</code> in the <code>runtime.properties</code> file of the node types you want to enable caching on.</p>
+
 <table><thead>
 <tr>
-<th><code>runtime.properties</code></th>
+<th><code>common.runtime.properties</code></th>
 <th>Description</th>
 <th>Default</th>
 <th>Required</th>

@@ -114,9 +114,11 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="tasks">Tasks</h1>
+          <h1 id="tasks-overview">Tasks Overview</h1>
 
-<p>Tasks are run on middle managers and always operate on a single data source. Tasks are submitted using <a href="../design/indexing-service.html">POST requests</a>.</p>
+<p>Tasks are run on middle managers and always operate on a single data source.</p>
+
+<p>Tasks are submitted using POST requests to the Overlord. Please see <a href="../operations/api-reference.html#overlord-tasks">Overlord Task API</a> for API details.</p>
 
 <p>There are several different types of tasks.</p>
 
@@ -130,356 +132,37 @@
 
 <p>See <a href="../ingestion/hadoop.html">Hadoop batch ingestion</a>.</p>
 
+<h3 id="kafka-indexing-tasks">Kafka Indexing Tasks</h3>
+
+<p>Kafka Indexing tasks are automatically created by a Kafka Supervisor and are responsible for pulling data from Kafka streams. These tasks are not meant to be created/submitted directly by users. See <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a> for more details.</p>
+
+<h3 id="stream-push-tasks-tranquility">Stream Push Tasks (Tranquility)</h3>
+
+<p>Tranquility Server automatically creates &quot;realtime&quot; tasks that receive events over HTTP using an <a href="../ingestion/firehose.html#eventreceiverfirehose">EventReceiverFirehose</a>. These tasks are not meant to be created/submitted directly by users. See <a href="../ingestion/stream-push.html">Tranquility Stream Push</a> for more info.</p>
+
+<h2 id="compaction-tasks">Compaction Tasks</h2>
+
+<p>Compaction tasks merge all segments of the given interval. Please see <a href="../ingestion/compaction.html">Compaction</a> for details.</p>
+
 <h2 id="segment-merging-tasks">Segment Merging Tasks</h2>
 
-<h3 id="append-task">Append Task</h3>
-
-<p>Append tasks append a list of segments together into a single segment (one after the other). The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="merge-task">Merge Task</h3>
-
-<p>Merge tasks merge a list of segments together. Any common timestamps are merged.
-If rollup is disabled as part of ingestion, common timestamps are not merged and rows are reordered by their timestamp.</p>
-
-<p>The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;merge&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="same-interval-merge-task">Same Interval Merge Task</h3>
-
-<p>Same Interval Merge task is a shortcut of merge task, all segments in the interval are going to be merged.</p>
-
-<p>The grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;same_interval_merge&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;DataSegment</span> <span class="err">objects</span> <span class="err">in</span> <span class="err">this</span> <span class="err">interval</span> <span class="err">are</span> <span class="err">going</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="compaction-task">Compaction Task</h3>
-
-<p>Compaction tasks merge all segments of the given interval. The syntax is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;interval</span> <span class="err">to</span> <span class="err">specify</span> <span class="err">segments</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dimensions&quot;</span> <span class="err">&lt;custom</span> <span class="err">dimensionsSpec&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;tuningConfig&quot;</span> <span class="err">&lt;index</span> <span class="err">task</span> <span class="err">tuningConfig&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>Task type. Should be <code>compact</code></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td>Task id</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>dataSource</code></td>
-<td>dataSource name to be compacted</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>interval</code></td>
-<td>interval of segments to be compacted</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>dimensions</code></td>
-<td>custom dimensionsSpec. compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>tuningConfig</code></td>
-<td><a href="#tuningconfig">Index task tuningConfig</a></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>context</code></td>
-<td><a href="#taskcontext">Task context</a></td>
-<td>No</td>
-</tr>
-</tbody></table>
-
-<p>An example of compaction task is</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="s2">&quot;2017-01-01/2018-01-01&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>This compaction task reads <em>all segments</em> of the interval <code>2017-01-01/2018-01-01</code> and results in new segments.
-Note that intervals of the input segments are merged into a single interval of <code>2017-01-01/2018-01-01</code> no matter what the segmentGranularity was.
-To controll the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="#tuningconfig">indexTuningConfig</a> for more details.
-To merge each day&#39;s worth of data into separate segments, you can submit multiple <code>compact</code> tasks, one for each day. They will run in parallel.</p>
-
-<p>A compaction task internally generates an <code>index</code> task spec for performing compaction work with some fixed parameters.
-For example, its <code>firehose</code> is always the <a href="./firehose.html">ingestSegmentSpec</a>, and <code>dimensionsSpec</code> and <code>metricsSpec</code>
-include all dimensions and metrics of the input segments by default.</p>
-
-<p>The output segment can have different metadata from the input segments unless all input segments have the same metadata.</p>
-
-<ul>
-<li>Dimensions: since Druid supports schema change, the dimensions can be different across segments even if they are a part of the same dataSource.
-If the input segments have different dimensions, the output segment basically includes all dimensions of the input segments.
-However, even if the input segments have the same set of dimensions, the dimension order or the data type of dimensions can be different. For example, the data type of some dimensions can be
-changed from <code>string</code> to primitive types, or the order of dimensions can be changed for better locality (See <a href="batch-ingestion.html#partitioning-specification">Partitioning</a>).
-In this case, the dimensions of recent segments precede that of old segments in terms of data types and the ordering.
-This is because more recent segments are more likely to have the new desired order and data types. If you want to use
-your own ordering and types, you can specify a custom <code>dimensionsSpec</code> in the compaction task spec.</li>
-<li>Roll-up: the output segment is rolled up only when <code>rollup</code> is set for all input segments.
-See <a href="../design/index.html#roll-up">Roll-up</a> for more details. 
-You can check that your segments are rolled up or not by using <a href="../querying/segmentmetadataquery.html#analysistypes">Segment Metadata Queries</a>.</li>
-</ul>
-
-<h2 id="segment-destroying-tasks">Segment Destroying Tasks</h2>
-
-<h3 id="kill-task">Kill Task</h3>
-
-<p>Kill tasks delete all information about a segment and removes it from deep storage. Killable segments must be disabled (used==0) in the Druid segment table. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kill&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;all_segments_in_this_interval_will_die!&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="misc-tasks">Misc. Tasks</h2>
-
-<h3 id="version-converter-task">Version Converter Task</h3>
-
-<p>The convert task suite takes active segments and will recompress them using a new IndexSpec. This is handy when doing activities like migrating from Concise to Roaring, or adding dimension compression to old segments.</p>
-
-<p>Upon success the new segments will have the same version as the old segment with <code>_converted</code> appended. A convert task may be run against the same interval for the same datasource multiple times. Each execution will append another <code>_converted</code> to the version for the segments</p>
-
-<p>There are two types of conversion tasks. One is the Hadoop convert task, and the other is the indexing service convert task. The Hadoop convert task runs on a hadoop cluster, and simply leaves a task monitor on the indexing service (similar to the hadoop batch task). The indexing service convert task runs the actual conversion on the indexing service.</p>
-
-<h4 id="hadoop-convert-segment-task">Hadoop Convert Segment Task</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop_convert_segment&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;indexSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;bitmap&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;concise&quot;</span><span class="p">},</span><span class="nt">&quot;dimensionCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">,</span><span class="nt">&quot;metricCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;force&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;validate&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&quot;distributedSuccessCache&quot;</span><span class="p">:</span><span class="s2">&quot;hdfs://some-hdfs-nn:9000/user/jobrunner/cache&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;jobPriority&quot;</span><span class="p">:</span><span class="s2">&quot;VERY_LOW&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;segmentOutputPath&quot;</span><span class="p">:</span><span class="s2">&quot;s3n://somebucket/somekeyprefix&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The values are described below.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>Convert task identifier</td>
-<td>Yes: <code>hadoop_convert_segment</code></td>
-</tr>
-<tr>
-<td><code>dataSource</code></td>
-<td>String</td>
-<td>The datasource to search for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>interval</code></td>
-<td>Interval string</td>
-<td>The interval in the datasource to look for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>indexSpec</code></td>
-<td>json</td>
-<td>The compression specification for the index</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>force</code></td>
-<td>boolean</td>
-<td>Forces the convert task to continue even if binary versions indicate it has been updated recently (you probably want to do this)</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>validate</code></td>
-<td>boolean</td>
-<td>Runs validation between the old and new segment before reporting task success</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>distributedSuccessCache</code></td>
-<td>URI</td>
-<td>A location where hadoop should put intermediary files.</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>jobPriority</code></td>
-<td><code>org.apache.hadoop.mapred.JobPriority</code> as String</td>
-<td>The priority to set for the hadoop job</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>segmentOutputPath</code></td>
-<td>URI</td>
-<td>A base uri for the segment to be placed. Same format as other places a segment output path is needed</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<h4 id="indexing-service-convert-segment-task">Indexing Service Convert Segment Task</h4>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;convert_segment&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;indexSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;bitmap&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;concise&quot;</span><span class="p">},</span><span class="nt">&quot;dimensionCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">,</span><span class="nt">&quot;metricCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;force&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;validate&quot;</span><span class="p">:</span> <span class="kc">false</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required (default)</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>Convert task identifier</td>
-<td>Yes: <code>convert_segment</code></td>
-</tr>
-<tr>
-<td><code>dataSource</code></td>
-<td>String</td>
-<td>The datasource to search for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>interval</code></td>
-<td>Interval string</td>
-<td>The interval in the datasource to look for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>indexSpec</code></td>
-<td>json</td>
-<td>The compression specification for the index</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>force</code></td>
-<td>boolean</td>
-<td>Forces the convert task to continue even if binary versions indicate it has been updated recently (you probably want to do this)</td>
-<td>No (false)</td>
-</tr>
-<tr>
-<td><code>validate</code></td>
-<td>boolean</td>
-<td>Runs validation between the old and new segment before reporting task success</td>
-<td>No (true)</td>
-</tr>
-</tbody></table>
-
-<p>Unlike the hadoop convert task, the indexing service task draws its output path from the indexing service&#39;s configuration.</p>
-
-<h3 id="noop-task">Noop Task</h3>
-
-<p>These tasks start, sleep for a time and are used only for testing. The available grammar is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;noop&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;optional_task_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_segment_interval&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;runTime&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_millis_to_sleep&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="err">&lt;optional_firehose_to_test_connect&gt;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="task-context">Task Context</h2>
-
-<p>The task context is used for various task configuration parameters. The following parameters apply to all task types.</p>
-
-<table><thead>
-<tr>
-<th>property</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>taskLockTimeout</td>
-<td>300000</td>
-<td>task lock timeout in millisecond. For more details, see <a href="#locking">the below Locking section</a>.</td>
-</tr>
-<tr>
-<td>priority</td>
-<td>Different based on task types. See <a href="#task-priority">Task Priority</a>.</td>
-<td>Task priority</td>
-</tr>
-</tbody></table>
-
-<div class="note caution">
-When a task acquires a lock, it sends a request via HTTP and awaits until it receives a response containing the lock acquisition result.
-As a result, an HTTP timeout error can occur if `taskLockTimeout` is greater than `druid.server.http.maxIdleTime` of overlords.
+<div class="note info">
+The documentation for the Append Task, Merge Task, and Same Interval Merge Task has been moved to <a href="../ingestion/misc-tasks.html">Miscellaneous Tasks</a>.
 </div>
 
-<h2 id="locking">Locking</h2>
+<h2 id="kill-task">Kill Task</h2>
 
-<p>Once an overlord node accepts a task, the task acquires locks for the data source and intervals specified in the task.</p>
+<p>Kill tasks delete all information about a segment and removes it from deep storage. </p>
 
-<p>There are two lock types, i.e., <em>shared lock</em> and <em>exclusive lock</em>.</p>
+<p>Please see <a href="../ingestion/delete-data.html">Deleting Data</a> for details.</p>
 
-<ul>
-<li>A task needs to acquire a shared lock before it reads segments of an interval. Multiple shared locks can be acquired for the same dataSource and interval. Shared locks are always preemptable, but they don&#39;t preempt each other.</li>
-<li>A task needs to acquire an exclusive lock before it writes segments for an interval. An exclusive lock is also preemptable except while the task is publishing segments.</li>
-</ul>
+<h2 id="misc-tasks">Misc. Tasks</h2>
 
-<p>Each task can have different lock priorities. The locks of higher-priority tasks can preempt the locks of lower-priority tasks. The lock preemption works based on <em>optimistic locking</em>. When a lock is preempted, it is not notified to the owner task immediately. Instead, it&#39;s notified when the owner task tries to acquire the same lock again. (Note that lock acquisition is idempotent unless the lock is preempted.) In general, tasks don&#39;t compete for acquiring locks because they usually targets different dataSources or intervals.</p>
+<p>Please see <a href="../ingestion/misc-tasks.html">Miscellaneous Tasks</a>.</p>
 
-<p>A task writing data into a dataSource must acquire exclusive locks for target intervals. Note that exclusive locks are still preemptable. That is, they also be able to be preempted by higher priority locks unless they are <em>publishing segments</em> in a critical section. Once publishing segments is finished, those locks become preemptable again.</p>
+<h2 id="task-locking-and-priority">Task Locking and Priority</h2>
 
-<p>Tasks do not need to explicitly release locks, they are released upon task completion. Tasks may potentially release 
-locks early if they desire. Task ids are unique by naming them using UUIDs or the timestamp in which the task was created. 
-Tasks are also part of a &quot;task group&quot;, which is a set of tasks that can share interval locks.</p>
+<p>Please see <a href="../ingestion/locking-and-priority.html">Task Locking and Priority</a>.</p>
 
         </div>
         <div class="col-md-3">

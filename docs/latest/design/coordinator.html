@@ -116,7 +116,15 @@
           </p>
           <h1 id="coordinator-node">Coordinator Node</h1>
 
-<p>For Coordinator Node Configuration, see <a href="../configuration/coordinator.html">Coordinator Configuration</a>.</p>
+<h3 id="configuration">Configuration</h3>
+
+<p>For Coordinator Node Configuration, see <a href="../configuration/index.html#coordinator">Coordinator Configuration</a>.</p>
+
+<h3 id="http-endpoints">HTTP endpoints</h3>
+
+<p>For a list of API endpoints supported by the Coordinator, see <a href="../operations/api-reference.html#coordinator">Coordinator API</a>.</p>
+
+<h3 id="overview">Overview</h3>
 
 <p>The Druid coordinator node is primarily responsible for segment management and distribution. More specifically, the Druid coordinator node communicates to historical nodes to load or drop segments based on configurations. The Druid coordinator is responsible for loading new segments, dropping outdated segments, managing segment replication, and balancing segment load.</p>
 
@@ -127,26 +135,24 @@
 <h3 id="running">Running</h3>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server coordinator
 </code></pre></div>
-<h2 id="rules">Rules</h2>
+<h3 id="rules">Rules</h3>
 
 <p>Segments can be automatically loaded and dropped from the cluster based on a set of rules. For more information on rules, see <a href="../operations/rule-configuration.html">Rule Configuration</a>.</p>
 
-<h2 id="cleaning-up-segments">Cleaning Up Segments</h2>
+<h3 id="cleaning-up-segments">Cleaning Up Segments</h3>
 
 <p>Each run, the Druid coordinator compares the list of available database segments in the database with the current segments in the cluster. Segments that are not in the database but are still being served in the cluster are flagged and appended to a removal list. Segments that are overshadowed (their versions are too old and their data has been replaced by newer segments) are also dropped.
 Note that if all segments in database are deleted(or marked unused), then coordinator will not drop anything from the historicals. This is done to prevent a race condition in which the coordinator would drop all segments if it started running cleanup before it finished polling the database for available segments for the first time and believed that there were no segments.</p>
 
-<h2 id="segment-availability">Segment Availability</h2>
+<h3 id="segment-availability">Segment Availability</h3>
 
 <p>If a historical node restarts or becomes unavailable for any reason, the Druid coordinator will notice a node has gone missing and treat all segments served by that node as being dropped. Given a sufficient period of time, the segments may be reassigned to other historical nodes in the cluster. However, each segment that is dropped is not immediately forgotten. Instead, there is a transitional data structure that stores all dropped segments with an associated lifetime. The lifetime represents a period of time in which the coordinator will not reassign a dropped segment. Hence, if a historical node becomes unavailable and available again within a short period of time, the historical node will start up and serve segments from its cache without any those segments being reassigned across the cluster.</p>
 
-<h2 id="balancing-segment-load">Balancing Segment Load</h2>
+<h3 id="balancing-segment-load">Balancing Segment Load</h3>
 
 <p>To ensure an even distribution of segments across historical nodes in the cluster, the coordinator node will find the total size of all segments being served by every historical node each time the coordinator runs. For every historical node tier in the cluster, the coordinator node will determine the historical node with the highest utilization and the historical node with the lowest utilization. The percent difference in utilization between the two nodes is computed, and if the result exceeds a certain threshold, a number of segments will be moved from the highest utilized node to the lowest utilized node. There is a configurable limit on the number of segments that can be moved from one node to another each time the coordinator runs. Segments to be moved are selected at random and only moved if the resulting utilization calculation indicates the percentage difference between the highest and lowest servers has decreased.</p>
 
-<h2 id="http-endpoints">HTTP Endpoints</h2>
-
-<h2 id="the-coordinator-console">The Coordinator Console</h2>
+<h3 id="the-coordinator-console">The Coordinator Console</h3>
 
 <p>The Druid coordinator exposes a web GUI for displaying cluster information and rule configuration. After the coordinator starts, the console can be accessed at:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;COORDINATOR_IP&gt;:&lt;COORDINATOR_PORT&gt;
@@ -155,7 +161,7 @@ Note that if all segments in database are deleted(or marked unused), then coordi
 
 <p>The coordinator console also exposes an interface to creating and editing rules. All valid datasources configured in the segment database, along with a default datasource, are available for configuration. Rules of different types can be added, deleted or edited.</p>
 
-<h2 id="faq">FAQ</h2>
+<h3 id="faq">FAQ</h3>
 
 <ol>
 <li><p><strong>Do clients ever contact the coordinator node?</strong></p>

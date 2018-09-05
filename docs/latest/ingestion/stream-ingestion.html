@@ -117,11 +117,9 @@
           <h1 id="loading-streams">Loading streams</h1>
 
 <p>Streams can be ingested in Druid using either <a href="https://github.com/druid-io/tranquility">Tranquility</a> (a Druid-aware 
-client) and the <a href="../design/indexing-service.html">indexing service</a> or through standalone <a href="../design/realtime.html">Realtime nodes</a>. 
-The first approach will be more complex to set up, but also offers scalability and high availability characteristics that advanced production 
-setups may require. The second approach has some known <a href="../ingestion/stream-pull.html#limitations">limitations</a>.</p>
+client) or the <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a>.</p>
 
-<h2 id="stream-push">Stream push</h2>
+<h2 id="tranquility-stream-push">Tranquility (Stream Push)</h2>
 
 <p>If you have a program that generates a stream, then you can push that stream directly into Druid in 
 real-time. With this approach, Tranquility is embedded in your data-producing application. 
@@ -134,21 +132,20 @@ seamlessly and without downtime. You only have to define your Druid schema.</p>
 
 <p>For examples and more information, please see the <a href="https://github.com/druid-io/tranquility">Tranquility README</a>.</p>
 
-<h2 id="stream-pull">Stream pull</h2>
+<p>A tutorial is also available at <a href="../tutorials/tutorial-tranquility.html">Tutorial: Loading stream data using HTTP push</a>.</p>
 
-<p>If you have an external service that you want to pull data from, you have two options. The simplest 
-option is to set up a &quot;copying&quot; service that reads from the data source and writes to Druid using 
-the <a href="#stream-push">stream push method</a>.</p>
+<h2 id="kafka-indexing-service-stream-pull">Kafka Indexing Service (Stream Pull)</h2>
 
-<p>Another option is <em>stream pull</em>. With this approach, a Druid Realtime Node ingests data from a
-<a href="../ingestion/firehose.html">Firehose</a> connected to the data you want to
-read. Druid includes builtin firehoses for Kafka, RabbitMQ, and various other streaming systems.</p>
+<p>Druid can pulll data from Kafka streams using the <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a>.</p>
 
-<h2 id="more-information">More information</h2>
+<p>The Kafka indexing service enables the configuration of <em>supervisors</em> on the Overlord, which facilitate ingestion from
+Kafka by managing the creation and lifetime of Kafka indexing tasks. These indexing tasks read events using Kafka&#39;s own
+partition and offset mechanism and are therefore able to provide guarantees of exactly-once ingestion. They are also
+able to read non-recent events from Kafka and are not subject to the window period considerations imposed on other
+ingestion mechanisms. The supervisor oversees the state of the indexing tasks to coordinate handoffs, manage failures,
+and ensure that the scalability and replication requirements are maintained.</p>
 
-<p>For more information on loading streaming data via a push based approach, please see <a href="../ingestion/stream-push.html">here</a>.</p>
-
-<p>For more information on loading streaming data via a pull based approach, please see <a href="../ingestion/stream-pull.html">here</a>.</p>
+<p>A tutorial is available at <a href="../tutorials/tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a>.</p>
 
         </div>
         <div class="col-md-3">

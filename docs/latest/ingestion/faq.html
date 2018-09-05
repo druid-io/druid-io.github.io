@@ -128,7 +128,7 @@ We recommend using batch ingestion methods for historical data in production. </
 
 <h2 id="what-types-of-data-does-druid-support">What types of data does Druid support?</h2>
 
-<p>Druid can ingest JSON, CSV, TSV and other delimited data out of the box. Druid supports single dimension values, or multiple dimension values (an array of strings). Druid supports long and float numeric columns.</p>
+<p>Druid can ingest JSON, CSV, TSV and other delimited data out of the box. Druid supports single dimension values, or multiple dimension values (an array of strings). Druid supports long, float, and double numeric columns.</p>
 
 <h2 id="not-all-of-my-events-were-ingested">Not all of my events were ingested</h2>
 
@@ -172,15 +172,19 @@ We recommend using batch ingestion methods for historical data in production. </
 
 <p>You can use IngestSegmentFirehose with index task to ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
 See <a href="../ingestion/firehose.html">Firehose</a> for more details on IngestSegmentFirehose.
-Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; input spec to do reindexing. See <a href="../ingestion/batch-ingestion.html">batch-ingestion</a> for more details.</p>
+Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; input spec to do reindexing.</p>
+
+<p>See <a href="../ingestion/update-existing-data.html">Update Existing Data</a> for more details.</p>
 
 <h2 id="how-can-i-change-the-granularity-of-existing-data-in-druid">How can I change the granularity of existing data in Druid?</h2>
 
 <p>In a lot of situations you may want to lower the granularity of older data. Example, any data older than 1 month has only hour level granularity but newer data has minute level granularity. This use case is same as re-indexing.</p>
 
-<p>To do this use the IngestSegmentFirehose and run an indexer task. The IngestSegment firehose will allow you to take in existing segments from Druid and aggregate them and feed them back into druid. It will also allow you to filter the data in those segments while feeding it back in. This means if there are rows you want to delete, you can just filter them away during re-ingestion.
+<p>To do this use the IngestSegmentFirehose and run an indexer task. The IngestSegment firehose will allow you to take in existing segments from Druid and aggregate them and feed them back into Druid. It will also allow you to filter the data in those segments while feeding it back in. This means if there are rows you want to delete, you can just filter them away during re-ingestion.
 Typically the above will be run as a batch job to say everyday feed in a chunk of data and aggregate it.
-Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; input spec to do reindexing. See <a href="../ingestion/batch-ingestion.html">batch-ingestion</a> for more details.</p>
+Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; input spec to do reindexing.</p>
+
+<p>See <a href="../ingestion/update-existing-data.html">Update Existing Data</a> for more details.</p>
 
 <h2 id="real-time-ingestion-seems-to-be-stuck">Real-time ingestion seems to be stuck</h2>
 

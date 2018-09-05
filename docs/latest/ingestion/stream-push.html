@@ -121,8 +121,8 @@
 streams to Druid in real-time. Druid does not come bundled with Tranquility, and you will have to download the distribution.</p>
 
 <div class="note info">
-If you've never loaded streaming data into Druid, we recommend trying out the
-<a href="../tutorials/tutorial-streams.html">stream loading tutorial</a> first and then coming back to this page.
+If you've never loaded streaming data into Druid with Tranquility before, we recommend trying out the
+<a href="../tutorials/tutorial-tranquility.html">stream loading tutorial</a> first and then coming back to this page.
 </div>
 
 <p>Note that with all streaming ingestion options, you must ensure that incoming data is recent
@@ -148,10 +148,25 @@ them up again.</li>
 </ul>
 
 <p>For tips on customizing <code>server.json</code>, see the
-<em><a href="../tutorials/tutorial-streams.html">Loading your own streams</a></em> tutorial and the
+<em><a href="../tutorials/tutorial-ingestion-spec.html">Writing an ingestion spec</a></em> tutorial and the
 <a href="https://github.com/druid-io/tranquility/blob/master/docs/server.md">Tranquility Server documentation</a>.</p>
 
-<h3 id="kafka">Kafka</h3>
+<h3 id="jvm-apps-and-stream-processors">JVM apps and stream processors</h3>
+
+<p>Tranquility can also be embedded in JVM-based applications as a library. You can do this directly
+in your own program using the
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/core.md">Core API</a>, or you can use
+the connectors bundled in Tranquility for popular JVM-based stream processors such as
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/storm.md">Storm</a>,
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/samza.md">Samza</a>,
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/spark.md">Spark Streaming</a>, and
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/flink.md">Flink</a>.</p>
+
+<h3 id="kafka-deprecated">Kafka (Deprecated)</h3>
+
+<div class="note info">
+NOTE: Tranquility Kafka is deprecated. Please use the <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a> to load data from Kafka instead. 
+</div>
 
 <p><a href="https://github.com/druid-io/tranquility/blob/master/docs/kafka.md">Tranquility Kafka</a>
 lets you load data from Kafka into Druid without writing any code. You only need a configuration
@@ -169,17 +184,6 @@ file.</p>
 
 <p>For tips on customizing <code>kafka.json</code>, see the
 <a href="https://github.com/druid-io/tranquility/blob/master/docs/kafka.md">Tranquility Kafka documentation</a>.</p>
-
-<h3 id="jvm-apps-and-stream-processors">JVM apps and stream processors</h3>
-
-<p>Tranquility can also be embedded in JVM-based applications as a library. You can do this directly
-in your own program using the
-<a href="https://github.com/druid-io/tranquility/blob/master/docs/core.md">Core API</a>, or you can use
-the connectors bundled in Tranquility for popular JVM-based stream processors such as
-<a href="https://github.com/druid-io/tranquility/blob/master/docs/storm.md">Storm</a>,
-<a href="https://github.com/druid-io/tranquility/blob/master/docs/samza.md">Samza</a>,
-<a href="https://github.com/druid-io/tranquility/blob/master/docs/spark.md">Spark Streaming</a>, and
-<a href="https://github.com/druid-io/tranquility/blob/master/docs/flink.md">Flink</a>.</p>
 
 <h2 id="concepts">Concepts</h2>
 
@@ -244,8 +248,15 @@ at-least-once design and can lead to duplicated events.</li>
 </ul>
 
 <p>Under normal operation, these risks are minimal. But if you need absolute 100% fidelity for
-historical data, we recommend a <a href="../tutorials/ingestion.html#hybrid-batch-streaming">hybrid batch/streaming</a>
-architecture.</p>
+historical data, we recommend a hybrid/batch streaming architecture, described below.</p>
+
+<h3 id="hybrid-batch-streaming">Hybrid Batch/Streaming</h3>
+
+<p>You can combine batch and streaming methods in a hybrid batch/streaming architecture. In a hybrid architecture, you use a streaming method to do initial ingestion, and then periodically re-ingest older data in batch mode (typically every few hours, or nightly). When Druid re-ingests data for a time range, the new data automatically replaces the data from the earlier ingestion.</p>
+
+<p>All streaming ingestion methods currently supported by Druid do introduce the possibility of dropped or duplicated messages in certain failure scenarios, and batch re-ingestion eliminates this potential source of error for historical data.</p>
+
+<p>Batch re-ingestion also gives you the option to re-ingest your data if you needed to revise it for any reason.</p>
 
 <h2 id="documentation">Documentation</h2>
 

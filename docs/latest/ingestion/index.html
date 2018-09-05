@@ -114,588 +114,315 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="ingestion-spec">Ingestion Spec</h1>
+          <h1 id="ingestion">Ingestion</h1>
 
-<p>A Druid ingestion spec consists of 3 components:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">},</span>
-  <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">},</span>
-  <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="err">...</span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>dataSchema</td>
-<td>JSON Object</td>
-<td>Specifies the the schema of the incoming data. All ingestion specs can share the same dataSchema.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>ioConfig</td>
-<td>JSON Object</td>
-<td>Specifies where the data is coming from and where the data is going. This object will vary with the ingestion method.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>tuningConfig</td>
-<td>JSON Object</td>
-<td>Specifies how to tune various ingestion parameters. This object will vary with the ingestion method.</td>
-<td>no</td>
-</tr>
-</tbody></table>
+<h2 id="overview">Overview</h2>
 
-<h1 id="dataschema">DataSchema</h1>
+<h3 id="datasources-and-segments">Datasources and segments</h3>
 
-<p>An example dataSchema is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
-      <span class="p">},</span>
-      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
-          <span class="s2">&quot;page&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;language&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;newPage&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;robot&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;continent&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;country&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;region&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;city&quot;</span><span class="p">,</span>
-          <span class="p">{</span>
-            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;countryNum&quot;</span>
-          <span class="p">},</span>
-          <span class="p">{</span>
-            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;userLatitude&quot;</span>
-          <span class="p">},</span>
-          <span class="p">{</span>
-            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;userLongitude&quot;</span>
-          <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
-        <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span>
-  <span class="p">},</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;added&quot;</span>
-  <span class="p">},</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;deleted&quot;</span>
-  <span class="p">},</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;delta&quot;</span>
-  <span class="p">}],</span>
-  <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-08-31/2013-09-01&quot;</span> <span class="p">]</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;transformSpec&quot;</span> <span class="p">:</span> <span class="kc">null</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>dataSource</td>
-<td>String</td>
-<td>The name of the ingested datasource. Datasources can be thought of as tables.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>parser</td>
-<td>JSON Object</td>
-<td>Specifies how ingested data can be parsed.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>metricsSpec</td>
-<td>JSON Object array</td>
-<td>A list of <a href="../querying/aggregations.html">aggregators</a>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>granularitySpec</td>
-<td>JSON Object</td>
-<td>Specifies how to create segments and roll up data.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>transformSpec</td>
-<td>JSON Object</td>
-<td>Specifes how to filter and transform input data. See <a href="../ingestion/transform-spec.html">transform specs</a>.</td>
-<td>no</td>
-</tr>
-</tbody></table>
+<p>Druid data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
+partitioned by time and, optionally, further partitioned by other attributes. Each time range is called a &quot;chunk&quot; (for
+example, a single day, if your datasource is partitioned by day). Within a chunk, data is partitioned into one or more
+&quot;segments&quot;. Each segment is a single file, typically comprising up to a few million rows of data. Since segments are
+organized into time chunks, it&#39;s sometimes helpful to think of segments as living on a timeline like the following:</p>
 
-<h2 id="parser">Parser</h2>
+<p><img src="../../img/druid-timeline.png" width="800" /></p>
 
-<p>If <code>type</code> is not included, the parser defaults to <code>string</code>. For additional data formats, please see our <a href="../development/extensions.html">extensions list</a>.</p>
-
-<h3 id="string-parser">String Parser</h3>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>type</td>
-<td>String</td>
-<td>This should say <code>string</code> in general, or <code>hadoopyString</code> when used in a Hadoop indexing job.</td>
-<td>no</td>
-</tr>
-<tr>
-<td>parseSpec</td>
-<td>JSON Object</td>
-<td>Specifies the format, timestamp, and dimensions of the data.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<h3 id="parsespec">ParseSpec</h3>
-
-<p>ParseSpecs serve two purposes:</p>
+<p>A datasource may have anywhere from just a few segments, up to hundreds of thousands and even millions of segments. Each
+segment starts life off being created on a MiddleManager, and at that point, is mutable and uncommitted. The segment
+building process includes the following steps, designed to produce a data file that is compact and supports fast
+queries:</p>
 
 <ul>
-<li>The String Parser use them to determine the format (i.e. JSON, CSV, TSV) of incoming rows.</li>
-<li>All Parsers use them to determine the timestamp and dimensions of incoming rows.</li>
-</ul>
-
-<p>If <code>format</code> is not included, the parseSpec defaults to <code>tsv</code>.</p>
-
-<h4 id="json-parsespec">JSON ParseSpec</h4>
-
-<p>Use this with the String Parser to load JSON.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>This should say <code>json</code>.</td>
-<td>no</td>
-</tr>
-<tr>
-<td>timestampSpec</td>
-<td>JSON Object</td>
-<td>Specifies the column and format of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionsSpec</td>
-<td>JSON Object</td>
-<td>Specifies the dimensions of the data.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>flattenSpec</td>
-<td>JSON Object</td>
-<td>Specifies flattening configuration for nested JSON data. See <a href="./flatten-json.html">Flattening JSON</a> for more info.</td>
-<td>no</td>
-</tr>
-</tbody></table>
-
-<h4 id="json-lowercase-parsespec">JSON Lowercase ParseSpec</h4>
-
-<div class="note caution">
-The _jsonLowercase_ parser is deprecated and may be removed in a future version of Druid.
-</div>
-
-<p>This is a special variation of the JSON ParseSpec that lower cases all the column names in the incoming JSON data. This parseSpec is required if you are updating to Druid 0.7.x from Druid 0.6.x, are directly ingesting JSON with mixed case column names, do not have any ETL in place to lower case those column names, and would like to make queries that include the data you created using 0.6.x and 0.7.x.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>This should say <code>jsonLowercase</code>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>timestampSpec</td>
-<td>JSON Object</td>
-<td>Specifies the column and format of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionsSpec</td>
-<td>JSON Object</td>
-<td>Specifies the dimensions of the data.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<h4 id="csv-parsespec">CSV ParseSpec</h4>
-
-<p>Use this with the String Parser to load CSV. Strings are parsed using the net.sf.opencsv library.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>This should say <code>csv</code>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>timestampSpec</td>
-<td>JSON Object</td>
-<td>Specifies the column and format of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionsSpec</td>
-<td>JSON Object</td>
-<td>Specifies the dimensions of the data.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>listDelimiter</td>
-<td>String</td>
-<td>A custom delimiter for multi-value dimensions.</td>
-<td>no (default == ctrl+A)</td>
-</tr>
-<tr>
-<td>columns</td>
-<td>JSON array</td>
-<td>Specifies the columns of the data.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<h4 id="tsv-delimited-parsespec">TSV / Delimited ParseSpec</h4>
-
-<p>Use this with the String Parser to load any delimited text that does not require special escaping. By default,
-the delimiter is a tab, so this will load TSV.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>This should say <code>tsv</code>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>timestampSpec</td>
-<td>JSON Object</td>
-<td>Specifies the column and format of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionsSpec</td>
-<td>JSON Object</td>
-<td>Specifies the dimensions of the data.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>delimiter</td>
-<td>String</td>
-<td>A custom delimiter for data values.</td>
-<td>no (default == \t)</td>
-</tr>
-<tr>
-<td>listDelimiter</td>
-<td>String</td>
-<td>A custom delimiter for multi-value dimensions.</td>
-<td>no (default == ctrl+A)</td>
-</tr>
-<tr>
-<td>columns</td>
-<td>JSON String array</td>
-<td>Specifies the columns of the data.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<h4 id="timeanddims-parsespec">TimeAndDims ParseSpec</h4>
-
-<p>Use this with non-String Parsers to provide them with timestamp and dimensions information. Non-String Parsers
-handle all formatting decisions on their own, without using the ParseSpec.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>This should say <code>timeAndDims</code>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>timestampSpec</td>
-<td>JSON Object</td>
-<td>Specifies the column and format of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionsSpec</td>
-<td>JSON Object</td>
-<td>Specifies the dimensions of the data.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<h3 id="timestampspec">TimestampSpec</h3>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>column</td>
-<td>String</td>
-<td>The column of the timestamp.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>format</td>
-<td>String</td>
-<td>iso, millis, posix, auto or any <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html">Joda time</a> format.</td>
-<td>no (default == &#39;auto&#39;</td>
-</tr>
-</tbody></table>
-
-<h3 id="dimensionsspec">DimensionsSpec</h3>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>dimensions</td>
-<td>JSON array</td>
-<td>A list of <a href="#dimension-schema">dimension schema</a> objects or dimension names. Providing a name is equivalent to providing a String-typed dimension schema with the given name. If this is an empty array, Druid will treat all columns that are not timestamp or metric columns as String-typed dimension columns.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>dimensionExclusions</td>
-<td>JSON String array</td>
-<td>The names of dimensions to exclude from ingestion.</td>
-<td>no (default == []</td>
-</tr>
-<tr>
-<td>spatialDimensions</td>
-<td>JSON Object array</td>
-<td>An array of <a href="../development/geo.html">spatial dimensions</a></td>
-<td>no (default == []</td>
-</tr>
-</tbody></table>
-
-<h4 id="dimension-schema">Dimension Schema</h4>
-
-<p>A dimension schema specifies the type and name of a dimension to be ingested.</p>
-
-<p>For example, the following <code>dimensionsSpec</code> section from a <code>dataSchema</code> ingests one column as Long (<code>countryNum</code>), two columns as Float (<code>userLatitude</code>, <code>userLongitude</code>), and the other columns as Strings:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dimensionsSpec&quot;</span> <span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="s2">&quot;page&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;language&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;unpatrolled&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;newPage&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;robot&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;continent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;country&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;region&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;city&quot;</span><span class="p">,</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;countryNum&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;userLatitude&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;userLongitude&quot;</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="nt">&quot;dimensionExclusions&quot;</span> <span class="p">:</span> <span class="p">[],</span>
-  <span class="nt">&quot;spatialDimensions&quot;</span> <span class="p">:</span> <span class="p">[]</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="metricsspec">metricsSpec</h2>
-
-<p>The <code>metricsSpec</code> is a list of <a href="../querying/aggregations.html">aggregators</a>. If <code>rollup</code> is false in the granularity spec, the metrics spec should be an empty list and all columns should be defined in the <code>dimensionsSpec</code> instead (without rollup, there isn&#39;t a real distinction between dimensions and metrics at ingestion time). This is optional, however.</p>
-
-<h2 id="granularityspec">GranularitySpec</h2>
-
-<p>The default granularity spec is <code>uniform</code>, and can be changed by setting the <code>type</code> field.
-Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.</p>
-
-<h3 id="uniform-granularity-spec">Uniform Granularity Spec</h3>
-
-<p>This spec is used to generated segments with uniform intervals.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>segmentGranularity</td>
-<td>string</td>
-<td>The granularity to create segments at.</td>
-<td>no (default == &#39;DAY&#39;)</td>
-</tr>
-<tr>
-<td>queryGranularity</td>
-<td>string</td>
-<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
-<td>no (default == &#39;NONE&#39;)</td>
-</tr>
-<tr>
-<td>rollup</td>
-<td>boolean</td>
-<td>rollup or not</td>
-<td>no (default == true)</td>
-</tr>
-<tr>
-<td>intervals</td>
-<td>string</td>
-<td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
-<td>yes for batch, no for real-time</td>
-</tr>
-</tbody></table>
-
-<h3 id="arbitrary-granularity-spec">Arbitrary Granularity Spec</h3>
-
-<p>This spec is used to generate segments with arbitrary intervals (it tries to create evenly sized segments). This spec is not supported for real-time processing.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>queryGranularity</td>
-<td>string</td>
-<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows.</td>
-<td>no (default == &#39;NONE&#39;)</td>
-</tr>
-<tr>
-<td>rollup</td>
-<td>boolean</td>
-<td>rollup or not</td>
-<td>no (default == true)</td>
-</tr>
-<tr>
-<td>intervals</td>
-<td>string</td>
-<td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
-<td>yes for batch, no for real-time</td>
-</tr>
-</tbody></table>
-
-<h1 id="transform-spec">Transform Spec</h1>
-
-<p>Transform specs allow Druid to transform and filter input data during ingestion. See <a href="../ingestion/transform-spec.html">Transform specs</a></p>
-
-<h1 id="io-config">IO Config</h1>
-
-<p>Stream Push Ingestion: Stream push ingestion with Tranquility does not require an IO Config.
-Stream Pull Ingestion: See <a href="../ingestion/stream-pull.html">Stream pull ingestion</a>.
-Batch Ingestion: See <a href="../ingestion/batch-ingestion.html">Batch ingestion</a></p>
-
-<h1 id="tuning-config">Tuning Config</h1>
-
-<p>Stream Push Ingestion: See <a href="../ingestion/stream-push.html">Stream push ingestion</a>.
-Stream Pull Ingestion: See <a href="../ingestion/stream-pull.html">Stream pull ingestion</a>.
-Batch Ingestion: See <a href="../ingestion/batch-ingestion.html">Batch ingestion</a></p>
-
-<h1 id="evaluating-timestamp-dimensions-and-metrics">Evaluating Timestamp, Dimensions and Metrics</h1>
-
-<p>Druid will interpret dimensions, dimension exclusions, and metrics in the following order:</p>
+<li>Conversion to columnar format</li>
+<li>Indexing with bitmap indexes</li>
+<li>Compression using various algorithms
 
 <ul>
-<li>Any column listed in the list of dimensions is treated as a dimension.</li>
-<li>Any column listed in the list of dimension exclusions is excluded as a dimension.</li>
-<li>The timestamp column and columns/fieldNames required by metrics are excluded by default.</li>
-<li>If a metric is also listed as a dimension, the metric must have a different name than the dimension name.</li>
+<li>Dictionary encoding with id storage minimization for String columns</li>
+<li>Bitmap compression for bitmap indexes</li>
+<li>Type-aware compression for all columns</li>
+</ul></li>
 </ul>
+
+<p>Periodically, segments are published (committed). At this point, they are written to deep storage, become immutable, and
+move from MiddleManagers to the Historical processes. An entry about the segment is also written to the metadata store.
+This entry is a self-describing bit of metadata about the segment, including things like the schema of the segment, its
+size, and its location on deep storage. These entries are what the Coordinator uses to know what data <em>should</em> be
+available on the cluster.</p>
+
+<p>For details on the segment file format, please see <a href="../design/segments.html">segment files</a>.</p>
+
+<h4 id="segment-identifiers">Segment identifiers</h4>
+
+<p>Segments all have a four-part identifier with the following components:</p>
+
+<ul>
+<li>Datasource name.</li>
+<li>Time interval (for the time chunk containing the segment; this corresponds to the <code>segmentGranularity</code> specified
+at ingestion time).</li>
+<li>Version number (generally an ISO8601 timestamp corresponding to when the segment set was first started).</li>
+<li>Partition number (an integer, unique within a datasource+interval+version; may not necessarily be contiguous).</li>
+</ul>
+
+<p>For example, this is the identifier for a segment in datasource <code>clarity-cloud0</code>, time chunk
+<code>2018-05-21T16:00:00.000Z/2018-05-21T17:00:00.000Z</code>, version <code>2018-05-21T15:56:09.909Z</code>, and partition number 1:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>clarity-cloud0_2018-05-21T16:00:00.000Z_2018-05-21T17:00:00.000Z_2018-05-21T15:56:09.909Z_1
+</code></pre></div>
+<p>Segments with partition number 0 (the first partition in a chunk) omit the partition number, like the following
+example, which is a segment in the same time chunk as the previous one, but with partition number 0 instead of 1:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>clarity-cloud0_2018-05-21T16:00:00.000Z_2018-05-21T17:00:00.000Z_2018-05-21T15:56:09.909Z
+</code></pre></div>
+<h4 id="segment-versioning">Segment versioning</h4>
+
+<p>You may be wondering what the &quot;version number&quot; described in the previous section is for. Or, you might not be, in which
+case good for you and you can skip this section!</p>
+
+<p>It&#39;s there to support batch-mode overwriting. In Druid, if all you ever do is append data, then there will be just a
+single version for each time chunk. But when you overwrite data, what happens behind the scenes is that a new set of
+segments is created with the same datasource, same time interval, but a higher version number. This is a signal to the
+rest of the Druid system that the older version should be removed from the cluster, and the new version should replace
+it.</p>
+
+<p>The switch appears to happen instantaneously to a user, because Druid handles this by first loading the new data (but
+not allowing it to be queried), and then, as soon as the new data is all loaded, switching all new queries to use those
+new segments. Then it drops the old segments a few minutes later.</p>
+
+<h4 id="segment-states">Segment states</h4>
+
+<p>Segments can be either <em>available</em> or <em>unavailable</em>, which refers to whether or not they are currently served by some
+Druid server process. They can also be <em>published</em> or <em>unpublished</em>, which refers to whether or not they have been
+written to deep storage and the metadata store. And published segments can be either <em>used</em> or <em>unused</em>, which refers to
+whether or not Druid considers them active segments that should be served.</p>
+
+<p>Putting these together, there are five basic states that a segment can be in:</p>
+
+<ul>
+<li><strong>Published, available, and used:</strong> These segments are published in deep storage and the metadata store, and they are
+served by Historical processes. They are the majority of active data in a Druid cluster (they include everything except
+in-flight realtime data).</li>
+<li><strong>Published, available, and unused:</strong> These segments are being served by Historicals, but won&#39;t be for very long. They 
+may be segments that have recently been overwritten (see <a href="#segment-versioning">Segment versioning</a>) or dropped for
+other reasons (like drop rules, or being dropped manually).</li>
+<li><strong>Published, unavailable, and used:</strong> These segments are published in deep storage and the metadata store, and
+<em>should</em> be served, but are not actually being served. If segments stay in this state for more than a few minutes, it&#39;s
+usually because something is wrong. Some of the more common causes include: failure of a large number of Historicals,
+Historicals being out of capacity to download more segments, and some issue with coordination that prevents the
+Coordinator from telling Historicals to load new segments.</li>
+<li><strong>Published, unavailable, and unused:</strong> These segments are published in deep storage and the metadata store, but
+are inactive (because they have been overwritten or dropped). They lie dormant, and can potentially be resurrected
+by manual action if needed (in particular: setting the &quot;used&quot; flag to true).</li>
+<li><strong>Unpublished and available:</strong> This is the state that segments are in while they are being built by Druid ingestion
+tasks. This includes all &quot;realtime&quot; data that has not been handed off to Historicals yet. Segments in this state may or
+may not be replicated. If all replicas are lost, then the segment must be rebuilt from scratch. This may or may not be
+possible. (It is possible with Kafka, and happens automatically; it is possible with S3/HDFS by restarting the job; and
+it is <em>not</em> possible with Tranquility, so in that case, data will be lost.)</li>
+</ul>
+
+<p>The sixth state in this matrix, &quot;unpublished and unavailable,&quot; isn&#39;t possible. If a segment isn&#39;t published and isn&#39;t
+being served then does it really exist?</p>
+
+<h4 id="indexing-and-handoff">Indexing and handoff</h4>
+
+<p><em>Indexing</em> is the mechanism by which new segments are created, and <em>handoff</em> is the mechanism by which they are published
+and begin being served by Historical processes. The mechanism works like this on the indexing side:</p>
+
+<ol>
+<li>An <em>indexing task</em> starts running and building a new segment. It must determine the identifier of the segment before
+it starts building it. For a task that is appending (like a Kafka task, or an index task in append mode) this will be
+done by calling an &quot;allocate&quot; API on the Overlord to potentially add a new partition to an existing set of segments. For
+a task that is overwriting (like a Hadoop task, or an index task <em>not</em> in append mode) this is done by locking an
+interval and creating a new version number and new set of segments.</li>
+<li>If the indexing task is a realtime task (like a Kafka task) then the segment is immediately queryable at this point.
+It&#39;s available, but unpublished.</li>
+<li>When the indexing task has finished reading data for the segment, it pushes it to deep storage and then publishes it
+by writing a record into the metadata store.</li>
+<li>If the indexing task is a realtime task, at this point it waits for a Historical process to load the segment. If the
+indexing task is not a realtime task, it exits immediately.</li>
+</ol>
+
+<p>And like this on the Coordinator / Historical side:</p>
+
+<ol>
+<li>The Coordinator polls the metadata store periodically (by default, every 1 minute) for newly published segments.</li>
+<li>When the Coordinator finds a segment that is published and used, but unavailable, it chooses a Historical process
+to load that segment and instructs that Historical to do so.</li>
+<li>The Historical loads the segment and begins serving it.</li>
+<li>At this point, if the indexing task was waiting for handoff, it will exit.</li>
+</ol>
+
+<h2 id="ingestion-methods">Ingestion methods</h2>
+
+<p>In most ingestion methods, this work is done by Druid
+MiddleManager nodes. One exception is Hadoop-based ingestion, where this work is instead done using a Hadoop MapReduce
+job on YARN (although MiddleManager nodes are still involved in starting and monitoring the Hadoop jobs).</p>
+
+<p>Once segments have been generated and stored in <a href="../dependencies/deep-storage.html">deep storage</a>, they will be loaded by Druid Historical nodes. Some Druid
+ingestion methods additionally support <em>real-time queries</em>, meaning you can query in-flight data on MiddleManager nodes
+before it is finished being converted and written to deep storage. In general, a small amount of data will be in-flight
+on MiddleManager nodes relative to the larger amount of historical data being served from Historical nodes.</p>
+
+<p>See the <a href="../design/index.html">Design</a> page for more details on how Druid stores and manages your data.</p>
+
+<p>The table below lists Druid&#39;s most common data ingestion methods, along with comparisons to help you choose
+the best one for your situation.</p>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Can append and overwrite?</th>
+<th>Can handle late data?</th>
+<th>Exactly-once ingestion?</th>
+<th>Real-time queries?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a href="native-batch.html">Native batch</a></td>
+<td>Druid loads data directly from S3, HTTP, NFS, or other networked storage.</td>
+<td>Append or overwrite</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="hadoop.html">Hadoop</a></td>
+<td>Druid launches Hadoop Map/Reduce jobs to load data files.</td>
+<td>Append or overwrite</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service</a></td>
+<td>Druid reads directly from Kafka.</td>
+<td>Append only</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="stream-push.html">Tranquility</a></td>
+<td>You use Tranquility, a client side library, to push individual records into Druid.</td>
+<td>Append only</td>
+<td>No - late data is dropped</td>
+<td>No - may drop or duplicate data</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="partitioning">Partitioning</h2>
+
+<p>Druid is a distributed data store, and it partitions your data in order to process it in parallel. Druid
+<a href="../design/index.html">datasources</a> are always partitioned first by time based on the
+<a href="../ingestion/index.html#granularityspec">segmentGranularity</a> parameter of your ingestion spec. Each of these time partitions is called
+a <em>time chunk</em>, and each time chunk contains one or more <a href="../design/segments.html">segments</a>. The segments within a
+particular time chunk may be partitioned further using options that vary based on the ingestion method you have chosen.</p>
+
+<ul>
+<li>With <a href="hadoop.html">Hadoop</a> you can do hash- or range-based partitioning on one or more columns.</li>
+<li>With <a href="native-batch.html">Native batch</a> you can partition on a hash of all dimension columns. This is useful when
+rollup is enabled, since it maximizes your space savings.</li>
+<li>With <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing</a>, partitioning is based on Kafka
+partitions, and is not configurable through Druid. You can configure it on the Kafka side by using the partitioning
+functionality of the Kafka producer.</li>
+<li>With <a href="stream-push.html">Tranquility</a>, partitioning is done by default on a hash of all dimension columns in order
+to maximize rollup. You can also provide a custom Partitioner class; see the
+<a href="https://github.com/druid-io/tranquility/blob/master/docs/overview.md#partitioning-and-replication">Tranquility documentation</a>
+for details.</li>
+</ul>
+
+<p>All Druid datasources are partitioned by time. Each data ingestion method must acquire a write lock on a particular
+time range when loading data, so no two methods can operate on the same time range of the same datasource at the same
+time. However, two data ingestion methods <em>can</em> operate on different time ranges of the same datasource at the same
+time. For example, you can do a batch backfill from Hadoop while also doing a real-time load from Kafka, so long as
+the backfill data and the real-time data do not need to be written to the same time partitions. (If they do, the
+real-time load will take priority.)</p>
+
+<h2 id="rollup">Rollup</h2>
+
+<p>Druid is able to summarize raw data at ingestion time using a process we refer to as &quot;roll-up&quot;.
+Roll-up is a first-level aggregation operation over a selected set of &quot;dimensions&quot;, where a set of &quot;metrics&quot; are aggregated.</p>
+
+<p>Suppose we have the following raw data, representing total packet/byte counts in particular seconds for traffic between a source and destination. The <code>srcIP</code> and <code>dstIP</code> fields are dimensions, while <code>packets</code> and <code>bytes</code> are metrics.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp                 srcIP         dstIP          packets     bytes
+2018-01-01T01:01:35Z      1.1.1.1       2.2.2.2            100      1000
+2018-01-01T01:01:51Z      1.1.1.1       2.2.2.2            200      2000
+2018-01-01T01:01:59Z      1.1.1.1       2.2.2.2            300      3000
+2018-01-01T01:02:14Z      1.1.1.1       2.2.2.2            400      4000
+2018-01-01T01:02:29Z      1.1.1.1       2.2.2.2            500      5000
+2018-01-01T01:03:29Z      1.1.1.1       2.2.2.2            600      6000
+2018-01-02T21:33:14Z      7.7.7.7       8.8.8.8            100      1000
+2018-01-02T21:33:45Z      7.7.7.7       8.8.8.8            200      2000
+2018-01-02T21:35:45Z      7.7.7.7       8.8.8.8            300      3000
+</code></pre></div>
+<p>If we ingest this data into Druid with a <code>queryGranularity</code> of <code>minute</code> (which will floor timestamps to minutes), the roll-up operation is equivalent to the following pseudocode:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GROUP BY TRUNCATE(timestamp, MINUTE), srcIP, dstIP :: SUM(packets), SUM(bytes)
+</code></pre></div>
+<p>After the data above is aggregated during roll-up, the following rows will be ingested:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>timestamp                 srcIP         dstIP          packets     bytes
+2018-01-01T01:01:00Z      1.1.1.1       2.2.2.2            600      6000
+2018-01-01T01:02:00Z      1.1.1.1       2.2.2.2            900      9000
+2018-01-01T01:03:00Z      1.1.1.1       2.2.2.2            600      6000
+2018-01-02T21:33:00Z      7.7.7.7       8.8.8.8            300      3000
+2018-01-02T21:35:00Z      7.7.7.7       8.8.8.8            300      3000
+</code></pre></div>
+<p>Druid can roll up data as it is ingested to minimize the amount of raw data that needs to be stored.
+In practice, we see that rolling up data can dramatically reduce the size of data that needs to be stored (up to a factor of 100).
+This storage reduction does come at a cost: as we roll up data, we lose the ability to query individual events. </p>
+
+<p>The rollup granularity is the minimum granularity you will be able to explore data at and events are floored to this granularity. 
+Hence, Druid ingestion specs define this granularity as the <code>queryGranularity</code> of the data. The lowest supported <code>queryGranularity</code> is millisecond.</p>
+
+<p>The following links may be helpful in further understanding dimensions and metrics:
+* https://en.wikipedia.org/wiki/Dimension_(data_warehouse)
+* https://en.wikipedia.org/wiki/Measure_(data_warehouse))</p>
+
+<h3 id="roll-up-modes">Roll-up modes</h3>
+
+<p>Druid supports two roll-up modes, i.e., <em>perfect roll-up</em> and <em>best-effort roll-up</em>. In the perfect roll-up mode, Druid guarantees that input data are perfectly aggregated at ingestion time. Meanwhile, in the best-effort roll-up, input data might not be perfectly aggregated and thus there can be multiple segments holding the rows which should belong to the same segment with the perfect roll-up since they have the same dimension value and their timestamps fall into the same interval.</p>
+
+<p>The perfect roll-up mode encompasses an additional preprocessing step to determine intervals and shardSpecs before actual data ingestion if they are not specified in the ingestionSpec. This preprocessing step usually scans the entire input data which might increase the ingestion time. The <a href="../ingestion/hadoop.html">Hadoop indexing task</a> always runs with this perfect roll-up mode.</p>
+
+<p>On the contrary, the best-effort roll-up mode doesn&#39;t require any preprocessing step, but the size of ingested data might be larger than that of the perfect roll-up. All types of <a href="../ingestion/stream-ingestion.html">streaming indexing (e.g., kafka indexing service)</a> run with this mode.</p>
+
+<p>Finally, the <a href="../ingestion/native-batch.html">native index task</a> supports both modes and you can choose either one which fits to your application.</p>
+
+<h2 id="data-maintenance">Data maintenance</h2>
+
+<h3 id="inserts-and-overwrites">Inserts and overwrites</h3>
+
+<p>Druid can insert new data to an existing datasource by appending new segments to existing segment sets. It can also add new data by merging an existing set of segments with new data and overwriting the original set. </p>
+
+<p>Druid does not support single-record updates by primary key.</p>
+
+<p>Updates are described further at <a href="../ingestion/update-existing-data.html">update existing data</a>.</p>
+
+<h3 id="compaction">Compaction</h3>
+
+<p>Compaction is a type of overwrite operation, which reads an existing set of segments, combines them into a new set with larger but fewer segments, and overwrites the original set with the new compacted set, without changing the data that is stored.</p>
+
+<p>For performance reasons, it is sometimes beneficial to compact a set of segments into a set of larger but fewer segments, as there is some per-segment processing and memory overhead in both the ingestion and querying paths.</p>
+
+<p>For compaction documentation, please see <a href="../ingestion/compaction.html">tasks</a>.</p>
+
+<h3 id="retention-and-tiering">Retention and Tiering</h3>
+
+<p>Druid supports retention rules, which are used to define intervals of time where data should be preserved, and intervals where data should be discarded.</p>
+
+<p>Druid also supports separating historical nodes into tiers, and the retention rules can be configured to assign data for specific intervals to specific tiers.</p>
+
+<p>These features are useful for performance/cost management; a common use case is separating historical nodes into a &quot;hot&quot; tier and a &quot;cold&quot; tier.</p>
+
+<p>For more information, please see <a href="../operations/rule-configuration.html">Load rules</a>.</p>
+
+<h3 id="deletes">Deletes</h3>
+
+<p>Druid supports permanent deletion of segments that are in an &quot;unused&quot; state (see the <a href="#segment-states">Segment states</a> section above).</p>
+
+<p>The Kill Task deletes unused segments within a specified interval from metadata storage and deep storage.</p>
+
+<p>For more information, please see <a href="../ingestion/tasks.html#kill-task">Kill Task</a>.</p>
 
         </div>
         <div class="col-md-3">

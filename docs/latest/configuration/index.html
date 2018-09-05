@@ -660,7 +660,7 @@ values for the below mentioned configs among others provided by Java implementat
 </tr>
 <tr>
 <td><code>druid.client.https.trustStorePassword</code></td>
-<td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.</td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.</td>
 <td>none</td>
 <td>yes</td>
 </tr>
@@ -2746,7 +2746,7 @@ are available for the ingestion server at peon:</p>
 </tr>
 </tbody></table>
 
-<h5 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h5>
+<h4 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h4>
 
 <p>When new segments are created, Druid temporarily stores some pre-processed data in some buffers. Currently two types of
 <em>medium</em> exist for those buffers: <em>temporary files</em> and <em>off-heap memory</em>.</p>
@@ -2906,7 +2906,7 @@ then the value from the configuration below is used:</p>
 </tr>
 <tr>
 <td><code>druid.server.http.maxQueryTimeout</code></td>
-<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
+<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="../querying/query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
 <td>Long.MAX_VALUE</td>
 </tr>
 <tr>
@@ -3305,7 +3305,7 @@ line.</p>
 </tr>
 <tr>
 <td><code>druid.server.http.maxQueryTimeout</code></td>
-<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
+<td>Maximum allowed value (in milliseconds) for <code>timeout</code> parameter. See <a href="../querying/query-context.html">query-context</a> to know more about <code>timeout</code>. Query is rejected if the query context <code>timeout</code> is greater than this value.</td>
 <td>Long.MAX_VALUE</td>
 </tr>
 <tr>

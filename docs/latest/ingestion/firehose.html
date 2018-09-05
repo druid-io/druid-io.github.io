@@ -116,7 +116,9 @@
           </p>
           <h1 id="druid-firehoses">Druid Firehoses</h1>
 
-<p>Firehoses are used in the <a href="../ingestion/stream-pull.html">stream-pull</a> ingestion model. They are pluggable and thus the configuration schema can and will vary based on the <code>type</code> of the firehose.</p>
+<p>Firehoses are used in <a href="../ingestion/native-batch.html">native batch ingestion tasks</a>, stream push tasks automatically created by <a href="../ingestion/stream-push.html">Tranquility</a>, and the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model.</p>
+
+<p>They are pluggable and thus the configuration schema can and will vary based on the <code>type</code> of the firehose.</p>
 
 <table><thead>
 <tr>
@@ -140,7 +142,7 @@
 
 <p>For additional firehoses, please see our <a href="../development/extensions.html">extensions list</a>.</p>
 
-<h4 id="localfirehose">LocalFirehose</h4>
+<h3 id="localfirehose">LocalFirehose</h3>
 
 <p>This Firehose can be used to read the data from files on local disk.
 It can be used for POCs to ingest data on disk.
@@ -175,7 +177,7 @@ A sample local firehose spec is shown below:</p>
 </tr>
 </tbody></table>
 
-<h4 id="httpfirehose">HttpFirehose</h4>
+<h3 id="httpfirehose">HttpFirehose</h3>
 
 <p>This Firehose can be used to read the data from remote sites via HTTP.
 A sample http firehose spec is shown below:</p>
@@ -220,7 +222,7 @@ A sample http firehose spec is shown below:</p>
 </tr>
 </tbody></table>
 
-<h4 id="ingestsegmentfirehose">IngestSegmentFirehose</h4>
+<h3 id="ingestsegmentfirehose">IngestSegmentFirehose</h3>
 
 <p>This Firehose can be used to read the data from existing druid segments.
 It can be used ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
@@ -270,7 +272,82 @@ A sample ingest firehose spec is shown below -</p>
 </tr>
 </tbody></table>
 
-<h4 id="combiningfirehose">CombiningFirehose</h4>
+<h4 id="sqlfirehose">SqlFirehose</h4>
+
+<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.
+An example is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;sql&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;database&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mysql&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;connectorConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
+        <span class="p">}</span>
+     <span class="p">},</span>
+    <span class="nt">&quot;sqls&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SELECT * FROM table1&quot;</span><span class="p">,</span> <span class="s2">&quot;SELECT * FROM table2&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>This should be &quot;sql&quot;.</td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>database</td>
+<td>Specifies the database connection details.<code>type</code> should specify the database type and <code>connectorConfig</code> should specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maxCacheCapacityBytes</td>
+<td>Maximum size of the cache space in bytes. 0 means disabling cache. Cached files are not removed until the ingestion task completes.</td>
+<td>1073741824</td>
+<td>No</td>
+</tr>
+<tr>
+<td>maxFetchCapacityBytes</td>
+<td>Maximum size of the fetch space in bytes. 0 means disabling prefetch. Prefetched files are removed immediately once they are read.</td>
+<td>1073741824</td>
+<td>No</td>
+</tr>
+<tr>
+<td>prefetchTriggerBytes</td>
+<td>Threshold to trigger prefetching SQL result objects.</td>
+<td>maxFetchCapacityBytes / 2</td>
+<td>No</td>
+</tr>
+<tr>
+<td>fetchTimeout</td>
+<td>Timeout for fetching the result set.</td>
+<td>60000</td>
+<td>No</td>
+</tr>
+<tr>
+<td>foldCase</td>
+<td>Toggle case folding of database column names. This may be enabled in cases where the database returns case insensitive column names in query results.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td>sqls</td>
+<td>List of SQL queries where each SQL query would retrieve the data to be indexed.</td>
+<td></td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="combiningfirehose">CombiningFirehose</h3>
 
 <p>This firehose can be used to combine and merge data from a list of different firehoses.
 This can be used to merge data from more than one firehose.</p>
@@ -297,6 +374,12 @@ This can be used to merge data from more than one firehose.</p>
 <td>yes</td>
 </tr>
 </tbody></table>
+
+<h3 id="streaming-firehoses">Streaming Firehoses</h3>
+
+<p>The firehoses shown below should only be used with the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model, as they are not suitable for batch ingestion.</p>
+
+<p>The EventReceiverFirehose is also used in tasks automatically generated by <a href="../ingestion/stream-push.html">Tranquility stream push</a>.</p>
 
 <h4 id="eventreceiverfirehose">EventReceiverFirehose</h4>
 

@@ -221,7 +221,7 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 <tr>
 <td><code>dataSchema</code></td>
-<td>The schema that will be used by the Kafka indexing task during ingestion, see <a href="../../ingestion/index.html">Ingestion Spec</a>.</td>
+<td>The schema that will be used by the Kafka indexing task during ingestion, see <a href="../../ingestion/ingestion-spec.html#dataschema">Ingestion Spec DataSchema</a>.</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -341,7 +341,7 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <tr>
 <td><code>segmentWriteOutMediumFactory</code></td>
 <td>String</td>
-<td>Segment write-out medium to use when creating segments. See <a href="../configuration/indexing-service.html">Indexing Service Configuration</a> page, &quot;SegmentWriteOutMediumFactory&quot; section for explanation and available options.</td>
+<td>Segment write-out medium to use when creating segments. See <a href="../../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
 <td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used)</td>
 </tr>
 </tbody></table>

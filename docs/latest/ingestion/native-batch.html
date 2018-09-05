@@ -253,7 +253,7 @@
 
 <p>This field is required.</p>
 
-<p>See <a href="../ingestion/index.html">Ingestion</a></p>
+<p>See <a href="../ingestion/ingestion-spec.html#dataschema">Ingestion Spec DataSchema</a></p>
 
 <h2 id="ioconfig">IOConfig</h2>
 
@@ -347,7 +347,7 @@
 </tr>
 <tr>
 <td>forceGuaranteedRollup</td>
-<td>Forces guaranteeing the <a href="../design/index.html">perfect rollup</a>. The perfect rollup optimizes the total size of generated segments and querying time while indexing time will be increased. This flag cannot be used with either <code>appendToExisting</code> of IOConfig or <code>forceExtendableShardSpecs</code>. For more details, see the below <strong>Segment publishing modes</strong> section.</td>
+<td>Forces guaranteeing the <a href="../ingestion/index.html#roll-up-modes">perfect rollup</a>. The perfect rollup optimizes the total size of generated segments and querying time while indexing time will be increased. This flag cannot be used with either <code>appendToExisting</code> of IOConfig or <code>forceExtendableShardSpecs</code>. For more details, see the below <strong>Segment publishing modes</strong> section.</td>
 <td>false</td>
 <td>no</td>
 </tr>
@@ -365,7 +365,7 @@
 </tr>
 <tr>
 <td>segmentWriteOutMediumFactory</td>
-<td>Segment write-out medium to use when creating segments. See <a href="../configuration/indexing-service.html">Indexing Service Configuration</a> page, &quot;SegmentWriteOutMediumFactory&quot; section for explanation and available options.</td>
+<td>Segment write-out medium to use when creating segments. See <a href="../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
 <td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used</td>
 <td>no</td>
 </tr>
@@ -456,7 +456,7 @@ compression formats. The indexSpec is optional and default parameters will be us
 
 <h2 id="segment-publishing-modes">Segment publishing modes</h2>
 
-<p>While ingesting data using the Index task, it creates segments from the input data and publishes them. For segment publishing, the Index task supports two segment publishing modes, i.e., <em>bulk publishing mode</em> and <em>incremental publishing mode</em> for <a href="../design/index.html">perfect rollup and best-effort rollup</a>, respectively.</p>
+<p>While ingesting data using the Index task, it creates segments from the input data and publishes them. For segment publishing, the Index task supports two segment publishing modes, i.e., <em>bulk publishing mode</em> and <em>incremental publishing mode</em> for <a href="../ingestion/index.html#roll-up-modes">perfect rollup and best-effort rollup</a>, respectively.</p>
 
 <p>In the bulk publishing mode, every segment is published at the very end of the index task. Until then, created segments are stored in the memory and local storage of the node running the index task. As a result, this mode might cause a problem due to limited storage capacity, and is not recommended to use in production.</p>
 

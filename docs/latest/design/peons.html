@@ -116,22 +116,24 @@
           </p>
           <h2 id="peons">Peons</h2>
 
-<p>For Peon Configuration, see <a href="../configuration/indexing-service.html">Peon Configuration</a>.</p>
+<h3 id="configuration">Configuration</h3>
+
+<p>For Peon Configuration, see <a href="../configuration/index.html#peon-query-configuration">Peon Query Configuration</a> and <a href="../configuration/index.html#additional-peon-configuration">Additional Peon Configuration</a>.</p>
+
+<h3 id="http-endpoints">HTTP Endpoints</h3>
+
+<p>For a list of API endpoints supported by the Peon, please see the <a href="../operations/api-reference.html#peon">Peon API reference</a>.</p>
 
 <p>Peons run a single task in a single JVM. MiddleManager is responsible for creating Peons for running tasks.
 Peons should rarely (if ever for testing purposes) be run on their own.</p>
 
-<h2 id="running">Running</h2>
+<h3 id="running">Running</h3>
 
 <p>The peon should very rarely ever be run independent of the middle manager unless for development purposes.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main internal peon &lt;task_file&gt; &lt;status_file&gt;
 </code></pre></div>
 <p>The task file contains the task JSON object.
 The status file indicates where the task status will be output.</p>
-
-<h2 id="http-endpoints">HTTP Endpoints</h2>
-
-<p>For a list of API endpoints supported by the Peon, please see the <a href="../operations/api-reference.html#peon">API reference</a>.</p>
 
         </div>
         <div class="col-md-3">

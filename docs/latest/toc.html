@@ -13,7 +13,7 @@
 <li><a href="/docs/latest/design/index.html#datasources-and-segments">Datasources &amp; Segments</a></li>
 <li><a href="/docs/latest/design/index.html#query-processing">Query processing</a></li>
 <li><a href="/docs/latest/design/index.html#external-dependencies">External dependencies</a></li>
-<li><a href="/docs/latest/ingestion/overview.html">Ingestion overview</a></li>
+<li><a href="/docs/latest/ingestion/index.html">Ingestion overview</a></li>
 </ul></li>
 <li><a href="/docs/latest/tutorials/index.html">Quickstart</a>
 
@@ -24,7 +24,7 @@
 <li><a href="/docs/latest/tutorials/tutorial-tranquility.html">Tutorial: Loading stream data using HTTP push</a></li>
 <li><a href="/docs/latest/tutorials/tutorial-query.html">Tutorial: Querying data</a></li>
 </ul></li>
-<li><a href="/docs/latest/tutorials/advanced.html">Further tutorials</a>
+<li>Further tutorials
 
 <ul>
 <li><a href="/docs/latest/tutorials/tutorial-rollup.html">Tutorial: Rollup</a></li>
@@ -41,9 +41,15 @@
 <h2 id="data-ingestion">Data Ingestion</h2>
 
 <ul>
-<li><a href="/docs/latest/ingestion/overview.html">Ingestion overview</a></li>
+<li><a href="/docs/latest/ingestion/index.html">Ingestion overview</a></li>
 <li><a href="/docs/latest/ingestion/data-formats.html">Data Formats</a></li>
-<li><a href="/docs/latest/ingestion/index.html">Data Schema</a></li>
+<li><a href="/docs/latest/ingestion/tasks.html">Tasks Overview</a></li>
+<li><a href="/docs/latest/ingestion/ingestion-spec.html">Ingestion Spec</a>
+
+<ul>
+<li><a href="/docs/latest/ingestion/transform-spec.html">Transform Specs</a></li>
+<li><a href="/docs/latest/ingestion/firehose.html">Firehoses</a></li>
+</ul></li>
 <li><a href="/docs/latest/ingestion/schema-design.html">Schema Design</a></li>
 <li><a href="/docs/latest/ingestion/schema-changes.html">Schema Changes</a></li>
 <li><a href="/docs/latest/ingestion/batch-ingestion.html">Batch File Ingestion</a>
@@ -55,13 +61,15 @@
 <li><a href="/docs/latest/ingestion/stream-ingestion.html">Stream Ingestion</a>
 
 <ul>
+<li><a href="/docs/latest/development/extensions-core/kafka-ingestion.html">Kafka Indexing Service (Stream Pull)</a></li>
 <li><a href="/docs/latest/ingestion/stream-push.html">Stream Push</a></li>
-<li><a href="/docs/latest/ingestion/stream-pull.html">Stream Pull</a></li>
 </ul></li>
+<li><a href="/docs/latest/ingestion/compaction.html">Compaction</a></li>
 <li><a href="/docs/latest/ingestion/update-existing-data.html">Updating Existing Data</a></li>
-<li><a href="/docs/latest/ingestion/tasks.html">Ingestion Tasks</a></li>
-<li><a href="/docs/latest/ingestion/transform-spec.html">Transform Specs</a></li>
+<li><a href="/docs/latest/ingestion/delete-data.html">Deleting Data</a></li>
+<li><a href="/docs/latest/ingestion/locking-and-priority.html">Task Locking &amp; Priority</a></li>
 <li><a href="/docs/latest/ingestion/faq.html">FAQ</a></li>
+<li><a href="/docs/latest/ingestion/misc-tasks.html">Misc. Tasks</a></li>
 </ul>
 
 <h2 id="querying">Querying</h2>
@@ -101,7 +109,7 @@
 <h2 id="design">Design</h2>
 
 <ul>
-<li><a href="/docs/latest/design/design.html">Overview</a></li>
+<li><a href="/docs/latest/design/index.html">Overview</a></li>
 <li>Storage
 
 <ul>
@@ -113,8 +121,14 @@
 <li><a href="/docs/latest/design/historical.html">Historical</a></li>
 <li><a href="/docs/latest/design/broker.html">Broker</a></li>
 <li><a href="/docs/latest/design/coordinator.html">Coordinator</a></li>
-<li><a href="/docs/latest/design/indexing-service.html">Indexing Service</a></li>
-<li><a href="/docs/latest/design/realtime.html">Realtime</a></li>
+<li><a href="/docs/latest/design/indexing-service.html">Indexing Service</a>
+
+<ul>
+<li><a href="/docs/latest/design/overlord.html">Overlord</a></li>
+<li><a href="/docs/latest/design/middlemanager.html">MiddleManager</a></li>
+<li><a href="/docs/latest/design/peon.html">Peons</a></li>
+</ul></li>
+<li><a href="/docs/latest/design/realtime.html">Realtime (Deprecated)</a></li>
 </ul></li>
 <li>Dependencies
 

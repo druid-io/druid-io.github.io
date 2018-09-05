@@ -141,7 +141,7 @@ segments and avoid the overhead of rebuilding new segments with reindexing, you 
 <h3 id="reindexing-and-delta-ingestion-with-hadoop-batch-ingestion">Reindexing and Delta Ingestion with Hadoop Batch Ingestion</h3>
 
 <p>This section assumes the reader understands how to do batch ingestion using Hadoop. See 
-<a href="batch-ingestion.html">batch-ingestion</a> for more information. Hadoop batch-ingestion can be used for reindexing and delta ingestion.</p>
+<a href="./hadoop.html">Hadoop batch ingestion</a> for more information. Hadoop batch-ingestion can be used for reindexing and delta ingestion.</p>
 
 <p>Druid uses an <code>inputSpec</code> in the <code>ioConfig</code> to know where the data to be ingested is located and how to read it. 
 For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</code> spec types allow you to read data stored in deep storage.</p>
@@ -312,9 +312,9 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 POST <code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code>
 Request Body: [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
 
-<h3 id="reindexing-without-hadoop-batch-ingestion">Reindexing without Hadoop Batch Ingestion</h3>
+<h3 id="reindexing-with-native-batch-ingestion">Reindexing with Native Batch Ingestion</h3>
 
-<p>This section assumes the reader understands how to do batch ingestion without Hadoop using the <a href="../ingestion/tasks.html#index-task">IndexTask</a>,<br>
+<p>This section assumes the reader understands how to do batch ingestion without Hadoop using <a href="../ingestion/native-batch.html">Native Batch Indexing</a>,
 which uses a &quot;firehose&quot; to know where and how to read the input data. <a href="firehose.html#ingestsegmentfirehose">IngestSegmentFirehose</a> 
 can be used to read data from segments inside Druid. Note that IndexTask is to be used for prototyping purposes only as 
 it has to do all processing inside a single process and can&#39;t scale. Please use Hadoop batch ingestion for production 

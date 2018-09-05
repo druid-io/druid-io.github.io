@@ -116,18 +116,22 @@
           </p>
           <h2 id="middle-manager-node">Middle Manager Node</h2>
 
-<p>For Middlemanager Node Configuration, see <a href="../configuration/indexing-service.html">Indexing Service Configuration</a>.</p>
+<h3 id="configuration">Configuration</h3>
+
+<p>For Middlemanager Node Configuration, see <a href="../configuration/index.html#middlemanager-and-peons">Indexing Service Configuration</a>.</p>
+
+<h3 id="http-endpoints">HTTP Endpoints</h3>
+
+<p>For a list of API endpoints supported by the MiddleManager, please see the <a href="../operations/api-reference.html#middlemanager">API reference</a>.</p>
+
+<h3 id="overview">Overview</h3>
 
 <p>The middle manager node is a worker node that executes submitted tasks. Middle Managers forward tasks to peons that run in separate JVMs.
 The reason we have separate JVMs for tasks is for resource and log isolation. Each <a href="../design/peons.html">Peon</a> is capable of running only one task at a time, however, a middle manager may have multiple peons.</p>
 
-<h2 id="running">Running</h2>
+<h3 id="running">Running</h3>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server middleManager
 </code></pre></div>
-<h2 id="http-endpoints">HTTP Endpoints</h2>
-
-<p>For a list of API endpoints supported by the MiddleManager, please see the <a href="../operations/api-reference.html#middlemanager">API reference</a>.</p>
-
         </div>
         <div class="col-md-3">
           <div class="searchbox">

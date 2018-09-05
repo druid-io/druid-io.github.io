@@ -116,14 +116,18 @@
           </p>
           <h1 id="historical-node">Historical Node</h1>
 
-<p>For Historical Node Configuration, see <a href="../configuration/historical.html">Historial Configuration</a>.</p>
+<h3 id="configuration">Configuration</h3>
 
-<p>Historical nodes load up historical segments and expose them for querying.</p>
+<p>For Historical Node Configuration, see <a href="../configuration/index.html#historical">Historical Configuration</a>.</p>
 
-<h2 id="running">Running</h2>
+<h3 id="http-endpoints">HTTP Endpoints</h3>
+
+<p>For a list of API endpoints supported by the Historical, please see the <a href="../operations/api-reference.html#historical">API reference</a>.</p>
+
+<h3 id="running">Running</h3>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server historical
 </code></pre></div>
-<h2 id="loading-and-serving-segments">Loading and Serving Segments</h2>
+<h3 id="loading-and-serving-segments">Loading and Serving Segments</h3>
 
 <p>Each historical node maintains a constant connection to Zookeeper and watches a configurable set of Zookeeper paths for new segment information. Historical nodes do not communicate directly with each other or with the coordinator nodes but instead rely on Zookeeper for coordination.</p>
 
@@ -131,21 +135,17 @@
 
 <p>When a historical node notices a new load queue entry in its load queue path, it will first check a local disk directory (cache) for the information about segment. If no information about the segment exists in the cache, the historical node will download metadata about the new segment to serve from Zookeeper. This metadata includes specifications about where the segment is located in deep storage and about how to decompress and process the segment. For more information about segment metadata and Druid segments in general, please see <a href="../design/segments.html">Segments</a>. Once a historical node completes processing a segment, the segment is announced in Zookeeper under a served segments path associated with the node. At this point, the segment is available for querying.</p>
 
-<h2 id="loading-and-serving-segments-from-cache">Loading and Serving Segments From Cache</h2>
+<h3 id="loading-and-serving-segments-from-cache">Loading and Serving Segments From Cache</h3>
 
 <p>Recall that when a historical node notices a new segment entry in its load queue path, the historical node first checks a configurable cache directory on its local disk to see if the segment had been previously downloaded. If a local cache entry already exists, the historical node will directly read the segment binary files from disk and load the segment.</p>
 
 <p>The segment cache is also leveraged when a historical node is first started. On startup, a historical node will search through its cache directory and immediately load and serve all segments that are found. This feature allows historical nodes to be queried as soon they come online.</p>
 
-<h2 id="querying-segments">Querying Segments</h2>
+<h3 id="querying-segments">Querying Segments</h3>
 
 <p>Please see <a href="../querying/querying.html">Querying</a> for more information on querying historical nodes.</p>
 
 <p>A historical can be configured to log and report metrics for every query it services.</p>
-
-<h2 id="http-endpoints">HTTP Endpoints</h2>
-
-<p>For a list of API endpoints supported by the Historical, please see the <a href="../operations/api-reference.html#historical">API reference</a>.</p>
 
         </div>
         <div class="col-md-3">

@@ -128,8 +128,9 @@
 
 <h2 id="spec-file">Spec file</h2>
 
-<p>The spec file needs to contain a JSON object where the contents are the same as the &quot;spec&quot; field in the Hadoop index task. 
-In addition, the following fields need to be added to the ioConfig:</p>
+<p>The spec file needs to contain a JSON object where the contents are the same as the &quot;spec&quot; field in the Hadoop index task. See <a href="../ingestion/hadoop.html">Hadoop Batch Ingestion</a> for details on the spec format. </p>
+
+<p>In addition, a <code>metadataUpdateSpec</code> and <code>segmentOutputPath</code> field needs to be added to the ioConfig:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>      &quot;ioConfig&quot; : {
         ...
         &quot;metadataUpdateSpec&quot; : {
@@ -142,7 +143,7 @@ In addition, the following fields need to be added to the ioConfig:</p>
         &quot;segmentOutputPath&quot; : &quot;/MyDirectory/data/index/output&quot;
       },
 </code></pre></div>
-<p>and the following field need to be added to the tuningConfig:</p>
+<p>and a <code>workingPath</code> field needs to be added to the tuningConfig:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  &quot;tuningConfig&quot; : {
    ...
     &quot;workingPath&quot;: &quot;/tmp&quot;,

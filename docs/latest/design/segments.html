@@ -120,7 +120,7 @@
 time. In a basic setup, one segment file is created for each time
 interval, where the time interval is configurable in the
 <code>segmentGranularity</code> parameter of the <code>granularitySpec</code>, which is
-documented <a href="../ingestion/batch-ingestion.html">here</a>.  For druid to
+documented <a href="../ingestion/ingestion-spec.html#granularityspec">here</a>.  For druid to
 operate well under heavy query load, it is important for the segment
 file size to be within the recommended range of 300mb-700mb. If your
 segment files are larger than this range, then consider either
@@ -128,7 +128,7 @@ changing the granularity of the time interval or partitioning your
 data and tweaking the <code>targetPartitionSize</code> in your <code>partitioningSpec</code>
 (a good starting point for this parameter is 5 million rows).  See the
 sharding section below and the &#39;Partitioning specification&#39; section of
-the <a href="../ingestion/batch-ingestion.html">Batch ingestion</a> documentation
+the <a href="../ingestion/hadoop.html#partitioning-specification">Batch ingestion</a> documentation
 for more information.</p>
 
 <h3 id="a-segment-files-core-data-structures">A segment file&#39;s core data structures</h3>

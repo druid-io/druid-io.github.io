@@ -156,7 +156,7 @@ mkdir -p /tmp/shared/hadoop-xml
 <h3 id="start-the-hadoop-container">Start the Hadoop container</h3>
 
 <p>Once the <code>/tmp/shared</code> folder has been created and the <code>etc/hosts</code> entry has been added, run the following command to start the Hadoop container.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>docker run -it  -h druid-hadoop-demo -p <span class="m">50010</span>:50010 -p <span class="m">50020</span>:50020 -p <span class="m">50075</span>:50075 -p <span class="m">50090</span>:50090 -p <span class="m">8020</span>:8020 -p <span class="m">10020</span>:10020 -p <span class="m">19888</span>:19888 -p <span class="m">8030</span>:8030 -p <span class="m">8031</span>:8031 -p <span class="m">8032</span>:8032 -p <span class="m">8033</span>:8033 -p <span class="m">8040</span>:8040 -p <span class="m">8042</span>:8042 -p <span class="m">8088</span>:8088 -p <span class="m">8443</span>:8443 -p <span class="m">2049</span>:2049 -p <span class="m">9000</span>:9000 -p <span class="m">49707</span>:49707 -p <span class="m">2122</span>:2122  -p <span class="m">34455</span>:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>docker run -it  -h druid-hadoop-demo --name druid-hadoop-demo -p <span class="m">50010</span>:50010 -p <span class="m">50020</span>:50020 -p <span class="m">50075</span>:50075 -p <span class="m">50090</span>:50090 -p <span class="m">8020</span>:8020 -p <span class="m">10020</span>:10020 -p <span class="m">19888</span>:19888 -p <span class="m">8030</span>:8030 -p <span class="m">8031</span>:8031 -p <span class="m">8032</span>:8032 -p <span class="m">8033</span>:8033 -p <span class="m">8040</span>:8040 -p <span class="m">8042</span>:8042 -p <span class="m">8088</span>:8088 -p <span class="m">8443</span>:8443 -p <span class="m">2049</span>:2049 -p <span class="m">9000</span>:9000 -p <span class="m">49707</span>:49707 -p <span class="m">2122</span>:2122  -p <span class="m">34455</span>:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
 </code></pre></div>
 <p>Once the container is started, your terminal will attach to a bash shell running inside the container:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
@@ -175,6 +175,11 @@ bash-4.1#
 </code></pre></div>
 <p>The <code>Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code> warning messages can be safely ignored.</p>
 
+<h4 id="accessing-the-hadoop-container-shell">Accessing the Hadoop container shell</h4>
+
+<p>To open another shell to the Hadoop container, run the following command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>docker exec -it druid-hadoop-demo bash
+</code></pre></div>
 <h3 id="copy-input-data-to-the-hadoop-container">Copy input data to the Hadoop container</h3>
 
 <p>From the druid-0.12.2 package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
