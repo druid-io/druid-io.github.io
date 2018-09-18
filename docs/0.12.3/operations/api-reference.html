@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <h1 id="api-reference">API Reference</h1>
+
+<p>This page documents all of the API endpoints for each Druid service type.</p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+<li><a href="#common">Common</a></li>
+<li><a href="#coordinator">Coordinator</a></li>
+<li><a href="#overlord">Overlord</a></li>
+<li><a href="#middlemanager">MiddleManager</a></li>
+<li><a href="#peon">Peon</a></li>
+<li><a href="#broker">Broker</a></li>
+<li><a href="#historical">Historical</a></li>
+</ul>
+
+<h2 id="common">Common</h2>
+
+<p>The following endpoints are supported by all nodes.</p>
+
+<h3 id="get">GET</h3>
+
+<ul>
+<li><code>/status</code></li>
+</ul>
+
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
+
+<ul>
+<li><code>/status/health</code></li>
+</ul>
+
+<p>An endpoint that always returns a boolean &quot;true&quot; value with a 200 OK response, useful for automated health checks.</p>
+
+<h2 id="coordinator">Coordinator</h2>
+
+<h3 id="leadership">Leadership</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/leader</code></li>
+</ul>
+
+<p>Returns the current leader coordinator of the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/isLeader</code></li>
+</ul>
+
+<p>Returns a JSON object with field &quot;leader&quot;, either true or false, indicating if this server is the current leader
+coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
+This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
+at the load balancer.</p>
+
+<h3 id="segment-loading">Segment Loading</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadstatus</code></li>
+</ul>
+
+<p>Returns the percentage of segments actually loaded in the cluster versus segments that should be loaded in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadstatus?simple</code></li>
+</ul>
+
+<p>Returns the number of segments left to load until segments that should be loaded in the cluster are available for queries. This does not include replication.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadstatus?full</code></li>
+</ul>
+
+<p>Returns the number of segments left to load in each tier until segments that should be loaded in the cluster are all available. This includes replication.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadqueue</code></li>
+</ul>
+
+<p>Returns the ids of segments to load and drop for each historical node.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadqueue?simple</code></li>
+</ul>
+
+<p>Returns the number of segments to load and drop, as well as the total segment load and drop size in bytes for each historical node.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/loadqueue?full</code></li>
+</ul>
+
+<p>Returns the serialized JSON of segments to load and drop for each historical node.</p>
+
+<h3 id="metadata-store-information">Metadata store information</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources</code></li>
+</ul>
+
+<p>Returns a list of the names of enabled datasources in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources?includeDisabled</code></li>
+</ul>
+
+<p>Returns a list of the names of enabled and disabled datasources in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources?full</code></li>
+</ul>
+
+<p>Returns a list of all enabled datasources with all metadata about those datasources as stored in the metadata store.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Returns full metadata for a datasource as stored in the metadata store.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments</code></li>
+</ul>
+
+<p>Returns a list of all segments for a datasource as stored in the metadata store.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code></li>
+</ul>
+
+<p>Returns a list of all segments for a datasource with the full segment metadata as stored in the metadata store.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}</code></li>
+</ul>
+
+<p>Returns full segment metadata for a specific segment as stored in the metadata store.</p>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments</code></li>
+</ul>
+
+<p>Returns a list of all segments, overlapping with any of given intervals,  for a datasource as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code></li>
+</ul>
+
+<p>Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
+
+<h3 id="datasources-information">Datasources information</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources</code></li>
+</ul>
+
+<p>Returns a list of datasource names found in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources?simple</code></li>
+</ul>
+
+<p>Returns a list of JSON objects containing the name and properties of datasources found in the cluster.  Properties include segment count, total segment byte size, minTime, and maxTime.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources?full</code></li>
+</ul>
+
+<p>Returns a list of datasource names found in the cluster with all metadata about those datasources.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Returns a JSON object containing the name and properties of a datasource. Properties include segment count, total segment byte size, minTime, and maxTime.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}?full</code></li>
+</ul>
+
+<p>Returns full metadata for a datasource .</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals</code></li>
+</ul>
+
+<p>Returns a set of segment intervals.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals?simple</code></li>
+</ul>
+
+<p>Returns a map of an interval to a JSON object containing the total byte size of segments and number of segments for that interval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals?full</code></li>
+</ul>
+
+<p>Returns a map of an interval to a map of segment metadata to a set of server names that contain the segment for that interval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}</code></li>
+</ul>
+
+<p>Returns a set of segment ids for an ISO8601 interval. Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?simple</code></li>
+</ul>
+
+<p>Returns a map of segment intervals contained within the specified interval to a JSON object containing the total byte size of segments and number of segments for an interval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?full</code></li>
+</ul>
+
+<p>Returns a map of segment intervals contained within the specified interval to a map of segment metadata to a set of server names that contain the segment for an interval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}/serverview</code></li>
+</ul>
+
+<p>Returns a map of segment intervals contained within the specified interval to information about the servers that contain the segment for an interval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments</code></li>
+</ul>
+
+<p>Returns a list of all segments for a datasource in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments?full</code></li>
+</ul>
+
+<p>Returns a list of all segments for a datasource in the cluster with the full segment metadata.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>
+</ul>
+
+<p>Returns full segment metadata for a specific segment in the cluster.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/tiers</code></li>
+</ul>
+
+<p>Return the tiers that a datasource exists in.</p>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Enables all segments of datasource which are not overshadowed by others.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>
+</ul>
+
+<p>Enables a segment.</p>
+
+<h4 id="delete">DELETE<a name="coordinator-delete"></a></h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Disables a datasource.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}</code></li>
+<li><code>@Deprecated. /druid/coordinator/v1/datasources/{dataSourceName}?kill=true&amp;interval={myISO8601Interval}</code></li>
+</ul>
+
+<p>Runs a <a href="../ingestion/tasks.html">Kill task</a> for a given interval and datasource.</p>
+
+<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>
+</ul>
+
+<p>Disables a segment.</p>
+
+<h3 id="retention-rules">Retention Rules</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules</code></li>
+</ul>
+
+<p>Returns all rules as JSON objects for all datasources in the cluster including the default datasource.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/{dataSourceName}</code></li>
+</ul>
+
+<p>Returns all rules for a specified datasource.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/{dataSourceName}?full</code></li>
+</ul>
+
+<p>Returns all rules for a specified datasource and includes default datasource.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/history?interval=&lt;interval&gt;</code></li>
+</ul>
+
+<p>Returns audit history of rules for all datasources. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in coordinator runtime.properties</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/history?count=&lt;n&gt;</code></li>
+</ul>
+
+<p>Returns last <n> entries of audit history of rules for all datasources.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/{dataSourceName}/history?interval=&lt;interval&gt;</code></li>
+</ul>
+
+<p>Returns audit history of rules for a specified datasource. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in coordinator runtime.properties</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/{dataSourceName}/history?count=&lt;n&gt;</code></li>
+</ul>
+
+<p>Returns last <n> entries of audit history of rules for a specified datasource.</p>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/rules/{dataSourceName}</code></li>
+</ul>
+
+<p>POST with a list of rules in JSON form to update rules.</p>
+
+<p>Optional Header Parameters for auditing the config change can also be specified.</p>
+
+<table><thead>
+<tr>
+<th>Header Param Name</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>X-Druid-Author</code></td>
+<td>author making the config change</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>X-Druid-Comment</code></td>
+<td>comment describing the change being done</td>
+<td>&quot;&quot;</td>
+</tr>
+</tbody></table>
+
+<h3 id="intervals">Intervals</h3>
+
+<h4 id="get">GET</h4>
+
+<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/intervals</code></li>
+</ul>
+
+<p>Returns all intervals for all datasources with total size and count.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/intervals/{interval}</code></li>
+</ul>
+
+<p>Returns aggregated total size and count for all intervals that intersect given isointerval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/intervals/{interval}?simple</code></li>
+</ul>
+
+<p>Returns total size and count for each interval within given isointerval.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/intervals/{interval}?full</code></li>
+</ul>
+
+<p>Returns total size and count for each datasource for each interval within given isointerval.</p>
+
+<h2 id="overlord">Overlord</h2>
+
+<h3 id="leadership">Leadership</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/indexer/v1/leader</code> </li>
+</ul>
+
+<p>Returns the current leader overlord of the cluster. If you have multiple overlords, just one is leading at any given time. The others are on standby.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/isLeader</code></li>
+</ul>
+
+<p>This returns a JSON object with field &quot;leader&quot;, either true or false. In addition, this call returns HTTP 200 if the
+server is the current leader and HTTP 404 if not. This is suitable for use as a load balancer status check if you
+only want the active leader to be considered in-service at the load balancer.</p>
+
+<h3 id="tasks">Tasks<a name="overlord-tasks"></a></h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/indexer/v1/task/{taskId}/status</code></li>
+</ul>
+
+<p>Retrieve the status of a task.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/task/{taskId}/segments</code></li>
+</ul>
+
+<p>Retrieve information about the segments of a task.</p>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/indexer/v1/task</code> </li>
+</ul>
+
+<p>Endpoint for submitting tasks and supervisor specs to the overlord. Returns the taskId of the submitted task.</p>
+
+<ul>
+<li><code>druid/indexer/v1/task/{taskId}/shutdown</code></li>
+</ul>
+
+<p>Shuts down a task.</p>
+
+<h2 id="middlemanager">MiddleManager</h2>
+
+<p>The MiddleManager does not have any API endpoints beyond the <a href="#common">common endpoints</a>.</p>
+
+<h2 id="peon">Peon</h2>
+
+<p>The Peon does not have any API endpoints beyond the <a href="#common">common endpoints</a>.</p>
+
+<h2 id="broker">Broker</h2>
+
+<h3 id="datasource-information">Datasource Information</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/v2/datasources</code></li>
+</ul>
+
+<p>Returns a list of queryable datasources.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}</code></li>
+</ul>
+
+<p>Returns the dimensions and metrics of the datasource. Optionally, you can provide request parameter &quot;full&quot; to get list of served intervals with dimensions and metrics being served for those intervals. You can also provide request param &quot;interval&quot; explicitly to refer to a particular interval.</p>
+
+<p>If no interval is specified, a default interval spanning a configurable period before the current time will be used. The duration of this interval is specified in ISO8601 format via:</p>
+
+<p>druid.query.segmentMetadata.defaultHistory</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}/dimensions</code></li>
+</ul>
+
+<p>Returns the dimensions of the datasource.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}/metrics</code></li>
+</ul>
+
+<p>Returns the metrics of the datasource.</p>
+
+<ul>
+<li><code>/druid/v2/datasources/{dataSourceName}/candidates?intervals={comma-separated-intervals-in-ISO8601-format}&amp;numCandidates={numCandidates}</code></li>
+</ul>
+
+<p>Returns segment information lists including server locations for the given datasource and intervals. If &quot;numCandidates&quot; is not specified, it will return all servers for each interval.</p>
+
+<h3 id="load-status">Load Status</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/broker/v1/loadstatus</code></li>
+</ul>
+
+<p>Returns a flag indicating if the broker knows about all segments in Zookeeper. This can be used to know when a broker node is ready to be queried after a restart.</p>
+
+<h3 id="queries">Queries</h3>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/v2/candidates/</code></li>
+</ul>
+
+<p>Returns segment information lists including server locations for the given query.</p>
+
+<h2 id="historical">Historical</h2>
+
+<h3 id="segment-loading">Segment Loading</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/historical/v1/loadstatus</code></li>
+</ul>
+
+<p>Returns JSON of the form <code>{&quot;cacheInitialized&quot;:&lt;value&gt;}</code>, where value is either <code>true</code> or <code>false</code> indicating if all
+segments in the local cache have been loaded. This can be used to know when a historical node is ready
+to be queried after a restart.</p>
+
+<ul>
+<li><code>/druid/historical/v1/readiness</code></li>
+</ul>
+
+<p>Similar to <code>/druid/historical/v1/loadstatus</code>, but instead of returning JSON with a flag, responses 200 OK if segments
+in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&#39;t.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

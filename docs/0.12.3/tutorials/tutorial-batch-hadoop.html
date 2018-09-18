@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <h1 id="tutorial-load-batch-data-using-hadoop">Tutorial: Load batch data using Hadoop</h1>
+
+<p>This tutorial shows you how to load data files into Druid using a remote Hadoop cluster.</p>
+
+<p>For this tutorial, we&#39;ll assume that you&#39;ve already completed the previous <a href="tutorial-batch.html">batch ingestion tutorial</a> using Druid&#39;s native batch ingestion system.</p>
+
+<h2 id="install-docker">Install Docker</h2>
+
+<p>This tutorial requires <a href="https://docs.docker.com/install/">Docker</a> to be installed on the tutorial machine.</p>
+
+<p>Once the Docker install is complete, please proceed to the next steps in the tutorial.</p>
+
+<h2 id="build-the-hadoop-docker-image">Build the Hadoop docker image</h2>
+
+<p>For this tutorial, we&#39;ve provided a Dockerfile for a Hadoop 2.7.3 cluster, which we&#39;ll use to run the batch indexing task.</p>
+
+<p>This Dockerfile and related files are located at <code>examples/hadoop/docker</code>.</p>
+
+<p>From the druid-0.12.3 package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.7.3&quot;:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> examples/hadoop/docker
+docker build -t druid-hadoop-demo:2.7.3 .
+</code></pre></div>
+<p>This will start building the Hadoop image. Once the image build is done, you should see the message <code>Successfully tagged druid-hadoop-demo:2.7.3</code> printed to the console.</p>
+
+<h2 id="setup-the-hadoop-docker-cluster">Setup the Hadoop docker cluster</h2>
+
+<h3 id="create-temporary-shared-directory">Create temporary shared directory</h3>
+
+<p>We&#39;ll need a shared folder between the host and the Hadoop container for transferring some files.</p>
+
+<p>Let&#39;s create some folders under <code>/tmp</code>, we will use these later when starting the Hadoop container:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mkdir -p /tmp/shared
+mkdir -p /tmp/shared/hadoop-xml
+</code></pre></div>
+<h3 id="configure-etc-hosts">Configure /etc/hosts</h3>
+
+<p>On the host machine, add the following entry to <code>/etc/hosts</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>127.0.0.1 druid-hadoop-demo
+</code></pre></div>
+<h3 id="start-the-hadoop-container">Start the Hadoop container</h3>
+
+<p>Once the <code>/tmp/shared</code> folder has been created and the <code>etc/hosts</code> entry has been added, run the following command to start the Hadoop container.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>docker run -it  -h druid-hadoop-demo --name druid-hadoop-demo -p <span class="m">50010</span>:50010 -p <span class="m">50020</span>:50020 -p <span class="m">50075</span>:50075 -p <span class="m">50090</span>:50090 -p <span class="m">8020</span>:8020 -p <span class="m">10020</span>:10020 -p <span class="m">19888</span>:19888 -p <span class="m">8030</span>:8030 -p <span class="m">8031</span>:8031 -p <span class="m">8032</span>:8032 -p <span class="m">8033</span>:8033 -p <span class="m">8040</span>:8040 -p <span class="m">8042</span>:8042 -p <span class="m">8088</span>:8088 -p <span class="m">8443</span>:8443 -p <span class="m">2049</span>:2049 -p <span class="m">9000</span>:9000 -p <span class="m">49707</span>:49707 -p <span class="m">2122</span>:2122  -p <span class="m">34455</span>:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
+</code></pre></div>
+<p>Once the container is started, your terminal will attach to a bash shell running inside the container:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="m">18</span>/07/26 <span class="m">17</span>:27:15 WARN util.NativeCodeLoader: Unable to load native-hadoop library <span class="k">for</span> your platform... using builtin-java classes where applicable
+Starting namenodes on <span class="o">[</span>druid-hadoop-demo<span class="o">]</span>
+druid-hadoop-demo: starting namenode, logging to /usr/local/hadoop/logs/hadoop-root-namenode-druid-hadoop-demo.out
+localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-root-datanode-druid-hadoop-demo.out
+Starting secondary namenodes <span class="o">[</span><span class="m">0</span>.0.0.0<span class="o">]</span>
+<span class="m">0</span>.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-root-secondarynamenode-druid-hadoop-demo.out
+<span class="m">18</span>/07/26 <span class="m">17</span>:27:31 WARN util.NativeCodeLoader: Unable to load native-hadoop library <span class="k">for</span> your platform... using builtin-java classes where applicable
+starting yarn daemons
+starting resourcemanager, logging to /usr/local/hadoop/logs/yarn--resourcemanager-druid-hadoop-demo.out
+localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-root-nodemanager-druid-hadoop-demo.out
+starting historyserver, logging to /usr/local/hadoop/logs/mapred--historyserver-druid-hadoop-demo.out
+bash-4.1#  
+</code></pre></div>
+<p>The <code>Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code> warning messages can be safely ignored.</p>
+
+<h4 id="accessing-the-hadoop-container-shell">Accessing the Hadoop container shell</h4>
+
+<p>To open another shell to the Hadoop container, run the following command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>docker exec -it druid-hadoop-demo bash
+</code></pre></div>
+<h3 id="copy-input-data-to-the-hadoop-container">Copy input data to the Hadoop container</h3>
+
+<p>From the druid-0.12.3 package root on the host, copy the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
+</code></pre></div>
+<h3 id="setup-hdfs-directories">Setup HDFS directories</h3>
+
+<p>In the Hadoop container&#39;s shell, run the following commands to setup the HDFS directories needed by this tutorial and copy the input data to HDFS.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> /usr/local/hadoop/bin
+./hadoop fs -mkdir /druid
+./hadoop fs -mkdir /druid/segments
+./hadoop fs -mkdir /quickstart
+./hadoop fs -chmod <span class="m">777</span> /druid
+./hadoop fs -chmod <span class="m">777</span> /druid/segments
+./hadoop fs -chmod <span class="m">777</span> /quickstart
+./hadoop fs -chmod -R <span class="m">777</span> /tmp
+./hadoop fs -chmod -R <span class="m">777</span> /user
+./hadoop fs -put /shared/wikiticker-2015-09-12-sampled.json.gz /quickstart/wikiticker-2015-09-12-sampled.json.gz
+</code></pre></div>
+<p>If you encounter namenode errors such as <code>mkdir: Cannot create directory /druid. Name node is in safe mode.</code> when running this command, the Hadoop container is not finished initializing. When this occurs, wait a couple of minutes and retry the commands.</p>
+
+<h2 id="configure-druid-to-use-hadoop">Configure Druid to use Hadoop</h2>
+
+<p>Some additional steps are needed to configure the Druid cluster for Hadoop batch indexing.</p>
+
+<h3 id="copy-hadoop-configuration-to-druid-classpath">Copy Hadoop configuration to Druid classpath</h3>
+
+<p>From the Hadoop container&#39;s shell, run the following command to copy the Hadoop .xml configuration files to the shared folder:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp /usr/local/hadoop/etc/hadoop/*.xml /shared/hadoop-xml
+</code></pre></div>
+<p>From the host machine, run the following, where {PATH_TO_DRUID} is replaced by the path to the Druid package.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp /tmp/shared/hadoop-xml/*.xml <span class="o">{</span>PATH_TO_DRUID<span class="o">}</span>/examples/conf/druid/_common/hadoop-xml/
+</code></pre></div>
+<h3 id="update-druid-segment-and-log-storage">Update Druid segment and log storage</h3>
+
+<p>In your favorite text editor, open <code>examples/conf/druid/_common/common.runtime.properties</code>, and make the following edits:</p>
+
+<h4 id="disable-local-deep-storage-and-enable-hdfs-deep-stroage">Disable local deep storage and enable HDFS deep stroage</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#
+# Deep storage
+#
+
+# For local disk (only viable in a cluster if this is a network mount):
+#druid.storage.type=local
+#druid.storage.storageDirectory=var/druid/segments
+
+# For HDFS:
+druid.storage.type=hdfs
+druid.storage.storageDirectory=/druid/segments
+</code></pre></div>
+<h4 id="disable-local-log-storage-and-enable-hdfs-log-storage">Disable local log storage and enable HDFS log storage</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#
+# Indexing service logs
+#
+
+# For local disk (only viable in a cluster if this is a network mount):
+#druid.indexer.logs.type=file
+#druid.indexer.logs.directory=var/druid/indexing-logs
+
+# For HDFS:
+druid.indexer.logs.type=hdfs
+druid.indexer.logs.directory=/druid/indexing-logs
+</code></pre></div>
+<h3 id="restart-druid-cluster">Restart Druid cluster</h3>
+
+<p>Once the Hadoop .xml files have been copied to the Druid cluster and the segment/log storage configuration has been updated to use HDFS, the Druid cluster needs to be restarted for the new configurations to take effect.</p>
+
+<p>If the cluster is still running, CTRL-C to terminate each Druid service, and re-run them.</p>
+
+<h2 id="load-batch-data">Load batch data</h2>
+
+<p>We&#39;ve included a sample of Wikipedia edits from September 12, 2015 to get you started.</p>
+
+<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. We&#39;ve included
+a task that loads the <code>wikiticker-2015-09-12-sampled.json.gz</code> file included in the archive. To submit
+this task, POST it to Druid in a new terminal window from the druid-0.12.3 directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-index-hadoop.json http://localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>Which will print the ID of the task if the submission was successful:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_hadoop_wikipedia-hadoop_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+</code></pre></div>
+<p>To view the status of your ingestion task, go to your overlord console:
+<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+
+<p>After your ingestion task finishes, the data will be loaded by historical nodes and be available for
+querying within a minute or two. You can monitor the progress of loading your data in the
+coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
+
+<h2 id="querying-your-data">Querying your data</h2>
+
+<p>Your data should become fully available within a minute or two after the task completes. You can monitor this process on 
+your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p>Please follow the <a href="../tutorials/tutorial-query.html">query tutorial</a> to run some example queries on the newly loaded data.</p>
+
+<h2 id="cleanup">Cleanup</h2>
+
+<p>This tutorial is only meant to be used together with the <a href="../tutorials/tutorial-query.html">query tutorial</a>. </p>
+
+<p>If you wish to go through any of the other tutorials, you will need to:
+* Shut down the cluster and reset the cluster state by following the <a href="index.html#resetting-cluster-state">reset instructions</a>.
+* Revert the deep storage and task storage config back to local types in <code>examples/conf/druid/_common/common.runtime.properties</code>
+* Restart the cluster</p>
+
+<p>This is necessary because the other ingestion tutorials will write to the same &quot;wikipedia&quot; datasource, and later tutorials expect the cluster to use local deep storage.</p>
+
+<p>Example reverted config:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#
+# Deep storage
+#
+
+# For local disk (only viable in a cluster if this is a network mount):
+druid.storage.type=local
+druid.storage.storageDirectory=var/druid/segments
+
+# For HDFS:
+#druid.storage.type=hdfs
+#druid.storage.storageDirectory=/druid/segments
+
+#
+# Indexing service logs
+#
+
+# For local disk (only viable in a cluster if this is a network mount):
+druid.indexer.logs.type=file
+druid.indexer.logs.directory=var/druid/indexing-logs
+
+# For HDFS:
+#druid.indexer.logs.type=hdfs
+#druid.indexer.logs.directory=/druid/indexing-logs
+</code></pre></div>
+<h2 id="further-reading">Further reading</h2>
+
+<p>For more information on loading batch data with Hadoop, please see <a href="../ingestion/hadoop.html">the Hadoop batch ingestion documentation</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

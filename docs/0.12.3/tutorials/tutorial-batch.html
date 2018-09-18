@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | </title>
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/syntax.css">
+<link rel="stylesheet" href="/css/docs.css">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.12.2/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <h1 id="tutorial-loading-a-file">Tutorial: Loading a file</h1>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>This tutorial demonstrates how to perform a batch file load, using Druid&#39;s native batch ingestion.</p>
+
+<p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
+the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. You 
+don&#39;t need to have loaded any data yet.</p>
+
+<h2 id="preparing-the-data-and-the-ingestion-task-spec">Preparing the data and the ingestion task spec</h2>
+
+<p>A data load is initiated by submitting an <em>ingestion task</em> spec to the Druid overlord. For this tutorial, we&#39;ll be loading the sample Wikipedia page edits data.</p>
+
+<p>We have provided an ingestion spec at <code>examples/wikipedia-index.json</code>, shown here for convenience,
+which has been configured to read the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> input file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;channel&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;cityName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;comment&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;countryIsoCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;countryName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isAnonymous&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isMinor&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isNew&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isRobot&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;isUnpatrolled&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;metroCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;page&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;regionIsoCode&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;regionName&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
+              <span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;iso&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+      <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2015-09-12/2015-09-13&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikiticker-2015-09-12-sampled.json.gz&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;appendToExisting&quot;</span> <span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
+      <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This spec will create a datasource named &quot;wikipedia&quot;.</p>
+
+<h2 id="load-batch-data">Load batch data</h2>
+
+<p>We&#39;ve included a sample of Wikipedia edits from September 12, 2015 to get you started.</p>
+
+<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. To submit
+this task, POST it to Druid in a new terminal window from the druid-0.12.3 directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>Which will print the ID of the task if the submission was successful:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+</code></pre></div>
+<p>To view the status of your ingestion task, go to your overlord console:
+<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+
+<p>After your ingestion task finishes, the data will be loaded by historical nodes and available for
+querying within a minute or two. You can monitor the progress of loading your data in the
+coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
+
+<h2 id="querying-your-data">Querying your data</h2>
+
+<p>Your data should become fully available within a minute or two. You can monitor this process on 
+your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p>Once the data is loaded, please follow the <a href="../tutorials/tutorial-query.html">query tutorial</a> to run some example queries on the newly loaded data.</p>
+
+<h2 id="cleanup">Cleanup</h2>
+
+<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-cluster-state">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<p>For more information on loading batch data, please see <a href="../ingestion/batch-ingestion.html">the batch ingestion documentation</a>.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>&ensp;·&ensp;
+    <a href="/licensing">License</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.12.3/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
