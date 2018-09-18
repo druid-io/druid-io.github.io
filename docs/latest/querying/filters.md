@@ -434,9 +434,9 @@ Filtering on a range of values, `10 <= myFloatColumn < 20`:
   "type": "bound",
   "dimension": "myFloatColumn",
   "ordering": "numeric",
-  "lowerBound": "10",
+  "lower": "10",
   "lowerStrict": false,
-  "upperBound": "20",
+  "upper": "20",
   "upperStrict": true
 }
 ```
@@ -486,4 +486,12 @@ Filtering on a set of ISO 8601 intervals:
       "2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z"
     ]
 }
+```
+
+### True Filter
+The true filter is a filter which matches all values.  It can be used to temporarily disable other filters without removing the filter. 
+
+```json
+
+{ "type" : "true" }
 ```

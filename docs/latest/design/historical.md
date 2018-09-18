@@ -15,7 +15,7 @@ For a list of API endpoints supported by the Historical, please see the [API ref
 ### Running
 
 ```
-io.druid.cli.Main server historical
+org.apache.druid.cli.Main server historical
 ```
 
 ### Loading and Serving Segments

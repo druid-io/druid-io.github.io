@@ -25,7 +25,7 @@ Compaction tasks merge all segments of the given interval. The syntax is:
 |`dataSource`|dataSource name to be compacted|Yes|
 |`interval`|interval of segments to be compacted|Yes|
 |`dimensions`|custom dimensionsSpec. compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.|No|
-|`tuningConfig`|[Index task tuningConfig](../ingestion/native-batch.html#tuningconfig)|No|
+|`tuningConfig`|[Index task tuningConfig](../ingestion/native_tasks.html#tuningconfig)|No|
 |`context`|[Task context](../ingestion/locking-and-priority.html#task-context)|No|
 
 An example of compaction task is
@@ -40,7 +40,7 @@ An example of compaction task is
 
 This compaction task reads _all segments_ of the interval `2017-01-01/2018-01-01` and results in new segments.
 Note that intervals of the input segments are merged into a single interval of `2017-01-01/2018-01-01` no matter what the segmentGranularity was.
-To control the number of result segments, you can set `targetPartitionSize` or `numShards`. See [indexTuningConfig](../ingestion/native-batch.html#tuningconfig) for more details.
+To control the number of result segments, you can set `targetPartitionSize` or `numShards`. See [indexTuningConfig](../ingestion/native_tasks.html#tuningconfig) for more details.
 To merge each day's worth of data into separate segments, you can submit multiple `compact` tasks, one for each day. They will run in parallel.
 
 A compaction task internally generates an `index` task spec for performing compaction work with some fixed parameters.
