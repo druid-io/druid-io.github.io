@@ -13,7 +13,7 @@ It will also be helpful to have finished [Tutorial: Loading a file](../tutorials
 
 ## Sample data
 
-We've included sample data for this tutorial at `examples/transform-data.json`, reproduced here for convenience:
+We've included sample data for this tutorial at `quickstart/tutorial/transform-data.json`, reproduced here for convenience:
 
 ```json
 {"timestamp":"2018-01-01T07:01:35Z","animal":"octopus",  "location":1, "number":100}
@@ -87,7 +87,7 @@ We will ingest the sample data using the following spec, which demonstrates the 
       "type" : "index",
       "firehose" : {
         "type" : "local",
-        "baseDir" : "examples/",
+        "baseDir" : "quickstart/tutorial",
         "filter" : "transform-data.json"
       },
       "appendToExisting" : false
@@ -113,47 +113,26 @@ Additionally, we have an OR filter with three clauses:
 
 This filter selects the first 3 rows, and it will exclude the final "lion" row in the input data. Note that the filter is applied after the transformation.
 
-Let's submit this task now, which has been included at `examples/transform-index.json`:
+Let's submit this task now, which has been included at `quickstart/tutorial/transform-index.json`:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
+bin/post-index-task --file quickstart/tutorial/transform-index.json
 ```
 
 ## Query the transformed data
 
-Let's a `select * from "transform-tutorial";` query to see what was ingested:
+Let's run `bin/dsql` and issue a `select * from "transform-tutorial";` query to see what was ingested:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
-```
-
-```json
-[
-  {
-    "__time": "2018-01-01T05:01:00.000Z",
-    "animal": "super-mongoose",
-    "count": 1,
-    "location": 2,
-    "number": 200,
-    "triple-number": 600
-  },
-  {
-    "__time": "2018-01-01T06:01:00.000Z",
-    "animal": "super-snake",
-    "count": 1,
-    "location": 3,
-    "number": 300,
-    "triple-number": 900
-  },
-  {
-    "__time": "2018-01-01T07:01:00.000Z",
-    "animal": "super-octopus",
-    "count": 1,
-    "location": 1,
-    "number": 100,
-    "triple-number": 300
-  }
-]
+dsql> select * from "transform-tutorial";
+┌──────────────────────────┬────────────────┬───────┬──────────┬────────┬───────────────┐
+│ __time                   │ animal         │ count │ location │ number │ triple-number │
+├──────────────────────────┼────────────────┼───────┼──────────┼────────┼───────────────┤
+│ 2018-01-01T05:01:00.000Z │ super-mongoose │     1 │        2 │    200 │           600 │
+│ 2018-01-01T06:01:00.000Z │ super-snake    │     1 │        3 │    300 │           900 │
+│ 2018-01-01T07:01:00.000Z │ super-octopus  │     1 │        1 │    100 │           300 │
+└──────────────────────────┴────────────────┴───────┴──────────┴────────┴───────────────┘
+Retrieved 3 rows in 0.03s.
 ```
 
 The "lion" row has been discarded, the `animal` column has been transformed, and we have both the original and transformed `number` column.

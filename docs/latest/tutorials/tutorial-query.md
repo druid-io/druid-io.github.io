@@ -15,7 +15,7 @@ The tutorial assumes that you've already completed one of the 4 ingestion tutori
 
 ## Native JSON queries
 
-Druid's native query format is expressed in JSON. We have included a sample native TopN query under `examples/wikipedia-top-pages.json`:
+Druid's native query format is expressed in JSON. We have included a sample native TopN query under `quickstart/tutorial/wikipedia-top-pages.json`:
 
 ```json
 {
@@ -40,7 +40,7 @@ This query retrieves the 10 Wikipedia pages with the most page edits on 2015-09-
 Let's submit this query to the Druid broker:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-top-pages.json http://localhost:8082/druid/v2?pretty
+curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/wikipedia-top-pages.json http://localhost:8082/druid/v2?pretty
 ```
 
 You should see the following query results:
@@ -94,10 +94,10 @@ The SQL queries are submitted as JSON over HTTP.
 
 ### TopN query example
 
-The tutorial package includes an example file that contains the SQL query shown above at `examples/wikipedia-top-pages-sql.json`. Let's submit that query to the Druid broker:
+The tutorial package includes an example file that contains the SQL query shown above at `quickstart/wikipedia-top-pages-sql.json`. Let's submit that query to the Druid broker:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-top-pages-sql.json http://localhost:8082/druid/v2/sql
+curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/wikipedia-top-pages-sql.json http://localhost:8082/druid/v2/sql
 ```
 
 The following results should be returned:
@@ -147,213 +147,130 @@ The following results should be returned:
 ]
 ```
 
-### Pretty Printing
+### dsql client
 
-Note that Druid SQL does not support pretty printing of results. The output above was formatted using the [jq](https://stedolan.github.io/jq/) JSON processing tool. Other instances of SQL queries in these tutorials will also use `jq` formatting.
+For convenience, the Druid package includes a SQL command-line client, located at `bin/dsql` from the Druid package root.
+
+Let's now run `bin/dsql`; you should see the following prompt:
+
+```bash
+Welcome to dsql, the command-line client for Druid SQL.
+Type "\h" for help.
+dsql> 
+```
+
+To submit the query, paste it to the `dsql` prompt and press enter:
+
+```bash
+dsql> SELECT page, COUNT(*) AS Edits FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY page ORDER BY Edits DESC LIMIT 10;
+┌──────────────────────────────────────────────────────────┬───────┐
+│ page                                                     │ Edits │
+├──────────────────────────────────────────────────────────┼───────┤
+│ Wikipedia:Vandalismusmeldung                             │    33 │
+│ User:Cyde/List of candidates for speedy deletion/Subpage │    28 │
+│ Jeremy Corbyn                                            │    27 │
+│ Wikipedia:Administrators' noticeboard/Incidents          │    21 │
+│ Flavia Pennetta                                          │    20 │
+│ Total Drama Presents: The Ridonculous Race               │    18 │
+│ User talk:Dudeperson176123                               │    18 │
+│ Wikipédia:Le Bistro/12 septembre 2015                    │    18 │
+│ Wikipedia:In the news/Candidates                         │    17 │
+│ Wikipedia:Requests for page protection                   │    17 │
+└──────────────────────────────────────────────────────────┴───────┘
+Retrieved 10 rows in 0.06s.
+```
 
 ### Additional Druid SQL queries
 
-The following section provides additional SQL examples that plan to various types of native Druid queries.
-
 #### Timeseries
 
-An example SQL timeseries query is available at `examples/wikipedia-timeseries-sql.json`. This query retrieves the total number of lines deleted from pages for each hour of 2015-09-12.
+`SELECT FLOOR(__time to HOUR) AS HourTime, SUM(deleted) AS LinesDeleted FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY FLOOR(__time to HOUR);`
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-timeseries-sql.json http://localhost:8082/druid/v2/sql
+dsql> SELECT FLOOR(__time to HOUR) AS HourTime, SUM(deleted) AS LinesDeleted FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY FLOOR(__time to HOUR);
+┌──────────────────────────┬──────────────┐
+│ HourTime                 │ LinesDeleted │
+├──────────────────────────┼──────────────┤
+│ 2015-09-12T00:00:00.000Z │         1761 │
+│ 2015-09-12T01:00:00.000Z │        16208 │
+│ 2015-09-12T02:00:00.000Z │        14543 │
+│ 2015-09-12T03:00:00.000Z │        13101 │
+│ 2015-09-12T04:00:00.000Z │        12040 │
+│ 2015-09-12T05:00:00.000Z │         6399 │
+│ 2015-09-12T06:00:00.000Z │         9036 │
+│ 2015-09-12T07:00:00.000Z │        11409 │
+│ 2015-09-12T08:00:00.000Z │        11616 │
+│ 2015-09-12T09:00:00.000Z │        17509 │
+│ 2015-09-12T10:00:00.000Z │        19406 │
+│ 2015-09-12T11:00:00.000Z │        16284 │
+│ 2015-09-12T12:00:00.000Z │        18672 │
+│ 2015-09-12T13:00:00.000Z │        30520 │
+│ 2015-09-12T14:00:00.000Z │        18025 │
+│ 2015-09-12T15:00:00.000Z │        26399 │
+│ 2015-09-12T16:00:00.000Z │        24759 │
+│ 2015-09-12T17:00:00.000Z │        19634 │
+│ 2015-09-12T18:00:00.000Z │        17345 │
+│ 2015-09-12T19:00:00.000Z │        19305 │
+│ 2015-09-12T20:00:00.000Z │        22265 │
+│ 2015-09-12T21:00:00.000Z │        16394 │
+│ 2015-09-12T22:00:00.000Z │        16379 │
+│ 2015-09-12T23:00:00.000Z │        15289 │
+└──────────────────────────┴──────────────┘
+Retrieved 24 rows in 0.08s.
 ```
 
-The following results should be returned:
-
-```json
-[
-  {
-    "HourTime": "2015-09-12T00:00:00.000Z",
-    "LinesDeleted": 1761
-  },
-  {
-    "HourTime": "2015-09-12T01:00:00.000Z",
-    "LinesDeleted": 16208
-  },
-  {
-    "HourTime": "2015-09-12T02:00:00.000Z",
-    "LinesDeleted": 14543
-  },
-  {
-    "HourTime": "2015-09-12T03:00:00.000Z",
-    "LinesDeleted": 13101
-  },
-  {
-    "HourTime": "2015-09-12T04:00:00.000Z",
-    "LinesDeleted": 12040
-  },
-  {
-    "HourTime": "2015-09-12T05:00:00.000Z",
-    "LinesDeleted": 6399
-  },
-  {
-    "HourTime": "2015-09-12T06:00:00.000Z",
-    "LinesDeleted": 9036
-  },
-  {
-    "HourTime": "2015-09-12T07:00:00.000Z",
-    "LinesDeleted": 11409
-  },
-  {
-    "HourTime": "2015-09-12T08:00:00.000Z",
-    "LinesDeleted": 11616
-  },
-  {
-    "HourTime": "2015-09-12T09:00:00.000Z",
-    "LinesDeleted": 17509
-  },
-  {
-    "HourTime": "2015-09-12T10:00:00.000Z",
-    "LinesDeleted": 19406
-  },
-  {
-    "HourTime": "2015-09-12T11:00:00.000Z",
-    "LinesDeleted": 16284
-  },
-  {
-    "HourTime": "2015-09-12T12:00:00.000Z",
-    "LinesDeleted": 18672
-  },
-  {
-    "HourTime": "2015-09-12T13:00:00.000Z",
-    "LinesDeleted": 30520
-  },
-  {
-    "HourTime": "2015-09-12T14:00:00.000Z",
-    "LinesDeleted": 18025
-  },
-  {
-    "HourTime": "2015-09-12T15:00:00.000Z",
-    "LinesDeleted": 26399
-  },
-  {
-    "HourTime": "2015-09-12T16:00:00.000Z",
-    "LinesDeleted": 24759
-  },
-  {
-    "HourTime": "2015-09-12T17:00:00.000Z",
-    "LinesDeleted": 19634
-  },
-  {
-    "HourTime": "2015-09-12T18:00:00.000Z",
-    "LinesDeleted": 17345
-  },
-  {
-    "HourTime": "2015-09-12T19:00:00.000Z",
-    "LinesDeleted": 19305
-  },
-  {
-    "HourTime": "2015-09-12T20:00:00.000Z",
-    "LinesDeleted": 22265
-  },
-  {
-    "HourTime": "2015-09-12T21:00:00.000Z",
-    "LinesDeleted": 16394
-  },
-  {
-    "HourTime": "2015-09-12T22:00:00.000Z",
-    "LinesDeleted": 16379
-  },
-  {
-    "HourTime": "2015-09-12T23:00:00.000Z",
-    "LinesDeleted": 15289
-  }
-]
-```
 #### GroupBy
 
-An example SQL GroupBy query is available at `examples/wikipedia-groupby-sql.json`. This query retrieves the total number of lines added for each Wikipedia language category (the channel) on 2015-09-12.
+`SELECT channel, SUM(added) FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY channel ORDER BY SUM(added) DESC LIMIT 5;`
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-groupby-sql.json http://localhost:8082/druid/v2/sql
-```
-
-The following results should be returned:
-
-```json
-[
-  {
-    "channel": "#en.wikipedia",
-    "EXPR$1": 3045299
-  },
-  {
-    "channel": "#it.wikipedia",
-    "EXPR$1": 711011
-  },
-  {
-    "channel": "#fr.wikipedia",
-    "EXPR$1": 642555
-  },
-  {
-    "channel": "#ru.wikipedia",
-    "EXPR$1": 640698
-  },
-  {
-    "channel": "#es.wikipedia",
-    "EXPR$1": 634670
-  }
-]
+dsql> SELECT channel, SUM(added) FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY channel ORDER BY SUM(added) DESC LIMIT 5;
+┌───────────────┬─────────┐
+│ channel       │ EXPR$1  │
+├───────────────┼─────────┤
+│ #en.wikipedia │ 3045299 │
+│ #it.wikipedia │  711011 │
+│ #fr.wikipedia │  642555 │
+│ #ru.wikipedia │  640698 │
+│ #es.wikipedia │  634670 │
+└───────────────┴─────────┘
+Retrieved 5 rows in 0.05s.
 ```
 
 #### Scan
 
-An example SQL scan query is available at `examples/wikipedia-scan-sql.json`. This query retrieves 5 user-page pairs from the datasource.
-
+` SELECT user, page FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 02:00:00' AND TIMESTAMP '2015-09-12 03:00:00' LIMIT 5;`
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-scan-sql.json http://localhost:8082/druid/v2/sql
-```
-
-The following results should be returned:
-
-```
-[
-  {
-    "user": "Thiago89",
-    "page": "Campeonato Mundial de Voleibol Femenino Sub-20 de 2015"
-  },
-  {
-    "user": "91.34.200.249",
-    "page": "Friede von Schönbrunn"
-  },
-  {
-    "user": "TuHan-Bot",
-    "page": "Trĩ vàng"
-  },
-  {
-    "user": "Lowercase sigmabot III",
-    "page": "User talk:ErrantX"
-  },
-  {
-    "user": "BattyBot",
-    "page": "Hans W. Jung"
-  }
-]
+ dsql> SELECT user, page FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 02:00:00' AND TIMESTAMP '2015-09-12 03:00:00' LIMIT 5;
+┌────────────────────────┬────────────────────────────────────────────────────────┐
+│ user                   │ page                                                   │
+├────────────────────────┼────────────────────────────────────────────────────────┤
+│ Thiago89               │ Campeonato Mundial de Voleibol Femenino Sub-20 de 2015 │
+│ 91.34.200.249          │ Friede von Schönbrunn                                  │
+│ TuHan-Bot              │ Trĩ vàng                                               │
+│ Lowercase sigmabot III │ User talk:ErrantX                                      │
+│ BattyBot               │ Hans W. Jung                                           │
+└────────────────────────┴────────────────────────────────────────────────────────┘
+Retrieved 5 rows in 0.04s.
 ```
 
 #### EXPLAIN PLAN FOR
 
 By prepending `EXPLAIN PLAN FOR ` to a Druid SQL query, it is possible to see what native Druid queries a SQL query will plan into.
 
-An example query that explains the top pages query shown earlier has been provided at `examples/wikipedia-explain-sql.json`:
+Using the TopN query above as an example:
+
+`EXPLAIN PLAN FOR SELECT page, COUNT(*) AS Edits FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY page ORDER BY Edits DESC LIMIT 10;`
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-explain-top-pages-sql.json http://localhost:8082/druid/v2/sql
-```
-
-This will return the following plan:
-
-```json
-[
-  {
-    "PLAN": "DruidQueryRel(query=[{\"queryType\":\"topN\",\"dataSource\":{\"type\":\"table\",\"name\":\"wikipedia\"},\"virtualColumns\":[],\"dimension\":{\"type\":\"default\",\"dimension\":\"page\",\"outputName\":\"d0\",\"outputType\":\"STRING\"},\"metric\":{\"type\":\"numeric\",\"metric\":\"a0\"},\"threshold\":10,\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z\"]},\"filter\":null,\"granularity\":{\"type\":\"all\"},\"aggregations\":[{\"type\":\"count\",\"name\":\"a0\"}],\"postAggregations\":[],\"context\":{},\"descending\":false}], signature=[{d0:STRING, a0:LONG}])\n"
-  }
-]
+dsql> EXPLAIN PLAN FOR SELECT page, COUNT(*) AS Edits FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY page ORDER BY Edits DESC LIMIT 10;
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ PLAN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ DruidQueryRel(query=[{"queryType":"topN","dataSource":{"type":"table","name":"wikipedia"},"virtualColumns":[],"dimension":{"type":"default","dimension":"page","outputName":"d0","outputType":"STRING"},"metric":{"type":"numeric","metric":"a0"},"threshold":10,"intervals":{"type":"intervals","intervals":["2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z"]},"filter":null,"granularity":{"type":"all"},"aggregations":[{"type":"count","name":"a0"}],"postAggregations":[],"context":{},"descending":false}], signature=[{d0:STRING, a0:LONG}]) │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+Retrieved 1 row in 0.03s.
 ```
 
 ## Further reading

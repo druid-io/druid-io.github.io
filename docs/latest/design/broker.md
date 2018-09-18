@@ -20,7 +20,7 @@ On start up, Realtime nodes announce themselves and the segments they are servin
 ### Running
 
 ```
-io.druid.cli.Main server broker
+org.apache.druid.cli.Main server broker
 ```
 
 ### Forwarding Queries

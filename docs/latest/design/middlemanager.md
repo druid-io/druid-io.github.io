@@ -21,7 +21,7 @@ The reason we have separate JVMs for tasks is for resource and log isolation. Ea
 ### Running
 
 ```
-io.druid.cli.Main server middleManager
+org.apache.druid.cli.Main server middleManager
 ```
 
 

@@ -153,7 +153,7 @@ the best one for your situation.
 
 |Method|How it works|Can append and overwrite?|Can handle late data?|Exactly-once ingestion?|Real-time queries?|
 |------|------------|-------------------------|---------------------|-----------------------|------------------|
-|[Native batch](native-batch.html)|Druid loads data directly from S3, HTTP, NFS, or other networked storage.|Append or overwrite|Yes|Yes|No|
+|[Native batch](native_tasks.html)|Druid loads data directly from S3, HTTP, NFS, or other networked storage.|Append or overwrite|Yes|Yes|No|
 |[Hadoop](hadoop.html)|Druid launches Hadoop Map/Reduce jobs to load data files.|Append or overwrite|Yes|Yes|No|
 |[Kafka indexing service](../development/extensions-core/kafka-ingestion.html)|Druid reads directly from Kafka.|Append only|Yes|Yes|Yes|
 |[Tranquility](stream-push.html)|You use Tranquility, a client side library, to push individual records into Druid.|Append only|No - late data is dropped|No - may drop or duplicate data|Yes|
@@ -167,7 +167,7 @@ a _time chunk_, and each time chunk contains one or more [segments](../design/se
 particular time chunk may be partitioned further using options that vary based on the ingestion method you have chosen.
 
  * With [Hadoop](hadoop.html) you can do hash- or range-based partitioning on one or more columns.
- * With [Native batch](native-batch.html) you can partition on a hash of all dimension columns. This is useful when
+ * With [Native batch](native_tasks.html) you can partition on a hash of all dimension columns. This is useful when
  rollup is enabled, since it maximizes your space savings.
  * With [Kafka indexing](../development/extensions-core/kafka-ingestion.html), partitioning is based on Kafka
  partitions, and is not configurable through Druid. You can configure it on the Kafka side by using the partitioning
@@ -240,7 +240,7 @@ The perfect roll-up mode encompasses an additional preprocessing step to determi
 
 On the contrary, the best-effort roll-up mode doesn't require any preprocessing step, but the size of ingested data might be larger than that of the perfect roll-up. All types of [streaming indexing (e.g., kafka indexing service)](../ingestion/stream-ingestion.html) run with this mode.
 
-Finally, the [native index task](../ingestion/native-batch.html) supports both modes and you can choose either one which fits to your application.
+Finally, the [native index task](../ingestion/native_tasks.html) supports both modes and you can choose either one which fits to your application.
 
 ## Data maintenance
 
@@ -258,7 +258,7 @@ Compaction is a type of overwrite operation, which reads an existing set of segm
 
 For performance reasons, it is sometimes beneficial to compact a set of segments into a set of larger but fewer segments, as there is some per-segment processing and memory overhead in both the ingestion and querying paths.
 
-For compaction documentation, please see [tasks](../ingestion/compaction.html).
+For compaction documentation, please see [tasks](../ingestion/tasks.html).
 
 ### Retention and Tiering
 

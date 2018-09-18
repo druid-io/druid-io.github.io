@@ -13,12 +13,12 @@ Completing [Tutorial: Configuring retention](../tutorials/tutorial-retention.htm
 
 ## Load initial data
 
-In this tutorial, we will use the Wikipedia edits data, with an indexing spec that creates hourly segments. This spec is located at `examples/deletion-index.json`, and it creates a datasource called `deletion-tutorial`.
+In this tutorial, we will use the Wikipedia edits data, with an indexing spec that creates hourly segments. This spec is located at `quickstart/tutorial/deletion-index.json`, and it creates a datasource called `deletion-tutorial`.
 
 Let's load this initial data:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-index.json http://localhost:8090/druid/indexer/v1/task
+bin/post-index-task --file quickstart/tutorial/deletion-index.json 
 ```
 
 When the load finishes, open http://localhost:8081/#/datasources/deletion-tutorial in a browser.
@@ -48,7 +48,7 @@ In the `rule #2` box at the bottom, click `Drop` and `Forever`.
 
 This will cause the first 12 segments of `deletion-tutorial` to be dropped. However, these dropped segments are not removed from deep storage.
 
-You can see that all 24 segments are still present in deep storage by listing the contents of `var/druid/segments/deletion-tutorial`:
+You can see that all 24 segments are still present in deep storage by listing the contents of `druid-latest/var/druid/segments/deletion-tutorial`:
 
 ```bash
 $ ls -l1 var/druid/segments/deletion-tutorial/
@@ -132,10 +132,10 @@ $ ls -l1 var/druid/segments/deletion-tutorial/
 
 Now that we have disabled some segments, we can submit a Kill Task, which will delete the disabled segments from metadata and deep storage.
 
-A Kill Task spec has been provided at `examples/deletion-kill.json`. Submit this task to the Overlord with the following command:
+A Kill Task spec has been provided at `quickstart/deletion-kill.json`. Submit this task to the Overlord with the following command:
 
 ```bash
-curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-kill.json http://localhost:8090/druid/indexer/v1/task
+curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/deletion-kill.json http://localhost:8090/druid/indexer/v1/task
 ```
 
 After this task completes, you can see that the disabled segments have now been removed from deep storage:

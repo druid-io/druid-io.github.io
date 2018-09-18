@@ -148,6 +148,13 @@ All streaming ingestion methods currently supported by Druid do introduce the po
 
 Batch re-ingestion also gives you the option to re-ingest your data if you needed to revise it for any reason.
 
+### Deployment Notes
+
+Stream ingestion may generate a large number of small segments because it's difficult to optimize the segment size at
+ingestion time. The number of segments will increase over time, and this might cuase the query performance issue. 
+
+Details on how to optimize the segment size can be found on [Segment size optimization](../operations/segment-optimization.html).
+
 ## Documentation
 
 Tranquility documentation be found [here](https://github.com/druid-io/tranquility/blob/master/README.md).

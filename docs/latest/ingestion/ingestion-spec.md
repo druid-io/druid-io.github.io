@@ -283,7 +283,7 @@ Transform specs allow Druid to transform and filter input data during ingestion.
 
 The IOConfig spec differs based on the ingestion task type.
 
-* Native Batch ingestion: See [Native Batch IOConfig](../ingestion/native-batch.html#ioconfig)
+* Native Batch ingestion: See [Native Batch IOConfig](../ingestion/native_tasks.html#ioconfig)
 * Hadoop Batch ingestion: See [Hadoop Batch IOConfig](../ingestion/hadoop.html#ioconfig)
 * Kafka Indexing Service: See [Kafka Supervisor IOConfig](../development/extensions-core/kafka-ingestion.html#KafkaSupervisorIOConfig)
 * Stream Push Ingestion: Stream push ingestion with Tranquility does not require an IO Config.
@@ -293,7 +293,7 @@ The IOConfig spec differs based on the ingestion task type.
 
 The TuningConfig spec differs based on the ingestion task type.
 
-* Native Batch ingestion: See [Native Batch TuningConfig](../ingestion/native-batch.html#tuningconfig)
+* Native Batch ingestion: See [Native Batch TuningConfig](../ingestion/native_tasks.html#tuningconfig)
 * Hadoop Batch ingestion: See [Hadoop Batch TuningConfig](../ingestion/hadoop.html#tuningconfig)
 * Kafka Indexing Service: See [Kafka Supervisor TuningConfig](../development/extensions-core/kafka-ingestion.html#KafkaSupervisorTuningConfig)
 * Stream Push Ingestion (Tranquility): See [Tranquility TuningConfig](http://static.druid.io/tranquility/api/latest/#com.metamx.tranquility.druid.DruidTuning).

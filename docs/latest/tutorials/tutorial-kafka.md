@@ -42,7 +42,7 @@ We will use Druid's Kafka indexing service to ingest messages from our newly cre
 service, we will need to submit a supervisor spec to the Druid overlord by running the following from the Druid package root:
 
 ```bash
-curl -XPOST -H'Content-Type: application/json' -d @examples/wikipedia-kafka-supervisor.json http://localhost:8090/druid/indexer/v1/supervisor
+curl -XPOST -H'Content-Type: application/json' -d @quickstart/tutorial/wikipedia-kafka-supervisor.json http://localhost:8090/druid/indexer/v1/supervisor
 ```
 
 If the supervisor was successfully created, you will get a response containing the ID of the supervisor; in our case we should see `{"id":"wikipedia-kafka"}`.
@@ -53,6 +53,13 @@ For more details about what's going on here, check out the
 ## Load data
 
 Let's launch a console producer for our topic and send some data!
+
+In your Druid directory, run the following command:
+
+```bash
+cd quickstart
+gunzip -k wikiticker-2015-09-12-sampled.json.gz
+```
 
 In your Kafka directory, run the following command, where {PATH_TO_DRUID} is replaced by the path to the Druid directory:
 
@@ -71,7 +78,7 @@ Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some
 
 ## Cleanup
 
-If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these [reset instructions](index.html#resetting-cluster-state), as the other tutorials will write to the same "wikipedia" datasource.
+If you wish to go through any of the other ingestion tutorials, you will need to shut down the cluster and reset the cluster state by removing the contents of the `var` directory under the druid package, as the other tutorials will write to the same "wikipedia" datasource.
 
 ## Further reading
 
