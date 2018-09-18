@@ -674,9 +674,9 @@ the &quot;regex&quot; filter) the numeric column values will be converted to str
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;myFloatColumn&quot;</span><span class="p">,</span>
   <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;lowerBound&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&quot;upperBound&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>
   <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -717,6 +717,11 @@ should be specified as if the timestamp values were strings.</p>
       <span class="s2">&quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;</span>
     <span class="p">]</span>
 <span class="p">}</span>
+</code></pre></div>
+<h3 id="true-filter">True Filter</h3>
+
+<p>The true filter is a filter which matches all values.  It can be used to temporarily disable other filters without removing the filter. </p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">}</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

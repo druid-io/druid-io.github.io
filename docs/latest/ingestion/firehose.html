@@ -116,7 +116,7 @@
           </p>
           <h1 id="druid-firehoses">Druid Firehoses</h1>
 
-<p>Firehoses are used in <a href="../ingestion/native-batch.html">native batch ingestion tasks</a>, stream push tasks automatically created by <a href="../ingestion/stream-push.html">Tranquility</a>, and the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model.</p>
+<p>Firehoses are used in <a href="../ingestion/native_tasks.html">native batch ingestion tasks</a>, stream push tasks automatically created by <a href="../ingestion/stream-push.html">Tranquility</a>, and the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model.</p>
 
 <p>They are pluggable and thus the configuration schema can and will vary based on the <code>type</code> of the firehose.</p>
 
@@ -146,6 +146,8 @@
 
 <p>This Firehose can be used to read the data from files on local disk.
 It can be used for POCs to ingest data on disk.
+This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+Since each split represents a file in this firehose, each worker task of <code>index_parallel</code> will read a file.
 A sample local firehose spec is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
@@ -180,6 +182,8 @@ A sample local firehose spec is shown below:</p>
 <h3 id="httpfirehose">HttpFirehose</h3>
 
 <p>This Firehose can be used to read the data from remote sites via HTTP.
+This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+Since each split represents a file in this firehose, each worker task of <code>index_parallel</code> will read a file.
 A sample http firehose spec is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>

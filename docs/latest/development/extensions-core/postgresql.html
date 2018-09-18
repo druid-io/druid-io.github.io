@@ -157,6 +157,80 @@
 <span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
 <span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
 </code></pre></div>
+<h2 id="configuration">Configuration</h2>
+
+<p>In most cases, the configuration options map directly to the <a href="https://jdbc.postgresql.org/documentation/head/connect.html">postgres jdbc connection options</a>.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.metadata.postgres.useSSL</code></td>
+<td>Enables SSL</td>
+<td><code>false</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslPassword</code></td>
+<td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the client&#39;s key.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslFactory</code></td>
+<td>The class name to use as the <code>SSLSocketFactory</code></td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslFactoryArg</code></td>
+<td>An optional argument passed to the sslFactory&#39;s constructor</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslMode</code></td>
+<td>The sslMode. Possible values are &quot;disable&quot;, &quot;require&quot;, &quot;verify-ca&quot;, &quot;verify-full&quot;, &quot;allow&quot; and &quot;prefer&quot;</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslCert</code></td>
+<td>The full path to the certificate file.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslKey</code></td>
+<td>The full path to the key file.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslRootCert</code></td>
+<td>The full path to the root certificate.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslHostNameVerifier</code></td>
+<td>The classname of the hostname verifier.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.metadata.postgres.sslPasswordCallback</code></td>
+<td>The classname of the SSL password provider.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">

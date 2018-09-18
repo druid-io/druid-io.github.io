@@ -126,7 +126,7 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code>druid.auth.authenticationChain</code></td>
+<td><code>druid.auth.authenticatorChain</code></td>
 <td>JSON List of Strings</td>
 <td>List of Authenticator type names</td>
 <td>[&quot;allowAll&quot;]</td>
@@ -147,6 +147,13 @@
 <td>no</td>
 </tr>
 <tr>
+<td><code>druid.auth.unsecuredPaths</code></td>
+<td>List of Strings</td>
+<td>List of paths for which security checks will not be performed. All requests to these paths will be allowed.</td>
+<td>[]</td>
+<td>no</td>
+</tr>
+<tr>
 <td><code>druid.auth.allowUnauthenticatedHttpOptions</code></td>
 <td>Boolean</td>
 <td>If true, skip authentication checks for HTTP OPTIONS requests. This is needed for certain use cases, such as supporting CORS pre-flight requests. Note that disabling authentication checks for OPTIONS requests will allow unauthenticated users to determine what Druid endpoints are valid (by checking if the OPTIONS request returns a 200 instead of 404), so enabling this option may reveal information about server configuration, including information about what extensions are loaded (if those extensions add endpoints).</td>
@@ -155,32 +162,70 @@
 </tr>
 </tbody></table>
 
-<h2 id="enabling-authentication-authorization">Enabling Authentication/Authorization</h2>
+<h2 id="enabling-authentication-authorizationloadinglookuptest">Enabling Authentication/AuthorizationLoadingLookupTest</h2>
 
-<h2 id="authentication-chain">Authentication Chain</h2>
+<h2 id="authenticator-chain">Authenticator Chain</h2>
 
-<p>Authentication decisions are handled by a chain of Authenticator instances. A request will be checked by Authenticators in the sequence defined by the <code>druid.auth.authenticationChain</code>.</p>
+<p>Authentication decisions are handled by a chain of Authenticator instances. A request will be checked by Authenticators in the sequence defined by the <code>druid.auth.authenticatorChain</code>.</p>
 
 <p>Authenticator implementions are provided by extensions.</p>
 
 <p>For example, the following authentication chain definition enables the Kerberos and HTTP Basic authenticators, from the <code>druid-kerberos</code> and <code>druid-basic-security</code> core extensions, respectively:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticationChain=[&quot;kerberos&quot;, &quot;basic&quot;]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticatorChain=[&quot;kerberos&quot;, &quot;basic&quot;]
 </code></pre></div>
 <p>A request will pass through all Authenticators in the chain, until one of the Authenticators successfully authenticates the request or sends an HTTP error response. Authenticators later in the chain will be skipped after the first successful authentication or if the request is terminated with an error response.</p>
 
 <p>If no Authenticator in the chain successfully authenticated a request or sent an HTTP error response, an HTTP error response will be sent at the end of the chain.</p>
 
-<p>Druid includes a built-in Authenticator, used for the default unsecured configuration.</p>
+<p>Druid includes two built-in Authenticators, one of which is used for the default unsecured configuration.</p>
 
 <h3 id="allowall-authenticator">AllowAll Authenticator</h3>
 
 <p>This built-in Authenticator authenticates all requests, and always directs them to an Authorizer named &quot;allowAll&quot;. It is not intended to be used for anything other than the default unsecured configuration.</p>
 
+<h3 id="anonymous-authenticator">Anonymous Authenticator</h3>
+
+<p>This built-in Authenticator authenticates all requests, and directs them to an Authorizer specified in the configuration by the user. It is intended to be used for adding a default level of access so 
+the Anonymous Authenticator should be added to the end of the authentication chain. A request that reaches the Anonymous Authenticator at the end of the chain will succeed or fail depending on how the Authorizer linked to the Anonymous Authenticator is configured.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.auth.authenticator.&lt;authenticatorName&gt;.authorizerName</code></td>
+<td>Authorizer that requests should be directed to.</td>
+<td>N/A</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>druid.auth.authenticator.&lt;authenticatorName&gt;.identity</code></td>
+<td>The identity of the requester.</td>
+<td>defaultUser</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p>To use the Anonymous Authenticator, add an authenticator with type <code>anonymous</code> to the authenticatorChain.</p>
+
+<p>For example, the following enables the Anonymous Authenticator with the <code>druid-basic-security</code> extension:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticatorChain=[&quot;basic&quot;, &quot;anonymous&quot;]
+
+druid.auth.authenticator.anonymous.type=anonymous
+druid.auth.authenticator.anonymous.identity=defaultUser
+druid.auth.authenticator.anonymous.authorizerName=myBasicAuthorizer
+
+# ... usual configs for basic authentication would go here ...
+</code></pre></div>
 <h2 id="escalator">Escalator</h2>
 
 <p>The <code>druid.escalator.type</code> property determines what authentication scheme should be used for internal Druid cluster communications (such as when a broker node communicates with historical nodes for query processing).</p>
 
-<p>The Escalator chosen for this property must use an authentication scheme that is supported by an Authenticator in `druid.auth.authenticationChain. Authenticator extension implementors must also provide a corresponding Escalator implementation if they intend to use a particular authentication scheme for internal Druid communications.</p>
+<p>The Escalator chosen for this property must use an authentication scheme that is supported by an Authenticator in <code>druid.auth.authenticationChain</code>. Authenticator extension implementors must also provide a corresponding Escalator implementation if they intend to use a particular authentication scheme for internal Druid communications.</p>
 
 <h3 id="noop-escalator">Noop Escalator</h3>
 

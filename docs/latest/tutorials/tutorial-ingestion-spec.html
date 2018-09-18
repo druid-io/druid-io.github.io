@@ -147,7 +147,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T02:33:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">20000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">34.5</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;ts&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T02:35:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span><span class="mi">4000</span><span class="p">,</span> <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span> <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">30000</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">46.3</span><span class="p">}</span>
 </code></pre></div>
-<p>Save the JSON contents above into a file called <code>ingestion-tutorial-data.json</code> under <code>examples</code>.</p>
+<p>Save the JSON contents above into a file called <code>ingestion-tutorial-data.json</code> in <code>quickstart/</code>.</p>
 
 <p>Let&#39;s walk through the process of defining an ingestion spec that can load this data. </p>
 
@@ -159,7 +159,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>Let&#39;s start with an empty <code>dataSchema</code> and add fields to it as we progress through the tutorial.</p>
 
-<p>Create a new file called <code>ingestion-tutorial-index.json</code> under <code>examples</code> with the following contents:</p>
+<p>Create a new file called <code>ingestion-tutorial-index.json</code> in <code>quickstart/</code> with the following contents:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{}</span>
 </code></pre></div>
 <p>We will be making successive edits to this ingestion spec as we progress through the tutorial.</p>
@@ -545,7 +545,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/&quot;</span><span class="p">,</span>
         <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
       <span class="p">}</span>
     <span class="p">}</span>
@@ -591,7 +591,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/&quot;</span><span class="p">,</span>
         <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
       <span class="p">}</span>
     <span class="p">}</span>
@@ -655,7 +655,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/&quot;</span><span class="p">,</span>
         <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial-data.json&quot;</span>
       <span class="p">}</span>
     <span class="p">},</span>
@@ -668,75 +668,29 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 </code></pre></div>
 <h2 id="submit-the-task-and-query-the-data">Submit the task and query the data</h2>
 
-<p>From the druid-0.12.2 package root, run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
+<p>From the druid-latest package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/ingestion-tutorial-index.json 
 </code></pre></div>
 <p>After the script completes, we will query the data.</p>
 
-<p>Let&#39;s issue a <code>select * from &quot;ingestion-tutorial&quot;;</code> query to see what data was ingested.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/ingestion-tutorial-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
-    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.9</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
-    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">2000</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:02:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">9000</span><span class="p">,</span>
-    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">18.1</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
-    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">5000</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:03:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
-    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">4.3</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
-    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">5000</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T02:33:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
-    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">56.9</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;17&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">4000</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T02:35:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
-    <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">46.3</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dstPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-    <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;17&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;srcPort&quot;</span><span class="p">:</span> <span class="mi">4000</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;ingestion-tutorial&quot;;</code> query to see what data was ingested.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ bin/dsql
+Welcome to dsql, the command-line client <span class="k">for</span> Druid SQL.
+Type <span class="s2">&quot;\h&quot;</span> <span class="k">for</span> help.
+dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">;</span>
+
+┌──────────────────────────┬───────┬──────┬───────┬─────────┬─────────┬─────────┬──────────┬─────────┬─────────┐
+│ __time                   │ bytes │ cost │ count │ dstIP   │ dstPort │ packets │ protocol │ srcIP   │ srcPort │
+├──────────────────────────┼───────┼──────┼───────┼─────────┼─────────┼─────────┼──────────┼─────────┼─────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │  <span class="m">6000</span> │  <span class="m">4</span>.9 │     <span class="m">3</span> │ <span class="m">2</span>.2.2.2 │    <span class="m">3000</span> │      <span class="m">60</span> │ <span class="m">6</span>        │ <span class="m">1</span>.1.1.1 │    <span class="m">2000</span> │
+│ <span class="m">2018</span>-01-01T01:02:00.000Z │  <span class="m">9000</span> │ <span class="m">18</span>.1 │     <span class="m">2</span> │ <span class="m">2</span>.2.2.2 │    <span class="m">7000</span> │      <span class="m">90</span> │ <span class="m">6</span>        │ <span class="m">1</span>.1.1.1 │    <span class="m">5000</span> │
+│ <span class="m">2018</span>-01-01T01:03:00.000Z │  <span class="m">6000</span> │  <span class="m">4</span>.3 │     <span class="m">1</span> │ <span class="m">2</span>.2.2.2 │    <span class="m">7000</span> │      <span class="m">60</span> │ <span class="m">6</span>        │ <span class="m">1</span>.1.1.1 │    <span class="m">5000</span> │
+│ <span class="m">2018</span>-01-01T02:33:00.000Z │ <span class="m">30000</span> │ <span class="m">56</span>.9 │     <span class="m">2</span> │ <span class="m">8</span>.8.8.8 │    <span class="m">5000</span> │     <span class="m">300</span> │ <span class="m">17</span>       │ <span class="m">7</span>.7.7.7 │    <span class="m">4000</span> │
+│ <span class="m">2018</span>-01-01T02:35:00.000Z │ <span class="m">30000</span> │ <span class="m">46</span>.3 │     <span class="m">1</span> │ <span class="m">8</span>.8.8.8 │    <span class="m">5000</span> │     <span class="m">300</span> │ <span class="m">17</span>       │ <span class="m">7</span>.7.7.7 │    <span class="m">4000</span> │
+└──────────────────────────┴───────┴──────┴───────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
+Retrieved <span class="m">5</span> rows in <span class="m">0</span>.12s.
+
+dsql&gt; 
 </code></pre></div>
         </div>
         <div class="col-md-3">

@@ -187,7 +187,7 @@ the number of Druid rows for the time interval, which can be used to determine w
 <h2 id="schema-less-dimensions">Schema-less dimensions</h2>
 
 <p>If the <code>dimensions</code> field is left empty in your ingestion spec, Druid will treat every column that is not the timestamp column, 
-a dimension that has been excluded, or a metric column as a dimension. It should be noted that because of <a href="https://github.com/druid-io/druid/issues/658">#658</a> 
+a dimension that has been excluded, or a metric column as a dimension. It should be noted that because of <a href="https://github.com/apache/incubator-druid/issues/658">#658</a> 
 these segments will be slightly larger than if the list of dimensions was explicitly specified in lexicographic order. This limitation 
 does not impact query correctness- just storage requirements.</p>
 

@@ -204,7 +204,7 @@
 </tr>
 <tr>
 <td>context</td>
-<td>See <a href="../querying/query-context.html">Context</a></td>
+<td>Can be used to modify query behavior, including <a href="#grand-totals">grand totals</a> and <a href="#zero-filling">zero-filling</a>. See also <a href="../querying/query-context.html">Context</a> for parameters that apply to all query types.</td>
 <td>no</td>
 </tr>
 </tbody></table>
@@ -221,6 +221,28 @@
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div>
+<h4 id="grand-totals">Grand totals</h4>
+
+<p>Druid can include an extra &quot;grand totals&quot; row as the last row of a timeseries result set. To enable this, add
+<code>&quot;grandTotal&quot; : true</code> to your query context. For example:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_name1&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_fieldName1&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_name2&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_fieldName2&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;grandTotal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The grand totals row will appear as the last row in the result array, and will have no timestamp. It will be the last
+row even if the query is run in &quot;descending&quot; mode. Post-aggregations in the grand totals row will be computed based
+upon the grand total aggregations.</p>
+
 <h4 id="zero-filling">Zero-filling</h4>
 
 <p>Timeseries queries normally fill empty interior time buckets with zeroes. For example, if you issue a &quot;day&quot; granularity

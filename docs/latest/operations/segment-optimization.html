@@ -106,14 +106,14 @@
     <div class="container doc-container">
       
       
-      
 
       
 
       <div class="row">
         <div class="col-md-9 doc-content">
-          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
           <h1 id="segment-size-optimization">Segment size optimization</h1>
 
 <p>In Druid, it&#39;s important to optimize the segment size because</p>
@@ -185,6 +185,15 @@ Details on how to do this can be found under <a href="../ingestion/update-existi
   ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

@@ -128,7 +128,7 @@ don&#39;t need to have loaded any data yet.</p>
 
 <p>A data load is initiated by submitting an <em>ingestion task</em> spec to the Druid overlord. For this tutorial, we&#39;ll be loading the sample Wikipedia page edits data.</p>
 
-<p>We have provided an ingestion spec at <code>examples/wikipedia-index.json</code>, shown here for convenience,
+<p>The Druid package includes the following sample native batch ingestion task spec at <code>quickstart/wikipedia-index.json</code>, shown here for convenience,
 which has been configured to read the <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> input file:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
@@ -195,40 +195,61 @@ which has been configured to read the <code>quickstart/wikiticker-2015-09-12-sam
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>This spec will create a datasource named &quot;wikipedia&quot;.</p>
+<p>This spec will create a datasource named &quot;wikipedia&quot;, </p>
 
 <h2 id="load-batch-data">Load batch data</h2>
 
 <p>We&#39;ve included a sample of Wikipedia edits from September 12, 2015 to get you started.</p>
 
-<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. To submit
-this task, POST it to Druid in a new terminal window from the druid-0.12.2 directory:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
+<p>To load this data into Druid, you can submit an <em>ingestion task</em> pointing to the file. We&#39;ve included
+a task that loads the <code>wikiticker-2015-09-12-sampled.json.gz</code> file included in the archive. </p>
+
+<p>For convenience, the Druid package includes a batch ingestion helper script at <code>bin/post-index-task</code>.</p>
+
+<p>This script will POST an ingestion task to the Druid overlord and poll Druid until the data is available for querying.</p>
+
+<p>Run the following command from Druid package root:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/wikipedia-index.json 
 </code></pre></div>
-<p>Which will print the ID of the task if the submission was successful:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+<p>You should see output like the following:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Beginning indexing data <span class="k">for</span> wikipedia
+Task started: index_wikipedia_2018-07-27T06:37:44.323Z
+Task log:     http://localhost:8090/druid/indexer/v1/task/index_wikipedia_2018-07-27T06:37:44.323Z/log
+Task status:  http://localhost:8090/druid/indexer/v1/task/index_wikipedia_2018-07-27T06:37:44.323Z/status
+Task index_wikipedia_2018-07-27T06:37:44.323Z still running...
+Task index_wikipedia_2018-07-27T06:37:44.323Z still running...
+Task finished with status: SUCCESS
+Completed indexing data <span class="k">for</span> wikipedia. Now loading indexed data onto the cluster...
+wikipedia loading complete! You may now query your data
 </code></pre></div>
-<p>To view the status of your ingestion task, go to your overlord console:
-<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
-the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
-
-<p>After your ingestion task finishes, the data will be loaded by historical nodes and available for
-querying within a minute or two. You can monitor the progress of loading your data in the
-coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
-indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
-
-<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
-
 <h2 id="querying-your-data">Querying your data</h2>
-
-<p>Your data should become fully available within a minute or two. You can monitor this process on 
-your Coordinator console at <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
 
 <p>Once the data is loaded, please follow the <a href="../tutorials/tutorial-query.html">query tutorial</a> to run some example queries on the newly loaded data.</p>
 
 <h2 id="cleanup">Cleanup</h2>
 
-<p>If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these <a href="index.html#resetting-cluster-state">reset instructions</a>, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+<p>If you wish to go through any of the other ingestion tutorials, you will need to shut down the cluster and reset the cluster state by removing the contents of the <code>var</code> directory under the druid package, as the other tutorials will write to the same &quot;wikipedia&quot; datasource.</p>
+
+<h2 id="extra-loading-data-without-the-script">Extra: Loading data without the script</h2>
+
+<p>Let&#39;s briefly discuss how we would&#39;ve submitted the ingestion task without using the script. You do not need to run these commands.</p>
+
+<p>To submit the task, POST it to Druid in a new terminal window from the druid-latest directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
+</code></pre></div>
+<p>Which will print the ID of the task if the submission was successful:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
+</code></pre></div>
+<p>To view the status of the ingestion task, go to the overlord console:
+<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+
+<p>After the ingestion task finishes, the data will be loaded by historical nodes and available for
+querying within a minute or two. You can monitor the progress of loading the data in the
+coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+
+<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
 
 <h2 id="further-reading">Further reading</h2>
 

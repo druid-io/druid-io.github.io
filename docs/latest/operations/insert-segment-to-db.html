@@ -202,7 +202,7 @@ like this,</p>
 -Ddruid.extensions.loadList=[\&quot;mysql-metadata-storage\&quot;,\&quot;druid-hdfs-storage\&quot;] 
 -Ddruid.storage.type=hdfs
 -cp $DRUID_CLASSPATH 
-io.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//druid/storage/wikipedia --updateDescriptor true
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//druid/storage/wikipedia --updateDescriptor true
 </code></pre></div>
 <p>In this example, <code>mysql</code> and deep storage type are provided through Java JVM arguments, you can optionally put all
 of them in a runtime.properites file and include it in the Druid classpath. Note that we also include <code>mysql-metadata-storage</code>
@@ -226,7 +226,7 @@ Note that for segments stored in HDFS, druid config must contain core-site.xml a
 -Ddruid.storage.baseKey=druid/storage/wikipedia
 -Ddruid.storage.maxListingLength=1000
 -cp $DRUID_CLASSPATH
-io.druid.cli.Main tools insert-segment-to-db --workingDir &quot;druid/storage/wikipedia&quot; --updateDescriptor true
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir &quot;druid/storage/wikipedia&quot; --updateDescriptor true
 </code></pre></div>
 <p>Note that you can provide the location of segments with either <code>druid.storage.baseKey</code> or <code>--workingDir</code>. If both are 
  specified, <code>--workingDir</code> gets higher priority. <code>druid.storage.maxListingLength</code> is to determine the length of a

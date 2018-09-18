@@ -279,6 +279,12 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 </tr>
 </thead><tbody>
 <tr>
+<td>inputFormat</td>
+<td>String</td>
+<td>Specifies the Hadoop InputFormat class to use. e.g. <code>org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat</code></td>
+<td>no</td>
+</tr>
+<tr>
 <td>paths</td>
 <td>Array of String</td>
 <td>A String of input paths indicating where the raw data is located.</td>
@@ -306,6 +312,12 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 <td>String</td>
 <td>Specifies the granularity to expect the data at, e.g. hour means to expect directories <code>y=XXXX/m=XX/d=XX/H=XX</code>.</td>
 <td>yes</td>
+</tr>
+<tr>
+<td>inputFormat</td>
+<td>String</td>
+<td>Specifies the Hadoop InputFormat class to use. e.g. <code>org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat</code></td>
+<td>no</td>
 </tr>
 <tr>
 <td>inputPath</td>
@@ -374,8 +386,14 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <tr>
 <td>maxRowsInMemory</td>
 <td>Integer</td>
-<td>The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size.</td>
-<td>no (default == 75000)</td>
+<td>The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size. Normally user does not need to set this, but depending on the nature of data, if rows are short in terms of bytes, user may not want to store a million rows in memory and this value should be set.</td>
+<td>no (default == 1000000)</td>
+</tr>
+<tr>
+<td>maxBytesInMemory</td>
+<td>Long</td>
+<td>The number of bytes to aggregate in heap memory before persisting. Normally this is computed internally and user does not need to set it. This is based on a rough estimate of memory usage and not actual usage. The maximum heap memory usage for indexing is maxBytesInMemory * (2 + maxPendingPersists).</td>
+<td>no (default == One-sixth of max JVM memory)</td>
 </tr>
 <tr>
 <td>leaveIntermediate</td>
@@ -692,7 +710,7 @@ To avoid this extra external cron job script calling <code>kinit</code> periodic
 </tr>
 </tbody></table>
 
-<h2 id="loading-from-s3-with-emr">Loading from S3 with EMR</h2>
+<h3 id="loading-from-s3-with-emr">Loading from S3 with EMR</h3>
 
 <ul>
 <li>In the <code>jobProperties</code> field in the <code>tuningConfig</code> section of your Hadoop indexing task, add:</li>

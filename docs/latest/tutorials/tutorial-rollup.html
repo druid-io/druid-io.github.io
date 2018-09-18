@@ -138,9 +138,9 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-02T21:33:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">123</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">93999</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-02T21:35:45Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;7.7.7.7&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">2818</span><span class="p">}</span>
 </code></pre></div>
-<p>A file containing this sample input data is located at <code>examples/rollup-data.json</code>.</p>
+<p>A file containing this sample input data is located at <code>quickstart/tutorial/rollup-data.json</code>.</p>
 
-<p>We&#39;ll ingest this data using the following ingestion task spec, located at <code>examples/rollup-index.json</code>.</p>
+<p>We&#39;ll ingest this data using the following ingestion task spec, located at <code>quickstart/tutorial/rollup-index.json</code>.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
   <span class="nt">&quot;spec&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -179,7 +179,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/tutorial&quot;</span><span class="p">,</span>
         <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;rollup-data.json&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;appendToExisting&quot;</span> <span class="p">:</span> <span class="kc">false</span>
@@ -201,59 +201,30 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="load-the-example-data">Load the example data</h2>
 
-<p>From the druid-0.12.2 package root, run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/rollup-index.json http://localhost:8090/druid/indexer/v1/task
+<p>From the druid-latest package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/rollup-index.json 
 </code></pre></div>
-<p>After the data is loaded, we will query the data.</p>
+<p>After the script completes, we will query the data.</p>
 
 <h2 id="query-the-example-data">Query the example data</h2>
 
-<p>Let&#39;s issue a <code>select * from &quot;rollup-tutorial&quot;;</code> query to see what data was ingested.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/rollup-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div>
-<p>The following results will be returned:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">35937</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">286</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:02:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">366260</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">415</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:03:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">10204</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">49</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-02T21:33:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">100288</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">161</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-02T21:35:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">2818</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;7.7.7.7&quot;</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;rollup-tutorial&quot;;</code> query to see what data was ingested.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ bin/dsql
+Welcome to dsql, the command-line client <span class="k">for</span> Druid SQL.
+Type <span class="s2">&quot;\h&quot;</span> <span class="k">for</span> help.
+dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;rollup-tutorial&quot;</span><span class="p">;</span>
+┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │  <span class="m">35937</span> │     <span class="m">3</span> │ <span class="m">2</span>.2.2.2 │     <span class="m">286</span> │ <span class="m">1</span>.1.1.1 │
+│ <span class="m">2018</span>-01-01T01:02:00.000Z │ <span class="m">366260</span> │     <span class="m">2</span> │ <span class="m">2</span>.2.2.2 │     <span class="m">415</span> │ <span class="m">1</span>.1.1.1 │
+│ <span class="m">2018</span>-01-01T01:03:00.000Z │  <span class="m">10204</span> │     <span class="m">1</span> │ <span class="m">2</span>.2.2.2 │      <span class="m">49</span> │ <span class="m">1</span>.1.1.1 │
+│ <span class="m">2018</span>-01-02T21:33:00.000Z │ <span class="m">100288</span> │     <span class="m">2</span> │ <span class="m">8</span>.8.8.8 │     <span class="m">161</span> │ <span class="m">7</span>.7.7.7 │
+│ <span class="m">2018</span>-01-02T21:35:00.000Z │   <span class="m">2818</span> │     <span class="m">1</span> │ <span class="m">8</span>.8.8.8 │      <span class="m">12</span> │ <span class="m">7</span>.7.7.7 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+Retrieved <span class="m">5</span> rows in <span class="m">1</span>.18s.
+
+dsql&gt; 
 </code></pre></div>
 <p>Let&#39;s look at the three events in the original input data that occurred during <code>2018-01-01T01:01</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">9024</span><span class="p">}</span>
@@ -261,14 +232,11 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:01:59Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">11</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">5780</span><span class="p">}</span>
 </code></pre></div>
 <p>These three rows have been &quot;rolled up&quot; into the following row:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">35937</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">286</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">}</span><span class="err">,</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │  <span class="m">35937</span> │     <span class="m">3</span> │ <span class="m">2</span>.2.2.2 │     <span class="m">286</span> │ <span class="m">1</span>.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
 </code></pre></div>
 <p>The input rows have been grouped by the timestamp and dimension columns <code>{timestamp, srcIP, dstIP}</code> with sum aggregations on the metric columns <code>packets</code> and <code>bytes</code>.</p>
 
@@ -277,25 +245,19 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Likewise, these two events that occurred during <code>2018-01-01T01:02</code> have been rolled up:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:02:14Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">38</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">6289</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:02:29Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">377</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">359971</span><span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:02:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">366260</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">415</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">}</span><span class="err">,</span>
+</code></pre></div><div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ <span class="m">2018</span>-01-01T01:02:00.000Z │ <span class="m">366260</span> │     <span class="m">2</span> │ <span class="m">2</span>.2.2.2 │     <span class="m">415</span> │ <span class="m">1</span>.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
 </code></pre></div>
 <p>For the last event recording traffic between 1.1.1.1 and 2.2.2.2, no roll-up took place, because this was the only event that occurred during <code>2018-01-01T01:03</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T01:03:29Z&quot;</span><span class="p">,</span><span class="nt">&quot;srcIP&quot;</span><span class="p">:</span><span class="s2">&quot;1.1.1.1&quot;</span><span class="p">,</span> <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span><span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span><span class="nt">&quot;packets&quot;</span><span class="p">:</span><span class="mi">49</span><span class="p">,</span><span class="nt">&quot;bytes&quot;</span><span class="p">:</span><span class="mi">10204</span><span class="p">}</span>
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:03:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;bytes&quot;</span><span class="p">:</span> <span class="mi">10204</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;dstIP&quot;</span><span class="p">:</span> <span class="s2">&quot;2.2.2.2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;packets&quot;</span><span class="p">:</span> <span class="mi">49</span><span class="p">,</span>
-    <span class="nt">&quot;srcIP&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.1.1&quot;</span>
-  <span class="p">}</span><span class="err">,</span>
+</code></pre></div><div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
+│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
+├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
+│ <span class="m">2018</span>-01-01T01:03:00.000Z │  <span class="m">10204</span> │     <span class="m">1</span> │ <span class="m">2</span>.2.2.2 │      <span class="m">49</span> │ <span class="m">1</span>.1.1.1 │
+└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
 </code></pre></div>
 <p>Note that the <code>count</code> metric shows how many rows in the original input data contributed to the final &quot;rolled up&quot; row.</p>
 

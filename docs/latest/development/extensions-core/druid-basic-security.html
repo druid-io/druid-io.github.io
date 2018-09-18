@@ -195,13 +195,13 @@ druid.auth.authenticator.MyBasicAuthenticator.authorizerName=MyBasicAuthorizer
 </thead><tbody>
 <tr>
 <td><code>druid.auth.authenticator.MyBasicAuthenticator.initialAdminPassword</code></td>
-<td>Initial password for the automatically created default admin user. If no password is specified, the default admin user will not be created. If the default admin user already exists, setting this property will affect its password.</td>
+<td>Initial <a href="../../operations/password-provider.html">Password Provider</a> for the automatically created default admin user. If no password is specified, the default admin user will not be created. If the default admin user already exists, setting this property will not affect its password.</td>
 <td>null</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>druid.auth.authenticator.MyBasicAuthenticator.initialInternalClientPassword</code></td>
-<td>Initial password for the default internal system user, used for internal node communication. If no password is specified, the default internal system user will not be created. If the default internal system user already exists, setting this property will affect its password.</td>
+<td>Initial <a href="../../operations/password-provider.html">Password Provider</a> for the default internal system user, used for internal node communication. If no password is specified, the default internal system user will not be created. If the default internal system user already exists, setting this property will not affect its password.</td>
 <td>null</td>
 <td>No</td>
 </tr>
@@ -484,7 +484,11 @@ Return the current load status of the local caches of the authorization database
 </tr>
 </thead><tbody>
 <tr>
-<td><code>/druid/coordinator/v1/security</code></td>
+<td><code>/druid-ext/basic-security/authentication</code></td>
+<td>coordinator</td>
+</tr>
+<tr>
+<td><code>/druid-ext/basic-security/authorization</code></td>
 <td>coordinator</td>
 </tr>
 </tbody></table>
@@ -562,7 +566,7 @@ Return the current load status of the local caches of the authorization database
 <td>middleManager</td>
 </tr>
 <tr>
-<td><code>/druid/worker/v1//task/{taskid}/log</code></td>
+<td><code>/druid/worker/v1/task/{taskid}/log</code></td>
 <td>middleManager</td>
 </tr>
 <tr>
@@ -586,6 +590,12 @@ Return the current load status of the local caches of the authorization database
 <td>all nodes</td>
 </tr>
 </tbody></table>
+
+<h3 id="http-methods">HTTP methods</h3>
+
+<p>For information on what HTTP methods are supported on a particular request endpoint, please refer to the <a href="../../operations/api-reference.html">API documentation</a>.</p>
+
+<p>GET requires READ permission, while POST and DELETE require WRITE permission.</p>
 
 <h2 id="configuration-propagation">Configuration Propagation</h2>
 

@@ -106,14 +106,14 @@
     <div class="container doc-container">
       
       
-      
 
       
 
       <div class="row">
         <div class="col-md-9 doc-content">
-          <p><a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
-          <a class="btn btn-default btn-xs" href="http://static.druid.io/api/0.12.2">API documentation</a></p>
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
           <h2 id="datasketches-theta-sketch-module">DataSketches Theta Sketch module</h2>
 
 <p>This module provides Druid aggregators based on Theta sketch from <a href="http://datasketches.github.io/">datasketches</a> library. Note that sketch algorithms are approximate; see details in the &quot;Accuracy&quot; section of the datasketches doc. 
@@ -407,6 +407,15 @@ How many unique users visited both product A and product B?</p>
   ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url, {'hitCallback':
+        function () {
+          document.location = url;
+        }
+    });
+  }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

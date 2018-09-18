@@ -185,7 +185,7 @@ query time.</p>
 </code></pre></div>
 <h3 id="first-last-aggregator">First / Last aggregator</h3>
 
-<p>First and Last aggregator cannot be used in ingestion spec, and should only be specified as part of queries.</p>
+<p>(Double/Float/Long) First and Last aggregator cannot be used in ingestion spec, and should only be specified as part of queries.</p>
 
 <p>Note that queries with first/last aggregators on a segment created with rollup enabled will return the rolled up value, and not the last value within the raw ingested data.</p>
 
@@ -241,6 +241,28 @@ query time.</p>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longLast&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> 
   <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="stringfirst-aggregator"><code>stringFirst</code> aggregator</h4>
+
+<p><code>stringFirst</code> computes the metric value with the minimum timestamp or <code>null</code> if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringFirst&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;maxStringBytes&quot;</span> <span class="p">:</span> <span class="err">&lt;integer&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">1024),</span>
+  <span class="nt">&quot;filterNullValues&quot;</span> <span class="p">:</span> <span class="err">&lt;boolean&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="stringlast-aggregator"><code>stringLast</code> aggregator</h4>
+
+<p><code>stringLast</code> computes the metric value with the maximum timestamp or <code>null</code> if no row exist</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringLast&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;maxStringBytes&quot;</span> <span class="p">:</span> <span class="err">&lt;integer&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">1024),</span>
+  <span class="nt">&quot;filterNullValues&quot;</span> <span class="p">:</span> <span class="err">&lt;boolean&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-aggregator">JavaScript aggregator</h3>
@@ -370,7 +392,7 @@ The &quot;isInputHyperUnique&quot; field only affects ingestion-time behavior, a
 values to whole numbers. Note that even with rounding, the cardinality is still an estimate. The &quot;round&quot; field only
 affects query-time behavior, and is ignored at ingestion-time.</p>
 
-<p>For more approximate aggregators, please see <a href="../development/extensions-core/datasketches-aggregators.html">theta sketches</a>.</p>
+<p>For more approximate aggregators, check out the <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a>.</p>
 
 <h2 id="miscellaneous-aggregations">Miscellaneous Aggregations</h2>
 

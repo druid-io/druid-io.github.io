@@ -257,14 +257,26 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <tr>
 <td><code>maxRowsInMemory</code></td>
 <td>Integer</td>
-<td>The number of rows to aggregate before persisting. This number is the post-aggregation rows, so it is not equivalent to the number of input events, but the number of aggregated rows that those events result in. This is used to manage the required JVM heap size. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
-<td>no (default == 75000)</td>
+<td>The number of rows to aggregate before persisting. This number is the post-aggregation rows, so it is not equivalent to the number of input events, but the number of aggregated rows that those events result in. This is used to manage the required JVM heap size. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists). Normally user does not need to set this, but depending on the nature of data, if rows are short in terms of bytes, user may not want to store a million rows in memory and this value should be set.</td>
+<td>no (default == 1000000)</td>
+</tr>
+<tr>
+<td><code>maxBytesInMemory</code></td>
+<td>Long</td>
+<td>The number of bytes to aggregate in heap memory before persisting. This is based on a rough estimate of memory usage and not actual usage. Normally this is computed internally and user does not need to set it. The maximum heap memory usage for indexing is maxBytesInMemory * (2 + maxPendingPersists).</td>
+<td>no (default == One-sixth of max JVM memory)</td>
 </tr>
 <tr>
 <td><code>maxRowsPerSegment</code></td>
 <td>Integer</td>
-<td>The number of rows to aggregate into a segment; this number is post-aggregation rows.</td>
+<td>The number of rows to aggregate into a segment; this number is post-aggregation rows. Handoff will happen either if <code>maxRowsPerSegment</code> or <code>maxTotalRows</code> is hit or every <code>intermediateHandoffPeriod</code>, whichever happens earlier.</td>
 <td>no (default == 5000000)</td>
+</tr>
+<tr>
+<td><code>maxTotalRows</code></td>
+<td>Long</td>
+<td>The number of rows to aggregate across all segments; this number is post-aggregation rows. Handoff will happen either if <code>maxRowsPerSegment</code> or <code>maxTotalRows</code> is hit or every <code>intermediateHandoffPeriod</code>, whichever happens earlier.</td>
+<td>no (default == unlimited)</td>
 </tr>
 <tr>
 <td><code>intermediatePersistPeriod</code></td>
@@ -343,6 +355,12 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td>String</td>
 <td>Segment write-out medium to use when creating segments. See <a href="../../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
 <td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used)</td>
+</tr>
+<tr>
+<td><code>intermediateHandoffPeriod</code></td>
+<td>ISO8601 Period</td>
+<td>How often the tasks should hand off segments. Handoff will happen either if <code>maxRowsPerSegment</code> or <code>maxTotalRows</code> is hit or every <code>intermediateHandoffPeriod</code>, whichever happens earlier.</td>
+<td>no (default == P2147483647D)</td>
 </tr>
 </tbody></table>
 
@@ -463,7 +481,7 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <tr>
 <td><code>taskDuration</code></td>
 <td>ISO8601 Period</td>
-<td>The length of time before tasks stop reading and begin publishing their segment. Note that segments are only pushed to deep storage and loadable by historical nodes when the indexing task completes.</td>
+<td>The length of time before tasks stop reading and begin publishing their segment.</td>
 <td>no (default == PT1H)</td>
 </tr>
 <tr>
@@ -530,15 +548,79 @@ existing publishing tasks and will create new tasks starting at the offsets the 
 
 <p>Seamless schema migrations can thus be achieved by simply submitting the new schema using this endpoint.</p>
 
-<h4 id="shutdown-supervisor">Shutdown Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown
+<h4 id="suspend-supervisor">Suspend Supervisor</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/suspend
 </code></pre></div>
-<p>Note that this will cause all indexing tasks managed by this supervisor to immediately stop and begin publishing their segments.</p>
+<p>Suspend indexing tasks associated with a supervisor. Note that the supervisor itself will still be
+operating and emitting logs and metrics, it will just ensure that no indexing tasks are running until the supervisor
+is resumed. Responds with updated SupervisorSpec.</p>
+
+<h4 id="resume-supervisor">Resume Supervisor</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/resume
+</code></pre></div>
+<p>Resume indexing tasks for a supervisor. Responds with updated SupervisorSpec.</p>
+
+<h4 id="reset-supervisor">Reset Supervisor</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
+</code></pre></div>
+<p>The indexing service keeps track of the latest persisted Kafka offsets in order to provide exactly-once ingestion
+guarantees across tasks. Subsequent tasks must start reading from where the previous task completed in order for the
+generated segments to be accepted. If the messages at the expected starting offsets are no longer available in Kafka
+(typically because the message retention period has elapsed or the topic was removed and re-created) the supervisor will
+refuse to start and in-flight tasks will fail.</p>
+
+<p>This endpoint can be used to clear the stored offsets which will cause the supervisor to start reading from
+either the earliest or latest offsets in Kafka (depending on the value of <code>useEarliestOffset</code>). The supervisor must be
+running for this endpoint to be available. After the stored offsets are cleared, the supervisor will automatically kill
+and re-create any active tasks so that tasks begin reading from valid offsets.</p>
+
+<p>Note that since the stored offsets are necessary to guarantee exactly-once ingestion, resetting them with this endpoint
+may cause some Kafka messages to be skipped or to be read twice.</p>
+
+<h4 id="terminate-supervisor">Terminate Supervisor</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/terminate
+</code></pre></div>
+<p>Terminate a supervisor and cause all associated indexing tasks managed by this supervisor to immediately stop and begin 
+publishing their segments. This supervisor will still exist in the metadata store and it&#39;s history may be retrieved 
+with the supervisor history api, but will not be listed in the &#39;get supervisors&#39; api response nor can it&#39;s configuration
+or status report be retrieved. The only way this supervisor can start again is by submitting a functioning supervisor
+spec to the create api.</p>
+
+<h4 id="shutdown-supervisor">Shutdown Supervisor</h4>
+
+<p><em>Deprecated: use the equivalent &#39;terminate&#39; instead</em>
+<code>
+POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown
+</code></p>
 
 <h4 id="get-supervisor-ids">Get Supervisor IDs</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor
 </code></pre></div>
-<p>Returns a list of the currently active supervisors.</p>
+<p>Returns a list of strings of the currently active supervisor ids.</p>
+
+<h4 id="get-supervisors">Get Supervisors</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor?full
+</code></pre></div>
+<p>Returns a list of objects of the currently active supervisors.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>supervisor unique identifier</td>
+</tr>
+<tr>
+<td><code>spec</code></td>
+<td>SupervisorSpec</td>
+<td>json specification of supervisor (See Supervisor Configuration for details)</td>
+</tr>
+</tbody></table>
 
 <h4 id="get-supervisor-spec">Get Supervisor Spec</h4>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;
@@ -562,23 +644,6 @@ response from Kafka. The aggregate lag value will always be &gt;= 0.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/history
 </code></pre></div>
 <p>Returns an audit history of specs for the supervisor with the provided ID.</p>
-
-<h4 id="reset-supervisor">Reset Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
-</code></pre></div>
-<p>The indexing service keeps track of the latest persisted Kafka offsets in order to provide exactly-once ingestion
-guarantees across tasks. Subsequent tasks must start reading from where the previous task completed in order for the
-generated segments to be accepted. If the messages at the expected starting offsets are no longer available in Kafka
-(typically because the message retention period has elapsed or the topic was removed and re-created) the supervisor will
-refuse to start and in-flight tasks will fail.</p>
-
-<p>This endpoint can be used to clear the stored offsets which will cause the supervisor to start reading from
-either the earliest or latest offsets in Kafka (depending on the value of <code>useEarliestOffset</code>). The supervisor must be
-running for this endpoint to be available. After the stored offsets are cleared, the supervisor will automatically kill
-and re-create any active tasks so that tasks begin reading from valid offsets.</p>
-
-<p>Note that since the stored offsets are necessary to guarantee exactly-once ingestion, resetting them with this endpoint
-may cause some Kafka messages to be skipped or to be read twice.</p>
 
 <h2 id="capacity-planning">Capacity Planning</h2>
 
@@ -641,19 +706,20 @@ In this way, configuration changes can be applied without requiring any pause in
 <h3 id="on-the-subject-of-segments">On the Subject of Segments</h3>
 
 <p>Each Kafka Indexing Task puts events consumed from Kafka partitions assigned to it in a single segment for each segment
-granular interval until maxRowsPerSegment limit is reached, at this point a new partition for this segment granularity is
-created for further events. Kafka Indexing Task also does incremental hand-offs which means that all the segments created by a
-task will not be held up till the task duration is over. As soon as maxRowsPerSegment limit is hit, all the segments held
-by the task at that point in time will be handed-off and new set of segments will be created for further events.
-This means that the task can run for longer durations of time without accumulating old segments locally on Middle Manager
-nodes and it is encouraged to do so.</p>
+granular interval until maxRowsPerSegment, maxTotalRows or intermediateHandoffPeriod limit is reached, at this point a new partition
+for this segment granularity is created for further events. Kafka Indexing Task also does incremental hand-offs which
+means that all the segments created by a task will not be held up till the task duration is over. As soon as maxRowsPerSegment,
+maxTotalRows or intermediateHandoffPeriod limit is hit, all the segments held by the task at that point in time will be handed-off
+and new set of segments will be created for further events. This means that the task can run for longer durations of time
+without accumulating old segments locally on Middle Manager nodes and it is encouraged to do so.</p>
 
 <p>Kafka Indexing Service may still produce some small segments. Lets say the task duration is 4 hours, segment granularity
 is set to an HOUR and Supervisor was started at 9:10 then after 4 hours at 13:10, new set of tasks will be started and
 events for the interval 13:00 - 14:00 may be split across previous and new set of tasks. If you see it becoming a problem then
 one can schedule re-indexing tasks be run to merge segments together into new segments of an ideal size (in the range of ~500-700 MB per segment).
+Details on how to optimize the segment size can be found on <a href="../../operations/segment-optimization.html">Segment size optimization</a>.
 There is also ongoing work to support automatic segment compaction of sharded segments as well as compaction not requiring
-Hadoop (see <a href="https://github.com/druid-io/druid/pull/5102">here</a>).</p>
+Hadoop (see <a href="https://github.com/apache/incubator-druid/pull/5102">here</a>).</p>
 
         </div>
         <div class="col-md-3">

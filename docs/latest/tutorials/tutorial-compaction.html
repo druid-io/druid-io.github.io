@@ -129,8 +129,8 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>For this tutorial, we&#39;ll be using the Wikipedia edits sample data, with an ingestion task spec that will create a separate segment for each hour in the input data.</p>
 
-<p>The ingestion spec can be found at <code>examples/compaction-init-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>compaction-tutorial</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/compaction-init-index.json http://localhost:8090/druid/indexer/v1/task
+<p>The ingestion spec can be found at <code>quickstart/tutorial/compaction-init-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>compaction-tutorial</code>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-init-index.json 
 </code></pre></div>
 <p>After the ingestion completes, go to http://localhost:8081/#/datasources/compaction-tutorial in a browser to view information about the new datasource in the Coordinator console.</p>
 
@@ -139,14 +139,19 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p><img src="../tutorials/img/tutorial-retention-01.png" alt="Original segments" title="Original segments"></p>
 
 <p>Running a COUNT(*) query on this datasource shows that there are 39,244 rows:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/compaction-count-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span><span class="nt">&quot;EXPR$0&quot;</span><span class="p">:</span><span class="mi">39244</span><span class="p">}]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> count<span class="o">(</span>*<span class="o">)</span> from <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">;</span>
+┌────────┐
+│ EXPR<span class="nv">$0</span> │
+├────────┤
+│  <span class="m">39244</span> │
+└────────┘
+Retrieved <span class="m">1</span> row in <span class="m">1</span>.38s.
 </code></pre></div>
 <h2 id="compact-the-data">Compact the data</h2>
 
 <p>Let&#39;s now combine these 24 segments into one segment.</p>
 
-<p>We have included a compaction task spec for this tutorial datasource at <code>examples/compaction-final-index.json</code>:</p>
+<p>We have included a compaction task spec for this tutorial datasource at <code>quickstart/tutorial/compaction-final-index.json</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">,</span>
@@ -166,7 +171,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>In this tutorial example, only one compacted segment will be created, as the 39244 rows in the input is less than the 5000000 <code>targetPartitionSize</code>.</p>
 
 <p>Let&#39;s submit this task now:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">curl</span> <span class="err">-X</span> <span class="err">&#39;POST&#39;</span> <span class="err">-H</span> <span class="err">&#39;Content-Type:application/json&#39;</span> <span class="err">-d</span> <span class="err">@examples/compaction-final-index.json</span> <span class="err">http://localhost:</span><span class="mi">8090</span><span class="err">/druid/indexer/v</span><span class="mi">1</span><span class="err">/task</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-final-index.json 
 </code></pre></div>
 <p>After the task finishes, refresh the http://localhost:8081/#/datasources/compaction-tutorial page.</p>
 
@@ -179,8 +184,13 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The new compacted segment has a more recent version than the original segments, so even when both sets of segments are shown by the coordinator, queries will only read from the new compacted segment.</p>
 
 <p>Let&#39;s try running a COUNT(*) on <code>compaction-tutorial</code> again, where the row count should still be 39,244:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/compaction-count-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span><span class="nt">&quot;EXPR$0&quot;</span><span class="p">:</span><span class="mi">39244</span><span class="p">}]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> count<span class="o">(</span>*<span class="o">)</span> from <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">;</span>
+┌────────┐
+│ EXPR<span class="nv">$0</span> │
+├────────┤
+│  <span class="m">39244</span> │
+└────────┘
+Retrieved <span class="m">1</span> row in <span class="m">1</span>.30s.
 </code></pre></div>
 <p>After the coordinator has been running for at least 15 minutes, the http://localhost:8081/#/datasources/compaction-tutorial page should show there is only 1 segment:</p>
 
