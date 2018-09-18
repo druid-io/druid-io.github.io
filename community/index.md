@@ -15,6 +15,7 @@ and Git repositories will be migrated as well.
 * **User mailing list** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user) for general discussion
 * **Development mailing list** [dev@druid.apache.org](https://lists.apache.org/list.html?dev@druid.apache.org) for discussion about project development
 * **GitHub** [druid-io/druid](https://github.com/apache/incubator-druid) issues and pull requests (watch to subscribe)
+* **Meetups** [Druid meetups](https://www.meetup.com/topics/apache-druid/) for different meetup groups around the world.
 * **IRC** `#druid-dev` on irc.freenode.net
 
 ## Contributing
