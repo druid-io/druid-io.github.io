@@ -59,9 +59,9 @@ since you will be editing the configurations and then copying the modified distr
 of your servers.
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-latest-bin.tar.gz
-tar -xzf druid-latest-bin.tar.gz
-cd druid-latest
+curl -O http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz
+tar -xzf druid-0.12.3-bin.tar.gz
+cd druid-0.12.3
 ```
 
 In this package, you'll find:
@@ -285,7 +285,7 @@ server. If you have been editing the configurations on your local machine, you c
 copy them:
 
 ```bash
-rsync -az druid-latest/ COORDINATION_SERVER:druid-latest/
+rsync -az druid-0.12.3/ COORDINATION_SERVER:druid-0.12.3/
 ```
 
 Log on to your coordination server and install Zookeeper:
@@ -305,8 +305,8 @@ In production, we also recommend running a ZooKeeper cluster on its own dedicate
 On your coordination server, *cd* into the distribution and start up the coordination services (you should do this in different windows or pipe the log to a file):
 
 ```bash
-java `cat conf/druid/coordinator/jvm.config | xargs` -cp conf/druid/_common:conf/druid/coordinator:lib/* org.apache.druid.cli.Main server coordinator
-java `cat conf/druid/overlord/jvm.config | xargs` -cp conf/druid/_common:conf/druid/overlord:lib/* org.apache.druid.cli.Main server overlord
+java `cat conf/druid/coordinator/jvm.config | xargs` -cp conf/druid/_common:conf/druid/coordinator:lib/* io.druid.cli.Main server coordinator
+java `cat conf/druid/overlord/jvm.config | xargs` -cp conf/druid/_common:conf/druid/overlord:lib/* io.druid.cli.Main server overlord
 ```
 
 You should see a log message printed out for each service that starts up. You can view detailed logs
@@ -319,8 +319,8 @@ Copy the Druid distribution and your edited configurations to your servers set a
 On each one, *cd* into the distribution and run this command to start a Data server:
 
 ```bash
-java `cat conf/druid/historical/jvm.config | xargs` -cp conf/druid/_common:conf/druid/historical:lib/* org.apache.druid.cli.Main server historical
-java `cat conf/druid/middleManager/jvm.config | xargs` -cp conf/druid/_common:conf/druid/middleManager:lib/* org.apache.druid.cli.Main server middleManager
+java `cat conf/druid/historical/jvm.config | xargs` -cp conf/druid/_common:conf/druid/historical:lib/* io.druid.cli.Main server historical
+java `cat conf/druid/middleManager/jvm.config | xargs` -cp conf/druid/_common:conf/druid/middleManager:lib/* io.druid.cli.Main server middleManager
 ```
 
 You can add more servers with Druid Historicals and MiddleManagers as needed.
@@ -350,7 +350,7 @@ Copy the Druid distribution and your edited configurations to your servers set a
 On each one, *cd* into the distribution and run this command to start a Broker (you may want to pipe the output to a log file):
 
 ```bash
-java `cat conf/druid/broker/jvm.config | xargs` -cp conf/druid/_common:conf/druid/broker:lib/* org.apache.druid.cli.Main server broker
+java `cat conf/druid/broker/jvm.config | xargs` -cp conf/druid/_common:conf/druid/broker:lib/* io.druid.cli.Main server broker
 ```
 
 You can add more Brokers as needed based on query load.

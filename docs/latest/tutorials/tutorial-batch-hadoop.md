@@ -16,18 +16,18 @@ Once the Docker install is complete, please proceed to the next steps in the tut
 
 ## Build the Hadoop docker image
 
-For this tutorial, we've provided a Dockerfile for a Hadoop 2.8.3 cluster, which we'll use to run the batch indexing task.
+For this tutorial, we've provided a Dockerfile for a Hadoop 2.7.3 cluster, which we'll use to run the batch indexing task.
 
-This Dockerfile and related files are located at `quickstart/tutorial/hadoop/docker`.
+This Dockerfile and related files are located at `examples/hadoop/docker`.
 
-From the druid-latest package root, run the following commands to build a Docker image named "druid-hadoop-demo" with version tag "2.8.3":
+From the druid-0.12.3 package root, run the following commands to build a Docker image named "druid-hadoop-demo" with version tag "2.7.3":
 
 ```bash
-cd quickstart/tutorial/hadoop/docker
-docker build -t druid-hadoop-demo:2.8.3 .
+cd examples/hadoop/docker
+docker build -t druid-hadoop-demo:2.7.3 .
 ```
 
-This will start building the Hadoop image. Once the image build is done, you should see the message `Successfully tagged druid-hadoop-demo:2.8.3` printed to the console.
+This will start building the Hadoop image. Once the image build is done, you should see the message `Successfully tagged druid-hadoop-demo:2.7.3` printed to the console.
 
 ## Setup the Hadoop docker cluster
 
@@ -39,7 +39,7 @@ Let's create some folders under `/tmp`, we will use these later when starting th
 
 ```bash
 mkdir -p /tmp/shared
-mkdir -p /tmp/shared/hadoop_xml
+mkdir -p /tmp/shared/hadoop-xml
 ```
 
 ### Configure /etc/hosts
@@ -55,7 +55,7 @@ On the host machine, add the following entry to `/etc/hosts`:
 Once the `/tmp/shared` folder has been created and the `etc/hosts` entry has been added, run the following command to start the Hadoop container.
 
 ```bash
-docker run -it  -h druid-hadoop-demo --name druid-hadoop-demo -p 50010:50010 -p 50020:50020 -p 50075:50075 -p 50090:50090 -p 8020:8020 -p 10020:10020 -p 19888:19888 -p 8030:8030 -p 8031:8031 -p 8032:8032 -p 8033:8033 -p 8040:8040 -p 8042:8042 -p 8088:8088 -p 8443:8443 -p 2049:2049 -p 9000:9000 -p 49707:49707 -p 2122:2122  -p 34455:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.8.3 /etc/bootstrap.sh -bash
+docker run -it  -h druid-hadoop-demo --name druid-hadoop-demo -p 50010:50010 -p 50020:50020 -p 50075:50075 -p 50090:50090 -p 8020:8020 -p 10020:10020 -p 19888:19888 -p 8030:8030 -p 8031:8031 -p 8032:8032 -p 8033:8033 -p 8040:8040 -p 8042:8042 -p 8088:8088 -p 8443:8443 -p 2049:2049 -p 9000:9000 -p 49707:49707 -p 2122:2122  -p 34455:34455 -v /tmp/shared:/shared druid-hadoop-demo:2.7.3 /etc/bootstrap.sh -bash
 ```
 
 Once the container is started, your terminal will attach to a bash shell running inside the container:
@@ -88,7 +88,7 @@ docker exec -it druid-hadoop-demo bash
 
 ### Copy input data to the Hadoop container
 
-From the druid-latest package root on the host, copy the `quickstart/wikiticker-2015-09-12-sampled.json.gz` sample data to the shared folder:
+From the druid-0.12.3 package root on the host, copy the `quickstart/wikiticker-2015-09-12-sampled.json.gz` sample data to the shared folder:
 
 ```bash
 cp quickstart/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
@@ -111,7 +111,7 @@ cd /usr/local/hadoop/bin
 ./hadoop fs -put /shared/wikiticker-2015-09-12-sampled.json.gz /quickstart/wikiticker-2015-09-12-sampled.json.gz
 ```
 
-If you encounter namenode errors when running this command, the Hadoop container may not be finished initializing. When this occurs, wait a couple of minutes and retry the commands.
+If you encounter namenode errors such as `mkdir: Cannot create directory /druid. Name node is in safe mode.` when running this command, the Hadoop container is not finished initializing. When this occurs, wait a couple of minutes and retry the commands.
 
 ## Configure Druid to use Hadoop
 
@@ -122,21 +122,20 @@ Some additional steps are needed to configure the Druid cluster for Hadoop batch
 From the Hadoop container's shell, run the following command to copy the Hadoop .xml configuration files to the shared folder:
 
 ```bash
-cp /usr/local/hadoop/etc/hadoop/*.xml /shared/hadoop_xml
+cp /usr/local/hadoop/etc/hadoop/*.xml /shared/hadoop-xml
 ```
 
 From the host machine, run the following, where {PATH_TO_DRUID} is replaced by the path to the Druid package.
 
 ```bash
-mkdir -p {PATH_TO_DRUID}/quickstart/tutorial/conf/druid/_common/hadoop-xml
-cp /tmp/shared/hadoop_xml/*.xml {PATH_TO_DRUID}/quickstart/tutorial/conf/druid/_common/hadoop-xml/
+cp /tmp/shared/hadoop-xml/*.xml {PATH_TO_DRUID}/examples/conf/druid/_common/hadoop-xml/
 ```
 
 ### Update Druid segment and log storage
 
-In your favorite text editor, open `quickstart/tutorial/conf/druid/_common/common.runtime.properties`, and make the following edits:
+In your favorite text editor, open `examples/conf/druid/_common/common.runtime.properties`, and make the following edits:
 
-#### Disable local deep storage and enable HDFS deep storage
+#### Disable local deep storage and enable HDFS deep stroage
 
 ```
 #
@@ -174,32 +173,51 @@ druid.indexer.logs.directory=/druid/indexing-logs
 
 Once the Hadoop .xml files have been copied to the Druid cluster and the segment/log storage configuration has been updated to use HDFS, the Druid cluster needs to be restarted for the new configurations to take effect.
 
-If the cluster is still running, CTRL-C to terminate the `bin/supervise` script, and re-reun it to bring the Druid services back up.
+If the cluster is still running, CTRL-C to terminate each Druid service, and re-run them.
 
 ## Load batch data
 
 We've included a sample of Wikipedia edits from September 12, 2015 to get you started.
 
 To load this data into Druid, you can submit an *ingestion task* pointing to the file. We've included
-a task that loads the `wikiticker-2015-09-12-sampled.json.gz` file included in the archive.
-
-Let's submit the `wikipedia-index-hadoop-.json` task:
+a task that loads the `wikiticker-2015-09-12-sampled.json.gz` file included in the archive. To submit
+this task, POST it to Druid in a new terminal window from the druid-0.12.3 directory:
 
 ```bash
-bin/post-index-task --file quickstart/tutorial/wikipedia-index-hadoop.json 
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-index-hadoop.json http://localhost:8090/druid/indexer/v1/task
 ```
+
+Which will print the ID of the task if the submission was successful:
+
+```bash
+{"task":"index_hadoop_wikipedia-hadoop_2018-06-09T21:30:32.802Z"}
+```
+
+To view the status of your ingestion task, go to your overlord console:
+[http://localhost:8090/console.html](http://localhost:8090/console.html). You can refresh the console periodically, and after
+the task is successful, you should see a "SUCCESS" status for the task.
+
+After your ingestion task finishes, the data will be loaded by historical nodes and be available for
+querying within a minute or two. You can monitor the progress of loading your data in the
+coordinator console, by checking whether there is a datasource "wikipedia" with a blue circle
+indicating "fully available": [http://localhost:8081/#/](http://localhost:8081/#/).
+
+![Coordinator console](../tutorials/img/tutorial-batch-01.png "Wikipedia 100% loaded")
 
 ## Querying your data
 
-After the data load is complete, please follow the [query tutorial](../tutorials/tutorial-query.html) to run some example queries on the newly loaded data.
+Your data should become fully available within a minute or two after the task completes. You can monitor this process on 
+your Coordinator console at [http://localhost:8081/#/](http://localhost:8081/#/).
+
+Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some example queries on the newly loaded data.
 
 ## Cleanup
 
 This tutorial is only meant to be used together with the [query tutorial](../tutorials/tutorial-query.html). 
 
 If you wish to go through any of the other tutorials, you will need to:
-* Shut down the cluster and reset the cluster state by removing the contents of the `var` directory under the druid package.
-* Revert the deep storage and task storage config back to local types in `quickstart/tutorial/conf/druid/_common/common.runtime.properties`
+* Shut down the cluster and reset the cluster state by following the [reset instructions](index.html#resetting-cluster-state).
+* Revert the deep storage and task storage config back to local types in `examples/conf/druid/_common/common.runtime.properties`
 * Restart the cluster
 
 This is necessary because the other ingestion tutorials will write to the same "wikipedia" datasource, and later tutorials expect the cluster to use local deep storage.

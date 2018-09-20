@@ -29,9 +29,9 @@ For this tutorial, we'll use a small sample of network flow event data, represen
 {"timestamp":"2018-01-02T21:35:45Z","srcIP":"7.7.7.7", "dstIP":"8.8.8.8","packets":12,"bytes":2818}
 ```
 
-A file containing this sample input data is located at `quickstart/tutorial/rollup-data.json`.
+A file containing this sample input data is located at `examples/rollup-data.json`.
 
-We'll ingest this data using the following ingestion task spec, located at `quickstart/tutorial/rollup-index.json`.
+We'll ingest this data using the following ingestion task spec, located at `examples/rollup-index.json`.
 
 ```json
 {
@@ -72,7 +72,7 @@ We'll ingest this data using the following ingestion task spec, located at `quic
       "type" : "index",
       "firehose" : {
         "type" : "local",
-        "baseDir" : "quickstart/tutorial",
+        "baseDir" : "examples",
         "filter" : "rollup-data.json"
       },
       "appendToExisting" : false
@@ -95,35 +95,67 @@ We will see how these definitions are used after we load this data.
 
 ## Load the example data
 
-From the druid-latest package root, run the following command:
+From the druid-0.12.3 package root, run the following command:
 
 ```bash
-bin/post-index-task --file quickstart/tutorial/rollup-index.json 
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
-After the script completes, we will query the data.
+After the data is loaded, we will query the data.
 
 ## Query the example data
 
-Let's run `bin/dsql` and issue a `select * from "rollup-tutorial";` query to see what data was ingested.
+Let's issue a `select * from "rollup-tutorial";` query to see what data was ingested.
 
 ```bash
-$ bin/dsql
-Welcome to dsql, the command-line client for Druid SQL.
-Type "\h" for help.
-dsql> select * from "rollup-tutorial";
-┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
-│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
-├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
-│ 2018-01-01T01:01:00.000Z │  35937 │     3 │ 2.2.2.2 │     286 │ 1.1.1.1 │
-│ 2018-01-01T01:02:00.000Z │ 366260 │     2 │ 2.2.2.2 │     415 │ 1.1.1.1 │
-│ 2018-01-01T01:03:00.000Z │  10204 │     1 │ 2.2.2.2 │      49 │ 1.1.1.1 │
-│ 2018-01-02T21:33:00.000Z │ 100288 │     2 │ 8.8.8.8 │     161 │ 7.7.7.7 │
-│ 2018-01-02T21:35:00.000Z │   2818 │     1 │ 8.8.8.8 │      12 │ 7.7.7.7 │
-└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
-Retrieved 5 rows in 1.18s.
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-select-sql.json http://localhost:8082/druid/v2/sql
+```
 
-dsql> 
+The following results will be returned:
+
+```json
+[
+  {
+    "__time": "2018-01-01T01:01:00.000Z",
+    "bytes": 35937,
+    "count": 3,
+    "dstIP": "2.2.2.2",
+    "packets": 286,
+    "srcIP": "1.1.1.1"
+  },
+  {
+    "__time": "2018-01-01T01:02:00.000Z",
+    "bytes": 366260,
+    "count": 2,
+    "dstIP": "2.2.2.2",
+    "packets": 415,
+    "srcIP": "1.1.1.1"
+  },
+  {
+    "__time": "2018-01-01T01:03:00.000Z",
+    "bytes": 10204,
+    "count": 1,
+    "dstIP": "2.2.2.2",
+    "packets": 49,
+    "srcIP": "1.1.1.1"
+  },
+  {
+    "__time": "2018-01-02T21:33:00.000Z",
+    "bytes": 100288,
+    "count": 2,
+    "dstIP": "8.8.8.8",
+    "packets": 161,
+    "srcIP": "7.7.7.7"
+  },
+  {
+    "__time": "2018-01-02T21:35:00.000Z",
+    "bytes": 2818,
+    "count": 1,
+    "dstIP": "8.8.8.8",
+    "packets": 12,
+    "srcIP": "7.7.7.7"
+  }
+]
 ```
 
 Let's look at the three events in the original input data that occurred during `2018-01-01T01:01`:
@@ -136,12 +168,15 @@ Let's look at the three events in the original input data that occurred during `
 
 These three rows have been "rolled up" into the following row:
 
-```bash
-┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
-│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
-├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
-│ 2018-01-01T01:01:00.000Z │  35937 │     3 │ 2.2.2.2 │     286 │ 1.1.1.1 │
-└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+```json
+  {
+    "__time": "2018-01-01T01:01:00.000Z",
+    "bytes": 35937,
+    "count": 3,
+    "dstIP": "2.2.2.2",
+    "packets": 286,
+    "srcIP": "1.1.1.1"
+  },
 ```
 
 The input rows have been grouped by the timestamp and dimension columns `{timestamp, srcIP, dstIP}` with sum aggregations on the metric columns `packets` and `bytes`.
@@ -155,12 +190,15 @@ Likewise, these two events that occurred during `2018-01-01T01:02` have been rol
 {"timestamp":"2018-01-01T01:02:29Z","srcIP":"1.1.1.1", "dstIP":"2.2.2.2","packets":377,"bytes":359971}
 ```
 
-```bash
-┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
-│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
-├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
-│ 2018-01-01T01:02:00.000Z │ 366260 │     2 │ 2.2.2.2 │     415 │ 1.1.1.1 │
-└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+```json
+  {
+    "__time": "2018-01-01T01:02:00.000Z",
+    "bytes": 366260,
+    "count": 2,
+    "dstIP": "2.2.2.2",
+    "packets": 415,
+    "srcIP": "1.1.1.1"
+  },
 ```
 
 For the last event recording traffic between 1.1.1.1 and 2.2.2.2, no roll-up took place, because this was the only event that occurred during `2018-01-01T01:03`:
@@ -169,12 +207,15 @@ For the last event recording traffic between 1.1.1.1 and 2.2.2.2, no roll-up too
 {"timestamp":"2018-01-01T01:03:29Z","srcIP":"1.1.1.1", "dstIP":"2.2.2.2","packets":49,"bytes":10204}
 ```
 
-```bash
-┌──────────────────────────┬────────┬───────┬─────────┬─────────┬─────────┐
-│ __time                   │ bytes  │ count │ dstIP   │ packets │ srcIP   │
-├──────────────────────────┼────────┼───────┼─────────┼─────────┼─────────┤
-│ 2018-01-01T01:03:00.000Z │  10204 │     1 │ 2.2.2.2 │      49 │ 1.1.1.1 │
-└──────────────────────────┴────────┴───────┴─────────┴─────────┴─────────┘
+```json
+  {
+    "__time": "2018-01-01T01:03:00.000Z",
+    "bytes": 10204,
+    "count": 1,
+    "dstIP": "2.2.2.2",
+    "packets": 49,
+    "srcIP": "1.1.1.1"
+  },
 ```
 
 Note that the `count` metric shows how many rows in the original input data contributed to the final "rolled up" row.

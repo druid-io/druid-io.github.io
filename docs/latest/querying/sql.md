@@ -44,7 +44,6 @@ FROM table
 [ HAVING expr ]
 [ ORDER BY expr [ ASC | DESC ], expr [ ASC | DESC ], ... ]
 [ LIMIT limit ]
-[ UNION ALL <another query> ]
 ```
 
 The FROM clause refers to either a Druid datasource, like `druid.foo`, an [INFORMATION_SCHEMA table](#retrieving-metadata), a
@@ -74,9 +73,6 @@ to data nodes for queries that run with the native TopN query type, but not the 
 versions of Druid will support pushing down limits using the native GroupBy query type as well. If you notice that
 adding a limit doesn't change performance very much, then it's likely that Druid didn't push down the limit for your
 query.
-
-The "UNION ALL" operator can be used to fuse multiple queries together. Their results will be concatenated, and each
-query will run separately, back to back (not in parallel). Druid does not currently support "UNION" without "ALL".
 
 Add "EXPLAIN PLAN FOR" to the beginning of any query to see how it would be run as a native Druid query. In this case,
 the query will not actually be executed.
@@ -129,8 +125,6 @@ String functions accept strings, and return a type appropriate to the function.
 |Function|Notes|
 |--------|-----|
 |`x \|\| y`|Concat strings x and y.|
-|`CONCAT(expr, expr...)`|Concats a list of expressions.|
-|`TEXTCAT(expr, expr)`|Two argument version of CONCAT.|
 |`LENGTH(expr)`|Length of expr in UTF-16 code units.|
 |`CHAR_LENGTH(expr)`|Synonym for `LENGTH`.|
 |`CHARACTER_LENGTH(expr)`|Synonym for `LENGTH`.|
@@ -226,9 +220,7 @@ Druid does not support all SQL features, including:
 Additionally, some Druid features are not supported by the SQL language. Some unsupported Druid features include:
 
 - [Multi-value dimensions](multi-value-dimensions.html).
-- [DataSketches aggregators](../development/extensions-core/datasketches-extension.html).
-- [Spatial filters](../development/geo.html).
-- [Query cancellation](querying.html#query-cancellation).
+- [DataSketches aggregators](../development/extensions-core/datasketches-aggregators.html).
 
 ## Data types and casts
 
@@ -343,6 +335,10 @@ of configuration.
 You can make Druid SQL queries using JSON over HTTP by posting to the endpoint `/druid/v2/sql/`. The request should
 be a JSON object with a "query" field, like `{"query" : "SELECT COUNT(*) FROM data_source WHERE foo = 'bar'"}`.
 
+Results are available in two formats: "object" (the default; a JSON array of JSON objects), and "array" (a JSON array
+of JSON arrays). In "object" form, each row's field names will match the column names from your SQL query. In "array"
+form, each row's values are returned in the order specified in your SQL query.
+
 You can use _curl_ to send SQL queries from the command-line:
 
 ```bash
@@ -353,8 +349,9 @@ $ curl -XPOST -H'Content-Type: application/json' http://BROKER:8082/druid/v2/sql
 [{"TheCount":24433}]
 ```
 
-There are a variety of [connection context parameters](#connection-context) you can provide by adding a "context" map,
-like:
+Metadata is available over the HTTP API by querying the ["INFORMATION_SCHEMA" tables](#retrieving-metadata).
+
+Finally, you can also provide [connection context parameters](#connection-context) by adding a "context" map, like:
 
 ```json
 {
@@ -364,45 +361,6 @@ like:
   }
 }
 ```
-
-Metadata is available over the HTTP API by querying [system tables](#retrieving-metadata).
-
-#### Responses
-
-All Druid SQL HTTP responses include a "X-Druid-Column-Names" header with a JSON-encoded array of columns that
-will appear in the result rows and an "X-Druid-Column-Types" header with a JSON-encoded array of
-[types](#data-types-and-casts).
-
-For the result rows themselves, Druid SQL supports a variety of result formats. You can
-specify these by adding a "resultFormat" parameter, like:
-
-```json
-{
-  "query" : "SELECT COUNT(*) FROM data_source WHERE foo = 'bar' AND __time > TIMESTAMP '2000-01-01 00:00:00'",
-  "resultFormat" : "object"
-}
-```
-
-The supported result formats are:
-
-|Format|Description|Content-Type|
-|------|-----------|------------|
-|`object`|The default, a JSON array of JSON objects. Each object's field names match the columns returned by the SQL query, and are provided in the same order as the SQL query.|application/json|
-|`array`|JSON array of JSON arrays. Each inner array has elements matching the columns returned by the SQL query, in order.|application/json|
-|`objectLines`|Like "object", but the JSON objects are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.|text/plain|
-|`arrayLines`|Like "array", but the JSON arrays are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.|text/plain|
-|`csv`|Comma-separated values, with one row per line. Individual field values may be escaped by being surrounded in double quotes. If double quotes appear in a field value, they will be escaped by replacing them with double-double-quotes like `""this""`. To make it possible to detect a truncated response, this format includes a trailer of one blank line.|text/csv|
-
-Errors that occur before the response body is sent will be reported in JSON, with an HTTP 500 status code, in the
-same format as [native Druid query errors](../querying/querying.html#query-errors). If an error occurs while the response body is
-being sent, at that point it is too late to change the HTTP status code or report a JSON error, so the response will
-simply end midstream and an error will be logged by the Druid server that was handling your request.
-
-As a caller, it is important that you properly handle response truncation. This is easy for the "object" and "array"
-formats, since truncated responses will be invalid JSON. For the line-oriented formats, you should check the
-trailer they all include: one blank line at the end of the result set. If you detect a truncated response, either
-through a JSON parsing error or through a missing trailing newline, you should assume the response was not fully
-delivered due to an error.
 
 ### JDBC
 
@@ -422,7 +380,7 @@ Properties connectionProperties = new Properties();
 
 try (Connection connection = DriverManager.getConnection(url, connectionProperties)) {
   try (
-      final Statement statement = connection.createStatement();
+      final Statement statement = client.createStatement();
       final ResultSet resultSet = statement.executeQuery(query)
   ) {
     while (resultSet.next()) {
@@ -436,13 +394,13 @@ Table metadata is available over JDBC using `connection.getMetaData()` or by que
 ["INFORMATION_SCHEMA" tables](#retrieving-metadata). Parameterized queries (using `?` or other placeholders) don't work properly,
 so avoid those.
 
-#### Connection stickiness
+#### Connection Stickiness
 
 Druid's JDBC server does not share connection state between brokers. This means that if you're using JDBC and have
 multiple Druid brokers, you should either connect to a specific broker, or use a load balancer with sticky sessions
-enabled. The Druid Router node provides connection stickiness when balancing JDBC requests, and can be used to achieve
-the necessary stickiness even with a normal non-sticky load balancer. Please see the
-[Router](../development/router.html) documentation for more details.
+enabled.
+
+The Druid Router node provides connection stickiness when balancing JDBC requests. Please see [Router](../development/router.html) documentation for more details.
 
 Note that the non-JDBC [JSON over HTTP](#json-over-http) API is stateless and does not require stickiness.
 
@@ -456,10 +414,10 @@ Connection context can be specified as JDBC connection properties or as a "conte
 
 |Parameter|Description|Default value|
 |---------|-----------|-------------|
-|`sqlTimeZone`|Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like "America/Los_Angeles" or offset like "-08:00".|druid.sql.planner.sqlTimeZone on the broker (default: UTC)|
-|`useApproximateCountDistinct`|Whether to use an approximate cardinalty algorithm for `COUNT(DISTINCT foo)`.|druid.sql.planner.useApproximateCountDistinct on the broker (default: true)|
-|`useApproximateTopN`|Whether to use approximate [TopN queries](topnquery.html) when a SQL query could be expressed as such. If false, exact [GroupBy queries](groupbyquery.html) will be used instead.|druid.sql.planner.useApproximateTopN on the broker (default: true)|
-|`useFallback`|Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.|druid.sql.planner.useFallback on the broker (default: false)|
+|`sqlTimeZone`|Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like "America/Los_Angeles" or offset like "-08:00".|UTC|
+|`useApproximateCountDistinct`|Whether to use an approximate cardinalty algorithm for `COUNT(DISTINCT foo)`.|druid.sql.planner.useApproximateCountDistinct on the broker|
+|`useApproximateTopN`|Whether to use approximate [TopN queries](topnquery.html) when a SQL query could be expressed as such. If false, exact [GroupBy queries](groupbyquery.html) will be used instead.|druid.sql.planner.useApproximateTopN on the broker|
+|`useFallback`|Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.|druid.sql.planner.useFallback on the broker|
 
 ### Retrieving metadata
 
@@ -528,7 +486,7 @@ The Druid SQL server is configured through the following properties on the broke
 |`druid.sql.enable`|Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.|false|
 |`druid.sql.avatica.enable`|Whether to enable JDBC querying at `/druid/v2/sql/avatica/`.|true|
 |`druid.sql.avatica.maxConnections`|Maximum number of open connections for the Avatica server. These are not HTTP connections, but are logical client connections that may span multiple HTTP connections.|50|
-|`druid.sql.avatica.maxRowsPerFrame`|Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and `maxRowsPerFrame` will be used.|5,000|
+|`druid.sql.avatica.maxRowsPerFrame`|Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and `maxRowsPerFrame` will be used.|100,000|
 |`druid.sql.avatica.maxStatementsPerConnection`|Maximum number of simultaneous open statements per Avatica client connection.|1|
 |`druid.sql.avatica.connectionIdleTimeout`|Avatica client connection idle timeout.|PT5M|
 |`druid.sql.http.enable`|Whether to enable JSON over HTTP querying at `/druid/v2/sql/`.|true|
@@ -540,5 +498,3 @@ The Druid SQL server is configured through the following properties on the broke
 |`druid.sql.planner.useApproximateCountDistinct`|Whether to use an approximate cardinalty algorithm for `COUNT(DISTINCT foo)`.|true|
 |`druid.sql.planner.useApproximateTopN`|Whether to use approximate [TopN queries](../querying/topnquery.html) when a SQL query could be expressed as such. If false, exact [GroupBy queries](../querying/groupbyquery.html) will be used instead.|true|
 |`druid.sql.planner.useFallback`|Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.|false|
-|`druid.sql.planner.requireTimeCondition`|Whether to require SQL to have filter conditions on __time column so that all generated native queries will have user specified intervals. If true, all queries wihout filter condition on __time column will fail|false|
-|`druid.sql.planner.sqlTimeZone`|Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like "America/Los_Angeles" or offset like "-08:00".|UTC|

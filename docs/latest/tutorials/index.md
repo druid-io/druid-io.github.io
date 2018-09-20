@@ -4,17 +4,13 @@ layout: doc_page
 
 # Druid Quickstart
 
-In this quickstart, we will download Druid and set it up on a single machine. The cluster will be ready to load data
-after completing this initial setup.
-
-Before beginning the quickstart, it is helpful to read the [general Druid overview](../design/index.html) and the
-[ingestion overview](../ingestion/index.html), as the tutorials will refer to concepts discussed on those pages.
+In this quickstart, we will download Druid, set it up on a single machine, load some data, and query the data.
 
 ## Prerequisites
 
 You will need:
 
-  * Java 8
+  * Java 8 or higher
   * Linux, Mac OS X, or other Unix-like OS (Windows is not supported)
   * 8G of RAM
   * 2 vCPUs
@@ -29,12 +25,12 @@ OSes](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.htm
 
 ## Getting started
 
-To install Druid, run the following commands in your terminal:
+To install Druid, issue the following commands in your terminal:
 
 ```bash
-curl -O http://static.druid.io/artifacts/releases/druid-latest-bin.tar.gz
-tar -xzf druid-latest-bin.tar.gz
-cd druid-latest
+curl -O http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz
+tar -xzf druid-0.12.3-bin.tar.gz
+cd druid-0.12.3
 ```
 
 In the package, you should find:
@@ -42,54 +38,72 @@ In the package, you should find:
 * `LICENSE` - the license files.
 * `bin/` - scripts useful for this quickstart.
 * `conf/*` - template configurations for a clustered setup.
+* `conf-quickstart/*` - configurations for this quickstart.
 * `extensions/*` - all Druid extensions.
 * `hadoop-dependencies/*` - Druid Hadoop dependencies.
 * `lib/*` - all included software packages for core Druid.
-* `quickstart/*` - configuration files, sample data, and other files for the quickstart tutorials
+* `quickstart/*` - files useful for this quickstart.
 
-## Download Zookeeper
+## Download tutorial example files
+
+Before proceeding, please download the [tutorial examples package](../tutorials/tutorial-examples.tar.gz). 
+
+This tarball contains sample data and ingestion specs that will be used in the tutorials. 
+
+```bash
+curl -O http://druid.io/docs/0.12.3/tutorials/tutorial-examples.tar.gz
+tar zxvf tutorial-examples.tar.gz
+```
+
+## Start up Zookeeper
 
 Druid currently has a dependency on [Apache ZooKeeper](http://zookeeper.apache.org/) for distributed coordination. You'll
 need to download and run Zookeeper.
 
-In the package root, run the following commands:
-
 ```bash
-curl https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
-tar -xzf zookeeper-3.4.11.tar.gz
-mv zookeeper-3.4.11 zk
+curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
+tar -xzf zookeeper-3.4.10.tar.gz
+cd zookeeper-3.4.10
+cp conf/zoo_sample.cfg conf/zoo.cfg
+./bin/zkServer.sh start
 ```
-
-The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at `zk` under the druid-latest package root.
 
 ## Start up Druid services
 
-From the druid-latest package root, run the following command:
+With Zookeeper running, return to the druid-0.12.3 directory. In that directory, issue the command:
 
 ```bash
-bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
+bin/init
 ```
 
-This will bring up instances of Zookeeper and the Druid services, all running on the local machine, e.g.:
+This will setup up some directories for you. Next, you can start up the Druid processes in different terminal windows.
+This tutorial runs every Druid process on the same system. In a large distributed production cluster,
+many of these Druid processes can still be co-located together.
 
 ```bash
-bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
-[Thu Jul 26 12:16:23 2018] Running command[zk], logging to[/stage/druid-latest/var/sv/zk.log]: bin/run-zk quickstart/tutorial/conf
-[Thu Jul 26 12:16:23 2018] Running command[coordinator], logging to[/stage/druid-latest/var/sv/coordinator.log]: bin/run-druid coordinator quickstart/tutorial/conf
-[Thu Jul 26 12:16:23 2018] Running command[broker], logging to[//stage/druid-latest/var/sv/broker.log]: bin/run-druid broker quickstart/tutorial/conf
-[Thu Jul 26 12:16:23 2018] Running command[historical], logging to[/stage/druid-latest/var/sv/historical.log]: bin/run-druid historical quickstart/tutorial/conf
-[Thu Jul 26 12:16:23 2018] Running command[overlord], logging to[/stage/druid-latest/var/sv/overlord.log]: bin/run-druid overlord quickstart/tutorial/conf
-[Thu Jul 26 12:16:23 2018] Running command[middleManager], logging to[/stage/druid-latest/var/sv/middleManager.log]: bin/run-druid middleManager quickstart/tutorial/conf
-
+java `cat examples/conf/druid/coordinator/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/coordinator:lib/*" io.druid.cli.Main server coordinator
+java `cat examples/conf/druid/overlord/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/overlord:lib/*" io.druid.cli.Main server overlord
+java `cat examples/conf/druid/historical/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/historical:lib/*" io.druid.cli.Main server historical
+java `cat examples/conf/druid/middleManager/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/middleManager:lib/*" io.druid.cli.Main server middleManager
+java `cat examples/conf/druid/broker/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/broker:lib/*" io.druid.cli.Main server broker
 ```
-
-All persistent state such as the cluster metadata store and segments for the services will be kept in the `var` directory under the druid-latest package root. Logs for the services are located at `var/sv`.
-
-Later on, if you'd like to stop the services, CTRL-C to exit the `bin/supervise` script, which will terminate the Druid processes. 
-
-If you want a clean start after stopping the services, delete the `var` directory and run the `bin/supervise` script again.
 
 Once every service has started, you are now ready to load data.
+
+### Resetting cluster state
+
+All persistent state such as the cluster metadata store and segments for the services will be kept in the `var` directory under the druid-0.12.3 package root. 
+
+Later on, if you'd like to stop the services, CTRL-C to exit from the running java processes. If you
+want a clean start after stopping the services, delete the `log` and `var` directory and run the `init` script again.
+
+From the druid-0.12.3 directory:
+
+```bash
+rm -rf log
+rm -rf var
+bin/init
+```
 
 ## Loading Data
 

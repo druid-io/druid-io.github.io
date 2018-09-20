@@ -21,7 +21,7 @@ Peons should rarely (if ever for testing purposes) be run on their own.
 The peon should very rarely ever be run independent of the middle manager unless for development purposes.
 
 ```
-org.apache.druid.cli.Main internal peon <task_file> <status_file>
+io.druid.cli.Main internal peon <task_file> <status_file>
 ```
 
 The task file contains the task JSON object.

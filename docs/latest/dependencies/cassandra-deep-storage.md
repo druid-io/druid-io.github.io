@@ -37,3 +37,8 @@ druid.storage.type=c*
 druid.storage.host=localhost:9160
 druid.storage.keyspace=druid
 ```
+
+Use the `druid-development@googlegroups.com` mailing list if you have questions,
+or feel free to reach out directly: `bone@alumni.brown.edu`.
+
+

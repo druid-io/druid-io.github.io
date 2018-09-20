@@ -21,30 +21,22 @@ In the Druid package root, run the following commands:
 ```bash
 curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz -o tranquility-distribution-0.8.2.tgz
 tar -xzf tranquility-distribution-0.8.2.tgz
-mv tranquility-distribution-0.8.2 tranquility
+cd tranquility-distribution-0.8.2
 ```
 
-The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at `tranquility` under the druid-latest package root.
+## Run Tranquility server
 
-## Enable Tranquility Server
-
-- In your `quickstart/tutorial/conf/tutorial-cluster.conf`, uncomment the `tranquility-server` line.
-- Stop your *bin/supervise* command (CTRL-C) and then restart it by again running `bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf`.
-
-As part of the output of *supervise* you should see something like:
+Run the following command:
 
 ```bash
-Running command[tranquility-server], logging to[/stage/druid-latest/var/sv/tranquility-server.log]: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList=[]
+bin/tranquility server -configFile ../examples/conf/tranquility/wikipedia-server.json -Ddruid.extensions.loadList=[]
 ```
-
-You can check the log file in `var/sv/tranquility-server.log` to confirm that the server is starting up properly.
 
 ## Send data
 
 Let's send the sample Wikipedia edits data to Tranquility:
 
 ```bash
-gunzip -k quickstart/wikiticker-2015-09-12-sampled.json.gz 
 curl -XPOST -H'Content-Type: application/json' --data-binary @quickstart/wikiticker-2015-09-12-sampled.json http://localhost:8200/v1/post/wikipedia
 ```
 
@@ -74,10 +66,7 @@ Please follow the [query tutorial](../tutorials/tutorial-query.html) to run some
 
 ## Cleanup
 
-If you wish to go through any of the other ingestion tutorials, you will need to shut down the cluster and reset the cluster state by removing the contents of the `var` directory under the druid package, as the other tutorials will write to the same "wikipedia" datasource.
-
-When cleaning up after running this Tranquility tutorial, it is also necessary to recomment the `tranquility-server` line in `quickstart/tutorial/conf/tutorial-cluster.conf` before restarting the cluster.
-
+If you wish to go through any of the other ingestion tutorials, you will need to reset the cluster and follow these [reset instructions](index.html#resetting-cluster-state), as the other tutorials will write to the same "wikipedia" datasource.
 
 ## Further reading
 
