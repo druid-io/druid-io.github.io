@@ -56,7 +56,7 @@ An example groupBy query object is shown below:
 }
 ```
 
-Following are main parts to a groupBy query:
+There are 11 main parts to a groupBy query:
 
 |property|description|required?|
 |--------|-----------|---------|
@@ -70,7 +70,6 @@ Following are main parts to a groupBy query:
 |aggregations|See [Aggregations](../querying/aggregations.html)|no|
 |postAggregations|See [Post Aggregations](../querying/post-aggregations.html)|no|
 |intervals|A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.|yes|
-|subtotalsSpec| A JSON array of arrays to return additional result sets for groupings of subsets of top level `dimensions`. It is [described later](groupbyquery.html#more-on-subtotalsspec) in more detail.|no|
 |context|An additional JSON Object which can be used to specify certain flags.|no|
 
 To pull it all together, the above query would return *n\*m* data points, up to a maximum of 5000 points, where n is the cardinality of the `country` dimension, m is the cardinality of the `device` dimension, each day between 2012-01-01 and 2012-01-03, from the `sample_datasource` table. Each data point contains the (long) sum of `total_usage` if the value of the data point is greater than 100, the (double) sum of `data_transfer` and the (double) result of `total_usage` divided by `data_transfer` for the filter set for a particular grouping of `country` and `device`. The output looks like this:
@@ -113,92 +112,6 @@ your filter, you can use a [filtered dimensionSpec](dimensionspecs.html#filtered
 improve performance.
 
 See [Multi-value dimensions](multi-value-dimensions.html) for more details.
-
-### More on subtotalsSpec
-The subtotals feature allows computation of multiple sub-groupings in a single query. To use this feature, add a "subtotalsSpec" to your query, which should be a list of subgroup dimension sets. It should contain the "outputName" from dimensions in your "dimensions" attribute, in the same order as they appear in the "dimensions" attribute (although, of course, you may skip some). For example, consider a groupBy query like this one:
-
-```json
-{
-"type": "groupBy",
- ...
- ...
-"dimensions": [
-  {
-  "type" : "default",
-  "dimension" : "d1col",
-  "outputName": "D1"
-  },
-  {
-  "type" : "extraction",
-  "dimension" : "d2col",
-  "outputName" :  "D2",
-  "extractionFn" : extraction_func
-  },
-  {
-  "type":"lookup",
-  "dimension":"d3col",
-  "outputName":"D3",
-  "name":"my_lookup"
-  }
-],
-...
-...
-"subtotalsSpec":[ ["D1", "D2", D3"], ["D1", "D3"], ["D3"]],
-..
-
-}
-```
-
-Response returned would be equivalent to concatenating result of 3 groupBy queries with "dimensions" field being ["D1", "D2", D3"], ["D1", "D3"] and ["D3"] with appropriate `DimensionSpec` json blob as used in above query.
-Response for above query would look something like below...
-
-```json
-[
-  {
-    "version" : "v1",
-    "timestamp" : "t1",
-    "event" : { "D1": "..", "D2": "..", "D3": ".." }
-    }
-  },
-    {
-    "version" : "v1",
-    "timestamp" : "t2",
-    "event" : { "D1": "..", "D2": "..", "D3": ".." }
-    }
-  },
-  ...
-  ...
-
-   {
-    "version" : "v1",
-    "timestamp" : "t1",
-    "event" : { "D1": "..", "D3": ".." }
-    }
-  },
-    {
-    "version" : "v1",
-    "timestamp" : "t2",
-    "event" : { "D1": "..", "D3": ".." }
-    }
-  },
-  ...
-  ...
-
-  {
-    "version" : "v1",
-    "timestamp" : "t1",
-    "event" : { "D3": ".." }
-    }
-  },
-    {
-    "version" : "v1",
-    "timestamp" : "t2",
-    "event" : { "D3": ".." }
-    }
-  },
-...
-]
-```
 
 ### Implementation details
 
@@ -269,10 +182,6 @@ With groupBy v2, cluster operators should make sure that the off-heap hash table
 will not exceed available memory for the maximum possible concurrent query load (given by
 druid.processing.numMergeBuffers). See [How much direct memory does Druid use?](../operations/performance-faq.html) for more details.
 
-Brokers do not need merge buffers for basic groupBy queries. Queries with subqueries (using a "query" [dataSource](datasource.html#query-data-source)) require one merge buffer if there is a single subquery, or two merge buffers if there is more than one layer of nested subqueries. Queries with [subtotals](groupbyquery.html#more-on-subtotalsspec) need one merge buffer. These can stack on top of each other: a groupBy query with multiple layers of nested subqueries, and that also uses subtotals, will need three merge buffers.
-
-Historicals and ingestion tasks need one merge buffer for each groupBy query, unless [parallel combination](groupbyquery.html#parallel-combine) is enabled, in which case they need two merge buffers per query.
-
 When using groupBy v1, all aggregation is done on-heap, and resource limits are done through the parameter
 druid.query.groupBy.maxResults. This is a cap on the maximum number of results in a result set. Queries that exceed
 this limit will fail with a "Resource limit exceeded" error indicating they exceeded their row limit. Cluster
@@ -295,30 +204,13 @@ The default number of initial buckets is 1024 and the default max load factor of
 
 ##### Parallel combine
 
-Once a historical finishes aggregation using the hash table, it sorts the aggregated results and merges them before sending to the
-broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads
-(configured by `druid.processing.numThreads`) for aggregation, but use a single thread for sorting and merging
-aggregates which is an http thread to send data to brokers.
+Once a historical finishes aggregation using the hash table, it sorts aggregates and merge them before sending to the broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads (configured by `druid.processing.numThreads`) for aggregation, but use a single thread for sorting and merging aggregates which is an http thread to send data to brokers.
 
-This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared
-between all submitted queries and they are _not interruptible_. It means, if a heavy query takes all available
-processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take
-longer time than timeseries or topN queries, they should release processing threads as soon as possible.
+This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared between all submitted queries and they are _not interruptible_. It means, if a heavy query takes all available processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take longer time than timeseries or topN queries, they should release processing threads as soon as possible.
 
-However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck
-of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well.
-This is called _parallel combine_. To enable parallel combine, see `numParallelCombineThreads` in
-[Advanced groupBy v2 configurations](#groupby-v2-configurations). Note that parallel combine can be enabled only when
-data is actually spilled (see [Memory tuning and resource limits](#memory-tuning-and-resource-limits)).
+However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well. This is called _parallel combine_. To enable parallel combine, see `numParallelCombineThreads` in [Advanced groupBy v2 configurations](#groupby-v2-configurations). Note that parallel combine can be enabled only when data is actually spilled (see [Memory tuning and resource limits](#memory-tuning-and-resource-limits)).
 
-Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each
-intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge
-aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they
-need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the
-degree of intermediate nodes. See `intermediateCombineDegree` in [Advanced groupBy v2 configurations](#groupby-v2-configurations).
-
-Please note that each historical needs two merge buffers to process a groupBy v2 query with parallel combine: one for
-computing intermediate aggregates from each segment and another for combining intermediate aggregates in parallel.
+Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the degree of intermeidate nodes. See `intermediateCombineDegree` in [Advanced groupBy v2 configurations](#groupby-v2-configurations).
 
 
 #### Alternatives
@@ -343,8 +235,10 @@ strategy perform the outer query on the broker in a single-threaded fashion.
 
 #### Configurations
 
-This section describes the configurations for groupBy queries. You can set the runtime properties in the `runtime.properties` file on broker, historical, and MiddleManager nodes. You can set the query context parameters through the [query context](query-context.html).
-  
+This section describes the configurations for groupBy queries. You can set system-wide configurations by adding them to runtime properties or query-specific configurations by adding them to query contexts. All runtime properties are prefixed by `druid.query.groupBy`.
+
+#### Commonly tuned configurations
+
 ##### Configurations for groupBy v2
 
 Supported runtime properties:

@@ -69,7 +69,7 @@ classloader.
 2. Batch ingestion uses jars from `hadoop-dependencies/` to submit Map/Reduce jobs (location customizable via the
 `druid.extensions.hadoopDependenciesDir` runtime property; see [Configuration](../configuration/index.html#extensions)).
 
-`hadoop-client:2.8.3` is the default version of the Hadoop client bundled with Druid for both purposes. This works with
+`hadoop-client:2.3.0` is the default version of the Hadoop client bundled with Druid for both purposes. This works with
 many Hadoop distributions (the version does not necessarily need to match), but if you run into issues, you can instead
 have Druid load libraries that exactly match your distribution. To do this, either copy the jars from your Hadoop
 cluster, or use the `pull-deps` tool to download the jars from a Maven repository.
@@ -195,25 +195,25 @@ If sbt is not your choice, you can also use `maven-shade-plugin` to make a fat j
 
  ```xml
  <dependency>
-      <groupId>org.apache.druid.extensions</groupId>
+      <groupId>io.druid.extensions</groupId>
       <artifactId>druid-avro-extensions</artifactId>
       <version>${project.parent.version}</version>
   </dependency>
 
   <dependency>
-      <groupId>org.apache.druid.extensions.contrib</groupId>
+      <groupId>io.druid.extensions.contrib</groupId>
       <artifactId>druid-parquet-extensions</artifactId>
       <version>${project.parent.version}</version>
   </dependency>
 
   <dependency>
-      <groupId>org.apache.druid.extensions</groupId>
+      <groupId>io.druid.extensions</groupId>
       <artifactId>druid-hdfs-storage</artifactId>
       <version>${project.parent.version}</version>
   </dependency>
 
   <dependency>
-      <groupId>org.apache.druid.extensions</groupId>
+      <groupId>io.druid.extensions</groupId>
       <artifactId>mysql-metadata-storage</artifactId>
       <version>${project.parent.version}</version>
   </dependency>
@@ -274,6 +274,6 @@ java -Xmx32m \
   -Dfile.encoding=UTF-8 -Duser.timezone=UTC \
   -classpath config/hadoop:config/overlord:config/_common:$SELF_CONTAINED_JAR:$HADOOP_DISTRIBUTION/etc/hadoop \
   -Djava.security.krb5.conf=$KRB5 \
-  org.apache.druid.cli.Main index hadoop \
+  io.druid.cli.Main index hadoop \
   $config_path
 ```

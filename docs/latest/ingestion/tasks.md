@@ -11,14 +11,13 @@ There are several different types of tasks.
 
 ## Segment Creation Tasks
 
+### Native Batch Indexing Task
+
+See [Native batch ingestion](../ingestion/native-batch.html).
+
 ### Hadoop Index Task
 
-See [batch ingestion](../ingestion/hadoop.html).
-
-### Native Index Tasks
-
-Druid provides a native index task which doesn't need any dependencies on other systems.
-See [native index tasks](./native_tasks.html) for more details.
+See [Hadoop batch ingestion](../ingestion/hadoop.html).
 
 ### Kafka Indexing Tasks
 

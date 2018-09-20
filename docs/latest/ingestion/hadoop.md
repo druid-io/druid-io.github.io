@@ -114,7 +114,6 @@ A type of inputSpec where a static path to the data files is provided.
 
 |Field|Type|Description|Required|
 |-----|----|-----------|--------|
-|inputFormat|String|Specifies the Hadoop InputFormat class to use. e.g. `org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat` |no|
 |paths|Array of String|A String of input paths indicating where the raw data is located.|yes|
 
 For example, using the static input paths:
@@ -130,7 +129,6 @@ A type of inputSpec that expects data to be organized in directories according t
 |Field|Type|Description|Required|
 |-----|----|-----------|--------|
 |dataGranularity|String|Specifies the granularity to expect the data at, e.g. hour means to expect directories `y=XXXX/m=XX/d=XX/H=XX`.|yes|
-|inputFormat|String|Specifies the Hadoop InputFormat class to use. e.g. `org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat` |no|
 |inputPath|String|Base path to append the datetime path to.|yes|
 |filePattern|String|Pattern that files should match to be included.|yes|
 |pathFormat|String|Joda datetime format for each directory. Default value is `"'y'=yyyy/'m'=MM/'d'=dd/'H'=HH"`, or see [Joda documentation](http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html)|no|
@@ -161,8 +159,7 @@ The tuningConfig is optional and default parameters will be used if no tuningCon
 |workingPath|String|The working path to use for intermediate results (results between Hadoop jobs).|Only used by the [CLI Hadoop Indexer](../ingestion/command-line-hadoop-indexer.html). The default is '/tmp/druid-indexing'. This field must be null otherwise.|
 |version|String|The version of created segments. Ignored for HadoopIndexTask unless useExplicitVersion is set to true|no (default == datetime that indexing starts at)|
 |partitionsSpec|Object|A specification of how to partition each time bucket into segments. Absence of this property means no partitioning will occur. See 'Partitioning specification' below.|no (default == 'hashed')|
-|maxRowsInMemory|Integer|The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size. Normally user does not need to set this, but depending on the nature of data, if rows are short in terms of bytes, user may not want to store a million rows in memory and this value should be set.|no (default == 1000000)|
-|maxBytesInMemory|Long|The number of bytes to aggregate in heap memory before persisting. Normally this is computed internally and user does not need to set it. This is based on a rough estimate of memory usage and not actual usage. The maximum heap memory usage for indexing is maxBytesInMemory * (2 + maxPendingPersists).|no (default == One-sixth of max JVM memory)|
+|maxRowsInMemory|Integer|The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size.|no (default == 75000)|
 |leaveIntermediate|Boolean|Leave behind intermediate files (for debugging) in the workingPath when a job completes, whether it passes or fails.|no (default == false)|
 |cleanupOnFailure|Boolean|Clean up intermediate files when a job fails (unless leaveIntermediate is on).|no (default == true)|
 |overwriteFiles|Boolean|Override existing files found during indexing.|no (default == false)|
@@ -309,7 +306,7 @@ To avoid this extra external cron job script calling `kinit` periodically,
 |`druid.hadoop.security.kerberos.principal`|`druid@EXAMPLE.COM`| Principal user name |empty|
 |`druid.hadoop.security.kerberos.keytab`|`/etc/security/keytabs/druid.headlessUser.keytab`|Path to keytab file|empty|
 
-### Loading from S3 with EMR
+## Loading from S3 with EMR
 
 - In the `jobProperties` field in the `tuningConfig` section of your Hadoop indexing task, add:
 
@@ -337,4 +334,3 @@ Druid works out of the box with many Hadoop distributions.
 If you are having dependency conflicts between Druid and your version of Hadoop, you can try
 searching for a solution in the [Druid user groups](https://groups.google.com/forum/#!forum/druid-
 user), or reading the Druid [Different Hadoop Versions](../operations/other-hadoop.html) documentation.
-

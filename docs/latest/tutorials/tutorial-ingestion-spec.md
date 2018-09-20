@@ -36,7 +36,7 @@ Suppose we have the following network flow data:
 {"ts":"2018-01-01T02:35:45Z","srcIP":"7.7.7.7", "dstIP":"8.8.8.8", "srcPort":4000, "dstPort":5000, "protocol": 17, "packets":300, "bytes":30000, "cost": 46.3}
 ```
 
-Save the JSON contents above into a file called `ingestion-tutorial-data.json` in `quickstart/`.
+Save the JSON contents above into a file called `ingestion-tutorial-data.json` under `examples`.
 
 Let's walk through the process of defining an ingestion spec that can load this data. 
 
@@ -48,7 +48,7 @@ The core element of a Druid ingestion spec is the `dataSchema`. The `dataSchema`
 
 Let's start with an empty `dataSchema` and add fields to it as we progress through the tutorial.
 
-Create a new file called `ingestion-tutorial-index.json` in `quickstart/` with the following contents:
+Create a new file called `ingestion-tutorial-index.json` under `examples` with the following contents:
 
 ```json
 "dataSchema" : {}
@@ -478,7 +478,7 @@ Now let's define our input source, which is specified in an `ioConfig` object. E
       "type" : "index",
       "firehose" : {
         "type" : "local",
-        "baseDir" : "quickstart/",
+        "baseDir" : "examples/",
         "filter" : "ingestion-tutorial-data.json"
       }
     }
@@ -527,7 +527,7 @@ Now let's define our input source, which is specified in an `ioConfig` object. E
       "type" : "index",
       "firehose" : {
         "type" : "local",
-        "baseDir" : "quickstart/",
+        "baseDir" : "examples/",
         "filter" : "ingestion-tutorial-data.json"
       }
     }
@@ -597,7 +597,7 @@ We've finished defining the ingestion spec, it should now look like the followin
       "type" : "index",
       "firehose" : {
         "type" : "local",
-        "baseDir" : "quickstart/",
+        "baseDir" : "examples/",
         "filter" : "ingestion-tutorial-data.json"
       }
     },
@@ -611,32 +611,81 @@ We've finished defining the ingestion spec, it should now look like the followin
 
 ## Submit the task and query the data
 
-From the druid-latest package root, run the following command:
+From the druid-0.12.3 package root, run the following command:
 
 ```bash
-bin/post-index-task --file quickstart/ingestion-tutorial-index.json 
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
 After the script completes, we will query the data.
 
-Let's run `bin/dsql` and issue a `select * from "ingestion-tutorial";` query to see what data was ingested.
+Let's issue a `select * from "ingestion-tutorial";` query to see what data was ingested.
 
 ```bash
-$ bin/dsql
-Welcome to dsql, the command-line client for Druid SQL.
-Type "\h" for help.
-dsql> select * from "ingestion-tutorial";
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/ingestion-tutorial-select-sql.json http://localhost:8082/druid/v2/sql
+```
 
-┌──────────────────────────┬───────┬──────┬───────┬─────────┬─────────┬─────────┬──────────┬─────────┬─────────┐
-│ __time                   │ bytes │ cost │ count │ dstIP   │ dstPort │ packets │ protocol │ srcIP   │ srcPort │
-├──────────────────────────┼───────┼──────┼───────┼─────────┼─────────┼─────────┼──────────┼─────────┼─────────┤
-│ 2018-01-01T01:01:00.000Z │  6000 │  4.9 │     3 │ 2.2.2.2 │    3000 │      60 │ 6        │ 1.1.1.1 │    2000 │
-│ 2018-01-01T01:02:00.000Z │  9000 │ 18.1 │     2 │ 2.2.2.2 │    7000 │      90 │ 6        │ 1.1.1.1 │    5000 │
-│ 2018-01-01T01:03:00.000Z │  6000 │  4.3 │     1 │ 2.2.2.2 │    7000 │      60 │ 6        │ 1.1.1.1 │    5000 │
-│ 2018-01-01T02:33:00.000Z │ 30000 │ 56.9 │     2 │ 8.8.8.8 │    5000 │     300 │ 17       │ 7.7.7.7 │    4000 │
-│ 2018-01-01T02:35:00.000Z │ 30000 │ 46.3 │     1 │ 8.8.8.8 │    5000 │     300 │ 17       │ 7.7.7.7 │    4000 │
-└──────────────────────────┴───────┴──────┴───────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
-Retrieved 5 rows in 0.12s.
-
-dsql> 
+```json
+[
+  {
+    "__time": "2018-01-01T01:01:00.000Z",
+    "bytes": 6000,
+    "cost": 4.9,
+    "count": 3,
+    "dstIP": "2.2.2.2",
+    "dstPort": 3000,
+    "packets": 60,
+    "protocol": "6",
+    "srcIP": "1.1.1.1",
+    "srcPort": 2000
+  },
+  {
+    "__time": "2018-01-01T01:02:00.000Z",
+    "bytes": 9000,
+    "cost": 18.1,
+    "count": 2,
+    "dstIP": "2.2.2.2",
+    "dstPort": 7000,
+    "packets": 90,
+    "protocol": "6",
+    "srcIP": "1.1.1.1",
+    "srcPort": 5000
+  },
+  {
+    "__time": "2018-01-01T01:03:00.000Z",
+    "bytes": 6000,
+    "cost": 4.3,
+    "count": 1,
+    "dstIP": "2.2.2.2",
+    "dstPort": 7000,
+    "packets": 60,
+    "protocol": "6",
+    "srcIP": "1.1.1.1",
+    "srcPort": 5000
+  },
+  {
+    "__time": "2018-01-01T02:33:00.000Z",
+    "bytes": 30000,
+    "cost": 56.9,
+    "count": 2,
+    "dstIP": "8.8.8.8",
+    "dstPort": 5000,
+    "packets": 300,
+    "protocol": "17",
+    "srcIP": "7.7.7.7",
+    "srcPort": 4000
+  },
+  {
+    "__time": "2018-01-01T02:35:00.000Z",
+    "bytes": 30000,
+    "cost": 46.3,
+    "count": 1,
+    "dstIP": "8.8.8.8",
+    "dstPort": 5000,
+    "packets": 300,
+    "protocol": "17",
+    "srcIP": "7.7.7.7",
+    "srcPort": 4000
+  }
+]
 ```

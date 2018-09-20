@@ -19,9 +19,7 @@ This page documents all of the API endpoints for each Druid service type.
 
 The following endpoints are supported by all nodes.
 
-### Node information
-
-#### GET
+### GET
 
 * `/status`
 
@@ -31,9 +29,6 @@ Returns the Druid version, loaded extensions, memory used, total memory and othe
 
 An endpoint that always returns a boolean "true" value with a 200 OK response, useful for automated health checks.
 
-* `/status/properties`
-
-Returns the current configuration properties of the node.
 
 ## Coordinator
 
@@ -47,16 +42,15 @@ Returns the current leader coordinator of the cluster.
 
 * `/druid/coordinator/v1/isLeader`
 
-Returns true if the coordinator receiving the request is the current leader.
-
-### Segment Loading
-
-#### GET
-
 Returns a JSON object with field "leader", either true or false, indicating if this server is the current leader
 coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
 This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
 at the load balancer.
+
+
+### Segment Loading
+
+#### GET
 
 * `/druid/coordinator/v1/loadstatus`
 
@@ -81,6 +75,7 @@ Returns the number of segments to load and drop, as well as the total segment lo
 * `/druid/coordinator/v1/loadqueue?full`
 
 Returns the serialized JSON of segments to load and drop for each historical node.
+
 
 ### Metadata store information
 
@@ -124,8 +119,7 @@ Returns a list of all segments, overlapping with any of given intervals,  for a 
 
 Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000", "2012-01-05T00:00:00.000/2012-01-07T00:00:00.000"]
 
-
-### Datasources
+### Datasources information
 
 #### GET
 
@@ -201,7 +195,7 @@ Enables all segments of datasource which are not overshadowed by others.
 
 * `/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}`
 
-Enables a segment of a datasource.
+Enables a segment.
 
 #### DELETE<a name="coordinator-delete"></a>
 
@@ -219,6 +213,7 @@ Note that {interval} parameters are delimited by a `_` instead of a `/` (e.g., 2
 * `/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}`
 
 Disables a segment.
+
 
 ### Retention Rules
 
@@ -288,58 +283,6 @@ Returns total size and count for each interval within given isointerval.
 
 Returns total size and count for each datasource for each interval within given isointerval.
 
-### Compaction Configuration
-
-#### GET
-
-* `/druid/coordinator/v1/config/compaction/`
-
-Returns all compaction configs.
-
-* `/druid/coordinator/v1/config/compaction/{dataSource}`
-
-Returns a compaction config of a dataSource.
-
-#### POST
-
-* `/druid/coordinator/v1/config/compaction?slotRatio={someRatio}&maxSlots={someMaxSlots}`
-
-Update the capacity for compaction tasks. `slotRatio` and `maxSlots` are used to limit the max number of compaction tasks.
-They mean the ratio of the total task slots to the copmaction task slots and the maximum number of task slots for compaction tasks, respectively.
-The actual max number of compaction tasks is `min(maxSlots, slotRatio * total task slots)`.
-Note that `slotRatio` and `maxSlots` are optional and can be omitted. If they are omitted, default values (0.1 and unbounded)
-will be set for them.
-
-* `/druid/coordinator/v1/config/compaction/{dataSource}`
-
-Creates or updates the compaction config for a dataSource. See [Compaction Configuration](../configuration/index.html#compaction-dynamic-configuration) for configuration details.
-
-#### DELETE
-
-* `/druid/coordinator/v1/config/compaction/{dataSource}`
-
-Removes the compaction config for a dataSource.
-
-### Server Information
-
-#### GET
-
-* `/druid/coordinator/v1/servers`
-
-Returns a list of servers URLs using the format `{hostname}:{port}`. Note that
-nodes that run with different types will appear multiple times with different
-ports.
-
-* `/druid/coordinator/v1/servers?simple`
-
-Returns a list of server data objects in which each object has the following keys:
-- `host`: host URL include (`{hostname}:{port}`)
-- `type`: node type (`indexer-executor`, `historical`)
-- `currSize`: storage size currently used
-- `maxSize`: maximum storage size
-- `priority`
-- `tier`
-
 ## Overlord
 
 ### Leadership
@@ -378,9 +321,6 @@ Endpoint for submitting tasks and supervisor specs to the overlord. Returns the 
 
 Shuts down a task.
 
-* `druid/indexer/v1/task/{dataSource}/shutdownAllTasks`
-
-Shuts down all tasks for a dataSource.
 
 ## MiddleManager
 
@@ -433,13 +373,9 @@ Returns a flag indicating if the broker knows about all segments in Zookeeper. T
 
 #### POST
 
-* `/druid/v2/`
-
-The endpoint for submitting queries. Accepts an option `?pretty` that pretty prints the results.
-
 * `/druid/v2/candidates/`
 
-Returns segment information lists including server locations for the given query..
+Returns segment information lists including server locations for the given query.
 
 
 ## Historical

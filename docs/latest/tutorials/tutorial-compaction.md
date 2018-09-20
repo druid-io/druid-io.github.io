@@ -17,10 +17,10 @@ It will also be helpful to have finished [Tutorial: Loading a file](../tutorials
 
 For this tutorial, we'll be using the Wikipedia edits sample data, with an ingestion task spec that will create a separate segment for each hour in the input data.
 
-The ingestion spec can be found at `quickstart/tutorial/compaction-init-index.json`. Let's submit that spec, which will create a datasource called `compaction-tutorial`:
+The ingestion spec can be found at `examples/compaction-init-index.json`. Let's submit that spec, which will create a datasource called `compaction-tutorial`:
 
 ```bash
-bin/post-index-task --file quickstart/tutorial/compaction-init-index.json 
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/compaction-init-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
 After the ingestion completes, go to http://localhost:8081/#/datasources/compaction-tutorial in a browser to view information about the new datasource in the Coordinator console.
@@ -32,20 +32,18 @@ There will be 24 segments for this datasource, one segment per hour in the input
 Running a COUNT(*) query on this datasource shows that there are 39,244 rows:
 
 ```bash
-dsql> select count(*) from "compaction-tutorial";
-┌────────┐
-│ EXPR$0 │
-├────────┤
-│  39244 │
-└────────┘
-Retrieved 1 row in 1.38s.
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/compaction-count-sql.json http://localhost:8082/druid/v2/sql
+```
+
+```json
+[{"EXPR$0":39244}]
 ```
 
 ## Compact the data
 
 Let's now combine these 24 segments into one segment.
 
-We have included a compaction task spec for this tutorial datasource at `quickstart/tutorial/compaction-final-index.json`:
+We have included a compaction task spec for this tutorial datasource at `examples/compaction-final-index.json`:
 
 ```json
 {
@@ -69,8 +67,8 @@ In this tutorial example, only one compacted segment will be created, as the 392
 
 Let's submit this task now:
 
-```bash
-bin/post-index-task --file quickstart/tutorial/compaction-final-index.json 
+```json
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/compaction-final-index.json http://localhost:8090/druid/indexer/v1/task
 ```
 
 After the task finishes, refresh the http://localhost:8081/#/datasources/compaction-tutorial page.
@@ -85,14 +83,13 @@ The new compacted segment has a more recent version than the original segments, 
 
 Let's try running a COUNT(*) on `compaction-tutorial` again, where the row count should still be 39,244:
 
+
 ```bash
-dsql> select count(*) from "compaction-tutorial";
-┌────────┐
-│ EXPR$0 │
-├────────┤
-│  39244 │
-└────────┘
-Retrieved 1 row in 1.30s.
+curl -X 'POST' -H 'Content-Type:application/json' -d @examples/compaction-count-sql.json http://localhost:8082/druid/v2/sql
+```
+
+```json
+[{"EXPR$0":39244}]
 ```
 
 After the coordinator has been running for at least 15 minutes, the http://localhost:8081/#/datasources/compaction-tutorial page should show there is only 1 segment:
