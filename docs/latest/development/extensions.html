@@ -156,7 +156,7 @@ metadata store. Many clusters will also use additional extensions.</p>
 <tr>
 <td>druid-datasketches</td>
 <td>Support for approximate counts and set operations with <a href="http://datasketches.github.io/">DataSketches</a>.</td>
-<td><a href="../development/extensions-core/datasketches-extension.html">link</a></td>
+<td><a href="../development/extensions-core/datasketches-aggregators.html">link</a></td>
 </tr>
 <tr>
 <td>druid-hdfs-storage</td>
@@ -237,9 +237,9 @@ Community extensions are not maintained by Druid committers, although we accept 
 </div>
 
 <p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
-If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> to let us know!</p>
+If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://groups.google.com/forum/#!forum/druid-development">druid-development group</a> to let us know!</p>
 
-<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate org.apache.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
+<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate io.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
 
 <table><thead>
 <tr>
@@ -338,16 +338,11 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>Support thrift ingestion</td>
 <td><a href="../development/extensions-contrib/thrift.html">link</a></td>
 </tr>
-<tr>
-<td>druid-opentsdb-emitter</td>
-<td>OpenTSDB metrics emitter</td>
-<td><a href="../development/extensions-contrib/opentsdb-emitter.html">link</a></td>
-</tr>
 </tbody></table>
 
 <h2 id="promoting-community-extension-to-core-extension">Promoting Community Extension to Core Extension</h2>
 
-<p>Please post on <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> if you&#39;d like an extension to be promoted to core.
+<p>Please <a href="https://groups.google.com/forum/#!forum/druid-development">let us know</a> if you&#39;d like an extension to be promoted to core.
 If we see a community extension actively supported by the community, we can promote it to core based on community feedback.</p>
 
 <h1 id="creating-your-own-extensions">Creating your own Extensions</h1>

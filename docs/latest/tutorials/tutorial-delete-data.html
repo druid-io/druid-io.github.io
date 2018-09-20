@@ -125,10 +125,10 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="load-initial-data">Load initial data</h2>
 
-<p>In this tutorial, we will use the Wikipedia edits data, with an indexing spec that creates hourly segments. This spec is located at <code>quickstart/tutorial/deletion-index.json</code>, and it creates a datasource called <code>deletion-tutorial</code>.</p>
+<p>In this tutorial, we will use the Wikipedia edits data, with an indexing spec that creates hourly segments. This spec is located at <code>examples/deletion-index.json</code>, and it creates a datasource called <code>deletion-tutorial</code>.</p>
 
 <p>Let&#39;s load this initial data:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/deletion-index.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/deletion-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>When the load finishes, open http://localhost:8081/#/datasources/deletion-tutorial in a browser.</p>
 
@@ -159,7 +159,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>This will cause the first 12 segments of <code>deletion-tutorial</code> to be dropped. However, these dropped segments are not removed from deep storage.</p>
 
-<p>You can see that all 24 segments are still present in deep storage by listing the contents of <code>druid-latest/var/druid/segments/deletion-tutorial</code>:</p>
+<p>You can see that all 24 segments are still present in deep storage by listing the contents of <code>var/druid/segments/deletion-tutorial</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/
 <span class="m">2015</span>-09-12T00:00:00.000Z_2015-09-12T01:00:00.000Z
 <span class="m">2015</span>-09-12T01:00:00.000Z_2015-09-12T02:00:00.000Z
@@ -234,8 +234,8 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>Now that we have disabled some segments, we can submit a Kill Task, which will delete the disabled segments from metadata and deep storage.</p>
 
-<p>A Kill Task spec has been provided at <code>quickstart/deletion-kill.json</code>. Submit this task to the Overlord with the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/deletion-kill.json http://localhost:8090/druid/indexer/v1/task
+<p>A Kill Task spec has been provided at <code>examples/deletion-kill.json</code>. Submit this task to the Overlord with the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/deletion-kill.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>After this task completes, you can see that the disabled segments have now been removed from deep storage:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ls -l1 var/druid/segments/deletion-tutorial/

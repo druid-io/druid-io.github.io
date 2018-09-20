@@ -140,8 +140,8 @@
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  &gt; mysql -u root
 </code></pre></div>
 <p>Paste the following snippet into the mysql prompt:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8mb4 as encoding</span>
-  <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8mb4</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8 as encoding</span>
+  <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8</span><span class="p">;</span>
 
   <span class="c1">-- create a druid user, and grant it all permission on the database we just created</span>
   <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>

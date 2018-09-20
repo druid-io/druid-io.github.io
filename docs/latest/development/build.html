@@ -117,14 +117,15 @@
           <h3 id="build-from-source">Build from Source</h3>
 
 <p>You can build Druid directly from source. Please note that these instructions are for building the latest stable of Druid. 
-For building the latest code in master, follow the instructions <a href="https://github.com/apache/incubator-druid/blob/master/docs/content/development/build.md">here</a>.</p>
+For building the latest code in master, follow the instructions <a href="https://github.com/druid-io/druid/blob/master/docs/content/development/build.md">here</a>.</p>
 
 <p>Building Druid requires the following:
-- <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a>
+- <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">JDK 7</a>
+  or <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a>
 - <a href="http://maven.apache.org/download.cgi">Maven version 3.x</a></p>
 
 <p>To do so, run these commands:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:apache/incubator-druid.git
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:druid-io/druid.git
 cd druid
 mvn clean package
 </code></pre></div>

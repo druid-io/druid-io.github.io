@@ -193,7 +193,7 @@ allows the parser to identify the proper Avro schema for reading records.
   &quot;type&quot;: &quot;schema_inline&quot;,
   &quot;schema&quot;: {
     //your schema goes here, for example
-    &quot;namespace&quot;: &quot;org.apache.druid.data&quot;,
+    &quot;namespace&quot;: &quot;io.druid.data&quot;,
     &quot;name&quot;: &quot;User&quot;,
     &quot;type&quot;: &quot;record&quot;,
     &quot;fields&quot;: [
@@ -213,7 +213,7 @@ allows the parser to identify the proper Avro schema for reading records.
   &quot;schemas&quot;: {
     //your id -&gt; schema map goes here, for example
     &quot;1&quot;: {
-      &quot;namespace&quot;: &quot;org.apache.druid.data&quot;,
+      &quot;namespace&quot;: &quot;io.druid.data&quot;,
       &quot;name&quot;: &quot;User&quot;,
       &quot;type&quot;: &quot;record&quot;,
       &quot;fields&quot;: [
@@ -222,7 +222,7 @@ allows the parser to identify the proper Avro schema for reading records.
       ]
     },
     &quot;2&quot;: {
-      &quot;namespace&quot;: &quot;org.apache.druid.otherdata&quot;,
+      &quot;namespace&quot;: &quot;io.druid.otherdata&quot;,
       &quot;name&quot;: &quot;UserIdentity&quot;,
       &quot;type&quot;: &quot;record&quot;,
       &quot;fields&quot;: [
@@ -243,7 +243,7 @@ allows the parser to identify the proper Avro schema for reading records.
 
 <h5 id="schemarepo-based-avro-bytes-decoder">SchemaRepo Based Avro Bytes Decoder</h5>
 
-<p>This Avro bytes decoder first extract <code>subject</code> and <code>id</code> from input message bytes, then use them to lookup the Avro schema with which to decode Avro record from bytes. Details can be found in <a href="https://github.com/schema-repo/schema-repo">schema repo</a> and <a href="https://issues.apache.org/jira/browse/AVRO-1124">AVRO-1124</a>. You will need an http service like schema repo to hold the avro schema. Towards schema registration on the message producer side, you can refer to <code>org.apache.druid.data.input.AvroStreamInputRowParserTest#testParse()</code>.</p>
+<p>This Avro bytes decoder first extract <code>subject</code> and <code>id</code> from input message bytes, then use them to lookup the Avro schema with which to decode Avro record from bytes. Details can be found in <a href="https://github.com/schema-repo/schema-repo">schema repo</a> and <a href="https://issues.apache.org/jira/browse/AVRO-1124">AVRO-1124</a>. You will need an http service like schema repo to hold the avro schema. Towards schema registration on the message producer side, you can refer to <code>io.druid.data.input.AvroStreamInputRowParserTest#testParse()</code>.</p>
 
 <table><thead>
 <tr>
@@ -356,7 +356,7 @@ Details can be found in Schema Registry <a href="http://docs.confluent.io/curren
 
 <h3 id="avro-hadoop-parser">Avro Hadoop Parser</h3>
 
-<p>This is for batch ingestion using the HadoopDruidIndexer. The <code>inputFormat</code> of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;org.apache.druid.data.input.avro.AvroValueInputFormat&quot;</code>. You may want to set Avro reader&#39;s schema in <code>jobProperties</code> in <code>tuningConfig</code>, eg: <code>&quot;avro.schema.input.value.path&quot;: &quot;/path/to/your/schema.avsc&quot;</code> or <code>&quot;avro.schema.input.value&quot;: &quot;your_schema_JSON_object&quot;</code>, if reader&#39;s schema is not set, the schema in Avro object container file will be used, see <a href="http://avro.apache.org/docs/1.7.7/spec.html#Schema+Resolution">Avro specification</a>. Make sure to include &quot;org.apache.druid.extensions:druid-avro-extensions&quot; as an extension.</p>
+<p>This is for batch ingestion using the HadoopDruidIndexer. The <code>inputFormat</code> of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;io.druid.data.input.avro.AvroValueInputFormat&quot;</code>. You may want to set Avro reader&#39;s schema in <code>jobProperties</code> in <code>tuningConfig</code>, eg: <code>&quot;avro.schema.input.value.path&quot;: &quot;/path/to/your/schema.avsc&quot;</code> or <code>&quot;avro.schema.input.value&quot;: &quot;your_schema_JSON_object&quot;</code>, if reader&#39;s schema is not set, the schema in Avro object container file will be used, see <a href="http://avro.apache.org/docs/1.7.7/spec.html#Schema+Resolution">Avro specification</a>. Make sure to include &quot;io.druid.extensions:druid-avro-extensions&quot; as an extension.</p>
 
 <table><thead>
 <tr>
@@ -409,7 +409,7 @@ field types, which can be used to read nested Avro records. The &quot;jq&quot; f
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
       <span class="nt">&quot;inputSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.avro.AvroValueInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.avro.AvroValueInputFormat&quot;</span><span class="p">,</span>
         <span class="nt">&quot;paths&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span>
       <span class="p">}</span>
     <span class="p">},</span>

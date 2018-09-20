@@ -120,35 +120,27 @@
 
 <h2 id="deep-storage">Deep Storage</h2>
 
-<p>Deep storage can be written to Google Cloud Storage either via this extension or the <a href="../extensions-core/hdfs.html">druid-hdfs-storage extension</a>.</p>
-
-<h3 id="configuration">Configuration</h3>
+<p><a href="https://cloud.google.com/storage/">Google Cloud Storage</a> is another option for deep storage. This requires some additional druid configuration.</p>
 
 <table><thead>
 <tr>
 <th>Property</th>
-<th>Possible Values</th>
 <th>Description</th>
 <th>Default</th>
+<th>Required?</th>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>druid.storage.type</code></td>
-<td>google</td>
-<td></td>
-<td>Must be set.</td>
+<td>bucket</td>
+<td>Name of the Google Cloud bucket</td>
+<td>N/A</td>
+<td>yes</td>
 </tr>
 <tr>
-<td><code>druid.google.bucket</code></td>
-<td></td>
-<td>GCS bucket name.</td>
-<td>Must be set.</td>
-</tr>
-<tr>
-<td><code>druid.google.prefix</code></td>
-<td></td>
-<td>GCS prefix.</td>
-<td>Must be set.</td>
+<td>prefix</td>
+<td>The path where data is located.</td>
+<td>N/A</td>
+<td>yes</td>
 </tr>
 </tbody></table>
 
@@ -159,9 +151,6 @@
 <p>This firehose ingests events, similar to the StaticS3Firehose, but from an Google Cloud Store.</p>
 
 <p>As with the S3 blobstore, it is assumed to be gzipped if the extension ends in .gz</p>
-
-<p>This firehose is <em>splittable</em> and can be used by <a href="../../ingestion/native_tasks.html#parallel-index-task">native parallel index tasks</a>.
-Since each split represents an object in this firehose, each worker task of <code>index_parallel</code> will read an object.</p>
 
 <p>Sample spec:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>

@@ -123,15 +123,15 @@ ResetCluster automatically figures out necessary information from Druid cluster 
 used in the command must have all the necessary druid configuration files.</p>
 
 <p>It can be run in one of the following ways.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java org.apache.druid.cli.Main tools reset-cluster [--metadataStore] [--segmentFiles] [--taskLogs] [--hadoopWorkingPath]
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java io.druid.cli.Main tools reset-cluster [--metadataStore] [--segmentFiles] [--taskLogs] [--hadoopWorkingPath]
 </code></pre></div>
 <p>or</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java org.apache.druid.cli.Main tools reset-cluster --all
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java io.druid.cli.Main tools reset-cluster --all
 </code></pre></div>
 <h1 id="further-description">Further Description</h1>
 
 <p>Usage documentation can be printed by running following command.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java org.apache.druid.cli.Main help tools reset-cluster
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java io.druid.cli.Main help tools reset-cluster
 </code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>NAME
         druid tools reset-cluster - Cleanup all persisted state from metadata
         and deep storage.

@@ -166,7 +166,7 @@ groupBy. Their performance may be better in some cases. See <a href="#alternativ
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Following are main parts to a groupBy query:</p>
+<p>There are 11 main parts to a groupBy query:</p>
 
 <table><thead>
 <tr>
@@ -226,11 +226,6 @@ groupBy. Their performance may be better in some cases. See <a href="#alternativ
 <td>yes</td>
 </tr>
 <tr>
-<td>subtotalsSpec</td>
-<td>A JSON array of arrays to return additional result sets for groupings of subsets of top level <code>dimensions</code>. It is <a href="groupbyquery.html#more-on-subtotalsspec">described later</a> in more detail.</td>
-<td>no</td>
-</tr>
-<tr>
 <td>context</td>
 <td>An additional JSON Object which can be used to specify certain flags.</td>
 <td>no</td>
@@ -275,87 +270,6 @@ improve performance.</p>
 
 <p>See <a href="multi-value-dimensions.html">Multi-value dimensions</a> for more details.</p>
 
-<h3 id="more-on-subtotalsspec">More on subtotalsSpec</h3>
-
-<p>The subtotals feature allows computation of multiple sub-groupings in a single query. To use this feature, add a &quot;subtotalsSpec&quot; to your query, which should be a list of subgroup dimension sets. It should contain the &quot;outputName&quot; from dimensions in your &quot;dimensions&quot; attribute, in the same order as they appear in the &quot;dimensions&quot; attribute (although, of course, you may skip some). For example, consider a groupBy query like this one:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
- <span class="err">...</span>
- <span class="err">...</span>
-<span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
-  <span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;d1col&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="s2">&quot;D1&quot;</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;d2col&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;D2&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">extraction_func</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;d3col&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;outputName&quot;</span><span class="p">:</span><span class="s2">&quot;D3&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;my_lookup&quot;</span>
-  <span class="p">}</span>
-<span class="p">],</span>
-<span class="err">...</span>
-<span class="err">...</span>
-<span class="nt">&quot;subtotalsSpec&quot;</span><span class="p">:[</span> <span class="p">[</span><span class="s2">&quot;D1&quot;</span><span class="p">,</span> <span class="s2">&quot;D2&quot;</span><span class="p">,</span> <span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">1</span><span class="s2">&quot;, &quot;</span><span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">3</span><span class="err">&quot;</span><span class="p">]],</span>
-<span class="err">..</span>
-
-<span class="p">}</span>
-</code></pre></div>
-<p>Response returned would be equivalent to concatenating result of 3 groupBy queries with &quot;dimensions&quot; field being [&quot;D1&quot;, &quot;D2&quot;, D3&quot;], [&quot;D1&quot;, &quot;D3&quot;] and [&quot;D3&quot;] with appropriate <code>DimensionSpec</code> json blob as used in above query.
-Response for above query would look something like below...</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D2&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-    <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D2&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-  <span class="err">...</span>
-  <span class="err">...</span>
-
-   <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-    <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-  <span class="err">...</span>
-  <span class="err">...</span>
-
-  <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-    <span class="p">{</span>
-    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="err">}</span><span class="p">,</span>
-<span class="err">...</span>
-<span class="p">]</span>
-</code></pre></div>
 <h3 id="implementation-details">Implementation details</h3>
 
 <h4 id="strategies">Strategies</h4>
@@ -430,10 +344,6 @@ disk space.</p>
 will not exceed available memory for the maximum possible concurrent query load (given by
 druid.processing.numMergeBuffers). See <a href="../operations/performance-faq.html">How much direct memory does Druid use?</a> for more details.</p>
 
-<p>Brokers do not need merge buffers for basic groupBy queries. Queries with subqueries (using a &quot;query&quot; <a href="datasource.html#query-data-source">dataSource</a>) require one merge buffer if there is a single subquery, or two merge buffers if there is more than one layer of nested subqueries. Queries with <a href="groupbyquery.html#more-on-subtotalsspec">subtotals</a> need one merge buffer. These can stack on top of each other: a groupBy query with multiple layers of nested subqueries, and that also uses subtotals, will need three merge buffers.</p>
-
-<p>Historicals and ingestion tasks need one merge buffer for each groupBy query, unless <a href="groupbyquery.html#parallel-combine">parallel combination</a> is enabled, in which case they need two merge buffers per query.</p>
-
 <p>When using groupBy v1, all aggregation is done on-heap, and resource limits are done through the parameter
 druid.query.groupBy.maxResults. This is a cap on the maximum number of results in a result set. Queries that exceed
 this limit will fail with a &quot;Resource limit exceeded&quot; error indicating they exceeded their row limit. Cluster
@@ -454,30 +364,13 @@ concurrent query load.</p>
 
 <h5 id="parallel-combine">Parallel combine</h5>
 
-<p>Once a historical finishes aggregation using the hash table, it sorts the aggregated results and merges them before sending to the
-broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads
-(configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging
-aggregates which is an http thread to send data to brokers.</p>
+<p>Once a historical finishes aggregation using the hash table, it sorts aggregates and merge them before sending to the broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads (configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging aggregates which is an http thread to send data to brokers.</p>
 
-<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared
-between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available
-processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take
-longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
+<p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available processing threads, all other queries might be blocked until the heavy query is finished. GroupBy queries usually take longer time than timeseries or topN queries, they should release processing threads as soon as possible.</p>
 
-<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck
-of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well.
-This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in
-<a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when
-data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
+<p>However, you might care about the performance of some really heavy groupBy queries. Usually, the performance bottleneck of heavy groupBy queries is merging sorted aggregates. In such cases, you can use processing threads for it as well. This is called <em>parallel combine</em>. To enable parallel combine, see <code>numParallelCombineThreads</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>. Note that parallel combine can be enabled only when data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memory tuning and resource limits</a>).</p>
 
-<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each
-intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge
-aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they
-need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the
-degree of intermediate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
-
-<p>Please note that each historical needs two merge buffers to process a groupBy v2 query with parallel combine: one for
-computing intermediate aggregates from each segment and another for combining intermediate aggregates in parallel.</p>
+<p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the degree of intermeidate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
 
 <h4 id="alternatives">Alternatives</h4>
 
@@ -502,7 +395,9 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 
 <h4 id="configurations">Configurations</h4>
 
-<p>This section describes the configurations for groupBy queries. You can set the runtime properties in the <code>runtime.properties</code> file on broker, historical, and MiddleManager nodes. You can set the query context parameters through the <a href="query-context.html">query context</a>.</p>
+<p>This section describes the configurations for groupBy queries. You can set system-wide configurations by adding them to runtime properties or query-specific configurations by adding them to query contexts. All runtime properties are prefixed by <code>druid.query.groupBy</code>.</p>
+
+<h4 id="commonly-tuned-configurations">Commonly tuned configurations</h4>
 
 <h5 id="configurations-for-groupby-v2">Configurations for groupBy v2</h5>
 

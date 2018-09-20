@@ -161,7 +161,7 @@
 </tr>
 <tr>
 <td><code>tuningConfig</code></td>
-<td><a href="../ingestion/native_tasks.html#tuningconfig">Index task tuningConfig</a></td>
+<td><a href="../ingestion/native-batch.html#tuningconfig">Index task tuningConfig</a></td>
 <td>No</td>
 </tr>
 <tr>
@@ -180,7 +180,7 @@
 </code></pre></div>
 <p>This compaction task reads <em>all segments</em> of the interval <code>2017-01-01/2018-01-01</code> and results in new segments.
 Note that intervals of the input segments are merged into a single interval of <code>2017-01-01/2018-01-01</code> no matter what the segmentGranularity was.
-To control the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="../ingestion/native_tasks.html#tuningconfig">indexTuningConfig</a> for more details.
+To control the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="../ingestion/native-batch.html#tuningconfig">indexTuningConfig</a> for more details.
 To merge each day&#39;s worth of data into separate segments, you can submit multiple <code>compact</code> tasks, one for each day. They will run in parallel.</p>
 
 <p>A compaction task internally generates an <code>index</code> task spec for performing compaction work with some fixed parameters.

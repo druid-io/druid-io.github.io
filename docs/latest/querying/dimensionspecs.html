@@ -357,16 +357,11 @@ and returns them formatted using the given output format.</p>
 <a href="#time-format-extraction-function">time extraction function instead</a> instead,
 which works on time value directly as opposed to string values.</p>
 
-<p>If &quot;joda&quot; is true, time formats are described in the <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat documentation</a>.
-If &quot;joda&quot; is false (or unspecified) then formats are described in the <a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a>.
-In general, we recommend setting &quot;joda&quot; to true since Joda format strings are more common in Druid APIs and since Joda handles certain edge cases (like weeks and weekyears near
-the start and end of calendar years) in a more ISO8601 compliant way.</p>
-
-<p>If a value cannot be parsed using the provided timeFormat, it will be returned as-is.</p>
+<p>Time formats are described in the
+<a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a></p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;joda&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span><span class="p">,</span> <span class="err">false&gt;</span> <span class="p">}</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-extraction-function">Javascript Extraction Function</h3>
 
