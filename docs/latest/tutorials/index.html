@@ -196,13 +196,24 @@ java <span class="sb">`</span>cat examples/conf/druid/broker/jvm.config <span cl
 <p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the druid-0.12.3 package root. </p>
 
 <p>Later on, if you&#39;d like to stop the services, CTRL-C to exit from the running java processes. If you
-want a clean start after stopping the services, delete the <code>log</code> and <code>var</code> directory and run the <code>init</code> script again.</p>
+want a clean start after stopping the services, delete the <code>log</code> and <code>var</code> directory and run the <code>init</code> script again, then shut down Zookeper and delete the Zookeeper dataDir under <code>/tmp/zookeeper</code>.</p>
 
 <p>From the druid-0.12.3 directory:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf log
 rm -rf var
 bin/init
 </code></pre></div>
+<p>If you ran the <a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a>, you should shut down Kafka before shutting down Zookeeper, and then delete the Kafka log directory, which is at <code>/tmp/kafka-logs</code>.</p>
+
+<p>Ctrl-C to shut down the Kafka broker, and then delete the log directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf /tmp/kafka-logs
+</code></pre></div>
+<p>Now stop Zookeeper and clear its state. From the zookeeper-3.4.10 directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/zkServer.sh stop
+rm -rf /tmp/zookeeper
+</code></pre></div>
+<p>After clearing out Druid and Zookeeper state, restart Zookeeper and then restart the Druid services.</p>
+
 <h2 id="loading-data">Loading Data</h2>
 
 <h3 id="tutorial-dataset">Tutorial Dataset</h3>
