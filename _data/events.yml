@@ -1,9 +1,14 @@
-- date: 2018-09-20
-  name: "Druid LA Meetup"
-  info: Druid LA Meetup @ Snap
-  link: https://www.meetup.com/druidio-la/events/254080924/
+- date: 2018-09-26
+  name: "ApacheCon 2018"
+  info: Druid @ ApacheCon 2018
+  link: https://apachecon.dukecon.org/acna/2018/#/schedule?search=druid
+
+- date: 2018-10-03
+  name: "NANOG 74"
+  info: New data architectures for high performance netflow analytics
+  link: https://pc.nanog.org/static/published/meetings//NANOG74/daily/day_4.html#talk_1765
 
 - date: 2018-11-14
   name: "Druid Bay Area Meetup"
-  info: Druid Bay Area Meetup @ Netflix (details coming soon)
-  link: https://www.meetup.com/druidio
+  info: Druid Bay Area Meetup @ Netflix
+  link: https://www.meetup.com/druidio/events/254994344

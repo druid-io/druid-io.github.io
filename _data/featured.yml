@@ -1,3 +1,15 @@
+  - date: 2018-09-25
+    title: "Data Analytics and Processing at Snap"
+    name: "Charles Allen"
+    link: https://www.slideshare.net/CharlesAllen9/data-analytics-and-processing-at-snap-druid-meetup-la-september-2018
+    company: Snap, Inc.
+
+  - date: 2018-09-13
+    title: "Securing Druid"
+    name: "Jon Wei"
+    link: https://imply.io/post/securing-druid
+    company: Imply
+
   - date: 2018-08-30
     title: "Streaming SQL and Druid"
     name: "Arup Malakar"
