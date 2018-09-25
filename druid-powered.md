@@ -311,6 +311,10 @@ A one-stop shop taking advantage of proprietary technology to analyze and reach 
 
 Smyte provides an API and UI for detecting and blocking bad actors on the internet. Druid powers the analytics portion of our user interface providing insight into what users are doing on the website, and specifically which features are unique between different sets of users.
 
+## Snap, Inc.
+
+* [Data Analytics and Processing at Snap](https://www.slideshare.net/CharlesAllen9/data-analytics-and-processing-at-snap-druid-meetup-la-september-2018)
+
 ## Streamlyzer
 
 Streamlyzer uses Druid as a next generation online video analytics for online video companies or publishers. Streamlyzer is gathering information from real end-users of our customers and provides visualized real-time analytics in dashboard showing how video contents are delivered and how end-users are experiencing the streaming service.
@@ -320,9 +324,11 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
 ## TalkingData
+
 [TalkingData](http://www.talkingdata.com/) is China’s largest independent Big Data service platform. TalkingData uses Druid with Atomcube, an extension for enhancement, to power analyze online application and advertising data.
 
 ## Tech Mpire
+
 Tech Mpire provides performance-based advertising to help mobile app advertisers acquire their new users wherever they are in the digital world. At the core of Tech Mpire is nxus®, our comprehensive ad network platform which connects the global demand from advertisers to the most effective sources of supply, using proprietary recommendation algorithms. We use Druid to power the campaign performance report, providing us with sub-second analytical reporting to support near real-time decision making and optimisation for our advertiser’s campaigns.
 
 ## Tencent
