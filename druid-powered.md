@@ -314,7 +314,7 @@ Skyport Systems provides zero-effort, low-touch secure servers that help organiz
 
 ## Slack
 
-* [Measuring Slack API performance using druid](https://speakerdeck.com/vananth22/measuring-api-performance-using-druid)
+* [Measuring Slack API performance using Druid](https://speakerdeck.com/vananth22/measuring-api-performance-using-druid)
 
 ## Smart Bid
 
