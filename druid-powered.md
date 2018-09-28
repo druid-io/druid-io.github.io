@@ -111,6 +111,7 @@ Imply uses Druid to power public demos and to power our internal monitoring and 
 * [Architecting Distributed Databases for Failure](https://imply.io/post/failure)
 * [Building a Streaming Analytics Stack with Apache Kafka and Druid](http://www.confluent.io/blog/building-a-streaming-analytics-stack-with-apache-kafka-and-druid)
 * [Compressing Longs in Druid](https://imply.io/post/compressing-longs)
+* [Securing Druid](https://imply.io/post/securing-druid)
 
 ## Inmobi
 
@@ -210,6 +211,8 @@ You can learn more about the AOC at http://netsil.com/download/
 
 Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data.
 
+* [Our journey with Druid - from initial research to full production scale](https://www.slideshare.net/ItaiYaffe/our-journey-with-druid-from-initial-research-to-full-production-scale)
+
 ## Ona
 
 Ona <https://ona.io> is a software engineering and design firm based in Nairobi, Kenya and Washington, DC. Our mission is to improve the effectiveness of humanitarian and development aid by empowering organizations worldwide with collective and actionable intelligence. We use Druid to power dashboards and disseminate global health and service delivery data pulled from diverse sources.
@@ -258,6 +261,11 @@ is what they have to say:
 
 * [PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase](https://dataworkssummit.com/san-jose-2018/session/paypal-merchant-ecosystem-using-apache-spark-hive-druid-and-hbase/)
 
+## Plumbr
+
+* [Introduction to Druid, fast distributed data store](https://youtu.be/rx6c7D9QmyU)
+* [Storing and accessing trillions of events](https://plumbr.eu/blog/programming/storing-and-querying-trillions-of-events)
+
 ## PubNative
 
 PubNative uses Druid for its real-time reports and analysis of millions of daily ad views, clicks, conversions and other events.
@@ -294,6 +302,8 @@ At [Shopee](http://shopee.com/) Data Engineer Group, we use Druid for real-time 
 
 Druid is the primary data store used for ad-hoc analytics in Singular, enabling our customers to generate insights based on real-time and historical data.
 
+* [How Singular Delivers Blazing Fast App Analytics](https://www.singular.net/singular-app-roi-analytics/)
+
 ## SK Telecom
 
 SK Telecom is the leading telecommunication and platform solution company. Druid enable us to discover the business insight interactively from telecommunication, manufacturing big data.
@@ -301,6 +311,10 @@ SK Telecom is the leading telecommunication and platform solution company. Druid
 ## Skyport Systems
 
 Skyport Systems provides zero-effort, low-touch secure servers that help organizations to rapidly deploy and compartmentalize security-critical workloads. We use Druid as part of our analytics backend to provide real-time insight to our customers about their workload behavior.
+
+## Slack
+
+* [Measuring Slack API performance using Druid](https://speakerdeck.com/vananth22/measuring-api-performance-using-druid)
 
 ## Smart Bid
 
@@ -314,6 +328,10 @@ Smyte provides an API and UI for detecting and blocking bad actors on the intern
 ## Snap, Inc.
 
 * [Data Analytics and Processing at Snap](https://www.slideshare.net/CharlesAllen9/data-analytics-and-processing-at-snap-druid-meetup-la-september-2018)
+
+## SpotX
+
+* [BelFOSS 2018 SpotX: Hadoop, Spark & Druid](https://www.youtube.com/watch?v=OlmbuyCH4lQ)
 
 ## Streamlyzer
 
@@ -366,6 +384,8 @@ Druid powers Virool’s real time analytics of over 1 billion raw events per day
 ## Wikimedia Foundation
 
 We're serving pageview data via Druid and Pivot.  Our internal customers are loving it and we're working on allowing public access to sanitized data, both editing and pageview.  We like Druid because it's open source, the folks that work on it have built a good community, and it's about five times faster than Hive for us right now, without any tuning or optimization (and the Hadoop cluster is beefier than the Druid one), just dumped lots of data into it and Pivot was immediately useful to our analysts.  We wrote a [puppet](https://github.com/wikimedia/operations-puppet/tree/production/modules/druid) module that others might find helpful.
+
+* [Analytics at Wikipedia](https://www.oreilly.com/library/view/strata-data-conference/9781491976326/video316954.html)
 
 ## Xiaomi
 
