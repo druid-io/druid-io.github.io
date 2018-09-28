@@ -211,7 +211,7 @@ You can learn more about the AOC at http://netsil.com/download/
 
 Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data.
 
-* [Our journey with druid - from initial research to full production scale](https://www.slideshare.net/ItaiYaffe/our-journey-with-druid-from-initial-research-to-full-production-scale)
+* [Our journey with Druid - from initial research to full production scale](https://www.slideshare.net/ItaiYaffe/our-journey-with-druid-from-initial-research-to-full-production-scale)
 
 ## Ona
 
