@@ -1,13 +1,3 @@
-- date: 2018-09-26
-  name: "ApacheCon 2018"
-  info: Druid @ ApacheCon 2018
-  link: https://apachecon.dukecon.org/acna/2018/#/schedule?search=druid
-
-- date: 2018-10-03
-  name: "NANOG 74"
-  info: New data architectures for high performance netflow analytics
-  link: https://pc.nanog.org/static/published/meetings//NANOG74/daily/day_4.html#talk_1765
-
 - date: 2018-10-12
   name: "DEVIEW 2018"
   info: "Continuously Optimizing Storage of Stream Histories: Lessons Learned with Apache Druid"
@@ -17,6 +7,11 @@
   name: "Druid Seoul Meetup"
   info: 8th Druid Seoul meetup
   link: https://www.meetup.com/Druid-Seoul/events/254813809/
+
+- date: 2018-10-23
+  name: "Atlanta Hadoop Users Group"
+  info: "Druid: Operational Analytics For Event Data"
+  link: https://www.meetup.com/Atlanta-Hadoop-Users-Group/events/254790608/
 
 - date: 2018-11-14
   name: "Druid Bay Area Meetup"
