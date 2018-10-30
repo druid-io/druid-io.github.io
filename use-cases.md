@@ -10,7 +10,7 @@ Druid generally works well with any event-oriented, timeseries, or telemetry dat
 Druid provides [exactly once consumption semantics](/docs/latest/development/extensions-core/kafka-ingestion) from Apache Kafka and is commonly used as a sink for event-oriented Kafka topics.
 
 Druid also works well for batch data sets.
-Organizations have deployed Druid to accelerate queries and power applications where the input data are static files.
+Organizations have deployed Druid to accelerate queries and power applications where the input data is one or more static files.
 Druid is a great fit if you are developing a user-facing application and you want your users to be able to self service their own questions.
 
 ## Network flows
@@ -77,4 +77,4 @@ Unlike SQL-on-Hadoop engines such as Presto or Hive, Druid is designed for high 
 In general this makes Druid a better fit for truly interactive visual analytics.
 
 Druid is a great fit if you need a user-facing application and you want your users to be able to run their own self service drill-down queries.
-You can either develop your own application using Druid's API or use once of the [many off the shelf applications](/libraries) that work with Druid.
+You can either develop your own application using Druid's API or use one of the [many off the shelf applications](/libraries) that work with Druid.
