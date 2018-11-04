@@ -120,24 +120,6 @@
   <div class="row">
 
     <div class="col-md-9">
-      <h2>
-        Overview
-      </h2>
-      <p>
-Druid is primarily used to store, query, and analyze large event streams. Examples of event streams include user generated data such as clickstreams, application generated data such as performance metrics, and machine generated data such as network flows and server metrics. Druid is optimized for sub-second queries to slice-and-dice, drill down, search, filter, and aggregate this data. Druid is commonly used to power interactive applications where performance, concurrency, and uptime are important.
-      </p>
-      <div class="image-large">
-        <img src="img/diagram-1.png" style="max-width: 580px;">
-      </div>
-      <p>
-Druid was initially created to power a scalable, visual, multi-tenant application where users could not only rapidly slice and dice data to create ad-hoc reports, but also interactively explore data to quickly determine the root cause of patterns and anomalies. Druid is designed from the ground up for sub-second queries, which are critical in interactive applications as <a href="https://www.nngroup.com/articles/response-times-3-important-limits/">usability studies</a> have shown that humans get distracted and lose their train of thought if responses take longer than a second.
-      </p>
-      <p>
-Reference architectures with Druid often combine the system with a message bus such as <a href="https://kafka.apache.org/">Apache Kafka</a> to form an end-to-end streaming analytics solution. In such a setup, Kafka streams messages to Druid, and Druid enables interactive queries to store, analyze, and investigate this data. Druid can also be combined with a data lake such as <a href="https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html">HDFS</a> for batch-oriented workloads.
-      </p>
-      <h2>
-        Design
-      </h2>
       <p>
         Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics. Core design ideas include:
       </p>
@@ -202,7 +184,6 @@ Reference architectures with Druid often combine the system with a message bus s
       <p>
         To learn more, read our <a href="/technology">Technology</a> page.
       </p>
-
       <h2>
         Use cases
       </h2>
@@ -308,27 +289,6 @@ Reference architectures with Druid often combine the system with a message bus s
     <a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.12.0">
       <span class="title">Druid 0.12.0 Released</span><br>
       <span class="text-muted">Mar  8 2018</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.11.0">
-      <span class="title">Druid 0.11.0 Released</span><br>
-      <span class="text-muted">Dec  4 2017</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.10.1">
-      <span class="title">Druid 0.10.1 Released</span><br>
-      <span class="text-muted">Aug 22 2017</span>
-    </a>
-  </p>
-  
-  <p>
-    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.10.0">
-      <span class="title">Druid 0.10.0 Released</span><br>
-      <span class="text-muted">Apr 18 2017</span>
     </a>
   </p>
   
