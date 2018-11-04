@@ -34,7 +34,7 @@
         display: block;
         padding-left: 8px;
         padding-right: 8px;
-        color: #AAB4E1; }
+        color: #9baaed; }
         .top-navigator .right-cont li a:hover {
           text-decoration: none;
           color: white; }
@@ -45,7 +45,7 @@
           height: 32px;
           line-height: 32px;
           margin-top: 9px;
-          background: #AAB4E1;
+          background: #9baaed;
           border-radius: 2px;
           padding: 0 10px;
           color: #1C1C26;
@@ -60,7 +60,7 @@
     right: 30px;
     color: white;
     padding: 8px 16px;
-    background: rgba(170, 180, 225, 0.3);
+    background: rgba(155, 170, 237, 0.3);
     text-align: center;
     border-radius: 2px;
     cursor: pointer;
@@ -70,7 +70,7 @@
     .top-navigator .action-button .fa {
       margin-right: 6px; }
     .top-navigator .action-button:hover {
-      background: rgba(170, 180, 225, 0.4); }
+      background: rgba(155, 170, 237, 0.4); }
 
 @media (max-width: 840px) {
   .top-navigator {

@@ -13,15 +13,3 @@
   - date: 2018-03-08
     name: Druid 0.12.0 Released
     link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.12.0'
-
-  - date: 2017-12-04
-    name: Druid 0.11.0 Released
-    link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.11.0'
-
-  - date: 2017-08-22
-    name: Druid 0.10.1 Released
-    link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.10.1'
-
-  - date: 2017-04-18
-    name: Druid 0.10.0 Released
-    link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.10.0'
