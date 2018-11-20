@@ -1,7 +1,7 @@
 footer {
   line-height: 1.8em; }
   footer a:hover {
-    color: #4860CC; }
+    color: #4460de; }
   footer .license {
     margin-top: 12px;
     font-size: 11px;
@@ -14,7 +14,7 @@ footer .license {
   font-size: 11px;
   color: #aaa; }
   footer .license a:hover {
-    color: #4860CC;
+    color: #4460de;
     text-decoration: underline; }
 
 .druid-footer {
@@ -25,4 +25,4 @@ footer .license {
   .druid-footer .fa, .druid-footer .fab {
     font-size: 18px;
     margin: 6px 0;
-    color: #4860CC; }
+    color: #4460de; }
