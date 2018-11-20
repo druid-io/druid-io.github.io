@@ -17,11 +17,11 @@
   .button {
     display: inline-block;
     min-width: 155px;
-    margin: 3px 0;
-    font-size: 1em;
+    margin: 6px;
+    font-size: 1.1em;
     line-height: 1.4em;
     font-weight: 600;
-    padding: 8px 12px;
+    padding: 9px 12px;
     border-radius: 2px;
     background: $link-light;
     color: $dark;
@@ -37,18 +37,17 @@
       background: white;
       text-decoration: none;
     }
-
-    &:first-child {
-      margin-right: 12px;
-    }
   }
 
   .lead {
-    font-size: 1.6em;
+    font-size: 1.7em;
     line-height: 1.7em;
-    font-weight: 300;
+    font-weight: 600;
     margin-top: 8px;
     margin-bottom: 26px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   b {

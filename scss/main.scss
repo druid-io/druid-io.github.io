@@ -1,35 +1,39 @@
 @import "variables";
 @import "reset";
 
+body {
+  margin-top: $header-height;
+}
+
 html, body {
 	position:relative;
 	color: $dark;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   font-weight: 400;
-	font-size: 14px;
+	font-size: 15px;
   word-wrap:break-word;
 
   h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: 300;
+    font-weight: 600;
     line-height: 140%;
     margin-bottom: 14px;
     margin-top: 28px;
   }
 
   h1 {
-    font-size: 3em;
+    font-size: 2.7em;
   }
 
   h2 {
-    font-size: 2.4em;
+    font-size: 2.2em;
   }
 
   h3 {
-    font-size: 2em;
+    font-size: 1.7em;
   }
 
   h4 {
-    font-size: 1.6em;
+    font-size: 1.4em;
   }
 
   h5 {
@@ -67,6 +71,7 @@ html, body {
     a {
       color: $link;
       cursor: pointer;
+      font-weight: 600;
 
       &:hover {
         text-decoration: underline;
@@ -125,7 +130,7 @@ html, body {
   background-size: 330px 330px;
   background-repeat: no-repeat;
   background-position: 18% -30px;
-  background-color: #EEE;
+  background-color: $light-bkg;
   overflow: hidden;
 
   h1 {
@@ -141,6 +146,7 @@ html, body {
 
     a {
       color: $link;
+      font-weight: 600;
 
       .fa {
         margin-right: 4px;
@@ -198,9 +204,11 @@ html, body {
 
 .features {
   margin-bottom: 28px;
+  margin-top: 38px;
 
   .feature {
-    padding-left: 58px;
+    padding-left: 74px;
+    margin-bottom: 34px;
 
     &:nth-child(3n-2) {
       .fa {
@@ -224,12 +232,12 @@ html, body {
       top: 0;
       left: 0;
       position: absolute;
-      width: 42px;
-      height: 42px;
-      line-height: 42px;
+      width: 54px;
+      height: 54px;
+      line-height: 54px;
       border-radius: 40px;
       text-align: center;
-      font-size: 15px;
+      font-size: 20px;
       background: $light-1;
       color: $dark;
     }
@@ -240,6 +248,7 @@ html, body {
 
     h5 {
       margin-bottom: 0;
+      font-size: 1.2em;
     }
   }
 }

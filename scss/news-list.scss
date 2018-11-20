@@ -4,6 +4,10 @@
   margin-top: 6px;
   padding: 0 10px;
 
+  h3 {
+    font-size: 22px;
+  }
+
   a {
     display: block;
     line-height: 1.5em;
@@ -18,7 +22,10 @@
   }
 
   .text-muted {
-    color: #999;
+    color: #888;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px;
   }
 
   .event {
@@ -36,7 +43,7 @@
     width: 32px;
     text-align: center;
     border-radius: 2px;
-    padding-top: 14px;
+    padding-top: 16px;
   }
 
   .date-month {
@@ -49,20 +56,24 @@
     border-radius: 2px;
     color: white;
     font-size: 10px;
-    line-height: 12px;
+    line-height: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   .date-day {
     background: white;
     color: darken($link, 10);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 19px;
   }
 
   .btn-default {
     border-color: $link;
-    color: $link;
+    background: $link;
+    color: white;
+    font-weight: 600;
     display: inline-block;
     margin-top: 10px;
     margin-bottom: 10px;
