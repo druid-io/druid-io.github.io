@@ -1,6 +1,8 @@
 .item-list {
   margin-top: 6px;
   padding: 0 10px; }
+  .item-list h3 {
+    font-size: 22px; }
   .item-list a {
     display: block;
     line-height: 1.5em; }
@@ -9,7 +11,10 @@
       .item-list a:hover span.title {
         text-decoration: underline; }
   .item-list .text-muted {
-    color: #999; }
+    color: #888;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px; }
   .item-list .event {
     position: relative;
     padding-left: 42px;
@@ -18,37 +23,41 @@
     position: absolute;
     top: 4px;
     left: 0;
-    background: #4860CC;
+    background: #4460de;
     padding: 2px;
     width: 32px;
     text-align: center;
     border-radius: 2px;
-    padding-top: 14px; }
+    padding-top: 16px; }
   .item-list .date-month {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     padding: 1px;
-    background: #4860CC;
+    background: #4460de;
     border-radius: 2px;
     color: white;
     font-size: 10px;
-    line-height: 12px; }
+    line-height: 14px;
+    font-weight: 600;
+    text-transform: uppercase; }
   .item-list .date-day {
     background: white;
-    color: #3148b0;
-    font-size: 13px;
+    color: #2442cb;
+    font-size: 16px;
     font-weight: 600;
     line-height: 19px; }
   .item-list .btn-default {
-    border-color: #4860CC;
-    color: #4860CC;
+    border-color: #4460de;
+    background: #4460de;
+    color: white;
+    font-weight: 600;
     display: inline-block;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 3px 8px; }
     .item-list .btn-default:hover, .item-list .btn-default:active {
-      background-color: #4860CC;
-      border-color: #4860CC;
+      background-color: #4460de;
+      border-color: #4460de;
       color: #fff; }

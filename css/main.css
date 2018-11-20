@@ -43,26 +43,29 @@ button, input, textarea {
   button:focus, input:focus, textarea:focus {
     outline: none; }
 
+body {
+  margin-top: 54px; }
+
 html, body {
   position: relative;
   color: #1C1C26;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   word-wrap: break-word; }
   html h1, html h2, html h3, html h4, html h5, html h6, html .h1, html .h2, html .h3, html .h4, html .h5, html .h6, body h1, body h2, body h3, body h4, body h5, body h6, body .h1, body .h2, body .h3, body .h4, body .h5, body .h6 {
-    font-weight: 300;
+    font-weight: 600;
     line-height: 140%;
     margin-bottom: 14px;
     margin-top: 28px; }
   html h1, body h1 {
-    font-size: 3em; }
+    font-size: 2.7em; }
   html h2, body h2 {
-    font-size: 2.4em; }
+    font-size: 2.2em; }
   html h3, body h3 {
-    font-size: 2em; }
+    font-size: 1.7em; }
   html h4, body h4 {
-    font-size: 1.6em; }
+    font-size: 1.4em; }
   html h5, body h5 {
     font-weight: bold; }
   html h6, body h6 {
@@ -81,8 +84,9 @@ html, body {
   html a, body a {
     cursor: pointer; }
   html p a, html table a, html ul a, body p a, body table a, body ul a {
-    color: #4860CC;
-    cursor: pointer; }
+    color: #4460de;
+    cursor: pointer;
+    font-weight: 600; }
     html p a:hover, html table a:hover, html ul a:hover, body p a:hover, body table a:hover, body ul a:hover {
       text-decoration: underline; }
   html ul, body ul {
@@ -120,7 +124,7 @@ html, body {
   background-size: 330px 330px;
   background-repeat: no-repeat;
   background-position: 18% -30px;
-  background-color: #EEE;
+  background-color: #e7e7ec;
   overflow: hidden; }
   .druid-header h1 {
     margin-top: 14px;
@@ -131,7 +135,8 @@ html, body {
     margin-top: -5px;
     margin-bottom: 0; }
     .druid-header h4 a {
-      color: #4860CC; }
+      color: #4460de;
+      font-weight: 600; }
       .druid-header h4 a .fa {
         margin-right: 4px; }
       .druid-header h4 a:hover {
@@ -158,7 +163,7 @@ html, body {
   display: inline-block;
   padding: 10px 22px;
   color: white;
-  background: #4860CC;
+  background: #4460de;
   border-radius: 2px;
   font-size: 15px;
   margin-top: 14px;
@@ -166,32 +171,35 @@ html, body {
   .large-button .fa {
     margin-right: 3px; }
   .large-button:hover {
-    background: #3148b0;
+    background: #2442cb;
     text-decoration: none; }
 
 .features {
-  margin-bottom: 28px; }
+  margin-bottom: 28px;
+  margin-top: 38px; }
   .features .feature {
-    padding-left: 58px; }
+    padding-left: 74px;
+    margin-bottom: 34px; }
     .features .feature:nth-child(3n-2) .fa {
-      background: #CBD2F2; }
+      background: #cbd5ff; }
     .features .feature:nth-child(3n-1) .fa {
-      background: #BCE8DA; }
+      background: #a7f1d9; }
     .features .feature:nth-child(3n) .fa {
-      background: #F5D6B8; }
+      background: #ffd8a8; }
     .features .feature .fa {
       top: 0;
       left: 0;
       position: absolute;
-      width: 42px;
-      height: 42px;
-      line-height: 42px;
+      width: 54px;
+      height: 54px;
+      line-height: 54px;
       border-radius: 40px;
       text-align: center;
-      font-size: 15px;
-      background: #CBD2F2;
+      font-size: 20px;
+      background: #cbd5ff;
       color: #1C1C26; }
     .features .feature p {
       margin-top: 0; }
     .features .feature h5 {
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      font-size: 1.2em; }

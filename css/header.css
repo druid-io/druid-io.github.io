@@ -1,6 +1,11 @@
 .top-navigator {
   background: #1C1C26;
-  height: 54px; }
+  height: 54px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100; }
   .top-navigator .left-cont .druid-logo {
     display: inline-block;
     height: 54px;
@@ -8,7 +13,7 @@
     margin-bottom: -2px;
     background-position: center;
     background-image: url("/img/druid_nav.png");
-    background-size: 105px 36px;
+    background-size: 120px auto;
     background-repeat: no-repeat; }
   .top-navigator .right-cont {
     position: absolute;
@@ -34,7 +39,7 @@
         display: block;
         padding-left: 8px;
         padding-right: 8px;
-        color: #9baaed; }
+        color: #9caeff; }
         .top-navigator .right-cont li a:hover {
           text-decoration: none;
           color: white; }
@@ -45,7 +50,7 @@
           height: 32px;
           line-height: 32px;
           margin-top: 9px;
-          background: #9baaed;
+          background: #9caeff;
           border-radius: 2px;
           padding: 0 10px;
           color: #1C1C26;
@@ -58,24 +63,27 @@
     position: absolute;
     top: 10px;
     right: 30px;
-    color: white;
     padding: 8px 16px;
-    background: rgba(155, 170, 237, 0.3);
     text-align: center;
     border-radius: 2px;
     cursor: pointer;
     display: none;
-    font-size: 14px;
-    line-height: 18px; }
+    color: #9caeff;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 600; }
     .top-navigator .action-button .fa {
       margin-right: 6px; }
     .top-navigator .action-button:hover {
-      background: rgba(155, 170, 237, 0.4); }
+      color: white; }
 
 @media (max-width: 840px) {
+  body {
+    margin-top: 0; }
   .top-navigator {
     height: auto;
-    min-height: 54px; }
+    min-height: 54px;
+    position: relative; }
     .top-navigator .right-cont {
       position: relative;
       display: block;

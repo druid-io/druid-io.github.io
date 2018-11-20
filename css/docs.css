@@ -1,5 +1,5 @@
 .doc-container {
-  margin-top: 28px; }
+  padding-top: 28px; }
 
 .doc-content pre, .doc-content pre code {
   overflow: auto;
@@ -77,17 +77,21 @@
     .doc-content .note.caution:after {
       background-image: url(/img/note-caution.svg); }
 
+.toc h2 {
+  font-size: 28px; }
+
 .toc ul {
   list-style: none;
   list-style-position: inside;
-  color: #4860CC;
+  color: #4460de;
   line-height: 1.9em; }
   .toc ul li {
     color: #999999;
+    font-weight: 600;
     list-style-type: none;
     margin-left: 0; }
     .toc ul li a {
-      color: #4860CC;
+      color: #4460de;
       display: block; }
       .toc ul li a:hover {
         text-decoration: underline; }
