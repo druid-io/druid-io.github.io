@@ -1,3 +1,15 @@
+  - date: 2018-11-14
+    title: "How Druid enables analytics at Airbnb"
+    name: "Pala Muthiah and Jinyang Li"
+    link: https://medium.com/airbnb-engineering/druid-airbnb-data-platform-601c312f2a4c
+    company: Airbnb
+
+  - date: 2018-11-13
+    title: "How to Configure Druid to Use Minio as Deep Storage"
+    name: "Monzurul Haque Shimul"
+    link: https://dzone.com/articles/how-to-configure-druid-to-use-minio-as-deep-storag
+    company: TigerIT
+
   - date: 2018-09-25
     title: "Data Analytics and Processing at Snap"
     name: "Charles Allen"

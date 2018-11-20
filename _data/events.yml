@@ -1,19 +1,4 @@
-- date: 2018-10-12
-  name: "DEVIEW 2018"
-  info: "Continuously Optimizing Storage of Stream Histories: Lessons Learned with Apache Druid"
-  link: https://deview.kr/2018/schedule/229
-
-- date: 2018-10-16
-  name: "Druid Seoul Meetup"
-  info: 8th Druid Seoul meetup
-  link: https://www.meetup.com/Druid-Seoul/events/254813809/
-
-- date: 2018-10-23
-  name: "Atlanta Hadoop Users Group"
-  info: "Druid: Operational Analytics For Event Data"
-  link: https://www.meetup.com/Atlanta-Hadoop-Users-Group/events/254790608/
-
-- date: 2018-11-14
-  name: "Druid Bay Area Meetup"
-  info: Druid Bay Area Meetup @ Netflix
-  link: https://www.meetup.com/druidio/events/254994344
+- date: 2018-12-06
+  name: "Big Data and Cloud Meetup"
+  info: Demystifying AWS Analytics and Building Streaming Analytics using Kafka & Druid
+  link: https://www.meetup.com/datariders/events/256026290/
