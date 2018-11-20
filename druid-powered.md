@@ -11,6 +11,8 @@ There are numerous companies of various sizes in production with Druid. Some of 
 
 Druid powers slice and dice analytics on both historical and realtime-time metrics. It significantly reduces latency of analytic queries and help people to get insights more interactively.
 
+* [How Druid enables analytics at Airbnb](https://medium.com/airbnb-engineering/druid-airbnb-data-platform-601c312f2a4c)
+
 ## Alibaba
 
 At Alibaba Search Group, we use Druid for real-time analytics of users' interaction with its popular e-commerce site.
@@ -307,6 +309,8 @@ Druid is the primary data store used for ad-hoc analytics in Singular, enabling 
 ## SK Telecom
 
 SK Telecom is the leading telecommunication and platform solution company. Druid enable us to discover the business insight interactively from telecommunication, manufacturing big data.
+
+* [Apache Druid on Kubernetes: Elastic scalable cloud-based system for real-time OLAP on high velocity data](https://feathercast.apache.org/2018/09/27/apache-druid-on-kubernetes-elastic-scalable-cloud-based-system-for-real-time-olap-on-high-velocity-data-jinchul-kim-eui-heo/)
 
 ## Skyport Systems
 
