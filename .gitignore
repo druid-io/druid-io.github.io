@@ -5,3 +5,5 @@ Gemfile.lock
 .jekyll-metadata
 node_modules
 private
+_data/package-lock.json
+package-lock.json
