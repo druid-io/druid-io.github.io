@@ -66,7 +66,7 @@ Key features of Druid include:
   </div>
   <div class="feature">
     <span class="fa fa-balance-scale fa"></span>
-    <h5>Easy to operate</h5>
+    <h5>Easy operation</h5>
     <p>
       Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
     </p>
@@ -75,7 +75,7 @@ Key features of Druid include:
 
 ## Integration
 
-Druid is complementary to many open source data technologies in the Apache Software Foundation including Apache Kafka, Apache Hadoop, Apache Flink, and more.
+Druid is complementary to many open source data technologies in the [Apache Software Foundation](https://www.apache.org/) including [Apache Kafka](https://kafka.apache.org/), [Apache Hadoop](https://hadoop.apache.org/), [Apache Flink](https://flink.apache.org/), and more.
 
 Druid typically sits between a storage or processing layer and the end user, and acts as a query layer to serve analytic workloads.
 
