@@ -23,9 +23,9 @@ id: home
   <div class="row">
 
     <div class="col-md-9">
-      <p>
-        Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics. Core design ideas include:
-      </p>
+      <h2>
+        Overview
+      </h2>
       <div class="features">
         <div class="feature">
           <span class="fa fa-columns fa"></span>
@@ -54,80 +54,9 @@ id: home
           <p>
             Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
           </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-clock fa"></span>
-          <h5>Time-optimized partitioning</h5>
-          <p>
-            Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-align-left fa"></span>
-          <h5>SQL support</h5>
-          <p>
-            In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-expand fa"></span>
-          <h5>Horizontally scalable</h5>
-          <p>
-            Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-balance-scale fa"></span>
-          <h5>Easy to operate</h5>
-          <p>
-            Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
-          </p>
+            Learn about some of the <a href='faq'>most common questions about Druid</a>.
         </div>
       </div>
-      <p>
-        To learn more, read our <a href="/technology">Technology</a> page.
-      </p>
-      <h2>
-        Use cases
-      </h2>
-      <p>
-        Druid is proven in production at the <a href="druid-powered">world’s leading companies</a>, with the largest installations having more than a thousand servers, ingesting over 10 million events per second, and supporting thousands of concurrent queries per second. Druid is used to:
-      </p>
-      <div class="features">
-        <div></div>
-        <div></div>
-        <div class="feature">
-          <span class="fa fa-rocket fa"></span>
-          <h5>Analyze performance</h5>
-          <p>
-            Create interactive dashboards with full drill down capabilities. Analyze performance of digital products, track mobile app usage, or monitor site reliability.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-exclamation-triangle fa"></span>
-          <h5>Diagnose problems</h5>
-          <p>
-            Find the root cause of issues. Troubleshoot netflow bottlenecks, analyze security threats, or diagnose software crashes.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-users fa"></span>
-          <h5>Find commonalities</h5>
-          <p>
-            Find common attributes among events. Identify shared components in defective products, or determine patterns in top performing products.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-money-bill-wave-alt fa"></span>
-          <h5>Increase efficiency</h5>
-          <p>
-            Improve product engagement. Optimize ad-spend in digital marketing campaigns or increase user engagement in online products.
-          </p>
-        </div>
-      </div>
-      <p>
-        To learn more, read our <a href="/use-cases">Use Cases</a> page.
-      </p>
 
       <h2>
         Learn more
@@ -141,6 +70,13 @@ id: home
           </p>
         </div>
         <div class="feature">
+          <span class="fa fa-question-circle fa"></span>
+          <h5>FAQ</h5>
+          <p>
+            Learn about some of the <a href='faq'>most common questions about Druid</a>.
+          </p>
+        </div>
+        <div class="feature">
           <span class="fa fa-chart-bar fa"></span>
           <h5>Visualize</h5>
           <p>
@@ -149,9 +85,9 @@ id: home
         </div>
         <div class="feature">
           <span class="fa fa-question-circle fa"></span>
-          <h5>FAQ</h5>
+          <h5>Powered By</h5>
           <p>
-            Learn about some of the <a href='faq'>most common questions about Druid</a>.
+            Druid is proven in production at the <a href='/druid-powered'>world’s leading companies</a> at massive scale.
           </p>
         </div>
       </div>

@@ -5,13 +5,73 @@ sectionid: technology
 ---
 
 Druid is an open source distributed data store.
-Druid’s core design combines ideas from [OLAP/analytic databases](https://en.wikipedia.org/wiki/Online_analytical_processing), [timeseries databases](https://en.wikipedia.org/wiki/Time_series_database), and [search systems](https://en.wikipedia.org/wiki/Full-text_search) to create a unified system for operational analytics.
+Druid’s core design combines ideas from [OLAP/analytic databases](https://en.wikipedia.org/wiki/Online_analytical_processing), [timeseries databases](https://en.wikipedia.org/wiki/Time_series_database), and [search systems](https://en.wikipedia.org/wiki/Full-text_search) to create a unified system for operational analytics. Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.
 
 <div class="image-large">
   <img src="img/diagram-2.png" style="max-width: 360px">
 </div>
 
-Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.
+
+Key features of Druid include:
+
+<div class="features">
+  <div class="feature">
+    <span class="fa fa-columns fa"></span>
+    <h5>Column-oriented storage</h5>
+    <p>
+      Druid stores and compresses each column individually, and only needs to read the ones needed for a particular query, which supports fast scans, rankings, and groupBys.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-search fa"></span>
+    <h5>Native search indexes</h5>
+    <p>
+      Druid creates inverted indexes for string values for fast search and filter.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-tint fa"></span>
+    <h5>Streaming and batch ingest</h5>
+    <p>
+      Out-of-the-box connectors for Apache Kafka, HDFS, AWS S3, stream processors, and more.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-stream fa"></span>
+    <h5>Flexible schemas</h5>
+    <p>
+      Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-clock fa"></span>
+    <h5>Time-optimized partitioning</h5>
+    <p>
+      Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-align-left fa"></span>
+    <h5>SQL support</h5>
+    <p>
+      In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-expand fa"></span>
+    <h5>Horizontally scalable</h5>
+    <p>
+      Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-balance-scale fa"></span>
+    <h5>Easy to operate</h5>
+    <p>
+      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
+    </p>
+  </div>
+</div>
 
 ## Integration
 
