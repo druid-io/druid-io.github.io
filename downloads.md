@@ -21,7 +21,7 @@ The current Druid release candidate is {{ site.druid_rc_version }}.
 </p>
 
 {% else %}
-there are no release candidates at this time
+There are no release candidates at this time.
 
 {% endif %}
 

@@ -14,9 +14,15 @@ and Git repositories will be migrated as well.
 
 * **User mailing list** [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user) for general discussion
 * **Development mailing list** [dev@druid.apache.org](https://lists.apache.org/list.html?dev@druid.apache.org) for discussion about project development
-* **GitHub** [druid-io/druid](https://github.com/apache/incubator-druid) issues and pull requests (watch to subscribe)
+* **GitHub** [druid-io/druid](https://github.com/apache/druid) issues and pull requests (watch to subscribe)
 * **Meetups** [Druid meetups](https://www.meetup.com/topics/apache-druid/) for different meetup groups around the world.
 * **IRC** `#druid-dev` on irc.freenode.net
+
+## Getting help
+
+The best place to get a wide variety of help about Druid is on the [Druid user
+groups](druid-user@googlegroups.com). You can also report issues and bugs on
+the [Github development page](https://github.com/apache/druid).
 
 ## Contributing
 
@@ -73,8 +79,13 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 
 | Name                                                  | Organization           |
 | ----------------------------------------------------- | ---------------------- |
+| [Benedict Jin](https://github.com/asdf2014)           | Alibaba                |
 | [Charles Allen](https://github.com/drcrallen)         | Snap                   |
+| [Clint Wylie](https://github.com/clintropolis)        | Imply                  |
 | [David Lim](https://github.com/dclim)                 | Imply                  |
+| [Daoyue Gao](https://github.com/gaodayue)             | Meituan                |
+| [Dylan Wylie](https://github.com/Dylan1312)           | SpotX                  |
+| [Egor Rashin](https://github.com/egor-ryashin)        | Snap                   |
 | [Eric Tschetter](https://github.com/cheddar)          | Splunk                 |
 | [Fangjin Yang](https://github.com/fjy)                | Imply                  |
 | [Gian Merlino](https://github.com/gianm)              | Imply                  |
@@ -83,15 +94,19 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
 | [Julian Hyde](https://github.com/julianhyde)          | Looker                 |
 | [Jun Rao](https://github.com/junrao)                  | Confluent              |
+| [Kaijian Ding](https://github.com/kaijianding)        | Alibaba                |
 | [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
 | [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
 | [Maxime Beauchemin](https://github.com/mistercrunch)  | Lyft                   |
+| [Mingming Qiu](https://github.com/QiuMM)              | Bytedance              |
 | [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
 | [Navis Ryu](https://github.com/navis)                 | SK Telecom             |
+| [Niketh Sabbineni](https://github.com/niketh)         | Oath                   |
 | [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
 | [Parag Jain](https://github.com/pjain1)               | Lyft                   |
 | [P. Taylor Goetz](https://github.com/ptgoetz)         | EPAM                   |
 | [Roman Leventov](https://github.com/leventov)         | Snap                   |
+| [Surekha Saharan](https://github.com/surekhasaharan)  | Imply                  |
 | [Xavier Léauté](https://github.com/xvrl)              | Confluent              |
 
 ### Becoming a committer
