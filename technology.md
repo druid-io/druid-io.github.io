@@ -59,7 +59,7 @@ Key features of Druid include:
   </div>
   <div class="feature">
     <span class="fa fa-expand fa"></span>
-    <h5>Horizontally scalable</h5>
+    <h5>Horizontal scalability</h5>
     <p>
       Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
     </p>
@@ -100,7 +100,7 @@ For more information, please visit [our docs page](http://druid.io/docs/latest/i
 
 Like many analytic data stores, Druid stores data in columns.
 Depending on the type of column (string, number, etc), different compression and encoding methods are applied.
-Druid also builds different types of indexes based on column type.
+Druid also builds different types of indexes based on the column type.
 
 Similar to search systems, Druid builds inverted indexes for string columns for fast search and filter.
 Similar to timeseries databases, Druid intelligently partitions data by time to enable fast time-oriented queries.
@@ -177,21 +177,6 @@ As such, Druid possesses several features to ensure uptime and no data loss.
     <p>
       You can update a Druid cluster with no downtime and no impact to end users through rolling updates.
       All Druid releases are backwards compatible with the previous version.
-    </p>
-  </div>
-  <div class="feature">
-    <span class="fa fa-sitemap fa"></span>
-    <h5>Horizontally scalable</h5>
-    <p>
-      Druid scales by adding new servers to the cluster.
-      As data volumes or cluster usage grows, resources can be added to ensure performance and stability are not impacted.
-         </p>
-  </div>
-  <div class="feature">
-    <span class="fa fa-balance-scale fa"></span>
-    <h5>Easy to operate</h5>
-    <p>
-      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
     </p>
   </div>
 </div>
