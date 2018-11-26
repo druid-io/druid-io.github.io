@@ -13,6 +13,39 @@ Druid also works well for batch data sets.
 Organizations have deployed Druid to accelerate queries and power applications where the input data is one or more static files.
 Druid is a great fit if you are developing a user-facing application and you want your users to be able to self service their own questions.
 
+Some common high level use cases of Druid include:
+
+<div class="features">
+  <div class="feature">
+    <span class="fa fa-rocket fa"></span>
+    <h5>Analyze performance</h5>
+    <p>
+      Create interactive dashboards with full drill down capabilities. Analyze performance of digital products, track mobile app usage, or monitor site reliability.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-exclamation-triangle fa"></span>
+    <h5>Diagnose problems</h5>
+    <p>
+      Find the root cause of issues. Troubleshoot netflow bottlenecks, analyze security threats, or diagnose software crashes.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-users fa"></span>
+    <h5>Find commonalities</h5>
+    <p>
+      Find common attributes among events. Identify shared components in defective products, or determine patterns in top performing products.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-money-bill-wave-alt fa"></span>
+    <h5>Increase efficiency</h5>
+    <p>
+      Improve product engagement. Optimize ad-spend in digital marketing campaigns or increase user engagement in online products.
+    </p>
+  </div>
+</div>
+
 ## Network flows
 
 Druid is commonly used to collect and analyze network flows.

@@ -5,17 +5,77 @@ sectionid: technology
 ---
 
 Druid is an open source distributed data store.
-Druid’s core design combines ideas from [OLAP/analytic databases](https://en.wikipedia.org/wiki/Online_analytical_processing), [timeseries databases](https://en.wikipedia.org/wiki/Time_series_database), and [search systems](https://en.wikipedia.org/wiki/Full-text_search) to create a unified system for operational analytics.
+Druid’s core design combines ideas from [OLAP/analytic databases](https://en.wikipedia.org/wiki/Online_analytical_processing), [timeseries databases](https://en.wikipedia.org/wiki/Time_series_database), and [search systems](https://en.wikipedia.org/wiki/Full-text_search) to create a unified system for operational analytics. Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.
 
 <div class="image-large">
   <img src="img/diagram-2.png" style="max-width: 360px">
 </div>
 
-Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.
+
+Key features of Druid include:
+
+<div class="features">
+  <div class="feature">
+    <span class="fa fa-columns fa"></span>
+    <h5>Column-oriented storage</h5>
+    <p>
+      Druid stores and compresses each column individually, and only needs to read the ones needed for a particular query, which supports fast scans, rankings, and groupBys.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-search fa"></span>
+    <h5>Native search indexes</h5>
+    <p>
+      Druid creates inverted indexes for string values for fast search and filter.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-tint fa"></span>
+    <h5>Streaming and batch ingest</h5>
+    <p>
+      Out-of-the-box connectors for Apache Kafka, HDFS, AWS S3, stream processors, and more.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-stream fa"></span>
+    <h5>Flexible schemas</h5>
+    <p>
+      Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-clock fa"></span>
+    <h5>Time-optimized partitioning</h5>
+    <p>
+      Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-align-left fa"></span>
+    <h5>SQL support</h5>
+    <p>
+      In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-expand fa"></span>
+    <h5>Horizontal scalability</h5>
+    <p>
+      Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-balance-scale fa"></span>
+    <h5>Easy operation</h5>
+    <p>
+      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
+    </p>
+  </div>
+</div>
 
 ## Integration
 
-Druid is complementary to many open source data technologies in the Apache Software Foundation including Apache Kafka, Apache Hadoop, Apache Flink, and more.
+Druid is complementary to many open source data technologies in the [Apache Software Foundation](https://www.apache.org/) including [Apache Kafka](https://kafka.apache.org/), [Apache Hadoop](https://hadoop.apache.org/), [Apache Flink](https://flink.apache.org/), and more.
 
 Druid typically sits between a storage or processing layer and the end user, and acts as a query layer to serve analytic workloads.
 
@@ -40,7 +100,7 @@ For more information, please visit [our docs page](http://druid.io/docs/latest/i
 
 Like many analytic data stores, Druid stores data in columns.
 Depending on the type of column (string, number, etc), different compression and encoding methods are applied.
-Druid also builds different types of indexes based on column type.
+Druid also builds different types of indexes based on the column type.
 
 Similar to search systems, Druid builds inverted indexes for string columns for fast search and filter.
 Similar to timeseries databases, Druid intelligently partitions data by time to enable fast time-oriented queries.
@@ -117,21 +177,6 @@ As such, Druid possesses several features to ensure uptime and no data loss.
     <p>
       You can update a Druid cluster with no downtime and no impact to end users through rolling updates.
       All Druid releases are backwards compatible with the previous version.
-    </p>
-  </div>
-  <div class="feature">
-    <span class="fa fa-sitemap fa"></span>
-    <h5>Horizontally scalable</h5>
-    <p>
-      Druid scales by adding new servers to the cluster.
-      As data volumes or cluster usage grows, resources can be added to ensure performance and stability are not impacted.
-         </p>
-  </div>
-  <div class="feature">
-    <span class="fa fa-balance-scale fa"></span>
-    <h5>Easy to operate</h5>
-    <p>
-      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
     </p>
   </div>
 </div>
