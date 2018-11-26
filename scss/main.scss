@@ -111,6 +111,10 @@ html, body {
 
     th, td {
       padding: 5px;
+
+      &:nth-child(1), &:nth-child(2) {
+        word-break: break-word;
+      }
     }
   }
 
