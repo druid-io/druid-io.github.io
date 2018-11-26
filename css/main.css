@@ -110,6 +110,8 @@ html, body {
       font-weight: 700; }
     html table th, html table td, body table th, body table td {
       padding: 5px; }
+      html table th:nth-child(1), html table th:nth-child(2), html table td:nth-child(1), html table td:nth-child(2), body table th:nth-child(1), body table th:nth-child(2), body table td:nth-child(1), body table td:nth-child(2) {
+        word-break: break-word; }
   html blockquote, body blockquote {
     font-size: 14px;
     font-style: italic;
