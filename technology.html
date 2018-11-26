@@ -113,17 +113,76 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <p>Druid is an open source distributed data store.
-Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics.</p>
+Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics. Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.</p>
 
 <div class="image-large">
   <img src="img/diagram-2.png" style="max-width: 360px">
 </div>
 
-<p>Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.</p>
+<p>Key features of Druid include:</p>
+
+<div class="features">
+  <div class="feature">
+    <span class="fa fa-columns fa"></span>
+    <h5>Column-oriented storage</h5>
+    <p>
+      Druid stores and compresses each column individually, and only needs to read the ones needed for a particular query, which supports fast scans, rankings, and groupBys.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-search fa"></span>
+    <h5>Native search indexes</h5>
+    <p>
+      Druid creates inverted indexes for string values for fast search and filter.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-tint fa"></span>
+    <h5>Streaming and batch ingest</h5>
+    <p>
+      Out-of-the-box connectors for Apache Kafka, HDFS, AWS S3, stream processors, and more.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-stream fa"></span>
+    <h5>Flexible schemas</h5>
+    <p>
+      Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-clock fa"></span>
+    <h5>Time-optimized partitioning</h5>
+    <p>
+      Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-align-left fa"></span>
+    <h5>SQL support</h5>
+    <p>
+      In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-expand fa"></span>
+    <h5>Horizontal scalability</h5>
+    <p>
+      Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
+    </p>
+  </div>
+  <div class="feature">
+    <span class="fa fa-balance-scale fa"></span>
+    <h5>Easy operation</h5>
+    <p>
+      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
+    </p>
+  </div>
+</div>
 
 <h2 id="integration">Integration</h2>
 
-<p>Druid is complementary to many open source data technologies in the Apache Software Foundation including Apache Kafka, Apache Hadoop, Apache Flink, and more.</p>
+<p>Druid is complementary to many open source data technologies in the <a href="https://www.apache.org/">Apache Software Foundation</a> including <a href="https://kafka.apache.org/">Apache Kafka</a>, <a href="https://hadoop.apache.org/">Apache Hadoop</a>, <a href="https://flink.apache.org/">Apache Flink</a>, and more.</p>
 
 <p>Druid typically sits between a storage or processing layer and the end user, and acts as a query layer to serve analytic workloads.</p>
 
@@ -148,7 +207,7 @@ Druid connects to a source of raw data, typically a message bus such as Apache K
 
 <p>Like many analytic data stores, Druid stores data in columns.
 Depending on the type of column (string, number, etc), different compression and encoding methods are applied.
-Druid also builds different types of indexes based on column type.</p>
+Druid also builds different types of indexes based on the column type.</p>
 
 <p>Similar to search systems, Druid builds inverted indexes for string columns for fast search and filter.
 Similar to timeseries databases, Druid intelligently partitions data by time to enable fast time-oriented queries.</p>
@@ -227,21 +286,6 @@ As such, Druid possesses several features to ensure uptime and no data loss.</p>
       All Druid releases are backwards compatible with the previous version.
     </p>
   </div>
-  <div class="feature">
-    <span class="fa fa-sitemap fa"></span>
-    <h5>Horizontally scalable</h5>
-    <p>
-      Druid scales by adding new servers to the cluster.
-      As data volumes or cluster usage grows, resources can be added to ensure performance and stability are not impacted.
-         </p>
-  </div>
-  <div class="feature">
-    <span class="fa fa-balance-scale fa"></span>
-    <h5>Easy to operate</h5>
-    <p>
-      Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
-    </p>
-  </div>
 </div>
 
 <p>For more information, please visit <a href="http://druid.io/docs/latest/operations/recommendations.html">our docs page</a>.</p>
@@ -256,11 +300,13 @@ As such, Druid possesses several features to ensure uptime and no data loss.</p>
 <div class="container">
   <div class="text-center">
     <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
     <a href="/community/">Community</a>&ensp;·&ensp;
     <a href="/downloads">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing">License</a>
+    <a href="/faq">FAQ</a>
     </p>
   </div>
   <div class="text-center">

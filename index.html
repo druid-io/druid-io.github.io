@@ -120,116 +120,65 @@
   <div class="row">
 
     <div class="col-md-9">
-      <p>
-        Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for operational analytics. Core design ideas include:
-      </p>
-      <div class="features">
-        <div class="feature">
-          <span class="fa fa-columns fa"></span>
-          <h5>Column-oriented storage</h5>
-          <p>
-            Druid stores and compresses each column individually, and only needs to read the ones needed for a particular query, which supports fast scans, rankings, and groupBys.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-search fa"></span>
-          <h5>Native search indexes</h5>
-          <p>
-            Druid creates inverted indexes for string values for fast search and filter.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-tint fa"></span>
-          <h5>Streaming and batch ingest</h5>
-          <p>
-            Out-of-the-box connectors for Apache Kafka, HDFS, AWS S3, stream processors, and more.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-stream fa"></span>
-          <h5>Flexible schemas</h5>
-          <p>
-            Druid gracefully handles evolving schemas and <a href="/docs/latest/ingestion/flatten-json">nested data</a>.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-clock fa"></span>
-          <h5>Time-optimized partitioning</h5>
-          <p>
-            Druid intelligently partitions data based on time and time-based queries are significantly faster than traditional databases.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-align-left fa"></span>
-          <h5>SQL support</h5>
-          <p>
-            In addition to its native <a href="/docs/latest/querying/querying">JSON based language</a>, Druid speaks <a href="/docs/latest/querying/sql">SQL</a> over either HTTP or JDBC.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-expand fa"></span>
-          <h5>Horizontally scalable</h5>
-          <p>
-            Druid has been <a href="druid-powered">used in production</a> to ingest millions of events/sec, retain years of data, and provide sub-second queries.
-          </p>
-        </div>
-        <div class="feature">
-          <span class="fa fa-balance-scale fa"></span>
-          <h5>Easy to operate</h5>
-          <p>
-            Scale up or down by just adding or removing servers, and Druid automatically rebalances. Fault-tolerant architecture routes around server failures.
-          </p>
-        </div>
-      </div>
-      <p>
-        To learn more, read our <a href="/technology">Technology</a> page.
-      </p>
       <h2>
-        Use cases
+        Overview
       </h2>
-      <p>
-        Druid is proven in production at the <a href="druid-powered">world’s leading companies</a>, with the largest installations having more than a thousand servers, ingesting over 10 million events per second, and supporting thousands of concurrent queries per second. Druid is used to:
-      </p>
       <div class="features">
-        <div></div>
-        <div></div>
         <div class="feature">
-          <span class="fa fa-rocket fa"></span>
-          <h5>Analyze performance</h5>
+          <span class="fa fa-chart-line fa"></span>
+          <h5>Analyze event streams</h5>
           <p>
-            Create interactive dashboards with full drill down capabilities. Analyze performance of digital products, track mobile app usage, or monitor site reliability.
+            Druid provides fast analytical queries, at high concurrency, on both real-time and historical data. Druid is often used to power interactive UIs.
           </p>
         </div>
         <div class="feature">
-          <span class="fa fa-exclamation-triangle fa"></span>
-          <h5>Diagnose problems</h5>
+          <span class="fa fa-lightbulb fa"></span>
+          <h5>Reimagined architecture</h5>
           <p>
-            Find the root cause of issues. Troubleshoot netflow bottlenecks, analyze security threats, or diagnose software crashes.
+            Druid is a new class of data store that combines ideas from <a href='https://en.wikipedia.org/wiki/Online_analytical_processing'>OLAP/analytic databases</a>, <a href='https://en.wikipedia.org/wiki/Time_series_database'>timeseries databases</a>, and <a href='https://en.wikipedia.org/wiki/Full-text_search'>search systems</a> to enable new use cases.
           </p>
         </div>
         <div class="feature">
-          <span class="fa fa-users fa"></span>
-          <h5>Find commonalities</h5>
+          <span class="fa fa-forward fa"></span>
+          <h5>Build next generation data stacks</h5>
           <p>
-            Find common attributes among events. Identify shared components in defective products, or determine patterns in top performing products.
+            Druid integrates natively with message buses (Kafka, AWS Kinesis, etc) and data lakes (HDFS, AWS S3, etc). Druid works especially well as a query layer for streaming data architectures.
           </p>
         </div>
         <div class="feature">
-          <span class="fa fa-money-bill-wave-alt fa"></span>
-          <h5>Increase efficiency</h5>
+          <span class="fa fa-unlock fa"></span>
+          <h5>Unlock new workflows</h5>
           <p>
-            Improve product engagement. Optimize ad-spend in digital marketing campaigns or increase user engagement in online products.
+            Druid is built for rapid, ad-hoc analytics on both real-time and historical data. Explain trends, explore data, and quickly iterate on queries to answer questions.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-globe fa"></span>
+          <h5>Deploy anywhere</h5>
+          <p>
+            Druid can be deployed in any *nix environment on commodity hardware, both in the cloud and on premise. Druid is cloud-native: scaling up and down is as simple as adding and removing processes.
           </p>
         </div>
       </div>
-      <p>
-        To learn more, read our <a href="/use-cases">Use Cases</a> page.
-      </p>
 
       <h2>
         Learn more
       </h2>
       <div class="features">
+        <div class="feature">
+          <span class="fa fa-power-off fa"></span>
+          <h5>Powered By</h5>
+          <p>
+            Druid is proven in production at the <a href='/druid-powered'>world’s leading companies</a> at massive scale.
+          </p>
+        </div>
+        <div class="feature">
+          <span class="fa fa-info fa"></span>
+          <h5>FAQ</h5>
+          <p>
+            Learn about some of the <a href='faq'>most common questions about Druid</a>.
+          </p>
+        </div>
         <div class="feature">
           <span class="fa fa-flag-checkered fa"></span>
           <h5>Quickstart</h5>
@@ -238,17 +187,10 @@
           </p>
         </div>
         <div class="feature">
-          <span class="fa fa-chart-bar fa"></span>
-          <h5>Visualize</h5>
-          <p>
-            Visualize data in Druid with <a href='https://github.com/implydata/pivot'>Pivot</a> and <a href='https://github.com/apache/incubator-superset'>Superset</a>.
-          </p>
-        </div>
-        <div class="feature">
           <span class="fa fa-question-circle fa"></span>
-          <h5>FAQ</h5>
+          <h5>Get Help</h5>
           <p>
-            Learn about some of the <a href='faq'>most common questions about Druid</a>.
+            Get help from a <a href='/community'>wide network of community members</a> about using Druid.
           </p>
         </div>
       </div>
@@ -339,15 +281,6 @@
   </p>
   
   <p>
-    <a href="https://dzone.com/articles/how-to-configure-druid-to-use-minio-as-deep-storag">
-      <span class="title">How to Configure Druid to Use Minio as Deep Storage</span><br>
-      <span class="text-muted">Monzurul Haque Shimul - </span>
-      <span class="text-muted">TigerIT</span><br>
-      <span class="text-muted">Nov 13 2018</span>
-    </a>
-  </p>
-  
-  <p>
     <a href="https://www.slideshare.net/CharlesAllen9/data-analytics-and-processing-at-snap-druid-meetup-la-september-2018">
       <span class="title">Data Analytics and Processing at Snap</span><br>
       <span class="text-muted">Charles Allen - </span>
@@ -374,6 +307,15 @@
     </a>
   </p>
   
+  <p>
+    <a href="https://dataworkssummit.com/san-jose-2018/session/paypal-merchant-ecosystem-using-apache-spark-hive-druid-and-hbase/">
+      <span class="title">PayPal merchant ecosystem using Apache Spark, Hive, Druid, and HBase</span><br>
+      <span class="text-muted">Deepika Khera & Kasi Natarajan - </span>
+      <span class="text-muted">Paypal</span><br>
+      <span class="text-muted">Jun 19 2018</span>
+    </a>
+  </p>
+  
 </div>
     </div>
 
@@ -396,11 +338,13 @@
 <div class="container">
   <div class="text-center">
     <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
     <a href="/community/">Community</a>&ensp;·&ensp;
     <a href="/downloads">Download</a>&ensp;·&ensp;
-    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing">License</a>
+    <a href="/faq">FAQ</a>
     </p>
   </div>
   <div class="text-center">
