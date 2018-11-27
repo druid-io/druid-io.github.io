@@ -102,8 +102,11 @@ html, body {
   }
 
   table {
+    width: 100%;
+    table-layout: fixed;
     margin-top: 14px;
     margin-bottom: 14px;
+
 
     th {
       font-weight: 700;
@@ -111,10 +114,6 @@ html, body {
 
     th, td {
       padding: 5px;
-
-      &:nth-child(1), &:nth-child(2) {
-        word-break: break-word;
-      }
     }
   }
 

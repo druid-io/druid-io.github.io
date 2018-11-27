@@ -104,14 +104,14 @@ html, body {
       margin-left: 22px;
       list-style-type: decimal; }
   html table, body table {
+    width: 100%;
+    table-layout: fixed;
     margin-top: 14px;
     margin-bottom: 14px; }
     html table th, body table th {
       font-weight: 700; }
     html table th, html table td, body table th, body table td {
       padding: 5px; }
-      html table th:nth-child(1), html table th:nth-child(2), html table td:nth-child(1), html table td:nth-child(2), body table th:nth-child(1), body table th:nth-child(2), body table td:nth-child(1), body table td:nth-child(2) {
-        word-break: break-word; }
   html blockquote, body blockquote {
     font-size: 14px;
     font-style: italic;
