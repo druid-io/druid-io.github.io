@@ -24,7 +24,8 @@ The best place to get a wide variety of help about Druid is on the [Druid user
 groups](druid-user@googlegroups.com). You can also report issues and bugs on
 the [Github development page](https://github.com/apache/druid).
 
-Third party companies also provide commercial support and services for Druid:
+Third party companies also provide commercial support and services for Druid, including:
+
 * [Imply](https://imply.io/)
 
 ## Contributing
