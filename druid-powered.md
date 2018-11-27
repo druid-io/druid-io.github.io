@@ -199,6 +199,8 @@ two terabytes per hour, with the ability to query data as its being ingested.
 They use Druid to pinpoint anomalies within their infrastructure, endpoint
 activity and content flow.
 
+* [Druid Meetup @ Netflix video](https://www.youtube.com/watch?v=Qvhqe4yUKpw&feature=youtu.be)
+* [Druid Meetup @ Netflix slides](https://www.slideshare.net/JaebinYoon/druid-meetup-netflix-11142018/)
 * [Announcing Suro: Backbone of Netflix's Data Pipeline](http://techblog.netflix.com/2013/12/announcing-suro-backbone-of-netflixs.html)
 
 ## Netsil
