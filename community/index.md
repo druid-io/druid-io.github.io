@@ -24,6 +24,9 @@ The best place to get a wide variety of help about Druid is on the [Druid user
 groups](druid-user@googlegroups.com). You can also report issues and bugs on
 the [Github development page](https://github.com/apache/druid).
 
+Third party companies also provide commercial support and services for Druid:
+* [Imply](https://imply.io/)
+
 ## Contributing
 
 Druid is a community-led project and we are delighted to receive contributions
@@ -77,37 +80,37 @@ by others.
 
 You don't need to be a committer to contribute- pull requests are welcome from anyone.
 
-| Name                                                  | Organization           |
-| ----------------------------------------------------- | ---------------------- |
-| [Benedict Jin](https://github.com/asdf2014)           | Alibaba                |
-| [Charles Allen](https://github.com/drcrallen)         | Snap                   |
-| [Clint Wylie](https://github.com/clintropolis)        | Imply                  |
-| [David Lim](https://github.com/dclim)                 | Imply                  |
-| [Daoyue Gao](https://github.com/gaodayue)             | Meituan                |
-| [Dylan Wylie](https://github.com/Dylan1312)           | SpotX                  |
-| [Egor Rashin](https://github.com/egor-ryashin)        | Snap                   |
-| [Eric Tschetter](https://github.com/cheddar)          | Splunk                 |
-| [Fangjin Yang](https://github.com/fjy)                | Imply                  |
-| [Gian Merlino](https://github.com/gianm)              | Imply                  |
-| [Himanshu Gupta](https://github.com/himanshug)        | Splunk                 |
-| [Jihoon Son](https://github.com/jihoonson)            | Imply                  |
-| [Jonathan Wei](https://github.com/jon-wei)            | Imply                  |
-| [Julian Hyde](https://github.com/julianhyde)          | Looker                 |
-| [Jun Rao](https://github.com/junrao)                  | Confluent              |
-| [Kaijian Ding](https://github.com/kaijianding)        | Alibaba                |
-| [Kurt Young](https://github.com/kurtyoung)            | Alibaba                |
-| [Lijin Bin](https://github.com/binlijin)              | Alibaba                |
-| [Maxime Beauchemin](https://github.com/mistercrunch)  | Lyft                   |
-| [Mingming Qiu](https://github.com/QiuMM)              | Bytedance              |
-| [Mohamed Slim Bouguerra](https://github.com/b-slim)   | Hortonworks            |
-| [Navis Ryu](https://github.com/navis)                 | SK Telecom             |
-| [Niketh Sabbineni](https://github.com/niketh)         | Oath                   |
-| [Nishant Bangarwa](https://github.com/nishantmonu51)  | Hortonworks            |
-| [Parag Jain](https://github.com/pjain1)               | Lyft                   |
-| [P. Taylor Goetz](https://github.com/ptgoetz)         | EPAM                   |
-| [Roman Leventov](https://github.com/leventov)         | Snap                   |
-| [Surekha Saharan](https://github.com/surekhasaharan)  | Imply                  |
-| [Xavier Léauté](https://github.com/xvrl)              | Confluent              |
+| Name                                                  | Organization                                       |
+| ----------------------------------------------------- | -------------------------------------------------- |
+| [Benedict Jin](https://github.com/asdf2014)           | [Alibaba](https://www.alibaba.com/)                |
+| [Charles Allen](https://github.com/drcrallen)         | [Snap](https://www.snap.com/en-US/)                |
+| [Clint Wylie](https://github.com/clintropolis)        | [Imply](https://imply.io/)                         |
+| [David Lim](https://github.com/dclim)                 | [Imply](https://imply.io/)                         |
+| [Daoyue Gao](https://github.com/gaodayue)             | [Meituan](http://www.meituan.com/)                 |
+| [Dylan Wylie](https://github.com/Dylan1312)           | [SpotX](https://www.spotx.tv/)                     |
+| [Egor Rashin](https://github.com/egor-ryashin)        | [Snap](https://www.snap.com/en-US/)                |
+| [Eric Tschetter](https://github.com/cheddar)          | [Splunk](https://www.splunk.com/)                  |
+| [Fangjin Yang](https://github.com/fjy)                | [Imply](https://imply.io/)                         |
+| [Gian Merlino](https://github.com/gianm)              | [Imply](https://imply.io/)                         |
+| [Himanshu Gupta](https://github.com/himanshug)        | [Splunk](https://www.splunk.com/)                  |
+| [Jihoon Son](https://github.com/jihoonson)            | [Imply](https://imply.io/)                         |
+| [Jonathan Wei](https://github.com/jon-wei)            | [Imply](https://imply.io/)                         |
+| [Julian Hyde](https://github.com/julianhyde)          | [Looker](https://looker.com/)                      |
+| [Jun Rao](https://github.com/junrao)                  | [Confluent](https://www.confluent.io/)             |
+| [Kaijian Ding](https://github.com/kaijianding)        | [Alibaba](https://www.alibaba.com/)                |
+| [Kurt Young](https://github.com/kurtyoung)            | [Alibaba](https://www.alibaba.com/)                |
+| [Lijin Bin](https://github.com/binlijin)              | [Alibaba](https://www.alibaba.com/)                |
+| [Maxime Beauchemin](https://github.com/mistercrunch)  | [Lyft](http://lyft.com/)                           |
+| [Mingming Qiu](https://github.com/QiuMM)              | [Bytedance](https://bytedance.com/)                |
+| [Mohamed Slim Bouguerra](https://github.com/b-slim)   | [Hortonworks](https://hortonworks.com/)            |
+| [Navis Ryu](https://github.com/navis)                 | [SK Telecom](https://www.sktelecom.com/index.html) |
+| [Niketh Sabbineni](https://github.com/niketh)         | [Oath](https://www.oath.com/)                      |
+| [Nishant Bangarwa](https://github.com/nishantmonu51)  | [Hortonworks](https://hortonworks.com/)            |
+| [Parag Jain](https://github.com/pjain1)               | [Lyft](http://lyft.com/)                           |
+| [P. Taylor Goetz](https://github.com/ptgoetz)         | [EPAM](https://www.epam.com/)                      |
+| [Roman Leventov](https://github.com/leventov)         | [Snap](https://www.snap.com/en-US/)                |
+| [Surekha Saharan](https://github.com/surekhasaharan)  | [Imply](https://imply.io/)                         |
+| [Xavier Léauté](https://github.com/xvrl)              | [Confluent](https://www.confluent.io/)             |
 
 ### Becoming a committer
 
