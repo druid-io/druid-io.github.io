@@ -2,6 +2,7 @@
 title: Download
 layout: simple_page
 sectionid: download
+canonical: '/downloads.html'
 ---
 
 ## Stable release
