@@ -2,6 +2,7 @@
 title: Download
 layout: simple_page
 sectionid: download
+canonical: 'http://druid.io/downloads.html'
 ---
 
 ## Stable release
