@@ -7,31 +7,37 @@ sectionid: faq
 
 ### Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery?
 
-Druid is not a true data warehouse.
-Although Druid incorporates architecture ideas from data warehouses, such as column-oriented storage, it does not support the full set of features that standard data warehouses do, such as complex joins.
-Data warehouses are optimized for supporting complex SQL queries where results may take minutes or hours to complete.
-In exchange for the flexibility, data warehouses are rarely used to power interactive UIs.
-Data warehouses further lack true streaming ingest capability, or strong multi-tenancy support (supporting queries from thousands of concurrent users).
+Druid is a new type of data store and isn’t a traditional data warehouse.
+Although Druid incorporates architecture ideas from data warehouses such as
+column-oriented storage, Druid also incorporates designs from search systems
+and timeseries databases. Druid's architecture is designed to handle many use
+cases that traditional data warehouses cannot.
 
-Druid is optimized for sub-second queries to slice-and-dice, drill down, search, filter, and aggregate event streams.
-Druid is commonly used to power interactive applications where performance, concurrency, and uptime are important.
+Druid offers the following advantages over traditional data warehouses:
 
-Consider using Druid over a data warehouse if your use case involves powering an interactive application, where many users will be making concurrent queries for the data.
-Consider using Druid if your data is primarily operational, where you will need to explain trends and patterns, or troubleshoot issues.
+* Low latency streaming ingest, and direct integration with messages buses such as
+Apache Kafka.
+* Time-based partitioning, which enables performant time-based
+queries.
+* Fast search and filter, for fast ad-hoc slice and dice.
+* Minimal schema design, and native support for semi-structured and nested data.
 
+Consider using Druid over a data warehouse if you have streaming data, and
+require low-latency ingest as well as low-latency queries. Also consider Druid
+if you need ad-hoc analytics. Druid is great for slice and dice and drill
+downs. Druid is also often used over a data warehouse to power interactive
+applications, where support for high concurrency queries is required.
 
-### Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive?
+### Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive/Snowflake?
 
-Druid supports SQL and can load data from Hadoop, but it is not considered a SQL-on-Hadoop system.
-There are some similarities and several differences in the technologies.
-In most SQL-on-Hadoop solutions, compute and storage are separated systems, and data is loaded from storage into the compute layer as needed by queries.
-Druid separates compute and store in that there is a source of raw data, and an indexed copy of that data in Druid.
-However, indexed data is not created on-demand from queries.
-Data must be indexed in Druid before it can be queried.
-This gives Druid a significant performance edge over traditional SQL-on-Hadoop solutions.
+Druid supports SQL and can load data from Hadoop, but is not a SQL-on-Hadoop
+system. Modern SQL-on-Hadoop solutions are used for the same use cases as data
+warehouses, except they are designed for architectures where compute and
+storage are separated systems, and data is loaded from storage into the compute
+layer as needed by queries.
 
-The use cases of SQL-on-Hadoop solutions are identical to traditional data warehouses, and the previous section on Druid vs data warehouses still holds true.
-
+The previous section on Druid vs data warehouses also applies to Druid versus
+SQL-on-Hadoop solutions.
 
 ### Is Druid a log aggregation/log search system? When should I use Druid over Elastic/Splunk?
 
@@ -41,14 +47,18 @@ However, Druid is often used to ingest and analyze semi-structured data such as 
 
 Druid at its core is an analytics engine and as such, it can support numerical aggregations, groupBys (including multi-dimensional groupBys), and other analytic workloads faster and more efficiently than search systems.
 
-
 ### Is Druid a timeseries database? When should I use Druid over InfluxDB/OpenTSDB/Prometheus?
 
-Druid is an analytics engine, but it does share some characteristics with timeseries databases.
-Like in timeseries databases, Druid is optimized for data where a timestamp is present.
-Druid partitions data by time, and queries that include a time filter will be significantly faster than those that do not.
-Aggregating metrics and filtering on dimensions (which are roughly equivalent to TSDBs' tags) is very fast when a time filter is present.
-Compared to TSDBs, Druid is significantly faster when grouping, searching, and filtering on tags that are not time, and when computing complex metrics such as histograms and quantiles.
+Druid does share some characteristics with timeseries databases, but also
+combines ideas from analytic databases and search systems.  Like in timeseries
+databases, Druid is optimized for data where a timestamp is present.  Druid
+partitions data by time, and queries that include a time filter will be
+significantly faster than those that do not.  Aggregating metrics and filtering
+on dimensions (which are roughly equivalent to TSDBs' tags) are also very fast when a
+time filter is present.  However, because Druid incorporates many architectural designs
+from analytics databases and search systems, it can significantly
+outperformance TSDBs when grouping, searching, and filtering on tags that are
+not time, or when computing complex metrics such as histograms and quantiles.
 
 
 ### How is Druid deployed?
