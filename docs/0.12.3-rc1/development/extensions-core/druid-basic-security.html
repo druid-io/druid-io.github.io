@@ -649,11 +649,7 @@ Return the current load status of the local caches of the authorization database
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

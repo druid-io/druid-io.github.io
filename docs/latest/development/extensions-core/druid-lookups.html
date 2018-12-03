@@ -404,11 +404,7 @@ This example demonstrates an off-heap lookup that will be cached once and never 
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

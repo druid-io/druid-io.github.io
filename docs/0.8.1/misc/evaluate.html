@@ -251,11 +251,7 @@ Example hardware: EC2 c3.2xlarge node (8 cores, Intel Xeon E5-2680 v2 @ 2.80GHz 
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

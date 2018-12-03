@@ -423,11 +423,7 @@ To issue the query and get some results, run the following in your command line:
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

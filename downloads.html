@@ -118,7 +118,7 @@
 <p>The current Druid stable release is 0.12.3. This version is recommended for production use.</p>
 
 <p>
-<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz" onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz');return false;"><span class="fa fa-download"></span> Download 0.12.3 release</a><br>
+<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz" download onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz');"><span class="fa fa-download"></span> Download 0.12.3 release</a><br>
 </p>
 
 <p>There are no release candidates at this time.</p>
@@ -191,11 +191,7 @@ If you are deploying a distributed cluster and would like to use the MySQL metad
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

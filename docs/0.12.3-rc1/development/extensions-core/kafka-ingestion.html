@@ -707,11 +707,7 @@ Hadoop (see <a href="https://github.com/druid-io/druid/pull/5102">here</a>).</p>
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
