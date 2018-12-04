@@ -347,6 +347,9 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
+## Sweet Couch
+[Sweet Couch](https://www.sweetcouch.com) is a place to discover unique products which are buyable online. Druid powers [Sweet Couch harvest](https://www.sweetcouch.com/harvest/womens) which is an open analytics platform for tracking performance of online shops based out in India. All end user events are tracked and analysed using Druid for business insights.
+
 ## TalkingData
 
 [TalkingData](http://www.talkingdata.com/) is China’s largest independent Big Data service platform. TalkingData uses Druid with Atomcube, an extension for enhancement, to power analyze online application and advertising data.
