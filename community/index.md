@@ -112,6 +112,7 @@ You don't need to be a committer to contribute- pull requests are welcome from a
 | [Roman Leventov](https://github.com/leventov)         | [Snap](https://www.snap.com/en-US/)                |
 | [Surekha Saharan](https://github.com/surekhasaharan)  | [Imply](https://imply.io/)                         |
 | [Xavier Léauté](https://github.com/xvrl)              | [Confluent](https://www.confluent.io/)             |
+| [Xinyu Zhang](https://github.com/zhangxinyu1)         | [Qihoo 360](https://www.360.cn/)                   |
 
 ### Becoming a committer
 
