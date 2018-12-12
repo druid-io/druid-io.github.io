@@ -83,11 +83,11 @@ html, body {
     margin: 30px 0 30px 0; }
   html a, body a {
     cursor: pointer; }
-  html p a, html table a, html ul a, body p a, body table a, body ul a {
+  html p a, html table a, html ul a, html li a, body p a, body table a, body ul a, body li a {
     color: #4460de;
     cursor: pointer;
     font-weight: 600; }
-    html p a:hover, html table a:hover, html ul a:hover, body p a:hover, body table a:hover, body ul a:hover {
+    html p a:hover, html table a:hover, html ul a:hover, html li a:hover, body p a:hover, body table a:hover, body ul a:hover, body li a:hover {
       text-decoration: underline; }
   html ul, body ul {
     margin-top: 14px;
