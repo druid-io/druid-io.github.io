@@ -22,12 +22,7 @@ highlighter: pygments
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_version: 0.12.3
-
-druid_rc_version: 0.12.3
 druid_stable_version: 0.12.3
-druid_latest_version: 0.12.3
-
 tranquility_stable_version: 0.8.2
 
 gems:
