@@ -10,7 +10,7 @@ canonical: 'http://druid.io/downloads.html'
 The current Druid stable release is {{ site.druid_stable_version }}.
 
 <p>
-<a class="large-button download" href="http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz" download onclick="trackDownload('button', 'http://static.druid.io/artifacts/releases/druid-{{ site.druid_stable_version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
+<a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
 </p>
 
 ## Get started
