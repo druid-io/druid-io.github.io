@@ -25,10 +25,6 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [y42/clj-druid](https://github.com/y42/clj-druid) - A Clojure client for Druid
 
-#### .NET
-
-* [mindscape/druid4net](https://github.com/MindscapeHQ/druid4net) - A .NET client for Druid written in C#. Supports the .NET full framework and .NET Core.
-
 #### Ruby
 
 * [ruby-druid/ruby-druid](https://github.com/ruby-druid/ruby-druid) - A ruby client for Druid
@@ -53,6 +49,9 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [zapr/druidry](https://github.com/zapr-oss/druidry) - A Java Client and query generator for Druid
 
+#### .NET
+
+* [raygun/druid4net](https://github.com/MindscapeHQ/druid4net) - A .NET client for Druid written in C#. Supports the .NET full framework and .NET Core.
 
 Other Druid Distributions
 -------------------------
