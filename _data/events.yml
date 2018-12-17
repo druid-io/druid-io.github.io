@@ -1,4 +1,14 @@
-- date: 2018-12-06
-  name: "Big Data and Cloud Meetup"
-  info: Demystifying AWS Analytics and Building Streaming Analytics using Kafka & Druid
-  link: https://www.meetup.com/datariders/events/256026290/
+- date: 2019-01-24
+  name: "Druid Denver Meetup"
+  info: Druid Denver Meetup @ Oracle
+  link: https://www.meetup.com/Denver-Apache-Druid-Meetup-by-Imply/events/256946764/
+
+- date: 2019-01-29
+  name: "Druid NYC Meetup (info coming soon)"
+  info: Druid NYC Meetup @ Datadog
+  link: https://www.meetup.com/Apache-Druid-NYC/events/257291460/
+
+- date: 2019-02-19
+  name: "Druid Bay Area Meetup (info coming soon)"
+  info: Druid Bay Area Meetup @ Unity Technologies
+  link: https://www.meetup.com/druidio/events/257291633/ 
