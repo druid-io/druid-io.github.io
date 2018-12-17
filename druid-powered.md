@@ -158,6 +158,13 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 
 * [Streaming SQL and Druid](https://youtu.be/ovZ9iAkQllo)
 
+## Lynx Analytics
+
+[Lynx Analytics](https://www.lynxanalytics.com/) helps B2B clients unlock social, behavioral and experience insights
+on hundreds of millions of customers. We build interactive dashboards powered by Druid to make the data science
+results easy to digest. Our clients love the flexibility and being able to explore the data in detail. The speed at
+which they can do that is in a big part thanks to Druid!
+
 ## Mafengwo
 
 * [Real-time Analytics with Kafka, Spark, and Druid](https://jini.site/jin-yumafengwobig-data-in-travel-real-time-analytics-with-kafka-spark-and-druid_269053)
