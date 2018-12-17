@@ -158,6 +158,10 @@ LiquidM uses Druid for real-time drill-down reporting. LiquidM is also contribut
 
 * [Streaming SQL and Druid](https://youtu.be/ovZ9iAkQllo)
 
+## Mafengwo
+
+* [Real-time Analytics with Kafka, Spark, and Druid](https://jini.site/jin-yumafengwobig-data-in-travel-real-time-analytics-with-kafka-spark-and-druid_269053)
+
 ## Marchex
 
 Marchex uses Druid to provide data for Marchex Call Analytics' new customer facing Speech Analytics dashboards.
@@ -348,6 +352,7 @@ Streamlyzer uses Druid as a next generation online video analytics for online vi
 Sugo is a company that focus on realtime multi-dimension analytics and mining on big data. We build our platform based on Druid, and developed our own extensions to make it more powerful.
 
 ## Sweet Couch
+
 [Sweet Couch](https://www.sweetcouch.com) is a place to discover unique products which are buyable online. Druid powers [Sweet Couch harvest](https://www.sweetcouch.com/harvest/womens) which is an open analytics platform for tracking performance of online shops based out in India. All end user events are tracked and analysed using Druid for business insights.
 
 ## TalkingData
