@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Tutorial: Configuring data retention</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="tutorial-configuring-data-retention">Tutorial: Configuring data retention</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="tutorial-configuring-data-retention">Tutorial: Configuring data retention</h1>
 
 <p>This tutorial demonstrates how to configure retention rules on a datasource to set the time intervals of data that will be retained or dropped.</p>
 
@@ -128,8 +147,8 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>For this tutorial, we&#39;ll be using the Wikipedia edits sample data, with an ingestion task spec that will create a separate segment for each hour in the input data.</p>
 
-<p>The ingestion spec can be found at <code>examples/retention-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>retention-tutorial</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/retention-index.json http://localhost:8090/druid/indexer/v1/task
+<p>The ingestion spec can be found at <code>quickstart/tutorial/retention-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>retention-tutorial</code>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/retention-index.json 
 </code></pre></div>
 <p>After the ingestion completes, go to http://localhost:8081 in a browser to access the Coordinator console.</p>
 
@@ -177,11 +196,11 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>The resulting retention rule chain is the following:</p>
 
-<ul>
+<ol>
 <li><p>loadByInterval 2015-09-12T12/2015-09-13 (12 hours)</p></li>
 <li><p>dropForever</p></li>
 <li><p>loadForever (default rule)</p></li>
-</ul>
+</ol>
 
 <p>The rule chain is evaluated from top to bottom, with the default rule chain always added at the bottom.</p>
 

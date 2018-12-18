@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Druid extensions</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="druid-extensions">Druid extensions</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="druid-extensions">Druid extensions</h1>
 
 <p>Druid implements an extension system that allows for adding functionality at runtime. Extensions
 are commonly used to add support for deep storages (like HDFS and S3), metadata stores (like MySQL
@@ -150,6 +169,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <td><a href="../development/extensions-core/druid-basic-security.html">link</a></td>
 </tr>
 <tr>
+<td>druid-bloom-filter</td>
+<td>Support for providing Bloom filters in druid queries.</td>
+<td><a href="../development/extensions-core/bloom-filter.html">link</a></td>
+</tr>
+<tr>
 <td>druid-caffeine-cache</td>
 <td>A local cache implementation backed by Caffeine.</td>
 <td><a href="../development/extensions-core/caffeine-cache.html">link</a></td>
@@ -157,7 +181,7 @@ metadata store. Many clusters will also use additional extensions.</p>
 <tr>
 <td>druid-datasketches</td>
 <td>Support for approximate counts and set operations with <a href="http://datasketches.github.io/">DataSketches</a>.</td>
-<td><a href="../development/extensions-core/datasketches-aggregators.html">link</a></td>
+<td><a href="../development/extensions-core/datasketches-extension.html">link</a></td>
 </tr>
 <tr>
 <td>druid-hdfs-storage</td>
@@ -238,9 +262,9 @@ Community extensions are not maintained by Druid committers, although we accept 
 </div>
 
 <p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
-If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://groups.google.com/forum/#!forum/druid-development">druid-development group</a> to let us know!</p>
+If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> to let us know!</p>
 
-<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate io.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
+<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate org.apache.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
 
 <table><thead>
 <tr>
@@ -339,11 +363,16 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>Support thrift ingestion</td>
 <td><a href="../development/extensions-contrib/thrift.html">link</a></td>
 </tr>
+<tr>
+<td>druid-opentsdb-emitter</td>
+<td>OpenTSDB metrics emitter</td>
+<td><a href="../development/extensions-contrib/opentsdb-emitter.html">link</a></td>
+</tr>
 </tbody></table>
 
 <h2 id="promoting-community-extension-to-core-extension">Promoting Community Extension to Core Extension</h2>
 
-<p>Please <a href="https://groups.google.com/forum/#!forum/druid-development">let us know</a> if you&#39;d like an extension to be promoted to core.
+<p>Please post on <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> if you&#39;d like an extension to be promoted to core.
 If we see a community extension actively supported by the community, we can promote it to core based on community feedback.</p>
 
 <h1 id="creating-your-own-extensions">Creating your own Extensions</h1>

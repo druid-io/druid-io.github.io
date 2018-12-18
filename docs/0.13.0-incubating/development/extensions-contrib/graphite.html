@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | Graphite Emitter</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="graphite-emitter">Graphite Emitter</h1>
+
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>graphite-emitter</code> extension.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This extension emits druid metrics to a graphite carbon server.
+Metrics can be sent by using <a href="http://graphite.readthedocs.io/en/latest/feeding-carbon.html#the-plaintext-protocol">plaintext</a> or <a href="http://graphite.readthedocs.io/en/latest/feeding-carbon.html#the-pickle-protocol">pickle</a> protocol.
+The pickle protocol is more efficient and supports sending batches of metrics (plaintext protocol send only one metric) in one request; batch size is configurable.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>All the configuration parameters for graphite emitter are under <code>druid.emitter.graphite</code>.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.graphite.hostname</code></td>
+<td>The hostname of the graphite server.</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.port</code></td>
+<td>The port of the graphite server.</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.batchSize</code></td>
+<td>Number of events to send as one batch (only for pickle protocol)</td>
+<td>no</td>
+<td>100</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.protocol</code></td>
+<td>Graphite protocol; available protocols: pickle, plaintext.</td>
+<td>no</td>
+<td>pickle</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.eventConverter</code></td>
+<td>Filter and converter of druid events to graphite event (please see next section).</td>
+<td>yes</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.flushPeriod</code></td>
+<td>Queue flushing period in milliseconds.</td>
+<td>no</td>
+<td>1 minute</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.maxQueueSize</code></td>
+<td>Maximum size of the queue used to buffer events.</td>
+<td>no</td>
+<td><code>MAX_INT</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.alertEmitters</code></td>
+<td>List of emitters where alerts will be forwarded to. This is a JSON list of emitter names, e.g. <code>[&quot;logging&quot;, &quot;http&quot;]</code></td>
+<td>no</td>
+<td>empty list (no forwarding)</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.requestLogEmitters</code></td>
+<td>List of emitters where request logs (i.e., query logging events sent to emitters when <code>druid.request.logging.type</code> is set to <code>emitter</code>) will be forwarded to. This is a JSON list of emitter names, e.g. <code>[&quot;logging&quot;, &quot;http&quot;]</code></td>
+<td>no</td>
+<td>empty list (no forwarding)</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.emitWaitTime</code></td>
+<td>wait time in milliseconds to try to send the event otherwise emitter will throwing event.</td>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>druid.emitter.graphite.waitForEventTime</code></td>
+<td>waiting time in milliseconds if necessary for an event to become available.</td>
+<td>no</td>
+<td>1000 (1 sec)</td>
+</tr>
+</tbody></table>
+
+<h3 id="supported-event-types">Supported event types</h3>
+
+<p>The graphite emitter only emits service metric events to graphite (See <a href="../../operations/metrics.html">Druid Metrics</a> for a list of metrics).</p>
+
+<p>Alerts and request logs are not sent to graphite. These event types are not well represented in Graphite, which is more suited for timeseries views on numeric metrics, vs. storing non-numeric log events.</p>
+
+<p>Instead, alerts and request logs are optionally forwarded to other emitter implementations, specified by <code>druid.emitter.graphite.alertEmitters</code> and <code>druid.emitter.graphite.requestLogEmitters</code> respectively.</p>
+
+<h3 id="druid-to-graphite-event-converter">Druid to Graphite Event Converter</h3>
+
+<p>Graphite Event Converter defines a mapping between druid metrics name plus dimensions to a Graphite metric path.
+Graphite metric path is organized using the following schema:
+<code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].&lt;druid metrics dimensions&gt;.&lt;druid metrics name&gt;</code>
+Properly naming the metrics is critical to avoid conflicts, confusing data and potentially wrong interpretation later on.</p>
+
+<p>Example <code>druid.historical.hist-host1_yahoo_com:8080.MyDataSourceName.GroupBy.query/time</code>:</p>
+
+<ul>
+<li><code>druid</code> -&gt; namespace prefix </li>
+<li><code>historical</code> -&gt; service name </li>
+<li><code>hist-host1.yahoo.com:8080</code> -&gt; druid hostname</li>
+<li><code>MyDataSourceName</code> -&gt; dimension value </li>
+<li><code>GroupBy</code> -&gt; dimension value</li>
+<li><code>query/time</code> -&gt; metric name</li>
+</ul>
+
+<p>We have two different implementation of event converter:</p>
+
+<h4 id="send-all-converter">Send-All converter</h4>
+
+<p>The first implementation called <code>all</code>, will send all the druid service metrics events. 
+The path will be in the form <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].&lt;dimensions values ordered by dimension&#39;s name&gt;.&lt;metric&gt;</code>
+User has control of <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].</code></p>
+
+<p>You can omit the hostname by setting <code>ignoreHostname=true</code>
+<code>druid.SERVICE_NAME.dataSourceName.queryType.query/time</code></p>
+
+<p>You can omit the service name by setting <code>ignoreServiceName=true</code>
+<code>druid.HOSTNAME.dataSourceName.queryType.query/time</code></p>
+
+<p>Elements in metric name by default are separated by &quot;/&quot;, so graphite will create all metrics on one level. If you want to have metrics in the tree structure, you have to set <code>replaceSlashWithDot=true</code>
+Original: <code>druid.HOSTNAME.dataSourceName.queryType.query/time</code>
+Changed: <code>druid.HOSTNAME.dataSourceName.queryType.query.time</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">druid.emitter.graphite.eventConverter=</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="nt">&quot;namespacePrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;druid.test&quot;</span><span class="p">,</span> <span class="nt">&quot;ignoreHostname&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span> <span class="nt">&quot;ignoreServiceName&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="white-list-based-converter">White-list based converter</h4>
+
+<p>The second implementation called <code>whiteList</code>, will send only the white listed metrics and dimensions.
+Same as for the <code>all</code> converter user has control of <code>&lt;namespacePrefix&gt;.[&lt;druid service name&gt;].[&lt;druid hostname&gt;].</code>
+White-list based converter comes with the following  default white list map located under resources in <code>./src/main/resources/defaultWhiteListMap.json</code></p>
+
+<p>Although user can override the default white list map by supplying a property called <code>mapPath</code>.
+This property is a String containing the path for the file containing <strong>white list map Json object</strong>.
+For example the following converter will read the map from the file <code>/pathPrefix/fileName.json</code>.  </p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">druid.emitter.graphite.eventConverter=</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;whiteList&quot;</span><span class="p">,</span> <span class="nt">&quot;namespacePrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;druid.test&quot;</span><span class="p">,</span> <span class="nt">&quot;ignoreHostname&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span> <span class="nt">&quot;ignoreServiceName&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span> <span class="nt">&quot;mapPath&quot;</span><span class="p">:</span><span class="s2">&quot;/pathPrefix/fileName.json&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Druid emits a huge number of metrics we highly recommend to use the <code>whiteList</code> converter</strong></p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.13.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

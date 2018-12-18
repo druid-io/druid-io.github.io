@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Real-time Node</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="real-time-node">Real-time Node</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="real-time-node">Real-time Node</h1>
 
 <div class="note info">
 NOTE: Realtime nodes are deprecated. Please use the <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a> for stream pull use cases instead. 
@@ -128,7 +147,7 @@ NOTE: Realtime nodes are deprecated. Please use the <a href="../development/exte
 <p>Realtime nodes provide a realtime index. Data indexed via these nodes is immediately available for querying. Realtime nodes will periodically build segments representing the data they’ve collected over some span of time and transfer these segments off to <a href="../design/historical.html">Historical</a> nodes. They use ZooKeeper to monitor the transfer and the metadata storage to store metadata about the transferred segment. Once transfered, segments are forgotten by the Realtime nodes.</p>
 
 <h3 id="running">Running</h3>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.cli.Main server realtime
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>org.apache.druid.cli.Main server realtime
 </code></pre></div>
 <h2 id="segment-propagation">Segment Propagation</h2>
 
@@ -151,8 +170,8 @@ NOTE: Realtime nodes are deprecated. Please use the <a href="../development/exte
 <p>Realtime integration is intended to be extended in two ways:</p>
 
 <ol>
-<li> Connect to data streams from varied systems (<a href="https://github.com/druid-io/druid-api/blob/master/src/main/java/io/druid/data/input/FirehoseFactory.java">Firehose</a>)</li>
-<li> Adjust the publishing strategy to match your needs (<a href="https://github.com/druid-io/druid/blob/master/server/src/main/java/io/druid/segment/realtime/plumber/PlumberSchool.java">Plumber</a>)</li>
+<li> Connect to data streams from varied systems (<a href="https://github.com/apache/incubator-druid-api/blob/master/src/main/java/org/apache/druid/data/input/FirehoseFactory.java">Firehose</a>)</li>
+<li> Adjust the publishing strategy to match your needs (<a href="https://github.com/apache/incubator-druid/blob/master/server/src/main/java/org/apache/druid/segment/realtime/plumber/PlumberSchool.java">Plumber</a>)</li>
 </ol>
 
 <p>The expectations are that the former will be very common and something that users of Druid will do on a fairly regular basis. Most users will probably never have to deal with the latter form of customization. Indeed, we hope that all potential use cases can be packaged up as part of Druid proper without requiring proprietary customization.</p>

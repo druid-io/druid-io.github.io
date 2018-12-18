@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | insert-segment-to-db Tool</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="insert-segment-to-db-tool">insert-segment-to-db Tool</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="insert-segment-to-db-tool">insert-segment-to-db Tool</h1>
 
 <p><code>insert-segment-to-db</code> is a tool that can insert segments into Druid metadata storage. It is intended to be used
 to update the segment table in metadata storage after people manually migrate segments from one place to another.
@@ -203,14 +222,14 @@ like this,</p>
 -Ddruid.extensions.loadList=[\&quot;mysql-metadata-storage\&quot;,\&quot;druid-hdfs-storage\&quot;] 
 -Ddruid.storage.type=hdfs
 -cp $DRUID_CLASSPATH 
-io.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//druid/storage/wikipedia --updateDescriptor true
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//druid/storage/wikipedia --updateDescriptor true
 </code></pre></div>
 <p>In this example, <code>mysql</code> and deep storage type are provided through Java JVM arguments, you can optionally put all
 of them in a runtime.properites file and include it in the Druid classpath. Note that we also include <code>mysql-metadata-storage</code>
 and <code>druid-hdfs-storage</code> in the extension list.</p>
 
 <p>After running this command, the segments table in <code>mysql</code> should store the new location for each segment we just inserted.
-Note that for segments stored in HDFS, druid config must contain core-site.xml as described in <a href="http://druid.io/docs/latest/tutorials/cluster.html">Druid Docs</a>, as this new location is stored with relative path.</p>
+Note that for segments stored in HDFS, druid config must contain core-site.xml as described in <a href="../tutorials/cluster.html">Druid Docs</a>, as this new location is stored with relative path.</p>
 
 <p>It is also possible to use <code>s3</code> as deep storage. In order to work with it, specify <code>s3</code> as deep storage type and load 
 <a href="../development/extensions-core/s3.html"><code>druid-s3-extensions</code></a> as an extension.</p>
@@ -227,7 +246,7 @@ Note that for segments stored in HDFS, druid config must contain core-site.xml a
 -Ddruid.storage.baseKey=druid/storage/wikipedia
 -Ddruid.storage.maxListingLength=1000
 -cp $DRUID_CLASSPATH
-io.druid.cli.Main tools insert-segment-to-db --workingDir &quot;druid/storage/wikipedia&quot; --updateDescriptor true
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir &quot;druid/storage/wikipedia&quot; --updateDescriptor true
 </code></pre></div>
 <p>Note that you can provide the location of segments with either <code>druid.storage.baseKey</code> or <code>--workingDir</code>. If both are 
  specified, <code>--workingDir</code> gets higher priority. <code>druid.storage.maxListingLength</code> is to determine the length of a

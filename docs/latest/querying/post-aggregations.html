@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Post-Aggregations</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="post-aggregations">Post-Aggregations</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="post-aggregations">Post-Aggregations</h1>
 
 <p>Post-aggregations are specifications of processing that should happen on aggregated values as they come out of Druid. If you include a post aggregation as part of a query, make sure to include all aggregators the post-aggregator requires.</p>
 
@@ -251,14 +270,31 @@ cause the user-specified rounding behavior to get lost and default to &quot;no r
   <span class="nt">&quot;postAggregations&quot;</span> <span class="p">:</span> <span class="p">[{</span>
     <span class="nt">&quot;type&quot;</span>   <span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span>   <span class="p">:</span> <span class="s2">&quot;average&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fn&quot;</span>     <span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span> <span class="p">:</span> <span class="p">[</span>
+           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span> <span class="p">},</span>
+           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">}</span>
+         <span class="p">]</span>
+  <span class="p">}]</span>
+  <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="err">...</span>
+  <span class="nt">&quot;aggregations&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;total&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;part&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;part&quot;</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;postAggregations&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;type&quot;</span>   <span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span>   <span class="p">:</span> <span class="s2">&quot;part_percentage&quot;</span><span class="p">,</span>
     <span class="nt">&quot;fn&quot;</span>     <span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
     <span class="nt">&quot;fields&quot;</span> <span class="p">:</span> <span class="p">[</span>
        <span class="p">{</span> <span class="nt">&quot;type&quot;</span>   <span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;name&quot;</span>   <span class="p">:</span> <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;name&quot;</span>   <span class="p">:</span> <span class="s2">&quot;ratio&quot;</span><span class="p">,</span>
          <span class="nt">&quot;fn&quot;</span>     <span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
          <span class="nt">&quot;fields&quot;</span> <span class="p">:</span> <span class="p">[</span>
-           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span> <span class="p">},</span>
-           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span> <span class="p">}</span>
+           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;part&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;part&quot;</span> <span class="p">},</span>
+           <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;tot&quot;</span> <span class="p">}</span>
          <span class="p">]</span>
        <span class="p">},</span>
        <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="mi">100</span> <span class="p">}</span>

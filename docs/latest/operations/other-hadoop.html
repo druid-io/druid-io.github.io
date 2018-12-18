@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Working with different versions of Hadoop</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="working-with-different-versions-of-hadoop">Working with different versions of Hadoop</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="working-with-different-versions-of-hadoop">Working with different versions of Hadoop</h1>
 
 <p>Druid can interact with Hadoop in two ways:</p>
 
@@ -183,7 +202,7 @@ classloader.</p>
 <code>druid.extensions.hadoopDependenciesDir</code> runtime property; see <a href="../configuration/index.html#extensions">Configuration</a>).</li>
 </ol>
 
-<p><code>hadoop-client:2.3.0</code> is the default version of the Hadoop client bundled with Druid for both purposes. This works with
+<p><code>hadoop-client:2.8.3</code> is the default version of the Hadoop client bundled with Druid for both purposes. This works with
 many Hadoop distributions (the version does not necessarily need to match), but if you run into issues, you can instead
 have Druid load libraries that exactly match your distribution. To do this, either copy the jars from your Hadoop
 cluster, or use the <code>pull-deps</code> tool to download the jars from a Maven repository.</p>
@@ -303,25 +322,25 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
 
 <p>(1) Add all extensions you needed to <code>services/pom.xml</code> like</p>
 <div class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span> <span class="nt">&lt;dependency&gt;</span>
-      <span class="nt">&lt;groupId&gt;</span>io.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>druid-avro-extensions<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;/dependency&gt;</span>
 
   <span class="nt">&lt;dependency&gt;</span>
-      <span class="nt">&lt;groupId&gt;</span>io.druid.extensions.contrib<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions.contrib<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>druid-parquet-extensions<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;/dependency&gt;</span>
 
   <span class="nt">&lt;dependency&gt;</span>
-      <span class="nt">&lt;groupId&gt;</span>io.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>druid-hdfs-storage<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;/dependency&gt;</span>
 
   <span class="nt">&lt;dependency&gt;</span>
-      <span class="nt">&lt;groupId&gt;</span>io.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>mysql-metadata-storage<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;/dependency&gt;</span>
@@ -376,7 +395,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
   -Dfile.encoding<span class="o">=</span>UTF-8 -Duser.timezone<span class="o">=</span>UTC <span class="se">\</span>
   -classpath config/hadoop:config/overlord:config/_common:<span class="nv">$SELF_CONTAINED_JAR</span>:<span class="nv">$HADOOP_DISTRIBUTION</span>/etc/hadoop <span class="se">\</span>
   -Djava.security.krb5.conf<span class="o">=</span><span class="nv">$KRB5</span> <span class="se">\</span>
-  io.druid.cli.Main index hadoop <span class="se">\</span>
+  org.apache.druid.cli.Main index hadoop <span class="se">\</span>
   <span class="nv">$config_path</span>
 </code></pre></div>
         </div>

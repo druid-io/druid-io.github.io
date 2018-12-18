@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Geographic Queries</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,23 +115,54 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="geographic-queries">Geographic Queries</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="geographic-queries">Geographic Queries</h1>
 
 <p>Druid supports filtering specially spatially indexed columns based on an origin and a bound.</p>
 
 <h1 id="spatial-indexing">Spatial Indexing</h1>
 
 <p>In any of the data specs, there is the option of providing spatial dimensions. For example, for a JSON data spec, spatial dimensions can be specified as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSpec&quot;</span> <span class="err">:</span> <span class="p">{</span>
-    <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;JSON&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="err">&lt;some_dims&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&quot;dimName&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinates&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;dims&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">]</span>
-        <span class="p">},</span>
-        <span class="err">...</span>
-    <span class="p">]</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;DatasourceName&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+                <span class="p">},</span>
+                <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[{</span>
+                        <span class="nt">&quot;dimName&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinates&quot;</span><span class="p">,</span>
+                        <span class="nt">&quot;dims&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">]</span>
+                    <span class="p">}]</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <table><thead>

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Quickstart</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,16 +115,39 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="druid-quickstart">Druid Quickstart</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
 
-<p>In this quickstart, we will download Druid, set it up on a single machine, load some data, and query the data.</p>
+<h1 id="druid-quickstart">Druid Quickstart</h1>
+
+<p>In this quickstart, we will download Druid and set it up on a single machine. The cluster will be ready to load data
+after completing this initial setup.</p>
+
+<p>Before beginning the quickstart, it is helpful to read the <a href="../design/index.html">general Druid overview</a> and the
+<a href="../ingestion/index.html">ingestion overview</a>, as the tutorials will refer to concepts discussed on those pages.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
 <p>You will need:</p>
 
 <ul>
-<li>Java 8 or higher</li>
+<li>Java 8</li>
 <li>Linux, Mac OS X, or other Unix-like OS (Windows is not supported)</li>
 <li>8G of RAM</li>
 <li>2 vCPUs</li>
@@ -140,88 +163,75 @@ OSes</a>.</p>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p>To install Druid, issue the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz
-tar -xzf druid-0.12.3-bin.tar.gz
-<span class="nb">cd</span> druid-0.12.3
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz">Download</a>
+the 0.13.0-incubating release.</p>
+
+<p>Extract Druid by running the following commands in your terminal:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.13.0-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.13.0-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
 <ul>
-<li><code>LICENSE</code> - the license files.</li>
-<li><code>bin/</code> - scripts useful for this quickstart.</li>
-<li><code>conf/*</code> - template configurations for a clustered setup.</li>
-<li><code>conf-quickstart/*</code> - configurations for this quickstart.</li>
-<li><code>extensions/*</code> - all Druid extensions.</li>
-<li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies.</li>
-<li><code>lib/*</code> - all included software packages for core Druid.</li>
-<li><code>quickstart/*</code> - files useful for this quickstart.</li>
+<li><code>DISCLAIMER</code>, <code>LICENSE</code>, and <code>NOTICE</code> files</li>
+<li><code>bin/*</code> - scripts useful for this quickstart</li>
+<li><code>conf/*</code> - template configurations for a clustered setup</li>
+<li><code>extensions/*</code> - core Druid extensions</li>
+<li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies</li>
+<li><code>lib/*</code> - libraries and dependencies for core Druid</li>
+<li><code>quickstart/*</code> - configuration files, sample data, and other files for the quickstart tutorials</li>
 </ul>
 
-<h2 id="download-tutorial-example-files">Download tutorial example files</h2>
+<h2 id="download-zookeeper">Download Zookeeper</h2>
 
-<p>Before proceeding, please download the <a href="../tutorials/tutorial-examples.tar.gz">tutorial examples package</a>. </p>
-
-<p>This tarball contains sample data and ingestion specs that will be used in the tutorials. </p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -O http://druid.io/docs/0.12.3/tutorials/tutorial-examples.tar.gz
-tar zxvf tutorial-examples.tar.gz
-</code></pre></div>
-<h2 id="start-up-zookeeper">Start up Zookeeper</h2>
-
-<p>Druid currently has a dependency on <a href="http://zookeeper.apache.org/">Apache ZooKeeper</a> for distributed coordination. You&#39;ll
+<p>Druid has a dependency on <a href="http://zookeeper.apache.org/">Apache ZooKeeper</a> for distributed coordination. You&#39;ll
 need to download and run Zookeeper.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
-tar -xzf zookeeper-3.4.10.tar.gz
-<span class="nb">cd</span> zookeeper-3.4.10
-cp conf/zoo_sample.cfg conf/zoo.cfg
-./bin/zkServer.sh start
+
+<p>In the package root, run the following commands:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
+tar -xzf zookeeper-3.4.11.tar.gz
+mv zookeeper-3.4.11 zk
 </code></pre></div>
+<p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the apache-druid-0.13.0-incubating package root.</p>
+
 <h2 id="start-up-druid-services">Start up Druid services</h2>
 
-<p>With Zookeeper running, return to the druid-0.12.3 directory. In that directory, issue the command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/init
+<p>From the apache-druid-0.13.0-incubating package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
 </code></pre></div>
-<p>This will setup up some directories for you. Next, you can start up the Druid processes in different terminal windows.
-This tutorial runs every Druid process on the same system. In a large distributed production cluster,
-many of these Druid processes can still be co-located together.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat examples/conf/druid/coordinator/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/coordinator:lib/*&quot;</span> io.druid.cli.Main server coordinator
-java <span class="sb">`</span>cat examples/conf/druid/overlord/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/overlord:lib/*&quot;</span> io.druid.cli.Main server overlord
-java <span class="sb">`</span>cat examples/conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/historical:lib/*&quot;</span> io.druid.cli.Main server historical
-java <span class="sb">`</span>cat examples/conf/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/middleManager:lib/*&quot;</span> io.druid.cli.Main server middleManager
-java <span class="sb">`</span>cat examples/conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp <span class="s2">&quot;examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/broker:lib/*&quot;</span> io.druid.cli.Main server broker
+<p>This will bring up instances of Zookeeper and the Druid services, all running on the local machine, e.g.:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk quickstart/tutorial/conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>coordinator<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/coordinator.log<span class="o">]</span>: bin/run-druid coordinator quickstart/tutorial/conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>//stage/apache-druid-0.13.0-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker quickstart/tutorial/conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical quickstart/tutorial/conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>overlord<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/overlord.log<span class="o">]</span>: bin/run-druid overlord quickstart/tutorial/conf
+<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager quickstart/tutorial/conf
 </code></pre></div>
-<p>Once every service has started, you are now ready to load data.</p>
+<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.13.0-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
+
+<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit the <code>bin/supervise</code> script, which will terminate the Druid processes.</p>
 
 <h3 id="resetting-cluster-state">Resetting cluster state</h3>
 
-<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the druid-0.12.3 package root. </p>
+<p>If you want a clean start after stopping the services, delete the <code>var</code> directory and run the <code>bin/supervise</code> script again.</p>
 
-<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit from the running java processes. If you
-want a clean start after stopping the services, delete the <code>log</code> and <code>var</code> directory and run the <code>init</code> script again, then shut down Zookeper and delete the Zookeeper dataDir under <code>/tmp/zookeeper</code>.</p>
+<p>Once every service has started, you are now ready to load data.</p>
 
-<p>From the druid-0.12.3 directory:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf log
-rm -rf var
-bin/init
-</code></pre></div>
-<p>If you ran the <a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a>, you should shut down Kafka before shutting down Zookeeper, and then delete the Kafka log directory, which is at <code>/tmp/kafka-logs</code>.</p>
+<h4 id="resetting-kafka">Resetting Kafka</h4>
 
-<p>Ctrl-C to shut down the Kafka broker, and then delete the log directory:</p>
+<p>If you completed <a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a> and wish to reset the cluster state, you should additionally clear out any Kafka state.</p>
+
+<p>Shut down the Kafka broker with CTRL-C before stopping Zookeeper and the Druid services, and then delete the Kafka log directory at <code>/tmp/kafka-logs</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf /tmp/kafka-logs
 </code></pre></div>
-<p>Now stop Zookeeper and clear its state. From the zookeeper-3.4.10 directory:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/zkServer.sh stop
-rm -rf /tmp/zookeeper
-</code></pre></div>
-<p>After clearing out Druid and Zookeeper state, restart Zookeeper and then restart the Druid services.</p>
-
 <h2 id="loading-data">Loading Data</h2>
 
 <h3 id="tutorial-dataset">Tutorial Dataset</h3>
 
 <p>For the following data loading tutorials, we have included a sample data file containing Wikipedia page edit events that occurred on 2015-09-12.</p>
 
-<p>This sample data is located at <code>quickstart/wikiticker-2015-09-12-sampled.json.gz</code> from the Druid package root. The page edit events are stored as JSON objects in a text file.</p>
+<p>This sample data is located at <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> from the Druid package root. The page edit events are stored as JSON objects in a text file.</p>
 
 <p>The sample data has the following columns, and an example event is shown below:</p>
 
@@ -249,8 +259,8 @@ rm -rf /tmp/zookeeper
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-09-12T20:03:45.018Z&quot;</span><span class="p">,</span>
   <span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="s2">&quot;#en.wikipedia&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;Main&quot;</span>
-  <span class="s2">&quot;page&quot;</span><span class="p">:</span><span class="s2">&quot;Spider-Man&#39;s powers and equipment&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="s2">&quot;Main&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;page&quot;</span><span class="p">:</span><span class="s2">&quot;Spider-Man&#39;s powers and equipment&quot;</span><span class="p">,</span>
   <span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span>
   <span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;/* Artificial web-shooters */&quot;</span><span class="p">,</span>
   <span class="nt">&quot;cityName&quot;</span><span class="p">:</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>

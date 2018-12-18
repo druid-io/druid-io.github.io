@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Cassandra Deep Storage</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,14 +115,35 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h2 id="introduction">Introduction</h2>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="cassandra-deep-storage">Cassandra Deep Storage</h1>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>Druid can use Cassandra as a deep storage mechanism. Segments and their metadata are stored in Cassandra in two tables:
-<code>index_storage</code> and <code>descriptor_storage</code>.  Underneath the hood, the Cassandra integration leverages Astyanax.  The 
+<code>index_storage</code> and <code>descriptor_storage</code>.  Underneath the hood, the Cassandra integration leverages Astyanax.  The
 index storage table is a <a href="https://github.com/Netflix/astyanax/wiki/Chunked-Object-Store">Chunked Object</a> repository. It contains
 compressed segments for distribution to historical nodes.  Since segments can be large, the Chunked Object storage allows the integration to multi-thread
-the write to Cassandra, and spreads the data across all the nodes in a cluster.  The descriptor storage table is a normal C* table that 
-stores the segment metadatak.  </p>
+the write to Cassandra, and spreads the data across all the nodes in a cluster.  The descriptor storage table is a normal C* table that
+stores the segment metadatak.</p>
 
 <h2 id="schema">Schema</h2>
 
@@ -148,9 +169,6 @@ stores the segment metadatak.  </p>
 <span class="na">druid.storage.host</span><span class="o">=</span><span class="s">localhost:9160</span>
 <span class="na">druid.storage.keyspace</span><span class="o">=</span><span class="s">druid</span>
 </code></pre></div>
-<p>Use the <code>druid-development@googlegroups.com</code> mailing list if you have questions,
-or feel free to reach out directly: <code>bone@alumni.brown.edu</code>.</p>
-
         </div>
         <div class="col-md-3">
           <div class="searchbox">

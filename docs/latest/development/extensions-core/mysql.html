@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | MySQL Metadata Store</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,9 +115,48 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="mysql-metadata-store">MySQL Metadata Store</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="mysql-metadata-store">MySQL Metadata Store</h1>
 
 <p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>mysql-metadata-storage</code> as an extension.</p>
+
+<div class="note caution">
+The MySQL extension requires the MySQL Connector/J library which is not included in the Druid distribution. 
+Refer to the following section for instructions on how to install this library.
+</div>
+
+<h2 id="installing-the-mysql-connector-library">Installing the MySQL connector library</h2>
+
+<p>This extension uses Oracle&#39;s MySQL JDBC driver which is not included in the Druid distribution and must be
+installed separately. There are a few ways to obtain this library:</p>
+
+<ul>
+<li>It can be downloaded from the MySQL site at: https://dev.mysql.com/downloads/connector/j/</li>
+<li>It can be fetched from Maven Central at: http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar</li>
+<li>It may be available through your package manager, e.g. as <code>libmysql-java</code> on APT for a Debian-based OS</li>
+</ul>
+
+<p>This should fetch a JAR file named similar to &#39;mysql-connector-java-x.x.xx.jar&#39;.</p>
+
+<p>Copy or symlink this file to <code>extensions/mysql-metadata-storage</code> under the distribution root directory.</p>
 
 <h2 id="setting-up-mysql">Setting up MySQL</h2>
 
@@ -141,8 +180,8 @@
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  &gt; mysql -u root
 </code></pre></div>
 <p>Paste the following snippet into the mysql prompt:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8 as encoding</span>
-  <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8mb4 as encoding</span>
+  <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8mb4</span><span class="p">;</span>
 
   <span class="c1">-- create a druid user, and grant it all permission on the database we just created</span>
   <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
@@ -159,11 +198,6 @@
 <span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
 <span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
 </code></pre></div>
-<p>Note: the metadata storage extension is not packaged within the main Druid tarball; it is
-  packaged in a separate tarball that can be downloaded from <a href="http://druid.io/downloads.html">here</a>.
-  You can also get it using <a href="../../operations/pull-deps.html">pull-deps</a>, or you can build
-  it from source code; see <a href="../build.html">Build from Source</a>.</p>
-
 <h2 id="encrypting-mysql-connections">Encrypting MySQL connections</h2>
 
 <p>This extension provides support for encrypting MySQL connections. To get more information about encrypting MySQL connections using TLS/SSL in general, please refer to this <a href="https://dev.mysql.com/doc/refman/5.7/en/using-encrypted-connections.html">guide</a>.</p>

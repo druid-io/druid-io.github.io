@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Tasks Overview</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="tasks-overview">Tasks Overview</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="tasks-overview">Tasks Overview</h1>
 
 <p>Tasks are run on middle managers and always operate on a single data source.</p>
 
@@ -125,13 +144,14 @@
 
 <h2 id="segment-creation-tasks">Segment Creation Tasks</h2>
 
-<h3 id="native-batch-indexing-task">Native Batch Indexing Task</h3>
-
-<p>See <a href="../ingestion/native-batch.html">Native batch ingestion</a>.</p>
-
 <h3 id="hadoop-index-task">Hadoop Index Task</h3>
 
-<p>See <a href="../ingestion/hadoop.html">Hadoop batch ingestion</a>.</p>
+<p>See <a href="../ingestion/hadoop.html">batch ingestion</a>.</p>
+
+<h3 id="native-index-tasks">Native Index Tasks</h3>
+
+<p>Druid provides a native index task which doesn&#39;t need any dependencies on other systems.
+See <a href="./native_tasks.html">native index tasks</a> for more details.</p>
 
 <h3 id="kafka-indexing-tasks">Kafka Indexing Tasks</h3>
 

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Hadoop-based Batch Ingestion</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="hadoop-based-batch-ingestion">Hadoop-based Batch Ingestion</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="hadoop-based-batch-ingestion">Hadoop-based Batch Ingestion</h1>
 
 <p>Hadoop-based batch ingestion in Druid is supported via a Hadoop-ingestion task. These tasks can be posted to a running
 instance of a Druid <a href="../design/overlord.html">overlord</a>. </p>
@@ -280,6 +299,12 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 </tr>
 </thead><tbody>
 <tr>
+<td>inputFormat</td>
+<td>String</td>
+<td>Specifies the Hadoop InputFormat class to use. e.g. <code>org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat</code></td>
+<td>no</td>
+</tr>
+<tr>
 <td>paths</td>
 <td>Array of String</td>
 <td>A String of input paths indicating where the raw data is located.</td>
@@ -307,6 +332,12 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
 <td>String</td>
 <td>Specifies the granularity to expect the data at, e.g. hour means to expect directories <code>y=XXXX/m=XX/d=XX/H=XX</code>.</td>
 <td>yes</td>
+</tr>
+<tr>
+<td>inputFormat</td>
+<td>String</td>
+<td>Specifies the Hadoop InputFormat class to use. e.g. <code>org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat</code></td>
+<td>no</td>
 </tr>
 <tr>
 <td>inputPath</td>
@@ -375,8 +406,14 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <tr>
 <td>maxRowsInMemory</td>
 <td>Integer</td>
-<td>The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size.</td>
-<td>no (default == 75000)</td>
+<td>The number of rows to aggregate before persisting. Note that this is the number of post-aggregation rows which may not be equal to the number of input events due to roll-up. This is used to manage the required JVM heap size. Normally user does not need to set this, but depending on the nature of data, if rows are short in terms of bytes, user may not want to store a million rows in memory and this value should be set.</td>
+<td>no (default == 1000000)</td>
+</tr>
+<tr>
+<td>maxBytesInMemory</td>
+<td>Long</td>
+<td>The number of bytes to aggregate in heap memory before persisting. Normally this is computed internally and user does not need to set it. This is based on a rough estimate of memory usage and not actual usage. The maximum heap memory usage for indexing is maxBytesInMemory * (2 + maxPendingPersists).</td>
+<td>no (default == One-sixth of max JVM memory)</td>
 </tr>
 <tr>
 <td>leaveIntermediate</td>
@@ -399,7 +436,7 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <tr>
 <td>ignoreInvalidRows</td>
 <td>Boolean</td>
-<td>Ignore rows found to have problems.</td>
+<td>DEPRECATED. Ignore rows found to have problems. If false, any exception encountered during parsing will be thrown and will halt ingestion; if true, unparseable rows and fields will be skipped. If <code>maxParseExceptions</code> is defined, this property is ignored.</td>
 <td>no (default == false)</td>
 </tr>
 <tr>
@@ -443,6 +480,18 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <td>Boolean</td>
 <td>Forces HadoopIndexTask to use version.</td>
 <td>no (default = false)</td>
+</tr>
+<tr>
+<td>logParseExceptions</td>
+<td>Boolean</td>
+<td>If true, log an error message when a parsing exception occurs, containing information about the row where the error occurred.</td>
+<td>false</td>
+</tr>
+<tr>
+<td>maxParseExceptions</td>
+<td>Integer</td>
+<td>The maximum number of parse exceptions that can occur before the task halts ingestion and fails. Overrides <code>ignoreInvalidRows</code> if <code>maxParseExceptions</code> is defined.</td>
+<td>unlimited</td>
 </tr>
 </tbody></table>
 
@@ -693,7 +742,7 @@ To avoid this extra external cron job script calling <code>kinit</code> periodic
 </tr>
 </tbody></table>
 
-<h2 id="loading-from-s3-with-emr">Loading from S3 with EMR</h2>
+<h3 id="loading-from-s3-with-emr">Loading from S3 with EMR</h3>
 
 <ul>
 <li>In the <code>jobProperties</code> field in the <code>tuningConfig</code> section of your Hadoop indexing task, add:</li>

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Extending Druid With Custom Modules</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="extending-druid-with-custom-modules">Extending Druid With Custom Modules</h1>
 
 <p>Druid uses a module system that allows for the addition of extensions at runtime.</p>
 
@@ -124,25 +143,25 @@
 <p>Druid&#39;s extensions leverage Guice in order to add things at runtime.  Basically, Guice is a framework for Dependency Injection, but we use it to hold the expected object graph of the Druid process.  Extensions can make any changes they want/need to the object graph via adding Guice bindings.  While the extensions actually give you the capability to change almost anything however you want, in general, we expect people to want to extend one of the things listed below.  This means that we honor our <a href="./versioning.html">versioning strategy</a> for changes that affect the interfaces called out on this page, but other interfaces are deemed &quot;internal&quot; and can be changed in an incompatible manner even between patch releases.</p>
 
 <ol>
-<li>Add a new deep storage implementation by extending the <code>io.druid.segment.loading.DataSegment*</code> and
-<code>io.druid.tasklogs.TaskLog*</code> classes.</li>
-<li>Add a new Firehose by extending <code>io.druid.data.input.FirehoseFactory</code>.</li>
-<li>Add a new input parser by extending <code>io.druid.data.input.impl.InputRowParser</code>.</li>
-<li>Add a new string-based input format by extending <code>io.druid.data.input.impl.ParseSpec</code>.</li>
-<li>Add Aggregators by extending <code>io.druid.query.aggregation.AggregatorFactory</code>, <code>io.druid.query.aggregation.Aggregator</code>,
-and <code>io.druid.query.aggregation.BufferAggregator</code>.</li>
-<li>Add PostAggregators by extending <code>io.druid.query.aggregation.PostAggregator</code>.</li>
-<li>Add ExtractionFns by extending <code>io.druid.query.extraction.ExtractionFn</code>.</li>
-<li>Add Complex metrics by extending <code>io.druid.segment.serde.ComplexMetricsSerde</code>.</li>
-<li>Add new Query types by extending <code>io.druid.query.QueryRunnerFactory</code>, <code>io.druid.query.QueryToolChest</code>, and
-<code>io.druid.query.Query</code>.</li>
+<li>Add a new deep storage implementation by extending the <code>org.apache.druid.segment.loading.DataSegment*</code> and
+<code>org.apache.druid.tasklogs.TaskLog*</code> classes.</li>
+<li>Add a new Firehose by extending <code>org.apache.druid.data.input.FirehoseFactory</code>.</li>
+<li>Add a new input parser by extending <code>org.apache.druid.data.input.impl.InputRowParser</code>.</li>
+<li>Add a new string-based input format by extending <code>org.apache.druid.data.input.impl.ParseSpec</code>.</li>
+<li>Add Aggregators by extending <code>org.apache.druid.query.aggregation.AggregatorFactory</code>, <code>org.apache.druid.query.aggregation.Aggregator</code>,
+and <code>org.apache.druid.query.aggregation.BufferAggregator</code>.</li>
+<li>Add PostAggregators by extending <code>org.apache.druid.query.aggregation.PostAggregator</code>.</li>
+<li>Add ExtractionFns by extending <code>org.apache.druid.query.extraction.ExtractionFn</code>.</li>
+<li>Add Complex metrics by extending <code>org.apache.druid.segment.serde.ComplexMetricsSerde</code>.</li>
+<li>Add new Query types by extending <code>org.apache.druid.query.QueryRunnerFactory</code>, <code>org.apache.druid.query.QueryToolChest</code>, and
+<code>org.apache.druid.query.Query</code>.</li>
 <li>Add new Jersey resources by calling <code>Jerseys.addResource(binder, clazz)</code>.</li>
-<li>Add new Jetty filters by extending <code>io.druid.server.initialization.jetty.ServletFilterHolder</code>.</li>
-<li>Add new secret providers by extending <code>io.druid.metadata.PasswordProvider</code>.</li>
+<li>Add new Jetty filters by extending <code>org.apache.druid.server.initialization.jetty.ServletFilterHolder</code>.</li>
+<li>Add new secret providers by extending <code>org.apache.druid.metadata.PasswordProvider</code>.</li>
 <li>Bundle your extension with all the other Druid extensions</li>
 </ol>
 
-<p>Extensions are added to the system via an implementation of <code>io.druid.initialization.DruidModule</code>.</p>
+<p>Extensions are added to the system via an implementation of <code>org.apache.druid.initialization.DruidModule</code>.</p>
 
 <h3 id="creating-a-druid-module">Creating a Druid Module</h3>
 
@@ -163,10 +182,10 @@ and <code>io.druid.query.aggregation.BufferAggregator</code>.</li>
 
 <p>The file that should exist in your jar is</p>
 
-<p><code>META-INF/services/io.druid.initialization.DruidModule</code></p>
+<p><code>META-INF/services/org.apache.druid.initialization.DruidModule</code></p>
 
 <p>It should be a text file with a new-line delimited list of package-qualified classes that implement DruidModule like</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>io.druid.storage.cassandra.CassandraDruidModule
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>org.apache.druid.storage.cassandra.CassandraDruidModule
 </code></pre></div>
 <p>If your jar has this file, then when it is added to the classpath or as an extension, Druid will notice the file and will instantiate instances of the Module.  Your Module should have a default constructor, but if you need access to runtime configuration properties, it can have a method with @Inject on it to get a Properties object injected into it from Guice.</p>
 
@@ -218,20 +237,20 @@ In this way, you can validate both push (at realtime node) and pull (at historic
 <p>After ~20 secs your ingestion task ends, you should be able to see your historical node trying to load the new segment.</p>
 
 <p>The following example was retrieved from a historical node configured to use Azure for deep storage:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
 .000Z_2015-04-14T02:41:09.484Z] with zNode[/druid/dev/loadQueue/192.168.33.104:8081/dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.
 484Z].
-2015-04-14T02:42:33,451 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - Loading segment dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.0
+2015-04-14T02:42:33,451 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.ZkCoordinator - Loading segment dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.0
 00Z_2015-04-14T02:41:09.484Z
-2015-04-14T02:42:33,463 INFO [ZkCoordinator-0] io.druid.guice.JsonConfigurator - Loaded class[class io.druid.storage.azure.AzureAccountConfig] from props[drui
-d.azure.] as [io.druid.storage.azure.AzureAccountConfig@759c9ad9]
-2015-04-14T02:49:08,275 INFO [ZkCoordinator-0] io.druid.java.util.common.CompressionUtils - Unzipping file[/opt/druid/tmp/compressionUtilZipCache1263964429587449785.z
+2015-04-14T02:42:33,463 INFO [ZkCoordinator-0] org.apache.druid.guice.JsonConfigurator - Loaded class[class org.apache.druid.storage.azure.AzureAccountConfig] from props[drui
+d.azure.] as [org.apache.druid.storage.azure.AzureAccountConfig@759c9ad9]
+2015-04-14T02:49:08,275 INFO [ZkCoordinator-0] org.apache.druid.java.util.common.CompressionUtils - Unzipping file[/opt/druid/tmp/compressionUtilZipCache1263964429587449785.z
 ip] to [/opt/druid/zk_druid/dde/2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z/2015-04-14T02:41:09.484Z/0]
-2015-04-14T02:49:08,276 INFO [ZkCoordinator-0] io.druid.storage.azure.AzureDataSegmentPuller - Loaded 1196 bytes from [dde/2015-01-02T00:00:00.000Z_2015-01-03
+2015-04-14T02:49:08,276 INFO [ZkCoordinator-0] org.apache.druid.storage.azure.AzureDataSegmentPuller - Loaded 1196 bytes from [dde/2015-01-02T00:00:00.000Z_2015-01-03
 T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde/2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z/2015-04-14T02:41:09.484Z/0]
-2015-04-14T02:49:08,277 WARN [ZkCoordinator-0] io.druid.segment.loading.SegmentLoaderLocalCacheManager - Segment [dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] is different than expected size. Expected [0] found [1196]
-2015-04-14T02:49:08,282 INFO [ZkCoordinator-0] io.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment[dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] at path[/druid/dev/segments/192.168.33.104:8081/192.168.33.104:8081_historical__default_tier_2015-04-14T02:49:08.282Z_7bb87230ebf940188511dd4a53ffd7351]
-2015-04-14T02:49:08,292 INFO [ZkCoordinator-0] io.druid.server.coordination.ZkCoordinator - Completed request [LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z]
+2015-04-14T02:49:08,277 WARN [ZkCoordinator-0] org.apache.druid.segment.loading.SegmentLoaderLocalCacheManager - Segment [dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] is different than expected size. Expected [0] found [1196]
+2015-04-14T02:49:08,282 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.BatchDataSegmentAnnouncer - Announcing segment[dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z] at path[/druid/dev/segments/192.168.33.104:8081/192.168.33.104:8081_historical__default_tier_2015-04-14T02:49:08.282Z_7bb87230ebf940188511dd4a53ffd7351]
+2015-04-14T02:49:08,292 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.ZkCoordinator - Completed request [LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.484Z]
 </code></pre></div>
 <ul>
 <li>DataSegmentKiller</li>
@@ -275,9 +294,9 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 <p>Adding a new Query type requires the implementation of three interfaces.</p>
 
 <ol>
-<li><code>io.druid.query.Query</code></li>
-<li><code>io.druid.query.QueryToolChest</code></li>
-<li><code>io.druid.query.QueryRunnerFactory</code></li>
+<li><code>org.apache.druid.query.Query</code></li>
+<li><code>org.apache.druid.query.QueryToolChest</code></li>
+<li><code>org.apache.druid.query.QueryRunnerFactory</code></li>
 </ol>
 
 <p>Registering these uses the same general strategy as a deep storage mechanism does.  You do something like</p>
@@ -298,9 +317,9 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 </code></pre></div>
 <h3 id="adding-a-new-password-provider-implementation">Adding a new Password Provider implementation</h3>
 
-<p>You will need to implement <code>io.druid.metadata.PasswordProvider</code> interface. For every place where Druid uses PasswordProvider, a new instance of the implementation will be created,
+<p>You will need to implement <code>org.apache.druid.metadata.PasswordProvider</code> interface. For every place where Druid uses PasswordProvider, a new instance of the implementation will be created,
 thus make sure all the necessary information required for fetching each password is supplied during object instantiation.
-In your implementation of <code>io.druid.initialization.DruidModule</code>, <code>getJacksonModules</code> should look something like this -</p>
+In your implementation of <code>org.apache.druid.initialization.DruidModule</code>, <code>getJacksonModules</code> should look something like this -</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>    <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
         <span class="k">new</span> <span class="n">SimpleModule</span><span class="o">(</span><span class="s">&quot;SomePasswordProviderModule&quot;</span><span class="o">)</span>
             <span class="o">.</span><span class="na">registerSubtypes</span><span class="o">(</span>
@@ -308,14 +327,14 @@ In your implementation of <code>io.druid.initialization.DruidModule</code>, <cod
             <span class="o">)</span>
     <span class="o">);</span>
 </code></pre></div>
-<p>where <code>SomePasswordProvider</code> is the implementation of <code>PasswordProvider</code> interface, you can have a look at <code>io.druid.metadata.EnvironmentVariablePasswordProvider</code> for example.</p>
+<p>where <code>SomePasswordProvider</code> is the implementation of <code>PasswordProvider</code> interface, you can have a look at <code>org.apache.druid.metadata.EnvironmentVariablePasswordProvider</code> for example.</p>
 
 <h3 id="bundle-your-extension-with-all-the-other-druid-extensions">Bundle your extension with all the other Druid extensions</h3>
 
 <p>When you do <code>mvn install</code>, Druid extensions will be packaged within the Druid tarball and <code>extensions</code> directory, which are both underneath <code>distribution/target/</code>.</p>
 
 <p>If you want your extension to be included, you can add your extension&#39;s maven coordinate as an argument at
-<a href="https://github.com/druid-io/druid/blob/master/distribution/pom.xml#L95">distribution/pom.xml</a></p>
+<a href="https://github.com/apache/incubator-druid/blob/master/distribution/pom.xml#L95">distribution/pom.xml</a></p>
 
 <p>During <code>mvn install</code>, maven will install your extension to the local maven repository, and then call <a href="../operations/pull-deps.html">pull-deps</a> to pull your extension from
 there. In the end, you should see your extension underneath <code>distribution/target/extensions</code> and within Druid tarball.</p>
@@ -324,7 +343,7 @@ there. In the end, you should see your extension underneath <code>distribution/t
 
 <p>Managing library collisions can be daunting for extensions which draw in commonly used libraries. Here is a list of group IDs for libraries that are suggested to be specified with a <code>provided</code> scope to prevent collision with versions used in druid:
 <code>
-&quot;io.druid&quot;,
+&quot;org.apache.druid&quot;,
 &quot;com.metamx.druid&quot;,
 &quot;asm&quot;,
 &quot;org.ow2.asm&quot;,
@@ -356,7 +375,7 @@ there. In the end, you should see your extension underneath <code>distribution/t
 &quot;org.roaringbitmap&quot;,
 &quot;net.java.dev.jets3t&quot;
 </code>
-See the documentation in <code>io.druid.cli.PullDependencies</code> for more information.</p>
+See the documentation in <code>org.apache.druid.cli.PullDependencies</code> for more information.</p>
 
         </div>
         <div class="col-md-3">

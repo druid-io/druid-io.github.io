@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | ORC</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,13 +115,32 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="orc">Orc</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="orc">ORC</h1>
 
 <p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-orc-extensions</code>.</p>
 
-<p>This extension enables Druid to ingest and understand the Apache Orc data format offline.</p>
+<p>This extension enables Druid to ingest and understand the Apache ORC data format offline.</p>
 
-<h2 id="orc-hadoop-parser">Orc Hadoop Parser</h2>
+<h2 id="orc-hadoop-parser">ORC Hadoop Parser</h2>
 
 <p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of inputSpec in ioConfig must be set to <code>&quot;org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat&quot;</code>.</p>
 
@@ -148,14 +167,20 @@
 <tr>
 <td>typeString</td>
 <td>String</td>
-<td>String representation of Orc struct type info. If not specified, auto constructed from parseSpec but all metric columns are dropped</td>
+<td>String representation of ORC struct type info. If not specified, auto constructed from parseSpec but all metric columns are dropped</td>
+<td>no</td>
+</tr>
+<tr>
+<td>mapFieldNameFormat</td>
+<td>String</td>
+<td>String format for resolving the flatten map fields. Default is <code>&lt;PARENT&gt;_&lt;CHILD&gt;</code>.</td>
 <td>no</td>
 </tr>
 </tbody></table>
 
 <p>For example of <code>typeString</code>, string column col1 and array of string column col2 is represented by <code>&quot;struct&lt;col1:string,col2:array&lt;string&gt;&gt;&quot;</code>.</p>
 
-<p>Currently, it only supports java primitive types and array of java primitive types, which means only &#39;list&#39; of compound types in <a href="https://orc.apache.org/docs/types.html">ORC types</a> is supported (list of list is not supported).  </p>
+<p>Currently, it only supports java primitive types, array of java primitive types and map of java primitive types. Thus, compound types &#39;list&#39; and &#39;map&#39; in <a href="https://orc.apache.org/docs/types.html">ORC types</a> are supported. Note that, list of list is not supported, nor map of compound types. For map types, values will be exploded to several columns where column names will be resolved via <code>mapFieldNameFormat</code>.</p>
 
 <p>For example of hadoop indexing:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -195,7 +220,8 @@
             <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
           <span class="p">}</span>
         <span class="p">},</span>
-        <span class="nt">&quot;typeString&quot;</span><span class="p">:</span> <span class="s2">&quot;struct&lt;time:string,name:string&gt;&quot;</span>
+        <span class="nt">&quot;typeString&quot;</span><span class="p">:</span> <span class="s2">&quot;struct&lt;time:string,name:string&gt;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;mapFieldNameFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;PARENT&gt;_&lt;CHILD&gt;&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>

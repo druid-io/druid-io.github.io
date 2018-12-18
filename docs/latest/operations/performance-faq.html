@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Performance FAQ</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="performance-faq">Performance FAQ</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="performance-faq">Performance FAQ</h1>
 
 <h2 id="i-cant-match-your-benchmarked-results">I can&#39;t match your benchmarked results</h2>
 
@@ -169,17 +188,17 @@ Operators can ensure at least this amount of direct memory is available by provi
     &lt;/Console&gt;
   &lt;/Appenders&gt;
   &lt;Loggers&gt;
-    &lt;AsyncLogger name=&quot;io.druid.curator.inventory.CuratorInventoryManager&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.curator.inventory.CuratorInventoryManager&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
       &lt;AppenderRef ref=&quot;Console&quot;/&gt;
     &lt;/AsyncLogger&gt;
-    &lt;AsyncLogger name=&quot;io.druid.client.BatchServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.client.BatchServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
       &lt;AppenderRef ref=&quot;Console&quot;/&gt;
     &lt;/AsyncLogger&gt;
     &lt;!-- Make extra sure nobody adds logs in a bad way that can hurt performance --&gt;
-    &lt;AsyncLogger name=&quot;io.druid.client.ServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.client.ServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
       &lt;AppenderRef ref=&quot;Console&quot;/&gt;
     &lt;/AsyncLogger&gt;
-    &lt;AsyncLogger name =&quot;io.druid.java.util.http.client.pool.ChannelResourceFactory&quot; level=&quot;info&quot; additivity=&quot;false&quot;&gt;
+    &lt;AsyncLogger name =&quot;org.apache.druid.java.util.http.client.pool.ChannelResourceFactory&quot; level=&quot;info&quot; additivity=&quot;false&quot;&gt;
       &lt;AppenderRef ref=&quot;Console&quot;/&gt;
     &lt;/AsyncLogger&gt;
     &lt;Root level=&quot;info&quot;&gt;

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Transforming Dimension Values</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="transforming-dimension-values">Transforming Dimension Values</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="transforming-dimension-values">Transforming Dimension Values</h1>
 
 <p>The following JSON fields can be used in a query to operate on dimension values.</p>
 
@@ -166,6 +185,9 @@ Then groupBy/topN processing pipeline &quot;explodes&quot; all multi-value dimen
 </code></pre></div>
 <p>Following filtered dimension spec retains only the values matching regex. Note that <code>listFiltered</code> is faster than this and one should use that for whitelist or blacklist usecase.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regexFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;java</span> <span class="err">regex</span> <span class="err">pattern&gt;</span> <span class="p">}</span>
+</code></pre></div>
+<p>Following filtered dimension spec retains only the values starting with the same prefix.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;prefixFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;prefix&quot;</span><span class="p">:</span> <span class="err">&lt;prefix</span> <span class="err">string&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For more details and examples, see <a href="multi-value-dimensions.html">multi-value dimensions</a>.</p>
 
@@ -358,11 +380,16 @@ and returns them formatted using the given output format.</p>
 <a href="#time-format-extraction-function">time extraction function instead</a> instead,
 which works on time value directly as opposed to string values.</p>
 
-<p>Time formats are described in the
-<a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a></p>
+<p>If &quot;joda&quot; is true, time formats are described in the <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat documentation</a>.
+If &quot;joda&quot; is false (or unspecified) then formats are described in the <a href="http://icu-project.org/apiref/icu4j/com/ibm/icu/text/SimpleDateFormat.html">SimpleDateFormat documentation</a>.
+In general, we recommend setting &quot;joda&quot; to true since Joda format strings are more common in Druid APIs and since Joda handles certain edge cases (like weeks and weekyears near
+the start and end of calendar years) in a more ISO8601 compliant way.</p>
+
+<p>If a value cannot be parsed using the provided timeFormat, it will be returned as-is.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="p">}</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;joda&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span><span class="p">,</span> <span class="err">false&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-extraction-function">Javascript Extraction Function</h3>
 

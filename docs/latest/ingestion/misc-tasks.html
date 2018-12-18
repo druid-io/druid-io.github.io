@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Miscellaneous Tasks</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,235 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="miscellaneous-tasks">Miscellaneous Tasks</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
 
-<h2 id="version-converter-task">Version Converter Task</h2>
-
-<p>The convert task suite takes active segments and will recompress them using a new IndexSpec. This is handy when doing activities like migrating from Concise to Roaring, or adding dimension compression to old segments.</p>
-
-<p>Upon success the new segments will have the same version as the old segment with <code>_converted</code> appended. A convert task may be run against the same interval for the same datasource multiple times. Each execution will append another <code>_converted</code> to the version for the segments</p>
-
-<p>There are two types of conversion tasks. One is the Hadoop convert task, and the other is the indexing service convert task. The Hadoop convert task runs on a hadoop cluster, and simply leaves a task monitor on the indexing service (similar to the hadoop batch task). The indexing service convert task runs the actual conversion on the indexing service.</p>
-
-<h3 id="hadoop-convert-segment-task">Hadoop Convert Segment Task</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop_convert_segment&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;indexSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;bitmap&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;concise&quot;</span><span class="p">},</span><span class="nt">&quot;dimensionCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">,</span><span class="nt">&quot;metricCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;force&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;validate&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&quot;distributedSuccessCache&quot;</span><span class="p">:</span><span class="s2">&quot;hdfs://some-hdfs-nn:9000/user/jobrunner/cache&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;jobPriority&quot;</span><span class="p">:</span><span class="s2">&quot;VERY_LOW&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;segmentOutputPath&quot;</span><span class="p">:</span><span class="s2">&quot;s3n://somebucket/somekeyprefix&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The values are described below.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>Convert task identifier</td>
-<td>Yes: <code>hadoop_convert_segment</code></td>
-</tr>
-<tr>
-<td><code>dataSource</code></td>
-<td>String</td>
-<td>The datasource to search for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>interval</code></td>
-<td>Interval string</td>
-<td>The interval in the datasource to look for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>indexSpec</code></td>
-<td>json</td>
-<td>The compression specification for the index</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>force</code></td>
-<td>boolean</td>
-<td>Forces the convert task to continue even if binary versions indicate it has been updated recently (you probably want to do this)</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>validate</code></td>
-<td>boolean</td>
-<td>Runs validation between the old and new segment before reporting task success</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>distributedSuccessCache</code></td>
-<td>URI</td>
-<td>A location where hadoop should put intermediary files.</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>jobPriority</code></td>
-<td><code>org.apache.hadoop.mapred.JobPriority</code> as String</td>
-<td>The priority to set for the hadoop job</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>segmentOutputPath</code></td>
-<td>URI</td>
-<td>A base uri for the segment to be placed. Same format as other places a segment output path is needed</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<h3 id="indexing-service-convert-segment-task">Indexing Service Convert Segment Task</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;convert_segment&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;some_datasource&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="s2">&quot;2013/2015&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;indexSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;bitmap&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;concise&quot;</span><span class="p">},</span><span class="nt">&quot;dimensionCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">,</span><span class="nt">&quot;metricCompression&quot;</span><span class="p">:</span><span class="s2">&quot;lz4&quot;</span><span class="p">},</span>
-  <span class="nt">&quot;force&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&quot;validate&quot;</span><span class="p">:</span> <span class="kc">false</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required (default)</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>Convert task identifier</td>
-<td>Yes: <code>convert_segment</code></td>
-</tr>
-<tr>
-<td><code>dataSource</code></td>
-<td>String</td>
-<td>The datasource to search for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>interval</code></td>
-<td>Interval string</td>
-<td>The interval in the datasource to look for segments</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>indexSpec</code></td>
-<td>json</td>
-<td>The compression specification for the index</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>force</code></td>
-<td>boolean</td>
-<td>Forces the convert task to continue even if binary versions indicate it has been updated recently (you probably want to do this)</td>
-<td>No (false)</td>
-</tr>
-<tr>
-<td><code>validate</code></td>
-<td>boolean</td>
-<td>Runs validation between the old and new segment before reporting task success</td>
-<td>No (true)</td>
-</tr>
-</tbody></table>
-
-<p>Unlike the hadoop convert task, the indexing service task draws its output path from the indexing service&#39;s configuration.</p>
-
-<h4 id="indexspec">IndexSpec</h4>
-
-<p>The indexSpec defines segment storage format options to be used at indexing time, such as bitmap type and column
-compression formats. The indexSpec is optional and default parameters will be used if not specified.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>bitmap</td>
-<td>Object</td>
-<td>Compression format for bitmap indexes. Should be a JSON object; see below for options.</td>
-<td>no (defaults to Concise)</td>
-</tr>
-<tr>
-<td>dimensionCompression</td>
-<td>String</td>
-<td>Compression format for dimension columns. Choose from <code>LZ4</code>, <code>LZF</code>, or <code>uncompressed</code>.</td>
-<td>no (default == <code>LZ4</code>)</td>
-</tr>
-<tr>
-<td>metricCompression</td>
-<td>String</td>
-<td>Compression format for metric columns. Choose from <code>LZ4</code>, <code>LZF</code>, <code>uncompressed</code>, or <code>none</code>.</td>
-<td>no (default == <code>LZ4</code>)</td>
-</tr>
-<tr>
-<td>longEncoding</td>
-<td>String</td>
-<td>Encoding format for metric and dimension columns with type long. Choose from <code>auto</code> or <code>longs</code>. <code>auto</code> encodes the values using offset or lookup table depending on column cardinality, and store them with variable size. <code>longs</code> stores the value as is with 8 bytes each.</td>
-<td>no (default == <code>longs</code>)</td>
-</tr>
-</tbody></table>
-
-<h5 id="bitmap-types">Bitmap types</h5>
-
-<p>For Concise bitmaps:</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>type</td>
-<td>String</td>
-<td>Must be <code>concise</code>.</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<p>For Roaring bitmaps:</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>type</td>
-<td>String</td>
-<td>Must be <code>roaring</code>.</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>compressRunOnSerialization</td>
-<td>Boolean</td>
-<td>Use a run-length encoding where it is estimated as more space efficient.</td>
-<td>no (default == <code>true</code>)</td>
-</tr>
-</tbody></table>
+<h1 id="miscellaneous-tasks">Miscellaneous Tasks</h1>
 
 <h2 id="noop-task">Noop Task</h2>
 

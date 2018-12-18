@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Simple SSLContext Provider Module</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h2 id="simple-sslcontext-provider-module">Simple SSLContext Provider Module</h2>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="simple-sslcontext-provider-module">Simple SSLContext Provider Module</h1>
 
 <p>This module contains a simple implementation of <a href="http://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html">SSLContext</a>
 that will be injected to be used with HttpClient that Druid nodes use internally to communicate with each other. To learn more about
@@ -160,6 +179,54 @@ Java&#39;s SSL support, please refer to <a href="http://docs.oracle.com/javase/8
 <td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.</td>
 <td>none</td>
 <td>yes</td>
+</tr>
+</tbody></table>
+
+<p>The following table contains optional parameters for supporting client certificate authentication:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.client.https.keyStorePath</code></td>
+<td>The file path or URL of the TLS/SSL Key store containing the client certificate that Druid will use when communicating with other Druid services. If this is null, the other properties in this table are ignored.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>druid.client.https.keyStoreType</code></td>
+<td>The type of the key store.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>druid.client.https.certAlias</code></td>
+<td>Alias of TLS client certificate in the keystore.</td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>druid.client.https.keyStorePassword</code></td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Key Store.</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.client.https.keyManagerFactoryAlgorithm</code></td>
+<td>Algorithm to use for creating KeyManager, more details <a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/jsse/JSSERefGuide.html#KeyManager">here</a>.</td>
+<td><code>javax.net.ssl.KeyManagerFactory.getDefaultAlgorithm()</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.client.https.keyManagerPassword</code></td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Key Manager.</td>
+<td>none</td>
+<td>no</td>
 </tr>
 </tbody></table>
 

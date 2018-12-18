@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Build from Source</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,30 +115,62 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h3 id="build-from-source">Build from Source</h3>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
 
-<p>You can build Druid directly from source. Please note that these instructions are for building the latest stable of Druid. 
-For building the latest code in master, follow the instructions <a href="https://github.com/druid-io/druid/blob/master/docs/content/development/build.md">here</a>.</p>
+<h1 id="build-from-source">Build from Source</h1>
 
-<p>Building Druid requires the following:
-- <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">JDK 7</a>
-  or <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a>
-- <a href="http://maven.apache.org/download.cgi">Maven version 3.x</a></p>
+<p>You can build Druid directly from source. Please note that these instructions are for building the latest stable version of Druid.
+For building the latest code in master, follow the instructions <a href="https://github.com/apache/incubator-druid/blob/master/docs/content/development/build.md">here</a>.</p>
 
-<p>To do so, run these commands:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>git clone git@github.com:druid-io/druid.git
-cd druid
-mvn clean package
+<h4 id="prerequisites">Prerequisites</h4>
+
+<h5 id="installing-java-and-maven">Installing Java and Maven:</h5>
+
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a></li>
+<li><a href="http://maven.apache.org/download.cgi">Maven version 3.x</a></li>
+</ul>
+
+<h5 id="downloading-the-source">Downloading the source:</h5>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>git clone git@github.com:apache/incubator-druid.git
+<span class="nb">cd</span> druid
 </code></pre></div>
-<p>This will compile the project and create the Druid binary distribution tar under
-<code>distribution/target/druid-VERSION-bin.tar.gz</code>.</p>
+<h4 id="building-the-source">Building the source</h4>
 
-<p>This will also create a tarball that contains <code>mysql-metadata-storage</code> extension under 
-<code>distribution/target/mysql-metadata-storage-bin.tar.gz</code>. If you want Druid to load <code>mysql-metadata-storage</code>, you can 
-first untar <code>druid-VERSION-bin.tar.gz</code>, then go to <code>druid-&lt;version&gt;/extensions</code>, untar <code>mysql-metadata-storage-bin.tar.gz</code> 
-there. Now just specifiy <code>mysql-metadata-storage</code> in <code>druid.extensions.loadList</code> so that Druid will pick it up. 
-See <a href="../operations/including-extensions.html">Including Extensions</a> for more information.</p>
+<p>The basic command to build Druid from source is:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mvn clean install
+</code></pre></div>
+<p>This will run static analysis, unit tests, compile classes, and package the projects into JARs. It will <em>not</em> generate the source or binary distribution tarball.</p>
 
+<p>In addition to the basic stages, you may also want to add the following profiles and properties:</p>
+
+<ul>
+<li><strong>-Pdist</strong> - Distribution profile: Generates the binary distribution tarball by pulling in core extensions and dependencies and packaging the files as <code>distribution/target/apache-druid-x.x.x-bin.tar.gz</code></li>
+<li><strong>-Papache-release</strong> - Apache release profile: Generates GPG signature and checksums, and builds the source distribution tarball as <code>distribution/target/apache-druid-x.x.x-src.tar.gz</code></li>
+<li><strong>-Prat</strong> - Apache Rat profile: Runs the Apache Rat license audit tool</li>
+<li><strong>-DskipTests</strong> - Skips unit tests (which reduces build time)</li>
+</ul>
+
+<p>Putting these together, if you wish to build the source and binary distributions with signatures and checksums, audit licenses, and skip the unit tests, you would run:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mvn clean install -Papache-release,dist,rat -DskipTests
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

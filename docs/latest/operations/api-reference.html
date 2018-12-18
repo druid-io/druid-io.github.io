@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | API Reference</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="api-reference">API Reference</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="api-reference">API Reference</h1>
 
 <p>This page documents all of the API endpoints for each Druid service type.</p>
 
@@ -135,7 +154,9 @@
 
 <p>The following endpoints are supported by all nodes.</p>
 
-<h3 id="get">GET</h3>
+<h3 id="node-information">Node information</h3>
+
+<h4 id="get">GET</h4>
 
 <ul>
 <li><code>/status</code></li>
@@ -148,6 +169,12 @@
 </ul>
 
 <p>An endpoint that always returns a boolean &quot;true&quot; value with a 200 OK response, useful for automated health checks.</p>
+
+<ul>
+<li><code>/status/properties</code></li>
+</ul>
+
+<p>Returns the current configuration properties of the node.</p>
 
 <h2 id="coordinator">Coordinator</h2>
 
@@ -165,14 +192,16 @@
 <li><code>/druid/coordinator/v1/isLeader</code></li>
 </ul>
 
-<p>Returns a JSON object with field &quot;leader&quot;, either true or false, indicating if this server is the current leader
-coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
-This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
-at the load balancer.</p>
+<p>Returns true if the coordinator receiving the request is the current leader.</p>
 
 <h3 id="segment-loading">Segment Loading</h3>
 
 <h4 id="get">GET</h4>
+
+<p>Returns a JSON object with field &quot;leader&quot;, either true or false, indicating if this server is the current leader
+coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
+This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
+at the load balancer.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/loadstatus</code></li>
@@ -270,7 +299,7 @@ at the load balancer.</p>
 
 <p>Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
 
-<h3 id="datasources-information">Datasources information</h3>
+<h3 id="datasources">Datasources</h3>
 
 <h4 id="get">GET</h4>
 
@@ -382,7 +411,7 @@ at the load balancer.</p>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>
 </ul>
 
-<p>Enables a segment.</p>
+<p>Enables a segment of a datasource.</p>
 
 <h4 id="delete">DELETE<a name="coordinator-delete"></a></h4>
 
@@ -512,6 +541,72 @@ at the load balancer.</p>
 
 <p>Returns total size and count for each datasource for each interval within given isointerval.</p>
 
+<h3 id="compaction-configuration">Compaction Configuration</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/config/compaction</code></li>
+</ul>
+
+<p>Returns all compaction configs.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/config/compaction/{dataSource}</code></li>
+</ul>
+
+<p>Returns a compaction config of a dataSource.</p>
+
+<h4 id="post">POST</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/config/compaction/taskslots?ratio={someRatio}&amp;max={someMaxSlots}</code></li>
+</ul>
+
+<p>Update the capacity for compaction tasks. <code>ratio</code> and <code>max</code> are used to limit the max number of compaction tasks.
+They mean the ratio of the total task slots to the copmaction task slots and the maximum number of task slots for compaction tasks, respectively.
+The actual max number of compaction tasks is <code>min(max, ratio * total task slots)</code>.
+Note that <code>ratio</code> and <code>max</code> are optional and can be omitted. If they are omitted, default values (0.1 and unbounded)
+will be set for them.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/config/compaction</code></li>
+</ul>
+
+<p>Creates or updates the compaction config for a dataSource. See <a href="../configuration/index.html#compaction-dynamic-configuration">Compaction Configuration</a> for configuration details.</p>
+
+<h4 id="delete">DELETE</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/config/compaction/{dataSource}</code></li>
+</ul>
+
+<p>Removes the compaction config for a dataSource.</p>
+
+<h3 id="server-information">Server Information</h3>
+
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/coordinator/v1/servers</code></li>
+</ul>
+
+<p>Returns a list of servers URLs using the format <code>{hostname}:{port}</code>. Note that
+nodes that run with different types will appear multiple times with different
+ports.</p>
+
+<ul>
+<li><code>/druid/coordinator/v1/servers?simple</code></li>
+</ul>
+
+<p>Returns a list of server data objects in which each object has the following keys:
+- <code>host</code>: host URL include (<code>{hostname}:{port}</code>)
+- <code>type</code>: node type (<code>indexer-executor</code>, <code>historical</code>)
+- <code>currSize</code>: storage size currently used
+- <code>maxSize</code>: maximum storage size
+- <code>priority</code>
+- <code>tier</code></p>
+
 <h2 id="overlord">Overlord</h2>
 
 <h3 id="leadership">Leadership</h3>
@@ -548,6 +643,16 @@ only want the active leader to be considered in-service at the load balancer.</p
 
 <p>Retrieve information about the segments of a task.</p>
 
+<div class="note caution">
+This API is deprecated and will be removed in future releases.
+</div>
+
+<ul>
+<li><code>/druid/indexer/v1/task/{taskId}/reports</code></li>
+</ul>
+
+<p>Retrieve a <a href="../ingestion/reports.html">task completion report</a> for a task. Only works for completed tasks.</p>
+
 <h4 id="post">POST</h4>
 
 <ul>
@@ -562,13 +667,31 @@ only want the active leader to be considered in-service at the load balancer.</p
 
 <p>Shuts down a task.</p>
 
+<ul>
+<li><code>druid/indexer/v1/datasources/{dataSource}/shutdownAllTasks</code></li>
+</ul>
+
+<p>Shuts down all tasks for a dataSource.</p>
+
 <h2 id="middlemanager">MiddleManager</h2>
 
 <p>The MiddleManager does not have any API endpoints beyond the <a href="#common">common endpoints</a>.</p>
 
 <h2 id="peon">Peon</h2>
 
-<p>The Peon does not have any API endpoints beyond the <a href="#common">common endpoints</a>.</p>
+<h4 id="get">GET</h4>
+
+<ul>
+<li><code>/druid/worker/v1/chat/{taskId}/rowStats</code></li>
+</ul>
+
+<p>Retrieve a live row stats report from a peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
+
+<ul>
+<li><code>/druid/worker/v1/chat/{taskId}/unparseableEvents</code></li>
+</ul>
+
+<p>Retrieve an unparseable events report from a peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
 
 <h2 id="broker">Broker</h2>
 
@@ -598,11 +721,23 @@ only want the active leader to be considered in-service at the load balancer.</p
 
 <p>Returns the dimensions of the datasource.</p>
 
+<div class="note caution">
+This API is deprecated and will be removed in future releases. Please use [SegmentMetadataQuery](../querying/segmentmetadataquery.html) instead
+which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
+if you're using SQL.
+</div>
+
 <ul>
 <li><code>/druid/v2/datasources/{dataSourceName}/metrics</code></li>
 </ul>
 
 <p>Returns the metrics of the datasource.</p>
+
+<div class="note caution">
+This API is deprecated and will be removed in future releases. Please use [SegmentMetadataQuery](../querying/segmentmetadataquery.html) instead
+which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
+if you're using SQL.
+</div>
 
 <ul>
 <li><code>/druid/v2/datasources/{dataSourceName}/candidates?intervals={comma-separated-intervals-in-ISO8601-format}&amp;numCandidates={numCandidates}</code></li>
@@ -625,10 +760,16 @@ only want the active leader to be considered in-service at the load balancer.</p
 <h4 id="post">POST</h4>
 
 <ul>
+<li><code>/druid/v2/</code></li>
+</ul>
+
+<p>The endpoint for submitting queries. Accepts an option <code>?pretty</code> that pretty prints the results.</p>
+
+<ul>
 <li><code>/druid/v2/candidates/</code></li>
 </ul>
 
-<p>Returns segment information lists including server locations for the given query.</p>
+<p>Returns segment information lists including server locations for the given query..</p>
 
 <h2 id="historical">Historical</h2>
 

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Tutorial: Transforming input data</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="tutorial-transforming-input-data">Tutorial: Transforming input data</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="tutorial-transforming-input-data">Tutorial: Transforming input data</h1>
 
 <p>This tutorial will demonstrate how to use transform specs to filter and transform input data during ingestion.</p>
 
@@ -126,7 +145,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="sample-data">Sample data</h2>
 
-<p>We&#39;ve included sample data for this tutorial at <code>examples/transform-data.json</code>, reproduced here for convenience:</p>
+<p>We&#39;ve included sample data for this tutorial at <code>quickstart/tutorial/transform-data.json</code>, reproduced here for convenience:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T07:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;octopus&quot;</span><span class="p">,</span>  <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T05:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;mongoose&quot;</span><span class="p">,</span> <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">200</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2018-01-01T06:01:35Z&quot;</span><span class="p">,</span><span class="nt">&quot;animal&quot;</span><span class="p">:</span><span class="s2">&quot;snake&quot;</span><span class="p">,</span> <span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="mi">300</span><span class="p">}</span>
@@ -195,7 +214,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;baseDir&quot;</span> <span class="p">:</span> <span class="s2">&quot;quickstart/tutorial&quot;</span><span class="p">,</span>
         <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="s2">&quot;transform-data.json&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;appendToExisting&quot;</span> <span class="p">:</span> <span class="kc">false</span>
@@ -220,39 +239,21 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>This filter selects the first 3 rows, and it will exclude the final &quot;lion&quot; row in the input data. Note that the filter is applied after the transformation.</p>
 
-<p>Let&#39;s submit this task now, which has been included at <code>examples/transform-index.json</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task
+<p>Let&#39;s submit this task now, which has been included at <code>quickstart/tutorial/transform-index.json</code>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/transform-index.json
 </code></pre></div>
 <h2 id="query-the-transformed-data">Query the transformed data</h2>
 
-<p>Let&#39;s a <code>select * from &quot;transform-tutorial&quot;;</code> query to see what was ingested:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/transform-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-mongoose&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">600</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-snake&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">900</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;super-octopus&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="nt">&quot;triple-number&quot;</span><span class="p">:</span> <span class="mi">300</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<p>Let&#39;s run <code>bin/dsql</code> and issue a <code>select * from &quot;transform-tutorial&quot;;</code> query to see what was ingested:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;transform-tutorial&quot;</span><span class="p">;</span>
+┌──────────────────────────┬────────────────┬───────┬──────────┬────────┬───────────────┐
+│ __time                   │ animal         │ count │ location │ number │ triple-number │
+├──────────────────────────┼────────────────┼───────┼──────────┼────────┼───────────────┤
+│ <span class="m">2018</span>-01-01T05:01:00.000Z │ super-mongoose │     <span class="m">1</span> │        <span class="m">2</span> │    <span class="m">200</span> │           <span class="m">600</span> │
+│ <span class="m">2018</span>-01-01T06:01:00.000Z │ super-snake    │     <span class="m">1</span> │        <span class="m">3</span> │    <span class="m">300</span> │           <span class="m">900</span> │
+│ <span class="m">2018</span>-01-01T07:01:00.000Z │ super-octopus  │     <span class="m">1</span> │        <span class="m">1</span> │    <span class="m">100</span> │           <span class="m">300</span> │
+└──────────────────────────┴────────────────┴───────┴──────────┴────────┴───────────────┘
+Retrieved <span class="m">3</span> rows in <span class="m">0</span>.03s.
 </code></pre></div>
 <p>The &quot;lion&quot; row has been discarded, the <code>animal</code> column has been transformed, and we have both the original and transformed <code>number</code> column.</p>
 

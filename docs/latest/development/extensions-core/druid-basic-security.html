@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Basic Security</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="druid-basic-security">Druid Basic Security</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="druid-basic-security">Druid Basic Security</h1>
 
 <p>This extension adds:
 - an Authenticator which supports <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic authentication</a>
@@ -177,7 +196,7 @@ druid.auth.authenticator.MyBasicAuthenticator.initialAdminPassword=password1
 druid.auth.authenticator.MyBasicAuthenticator.initialInternalClientPassword=password2
 druid.auth.authenticator.MyBasicAuthenticator.authorizerName=MyBasicAuthorizer
 </code></pre></div>
-<p>To use the Basic authenticator, add an authenticator with type <code>basic</code> to the authenticatorChain. </p>
+<p>To use the Basic authenticator, add an authenticator with type <code>basic</code> to the authenticatorChain.</p>
 
 <p>Configuration of the named authenticator is assigned through properties with the form:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.auth.authenticator.&lt;authenticatorName&gt;.&lt;authenticatorProperty&gt;
@@ -257,7 +276,7 @@ druid.escalator.authorizerName=MyBasicAuthorizer
 </tr>
 <tr>
 <td><code>druid.escalator.internalClientPassword</code></td>
-<td>The escalator will use this password for requests made as the internal system user.</td>
+<td>The escalator will use this <a href="../../operations/password-provider.html">Password Provider</a> for requests made as the internal system user.</td>
 <td>n/a</td>
 <td>Yes</td>
 </tr>
@@ -394,14 +413,14 @@ Set the permissions of {roleName}. This replaces the previous set of permissions
 <p>Content: List of JSON Resource-Action objects, e.g.:
 <code>
 [
-{ 
+{
   &quot;resource&quot;: {
     &quot;name&quot;: &quot;wiki.*&quot;,
     &quot;type&quot;: &quot;DATASOURCE&quot;
   },
   &quot;action&quot;: &quot;READ&quot;
 },
-{ 
+{
   &quot;resource&quot;: {
     &quot;name&quot;: &quot;wikiticker&quot;,
     &quot;type&quot;: &quot;DATASOURCE&quot;
@@ -411,7 +430,7 @@ Set the permissions of {roleName}. This replaces the previous set of permissions
 ]
 </code></p>
 
-<p>The &quot;name&quot; field for resources in the permission definitions are regexes used to match resource names during authorization checks. </p>
+<p>The &quot;name&quot; field for resources in the permission definitions are regexes used to match resource names during authorization checks.</p>
 
 <p>Please see <a href="#defining-permissions">Defining permissions</a> for more details.</p>
 
@@ -426,7 +445,7 @@ Return the current load status of the local caches of the authorization database
 
 <p>If <code>druid.auth.authenticator.&lt;authenticator-name&gt;.initialAdminPassword</code> is set, a default admin user named &quot;admin&quot; will be created, with the specified initial password. If this configuration is omitted, the &quot;admin&quot; user will not be created.</p>
 
-<p>If <code>druid.auth.authenticator.&lt;authenticator-name&gt;.initialInternalClientPassword</code> is set, a default internal system user named &quot;druid_system&quot; will be created, with the specified initial password. If this configuration is omitted, the &quot;druid_system&quot; user will not be created. </p>
+<p>If <code>druid.auth.authenticator.&lt;authenticator-name&gt;.initialInternalClientPassword</code> is set, a default internal system user named &quot;druid_system&quot; will be created, with the specified initial password. If this configuration is omitted, the &quot;druid_system&quot; user will not be created.</p>
 
 <h3 id="authorizer">Authorizer</h3>
 
@@ -567,7 +586,7 @@ Return the current load status of the local caches of the authorization database
 <td>middleManager</td>
 </tr>
 <tr>
-<td><code>/druid/worker/v1//task/{taskid}/log</code></td>
+<td><code>/druid/worker/v1/task/{taskid}/log</code></td>
 <td>middleManager</td>
 </tr>
 <tr>

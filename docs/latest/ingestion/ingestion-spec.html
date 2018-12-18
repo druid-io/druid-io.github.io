@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Ingestion Spec</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="ingestion-spec">Ingestion Spec</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="ingestion-spec">Ingestion Spec</h1>
 
 <p>A Druid ingestion spec consists of 3 components:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -521,7 +540,7 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
 <tr>
 <td>format</td>
 <td>String</td>
-<td>iso, millis, posix, auto or any <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html">Joda time</a> format.</td>
+<td>iso, posix, millis, micro, nano, auto or any <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html">Joda time</a> format.</td>
 <td>no (default == &#39;auto&#39;</td>
 </tr>
 </tbody></table>
@@ -691,7 +710,7 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 <p>The IOConfig spec differs based on the ingestion task type.</p>
 
 <ul>
-<li>Native Batch ingestion: See <a href="../ingestion/native-batch.html#ioconfig">Native Batch IOConfig</a></li>
+<li>Native Batch ingestion: See <a href="../ingestion/native_tasks.html#ioconfig">Native Batch IOConfig</a></li>
 <li>Hadoop Batch ingestion: See <a href="../ingestion/hadoop.html#ioconfig">Hadoop Batch IOConfig</a></li>
 <li>Kafka Indexing Service: See <a href="../development/extensions-core/kafka-ingestion.html#KafkaSupervisorIOConfig">Kafka Supervisor IOConfig</a></li>
 <li>Stream Push Ingestion: Stream push ingestion with Tranquility does not require an IO Config.</li>
@@ -703,7 +722,7 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 <p>The TuningConfig spec differs based on the ingestion task type.</p>
 
 <ul>
-<li>Native Batch ingestion: See <a href="../ingestion/native-batch.html#tuningconfig">Native Batch TuningConfig</a></li>
+<li>Native Batch ingestion: See <a href="../ingestion/native_tasks.html#tuningconfig">Native Batch TuningConfig</a></li>
 <li>Hadoop Batch ingestion: See <a href="../ingestion/hadoop.html#tuningconfig">Hadoop Batch TuningConfig</a></li>
 <li>Kafka Indexing Service: See <a href="../development/extensions-core/kafka-ingestion.html#KafkaSupervisorTuningConfig">Kafka Supervisor TuningConfig</a></li>
 <li>Stream Push Ingestion (Tranquility): See <a href="http://static.druid.io/tranquility/api/latest/#com.metamx.tranquility.druid.DruidTuning">Tranquility TuningConfig</a>.</li>

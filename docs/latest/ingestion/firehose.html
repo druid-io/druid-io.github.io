@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Druid Firehoses</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,9 +115,28 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="druid-firehoses">Druid Firehoses</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
 
-<p>Firehoses are used in <a href="../ingestion/native-batch.html">native batch ingestion tasks</a>, stream push tasks automatically created by <a href="../ingestion/stream-push.html">Tranquility</a>, and the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model.</p>
+<h1 id="druid-firehoses">Druid Firehoses</h1>
+
+<p>Firehoses are used in <a href="../ingestion/native_tasks.html">native batch ingestion tasks</a>, stream push tasks automatically created by <a href="../ingestion/stream-push.html">Tranquility</a>, and the <a href="../ingestion/stream-pull.html">stream-pull (deprecated)</a> ingestion model.</p>
 
 <p>They are pluggable and thus the configuration schema can and will vary based on the <code>type</code> of the firehose.</p>
 
@@ -147,6 +166,8 @@
 
 <p>This Firehose can be used to read the data from files on local disk.
 It can be used for POCs to ingest data on disk.
+This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+Since each split represents a file in this firehose, each worker task of <code>index_parallel</code> will read a file.
 A sample local firehose spec is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
@@ -181,6 +202,8 @@ A sample local firehose spec is shown below:</p>
 <h3 id="httpfirehose">HttpFirehose</h3>
 
 <p>This Firehose can be used to read the data from remote sites via HTTP.
+This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+Since each split represents a file in this firehose, each worker task of <code>index_parallel</code> will read a file.
 A sample http firehose spec is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>
@@ -270,6 +293,81 @@ A sample ingest firehose spec is shown below -</p>
 <td>filter</td>
 <td>See <a href="../querying/filters.html">Filters</a></td>
 <td>no</td>
+</tr>
+</tbody></table>
+
+<h4 id="sqlfirehose">SqlFirehose</h4>
+
+<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.
+An example is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;sql&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;database&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mysql&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;connectorConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
+        <span class="p">}</span>
+     <span class="p">},</span>
+    <span class="nt">&quot;sqls&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SELECT * FROM table1&quot;</span><span class="p">,</span> <span class="s2">&quot;SELECT * FROM table2&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>This should be &quot;sql&quot;.</td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>database</td>
+<td>Specifies the database connection details.<code>type</code> should specify the database type and <code>connectorConfig</code> should specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maxCacheCapacityBytes</td>
+<td>Maximum size of the cache space in bytes. 0 means disabling cache. Cached files are not removed until the ingestion task completes.</td>
+<td>1073741824</td>
+<td>No</td>
+</tr>
+<tr>
+<td>maxFetchCapacityBytes</td>
+<td>Maximum size of the fetch space in bytes. 0 means disabling prefetch. Prefetched files are removed immediately once they are read.</td>
+<td>1073741824</td>
+<td>No</td>
+</tr>
+<tr>
+<td>prefetchTriggerBytes</td>
+<td>Threshold to trigger prefetching SQL result objects.</td>
+<td>maxFetchCapacityBytes / 2</td>
+<td>No</td>
+</tr>
+<tr>
+<td>fetchTimeout</td>
+<td>Timeout for fetching the result set.</td>
+<td>60000</td>
+<td>No</td>
+</tr>
+<tr>
+<td>foldCase</td>
+<td>Toggle case folding of database column names. This may be enabled in cases where the database returns case insensitive column names in query results.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td>sqls</td>
+<td>List of SQL queries where each SQL query would retrieve the data to be indexed.</td>
+<td></td>
+<td>Yes</td>
 </tr>
 </tbody></table>
 

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Tutorial: Updating existing data</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="tutorial-updating-existing-data">Tutorial: Updating existing data</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="tutorial-updating-existing-data">Tutorial: Updating existing data</h1>
 
 <p>This tutorial demonstrates how to update existing data, showing both overwrites and appends.</p>
 
@@ -132,183 +151,106 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <p>Let&#39;s load an initial data set which we will overwrite and append to.</p>
 
-<p>The spec we&#39;ll use for this tutorial is located at <code>examples/updates-init-index.json</code>. This spec creates a datasource called <code>updates-tutorial</code> from the <code>examples/updates-data.json</code> input file.</p>
+<p>The spec we&#39;ll use for this tutorial is located at <code>quickstart/tutorial/updates-init-index.json</code>. This spec creates a datasource called <code>updates-tutorial</code> from the <code>quickstart/tutorial/updates-data.json</code> input file.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-init-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-init-index.json 
 </code></pre></div>
 <p>We have three initial rows containing an &quot;animal&quot; dimension and &quot;number&quot; metric:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;tiger&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">42</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;giraffe&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">14124</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span> 
+┌──────────────────────────┬──────────┬───────┬────────┐
+│ __time                   │ animal   │ count │ number │
+├──────────────────────────┼──────────┼───────┼────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │ tiger    │     <span class="m">1</span> │    <span class="m">100</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │     <span class="m">42</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ giraffe  │     <span class="m">1</span> │  <span class="m">14124</span> │
+└──────────────────────────┴──────────┴───────┴────────┘
+Retrieved <span class="m">3</span> rows in <span class="m">1</span>.42s.
 </code></pre></div>
 <h3 id="overwrite-the-initial-data">Overwrite the initial data</h3>
 
 <p>To overwrite this data, we can submit another task for the same interval, but with different input data.</p>
 
-<p>The <code>examples/updates-overwrite-index.json</code> spec will perform an overwrite on the <code>updates-tutorial</code> datasource.</p>
+<p>The <code>quickstart/tutorial/updates-overwrite-index.json</code> spec will perform an overwrite on the <code>updates-tutorial</code> datasource.</p>
 
-<p>Note that this task reads input from <code>examples/updates-data2.json</code>, and <code>appendToExisting</code> is set to <code>false</code> (indicating this is an overwrite).</p>
+<p>Note that this task reads input from <code>quickstart/tutorial/updates-data2.json</code>, and <code>appendToExisting</code> is set to <code>false</code> (indicating this is an overwrite).</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-overwrite-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-overwrite-index.json 
 </code></pre></div>
 <p>When Druid finishes loading the new segment from this overwrite task, the &quot;tiger&quot; row now has the value &quot;lion&quot;, the &quot;aardvark&quot; row has a different number, and the &quot;giraffe&quot; row has been replaced. It may take a couple of minutes for the changes to take effect:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-select-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">9999</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">111</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
+┌──────────────────────────┬──────────┬───────┬────────┐
+│ __time                   │ animal   │ count │ number │
+├──────────────────────────┼──────────┼───────┼────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │ lion     │     <span class="m">1</span> │    <span class="m">100</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │   <span class="m">9999</span> │
+│ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">111</span> │
+└──────────────────────────┴──────────┴───────┴────────┘
+Retrieved <span class="m">3</span> rows in <span class="m">0</span>.02s.
+</code></pre></div>
+<h2 id="combine-old-data-with-new-data-and-overwrite">Combine old data with new data and overwrite</h2>
+
+<p>Let&#39;s try appending some new data to the <code>updates-tutorial</code> datasource now. We will add the data from <code>quickstart/tutorial/updates-data3.json</code>.</p>
+
+<p>The <code>quickstart/tutorial/updates-append-index.json</code> task spec has been configured to read from the existing <code>updates-tutorial</code> datasource and the <code>quickstart/tutorial/updates-data3.json</code> file. The task will combine data from the two input sources, and then overwrite the original data with the new combined data.</p>
+
+<p>Let&#39;s submit that task:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index.json 
+</code></pre></div>
+<p>When Druid finishes loading the new segment from this overwrite task, the new rows will have been added to the datasource. Note that roll-up occurred for the &quot;lion&quot; row:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
+┌──────────────────────────┬──────────┬───────┬────────┐
+│ __time                   │ animal   │ count │ number │
+├──────────────────────────┼──────────┼───────┼────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │ lion     │     <span class="m">2</span> │    <span class="m">400</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │   <span class="m">9999</span> │
+│ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">111</span> │
+│ <span class="m">2018</span>-01-01T05:01:00.000Z │ mongoose │     <span class="m">1</span> │    <span class="m">737</span> │
+│ <span class="m">2018</span>-01-01T06:01:00.000Z │ snake    │     <span class="m">1</span> │   <span class="m">1234</span> │
+│ <span class="m">2018</span>-01-01T07:01:00.000Z │ octopus  │     <span class="m">1</span> │    <span class="m">115</span> │
+└──────────────────────────┴──────────┴───────┴────────┘
+Retrieved <span class="m">6</span> rows in <span class="m">0</span>.02s.
 </code></pre></div>
 <h2 id="append-to-the-data">Append to the data</h2>
 
-<p>Let&#39;s try appending data.</p>
+<p>Let&#39;s try another way of appending data.</p>
 
-<p>The <code>examples/updates-append-index.json</code> task spec reads input from <code>examples/updates-data3.json</code> and will append its data to the <code>updates-tutorial</code> datasource. Note that <code>appendToExisting</code> is set to <code>true</code> in this spec.</p>
+<p>The <code>quickstart/tutorial/updates-append-index2.json</code> task spec reads input from <code>quickstart/tutorial/updates-data4.json</code> and will append its data to the <code>updates-tutorial</code> datasource. Note that <code>appendToExisting</code> is set to <code>true</code> in this spec.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-append-index.json http://localhost:8090/druid/indexer/v1/task
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index2.json 
 </code></pre></div>
-<p>When the new data is loaded, we can see two additional rows after &quot;octopus&quot;. Note that the new &quot;bear&quot; row with number 222 has not been rolled up with the existing bear-111 row, because the new data is held in a separate segment. The same applies to the two &quot;lion&quot; rows.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">100</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">9999</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">111</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">300</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">222</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;mongoose&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">737</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">1234</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;octopus&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">115</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T09:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;falcon&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="mi">1241</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<p>When the new data is loaded, we can see two additional rows after &quot;octopus&quot;. Note that the new &quot;bear&quot; row with number 222 has not been rolled up with the existing bear-111 row, because the new data is held in a separate segment.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
+┌──────────────────────────┬──────────┬───────┬────────┐
+│ __time                   │ animal   │ count │ number │
+├──────────────────────────┼──────────┼───────┼────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │ lion     │     <span class="m">2</span> │    <span class="m">400</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │   <span class="m">9999</span> │
+│ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">111</span> │
+│ <span class="m">2018</span>-01-01T05:01:00.000Z │ mongoose │     <span class="m">1</span> │    <span class="m">737</span> │
+│ <span class="m">2018</span>-01-01T06:01:00.000Z │ snake    │     <span class="m">1</span> │   <span class="m">1234</span> │
+│ <span class="m">2018</span>-01-01T07:01:00.000Z │ octopus  │     <span class="m">1</span> │    <span class="m">115</span> │
+│ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">222</span> │
+│ <span class="m">2018</span>-01-01T09:01:00.000Z │ falcon   │     <span class="m">1</span> │   <span class="m">1241</span> │
+└──────────────────────────┴──────────┴───────┴────────┘
+Retrieved <span class="m">8</span> rows in <span class="m">0</span>.02s.
 </code></pre></div>
-<p>If we run a GroupBy query instead of a <code>select *</code>, we can see that the separate &quot;lion&quot; and &quot;bear&quot; rows will group together at query time:</p>
-
-<p><code>select __time, animal, SUM(&quot;count&quot;), SUM(&quot;number&quot;) from &quot;updates-tutorial&quot; group by __time, animal;</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @examples/updates-groupby-sql.json http://localhost:8082/druid/v2/sql
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T01:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;lion&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">400</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T03:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;aardvark&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">9999</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T04:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;bear&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">333</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T05:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;mongoose&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">737</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T06:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">1234</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T07:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;octopus&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">115</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;__time&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T09:01:00.000Z&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;falcon&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;EXPR$3&quot;</span><span class="p">:</span> <span class="mi">1241</span>
-  <span class="p">}</span>
-<span class="p">]</span>
+<p>If we run a GroupBy query instead of a <code>select *</code>, we can see that the &quot;bear&quot; rows will group together at query time:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> __time, animal, SUM<span class="o">(</span><span class="s2">&quot;count&quot;</span><span class="o">)</span>, SUM<span class="o">(</span><span class="s2">&quot;number&quot;</span><span class="o">)</span> from <span class="s2">&quot;updates-tutorial&quot;</span> group by __time, animal<span class="p">;</span>
+┌──────────────────────────┬──────────┬────────┬────────┐
+│ __time                   │ animal   │ EXPR<span class="nv">$2</span> │ EXPR<span class="nv">$3</span> │
+├──────────────────────────┼──────────┼────────┼────────┤
+│ <span class="m">2018</span>-01-01T01:01:00.000Z │ lion     │      <span class="m">2</span> │    <span class="m">400</span> │
+│ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │      <span class="m">1</span> │   <span class="m">9999</span> │
+│ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │      <span class="m">2</span> │    <span class="m">333</span> │
+│ <span class="m">2018</span>-01-01T05:01:00.000Z │ mongoose │      <span class="m">1</span> │    <span class="m">737</span> │
+│ <span class="m">2018</span>-01-01T06:01:00.000Z │ snake    │      <span class="m">1</span> │   <span class="m">1234</span> │
+│ <span class="m">2018</span>-01-01T07:01:00.000Z │ octopus  │      <span class="m">1</span> │    <span class="m">115</span> │
+│ <span class="m">2018</span>-01-01T09:01:00.000Z │ falcon   │      <span class="m">1</span> │   <span class="m">1241</span> │
+└──────────────────────────┴──────────┴────────┴────────┘
+Retrieved <span class="m">7</span> rows in <span class="m">0</span>.23s.
 </code></pre></div>
         </div>
         <div class="col-md-3">

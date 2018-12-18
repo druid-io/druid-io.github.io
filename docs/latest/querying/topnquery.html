@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | TopN queries</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="topn-queries">TopN queries</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="topn-queries">TopN queries</h1>
 
 <p>TopN queries return a sorted set of results for the values in a given dimension according to some criteria. Conceptually, they can be thought of as an approximate <a href="../querying/groupbyquery.html">GroupByQuery</a> over a single dimension with an <a href="../querying/limitspec.html">Ordering</a> spec. TopNs are much faster and resource efficient than GroupBys for this use case. These types of queries take a topN query object and return an array of JSON objects where each object represents a value asked for by the topN query.</p>
 
@@ -217,12 +236,12 @@
 <tr>
 <td>aggregations</td>
 <td>See <a href="../querying/aggregations.html">Aggregations</a></td>
-<td>no</td>
+<td>for numeric metricSpec, aggregations or postAggregations should be specified. Otherwise no.</td>
 </tr>
 <tr>
 <td>postAggregations</td>
 <td>See <a href="../querying/post-aggregations.html">Post Aggregations</a></td>
-<td>no</td>
+<td>for numeric metricSpec, aggregations or postAggregations should be specified. Otherwise no.</td>
 </tr>
 <tr>
 <td>dimension</td>

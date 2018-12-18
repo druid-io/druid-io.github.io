@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Logging</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="logging">Logging</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="logging">Logging</h1>
 
 <p>Druid nodes will emit logs that are useful for debugging to the console. Druid nodes also emit periodic metrics about their state. For more about metrics, see <a href="../configuration/index.html#enabling-metrics">Configuration</a>. Metric logs are printed to the console by default, and can be disabled with <code>-Ddruid.emitter.logging.logLevel=debug</code>.</p>
 
@@ -137,7 +156,7 @@
     &lt;/Root&gt;
 
     &lt;!-- Uncomment to enable logging of all HTTP requests
-    &lt;Logger name=&quot;io.druid.jetty.RequestLog&quot; additivity=&quot;false&quot; level=&quot;DEBUG&quot;&gt;
+    &lt;Logger name=&quot;org.apache.druid.jetty.RequestLog&quot; additivity=&quot;false&quot; level=&quot;DEBUG&quot;&gt;
         &lt;AppenderRef ref=&quot;Console&quot;/&gt;
     &lt;/Logger&gt;
     --&gt;

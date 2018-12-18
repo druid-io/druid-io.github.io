@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | SQL</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="sql">SQL</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="sql">SQL</h1>
 
 <div class="note caution">
 Built-in SQL is an <a href="../development/experimental.html">experimental</a> feature. The API described here is
@@ -156,6 +175,7 @@ FROM table
 [ HAVING expr ]
 [ ORDER BY expr [ ASC | DESC ], expr [ ASC | DESC ], ... ]
 [ LIMIT limit ]
+[ UNION ALL &lt;another query&gt; ]
 </code></pre></div>
 <p>The FROM clause refers to either a Druid datasource, like <code>druid.foo</code>, an <a href="#retrieving-metadata">INFORMATION_SCHEMA table</a>, a
 subquery, or a common-table-expression provided in the WITH clause. If the FROM clause references a subquery or a
@@ -184,6 +204,9 @@ to data nodes for queries that run with the native TopN query type, but not the 
 versions of Druid will support pushing down limits using the native GroupBy query type as well. If you notice that
 adding a limit doesn&#39;t change performance very much, then it&#39;s likely that Druid didn&#39;t push down the limit for your
 query.</p>
+
+<p>The &quot;UNION ALL&quot; operator can be used to fuse multiple queries together. Their results will be concatenated, and each
+query will run separately, back to back (not in parallel). Druid does not currently support &quot;UNION&quot; without &quot;ALL&quot;.</p>
 
 <p>Add &quot;EXPLAIN PLAN FOR&quot; to the beginning of any query to see how it would be run as a native Druid query. In this case,
 the query will not actually be executed.</p>
@@ -321,6 +344,14 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <tr>
 <td>`x \</td>
 <td>\</td>
+</tr>
+<tr>
+<td><code>CONCAT(expr, expr...)</code></td>
+<td>Concats a list of expressions.</td>
+</tr>
+<tr>
+<td><code>TEXTCAT(expr, expr)</code></td>
+<td>Two argument version of CONCAT.</td>
 </tr>
 <tr>
 <td><code>LENGTH(expr)</code></td>
@@ -613,7 +644,9 @@ over the connection time zone.</p>
 
 <ul>
 <li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
-<li><a href="../development/extensions-core/datasketches-aggregators.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/extensions-core/datasketches-extension.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/geo.html">Spatial filters</a>.</li>
+<li><a href="querying.html#query-cancellation">Query cancellation</a>.</li>
 </ul>
 
 <h2 id="data-types-and-casts">Data types and casts</h2>
@@ -808,10 +841,6 @@ of configuration.</li>
 <p>You can make Druid SQL queries using JSON over HTTP by posting to the endpoint <code>/druid/v2/sql/</code>. The request should
 be a JSON object with a &quot;query&quot; field, like <code>{&quot;query&quot; : &quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39;&quot;}</code>.</p>
 
-<p>Results are available in two formats: &quot;object&quot; (the default; a JSON array of JSON objects), and &quot;array&quot; (a JSON array
-of JSON arrays). In &quot;object&quot; form, each row&#39;s field names will match the column names from your SQL query. In &quot;array&quot;
-form, each row&#39;s values are returned in the order specified in your SQL query.</p>
-
 <p>You can use <em>curl</em> to send SQL queries from the command-line:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ cat query.json
 <span class="o">{</span><span class="s2">&quot;query&quot;</span>:<span class="s2">&quot;SELECT COUNT(*) AS TheCount FROM data_source&quot;</span><span class="o">}</span>
@@ -819,9 +848,8 @@ form, each row&#39;s values are returned in the order specified in your SQL quer
 $ curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> http://BROKER:8082/druid/v2/sql/ -d @query.json
 <span class="o">[{</span><span class="s2">&quot;TheCount&quot;</span>:24433<span class="o">}]</span>
 </code></pre></div>
-<p>Metadata is available over the HTTP API by querying the <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>.</p>
-
-<p>Finally, you can also provide <a href="#connection-context">connection context parameters</a> by adding a &quot;context&quot; map, like:</p>
+<p>There are a variety of <a href="#connection-context">connection context parameters</a> you can provide by adding a &quot;context&quot; map,
+like:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;context&quot;</span> <span class="p">:</span> <span class="p">{</span>
@@ -829,6 +857,74 @@ $ curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Metadata is available over the HTTP API by querying <a href="#retrieving-metadata">system tables</a>.</p>
+
+<h4 id="responses">Responses</h4>
+
+<p>Druid SQL supports a variety of result formats. You can specify these by adding a &quot;resultFormat&quot; parameter, like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="s2">&quot;object&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The supported result formats are:</p>
+
+<table><thead>
+<tr>
+<th>Format</th>
+<th>Description</th>
+<th>Content-Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>object</code></td>
+<td>The default, a JSON array of JSON objects. Each object&#39;s field names match the columns returned by the SQL query, and are provided in the same order as the SQL query.</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><code>array</code></td>
+<td>JSON array of JSON arrays. Each inner array has elements matching the columns returned by the SQL query, in order.</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><code>objectLines</code></td>
+<td>Like &quot;object&quot;, but the JSON objects are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/plain</td>
+</tr>
+<tr>
+<td><code>arrayLines</code></td>
+<td>Like &quot;array&quot;, but the JSON arrays are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/plain</td>
+</tr>
+<tr>
+<td><code>csv</code></td>
+<td>Comma-separated values, with one row per line. Individual field values may be escaped by being surrounded in double quotes. If double quotes appear in a field value, they will be escaped by replacing them with double-double-quotes like <code>&quot;&quot;this&quot;&quot;</code>. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/csv</td>
+</tr>
+</tbody></table>
+
+<p>You can additionally request a header by setting &quot;header&quot; to true in your request, like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="s2">&quot;arrayLines&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;header&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this case, the first result returned will be a header. For the <code>csv</code>, <code>array</code>, and <code>arrayLines</code> formats, the header
+will be a list of column names. For the <code>object</code> and <code>objectLines</code> formats, the header will be an object where the
+keys are column names, and the values are null.</p>
+
+<p>Errors that occur before the response body is sent will be reported in JSON, with an HTTP 500 status code, in the
+same format as <a href="../querying/querying.html#query-errors">native Druid query errors</a>. If an error occurs while the response body is
+being sent, at that point it is too late to change the HTTP status code or report a JSON error, so the response will
+simply end midstream and an error will be logged by the Druid server that was handling your request.</p>
+
+<p>As a caller, it is important that you properly handle response truncation. This is easy for the &quot;object&quot; and &quot;array&quot;
+formats, since truncated responses will be invalid JSON. For the line-oriented formats, you should check the
+trailer they all include: one blank line at the end of the result set. If you detect a truncated response, either
+through a JSON parsing error or through a missing trailing newline, you should assume the response was not fully
+delivered due to an error.</p>
+
 <h3 id="jdbc">JDBC</h3>
 
 <p>You can make Druid SQL queries using the <a href="https://calcite.apache.org/avatica/downloads/">Avatica JDBC driver</a>. Once
@@ -845,7 +941,7 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 
 <span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">connectionProperties</span><span class="o">))</span> <span class="o">{</span>
   <span class="k">try</span> <span class="o">(</span>
-      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
       <span class="kd">final</span> <span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
   <span class="o">)</span> <span class="o">{</span>
     <span class="k">while</span> <span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
@@ -858,13 +954,13 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>. Parameterized queries (using <code>?</code> or other placeholders) don&#39;t work properly,
 so avoid those.</p>
 
-<h4 id="connection-stickiness">Connection Stickiness</h4>
+<h4 id="connection-stickiness">Connection stickiness</h4>
 
 <p>Druid&#39;s JDBC server does not share connection state between brokers. This means that if you&#39;re using JDBC and have
 multiple Druid brokers, you should either connect to a specific broker, or use a load balancer with sticky sessions
-enabled.</p>
-
-<p>The Druid Router node provides connection stickiness when balancing JDBC requests. Please see <a href="../development/router.html">Router</a> documentation for more details.</p>
+enabled. The Druid Router node provides connection stickiness when balancing JDBC requests, and can be used to achieve
+the necessary stickiness even with a normal non-sticky load balancer. Please see the
+<a href="../development/router.html">Router</a> documentation for more details.</p>
 
 <p>Note that the non-JDBC <a href="#json-over-http">JSON over HTTP</a> API is stateless and does not require stickiness.</p>
 
@@ -886,22 +982,22 @@ All other context parameters you provide will be attached to Druid queries and c
 <tr>
 <td><code>sqlTimeZone</code></td>
 <td>Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
-<td>UTC</td>
+<td>druid.sql.planner.sqlTimeZone on the broker (default: UTC)</td>
 </tr>
 <tr>
 <td><code>useApproximateCountDistinct</code></td>
 <td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
-<td>druid.sql.planner.useApproximateCountDistinct on the broker</td>
+<td>druid.sql.planner.useApproximateCountDistinct on the broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useApproximateTopN</code></td>
 <td>Whether to use approximate <a href="topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="groupbyquery.html">GroupBy queries</a> will be used instead.</td>
-<td>druid.sql.planner.useApproximateTopN on the broker</td>
+<td>druid.sql.planner.useApproximateTopN on the broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useFallback</code></td>
 <td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
-<td>druid.sql.planner.useFallback on the broker</td>
+<td>druid.sql.planner.useFallback on the broker (default: false)</td>
 </tr>
 </tbody></table>
 
@@ -911,6 +1007,11 @@ All other context parameters you provide will be attached to Druid queries and c
 plan SQL queries. This metadata is cached on broker startup and also updated periodically in the background through
 <a href="segmentmetadataquery.html">SegmentMetadata queries</a>. Background metadata refreshing is triggered by
 segments entering and exiting the cluster, and can also be throttled through configuration.</p>
+
+<p>Druid exposes system information through special system tables. There are two such schemas available: Information Schema and Sys Schema.
+Information schema provides details about table and column types. The &quot;sys&quot; schema provides information about Druid internals like segments/tasks/servers.</p>
+
+<h2 id="information-schema">INFORMATION SCHEMA</h2>
 
 <p>You can access table and column metadata through JDBC using <code>connection.getMetaData()</code>, or through the
 INFORMATION_SCHEMA tables described below. For example, to retrieve metadata for the Druid
@@ -1059,6 +1160,229 @@ datasource &quot;foo&quot;, use the query:</p>
 </tr>
 </tbody></table>
 
+<h2 id="system-schema">SYSTEM SCHEMA</h2>
+
+<p>The &quot;sys&quot; schema provides visibility into Druid segments, servers and tasks.
+For example to retrieve all segments for datasource &quot;wikipedia&quot;, use the query:
+<code>sql
+SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
+</code></p>
+
+<h3 id="segments-table">SEGMENTS table</h3>
+
+<p>Segments table provides details on all Druid segments, whether they are published yet or not.</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>segment_id</td>
+<td>Unique segment identifier</td>
+</tr>
+<tr>
+<td>datasource</td>
+<td>Name of datasource</td>
+</tr>
+<tr>
+<td>start</td>
+<td>Interval start time (in ISO 8601 format)</td>
+</tr>
+<tr>
+<td>end</td>
+<td>Interval end time (in ISO 8601 format)</td>
+</tr>
+<tr>
+<td>size</td>
+<td>Size of segment in bytes</td>
+</tr>
+<tr>
+<td>version</td>
+<td>Version string (generally an ISO8601 timestamp corresponding to when the segment set was first started). Higher version means the more recently created segment. Version comparing is based on string comparison.</td>
+</tr>
+<tr>
+<td>partition_num</td>
+<td>Partition number (an integer, unique within a datasource+interval+version; may not necessarily be contiguous)</td>
+</tr>
+<tr>
+<td>num_replicas</td>
+<td>Number of replicas of this segment currently being served</td>
+</tr>
+<tr>
+<td>num_rows</td>
+<td>Number of rows in current segment, this value could be null if unkown to broker at query time</td>
+</tr>
+<tr>
+<td>is_published</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 represents this segment has been published to the metadata store</td>
+</tr>
+<tr>
+<td>is_available</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any server(historical or realtime)</td>
+</tr>
+<tr>
+<td>is_realtime</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is being served on any type of realtime tasks</td>
+</tr>
+<tr>
+<td>payload</td>
+<td>JSON-serialized data segment payload</td>
+</tr>
+</tbody></table>
+
+<h3 id="servers-table">SERVERS table</h3>
+
+<p>Servers table lists all data servers(any server that hosts a segment). It includes both historicals and peons.</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>server</td>
+<td>Server name in the form host:port</td>
+</tr>
+<tr>
+<td>host</td>
+<td>Hostname of the server</td>
+</tr>
+<tr>
+<td>plaintext_port</td>
+<td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
+</tr>
+<tr>
+<td>tls_port</td>
+<td>TLS port of the server, or -1 if TLS is disabled</td>
+</tr>
+<tr>
+<td>server_type</td>
+<td>Type of Druid service. Possible values include: historical, realtime and indexer_executor(peon).</td>
+</tr>
+<tr>
+<td>tier</td>
+<td>Distribution tier see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.tier</a></td>
+</tr>
+<tr>
+<td>current_size</td>
+<td>Current size of segments in bytes on this server</td>
+</tr>
+<tr>
+<td>max_size</td>
+<td>Max size in bytes this server recommends to assign to segments see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.maxSize</a></td>
+</tr>
+</tbody></table>
+
+<p>To retrieve information about all servers, use the query:
+<code>sql
+SELECT * FROM sys.servers;
+</code></p>
+
+<h3 id="server_segments-table">SERVER_SEGMENTS table</h3>
+
+<p>SERVER_SEGMENTS is used to join servers with segments table</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>server</td>
+<td>Server name in format host:port (Primary key of <a href="#SERVERS-table">servers table</a>)</td>
+</tr>
+<tr>
+<td>segment_id</td>
+<td>Segment identifier (Primary key of <a href="#SEGMENTS-table">segments table</a>)</td>
+</tr>
+</tbody></table>
+
+<p>JOIN between &quot;servers&quot; and &quot;segments&quot; can be used to query the number of segments for a specific datasource, 
+grouped by server, example query:
+<code>sql
+SELECT count(segments.segment_id) as num_segments from sys.segments as segments 
+INNER JOIN sys.server_segments as server_segments 
+ON segments.segment_id  = server_segments.segment_id 
+INNER JOIN sys.servers as servers 
+ON servers.server = server_segments.server
+WHERE segments.datasource = &#39;wikipedia&#39; 
+GROUP BY servers.server;
+</code></p>
+
+<h3 id="tasks-table">TASKS table</h3>
+
+<p>The tasks table provides information about active and recently-completed indexing tasks. For more information 
+check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>task_id</td>
+<td>Unique task identifier</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Task type, for example this value is &quot;index&quot; for indexing tasks. See <a href="../ingestion/tasks.md">tasks-overview</a></td>
+</tr>
+<tr>
+<td>datasource</td>
+<td>Datasource name being indexed</td>
+</tr>
+<tr>
+<td>created_time</td>
+<td>Timestamp in ISO8601 format corresponding to when the ingestion task was created. Note that this value is populated for completed and waiting tasks. For running and pending tasks this value is set to 1970-01-01T00:00:00Z</td>
+</tr>
+<tr>
+<td>queue_insertion_time</td>
+<td>Timestamp in ISO8601 format corresponding to when this task was added to the queue on the overlord</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Status of a task can be RUNNING, FAILED, SUCCESS</td>
+</tr>
+<tr>
+<td>runner_status</td>
+<td>Runner status of a completed task would be NONE, for in-progress tasks this can be RUNNING, WAITING, PENDING</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>Time it took to finish the task in milliseconds, this value is present only for completed tasks</td>
+</tr>
+<tr>
+<td>location</td>
+<td>Server name where this task is running in the format host:port, this information is present only for RUNNING tasks</td>
+</tr>
+<tr>
+<td>host</td>
+<td>Hostname of the server where task is running</td>
+</tr>
+<tr>
+<td>plaintext_port</td>
+<td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
+</tr>
+<tr>
+<td>tls_port</td>
+<td>TLS port of the server, or -1 if TLS is disabled</td>
+</tr>
+<tr>
+<td>error_msg</td>
+<td>Detailed error message in case of FAILED tasks</td>
+</tr>
+</tbody></table>
+
+<p>For example, to retrieve tasks information filtered by status, use the query
+<code>sql
+SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
+</code></p>
+
 <h2 id="server-configuration">Server configuration</h2>
 
 <p>The Druid SQL server is configured through the following properties on the broker.</p>
@@ -1088,7 +1412,7 @@ datasource &quot;foo&quot;, use the query:</p>
 <tr>
 <td><code>druid.sql.avatica.maxRowsPerFrame</code></td>
 <td>Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and <code>maxRowsPerFrame</code> will be used.</td>
-<td>100,000</td>
+<td>5,000</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
@@ -1144,6 +1468,16 @@ datasource &quot;foo&quot;, use the query:</p>
 <td><code>druid.sql.planner.useFallback</code></td>
 <td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
 <td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.requireTimeCondition</code></td>
+<td>Whether to require SQL to have filter conditions on __time column so that all generated native queries will have user specified intervals. If true, all queries wihout filter condition on __time column will fail</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.sqlTimeZone</code></td>
+<td>Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+<td>UTC</td>
 </tr>
 </tbody></table>
 

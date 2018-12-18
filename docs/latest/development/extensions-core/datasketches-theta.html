@@ -6,7 +6,8 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | DataSketches Theta Sketch module</title>
+
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -14,12 +15,12 @@
 
 <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="/css/bootstrap-pure.css">
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/header.css">
-<link rel="stylesheet" href="/css/footer.css">
-<link rel="stylesheet" href="/css/syntax.css">
-<link rel="stylesheet" href="/css/docs.css">
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
 
 <script>
   (function() {
@@ -53,7 +54,7 @@
         <li class=""><a href="/druid-powered">Powered By</a></li>
         <li class=""><a href="/docs/latest/design/">Docs</a></li>
         <li class=""><a href="/community/">Community</a></li>
-        <li class=" button-link"><a href="/downloads">Download</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
       </ul>
     </div>
   </div>
@@ -114,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h2 id="datasketches-theta-sketch-module">DataSketches Theta Sketch module</h2>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="datasketches-theta-sketch-module">DataSketches Theta Sketch module</h1>
 
 <p>This module provides Druid aggregators based on Theta sketch from <a href="http://datasketches.github.io/">datasketches</a> library. Note that sketch algorithms are approximate; see details in the &quot;Accuracy&quot; section of the datasketches doc. 
 At ingestion time, this aggregator creates the Theta sketch objects which get stored in Druid segments. Logically speaking, a Theta sketch object can be thought of as a Set data structure. At query time, sketches are read and aggregated (set unioned) together. In the end, by default, you receive the estimate of the number of unique entries in the sketch object. Also, you can use post aggregators to do union, intersection or difference on sketch columns in the same row. 
@@ -379,11 +399,13 @@ How many unique users visited both product A and product B?</p>
 <div class="container">
   <div class="text-center">
     <p>
-    <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="/downloads">Download</a>&ensp;·&ensp;
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
     <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="/faq">FAQ</a>&ensp;·&ensp;
-    <a href="/licensing">License</a>
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
     </p>
   </div>
   <div class="text-center">
@@ -410,11 +432,7 @@ How many unique users visited both product A and product B?</p>
 </script>
 <script>
   function trackDownload(type, url) {
-    ga('send', 'event', 'download', type, url, {'hitCallback':
-        function () {
-          document.location = url;
-        }
-    });
+    ga('send', 'event', 'download', type, url);
   }
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>

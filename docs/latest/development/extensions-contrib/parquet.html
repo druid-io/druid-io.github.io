@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Ingestion using Parquet format</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="ingestion-using-parquet-format">Ingestion using Parquet format</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="ingestion-using-parquet-format">Ingestion using Parquet format</h1>
 
 <p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> both <code>druid-avro-extensions</code> and <code>druid-parquet-extensions</code>.</p>
 
@@ -123,7 +142,7 @@
 
 <h2 id="parquet-hadoop-parser">Parquet Hadoop Parser</h2>
 
-<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</code>.</p>
+<p>This is for batch ingestion using the HadoopDruidIndexer. The inputFormat of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;org.apache.druid.data.input.parquet.DruidParquetInputFormat&quot;</code>.</p>
 
 <table><thead>
 <tr>
@@ -165,7 +184,7 @@
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
       <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
         <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;no_metrics&quot;</span>
       <span class="p">}</span>
     <span class="p">},</span>
@@ -217,7 +236,7 @@
 
 java -Xmx32m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span class="o">=</span>UTF-8 <span class="se">\</span>
   -classpath config/overlord:config/_common:lib/*:<span class="nv">$HADOOP_CLASS_PATH</span>:extensions/druid-avro-extensions/*  <span class="se">\</span>
-  io.druid.cli.Main index hadoop <span class="se">\</span>
+  org.apache.druid.cli.Main index hadoop <span class="se">\</span>
   wikipedia_hadoop_parquet_job.json
 </code></pre></div>
 <p>An example index json when using the standalone JVM:</p>
@@ -228,7 +247,7 @@ java -Xmx32m -Duser.timezone<span class="o">=</span>UTC -Dfile.encoding<span cla
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
       <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;io.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
         <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;no_metrics&quot;</span>
       <span class="p">},</span>
       <span class="nt">&quot;metadataUpdateSpec&quot;</span><span class="p">:</span> <span class="p">{</span>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="druid">
+
+<title>Druid | insert-segment-to-db Tool</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="insert-segment-to-db-tool">insert-segment-to-db Tool</h1>
+
+<p><code>insert-segment-to-db</code> is a tool that can insert segments into Druid metadata storage. It is intended to be used
+to update the segment table in metadata storage after people manually migrate segments from one place to another.
+It can also be used to insert missing segments into Druid, or even recover metadata storage by telling it where the
+segments are stored.</p>
+
+<p><strong>Note:</strong> This tool simply scans the deep storage directory to reconstruct the metadata entries used to locate and
+identify each segment. It does not have any understanding about whether those segments <em>should actually</em> be written to
+the metadata storage. In certain cases, this can lead to undesired or inconsistent results. Some examples of things to
+watch out for:
+  - Dropped datasources will be re-enabled.
+  - The latest version of each segment set will be loaded by Druid, which in some cases may not be the version you
+    actually want. An example of this is a bad compaction job that generates segments which need to be manually rolled
+    back by removing that version from the metadata table. If these segments are not also removed from deep storage,
+    they will be imported back into the metadata table and overshadow the correct version.
+  - Some indexers such as the Kafka indexing service have the potential to generate more than one set of segments that
+    have the same segment ID but different contents. When the metadata is first written, the correct set of segments is
+    referenced and the other set is normally deleted from deep storage. It is possible however that an unhandled
+    exception could result in multiple sets of segments with the same segment ID remaining in deep storage. Since this
+    tool does not know which one is the &#39;correct&#39; one to use, it will simply select the newest segment set and ignore
+    the other versions. If the wrong segment set is picked, the exactly-once semantics of the Kafka indexing service
+    will no longer hold true and you may get duplicated or dropped events.</p>
+
+<p>With these considerations in mind, it is recommended that data migrations be done by exporting the original metadata
+storage directly, since that is the definitive cluster state. This tool should be used as a last resort when a direct
+export is not possible.</p>
+
+<p><strong>Note:</strong> This tool expects users to have Druid cluster running in a &quot;safe&quot; mode, where there are no active tasks to interfere
+with the segments being inserted. Users can optionally bring down the cluster to make 100% sure nothing is interfering.</p>
+
+<p>In order to make it work, user will have to provide metadata storage credentials and deep storage type through Java JVM argument
+or runtime.properties file. Specifically, this tool needs to know:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.metadata.storage.type
+druid.metadata.storage.connector.connectURI
+druid.metadata.storage.connector.user
+druid.metadata.storage.connector.password
+druid.storage.type
+</code></pre></div>
+<p>Besides the properties above, you also need to specify the location where the segments are stored and whether you want to
+update descriptor.json (<code>partitionNum_descriptor.json</code> for HDFS data storage). These two can be provided through command line arguments.</p>
+
+<p><code>--workingDir</code> (Required)</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>The directory URI where segments are stored. This tool will recursively look for segments underneath this directory
+and insert/update these segments in metdata storage.
+Attention: workingDir must be a complete URI, which means it must be prefixed with scheme type. For example,
+hdfs://hostname:port/segment_directory
+</code></pre></div>
+<p><code>--updateDescriptor</code> (Optional)</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>if set to true, this tool will update `loadSpec` field in `descriptor.json` (`partitionNum_descriptor.json` for HDFS data storage) if the path in `loadSpec` is different from
+where `desciptor.json` (`partitionNum_descriptor.json` for HDFS data storage) was found. Default value is `true`.
+</code></pre></div>
+<p>Note: you will also need to load different Druid extensions per the metadata and deep storage you use. For example, if you
+use <code>mysql</code> as metadata storage and HDFS as deep storage, you should load <code>mysql-metadata-storage</code> and <code>druid-hdfs-storage</code>
+extensions.</p>
+
+<p>Example:</p>
+
+<p>Suppose your metadata storage is <code>mysql</code> and you&#39;ve migrated some segments to a directory in HDFS, and that directory looks
+like this,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Directory path: /druid/storage/wikipedia
+
+├── 2013-08-31T000000.000Z_2013-09-01T000000.000Z
+│   └── 2015-10-21T22_07_57.074Z
+│           ├── 0_descriptor.json
+│           └── 0_index.zip
+├── 2013-09-01T000000.000Z_2013-09-02T000000.000Z
+│   └── 2015-10-21T22_07_57.074Z
+│           ├── 0_descriptor.json
+│           └── 0_index.zip
+├── 2013-09-02T000000.000Z_2013-09-03T000000.000Z
+│   └── 2015-10-21T22_07_57.074Z
+│           ├── 0_descriptor.json
+│           └── 0_index.zip
+└── 2013-09-03T000000.000Z_2013-09-04T000000.000Z
+    └── 2015-10-21T22_07_57.074Z
+            ├── 0_descriptor.json
+            └── 0_index.zip
+</code></pre></div>
+<p>To load all these segments into <code>mysql</code>, you can fire the command below,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java 
+-Ddruid.metadata.storage.type=mysql 
+-Ddruid.metadata.storage.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid 
+-Ddruid.metadata.storage.connector.user=druid 
+-Ddruid.metadata.storage.connector.password=diurd 
+-Ddruid.extensions.loadList=[\&quot;mysql-metadata-storage\&quot;,\&quot;druid-hdfs-storage\&quot;] 
+-Ddruid.storage.type=hdfs
+-cp $DRUID_CLASSPATH 
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir hdfs://host:port//druid/storage/wikipedia --updateDescriptor true
+</code></pre></div>
+<p>In this example, <code>mysql</code> and deep storage type are provided through Java JVM arguments, you can optionally put all
+of them in a runtime.properites file and include it in the Druid classpath. Note that we also include <code>mysql-metadata-storage</code>
+and <code>druid-hdfs-storage</code> in the extension list.</p>
+
+<p>After running this command, the segments table in <code>mysql</code> should store the new location for each segment we just inserted.
+Note that for segments stored in HDFS, druid config must contain core-site.xml as described in <a href="../tutorials/cluster.html">Druid Docs</a>, as this new location is stored with relative path.</p>
+
+<p>It is also possible to use <code>s3</code> as deep storage. In order to work with it, specify <code>s3</code> as deep storage type and load 
+<a href="../development/extensions-core/s3.html"><code>druid-s3-extensions</code></a> as an extension.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java
+-Ddruid.metadata.storage.type=mysql 
+-Ddruid.metadata.storage.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid 
+-Ddruid.metadata.storage.connector.user=druid 
+-Ddruid.metadata.storage.connector.password=diurd
+-Ddruid.extensions.loadList=[\&quot;mysql-metadata-storage\&quot;,\&quot;druid-s3-extensions\&quot;]
+-Ddruid.storage.type=s3
+-Ddruid.s3.accessKey=... 
+-Ddruid.s3.secretKey=...
+-Ddruid.storage.bucket=your-bucket
+-Ddruid.storage.baseKey=druid/storage/wikipedia
+-Ddruid.storage.maxListingLength=1000
+-cp $DRUID_CLASSPATH
+org.apache.druid.cli.Main tools insert-segment-to-db --workingDir &quot;druid/storage/wikipedia&quot; --updateDescriptor true
+</code></pre></div>
+<p>Note that you can provide the location of segments with either <code>druid.storage.baseKey</code> or <code>--workingDir</code>. If both are 
+ specified, <code>--workingDir</code> gets higher priority. <code>druid.storage.maxListingLength</code> is to determine the length of a
+ partial list in requesting a object listing to <code>s3</code>, which defaults to 1000.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a href="https://groups.google.com/forum/#!forum/druid-user"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a href="https://twitter.com/druidio"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a href="https://github.com/apache/incubator-druid"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.13.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

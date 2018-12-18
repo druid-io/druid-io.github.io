@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Globally Cached Lookups</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="globally-cached-lookups">Globally Cached Lookups</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="globally-cached-lookups">Globally Cached Lookups</h1>
 
 <div class="note caution">
 Lookups are an <a href="../experimental.html">experimental</a> feature.
@@ -214,45 +233,52 @@ and are small enough to reasonably populate on a node. This usually means tens t
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;realtime_customer2&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;country_code&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
-         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
-           <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-           <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
-           <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
-           <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
-         <span class="p">},</span>
-         <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupValues&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_id&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_text&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;value_type=&#39;country&#39;&quot;</span><span class="p">,</span>
-         <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
-      <span class="p">},</span>
-      <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
-      <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+      <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v0&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;lookupExtractorFactory&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupValues&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_id&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_text&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;value_type=&#39;country&#39;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+        <span class="nt">&quot;injective&quot;</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Where the coordinator endpoint <code>/druid/coordinator/v1/lookups/realtime_customer2/country_code</code> should return</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql:\/\/localhost:3306\/druid&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;lookupExtractorFactory&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cachedNamespace&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;extractionNamespace&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;connectorConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;createTables&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;connectURI&quot;</span><span class="p">:</span> <span class="s2">&quot;jdbc:mysql://localhost:3306/druid&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;druid&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;diurd&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupValues&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_id&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;value_text&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;value_type=&#39;country&#39;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
     <span class="p">},</span>
-    <span class="nt">&quot;table&quot;</span><span class="p">:</span> <span class="s2">&quot;lookupTable&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;keyColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_id&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;valueColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;country_name&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;tsColumn&quot;</span><span class="p">:</span> <span class="s2">&quot;timeColumn&quot;</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
-  <span class="nt">&quot;injective&quot;</span><span class="p">:</span><span class="kc">true</span>
+    <span class="nt">&quot;firstCacheTimeout&quot;</span><span class="p">:</span> <span class="mi">120000</span><span class="p">,</span>
+    <span class="nt">&quot;injective&quot;</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="cache-settings">Cache Settings</h2>
@@ -277,14 +303,20 @@ setting namespaces (broker, peon, historical)</p>
 <td>The number of threads in the thread pool dedicated for lookup extraction and updates. This number may need to be scaled up, if you have a lot of lookups and they take long time to extract, to avoid timeouts.</td>
 <td>2</td>
 </tr>
+<tr>
+<td><code>druid.lookup.namespace.numBufferedEntries</code></td>
+<td>If using offHeap caching, the number of records to be stored on an on-heap buffer.</td>
+<td>100,000</td>
+</tr>
 </tbody></table>
 
 <p>The cache is populated in different ways depending on the settings below. In general, most namespaces employ 
 a <code>pollPeriod</code> at the end of which time they poll the remote resource of interest for updates.</p>
 
 <p><code>onHeap</code> uses <code>ConcurrentMap</code>s in the java heap, and thus affects garbage collection and heap sizing.
-<code>offHeap</code> uses a 10MB on-heap buffer and MapDB using memory-mapped files in the java temporary directory.
-So if total <code>cachedNamespace</code> lookup size is in excess of 10MB, the extra will be kept in memory as page cache, and paged in and out by general OS tunings.</p>
+<code>offHeap</code> uses an on-heap buffer and MapDB using memory-mapped files in the java temporary directory.
+So if total number of entries in the <code>cachedNamespace</code> is in excess of the buffer&#39;s configured capacity, the extra will be kept in memory as page cache, and paged in and out by general OS tunings.
+It&#39;s highly recommended that <code>druid.lookup.namespace.numBufferedEntries</code> is set when using <code>offHeap</code>, the value should be chosen from the range between 10% and 50% of the number of entries in the lookup.</p>
 
 <h1 id="supported-lookups">Supported Lookups</h1>
 

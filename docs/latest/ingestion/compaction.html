@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Compaction Task</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="compaction-task">Compaction Task</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="compaction-task">Compaction Task</h1>
 
 <p>Compaction tasks merge all segments of the given interval. The syntax is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -124,7 +143,9 @@
     <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
     <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;interval</span> <span class="err">to</span> <span class="err">specify</span> <span class="err">segments</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dimensions&quot;</span> <span class="err">&lt;custom</span> <span class="err">dimensionsSpec&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;tuningConfig&quot;</span> <span class="err">&lt;index</span> <span class="err">task</span> <span class="err">tuningConfig&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;keepSegmentGranularity&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="err">&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;targetCompactionSizeBytes&quot;</span><span class="p">:</span> <span class="err">&lt;target</span> <span class="err">size</span> <span class="err">of</span> <span class="err">compacted</span> <span class="err">segments&gt;</span>
+    <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">&lt;index</span> <span class="err">task</span> <span class="err">tuningConfig&gt;</span><span class="p">,</span>
     <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -147,22 +168,32 @@
 </tr>
 <tr>
 <td><code>dataSource</code></td>
-<td>dataSource name to be compacted</td>
+<td>DataSource name to be compacted</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>interval</code></td>
-<td>interval of segments to be compacted</td>
+<td>Interval of segments to be compacted</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>dimensions</code></td>
-<td>custom dimensionsSpec. compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.</td>
+<td>Custom dimensionsSpec. compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>keepSegmentGranularity</code></td>
+<td>If set to true, compactionTask will keep the time chunk boundaries and merge segments only if they fall into the same time chunk.</td>
+<td>No (default = true)</td>
+</tr>
+<tr>
+<td><code>targetCompactionSizeBytes</code></td>
+<td>Target segment size after comapction. Cannot be used with <code>targetPartitionSize</code>, <code>maxTotalRows</code>, and <code>numShards</code> in tuningConfig.</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>tuningConfig</code></td>
-<td><a href="../ingestion/native-batch.html#tuningconfig">Index task tuningConfig</a></td>
+<td><a href="../ingestion/native_tasks.html#tuningconfig">Index task tuningConfig</a></td>
 <td>No</td>
 </tr>
 <tr>
@@ -181,7 +212,7 @@
 </code></pre></div>
 <p>This compaction task reads <em>all segments</em> of the interval <code>2017-01-01/2018-01-01</code> and results in new segments.
 Note that intervals of the input segments are merged into a single interval of <code>2017-01-01/2018-01-01</code> no matter what the segmentGranularity was.
-To control the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="../ingestion/native-batch.html#tuningconfig">indexTuningConfig</a> for more details.
+To control the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="../ingestion/native_tasks.html#tuningconfig">indexTuningConfig</a> for more details.
 To merge each day&#39;s worth of data into separate segments, you can submit multiple <code>compact</code> tasks, one for each day. They will run in parallel.</p>
 
 <p>A compaction task internally generates an <code>index</code> task spec for performing compaction work with some fixed parameters.
@@ -204,7 +235,6 @@ your own ordering and types, you can specify a custom <code>dimensionsSpec</code
 <li>Roll-up: the output segment is rolled up only when <code>rollup</code> is set for all input segments.
 See <a href="../ingestion/index.html#rollup">Roll-up</a> for more details. 
 You can check that your segments are rolled up or not by using <a href="../querying/segmentmetadataquery.html#analysistypes">Segment Metadata Queries</a>.</li>
-<li>Partitioning: The compaction task is a special form of native batch indexing task, so it always uses hash-based partitioning on the full set of dimensions.</li>
 </ul>
 
         </div>

@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Filter groupBy Query Results</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="filter-groupby-query-results">Filter groupBy Query Results</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="filter-groupby-query-results">Filter groupBy Query Results</h1>
 
 <p>A having clause is a JSON object identifying which rows from a groupBy query should be returned, by specifying conditions on aggregated values.</p>
 
@@ -129,18 +148,30 @@
 
 <p>The grammar for a query filter HavingSpec is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="err">&lt;any</span> <span class="err">Druid</span> <span class="err">query</span> <span class="err">filter&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="err">&lt;any</span> <span class="err">Druid</span> <span class="err">query</span> <span class="err">filter&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>For example, to use a selector filter:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension_value&gt;&quot;</span>
-    <span class="p">}</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;filter&quot;</span> <span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;dimension_value&gt;&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>You can use &quot;filter&quot; HavingSpecs to filter on the timestamp of result rows by applying a filter to the &quot;__time&quot;
@@ -153,9 +184,15 @@ Numeric filters can be used as the base filters for more complex boolean express
 
 <p>Here&#39;s an example of a having-clause numeric filter:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;myAggMetric&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="mi">100</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="equal-to">Equal To</h4>
@@ -163,9 +200,15 @@ Numeric filters can be used as the base filters for more complex boolean express
 <p>The equalTo filter will match rows with a specific aggregate value.
 The grammar for an <code>equalTo</code> filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>HAVING &lt;aggregate&gt; = &lt;value&gt;</code>.</p>
@@ -175,9 +218,15 @@ The grammar for an <code>equalTo</code> filter is as follows:</p>
 <p>The greaterThan filter will match rows with aggregate values greater than the given value.
 The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>HAVING &lt;aggregate&gt; &gt; &lt;value&gt;</code>.</p>
@@ -187,9 +236,15 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <p>The lessThan filter will match rows with aggregate values less than the specified value.
 The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lessThan&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lessThan&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>HAVING &lt;aggregate&gt; &lt; &lt;value&gt;</code>.</p>
@@ -201,9 +256,15 @@ The grammar for a <code>greaterThan</code> filter is as follows:</p>
 <p>The dimSelector filter will match rows with dimension values equal to the specified value.
 The grammar for a <code>dimSelector</code> filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimSelector&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+       <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimSelector&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;dimension&gt;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value&gt;</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="logical-expression-filters">Logical expression filters</h3>
@@ -212,32 +273,71 @@ The grammar for a <code>dimSelector</code> filter is as follows:</p>
 
 <p>The grammar for an AND filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span>        
+                <span class="p">{</span>
+                    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lessThan&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The having clauses in <code>havingSpecs</code> can be any other having clause defined on this page.</p>
-
 <h4 id="or">OR</h4>
 
 <p>The grammar for an OR filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;havingSpecs&quot;</span><span class="p">:</span> <span class="p">[</span>        
+                <span class="p">{</span>
+                    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The having clauses in <code>havingSpecs</code> can be any other having clause defined on this page.</p>
-
 <h4 id="not">NOT</h4>
 
 <p>The grammar for a NOT filter is as follows:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;havingSpec&quot;</span><span class="p">:</span> <span class="err">&lt;having</span> <span class="err">clause&gt;</span>
+    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+    <span class="err">...</span>
+    <span class="nt">&quot;having&quot;</span><span class="p">:</span> 
+        <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;havingSpec&quot;</span><span class="p">:</span>         
+            <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalTo&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;aggregate_metric&gt;&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;numeric_value&gt;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The having clause specified at <code>havingSpec</code> can be any other having clause defined on this page.</p>
-
         </div>
         <div class="col-md-3">
           <div class="searchbox">

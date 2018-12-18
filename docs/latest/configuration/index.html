@@ -6,7 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="druid">
 
-<title>Druid | </title>
+<title>Druid | Configuration Reference</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -115,7 +115,26 @@
           <p>
             <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
           </p>
-          <h1 id="configuration-reference">Configuration Reference</h1>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="configuration-reference">Configuration Reference</h1>
 
 <p>This page documents all of the configuration properties for each Druid service type.</p>
 
@@ -246,7 +265,7 @@ kafka.json  server.json
 
 <h2 id="common-configurations">Common Configurations</h2>
 
-<p>This describes the common configuration shared by all Druid nodes. These configurations can be defined in the <code>common.runtime.properties</code> file.</p>
+<p>The properties under this section are common configurations that should be shared across all Druid services in a cluster.</p>
 
 <h3 id="jvm-configuration-best-practices">JVM Configuration Best Practices</h3>
 
@@ -291,6 +310,11 @@ kafka.json  server.json
 <td>true</td>
 </tr>
 <tr>
+<td><code>druid.extensions.useExtensionClassloaderFirst</code></td>
+<td>This is a boolean flag that determines if Druid extensions should prefer loading classes from their own jars rather than jars bundled with Druid. If false, extensions must be compatible with classes provided by any jars bundled with Druid. If true, extensions may depend on conflicting versions.</td>
+<td>false</td>
+</tr>
+<tr>
 <td><code>druid.extensions.hadoopContainerDruidClasspath</code></td>
 <td>Hadoop Indexing launches hadoop jobs and this configuration provides way to explicitly set the user classpath for the hadoop job. By default this is computed automatically by druid based on the druid process classpath and set of extensions. However, sometimes you might want to be explicit to resolve dependency conflicts between druid and hadoop.</td>
 <td>null</td>
@@ -313,7 +337,7 @@ kafka.json  server.json
 </thead><tbody>
 <tr>
 <td><code>druid.modules.excludeList</code></td>
-<td>A JSON array of canonical class names (e. g. <code>&quot;io.druid.somepackage.SomeModule&quot;</code>) of module classes which shouldn&#39;t be loaded, even if they are found in extensions specified by <code>druid.extensions.loadList</code>, or in the list of core modules specified to be loaded on a particular Druid node type. Useful when some useful extension contains some module, which shouldn&#39;t be loaded on some Druid node type because some dependencies of that module couldn&#39;t be satisfied.</td>
+<td>A JSON array of canonical class names (e. g. <code>&quot;org.apache.druid.somepackage.SomeModule&quot;</code>) of module classes which shouldn&#39;t be loaded, even if they are found in extensions specified by <code>druid.extensions.loadList</code>, or in the list of core modules specified to be loaded on a particular Druid node type. Useful when some useful extension contains some module, which shouldn&#39;t be loaded on some Druid node type because some dependencies of that module couldn&#39;t be satisfied.</td>
 <td>[]</td>
 </tr>
 </tbody></table>
@@ -338,6 +362,21 @@ kafka.json  server.json
 <td><code>druid.zk.service.host</code></td>
 <td>The ZooKeeper hosts to connect to. This is a REQUIRED property and therefore a host address must be supplied.</td>
 <td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.service.user</code></td>
+<td>The username to authenticate with ZooKeeper. This is an optional property.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.service.pwd</code></td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or the string password to authenticate with ZooKeeper. This is an optional property.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.zk.service.authScheme</code></td>
+<td>digest is the only authentication scheme supported.</td>
+<td>digest</td>
 </tr>
 </tbody></table>
 
@@ -627,6 +666,8 @@ values for the below mentioned configs among others provided by Java implementat
 
 <h4 id="internal-client-tls-configuration-requires-simple-client-sslcontext-extension">Internal Client TLS Configuration (requires <code>simple-client-sslcontext</code> extension)</h4>
 
+<p>These properties apply to the SSLContext that will be provided to the internal HTTP client that Druid services use to communicate with each other. These properties require the <code>simple-client-sslcontext</code> extension to be loaded. Without it, Druid services will be unable to communicate with each other when TLS is enabled.</p>
+
 <table><thead>
 <tr>
 <th>Property</th>
@@ -682,7 +723,7 @@ values for the above mentioned configs among others provided by Java implementat
 </tr>
 </thead><tbody>
 <tr>
-<td><code>druid.auth.authenticationChain</code></td>
+<td><code>druid.auth.authenticatorChain</code></td>
 <td>JSON List of Strings</td>
 <td>List of Authenticator type names</td>
 <td>[&quot;allowAll&quot;]</td>
@@ -700,6 +741,13 @@ values for the above mentioned configs among others provided by Java implementat
 <td>JSON List of Strings</td>
 <td>List of Authorizer type names</td>
 <td>[&quot;allowAll&quot;]</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.auth.unsecuredPaths</code></td>
+<td>List of Strings</td>
+<td>List of paths for which security checks will not be performed. All requests to these paths will be allowed.</td>
+<td>[]</td>
 <td>no</td>
 </tr>
 <tr>
@@ -758,7 +806,7 @@ values for the above mentioned configs among others provided by Java implementat
 </tr>
 </tbody></table>
 
-<p>Note that, you can enable sending all the HTTP requests to log by setting  &quot;io.druid.jetty.RequestLog&quot; to DEBUG level. See <a href="../configuration/logging.html">Logging</a></p>
+<p>Note that, you can enable sending all the HTTP requests to log by setting  &quot;org.apache.druid.jetty.RequestLog&quot; to DEBUG level. See <a href="../configuration/logging.html">Logging</a></p>
 
 <h4 id="file-request-logging">File Request Logging</h4>
 
@@ -798,7 +846,7 @@ values for the above mentioned configs among others provided by Java implementat
 
 <h4 id="slf4j-request-logging">SLF4J Request Logging</h4>
 
-<p>Every request is logged via SLF4J. Queries are serialized into JSON in the log message regardless of the SJF4J format specification. They will be logged under the class <code>io.druid.server.log.LoggingRequestLogger</code>.</p>
+<p>Every request is logged via SLF4J. Queries are serialized into JSON in the log message regardless of the SJF4J format specification. They will be logged under the class <code>org.apache.druid.server.log.LoggingRequestLogger</code>.</p>
 
 <table><thead>
 <tr>
@@ -878,8 +926,8 @@ values for the above mentioned configs among others provided by Java implementat
 <td>0 i.e no filtering</td>
 </tr>
 <tr>
-<td><code>druid.request.logging.delegate</code></td>
-<td>Delegate request logger to log requests.</td>
+<td><code>druid.request.logging.delegate.type</code></td>
+<td>Type of delegate request logger to log requests.</td>
 <td>none</td>
 </tr>
 </tbody></table>
@@ -916,11 +964,11 @@ values for the above mentioned configs among others provided by Java implementat
 <tr>
 <td><code>druid.monitoring.emissionPeriod</code></td>
 <td>How often metrics are emitted.</td>
-<td>PT1m</td>
+<td>PT1M</td>
 </tr>
 <tr>
 <td><code>druid.monitoring.monitors</code></td>
-<td>Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with <code>druid.monitoring.monitors=[&quot;io.druid.java.util.metrics.SysMonitor&quot;,&quot;io.druid.java.util.metrics.JvmMonitor&quot;]</code>.</td>
+<td>Sets list of Druid monitors used by a node. See below for names and more information. For example, you can specify monitors for a Broker with <code>druid.monitoring.monitors=[&quot;org.apache.druid.java.util.metrics.SysMonitor&quot;,&quot;org.apache.druid.java.util.metrics.JvmMonitor&quot;]</code>.</td>
 <td>none (no monitors)</td>
 </tr>
 </tbody></table>
@@ -934,48 +982,48 @@ values for the above mentioned configs among others provided by Java implementat
 </tr>
 </thead><tbody>
 <tr>
-<td><code>io.druid.client.cache.CacheMonitor</code></td>
+<td><code>org.apache.druid.client.cache.CacheMonitor</code></td>
 <td>Emits metrics (to logs) about the segment results cache for Historical and Broker nodes. Reports typical cache statistics include hits, misses, rates, and size (bytes and number of entries), as well as timeouts and and errors.</td>
 </tr>
 <tr>
-<td><code>io.druid.java.util.metrics.SysMonitor</code></td>
-<td>This uses the <a href="http://www.hyperic.com/products/sigar">SIGAR library</a> to report on various system activities and statuses.</td>
+<td><code>org.apache.druid.java.util.metrics.SysMonitor</code></td>
+<td>This uses the <a href="https://github.com/hyperic/sigar">SIGAR library</a> to report on various system activities and statuses.</td>
 </tr>
 <tr>
-<td><code>io.druid.server.metrics.HistoricalMetricsMonitor</code></td>
+<td><code>org.apache.druid.server.metrics.HistoricalMetricsMonitor</code></td>
 <td>Reports statistics on Historical nodes.</td>
 </tr>
 <tr>
-<td><code>io.druid.java.util.metrics.JvmMonitor</code></td>
+<td><code>org.apache.druid.java.util.metrics.JvmMonitor</code></td>
 <td>Reports various JVM-related statistics.</td>
 </tr>
 <tr>
-<td><code>io.druid.java.util.metrics.JvmCpuMonitor</code></td>
+<td><code>org.apache.druid.java.util.metrics.JvmCpuMonitor</code></td>
 <td>Reports statistics of CPU consumption by the JVM.</td>
 </tr>
 <tr>
-<td><code>io.druid.java.util.metrics.CpuAcctDeltaMonitor</code></td>
+<td><code>org.apache.druid.java.util.metrics.CpuAcctDeltaMonitor</code></td>
 <td>Reports consumed CPU as per the cpuacct cgroup.</td>
 </tr>
 <tr>
-<td><code>io.druid.java.util.metrics.JvmThreadsMonitor</code></td>
+<td><code>org.apache.druid.java.util.metrics.JvmThreadsMonitor</code></td>
 <td>Reports Thread statistics in the JVM, like numbers of total, daemon, started, died threads.</td>
 </tr>
 <tr>
-<td><code>io.druid.segment.realtime.RealtimeMetricsMonitor</code></td>
+<td><code>org.apache.druid.segment.realtime.RealtimeMetricsMonitor</code></td>
 <td>Reports statistics on Realtime nodes.</td>
 </tr>
 <tr>
-<td><code>io.druid.server.metrics.EventReceiverFirehoseMonitor</code></td>
+<td><code>org.apache.druid.server.metrics.EventReceiverFirehoseMonitor</code></td>
 <td>Reports how many events have been queued in the EventReceiverFirehose.</td>
 </tr>
 <tr>
-<td><code>io.druid.server.metrics.QueryCountStatsMonitor</code></td>
+<td><code>org.apache.druid.server.metrics.QueryCountStatsMonitor</code></td>
 <td>Reports how many queries have been successful/failed/interrupted.</td>
 </tr>
 <tr>
-<td><code>io.druid.server.emitter.HttpEmitterMonitor</code></td>
-<td>Reports internal metrics of <code>http</code> or <code>parametrized</code> emitter (see below). Must not be used with another emitter type. See the description of the metrics here: https://github.com/druid-io/druid/pull/4973.</td>
+<td><code>org.apache.druid.server.emitter.HttpEmittingMonitor</code></td>
+<td>Reports internal metrics of <code>http</code> or <code>parametrized</code> emitter (see below). Must not be used with another emitter type. See the description of the metrics here: https://github.com/apache/incubator-druid/pull/4973.</td>
 </tr>
 </tbody></table>
 
@@ -1043,7 +1091,7 @@ values for the above mentioned configs among others provided by Java implementat
 <td>not specified = no authentification</td>
 </tr>
 <tr>
-<td>`druid.emitter.http.flushTimeOut</td>
+<td><code>druid.emitter.http.flushTimeOut</code></td>
 <td>The timeout after which an event should be sent to the endpoint, even if internal buffers are not filled, in milliseconds.</td>
 <td>not specified = no timeout</td>
 </tr>
@@ -1074,11 +1122,58 @@ values for the above mentioned configs among others provided by Java implementat
 </tr>
 </tbody></table>
 
+<h4 id="http-emitter-module-tls-overrides">Http Emitter Module TLS Overrides</h4>
+
+<p>When emitting events to a TLS-enabled receiver, the Http Emitter will by default use an SSLContext obtained via the process described at <a href="../operations/tls-support.html#druids-internal-communication-over-tls">Druid&#39;s internal communication over TLS</a>, i.e., the same SSLContext that would be used for internal communications between Druid nodes.</p>
+
+<p>In some use cases it may be desirable to have the Http Emitter use its own separate truststore configuration. For example, there may be organizational policies that prevent the TLS-enabled metrics receiver&#39;s certificate from being added to the same truststore used by Druid&#39;s internal HTTP client.</p>
+
+<p>The following properties allow the Http Emitter to use its own truststore configuration when building its SSLContext.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.emitter.http.ssl.useDefaultJavaContext</code></td>
+<td>If set to true, the HttpEmitter will use <code>SSLContext.getDefault()</code>, the default Java SSLContext, and all other properties below are ignored.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStorePath</code></td>
+<td>The file path or URL of the TLS/SSL Key store where trusted root certificates are stored. If this is unspecified, the Http Emitter will use the same SSLContext as Druid&#39;s internal HTTP client, as described in the beginning of this section, and all other properties below are ignored.</td>
+<td>null</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStoreType</code></td>
+<td>The type of the key store where trusted root certificates are stored.</td>
+<td><code>java.security.KeyStore.getDefaultType()</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStoreAlgorithm</code></td>
+<td>Algorithm to be used by TrustManager to validate certificate chains</td>
+<td><code>javax.net.ssl.TrustManagerFactory.getDefaultAlgorithm()</code></td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.trustStorePassword</code></td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.emitter.http.ssl.protocol</code></td>
+<td>TLS protocol to use.</td>
+<td>&quot;TLSv1.2&quot;</td>
+</tr>
+</tbody></table>
+
 <h4 id="parametrized-http-emitter-module">Parametrized Http Emitter Module</h4>
 
 <p><code>druid.emitter.parametrized.httpEmitting.*</code> configs correspond to the configs of Http Emitter Modules, see above.
 Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.httpEmitting.flushMillis</code>,
-<code>druid.emitter.parametrized.httpEmitting.flushCount</code>, etc.</p>
+<code>druid.emitter.parametrized.httpEmitting.flushCount</code>, <code>druid.emitter.parametrized.httpEmitting.ssl.trustStorePath</code>, etc.</p>
 
 <p>The additional configs are:</p>
 
@@ -1156,6 +1251,16 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 <td><code>druid.metadata.storage.tables.base</code></td>
 <td>The base name for tables.</td>
 <td>druid</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.dataSource</code></td>
+<td>The table to use to look for dataSources which created by <a href="../development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a>.</td>
+<td>druid_dataSource</td>
+</tr>
+<tr>
+<td><code>druid.metadata.storage.tables.pendingSegments</code></td>
+<td>The table to use to look for pending segments.</td>
+<td>druid_pendingSegments</td>
 </tr>
 <tr>
 <td><code>druid.metadata.storage.tables.segments</code></td>
@@ -1289,7 +1394,7 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 
 <h4 id="hdfs-deep-storage">HDFS Deep Storage</h4>
 
-<p>This deep storage is used to interface with HDFS. Note that the <code>druid-hdfs-storage</code> extension must be loaded.</p>
+<p>This deep storage is used to interface with HDFS.  Note that the <code>druid-hdfs-storage</code> extension must be loaded.</p>
 
 <table><thead>
 <tr>
@@ -1307,7 +1412,7 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 
 <h4 id="cassandra-deep-storage">Cassandra Deep Storage</h4>
 
-<p>This deep storage is used to interface with Cassandra. Note that the <code>druid-cassandra-storage</code> extension must be loaded.</p>
+<p>This deep storage is used to interface with Cassandra.  Note that the <code>druid-cassandra-storage</code> extension must be loaded.</p>
 
 <table><thead>
 <tr>
@@ -1585,10 +1690,13 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 
 <h3 id="double-column-storage">Double Column storage</h3>
 
-<p>Druid&#39;s storage layer uses a 32-bit float representation to store columns created by the 
-doubleSum, doubleMin, and doubleMax aggregators at indexing time. To instead use 64-bit floats
-for these columns, please set the system-wide property <code>druid.indexing.doubleStorage=double</code>.
-This will become the default behavior in a future version of Druid.</p>
+<p>Prior to version 0.13.0 Druid&#39;s storage layer used a 32-bit float representation to store columns created by the 
+doubleSum, doubleMin, and doubleMax aggregators at indexing time.
+Starting from version 0.13.0 the default will be 64-bit floats for Double columns.
+Using 64-bit representation for double column will lead to avoid precesion loss at the cost of doubling the storage size of such columns.
+To keep the old format set the system-wide property <code>druid.indexing.doubleStorage=float</code>.
+You can also use floatSum, floatMin and floatMax to use 32-bit float representation.
+Support for 64-bit floating point columns was released in Druid 0.11.0, so if you use this feature then older versions of Druid will not be able to read your data segments.</p>
 
 <table><thead>
 <tr>
@@ -1599,8 +1707,8 @@ This will become the default behavior in a future version of Druid.</p>
 </thead><tbody>
 <tr>
 <td><code>druid.indexing.doubleStorage</code></td>
-<td>Set to &quot;double&quot; to use 64-bit double representation for double columns.</td>
-<td>float</td>
+<td>Set to &quot;float&quot; to use 32-bit double representation for double columns.</td>
+<td>double</td>
 </tr>
 </tbody></table>
 
@@ -1612,7 +1720,7 @@ This will become the default behavior in a future version of Druid.</p>
 
 <p>These coordinator static configurations can be defined in the <code>coordinator/runtime.properties</code> file.</p>
 
-<h4 id="node-config">Node Config</h4>
+<h4 id="coordinator-node-config">Coordinator Node Config</h4>
 
 <table><thead>
 <tr>
@@ -1659,7 +1767,7 @@ This will become the default behavior in a future version of Druid.</p>
 </tr>
 <tr>
 <td><code>druid.coordinator.period.indexingPeriod</code></td>
-<td>How often to send indexing tasks to the indexing service. Only applies if merge or conversion is turned on.</td>
+<td>How often to send compact/merge/conversion tasks to the indexing service. It&#39;s recommended to be longer than <code>druid.manager.segments.pollDuration</code></td>
 <td>PT1800S (30 mins)</td>
 </tr>
 <tr>
@@ -1670,11 +1778,6 @@ This will become the default behavior in a future version of Druid.</p>
 <tr>
 <td><code>druid.coordinator.merge.on</code></td>
 <td>Boolean flag for whether or not the coordinator should try and merge small segments into a more optimal segment size.</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>druid.coordinator.conversion.on</code></td>
-<td>Boolean flag for converting old segment indexing versions to the latest segment indexing version.</td>
 <td>false</td>
 </tr>
 <tr>
@@ -1781,7 +1884,7 @@ This will become the default behavior in a future version of Druid.</p>
 <tr>
 <td><code>druid.manager.config.pollDuration</code></td>
 <td>How often the manager polls the config table for updates.</td>
-<td>PT1m</td>
+<td>PT1M</td>
 </tr>
 <tr>
 <td><code>druid.manager.segments.pollDuration</code></td>
@@ -1854,6 +1957,11 @@ This will become the default behavior in a future version of Druid.</p>
 <th>Default</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><code>balancerComputeThreads</code></td>
+<td>The number of threads used in a coordinator balancing run.</td>
+<td>1</td>
+</tr>
 <tr>
 <td><code>millisToWaitBeforeDeleting</code></td>
 <td>How long does the coordinator need to be active before it can start removing (marking unused) segments in metadata storage.</td>
@@ -1933,22 +2041,22 @@ This will become the default behavior in a future version of Druid.</p>
 <tr>
 <td><code>druid.manager.lookups.hostDeleteTimeout</code></td>
 <td>How long to wait for a <code>DELETE</code> request to a particular node before considering the <code>DELETE</code> a failure</td>
-<td>PT1s</td>
+<td>PT1S</td>
 </tr>
 <tr>
 <td><code>druid.manager.lookups.hostUpdateTimeout</code></td>
 <td>How long to wait for a <code>POST</code> request to a particular node before considering the <code>POST</code> a failure</td>
-<td>PT10s</td>
+<td>PT10S</td>
 </tr>
 <tr>
 <td><code>druid.manager.lookups.deleteAllTimeout</code></td>
 <td>How long to wait for all <code>DELETE</code> requests to finish before considering the delete attempt a failure</td>
-<td>PT10s</td>
+<td>PT10S</td>
 </tr>
 <tr>
 <td><code>druid.manager.lookups.updateAllTimeout</code></td>
 <td>How long to wait for all <code>POST</code> requests to finish before considering the attempt a failure</td>
-<td>PT60s</td>
+<td>PT60S</td>
 </tr>
 <tr>
 <td><code>druid.manager.lookups.threadPoolSize</code></td>
@@ -1962,7 +2070,77 @@ This will become the default behavior in a future version of Druid.</p>
 </tr>
 </tbody></table>
 
+<h4 id="compaction-dynamic-configuration">Compaction Dynamic Configuration</h4>
+
+<p>Compaction configurations can also be set or updated dynamically without restarting coordinators. For segment compaction,
+please see <a href="../design/coordinator.html#compacting-segments">Compacting Segments</a>.</p>
+
+<p>A description of the compaction config is:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>dataSource</code></td>
+<td>dataSource name to be compacted.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>keepSegmentGranularity</code></td>
+<td>Set <a href="../ingestion/compaction.html">keepSegmentGranularity</a> to true for compactionTask.</td>
+<td>no (default = true)</td>
+</tr>
+<tr>
+<td><code>taskPriority</code></td>
+<td><a href="../ingestion/tasks.html#task-priorities">Priority</a> of compact task.</td>
+<td>no (default = 25)</td>
+</tr>
+<tr>
+<td><code>inputSegmentSizeBytes</code></td>
+<td>Total input segment size of a compactionTask.</td>
+<td>no (default = 419430400)</td>
+</tr>
+<tr>
+<td><code>targetCompactionSizeBytes</code></td>
+<td>The target segment size of compaction. The actual size of a compact segment might be slightly larger or smaller than this value.</td>
+<td>no (default = 419430400)</td>
+</tr>
+<tr>
+<td><code>maxNumSegmentsToCompact</code></td>
+<td>Max number of segments to compact together.</td>
+<td>no (default = 150)</td>
+</tr>
+<tr>
+<td><code>skipOffsetFromLatest</code></td>
+<td>The offset for searching segments to be compacted. Strongly recommended to set for realtime dataSources.</td>
+<td>no (default = &quot;P1D&quot;)</td>
+</tr>
+<tr>
+<td><code>tuningConfig</code></td>
+<td>Tuning config for compact tasks. See below <a href="#compact-task-tuningconfig">Compact Task TuningConfig</a>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>taskContext</code></td>
+<td><a href="../ingestion/tasks.html#task-context">Task context</a> for compact tasks.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>An example of compaction config is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikiticker&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>For realtime dataSources, it&#39;s recommended to set <code>skipOffsetFromLatest</code> to some sufficiently large value to avoid frequent compact task failures.</p>
+
 <h2 id="overlord">Overlord</h2>
+
+<p>For general Overlord Node information, see <a href="../design/indexing-service.html">here</a>.</p>
 
 <h3 id="overlord-static-configuration">Overlord Static Configuration</h3>
 
@@ -1999,7 +2177,7 @@ This will become the default behavior in a future version of Druid.</p>
 </tr>
 </tbody></table>
 
-<h4 id="overlord-operation">Overlord Operation</h4>
+<h4 id="overlord-operations">Overlord Operations</h4>
 
 <table><thead>
 <tr>
@@ -2010,7 +2188,7 @@ This will become the default behavior in a future version of Druid.</p>
 </thead><tbody>
 <tr>
 <td><code>druid.indexer.runner.type</code></td>
-<td>Choices &quot;local&quot; or &quot;remote&quot;. Indicates whether tasks should be run locally or in a distributed environment.</td>
+<td>Choices &quot;local&quot; or &quot;remote&quot;. Indicates whether tasks should be run locally or in a distributed environment. Experimental task runner &quot;httpRemote&quot; is also available which is same as &quot;remote&quot; but uses HTTP to interact with Middle Manaters instead of Zookeeper.</td>
 <td>local</td>
 </tr>
 <tr>
@@ -2473,7 +2651,7 @@ field. If not provided, the default is to not use affinity at all.</p>
 <tr>
 <td><code>druid.indexer.runner.allowedPrefixes</code></td>
 <td>Whitelist of prefixes for configs that can be passed down to child peons.</td>
-<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;io.druid&quot;, &quot;user.timezone&quot;, &quot;file.encoding&quot;, &quot;java.io.tmpdir&quot;, &quot;hadoop&quot;</td>
+<td>&quot;com.metamx&quot;, &quot;druid&quot;, &quot;org.apache.druid&quot;, &quot;user.timezone&quot;, &quot;file.encoding&quot;, &quot;java.io.tmpdir&quot;, &quot;hadoop&quot;</td>
 </tr>
 <tr>
 <td><code>druid.indexer.runner.compressZnodes</code></td>
@@ -2507,18 +2685,18 @@ field. If not provided, the default is to not use affinity at all.</p>
 </tr>
 <tr>
 <td><code>druid.indexer.runner.startPort</code></td>
-<td>Starting port used for peon processes, should be greater than 1023.</td>
+<td>Starting port used for peon processes, should be greater than 1023 and less than 65536.</td>
 <td>8100</td>
 </tr>
 <tr>
-<td><code>druid.indexer.runner.tlsStartPort</code></td>
-<td>Starting TLS port for peon processes, should be greater than 1023.</td>
-<td>8300</td>
+<td><code>druid.indexer.runner.endPort</code></td>
+<td>Ending port used for peon processes, should be greater than or equal to <code>druid.indexer.runner.startPort</code> and less than 65536.</td>
+<td>65535</td>
 </tr>
 <tr>
-<td><code>druid.indexer.runner.separateIngestionEndpoint</code></td>
-<td><em>Deprecated.</em> Use separate server and consequently separate jetty thread pool for ingesting events. Not supported with TLS.</td>
-<td>false</td>
+<td><code>druid.indexer.runner.ports</code></td>
+<td>A json array of integers to specify ports that used for peon processes. If provided and non-empty, ports for peon processes will be chosen from these ports. And <code>druid.indexer.runner.startPort/druid.indexer.runner.endPort</code> will be completely ignored.</td>
+<td><code>[]</code></td>
 </tr>
 <tr>
 <td><code>druid.worker.ip</code></td>
@@ -2665,7 +2843,7 @@ ensure at least this amount of direct memory is available by providing <code>-XX
 <tr>
 <td><code>druid.indexer.task.defaultHadoopCoordinates</code></td>
 <td>Hadoop version to use with HadoopIndexTasks that do not request a particular version.</td>
-<td>org.apache.hadoop:hadoop-client:2.3.0</td>
+<td>org.apache.hadoop:hadoop-client:2.8.3</td>
 </tr>
 <tr>
 <td><code>druid.indexer.task.defaultRowFlushBoundary</code></td>
@@ -2696,28 +2874,6 @@ ensure at least this amount of direct memory is available by providing <code>-XX
 <td><code>druid.indexer.server.maxChatRequests</code></td>
 <td>Maximum number of concurrent requests served by a task&#39;s chat handler. Set to 0 to disable limiting.</td>
 <td>0</td>
-</tr>
-</tbody></table>
-
-<p>If the deprecated <code>druid.indexer.runner.separateIngestionEndpoint</code> property is set to true then following configurations
-are available for the ingestion server at peon:</p>
-
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>druid.indexer.server.chathandler.http.numThreads</code></td>
-<td><em>Deprecated.</em> Number of threads for HTTP requests.</td>
-<td>Math.max(10, (Number of available processors * 17) / 16 + 2) + 30</td>
-</tr>
-<tr>
-<td><code>druid.indexer.server.chathandler.http.maxIdleTime</code></td>
-<td><em>Deprecated.</em> The Jetty max idle time for a connection.</td>
-<td>PT5m</td>
 </tr>
 </tbody></table>
 
@@ -2849,7 +3005,7 @@ then the value from the configuration below is used:</p>
 </tr>
 </tbody></table>
 
-<h4 id="concurrent-requests">Concurrent Requests</h4>
+<h4 id="server-configuration">Server Configuration</h4>
 
 <p>Druid uses Jetty to serve HTTP requests.</p>
 
@@ -2873,7 +3029,7 @@ then the value from the configuration below is used:</p>
 <tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
-<td>PT5m</td>
+<td>PT5M</td>
 </tr>
 <tr>
 <td><code>druid.server.http.enableRequestLimit</code></td>
@@ -2887,23 +3043,18 @@ then the value from the configuration below is used:</p>
 </tr>
 <tr>
 <td><code>druid.server.http.maxScatterGatherBytes</code></td>
-<td>Maximum number of bytes gathered from data nodes such as historicals and realtime processes to execute a query. This is an advance configuration that allows to protect in case broker is under heavy load and not utilizing the data gathered in memory fast enough and leading to OOMs. This limit can be further reduced at query time using <code>maxScatterGatherBytes</code> in the context. Note that having large limit is not necessarily bad if broker is never under heavy concurrent load in which case data gathered is processed quickly and freeing up the memory used.</td>
+<td>Maximum number of bytes gathered from data nodes such as historicals and realtime processes to execute a query. Queries that exceed this limit will fail. This is an advance configuration that allows to protect in case broker is under heavy load and not utilizing the data gathered in memory fast enough and leading to OOMs. This limit can be further reduced at query time using <code>maxScatterGatherBytes</code> in the context. Note that having large limit is not necessarily bad if broker is never under heavy concurrent load in which case data gathered is processed quickly and freeing up the memory used.</td>
 <td>Long.MAX_VALUE</td>
 </tr>
 <tr>
-<td><code>druid.broker.http.numConnections</code></td>
-<td>Size of connection pool for the Broker to connect to historical and real-time processes. If there are more queries than this number that all need to speak to the same node, then they will queue up.</td>
-<td>20</td>
+<td><code>druid.server.http.gracefulShutdownTimeout</code></td>
+<td>The maximum amount of time Jetty waits after receiving shutdown signal. After this timeout the threads will be forcefully shutdown. This allows any queries that are executing to complete.</td>
+<td><code>PT0S</code> (do not wait)</td>
 </tr>
 <tr>
-<td><code>druid.broker.http.compressionCodec</code></td>
-<td>Compression codec the Broker uses to communicate with historical and real-time processes. May be &quot;gzip&quot; or &quot;identity&quot;.</td>
-<td>gzip</td>
-</tr>
-<tr>
-<td><code>druid.broker.http.readTimeout</code></td>
-<td>The timeout for data reads from historical and real-time processes.</td>
-<td>PT15M</td>
+<td><code>druid.server.http.unannouncePropagationDelay</code></td>
+<td>How long to wait for zookeeper unannouncements to propagate before shutting down Jetty. This is a minimum and <code>druid.server.http.gracefulShutdownTimeout</code> does not start counting down until after this period elapses.</td>
+<td><code>PT0S</code> (do not wait)</td>
 </tr>
 <tr>
 <td><code>druid.server.http.maxQueryTimeout</code></td>
@@ -2916,6 +3067,17 @@ then the value from the configuration below is used:</p>
 <td>8 * 1024</td>
 </tr>
 </tbody></table>
+
+<h4 id="client-configuration">Client Configuration</h4>
+
+<p>Druid Brokers use an HTTP client to communicate with with data servers (historical servers and real-time tasks). This
+client has the following configuration options.</p>
+
+<p>|<code>druid.broker.http.numConnections</code>|Size of connection pool for the Broker to connect to historical and real-time processes. If there are more queries than this number that all need to speak to the same node, then they will queue up.|20|
+|<code>druid.broker.http.compressionCodec</code>|Compression codec the Broker uses to communicate with historical and real-time processes. May be &quot;gzip&quot; or &quot;identity&quot;.|gzip|
+|<code>druid.broker.http.readTimeout</code>|The timeout for data reads from historical servers and real-time tasks.|PT15M|
+|<code>druid.broker.http.unusedConnectionTimeout</code>|The timeout for idle connections in connection pool. This timeout should be less than <code>druid.broker.http.readTimeout</code>. Set this timeout = ~90% of <code>druid.broker.http.readTimeout</code>|<code>PT4M</code>|
+|<code>druid.broker.http.maxQueuedBytes</code>|Maximum number of bytes queued per query before exerting backpressure on the channel to the data server. Similar to <code>druid.server.http.maxScatterGatherBytes</code>, except unlike that configuration, this one will trigger backpressure rather than query failure. Zero means disabled. Can be overridden by the <a href="../querying/query-context.html">&quot;maxQueuedBytes&quot; query context parameter</a>.|0 (disabled)|</p>
 
 <h4 id="retry-policy">Retry Policy</h4>
 
@@ -3026,7 +3188,7 @@ line.</p>
 <tr>
 <td><code>druid.sql.avatica.maxRowsPerFrame</code></td>
 <td>Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and <code>maxRowsPerFrame</code> will be used.</td>
-<td>100,000</td>
+<td>5,000</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
@@ -3083,6 +3245,16 @@ line.</p>
 <td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
 <td>false</td>
 </tr>
+<tr>
+<td><code>druid.sql.planner.requireTimeCondition</code></td>
+<td>Whether to require SQL to have filter conditions on __time column so that all generated native queries will have user specified intervals. If true, all queries wihout filter condition on __time column will fail</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.sqlTimeZone</code></td>
+<td>Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+<td>UTC</td>
+</tr>
 </tbody></table>
 
 <h3 id="broker-caching">Broker Caching</h3>
@@ -3108,6 +3280,24 @@ line.</p>
 <td>true, false</td>
 <td>Populate the cache on the broker.</td>
 <td>false</td>
+</tr>
+<tr>
+<td><code>druid.broker.cache.useResultLevelCache</code></td>
+<td>true, false</td>
+<td>Enable result level caching on the broker.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.broker.cache.populateResultLevelCache</code></td>
+<td>true, false</td>
+<td>Populate the result level cache on the broker.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.broker.cache.resultLevelCacheLimit</code></td>
+<td>positive integer</td>
+<td>Maximum size of query response that can be cached.</td>
+<td><code>Integer.MAX_VALUE</code></td>
 </tr>
 <tr>
 <td><code>druid.broker.cache.unCacheable</code></td>
@@ -3292,7 +3482,7 @@ line.</p>
 <tr>
 <td><code>druid.server.http.maxIdleTime</code></td>
 <td>The Jetty max idle time for a connection.</td>
-<td>PT5m</td>
+<td>PT5M</td>
 </tr>
 <tr>
 <td><code>druid.server.http.enableRequestLimit</code></td>
@@ -3303,6 +3493,16 @@ line.</p>
 <td><code>druid.server.http.defaultQueryTimeout</code></td>
 <td>Query timeout in millis, beyond which unfinished queries will be cancelled</td>
 <td>300000</td>
+</tr>
+<tr>
+<td><code>druid.server.http.gracefulShutdownTimeout</code></td>
+<td>The maximum amount of time Jetty waits after receiving shutdown signal. After this timeout the threads will be forcefully shutdown. This allows any queries that are executing to complete.</td>
+<td><code>PT0S</code> (do not wait)</td>
+</tr>
+<tr>
+<td><code>druid.server.http.unannouncePropagationDelay</code></td>
+<td>How long to wait for zookeeper unannouncements to propagate before shutting down Jetty. This is a minimum and <code>druid.server.http.gracefulShutdownTimeout</code> does not start counting down until after this period elapses.</td>
+<td><code>PT0S</code> (do not wait)</td>
 </tr>
 <tr>
 <td><code>druid.server.http.maxQueryTimeout</code></td>
@@ -3414,10 +3614,8 @@ line.</p>
 
 <p>This section describes caching configuration that is common to broker, historical, and middleManager/peon nodes.</p>
 
-<p>Caching can optionally be enabled on the broker, historical, and realtime
-processing. See <a href="broker.html#caching">broker</a>, 
-<a href="historical.html#caching">historical</a>, and <a href="realtime.html#caching">realtime</a><br>
-configuration options for how to enable it for different processes.</p>
+<p>Caching can optionally be enabled on the broker, historical, and middleManager/peon nodes. See <a href="#broker-caching">broker</a>, 
+<a href="#historical-caching">historical</a>, and <a href="#peon-caching">peon</a> configuration options for how to enable it for different processes.</p>
 
 <p>Druid uses a local in-memory cache by default, unless a diffrent type of cache is specified.
 Use the <code>druid.cache.type</code> configuration to set a different kind of cache.</p>
@@ -3500,7 +3698,7 @@ DEPRECATED: Use caffeine (default as of v0.12.0) instead
 <tr>
 <td><code>druid.cache.sizeInBytes</code></td>
 <td>The maximum size of the cache in bytes on heap.</td>
-<td>None (unlimited)</td>
+<td>min(1GB, Runtime.maxMemory / 10)</td>
 </tr>
 <tr>
 <td><code>druid.cache.expireAfter</code></td>
@@ -3524,12 +3722,12 @@ DEPRECATED: Use caffeine (default as of v0.12.0) instead
 <p>Here are the possible values for <code>druid.cache.cacheExecutorFactory</code>, which controls how maintenance tasks are run</p>
 
 <ul>
-<li><code>COMMON_FJP</code> (default) use the common ForkJoinPool. Should use with <a href="https://github.com/druid-io/druid/pull/4810#issuecomment-329922810">JRE 8u60 or higher</a>. Older versions of the JRE may have worse performance than newer JRE versions.</li>
+<li><code>COMMON_FJP</code> (default) use the common ForkJoinPool. Should use with <a href="https://github.com/apache/incubator-druid/pull/4810#issuecomment-329922810">JRE 8u60 or higher</a>. Older versions of the JRE may have worse performance than newer JRE versions.</li>
 <li><code>SINGLE_THREAD</code> Use a single-threaded executor.</li>
 <li><code>SAME_THREAD</code> Cache maintenance is done eagerly.</li>
 </ul>
 
-<h4 id="metrics">Metrics</h4>
+<h5 id="metrics">Metrics</h5>
 
 <p>In addition to the normal cache metrics, the caffeine cache implementation also reports the following in both <code>total</code> and <code>delta</code></p>
 
@@ -3557,7 +3755,7 @@ DEPRECATED: Use caffeine (default as of v0.12.0) instead
 </tr>
 </tbody></table>
 
-<h4 id="memcached">Memcached</h4>
+<h5 id="memcached">Memcached</h5>
 
 <p>Uses memcached as cache backend. This allows all nodes to share the same cache.</p>
 
@@ -3597,6 +3795,16 @@ DEPRECATED: Use caffeine (default as of v0.12.0) instead
 <td><code>druid.cache.numConnections</code></td>
 <td>Number of memcached connections to use.</td>
 <td>1</td>
+</tr>
+<tr>
+<td><code>druid.cache.protocol</code></td>
+<td>Memcached communication protocol. Can be binary or text.</td>
+<td>binary</td>
+</tr>
+<tr>
+<td><code>druid.cache.locator</code></td>
+<td>Memcached locator. Can be consistent or array_mod.</td>
+<td>consistent</td>
 </tr>
 </tbody></table>
 
