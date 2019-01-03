@@ -104,6 +104,10 @@ Druid powers a dashboard used internally to visualize real-time analytics on Gum
 
 At Hulu, we use Druid to power our analytics platform that enables us to interactively deep dive into the behaviors of our users and applications in real-time.
 
+## ICSOC Co., Ltd.
+
+[ICSOC Co., Ltd.](https://www.icsoc.net) is the leading call center service provider in China. In our big data department, as traditional ways cannot meet our requirements, eventually we found that Druid, designed in lambda, fully satisfies our requires. it simplified developing statistics or real-time products and highly speeded up OLAP queries.
+
 ## Imply
 
 Imply uses Druid to power public demos and to power our internal monitoring and metrics.
@@ -442,8 +446,5 @@ China Youzan is a SaaS company which principally engaged in retail science and t
 ## Zuoyebang
 
 [Zuoyebang](http://www.zuoyebang.com/) is the most used K12 education platform, 7 out of every 10 K12 users are using Zuoyebang. At Zuoyebang Data Platform Group, we use the Druid in the advertising scene,  mainly related to advertising display, click, billing, and other functions. The performance and timeliness of druid can meet our OLAP queries very well.
-
-## ICSOC Co., Ltd.
-[ICSOC Co., Ltd.](https://www.icsoc.net) is the leading call center service provider in China. In our big data department, as traditional ways cannot meet our requirements, eventually we found that Druid, designed in lambda, fully satisfies our requires. it simplified developing statistics or real-time products and highly speeded up OLAP queries.
 
 [Add Your Company](https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md)
