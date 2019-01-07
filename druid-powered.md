@@ -173,6 +173,10 @@ which they can do that is in a big part thanks to Druid!
 
 * [Real-time Analytics with Kafka, Spark, and Druid](https://jini.site/jin-yumafengwobig-data-in-travel-real-time-analytics-with-kafka-spark-and-druid_269053)
 
+## MakeMyTrip
+
+* [Data Insights Engine @ MakeMyTrip](https://medium.com/makemytrip-engineering/data-insights-engine-makemytrip-900bd353d99c)
+
 ## Marchex
 
 Marchex uses Druid to provide data for Marchex Call Analytics' new customer facing Speech Analytics dashboards.
