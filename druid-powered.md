@@ -106,7 +106,7 @@ At Hulu, we use Druid to power our analytics platform that enables us to interac
 
 ## ICSOC Co., Ltd.
 
-[ICSOC Co., Ltd.](https://www.icsoc.net) is the leading call center service provider in China. In our big data department, as traditional ways cannot meet our requirements, eventually we found that Druid, designed in lambda, fully satisfies our requires. it simplified developing statistics or real-time products and highly speeded up OLAP queries.
+[ICSOC Co., Ltd.](https://www.icsoc.net) is the leading call center service provider in China. In our big data department, as traditional ways cannot meet our requirements, eventually we found that Druid, designed in lambda, fully satisfies our requires. It simplified developing statistics or real-time products and highly speeded up OLAP queries.
 
 ## Imply
 
@@ -172,6 +172,10 @@ which they can do that is in a big part thanks to Druid!
 ## Mafengwo
 
 * [Real-time Analytics with Kafka, Spark, and Druid](https://jini.site/jin-yumafengwobig-data-in-travel-real-time-analytics-with-kafka-spark-and-druid_269053)
+
+## MakeMyTrip
+
+* [Data Insights Engine @ MakeMyTrip](https://medium.com/makemytrip-engineering/data-insights-engine-makemytrip-900bd353d99c)
 
 ## Marchex
 
