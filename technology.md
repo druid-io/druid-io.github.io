@@ -106,7 +106,7 @@ Similar to search systems, Druid builds inverted indexes for string columns for 
 Similar to timeseries databases, Druid intelligently partitions data by time to enable fast time-oriented queries.
 
 Unlike many traditional systems, Druid can optionally pre-aggregate data as it is ingested.
-This pre-aggregation step is known as [rollup](/docs/latest/design/#roll-up), and can lead to dramatic storage savings.
+This pre-aggregation step is known as [rollup](/docs/latest/tutorials/tutorial-rollup.html), and can lead to dramatic storage savings.
 
 <div class="image-large">
   <img src="img/diagram-5.png" style="max-width: 800px;">
