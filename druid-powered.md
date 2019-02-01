@@ -201,6 +201,10 @@ campaign performance and customer behavior.
 * [Druid : Vagrant Up (and Tranquility!)](http://brianoneill.blogspot.com/2015/09/druid-vagrant-up-and-tranquility.html)
 * [Kinesis -> Druid : Options Analysis (to Push? to Pull? to Firehose? to Nay Nay?)](http://brianoneill.blogspot.com/2015/09/kinesis-druid-options-analysis-to-push.html)
 
+## MZ
+
+* [Druid Meetup @ MZ video](https://www.youtube.com/watch?v=zCk2BV9mQ0Y)
+
 ## N3twork
 
 N3TWORK uses Druid for real-time analysis of its Internet of Interests social
@@ -235,6 +239,10 @@ You can learn more about the AOC at http://netsil.com/download/
 Nielsen Marketing Cloud uses Druid as it's core real-time analytics tool to help its clients monitor, test and improve its audience targeting capabilities.  With Druid, Nielsen provides its clients with in-depth consumer insights leveraging world-class Nielsen audience data.
 
 * [Our journey with Druid - from initial research to full production scale](https://www.slideshare.net/ItaiYaffe/our-journey-with-druid-from-initial-research-to-full-production-scale)
+
+## NTT Com
+
+* [Kappa architecture at NTT Com: Building a streaming analytics stack with Druid and Kafka](https://imply.io/post/kappa-architecture-at-ntt)
 
 ## Ona
 
@@ -381,6 +389,10 @@ Tech Mpire provides performance-based advertising to help mobile app advertisers
 ## Tencent
 
 Tencent SCRM product use Druid for customer behavior analysis.
+
+## The Rubicon Project
+
+* [Modernizing Rubicon Project’s Analytics Stack for Programmatic Advertising](https://imply.io/post/modernizing-rubicon-projects-analytics-stack)
 
 ## Time Warner Cable
 
