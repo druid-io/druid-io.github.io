@@ -5,13 +5,13 @@ layout: simple_page
 sectionid: faq
 ---
 
-### Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery?
+### Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery/Snowflake?
 
-Druid is a new type of data store and isn’t a traditional data warehouse.
-Although Druid incorporates architecture ideas from data warehouses such as
-column-oriented storage, Druid also incorporates designs from search systems
-and timeseries databases. Druid's architecture is designed to handle many use
-cases that traditional data warehouses cannot.
+Druid is a new type of database for event-driven architectures, and isn’t a
+traditional data warehouse.  Although Druid incorporates architecture ideas
+from data warehouses such as column-oriented storage, Druid also incorporates
+designs from search systems and timeseries databases. Druid's architecture is
+designed to handle many use cases that traditional data warehouses cannot.
 
 Druid offers the following advantages over traditional data warehouses:
 
@@ -28,7 +28,7 @@ if you need ad-hoc analytics. Druid is great for slice and dice and drill
 downs. Druid is also often used over a data warehouse to power interactive
 applications, where support for high concurrency queries is required.
 
-### Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive/Snowflake?
+### Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive?
 
 Druid supports SQL and can load data from Hadoop, but is not a SQL-on-Hadoop
 system. Modern SQL-on-Hadoop solutions are used for the same use cases as data
@@ -86,11 +86,18 @@ The same Druid cluster can serve both the streaming and batch path.
 
 ### Is Druid in-memory?
 
-The earliest iterations of Druid didn’t allow for data to be paged in from and out to disk, so we often called it an “in-memory” system.
-However, we very quickly realized that RAM hasn’t become cheap enough to actually store all data in RAM and sell a product at a price-point that customers are willing to pay.
-Over the last few years, we have leveraged memory-mapping to allow us to page data between disk and memory and extend the amount of data a single node can load up to the size of its disks.
+The earliest iterations of Druid didn’t allow for data to be paged in from
+and out to disk, so it was often called an “in-memory” database. As Druid
+evolved, this limitation was removed. To provide a balance between hardware
+cost and query performance, Druid leverages memory-mapping to page data between
+disk and memory and extend the amount of data a single node can load up to the
+size of its disks.
 
-That said, as we made the shift, we didn’t want to compromise on the ability to configure the system to run such that everything is essentially in memory.
-To this end, individual Historical nodes can be configured with the maximum amount of data they should be given.
-Couple that with the Coordinator’s ability to assign data blocks to different “tiers” based on differing query requirements and Druid essentially becomes a system that can be configured across the whole spectrum of performance requirements.
-Configuration can be such that all data can be in memory and processed, it can be such that data is heavily over-committed compared to the amount of memory available, and it can also be that the most recent month of data is in memory, while everything else is over-committed.
+Individual Historicals can be configured with the maximum amount of data
+they should be given.  Coupled with the Coordinator’s ability to assign data to
+different “tiers” based on different query requirements, Druid is essentially a
+system that can be configured across a wide spectrum of performance
+requirements. All data can be in memory and processed, or data can be heavily
+over-committed compared to the amount of memory available. Druid can also
+support complex configurations, such as configuring the most recent month of
+data in memory, while everything else is over-committed.
