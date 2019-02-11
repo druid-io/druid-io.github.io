@@ -7,11 +7,12 @@ sectionid: faq
 
 ### Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery/Snowflake?
 
-Druid is a new type of database for event-driven architectures, and isn’t a
-traditional data warehouse.  Although Druid incorporates architecture ideas
-from data warehouses such as column-oriented storage, Druid also incorporates
-designs from search systems and timeseries databases. Druid's architecture is
-designed to handle many use cases that traditional data warehouses cannot.
+Druid is a new type of database to power real-time analytic workloads for
+event-driven data, and isn’t a traditional data warehouse.  Although Druid
+incorporates architecture ideas from data warehouses such as column-oriented
+storage, Druid also incorporates designs from search systems and timeseries
+databases. Druid's architecture is designed to handle many use cases that
+traditional data warehouses cannot.
 
 Druid offers the following advantages over traditional data warehouses:
 

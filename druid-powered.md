@@ -49,6 +49,10 @@ Billy Mobile is a mobile advertising platform, excelling in the performance-base
 
 Branch uses Druid as their trusted analytics engine to power all of their data analysis needs. This ranges from the user-facing Branch Dashboard analytics that our partners rely on to gain insight into the performance of their links; to the data-driven business decisions that we need to make internally to build a sustainable business.
 
+## Charter Communications
+
+* [Druid at Charter](https://speakerdeck.com/implydatainc/druid-at-charter)
+
 ## Cisco
 
 Cisco uses Druid to power a real-time analytics platform for network flow data.
