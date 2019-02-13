@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "run": "bundle exec jekyll serve --future --port 4001 --safe",
+    "start": "bundle exec jekyll serve --future --port 4001 --safe",
     "watch": "gulp watch",
     "compile": "gulp all; bundle exec jekyll build"
   },
