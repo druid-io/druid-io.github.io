@@ -16,7 +16,7 @@ Every time you want to run the site:
 
 ```
 gulp
-npm run run
+npm start
 ```
 
 ## Notes
