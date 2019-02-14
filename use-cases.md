@@ -6,7 +6,7 @@ sectionid: use-cases
 
 ## Streaming and operational data
 
-Druid generally works well with any event-oriented, timeseries, or telemetry data, especially streaming datasets from [Apache Kafka](https://kafka.apache.org/).
+Druid generally works well with any event-oriented, clickstream, timeseries, or telemetry data, especially streaming datasets from [Apache Kafka](https://kafka.apache.org/).
 Druid provides [exactly once consumption semantics](/docs/latest/development/extensions-core/kafka-ingestion) from Apache Kafka and is commonly used as a sink for event-oriented Kafka topics.
 
 Druid also works well for batch data sets.
@@ -46,15 +46,6 @@ Some common high level use cases of Druid include:
   </div>
 </div>
 
-## Network flows
-
-Druid is commonly used to collect and analyze network flows.
-Druid is used to arbitrarily slice and dice flow data along any set of attributes.
-
-Druid helps with network flow analysis by being able to ingest large amounts of flow records, and by being able to group or rank across dozens of attributes at query time at interactive speeds.
-These attributes often include core attributes like IP and port, as well as attributes added through enhancement such as geolocation, service, application, facility, and ASN.
-Druid's ability to handle flexible schemas means that you can add any attributes you want.
-
 ## User activity and behavior
 
 Druid is often used for clickstreams, viewstreams, and activity streams.
@@ -67,6 +58,25 @@ Such analysis is useful is tracking user signups for a product.
 
 Druid’s search and filter capabilities enable rapid, easy drill-downs of users along any set of attributes.
 Measure and compare user activity by age, gender, location, and much more.
+
+## Network flows
+
+Druid is commonly used to collect and analyze network flows.
+Druid is used to arbitrarily slice and dice flow data along any set of attributes.
+
+Druid helps with network flow analysis by being able to ingest large amounts of flow records, and by being able to group or rank across dozens of attributes at query time at interactive speeds.
+These attributes often include core attributes like IP and port, as well as attributes added through enhancement such as geolocation, service, application, facility, and ASN.
+Druid's ability to handle flexible schemas means that you can add any attributes you want.
+
+## Digital marketing
+
+Druid is commonly used to store and query online advertising data.
+This data typically comes from ad servers and is critical to measure and understand advertising campaign performance, click through rates, conversion rates (attrition rates), and much more.
+
+Druid was initially designed to power a user-facing analytics application for digital advertising data.
+Druid has seen substantial production use for this type of data and the largest users in the world have petabytes of data stored on thousands of servers.
+
+Druid can be used to compute impressions, clicks, eCPM, and key conversion metrics, filtered on publisher, campaign, user information, and dozens of other dimensions supporting full slice and dice capability.
 
 ## Application performance management
 
@@ -91,16 +101,6 @@ This means time-based queries, numerical aggregations, and search and filter que
 You can include millions of unique dimension values with your metrics, and arbitrarily group and filter on any combination of dimensions (dimensions in Druid are similar to tags in TSDBs).
 You can group and rank on tags, and compute a variety of complex metrics.
 Furthermore, you search and filter on tag values orders of magnitude faster than in traditional timeseries databases.
-
-## Digital marketing
-
-Druid is commonly used to store and query online advertising data.
-This data typically comes from ad servers and is critical to measure and understand advertising campaign performance, click through rates, conversion rates (attrition rates), and much more.
-
-Druid was initially designed to power a user-facing analytics application for digital advertising data.
-Druid has seen substantial production use for this type of data and the largest users in the world have petabytes of data stored on thousands of servers.
-
-Druid can be used to compute impressions, clicks, eCPM, and key conversion metrics, filtered on publisher, campaign, user information, and dozens of other dimensions supporting full slice and dice capability.
 
 ## OLAP and business intelligence
 
