@@ -59,6 +59,15 @@ Such analysis is useful is tracking user signups for a product.
 Druid’s search and filter capabilities enable rapid, easy drill-downs of users along any set of attributes.
 Measure and compare user activity by age, gender, location, and much more.
 
+## Network flows
+
+Druid is commonly used to collect and analyze network flows.
+Druid is used to arbitrarily slice and dice flow data along any set of attributes.
+
+Druid helps with network flow analysis by being able to ingest large amounts of flow records, and by being able to group or rank across dozens of attributes at query time at interactive speeds.
+These attributes often include core attributes like IP and port, as well as attributes added through enhancement such as geolocation, service, application, facility, and ASN.
+Druid's ability to handle flexible schemas means that you can add any attributes you want.
+
 ## Digital marketing
 
 Druid is commonly used to store and query online advertising data.
@@ -68,15 +77,6 @@ Druid was initially designed to power a user-facing analytics application for di
 Druid has seen substantial production use for this type of data and the largest users in the world have petabytes of data stored on thousands of servers.
 
 Druid can be used to compute impressions, clicks, eCPM, and key conversion metrics, filtered on publisher, campaign, user information, and dozens of other dimensions supporting full slice and dice capability.
-
-## Network flows
-
-Druid is commonly used to collect and analyze network flows.
-Druid is used to arbitrarily slice and dice flow data along any set of attributes.
-
-Druid helps with network flow analysis by being able to ingest large amounts of flow records, and by being able to group or rank across dozens of attributes at query time at interactive speeds.
-These attributes often include core attributes like IP and port, as well as attributes added through enhancement such as geolocation, service, application, facility, and ASN.
-Druid's ability to handle flexible schemas means that you can add any attributes you want.
 
 ## Application performance management
 
