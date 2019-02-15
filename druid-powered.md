@@ -386,10 +386,6 @@ Sugo is a company that focus on realtime multi-dimension analytics and mining on
 
 [TalkingData](http://www.talkingdata.com/) is China’s largest independent Big Data service platform. TalkingData uses Druid with Atomcube, an extension for enhancement, to power analyze online application and advertising data.
 
-## Tech Mpire
-
-Tech Mpire provides performance-based advertising to help mobile app advertisers acquire their new users wherever they are in the digital world. At the core of Tech Mpire is nxus®, our comprehensive ad network platform which connects the global demand from advertisers to the most effective sources of supply, using proprietary recommendation algorithms. We use Druid to power the campaign performance report, providing us with sub-second analytical reporting to support near real-time decision making and optimisation for our advertiser’s campaigns.
-
 ## Tencent
 
 Tencent SCRM product use Druid for customer behavior analysis.
@@ -401,6 +397,15 @@ Tencent SCRM product use Druid for customer behavior analysis.
 ## Time Warner Cable
 
 TWC uses Druid for exploratory analytics.
+
+
+## TrafficGuard
+
+TrafficGuard detects, mitigates and reports on ad fraud before it hits digital advertising budgets. Three formidable layers of protection block both general invalid traffic (GIVT) and sophisticated invalid traffic (SIVT) to ensure that digital advertising results in legitimate advertising engagement. With visibility of traffic across thousands of campaigns, TrafficGuard’s machine learning can identify emerging patterns, trends and indicators of fraud quickly and reliably. 
+
+Druid is a key component of our Big Data Operation Insight Platform.We use imply.io
+Learn more about TrafficGuard’s comprehensive fraud mitigation at (https://www.trafficguard.ai)
+
 
 ## TripleLift
 
