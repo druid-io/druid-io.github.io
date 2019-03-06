@@ -226,7 +226,7 @@ The following metric is only available if the EventReceiverFirehoseMonitor modul
 
 |Metric|Description|Dimensions|Normal Value|
 |------|-----------|----------|------------|
-|`ingest/events/buffered`|Number of events queued in the EventReceiverFirehose's buffer|serviceName, dataSource, taskId, taskType, bufferCapacity. Equal to current # of events in the buffer queue.|
+|`ingest/events/buffered`|Number of events queued in the EventReceiverFirehose's buffer|serviceName, dataSource, taskId, taskType, bufferCapacity.|Equal to current # of events in the buffer queue.|
 |`ingest/bytes/received`|Number of bytes received by the EventReceiverFirehose.|serviceName, dataSource, taskId, taskType.|Varies.|
 
 ## Sys
