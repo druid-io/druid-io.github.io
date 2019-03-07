@@ -232,6 +232,7 @@ activity and content flow.
 
 * [Druid Meetup @ Netflix video](https://www.youtube.com/watch?v=Qvhqe4yUKpw&feature=youtu.be)
 * [Druid Meetup @ Netflix slides](https://www.slideshare.net/JaebinYoon/druid-meetup-netflix-11142018/)
+* [Netflix & Amazon Case Study](https://aws.amazon.com/solutions/case-studies/netflix-kinesis-streams/)
 * [Announcing Suro: Backbone of Netflix's Data Pipeline](http://techblog.netflix.com/2013/12/announcing-suro-backbone-of-netflixs.html)
 
 ## Netsil
