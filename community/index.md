@@ -20,8 +20,8 @@ and Git repositories will be migrated as well.
 
 ## Getting help
 
-The best place to get a wide variety of help about Druid is on the [Druid user
-groups](druid-user@googlegroups.com). You can also report issues and bugs on
+The best place to get a wide variety of help about Druid is on the Druid user
+group [druid-user@googlegroups.com](https://groups.google.com/forum/#!forum/druid-user). You can also report issues and bugs on
 the [Github development page](https://github.com/apache/druid).
 
 Third party companies also provide commercial support and services for Druid, including:
@@ -63,7 +63,7 @@ exception is major architectural changes or API changes, and/or changes to
 
 warrant additional design and compatibility review. Such pull requests require design approvals from three different
 committers (one of them could also be the author of the pull request). For those, it can help to discuss things
-on the [druid-development list](https://groups.google.com/d/forum/druid-development) or a github issue beforehand.
+on the Druid development list [dev@druid.apache.org](https://lists.apache.org/list.html?dev@druid.apache.org) or a github issue beforehand.
 
 In general please follow the [contributing guidelines](https://github.com/apache/incubator-druid/blob/master/CONTRIBUTING.md)
 when sending in pull requests. This will help review proceed as quickly as
