@@ -1,7 +1,12 @@
-- date: 2019-03-16
-  name: "Druid Beijing Meetup"
-  info: Druid Beijing Meetup @ Kuaishou
-  link: http://www.huodongxing.com/event/1481229013800?td=8632958547571 
+- date: 2019-03-20
+  name: "Kafka London Meetup"
+  info: "Building a Streaming Analytics Stack with Kafka and Druid"
+  link: https://www.meetup.com/Apache-Kafka-London/events/259665965
+
+- date: 2019-03-20
+  name: "San Francisco Bay Area Big Data and Scalable Systems Meetup"
+  info: "Druid & Kafka: Swimming in the data river, or, when “streaming analytics” isn’t"
+  link: https://www.meetup.com/San-Francisco-Bay-Area-Big-Data-and-Scalable-Systems/events/259177099
 
 - date: 2019-03-20
   name: "Orange County Advanced Analytics and Big Data Meetup"
