@@ -436,6 +436,13 @@ Druid powers Virool’s real time analytics of over 1 billion raw events per day
 
 * [Event Stream Analytics at Walmart with Druid](https://medium.com/walmartlabs/event-stream-analytics-at-walmart-with-druid-dcf1a37ceda7)
 
+## WeQ
+
+[WeQ](http://weq.com) is a leading mobile performance and branding ad-tech company headquartered in Berlin. Druid is one of the core services that helps WeQ drive user acquisition and engagement to deliver mobile performance and branding campaigns. 
+
+We are using Druid for real-time analytics that delivers business insights and power our anti-fraud tools. We are ingesting several billions of events per day using the Kafka real-time connector. Druid is a rock-solid and flexible foundation for our data system delivering blazing-fast analytics
+
+
 ## Wikimedia Foundation
 
 We're serving pageview data via Druid and Pivot.  Our internal customers are loving it and we're working on allowing public access to sanitized data, both editing and pageview.  We like Druid because it's open source, the folks that work on it have built a good community, and it's about five times faster than Hive for us right now, without any tuning or optimization (and the Hadoop cluster is beefier than the Druid one), just dumped lots of data into it and Pivot was immediately useful to our analysts.  We wrote a [puppet](https://github.com/wikimedia/operations-puppet/tree/production/modules/druid) module that others might find helpful.
