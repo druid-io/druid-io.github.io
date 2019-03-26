@@ -7,6 +7,10 @@ sectionid: powered-by
 
 There are numerous companies of various sizes in production with Druid. Some of them are listed below.
 
+## Airbridge
+
+Airbridge is an people-based attribution and omni-channel campaign analytics platform helping marketers measure and optimize their marketing campaigns. Thanks to Druid's data aggregation technology, marketers using Airbridge are able to receive real-time granular reports regarding their campaign's performance executed across a variety of devices, platforms, and channels.
+
 ## Airbnb
 
 Druid powers slice and dice analytics on both historical and realtime-time metrics. It significantly reduces latency of analytic queries and help people to get insights more interactively.
