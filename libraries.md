@@ -25,6 +25,10 @@ Some great folks have written their own libraries to interact with Druid.
 
 * [y42/clj-druid](https://github.com/y42/clj-druid) - A Clojure client for Druid
 
+#### Elixir
+
+* [GameAnalytics/panoramix](https://github.com/GameAnalytics/panoramix) - An Elixir client for Druid
+
 #### Ruby
 
 * [ruby-druid/ruby-druid](https://github.com/ruby-druid/ruby-druid) - A ruby client for Druid
