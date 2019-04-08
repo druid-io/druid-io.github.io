@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | SQL</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.13.0-incubating/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<p>&lt;!-- 
+    The format of the tables that describe the functions and operators 
+    should not be changed without updating the script create-sql-function-doc 
+    in web-console/script/create-sql-function-doc, because the script detects
+    patterns in this markdown file and parse it to TypeScript file for web console
+   --&gt;</p>
+
+<h1 id="sql">SQL</h1>
+
+<div class="note caution">
+Built-in SQL is an <a href="../development/experimental.html">experimental</a> feature. The API described here is
+subject to change.
+</div>
+
+<p>Druid SQL is a built-in SQL layer and an alternative to Druid&#39;s native JSON-based query language, and is powered by a
+parser and planner based on <a href="https://calcite.apache.org/">Apache Calcite</a>. Druid SQL translates SQL into native Druid
+queries on the query Broker (the first process you query), which are then passed down to data processes as native Druid
+queries. Other than the (slight) overhead of translating SQL on the Broker, there isn&#39;t an additional performance
+penalty versus native queries.</p>
+
+<p>To enable Druid SQL, make sure you have set <code>druid.sql.enable = true</code> either in your common.runtime.properties or your
+Broker&#39;s runtime.properties.</p>
+
+<h2 id="query-syntax">Query syntax</h2>
+
+<p>Each Druid datasource appears as a table in the &quot;druid&quot; schema. This is also the default schema, so Druid datasources
+can be referenced as either <code>druid.dataSourceName</code> or simply <code>dataSourceName</code>.</p>
+
+<p>Identifiers like datasource and column names can optionally be quoted using double quotes. To escape a double quote
+inside an identifier, use another double quote, like <code>&quot;My &quot;&quot;very own&quot;&quot; identifier&quot;</code>. All identifiers are case-sensitive
+and no implicit case conversions are performed.</p>
+
+<p>Literal strings should be quoted with single quotes, like <code>&#39;foo&#39;</code>. Literal strings with Unicode escapes can be written
+like <code>U&amp;&#39;fo\00F6&#39;</code>, where character codes in hex are prefixed by a backslash. Literal numbers can be written in forms
+like <code>100</code> (denoting an integer), <code>100.0</code> (denoting a floating point value), or <code>1.0e5</code> (scientific notation). Literal
+timestamps can be written like <code>TIMESTAMP &#39;2000-01-01 00:00:00&#39;</code>. Literal intervals, used for time arithmetic, can be
+written like <code>INTERVAL &#39;1&#39; HOUR</code>, <code>INTERVAL &#39;1 02:03&#39; DAY TO MINUTE</code>, <code>INTERVAL &#39;1-2&#39; YEAR TO MONTH</code>, and so on.</p>
+
+<p>Druid SQL supports SELECT queries with the following structure:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>[ EXPLAIN PLAN FOR ]
+[ WITH tableName [ ( column1, column2, ... ) ] AS ( query ) ]
+SELECT [ ALL | DISTINCT ] { * | exprs }
+FROM table
+[ WHERE expr ]
+[ GROUP BY exprs ]
+[ HAVING expr ]
+[ ORDER BY expr [ ASC | DESC ], expr [ ASC | DESC ], ... ]
+[ LIMIT limit ]
+[ UNION ALL &lt;another query&gt; ]
+</code></pre></div>
+<p>The FROM clause refers to either a Druid datasource, like <code>druid.foo</code>, an <a href="#retrieving-metadata">INFORMATION_SCHEMA table</a>, a
+subquery, or a common-table-expression provided in the WITH clause. If the FROM clause references a subquery or a
+common-table-expression, and both levels of queries are aggregations and they cannot be combined into a single level of
+aggregation, the overall query will be executed as a <a href="groupbyquery.html#nested-groupbys">nested GroupBy</a>.</p>
+
+<p>The WHERE clause refers to columns in the FROM table, and will be translated to <a href="filters.html">native filters</a>. The
+WHERE clause can also reference a subquery, like <code>WHERE col1 IN (SELECT foo FROM ...)</code>. Queries like this are executed
+as <a href="#query-execution">semi-joins</a>, described below.</p>
+
+<p>The GROUP BY clause refers to columns in the FROM table. Using GROUP BY, DISTINCT, or any aggregation functions will
+trigger an aggregation query using one of Druid&#39;s <a href="#query-execution">three native aggregation query types</a>. GROUP BY
+can refer to an expression or a select clause ordinal position (like <code>GROUP BY 2</code> to group by the second selected
+column).</p>
+
+<p>The HAVING clause refers to columns that are present after execution of GROUP BY. It can be used to filter on either
+grouping expressions or aggregated values. It can only be used together with GROUP BY.</p>
+
+<p>The ORDER BY clause refers to columns that are present after execution of GROUP BY. It can be used to order the results
+based on either grouping expressions or aggregated values. ORDER BY can refer to an expression or a select clause
+ordinal position (like <code>ORDER BY 2</code> to order by the second selected column). For non-aggregation queries, ORDER BY
+can only order by the <code>__time</code> column. For aggregation queries, ORDER BY can order by any column.</p>
+
+<p>The LIMIT clause can be used to limit the number of rows returned. It can be used with any query type. It is pushed down
+to data processes for queries that run with the native TopN query type, but not the native GroupBy query type. Future
+versions of Druid will support pushing down limits using the native GroupBy query type as well. If you notice that
+adding a limit doesn&#39;t change performance very much, then it&#39;s likely that Druid didn&#39;t push down the limit for your
+query.</p>
+
+<p>The &quot;UNION ALL&quot; operator can be used to fuse multiple queries together. Their results will be concatenated, and each
+query will run separately, back to back (not in parallel). Druid does not currently support &quot;UNION&quot; without &quot;ALL&quot;.</p>
+
+<p>Add &quot;EXPLAIN PLAN FOR&quot; to the beginning of any query to see how it would be run as a native Druid query. In this case,
+the query will not actually be executed.</p>
+
+<h3 id="aggregation-functions">Aggregation functions</h3>
+
+<p>Aggregation functions can appear in the SELECT clause of any query. Any aggregator can be filtered using syntax like
+<code>AGG(expr) FILTER(WHERE whereExpr)</code>. Filtered aggregators will only aggregate rows that match their filter. It&#39;s
+possible for two aggregators in the same SQL query to have different filters.</p>
+
+<p>Only the COUNT aggregation can accept DISTINCT.</p>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>COUNT(*)</code></td>
+<td>Counts the number of rows.</td>
+</tr>
+<tr>
+<td><code>COUNT(DISTINCT expr)</code></td>
+<td>Counts distinct values of expr, which can be string, numeric, or hyperUnique. By default this is approximate, using a variant of <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>. To get exact counts set &quot;useApproximateCountDistinct&quot; to &quot;false&quot;. If you do this, expr must be string or numeric, since exact counts are not possible using hyperUnique columns. See also <code>APPROX_COUNT_DISTINCT(expr)</code>. In exact mode, only one distinct count per query is permitted.</td>
+</tr>
+<tr>
+<td><code>SUM(expr)</code></td>
+<td>Sums numbers.</td>
+</tr>
+<tr>
+<td><code>MIN(expr)</code></td>
+<td>Takes the minimum of numbers.</td>
+</tr>
+<tr>
+<td><code>MAX(expr)</code></td>
+<td>Takes the maximum of numbers.</td>
+</tr>
+<tr>
+<td><code>AVG(expr)</code></td>
+<td>Averages numbers.</td>
+</tr>
+<tr>
+<td><code>APPROX_COUNT_DISTINCT(expr)</code></td>
+<td>Counts distinct values of expr, which can be a regular column or a hyperUnique column. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>.</td>
+</tr>
+<tr>
+<td><code>APPROX_COUNT_DISTINCT_DS_HLL(expr, [lgK, tgtHllType])</code></td>
+<td>Counts distinct values of expr, which can be a regular column or an <a href="../development/extensions-core/datasketches-hll.html">HLL sketch</a> column. The <code>lgK</code> and <code>tgtHllType</code> parameters are described in the HLL sketch documentation. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_COUNT_DISTINCT_DS_THETA(expr, [size])</code></td>
+<td>Counts distinct values of expr, which can be a regular column or a <a href="../development/extensions-core/datasketches-theta.html">Theta sketch</a> column. The <code>size</code> parameter is described in the Theta sketch documentation. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_QUANTILE(expr, probability, [resolution])</code></td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/approximate-histograms.html#approximate-histogram-aggregator">approxHistogram</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The &quot;resolution&quot; is the number of centroids to use for the computation. Higher resolutions will give more precise results but also have higher overhead. If not provided, the default resolution is 50. The <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_QUANTILE_DS(expr, probability, [k])</code></td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/datasketches-quantiles.html">Quantiles sketch</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The <code>k</code> parameter is described in the Quantiles sketch documentation. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_QUANTILE_FIXED_BUCKETS(expr, probability, numBuckets, lowerLimit, upperLimit, [outlierHandlingMode])</code></td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/approximate-histograms.html#fixed-buckets-histogram">fixed buckets histogram</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The <code>numBuckets</code>, <code>lowerLimit</code>, <code>upperLimit</code>, and <code>outlierHandlingMode</code> parameters are described in the fixed buckets histogram documentation. The <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>BLOOM_FILTER(expr, numEntries)</code></td>
+<td>Computes a bloom filter from values produced by <code>expr</code>, with <code>numEntries</code> maximum number of distinct values before false positve rate increases. See <a href="../development/extensions-core/bloom-filter.html">bloom filter extension</a> documentation for additional details.</td>
+</tr>
+</tbody></table>
+
+<h3 id="numeric-functions">Numeric functions</h3>
+
+<p>Numeric functions will return 64 bit integers or 64 bit floats, depending on their inputs.</p>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ABS(expr)</code></td>
+<td>Absolute value.</td>
+</tr>
+<tr>
+<td><code>CEIL(expr)</code></td>
+<td>Ceiling.</td>
+</tr>
+<tr>
+<td><code>EXP(expr)</code></td>
+<td>e to the power of expr.</td>
+</tr>
+<tr>
+<td><code>FLOOR(expr)</code></td>
+<td>Floor.</td>
+</tr>
+<tr>
+<td><code>LN(expr)</code></td>
+<td>Logarithm (base e).</td>
+</tr>
+<tr>
+<td><code>LOG10(expr)</code></td>
+<td>Logarithm (base 10).</td>
+</tr>
+<tr>
+<td><code>POWER(expr, power)</code></td>
+<td>expr to a power.</td>
+</tr>
+<tr>
+<td><code>SQRT(expr)</code></td>
+<td>Square root.</td>
+</tr>
+<tr>
+<td><code>TRUNCATE(expr[, digits])</code></td>
+<td>Truncate expr to a specific number of decimal digits. If digits is negative, then this truncates that many places to the left of the decimal point. Digits defaults to zero if not specified.</td>
+</tr>
+<tr>
+<td><code>TRUNC(expr[, digits])</code></td>
+<td>Synonym for <code>TRUNCATE</code>.</td>
+</tr>
+<tr>
+<td><code>x + y</code></td>
+<td>Addition.</td>
+</tr>
+<tr>
+<td><code>x - y</code></td>
+<td>Subtraction.</td>
+</tr>
+<tr>
+<td><code>x * y</code></td>
+<td>Multiplication.</td>
+</tr>
+<tr>
+<td><code>x / y</code></td>
+<td>Division.</td>
+</tr>
+<tr>
+<td><code>MOD(x, y)</code></td>
+<td>Modulo (remainder of x divided by y).</td>
+</tr>
+<tr>
+<td><code>SIN(expr)</code></td>
+<td>Trigonometric sine of an angle expr.</td>
+</tr>
+<tr>
+<td><code>COS(expr)</code></td>
+<td>Trigonometric cosine of an angle expr.</td>
+</tr>
+<tr>
+<td><code>TAN(expr)</code></td>
+<td>Trigonometric tangent of an angle expr.</td>
+</tr>
+<tr>
+<td><code>COT(expr)</code></td>
+<td>Trigonometric cotangent of an angle expr.</td>
+</tr>
+<tr>
+<td><code>ASIN(expr)</code></td>
+<td>Arc sine of expr.</td>
+</tr>
+<tr>
+<td><code>ACOS(expr)</code></td>
+<td>Arc cosine of expr.</td>
+</tr>
+<tr>
+<td><code>ATAN(expr)</code></td>
+<td>Arc tangent of expr.</td>
+</tr>
+<tr>
+<td><code>ATAN2(y, x)</code></td>
+<td>Angle theta from the conversion of rectangular coordinates (x, y) to polar * coordinates (r, theta).</td>
+</tr>
+<tr>
+<td><code>DEGREES(expr)</code></td>
+<td>Converts an angle measured in radians to an approximately equivalent angle measured in degrees</td>
+</tr>
+<tr>
+<td><code>RADIANS(expr)</code></td>
+<td>Converts an angle measured in degrees to an approximately equivalent angle measured in radians</td>
+</tr>
+</tbody></table>
+
+<h3 id="string-functions">String functions</h3>
+
+<p>String functions accept strings, and return a type appropriate to the function.</p>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>`x \</td>
+<td>\</td>
+</tr>
+<tr>
+<td><code>CONCAT(expr, expr...)</code></td>
+<td>Concats a list of expressions.</td>
+</tr>
+<tr>
+<td><code>TEXTCAT(expr, expr)</code></td>
+<td>Two argument version of CONCAT.</td>
+</tr>
+<tr>
+<td><code>FORMAT(pattern[, args...])</code></td>
+<td>Returns a string formatted in the manner of Java&#39;s <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#format-java.lang.String-java.lang.Object...-">String.format</a>.</td>
+</tr>
+<tr>
+<td><code>LENGTH(expr)</code></td>
+<td>Length of expr in UTF-16 code units.</td>
+</tr>
+<tr>
+<td><code>CHAR_LENGTH(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
+</tr>
+<tr>
+<td><code>CHARACTER_LENGTH(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
+</tr>
+<tr>
+<td><code>STRLEN(expr)</code></td>
+<td>Synonym for <code>LENGTH</code>.</td>
+</tr>
+<tr>
+<td><code>LOOKUP(expr, lookupName)</code></td>
+<td>Look up expr in a registered <a href="lookups.html">query-time lookup table</a>.</td>
+</tr>
+<tr>
+<td><code>LOWER(expr)</code></td>
+<td>Returns expr in all lowercase.</td>
+</tr>
+<tr>
+<td><code>PARSE_LONG(string[, radix])</code></td>
+<td>Parses a string into a long (BIGINT) with the given radix, or 10 (decimal) if a radix is not provided.</td>
+</tr>
+<tr>
+<td><code>POSITION(needle IN haystack [FROM fromIndex])</code></td>
+<td>Returns the index of needle within haystack, with indexes starting from 1. The search will begin at fromIndex, or 1 if fromIndex is not specified. If the needle is not found, returns 0.</td>
+</tr>
+<tr>
+<td><code>REGEXP_EXTRACT(expr, pattern, [index])</code></td>
+<td>Apply regular expression pattern and extract a capture group, or null if there is no match. If index is unspecified or zero, returns the substring that matched the pattern.</td>
+</tr>
+<tr>
+<td><code>REPLACE(expr, pattern, replacement)</code></td>
+<td>Replaces pattern with replacement in expr, and returns the result.</td>
+</tr>
+<tr>
+<td><code>STRPOS(haystack, needle)</code></td>
+<td>Returns the index of needle within haystack, with indexes starting from 1. If the needle is not found, returns 0.</td>
+</tr>
+<tr>
+<td><code>SUBSTRING(expr, index, [length])</code></td>
+<td>Returns a substring of expr starting at index, with a max length, both measured in UTF-16 code units.</td>
+</tr>
+<tr>
+<td><code>SUBSTR(expr, index, [length])</code></td>
+<td>Synonym for SUBSTRING.</td>
+</tr>
+<tr>
+<td>`TRIM([BOTH \</td>
+<td>LEADING \</td>
+</tr>
+<tr>
+<td><code>BTRIM(expr[, chars])</code></td>
+<td>Alternate form of <code>TRIM(BOTH &lt;chars&gt; FROM &lt;expr&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>LTRIM(expr[, chars])</code></td>
+<td>Alternate form of <code>TRIM(LEADING &lt;chars&gt; FROM &lt;expr&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>RTRIM(expr[, chars])</code></td>
+<td>Alternate form of <code>TRIM(TRAILING &lt;chars&gt; FROM &lt;expr&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>UPPER(expr)</code></td>
+<td>Returns expr in all uppercase.</td>
+</tr>
+</tbody></table>
+
+<h3 id="time-functions">Time functions</h3>
+
+<p>Time functions can be used with Druid&#39;s <code>__time</code> column, with any column storing millisecond timestamps through use
+of the <code>MILLIS_TO_TIMESTAMP</code> function, or with any column storing string timestamps through use of the <code>TIME_PARSE</code>
+function. By default, time operations use the UTC time zone. You can change the time zone by setting the connection
+context parameter &quot;sqlTimeZone&quot; to the name of another time zone, like &quot;America/Los_Angeles&quot;, or to an offset like
+&quot;-08:00&quot;. If you need to mix multiple time zones in the same query, or if you need to use a time zone other than
+the connection time zone, some functions also accept time zones as parameters. These parameters always take precedence
+over the connection time zone.</p>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>CURRENT_TIMESTAMP</code></td>
+<td>Current timestamp in the connection&#39;s time zone.</td>
+</tr>
+<tr>
+<td><code>CURRENT_DATE</code></td>
+<td>Current date in the connection&#39;s time zone.</td>
+</tr>
+<tr>
+<td><code>DATE_TRUNC(&lt;unit&gt;, &lt;timestamp_expr&gt;)</code></td>
+<td>Rounds down a timestamp, returning it as a new timestamp. Unit can be &#39;milliseconds&#39;, &#39;second&#39;, &#39;minute&#39;, &#39;hour&#39;, &#39;day&#39;, &#39;week&#39;, &#39;month&#39;, &#39;quarter&#39;, &#39;year&#39;, &#39;decade&#39;, &#39;century&#39;, or &#39;millenium&#39;.</td>
+</tr>
+<tr>
+<td><code>TIME_FLOOR(&lt;timestamp_expr&gt;, &lt;period&gt;, [&lt;origin&gt;, [&lt;timezone&gt;]])</code></td>
+<td>Rounds down a timestamp, returning it as a new timestamp. Period can be any ISO8601 period, like P3M (quarters) or PT12H (half-days). The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;. This function is similar to <code>FLOOR</code> but is more flexible.</td>
+</tr>
+<tr>
+<td><code>TIME_SHIFT(&lt;timestamp_expr&gt;, &lt;period&gt;, &lt;step&gt;, [&lt;timezone&gt;])</code></td>
+<td>Shifts a timestamp by a period (step times), returning it as a new timestamp. Period can be any ISO8601 period. Step may be negative. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+</tr>
+<tr>
+<td><code>TIME_EXTRACT(&lt;timestamp_expr&gt;, [&lt;unit&gt;, [&lt;timezone&gt;]])</code></td>
+<td>Extracts a time part from expr, returning it as a number. Unit can be EPOCH, SECOND, MINUTE, HOUR, DAY (day of month), DOW (day of week), DOY (day of year), WEEK (week of <a href="https://en.wikipedia.org/wiki/ISO_week_date">week year</a>), MONTH (1 through 12), QUARTER (1 through 4), or YEAR. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;. This function is similar to <code>EXTRACT</code> but is more flexible. Unit and time zone must be literals, and must be provided quoted, like <code>TIME_EXTRACT(__time, &#39;HOUR&#39;)</code> or <code>TIME_EXTRACT(__time, &#39;HOUR&#39;, &#39;America/Los_Angeles&#39;)</code>.</td>
+</tr>
+<tr>
+<td><code>TIME_PARSE(&lt;string_expr&gt;, [&lt;pattern&gt;, [&lt;timezone&gt;]])</code></td>
+<td>Parses a string into a timestamp using a given <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat pattern</a>, or ISO8601 (e.g. <code>2000-01-02T03:04:05Z</code>) if the pattern is not provided. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;, and will be used as the time zone for strings that do not include a time zone offset. Pattern and time zone must be literals. Strings that cannot be parsed as timestamps will be returned as NULL.</td>
+</tr>
+<tr>
+<td><code>TIME_FORMAT(&lt;timestamp_expr&gt;, [&lt;pattern&gt;, [&lt;timezone&gt;]])</code></td>
+<td>Formats a timestamp as a string with a given <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Joda DateTimeFormat pattern</a>, or ISO8601 (e.g. <code>2000-01-02T03:04:05Z</code>) if the pattern is not provided. The time zone, if provided, should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;. Pattern and time zone must be literals.</td>
+</tr>
+<tr>
+<td><code>MILLIS_TO_TIMESTAMP(millis_expr)</code></td>
+<td>Converts a number of milliseconds since the epoch into a timestamp.</td>
+</tr>
+<tr>
+<td><code>TIMESTAMP_TO_MILLIS(timestamp_expr)</code></td>
+<td>Converts a timestamp into a number of milliseconds since the epoch.</td>
+</tr>
+<tr>
+<td><code>EXTRACT(&lt;unit&gt; FROM timestamp_expr)</code></td>
+<td>Extracts a time part from expr, returning it as a number. Unit can be EPOCH, SECOND, MINUTE, HOUR, DAY (day of month), DOW (day of week), DOY (day of year), WEEK (week of year), MONTH, QUARTER, or YEAR. Units must be provided unquoted, like <code>EXTRACT(HOUR FROM __time)</code>.</td>
+</tr>
+<tr>
+<td><code>FLOOR(timestamp_expr TO &lt;unit&gt;)</code></td>
+<td>Rounds down a timestamp, returning it as a new timestamp. Unit can be SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, or YEAR.</td>
+</tr>
+<tr>
+<td><code>CEIL(timestamp_expr TO &lt;unit&gt;)</code></td>
+<td>Rounds up a timestamp, returning it as a new timestamp. Unit can be SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, or YEAR.</td>
+</tr>
+<tr>
+<td><code>TIMESTAMPADD(&lt;unit&gt;, &lt;count&gt;, &lt;timestamp&gt;)</code></td>
+<td>Equivalent to <code>timestamp + count * INTERVAL &#39;1&#39; UNIT</code>.</td>
+</tr>
+<tr>
+<td>`timestamp_expr { + \</td>
+<td>- } <interval_expr>`</td>
+</tr>
+</tbody></table>
+
+<h3 id="comparison-operators">Comparison operators</h3>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>x = y</code></td>
+<td>Equals.</td>
+</tr>
+<tr>
+<td><code>x &lt;&gt; y</code></td>
+<td>Not-equals.</td>
+</tr>
+<tr>
+<td><code>x &gt; y</code></td>
+<td>Greater than.</td>
+</tr>
+<tr>
+<td><code>x &gt;= y</code></td>
+<td>Greater than or equal to.</td>
+</tr>
+<tr>
+<td><code>x &lt; y</code></td>
+<td>Less than.</td>
+</tr>
+<tr>
+<td><code>x &lt;= y</code></td>
+<td>Less than or equal to.</td>
+</tr>
+<tr>
+<td><code>x BETWEEN y AND z</code></td>
+<td>Equivalent to <code>x &gt;= y AND x &lt;= z</code>.</td>
+</tr>
+<tr>
+<td><code>x NOT BETWEEN y AND z</code></td>
+<td>Equivalent to <code>x &lt; y OR x &gt; z</code>.</td>
+</tr>
+<tr>
+<td><code>x LIKE pattern [ESCAPE esc]</code></td>
+<td>True if x matches a SQL LIKE pattern (with an optional escape).</td>
+</tr>
+<tr>
+<td><code>x NOT LIKE pattern [ESCAPE esc]</code></td>
+<td>True if x does not match a SQL LIKE pattern (with an optional escape).</td>
+</tr>
+<tr>
+<td><code>x IS NULL</code></td>
+<td>True if x is NULL or empty string.</td>
+</tr>
+<tr>
+<td><code>x IS NOT NULL</code></td>
+<td>True if x is neither NULL nor empty string.</td>
+</tr>
+<tr>
+<td><code>x IS TRUE</code></td>
+<td>True if x is true.</td>
+</tr>
+<tr>
+<td><code>x IS NOT TRUE</code></td>
+<td>True if x is not true.</td>
+</tr>
+<tr>
+<td><code>x IS FALSE</code></td>
+<td>True if x is false.</td>
+</tr>
+<tr>
+<td><code>x IS NOT FALSE</code></td>
+<td>True if x is not false.</td>
+</tr>
+<tr>
+<td><code>x IN (values)</code></td>
+<td>True if x is one of the listed values.</td>
+</tr>
+<tr>
+<td><code>x NOT IN (values)</code></td>
+<td>True if x is not one of the listed values.</td>
+</tr>
+<tr>
+<td><code>x IN (subquery)</code></td>
+<td>True if x is returned by the subquery. See <a href="#syntax-and-execution">Syntax and execution</a> above for details about how Druid SQL handles <code>IN (subquery)</code>.</td>
+</tr>
+<tr>
+<td><code>x NOT IN (subquery)</code></td>
+<td>True if x is not returned by the subquery. See <a href="#syntax-and-execution">Syntax and execution</a> for details about how Druid SQL handles <code>IN (subquery)</code>.</td>
+</tr>
+<tr>
+<td><code>x AND y</code></td>
+<td>Boolean AND.</td>
+</tr>
+<tr>
+<td><code>x OR y</code></td>
+<td>Boolean OR.</td>
+</tr>
+<tr>
+<td><code>NOT x</code></td>
+<td>Boolean NOT.</td>
+</tr>
+</tbody></table>
+
+<h3 id="other-functions">Other functions</h3>
+
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>CAST(value AS TYPE)</code></td>
+<td>Cast value to another type. See <a href="#data-types-and-casts">Data types and casts</a> for details about how Druid SQL handles CAST.</td>
+</tr>
+<tr>
+<td><code>CASE expr WHEN value1 THEN result1 \[ WHEN value2 THEN result2 ... \] \[ ELSE resultN \] END</code></td>
+<td>Simple CASE.</td>
+</tr>
+<tr>
+<td><code>CASE WHEN boolean_expr1 THEN result1 \[ WHEN boolean_expr2 THEN result2 ... \] \[ ELSE resultN \] END</code></td>
+<td>Searched CASE.</td>
+</tr>
+<tr>
+<td><code>NULLIF(value1, value2)</code></td>
+<td>Returns NULL if value1 and value2 match, else returns value1.</td>
+</tr>
+<tr>
+<td><code>COALESCE(value1, value2, ...)</code></td>
+<td>Returns the first value that is neither NULL nor empty string.</td>
+</tr>
+<tr>
+<td><code>BLOOM_FILTER_TEST(&lt;expr&gt;, &lt;serialized-filter&gt;)</code></td>
+<td>Returns true if the value is contained in the base64 serialized bloom filter. See <a href="../development/extensions-core/bloom-filter.html">bloom filter extension</a> documentation for additional details.</td>
+</tr>
+</tbody></table>
+
+<h3 id="unsupported-features">Unsupported features</h3>
+
+<p>Druid does not support all SQL features, including:</p>
+
+<ul>
+<li>OVER clauses, and analytic functions such as <code>LAG</code> and <code>LEAD</code>.</li>
+<li>JOIN clauses, other than semi-joins as described above.</li>
+<li>OFFSET clauses.</li>
+<li>DDL and DML.</li>
+</ul>
+
+<p>Additionally, some Druid features are not supported by the SQL language. Some unsupported Druid features include:</p>
+
+<ul>
+<li><a href="multi-value-dimensions.html">Multi-value dimensions</a>.</li>
+<li><a href="../development/extensions-core/datasketches-extension.html">DataSketches aggregators</a>.</li>
+<li><a href="../development/geo.html">Spatial filters</a>.</li>
+<li><a href="querying.html#query-cancellation">Query cancellation</a>.</li>
+</ul>
+
+<h2 id="data-types-and-casts">Data types and casts</h2>
+
+<p>Druid natively supports five basic column types: &quot;long&quot; (64 bit signed int), &quot;float&quot; (32 bit float), &quot;double&quot; (64 bit
+float) &quot;string&quot; (UTF-8 encoded strings), and &quot;complex&quot; (catch-all for more exotic data types like hyperUnique and
+approxHistogram columns). Timestamps (including the <code>__time</code> column) are stored as longs, with the value being the
+number of milliseconds since 1 January 1970 UTC.</p>
+
+<p>At runtime, Druid may widen 32-bit floats to 64-bit for certain operators, like SUM aggregators. The reverse will not
+happen: 64-bit floats are not be narrowed to 32-bit.</p>
+
+<p>Druid generally treats NULLs and empty strings interchangeably, rather than according to the SQL standard. As such,
+Druid SQL only has partial support for NULLs. For example, the expressions <code>col IS NULL</code> and <code>col = &#39;&#39;</code> are equivalent,
+and both will evaluate to true if <code>col</code> contains an empty string. Similarly, the expression <code>COALESCE(col1, col2)</code> will
+return <code>col2</code> if <code>col1</code> is an empty string. While the <code>COUNT(*)</code> aggregator counts all rows, the <code>COUNT(expr)</code>
+aggregator will count the number of rows where expr is neither null nor the empty string. String columns in Druid are
+NULLable. Numeric columns are NOT NULL; if you query a numeric column that is not present in all segments of your Druid
+datasource, then it will be treated as zero for rows from those segments.</p>
+
+<p>For mathematical operations, Druid SQL will use integer math if all operands involved in an expression are integers.
+Otherwise, Druid will switch to floating point math. You can force this to happen by casting one of your operands
+to FLOAT.</p>
+
+<p>The following table describes how SQL types map onto Druid types during query runtime. Casts between two SQL types
+that have the same Druid runtime type will have no effect, other than exceptions noted in the table. Casts between two
+SQL types that have different Druid runtime types will generate a runtime cast in Druid. If a value cannot be properly
+cast to another value, as in <code>CAST(&#39;foo&#39; AS BIGINT)</code>, the runtime will substitute a default value. NULL values cast
+to non-nullable types will also be substitued with a default value (for example, nulls cast to numbers will be
+converted to zeroes).</p>
+
+<table><thead>
+<tr>
+<th>SQL type</th>
+<th>Druid runtime type</th>
+<th>Default value</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CHAR</td>
+<td>STRING</td>
+<td><code>&#39;&#39;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>STRING</td>
+<td><code>&#39;&#39;</code></td>
+<td>Druid STRING columns are reported as VARCHAR</td>
+</tr>
+<tr>
+<td>DECIMAL</td>
+<td>DOUBLE</td>
+<td><code>0.0</code></td>
+<td>DECIMAL uses floating point, not fixed point math</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>FLOAT</td>
+<td><code>0.0</code></td>
+<td>Druid FLOAT columns are reported as FLOAT</td>
+</tr>
+<tr>
+<td>REAL</td>
+<td>DOUBLE</td>
+<td><code>0.0</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>DOUBLE</td>
+<td><code>0.0</code></td>
+<td>Druid DOUBLE columns are reported as DOUBLE</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>LONG</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>LONG</td>
+<td><code>0</code></td>
+<td></td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>LONG</td>
+<td><code>0</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td>LONG</td>
+<td><code>0</code></td>
+<td></td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>LONG</td>
+<td><code>0</code></td>
+<td>Druid LONG columns (except <code>__time</code>) are reported as BIGINT</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>LONG</td>
+<td><code>0</code>, meaning 1970-01-01 00:00:00 UTC</td>
+<td>Druid&#39;s <code>__time</code> column is reported as TIMESTAMP. Casts between string and timestamp types assume standard SQL formatting, e.g. <code>2000-01-02 03:04:05</code>, <em>not</em> ISO8601 formatting. For handling other formats, use one of the <a href="#time-functions">time functions</a></td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>LONG</td>
+<td><code>0</code>, meaning 1970-01-01</td>
+<td>Casting TIMESTAMP to DATE rounds down the timestamp to the nearest day. Casts between string and date types assume standard SQL formatting, e.g. <code>2000-01-02</code>. For handling other formats, use one of the <a href="#time-functions">time functions</a></td>
+</tr>
+<tr>
+<td>OTHER</td>
+<td>COMPLEX</td>
+<td>none</td>
+<td>May represent various Druid column types such as hyperUnique, approxHistogram, etc</td>
+</tr>
+</tbody></table>
+
+<h2 id="query-execution">Query execution</h2>
+
+<p>Queries without aggregations will use Druid&#39;s <a href="scan-query.html">Scan</a> native query type.</p>
+
+<p>Aggregation queries (using GROUP BY, DISTINCT, or any aggregation functions) will use one of Druid&#39;s three native
+aggregation query types. Two (Timeseries and TopN) are specialized for specific types of aggregations, whereas the other
+(GroupBy) is general-purpose.</p>
+
+<ul>
+<li><p><a href="timeseriesquery.html">Timeseries</a> is used for queries that GROUP BY <code>FLOOR(__time TO &lt;unit&gt;)</code> or <code>TIME_FLOOR(__time,
+period)</code>, have no other grouping expressions, no HAVING or LIMIT clauses, no nesting, and either no ORDER BY, or an
+ORDER BY that orders by same expression as present in GROUP BY. It also uses Timeseries for &quot;grand total&quot; queries that
+have aggregation functions but no GROUP BY. This query type takes advantage of the fact that Druid segments are sorted
+by time.</p></li>
+<li><p><a href="topnquery.html">TopN</a> is used by default for queries that group by a single expression, do have ORDER BY and LIMIT
+clauses, do not have HAVING clauses, and are not nested. However, the TopN query type will deliver approximate ranking
+and results in some cases; if you want to avoid this, set &quot;useApproximateTopN&quot; to &quot;false&quot;. TopN results are always
+computed in memory. See the TopN documentation for more details.</p></li>
+<li><p><a href="groupbyquery.html">GroupBy</a> is used for all other aggregations, including any nested aggregation queries. Druid&#39;s
+GroupBy is a traditional aggregation engine: it delivers exact results and rankings and supports a wide variety of
+features. GroupBy aggregates in memory if it can, but it may spill to disk if it doesn&#39;t have enough memory to complete
+your query. Results are streamed back from data processes through the Broker if you ORDER BY the same expressions in your
+GROUP BY clause, or if you don&#39;t have an ORDER BY at all. If your query has an ORDER BY referencing expressions that
+don&#39;t appear in the GROUP BY clause (like aggregation functions) then the Broker will materialize a list of results in
+memory, up to a max of your LIMIT, if any. See the GroupBy documentation for details about tuning performance and memory
+use.</p></li>
+</ul>
+
+<p>If your query does nested aggregations (an aggregation subquery in your FROM clause) then Druid will execute it as a
+<a href="groupbyquery.html#nested-groupbys">nested GroupBy</a>. In nested GroupBys, the innermost aggregation is distributed, but
+all outer aggregations beyond that take place locally on the query Broker.</p>
+
+<p>Semi-join queries containing WHERE clauses like <code>col IN (SELECT expr FROM ...)</code> are executed with a special process. The
+Broker will first translate the subquery into a GroupBy to find distinct values of <code>expr</code>. Then, the broker will rewrite
+the subquery to a literal filter, like <code>col IN (val1, val2, ...)</code> and run the outer query. The configuration parameter
+druid.sql.planner.maxSemiJoinRowsInMemory controls the maximum number of values that will be materialized for this kind
+of plan.</p>
+
+<p>For all native query types, filters on the <code>__time</code> column will be translated into top-level query &quot;intervals&quot; whenever
+possible, which allows Druid to use its global time index to quickly prune the set of data that must be scanned. In
+addition, Druid will use indexes local to each data process to further speed up WHERE evaluation. This can typically be
+done for filters that involve boolean combinations of references to and functions of single columns, like
+<code>WHERE col1 = &#39;a&#39; AND col2 = &#39;b&#39;</code>, but not <code>WHERE col1 = col2</code>.</p>
+
+<h3 id="approximate-algorithms">Approximate algorithms</h3>
+
+<p>Druid SQL will use approximate algorithms in some situations:</p>
+
+<ul>
+<li>The <code>COUNT(DISTINCT col)</code> aggregation functions by default uses a variant of
+<a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>, a fast approximate distinct counting
+algorithm. Druid SQL will switch to exact distinct counts if you set &quot;useApproximateCountDistinct&quot; to &quot;false&quot;, either
+through query context or through Broker configuration.</li>
+<li>GROUP BY queries over a single column with ORDER BY and LIMIT may be executed using the TopN engine, which uses an
+approximate algorithm. Druid SQL will switch to an exact grouping algorithm if you set &quot;useApproximateTopN&quot; to &quot;false&quot;,
+either through query context or through Broker configuration.</li>
+<li>The APPROX_COUNT_DISTINCT and APPROX_QUANTILE aggregation functions always use approximate algorithms, regardless
+of configuration.</li>
+</ul>
+
+<h2 id="client-apis">Client APIs</h2>
+
+<h3 id="json-over-http">JSON over HTTP</h3>
+
+<p>You can make Druid SQL queries using JSON over HTTP by posting to the endpoint <code>/druid/v2/sql/</code>. The request should
+be a JSON object with a &quot;query&quot; field, like <code>{&quot;query&quot; : &quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39;&quot;}</code>.</p>
+
+<p>You can use <em>curl</em> to send SQL queries from the command-line:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ cat query.json
+<span class="o">{</span><span class="s2">&quot;query&quot;</span>:<span class="s2">&quot;SELECT COUNT(*) AS TheCount FROM data_source&quot;</span><span class="o">}</span>
+
+$ curl -XPOST -H<span class="s1">&#39;Content-Type: application/json&#39;</span> http://BROKER:8082/druid/v2/sql/ -d @query.json
+<span class="o">[{</span><span class="s2">&quot;TheCount&quot;</span>:24433<span class="o">}]</span>
+</code></pre></div>
+<p>There are a variety of <a href="#connection-context">connection context parameters</a> you can provide by adding a &quot;context&quot; map,
+like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;context&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;sqlTimeZone&quot;</span> <span class="p">:</span> <span class="s2">&quot;America/Los_Angeles&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Metadata is available over the HTTP API by querying <a href="#retrieving-metadata">system tables</a>.</p>
+
+<h4 id="responses">Responses</h4>
+
+<p>Druid SQL supports a variety of result formats. You can specify these by adding a &quot;resultFormat&quot; parameter, like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="s2">&quot;object&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The supported result formats are:</p>
+
+<table><thead>
+<tr>
+<th>Format</th>
+<th>Description</th>
+<th>Content-Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>object</code></td>
+<td>The default, a JSON array of JSON objects. Each object&#39;s field names match the columns returned by the SQL query, and are provided in the same order as the SQL query.</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><code>array</code></td>
+<td>JSON array of JSON arrays. Each inner array has elements matching the columns returned by the SQL query, in order.</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><code>objectLines</code></td>
+<td>Like &quot;object&quot;, but the JSON objects are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/plain</td>
+</tr>
+<tr>
+<td><code>arrayLines</code></td>
+<td>Like &quot;array&quot;, but the JSON arrays are separated by newlines instead of being wrapped in a JSON array. This can make it easier to parse the entire response set as a stream, if you do not have ready access to a streaming JSON parser. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/plain</td>
+</tr>
+<tr>
+<td><code>csv</code></td>
+<td>Comma-separated values, with one row per line. Individual field values may be escaped by being surrounded in double quotes. If double quotes appear in a field value, they will be escaped by replacing them with double-double-quotes like <code>&quot;&quot;this&quot;&quot;</code>. To make it possible to detect a truncated response, this format includes a trailer of one blank line.</td>
+<td>text/csv</td>
+</tr>
+</tbody></table>
+
+<p>You can additionally request a header by setting &quot;header&quot; to true in your request, like:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;SELECT COUNT(*) FROM data_source WHERE foo = &#39;bar&#39; AND __time &gt; TIMESTAMP &#39;2000-01-01 00:00:00&#39;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="s2">&quot;arrayLines&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;header&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this case, the first result returned will be a header. For the <code>csv</code>, <code>array</code>, and <code>arrayLines</code> formats, the header
+will be a list of column names. For the <code>object</code> and <code>objectLines</code> formats, the header will be an object where the
+keys are column names, and the values are null.</p>
+
+<p>Errors that occur before the response body is sent will be reported in JSON, with an HTTP 500 status code, in the
+same format as <a href="../querying/querying.html#query-errors">native Druid query errors</a>. If an error occurs while the response body is
+being sent, at that point it is too late to change the HTTP status code or report a JSON error, so the response will
+simply end midstream and an error will be logged by the Druid server that was handling your request.</p>
+
+<p>As a caller, it is important that you properly handle response truncation. This is easy for the &quot;object&quot; and &quot;array&quot;
+formats, since truncated responses will be invalid JSON. For the line-oriented formats, you should check the
+trailer they all include: one blank line at the end of the result set. If you detect a truncated response, either
+through a JSON parsing error or through a missing trailing newline, you should assume the response was not fully
+delivered due to an error.</p>
+
+<h3 id="jdbc">JDBC</h3>
+
+<p>You can make Druid SQL queries using the <a href="https://calcite.apache.org/avatica/downloads/">Avatica JDBC driver</a>. Once
+you&#39;ve downloaded the Avatica client jar, add it to your classpath and use the connect string
+<code>jdbc:avatica:remote:url=http://BROKER:8082/druid/v2/sql/avatica/</code>.</p>
+
+<p>Example code:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// Connect to /druid/v2/sql/avatica/ on your Broker.</span>
+<span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/&quot;</span><span class="o">;</span>
+
+<span class="c1">// Set any connection context parameters you need here (see &quot;Connection context&quot; below).</span>
+<span class="c1">// Or leave empty for default behavior.</span>
+<span class="n">Properties</span> <span class="n">connectionProperties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+
+<span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">connectionProperties</span><span class="o">))</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">(</span>
+      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+      <span class="kd">final</span> <span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
+  <span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+      <span class="c1">// Do something</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Table metadata is available over JDBC using <code>connection.getMetaData()</code> or by querying the
+<a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>. Parameterized queries (using <code>?</code> or other placeholders) don&#39;t work properly,
+so avoid those.</p>
+
+<h4 id="connection-stickiness">Connection stickiness</h4>
+
+<p>Druid&#39;s JDBC server does not share connection state between Brokers. This means that if you&#39;re using JDBC and have
+multiple Druid Brokers, you should either connect to a specific Broker, or use a load balancer with sticky sessions
+enabled. The Druid Router process provides connection stickiness when balancing JDBC requests, and can be used to achieve
+the necessary stickiness even with a normal non-sticky load balancer. Please see the
+<a href="../development/router.html">Router</a> documentation for more details.</p>
+
+<p>Note that the non-JDBC <a href="#json-over-http">JSON over HTTP</a> API is stateless and does not require stickiness.</p>
+
+<h3 id="connection-context">Connection context</h3>
+
+<p>Druid SQL supports setting connection parameters on the client. The parameters in the table below affect SQL planning.
+All other context parameters you provide will be attached to Druid queries and can affect how they run. See
+<a href="query-context.html">Query context</a> for details on the possible options.</p>
+
+<p>Note that to specify an unique identifier for SQL query, use <code>sqlQueryId</code> instead of <code>queryId</code>. Setting <code>queryId</code> for a SQL
+request has no effect, all native queries underlying SQL will use auto-generated queryId.</p>
+
+<p>Connection context can be specified as JDBC connection properties or as a &quot;context&quot; object in the JSON API.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sqlQueryId</code></td>
+<td>Unique identifier given to this SQL query. For HTTP client, it will be returned in <code>X-Druid-SQL-Query-Id</code> header.</td>
+<td>auto-generated</td>
+</tr>
+<tr>
+<td><code>sqlTimeZone</code></td>
+<td>Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+<td>druid.sql.planner.sqlTimeZone on the Broker (default: UTC)</td>
+</tr>
+<tr>
+<td><code>useApproximateCountDistinct</code></td>
+<td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
+<td>druid.sql.planner.useApproximateCountDistinct on the Broker (default: true)</td>
+</tr>
+<tr>
+<td><code>useApproximateTopN</code></td>
+<td>Whether to use approximate <a href="topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="groupbyquery.html">GroupBy queries</a> will be used instead.</td>
+<td>druid.sql.planner.useApproximateTopN on the Broker (default: true)</td>
+</tr>
+<tr>
+<td><code>useFallback</code></td>
+<td>Whether to evaluate operations on the Broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>druid.sql.planner.useFallback on the Broker (default: false)</td>
+</tr>
+</tbody></table>
+
+<h3 id="retrieving-metadata">Retrieving metadata</h3>
+
+<p>Druid Brokers infer table and column metadata for each dataSource from segments loaded in the cluster, and use this to
+plan SQL queries. This metadata is cached on Broker startup and also updated periodically in the background through
+<a href="segmentmetadataquery.html">SegmentMetadata queries</a>. Background metadata refreshing is triggered by
+segments entering and exiting the cluster, and can also be throttled through configuration.</p>
+
+<p>Druid exposes system information through special system tables. There are two such schemas available: Information Schema and Sys Schema.
+Information schema provides details about table and column types. The &quot;sys&quot; schema provides information about Druid internals like segments/tasks/servers.</p>
+
+<h2 id="information-schema">INFORMATION SCHEMA</h2>
+
+<p>You can access table and column metadata through JDBC using <code>connection.getMetaData()</code>, or through the
+INFORMATION_SCHEMA tables described below. For example, to retrieve metadata for the Druid
+datasource &quot;foo&quot;, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">COLUMNS</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="s1">&#39;druid&#39;</span> <span class="k">AND</span> <span class="k">TABLE_NAME</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
+</code></pre></div>
+<h3 id="schemata-table">SCHEMATA table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CATALOG_NAME</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>SCHEMA_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>SCHEMA_OWNER</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_SCHEMA</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>DEFAULT_CHARACTER_SET_NAME</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>SQL_PATH</td>
+<td>Unused</td>
+</tr>
+</tbody></table>
+
+<h3 id="tables-table">TABLES table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TABLE_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_TYPE</td>
+<td>&quot;TABLE&quot; or &quot;SYSTEM_TABLE&quot;</td>
+</tr>
+</tbody></table>
+
+<h3 id="columns-table">COLUMNS table</h3>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TABLE_CATALOG</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDINAL_POSITION</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_DEFAULT</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>IS_NULLABLE</td>
+<td></td>
+</tr>
+<tr>
+<td>DATA_TYPE</td>
+<td></td>
+</tr>
+<tr>
+<td>CHARACTER_MAXIMUM_LENGTH</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>CHARACTER_OCTET_LENGTH</td>
+<td>Unused</td>
+</tr>
+<tr>
+<td>NUMERIC_PRECISION</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMERIC_PRECISION_RADIX</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMERIC_SCALE</td>
+<td></td>
+</tr>
+<tr>
+<td>DATETIME_PRECISION</td>
+<td></td>
+</tr>
+<tr>
+<td>CHARACTER_SET_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>COLLATION_NAME</td>
+<td></td>
+</tr>
+<tr>
+<td>JDBC_TYPE</td>
+<td>Type code from java.sql.Types (Druid extension)</td>
+</tr>
+</tbody></table>
+
+<h2 id="system-schema">SYSTEM SCHEMA</h2>
+
+<p>The &quot;sys&quot; schema provides visibility into Druid segments, servers and tasks.</p>
+
+<h3 id="segments-table">SEGMENTS table</h3>
+
+<p>Segments table provides details on all Druid segments, whether they are published yet or not.</p>
+
+<h4 id="caveat">CAVEAT</h4>
+
+<p>Note that a segment can be served by more than one stream ingestion tasks or Historical processes, in that case it would have multiple replicas. These replicas are weakly consistent with each other when served by multiple ingestion tasks, until a segment is eventually served by a Historical, at that point the segment is immutable. Broker prefers to query a segment from Historical over an ingestion task. But if a segment has multiple realtime replicas, for eg. kafka index tasks, and one task is slower than other, then the sys.segments query results can vary for the duration of the tasks because only one of the ingestion tasks is queried by the Broker and it is not gauranteed that the same task gets picked everytime. The <code>num_rows</code> column of segments table can have inconsistent values during this period. There is an open <a href="https://github.com/apache/incubator-druid/issues/5915">issue</a> about this inconsistency with stream ingestion tasks.</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>segment_id</td>
+<td>STRING</td>
+<td>Unique segment identifier</td>
+</tr>
+<tr>
+<td>datasource</td>
+<td>STRING</td>
+<td>Name of datasource</td>
+</tr>
+<tr>
+<td>start</td>
+<td>STRING</td>
+<td>Interval start time (in ISO 8601 format)</td>
+</tr>
+<tr>
+<td>end</td>
+<td>STRING</td>
+<td>Interval end time (in ISO 8601 format)</td>
+</tr>
+<tr>
+<td>size</td>
+<td>LONG</td>
+<td>Size of segment in bytes</td>
+</tr>
+<tr>
+<td>version</td>
+<td>STRING</td>
+<td>Version string (generally an ISO8601 timestamp corresponding to when the segment set was first started). Higher version means the more recently created segment. Version comparing is based on string comparison.</td>
+</tr>
+<tr>
+<td>partition_num</td>
+<td>LONG</td>
+<td>Partition number (an integer, unique within a datasource+interval+version; may not necessarily be contiguous)</td>
+</tr>
+<tr>
+<td>num_replicas</td>
+<td>LONG</td>
+<td>Number of replicas of this segment currently being served</td>
+</tr>
+<tr>
+<td>num_rows</td>
+<td>LONG</td>
+<td>Number of rows in current segment, this value could be null if unkown to Broker at query time</td>
+</tr>
+<tr>
+<td>is_published</td>
+<td>LONG</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 represents this segment has been published to the metadata store with <code>used=1</code></td>
+</tr>
+<tr>
+<td>is_available</td>
+<td>LONG</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any process(Historical or realtime)</td>
+</tr>
+<tr>
+<td>is_realtime</td>
+<td>LONG</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is being served on any type of realtime tasks</td>
+</tr>
+<tr>
+<td>payload</td>
+<td>STRING</td>
+<td>JSON-serialized data segment payload</td>
+</tr>
+</tbody></table>
+
+<p>For example to retrieve all segments for datasource &quot;wikipedia&quot;, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">WHERE</span> <span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span>
+</code></pre></div>
+<p>Another example to retrieve segments total_size, avg_size, avg_num_rows and num_segments per datasource:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span>
+    <span class="n">datasource</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_size</span><span class="p">,</span>
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">FILTER</span><span class="p">(</span><span class="k">WHERE</span> <span class="ss">&quot;size&quot;</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">avg_size</span><span class="p">,</span>
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="k">SUM</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;num_rows&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">FILTER</span><span class="p">(</span><span class="k">WHERE</span> <span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">avg_num_rows</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">num_segments</span>
+<span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">2</span> <span class="k">DESC</span>
+</code></pre></div>
+<h3 id="servers-table">SERVERS table</h3>
+
+<p>Servers table lists all data servers(any server that hosts a segment). It includes both Historicals and Peons.</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>server</td>
+<td>STRING</td>
+<td>Server name in the form host:port</td>
+</tr>
+<tr>
+<td>host</td>
+<td>STRING</td>
+<td>Hostname of the server</td>
+</tr>
+<tr>
+<td>plaintext_port</td>
+<td>LONG</td>
+<td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
+</tr>
+<tr>
+<td>tls_port</td>
+<td>LONG</td>
+<td>TLS port of the server, or -1 if TLS is disabled</td>
+</tr>
+<tr>
+<td>server_type</td>
+<td>STRING</td>
+<td>Type of Druid service. Possible values include: Historical, realtime and indexer_executor(Peon).</td>
+</tr>
+<tr>
+<td>tier</td>
+<td>STRING</td>
+<td>Distribution tier see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.tier</a></td>
+</tr>
+<tr>
+<td>current_size</td>
+<td>LONG</td>
+<td>Current size of segments in bytes on this server</td>
+</tr>
+<tr>
+<td>max_size</td>
+<td>LONG</td>
+<td>Max size in bytes this server recommends to assign to segments see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.maxSize</a></td>
+</tr>
+</tbody></table>
+
+<p>To retrieve information about all servers, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="server_segments-table">SERVER_SEGMENTS table</h3>
+
+<p>SERVER_SEGMENTS is used to join servers with segments table</p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>server</td>
+<td>STRING</td>
+<td>Server name in format host:port (Primary key of <a href="#SERVERS-table">servers table</a>)</td>
+</tr>
+<tr>
+<td>segment_id</td>
+<td>STRING</td>
+<td>Segment identifier (Primary key of <a href="#SEGMENTS-table">segments table</a>)</td>
+</tr>
+</tbody></table>
+
+<p>JOIN between &quot;servers&quot; and &quot;segments&quot; can be used to query the number of segments for a specific datasource, 
+grouped by server, example query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">num_segments</span> <span class="k">from</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">as</span> <span class="n">segments</span> 
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">server_segments</span> <span class="k">as</span> <span class="n">server_segments</span> 
+<span class="k">ON</span> <span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span>  <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">segment_id</span> 
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span> <span class="k">as</span> <span class="n">servers</span> 
+<span class="k">ON</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">server</span>
+<span class="k">WHERE</span> <span class="n">segments</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span> 
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="tasks-table">TASKS table</h3>
+
+<p>The tasks table provides information about active and recently-completed indexing tasks. For more information 
+check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
+
+<table><thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>task_id</td>
+<td>STRING</td>
+<td>Unique task identifier</td>
+</tr>
+<tr>
+<td>type</td>
+<td>STRING</td>
+<td>Task type, for example this value is &quot;index&quot; for indexing tasks. See <a href="../ingestion/tasks.html">tasks-overview</a></td>
+</tr>
+<tr>
+<td>datasource</td>
+<td>STRING</td>
+<td>Datasource name being indexed</td>
+</tr>
+<tr>
+<td>created_time</td>
+<td>STRING</td>
+<td>Timestamp in ISO8601 format corresponding to when the ingestion task was created. Note that this value is populated for completed and waiting tasks. For running and pending tasks this value is set to 1970-01-01T00:00:00Z</td>
+</tr>
+<tr>
+<td>queue_insertion_time</td>
+<td>STRING</td>
+<td>Timestamp in ISO8601 format corresponding to when this task was added to the queue on the Overlord</td>
+</tr>
+<tr>
+<td>status</td>
+<td>STRING</td>
+<td>Status of a task can be RUNNING, FAILED, SUCCESS</td>
+</tr>
+<tr>
+<td>runner_status</td>
+<td>STRING</td>
+<td>Runner status of a completed task would be NONE, for in-progress tasks this can be RUNNING, WAITING, PENDING</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>LONG</td>
+<td>Time it took to finish the task in milliseconds, this value is present only for completed tasks</td>
+</tr>
+<tr>
+<td>location</td>
+<td>STRING</td>
+<td>Server name where this task is running in the format host:port, this information is present only for RUNNING tasks</td>
+</tr>
+<tr>
+<td>host</td>
+<td>STRING</td>
+<td>Hostname of the server where task is running</td>
+</tr>
+<tr>
+<td>plaintext_port</td>
+<td>LONG</td>
+<td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
+</tr>
+<tr>
+<td>tls_port</td>
+<td>LONG</td>
+<td>TLS port of the server, or -1 if TLS is disabled</td>
+</tr>
+<tr>
+<td>error_msg</td>
+<td>STRING</td>
+<td>Detailed error message in case of FAILED tasks</td>
+</tr>
+</tbody></table>
+
+<p>For example, to retrieve tasks information filtered by status, use the query</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">tasks</span> <span class="k">WHERE</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;FAILED&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Note that sys tables may not support all the Druid SQL Functions.</p>
+
+<h2 id="server-configuration">Server configuration</h2>
+
+<p>The Druid SQL server is configured through the following properties on the Broker.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.sql.enable</code></td>
+<td>Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.enable</code></td>
+<td>Whether to enable JDBC querying at <code>/druid/v2/sql/avatica/</code>.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.maxConnections</code></td>
+<td>Maximum number of open connections for the Avatica server. These are not HTTP connections, but are logical client connections that may span multiple HTTP connections.</td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.maxRowsPerFrame</code></td>
+<td>Maximum number of rows to return in a single JDBC frame. Setting this property to -1 indicates that no row limit should be applied. Clients can optionally specify a row limit in their requests; if a client specifies a row limit, the lesser value of the client-provided limit and <code>maxRowsPerFrame</code> will be used.</td>
+<td>5,000</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
+<td>Maximum number of simultaneous open statements per Avatica client connection.</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>druid.sql.avatica.connectionIdleTimeout</code></td>
+<td>Avatica client connection idle timeout.</td>
+<td>PT5M</td>
+</tr>
+<tr>
+<td><code>druid.sql.http.enable</code></td>
+<td>Whether to enable JSON over HTTP querying at <code>/druid/v2/sql/</code>.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.maxQueryCount</code></td>
+<td>Maximum number of queries to issue, including nested queries. Set to 1 to disable sub-queries, or set to 0 for unlimited.</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.maxSemiJoinRowsInMemory</code></td>
+<td>Maximum number of rows to keep in memory for executing two-stage semi-join queries like <code>SELECT * FROM Employee WHERE DeptName IN (SELECT DeptName FROM Dept)</code>.</td>
+<td>100000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.maxTopNLimit</code></td>
+<td>Maximum threshold for a <a href="../querying/topnquery.html">TopN query</a>. Higher limits will be planned as <a href="../querying/groupbyquery.html">GroupBy queries</a> instead.</td>
+<td>100000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataRefreshPeriod</code></td>
+<td>Throttle for metadata refreshes.</td>
+<td>PT1M</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.selectThreshold</code></td>
+<td>Page size threshold for <a href="../querying/select-query.html">Select queries</a>. Select queries for larger resultsets will be issued back-to-back using pagination.</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useApproximateCountDistinct</code></td>
+<td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useApproximateTopN</code></td>
+<td>Whether to use approximate <a href="../querying/topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="../querying/groupbyquery.html">GroupBy queries</a> will be used instead.</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.useFallback</code></td>
+<td>Whether to evaluate operations on the Broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.requireTimeCondition</code></td>
+<td>Whether to require SQL to have filter conditions on __time column so that all generated native queries will have user specified intervals. If true, all queries wihout filter condition on __time column will fail</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.sqlTimeZone</code></td>
+<td>Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
+<td>UTC</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataSegmentCacheEnable</code></td>
+<td>Whether to keep a cache of published segments in broker. If true, broker polls coordinator in background to get segments from metadata store and maintains a local cache. If false, coordinator&#39;s REST api will be invoked when broker needs published segments info.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataSegmentPollPeriod</code></td>
+<td>How often to poll coordinator for published segments list if <code>druid.sql.planner.metadataSegmentCacheEnable</code> is set to true. Poll period is in milliseconds.</td>
+<td>60000</td>
+</tr>
+</tbody></table>
+
+<h2 id="sql-metrics">SQL Metrics</h2>
+
+<p>Broker will emit the following metrics for SQL.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sqlQuery/time</code></td>
+<td>Milliseconds taken to complete a SQL.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>sqlQuery/bytes</code></td>
+<td>number of bytes returned in SQL response.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td></td>
+</tr>
+</tbody></table>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

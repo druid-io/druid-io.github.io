@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Segment Metadata Queries</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.13.0-incubating/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="segment-metadata-queries">Segment Metadata Queries</h1>
+
+<p>Segment metadata queries return per-segment information about:</p>
+
+<ul>
+<li>Cardinality of all columns in the segment</li>
+<li>Min/max values of string type columns in the segment</li>
+<li>Estimated byte size for the segment columns if they were stored in a flat format</li>
+<li>Number of rows stored inside the segment</li>
+<li>Interval the segment covers</li>
+<li>Column type of all the columns in the segment</li>
+<li>Estimated total segment byte size in if it was stored in a flat format</li>
+<li>Is the segment rolled up</li>
+<li>Segment id</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span><span class="s2">&quot;segmentMetadata&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;sample_datasource&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:[</span><span class="s2">&quot;2013-01-01/2014-01-01&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>There are several main parts to a segment metadata query:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>queryType</td>
+<td>This String should always be &quot;segmentMetadata&quot;; this is the first thing Druid looks at to figure out how to interpret the query</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dataSource</td>
+<td>A String or Object defining the data source to query, very similar to a table in a relational database. See <a href="../querying/datasource.html">DataSource</a> for more information.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>intervals</td>
+<td>A JSON Object representing ISO-8601 Intervals. This defines the time ranges to run the query over.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>toInclude</td>
+<td>A JSON Object representing what columns should be included in the result. Defaults to &quot;all&quot;.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>merge</td>
+<td>Merge all individual segment metadata results into a single result</td>
+<td>no</td>
+</tr>
+<tr>
+<td>context</td>
+<td>See <a href="../querying/query-context.html">Context</a></td>
+<td>no</td>
+</tr>
+<tr>
+<td>analysisTypes</td>
+<td>A list of Strings specifying what column properties (e.g. cardinality, size) should be calculated and returned in the result. Defaults to [&quot;cardinality&quot;, &quot;interval&quot;, &quot;minmax&quot;], but can be overridden with using the <a href="../configuration/index.html#segment-metadata-query-config">segment metadata query config</a>. See section <a href="#analysistypes">analysisTypes</a> for more details.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>lenientAggregatorMerge</td>
+<td>If true, and if the &quot;aggregators&quot; analysisType is enabled, aggregators will be merged leniently. See below for details.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p>The format of the result is:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;id&quot;</span> <span class="p">:</span> <span class="s2">&quot;some_id&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2013-05-13T00:00:00.000Z/2013-05-14T00:00:00.000Z&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;__time&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;LONG&quot;</span><span class="p">,</span> <span class="nt">&quot;hasMultipleValues&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">407240380</span><span class="p">,</span> <span class="nt">&quot;cardinality&quot;</span> <span class="p">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nt">&quot;errorMessage&quot;</span> <span class="p">:</span> <span class="kc">null</span> <span class="p">},</span>
+    <span class="nt">&quot;dim1&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span> <span class="nt">&quot;hasMultipleValues&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">100000</span><span class="p">,</span> <span class="nt">&quot;cardinality&quot;</span> <span class="p">:</span> <span class="mi">1944</span><span class="p">,</span> <span class="nt">&quot;errorMessage&quot;</span> <span class="p">:</span> <span class="kc">null</span> <span class="p">},</span>
+    <span class="nt">&quot;dim2&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span> <span class="nt">&quot;hasMultipleValues&quot;</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">100000</span><span class="p">,</span> <span class="nt">&quot;cardinality&quot;</span> <span class="p">:</span> <span class="mi">1504</span><span class="p">,</span> <span class="nt">&quot;errorMessage&quot;</span> <span class="p">:</span> <span class="kc">null</span> <span class="p">},</span>
+    <span class="nt">&quot;metric1&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;FLOAT&quot;</span><span class="p">,</span> <span class="nt">&quot;hasMultipleValues&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">100000</span><span class="p">,</span> <span class="nt">&quot;cardinality&quot;</span> <span class="p">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nt">&quot;errorMessage&quot;</span> <span class="p">:</span> <span class="kc">null</span> <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;aggregators&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;metric1&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;metric1&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;metric1&quot;</span> <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="mi">300000</span><span class="p">,</span>
+  <span class="nt">&quot;numRows&quot;</span> <span class="p">:</span> <span class="mi">5000000</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>Dimension columns will have type <code>STRING</code>.
+Metric columns will have type <code>FLOAT</code> or <code>LONG</code> or name of the underlying complex type such as <code>hyperUnique</code> in case of COMPLEX metric.
+Timestamp column will have type <code>LONG</code>.</p>
+
+<p>If the <code>errorMessage</code> field is non-null, you should not trust the other fields in the response. Their contents are
+undefined.</p>
+
+<p>Only columns which are dimensions (ie, have type <code>STRING</code>) will have any cardinality. Rest of the columns (timestamp and metric columns) will show cardinality as <code>null</code>.</p>
+
+<h3 id="intervals">intervals</h3>
+
+<p>If an interval is not specified, the query will use a default interval that spans a configurable period before the end time of the most recent segment.</p>
+
+<p>The length of this default time period is set in the Broker configuration via:
+  druid.query.segmentMetadata.defaultHistory</p>
+
+<h3 id="toinclude">toInclude</h3>
+
+<p>There are 3 types of toInclude objects.</p>
+
+<h4 id="all">All</h4>
+
+<p>The grammar is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;toInclude&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="none">None</h4>
+
+<p>The grammar is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;toInclude&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="list">List</h4>
+
+<p>The grammar is as follows:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;toInclude&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;string</span> <span class="err">list</span> <span class="err">of</span> <span class="err">column</span> <span class="err">names&gt;</span><span class="p">]}</span>
+</code></pre></div>
+<h3 id="analysistypes">analysisTypes</h3>
+
+<p>This is a list of properties that determines the amount of information returned about the columns, i.e. analyses to be performed on the columns.</p>
+
+<p>By default, the &quot;cardinality&quot;, &quot;interval&quot;, and &quot;minmax&quot; types will be used. If a property is not needed, omitting it from this list will result in a more efficient query.</p>
+
+<p>The default analysis types can be set in the Broker configuration via:
+  <code>druid.query.segmentMetadata.defaultAnalysisTypes</code></p>
+
+<p>Types of column analyses are described below:</p>
+
+<h4 id="cardinality">cardinality</h4>
+
+<ul>
+<li><code>cardinality</code> in the result will return the estimated floor of cardinality for each column. Only relevant for
+dimension columns.</li>
+</ul>
+
+<h4 id="minmax">minmax</h4>
+
+<ul>
+<li>Estimated min/max values for each column. Only relevant for dimension columns.</li>
+</ul>
+
+<h4 id="size">size</h4>
+
+<ul>
+<li><code>size</code> in the result will contain the estimated total segment byte size as if the data were stored in text format</li>
+</ul>
+
+<h4 id="interval">interval</h4>
+
+<ul>
+<li><code>intervals</code> in the result will contain the list of intervals associated with the queried segments.</li>
+</ul>
+
+<h4 id="timestampspec">timestampSpec</h4>
+
+<ul>
+<li><code>timestampSpec</code> in the result will contain timestampSpec of data stored in segments. this can be null if timestampSpec of segments was unknown or unmergeable (if merging is enabled).</li>
+</ul>
+
+<h4 id="querygranularity">queryGranularity</h4>
+
+<ul>
+<li><code>queryGranularity</code> in the result will contain query granularity of data stored in segments. this can be null if query granularity of segments was unknown or unmergeable (if merging is enabled).</li>
+</ul>
+
+<h4 id="aggregators">aggregators</h4>
+
+<ul>
+<li><p><code>aggregators</code> in the result will contain the list of aggregators usable for querying metric columns. This may be
+null if the aggregators are unknown or unmergeable (if merging is enabled).</p></li>
+<li><p>Merging can be strict or lenient. See <em>lenientAggregatorMerge</em> below for details.</p></li>
+<li><p>The form of the result is a map of column name to aggregator.</p></li>
+</ul>
+
+<h4 id="rollup">rollup</h4>
+
+<ul>
+<li><code>rollup</code> in the result is true/false/null.</li>
+<li>When merging is enabled, if some are rollup, others are not, result is null.</li>
+</ul>
+
+<h3 id="lenientaggregatormerge">lenientAggregatorMerge</h3>
+
+<p>Conflicts between aggregator metadata across segments can occur if some segments have unknown aggregators, or if
+two segments use incompatible aggregators for the same column (e.g. longSum changed to doubleSum).</p>
+
+<p>Aggregators can be merged strictly (the default) or leniently. With strict merging, if there are any segments
+with unknown aggregators, or any conflicts of any kind, the merged aggregators list will be <code>null</code>. With lenient
+merging, segments with unknown aggregators will be ignored, and conflicts between aggregators will only null out
+the aggregator for that particular column.</p>
+
+<p>In particular, with lenient merging, it is possible for an invidiual column&#39;s aggregator to be <code>null</code>. This will not
+occur with strict merging.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

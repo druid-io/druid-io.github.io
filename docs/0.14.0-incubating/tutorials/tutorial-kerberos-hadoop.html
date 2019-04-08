@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Configuring Druid to use a Kerberized Hadoop as Deep Storage</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.13.0-incubating/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="configuring-druid-to-use-a-kerberized-hadoop-as-deep-storage">Configuring Druid to use a Kerberized Hadoop as Deep Storage</h1>
+
+<h2 id="hadoop-setup">Hadoop Setup</h2>
+
+<p>Following are the configurations files required to be copied over to Druid conf folders:</p>
+
+<ol>
+<li>For HDFS as a deep storage, hdfs-site.xml, core-site.xml</li>
+<li>For ingestion, mapred-site.xml, yarn-site.xml</li>
+</ol>
+
+<h3 id="hdfs-folders-and-permissions">HDFS Folders and permissions</h3>
+
+<ol>
+<li>Choose any folder name for the druid deep storage, for example &#39;druid&#39;</li>
+<li><p>Create the folder in hdfs under the required parent folder. For example,
+<code>hdfs dfs -mkdir /druid</code>
+OR
+<code>hdfs dfs -mkdir /apps/druid</code></p></li>
+<li><p>Give druid processes appropriate permissions for the druid processes to access this folder. This would ensure that druid is able to create necessary folders like data and indexing_log in HDFS.
+For example, if druid processes run as user &#39;root&#39;, then</p>
+
+<p><code>hdfs dfs -chown root:root /apps/druid</code></p>
+
+<p>OR</p>
+
+<p><code>hdfs dfs -chmod 777 /apps/druid</code></p></li>
+</ol>
+
+<p>Druid creates necessary sub-folders to store data and index under this newly created folder.</p>
+
+<h2 id="druid-setup">Druid Setup</h2>
+
+<p>Edit common.runtime.properties at conf/druid/_common/common.runtime.properties to include the HDFS properties. Folders used for the location are same as the ones used for example above.</p>
+
+<h3 id="common_runtime_properties">common_runtime_properties</h3>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="c"># Deep storage</span>
+<span class="c">#</span>
+<span class="c"># For HDFS:</span>
+<span class="na"> druid.storage.type</span><span class="o">=</span><span class="s">hdfs</span>
+<span class="na"> druid.storage.storageDirectory</span><span class="o">=</span><span class="s">/druid/segments</span>
+<span class="c"># OR</span>
+<span class="c"># druid.storage.storageDirectory=/apps/druid/segments</span>
+
+<span class="c">#</span>
+<span class="c"># Indexing service logs</span>
+<span class="c">#</span>
+
+<span class="c"># For HDFS:</span>
+<span class="na">druid.indexer.logs.type</span><span class="o">=</span><span class="s">hdfs</span>
+<span class="na">druid.indexer.logs.directory</span><span class="o">=</span><span class="s">/druid/indexing-logs</span>
+<span class="c"># OR</span>
+<span class="c"># druid.storage.storageDirectory=/apps/druid/indexing-logs</span>
+</code></pre></div>
+<p>Note: Comment out Local storage and S3 Storage parameters in the file</p>
+
+<p>Also include hdfs-storage core extension to conf/druid/_common/common.runtime.</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="c">#</span>
+<span class="c"># Extensions</span>
+<span class="c">#</span>
+
+<span class="na">druid.extensions.directory</span><span class="o">=</span><span class="s">dist/druid/extensions</span>
+<span class="na">druid.extensions.hadoopDependenciesDir</span><span class="o">=</span><span class="s">dist/druid/hadoop-dependencies</span>
+<span class="na">druid.extensions.loadList</span><span class="o">=</span><span class="s">[&quot;druid-parser-route&quot;, &quot;mysql-metadata-storage&quot;, &quot;druid-hdfs-storage&quot;, &quot;druid-kerberos&quot;]</span>
+</code></pre></div>
+<h3 id="hadoop-jars">Hadoop Jars</h3>
+
+<p>Ensure that Druid has necessary jars to support the Hadoop version.</p>
+
+<p>Find the hadoop version using command, <code>hadoop version</code> </p>
+
+<p>In case there are other softwares used with hadoop, like WanDisco, ensure that 
+1. the necessary libraries are available
+2. add the requisite extensions to <code>druid.extensions.loadlist</code> in <code>conf/druid/_common/common.runtime.properties</code></p>
+
+<h3 id="kerberos-setup">Kerberos setup</h3>
+
+<p>Create a headless keytab which would have access to the druid data and index.</p>
+
+<p>Edit conf/druid/_common/common.runtime.properties and add the following properties:</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="err">druid.hadoop.security.kerberos.principal</span>
+<span class="err">druid.hadoop.security.kerberos.keytab</span>
+</code></pre></div>
+<p>For example</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">druid.hadoop.security.kerberos.principal</span><span class="o">=</span><span class="s">hdfs-test@EXAMPLE.IO</span>
+<span class="na">druid.hadoop.security.kerberos.keytab</span><span class="o">=</span><span class="s">/etc/security/keytabs/hdfs.headless.keytab</span>
+</code></pre></div>
+<h3 id="restart-druid-services">Restart Druid Services</h3>
+
+<p>With the above changes, restart Druid. This would ensure that Druid works with Kerberized Hadoop</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

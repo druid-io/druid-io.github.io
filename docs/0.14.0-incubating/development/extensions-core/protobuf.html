@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Protobuf</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs/0.13.0-incubating/">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="protobuf">Protobuf</h1>
+
+<p>This extension enables Druid to ingest and understand the Protobuf data format. Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-protobuf-extensions</code> as an extension.</p>
+
+<h2 id="protobuf-parser">Protobuf Parser</h2>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>protobuf</code>.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>descriptor</td>
+<td>String</td>
+<td>Protobuf descriptor file name in the classpath or URL.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>protoMessageType</td>
+<td>String</td>
+<td>Protobuf message type in the descriptor.  Both short name and fully qualified name are accepted.  The parser uses the first message type found in the descriptor if not specified.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data.  The format must be json. See <a href="../../ingestion/index.html">JSON ParseSpec</a> for more configuration options.  Please note timeAndDims parseSpec is no longer supported.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="example-load-protobuf-messages-from-kafka">Example: Load Protobuf messages from Kafka</h2>
+
+<p>This example demonstrates how to load Protobuf messages from Kafka.  Please read the <a href="../../tutorials/tutorial-kafka.html">Load from Kafka tutorial</a> first.  This example will use the same &quot;metrics&quot; dataset.</p>
+
+<p>Files used in this example are found at <code>./examples/quickstart/protobuf</code> in your Druid directory.</p>
+
+<ul>
+<li>We will use <a href="./kafka-ingestion.html">Kafka Indexing Service</a> instead of Tranquility.</li>
+<li>Kafka broker host is <code>localhost:9092</code>.</li>
+<li>Kafka topic is <code>metrics_pb</code> instead of <code>metrics</code>.</li>
+<li>datasource name is <code>metrics-kafka-pb</code> instead of <code>metrics-kafka</code> to avoid the confusion.</li>
+</ul>
+
+<p>Here is the metrics JSON example.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;milliseconds&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;http_method&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-04-06T02:36:22Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;http_code&quot;</span><span class="p">:</span> <span class="s2">&quot;200&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;page&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;metricType&quot;</span><span class="p">:</span> <span class="s2">&quot;request/latency&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;www1.example.com&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="proto-file">Proto file</h3>
+
+<p>The proto file should look like this.  Save it as metrics.proto.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>syntax = &quot;proto3&quot;;
+message Metrics {
+  string unit = 1;
+  string http_method = 2;
+  int32 value = 3;
+  string timestamp = 4;
+  string http_code = 5;
+  string page = 6;
+  string metricType = 7;
+  string server = 8;
+}
+</code></pre></div>
+<h3 id="descriptor-file">Descriptor file</h3>
+
+<p>Using the <code>protoc</code> Protobuf compiler to generate the descriptor file.  Save the metrics.desc file either in the classpath or reachable by URL.  In this example the descriptor file was saved at /tmp/metrics.desc.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>protoc -o /tmp/metrics.desc metrics.proto
+</code></pre></div>
+<h3 id="supervisor-spec-json">Supervisor spec JSON</h3>
+
+<p>Below is the complete Supervisor spec JSON to be submitted to the Overlord.
+Please make sure these keys are properly configured for successful ingestion.</p>
+
+<ul>
+<li><code>descriptor</code> for the descriptor file URL.</li>
+<li><code>protoMessageType</code> from the proto definition.</li>
+<li>parseSpec <code>format</code> must be <code>json</code>.</li>
+<li><code>topic</code> to subscribe.  The topic is &quot;metrics_pb&quot; instead of &quot;metrics&quot;.</li>
+<li><code>bootstrap.server</code> is the kafka broker host.</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;metrics-kafka2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;protobuf&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;descriptor&quot;</span><span class="p">:</span> <span class="s2">&quot;file:///tmp/metrics.desc&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;protoMessageType&quot;</span><span class="p">:</span> <span class="s2">&quot;Metrics&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http_method&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http_code&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;metricType&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;server&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span>
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;value_sum&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;value_min&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleMin&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;value_max&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleMax&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;granularitySpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;queryGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;maxRowsPerSegment&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;metrics_pb&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;consumerProperties&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;bootstrap.servers&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:9092&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;taskCount&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;replicas&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;taskDuration&quot;</span><span class="p">:</span> <span class="s2">&quot;PT1H&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="kafka-producer">Kafka Producer</h2>
+
+<p>Here is the sample script that publishes the metrics to Kafka in Protobuf format.</p>
+
+<ol>
+<li><p>Run <code>protoc</code> again with the Python binding option.  This command generates <code>metrics_pb2.py</code> file.
+<code>
+protoc -o metrics.desc metrics.proto --python_out=.
+</code></p></li>
+<li><p>Create Kafka producer script.</p></li>
+</ol>
+
+<p>This script requires <code>protobuf</code> and <code>kafka-python</code> modules.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">kafka</span> <span class="kn">import</span> <span class="n">KafkaProducer</span>
+<span class="kn">from</span> <span class="nn">metrics_pb2</span> <span class="kn">import</span> <span class="n">Metrics</span>
+
+<span class="n">producer</span> <span class="o">=</span> <span class="n">KafkaProducer</span><span class="p">(</span><span class="n">bootstrap_servers</span><span class="o">=</span><span class="s1">&#39;localhost:9092&#39;</span><span class="p">)</span>
+<span class="n">topic</span> <span class="o">=</span> <span class="s1">&#39;metrics_pb&#39;</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">Metrics</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">pb</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">pb</span><span class="p">)</span>
+</code></pre></div>
+<ol>
+<li>run producer</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>./bin/generate-example-metrics | ./pb_publisher.py
+</code></pre></div>
+<ol>
+<li>test</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>kafka-console-consumer --zookeeper localhost --topic metrics_pb
+</code></pre></div>
+<p>It should print messages like this</p>
+
+<blockquote>
+<p>millisecondsGETR&quot;2017-04-06T03:23:56Z*2002/list:request/latencyBwww1.example.com</p>
+</blockquote>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
