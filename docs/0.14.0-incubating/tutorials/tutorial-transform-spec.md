@@ -115,7 +115,8 @@ We will ingest the sample data using the following spec, which demonstrates the 
     "tuningConfig" : {
       "type" : "index",
       "maxRowsPerSegment" : 5000000,
-      "maxRowsInMemory" : 25000
+      "maxRowsInMemory" : 25000,
+      "forceExtendableShardSpecs" : true
     }
   }
 }

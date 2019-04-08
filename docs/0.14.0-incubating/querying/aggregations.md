@@ -306,14 +306,6 @@ The [DataSketches Quantiles Sketch](../development/extensions-core/datasketches-
 
 We recommend this aggregator in general for quantiles/histogram use cases, as it provides formal error bounds and has distribution-independent accuracy.
 
-#### Moments Sketch (Experimental)
-
-The [Moments Sketch](../development/extensions-contrib/momentsketch-quantiles.html) extension-provided aggregator is an experimental aggregator that provides quantile estimates using the [Moments Sketch](https://github.com/stanford-futuredata/momentsketch).
-
-The Moments Sketch aggregator is provided as an experimental option. It is optimized for merging speed and it can have higher aggregation performance compared to the DataSketches quantiles aggregator. However, the accuracy of the Moments Sketch is distribution-dependent, so users will need to empirically verify that the aggregator is suitable for their input data.
-
-As a general guideline for experimentation, the [Moments Sketch paper](https://arxiv.org/pdf/1803.01969.pdf) points out that this algorithm works better on inputs with high entropy. In particular, the algorithm is not a good fit when the input data consists of a small number of clustered discrete values.
-
 #### Fixed Buckets Histogram
 
 Druid also provides a [simple histogram implementation]((../development/extensions-core/approxiate-histograms.html#fixed-buckets-histogram) that uses a fixed range and fixed number of buckets with support for quantile estimation, backed by an array of bucket count values.

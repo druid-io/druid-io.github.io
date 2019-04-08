@@ -128,7 +128,6 @@ layout: toc
   * [Alerts](/docs/VERSION/operations/alerts.html)
   * [Updating the Cluster](/docs/VERSION/operations/rolling-updates.html)
   * [Different Hadoop Versions](/docs/VERSION/operations/other-hadoop.html)
-  * [High Availability](/docs/VERSION/operations/high-availability.html)
   * [Performance FAQ](/docs/VERSION/operations/performance-faq.html)
   * [Management UIs](/docs/VERSION/operations/management-uis.html)
   * [Dump Segment Tool](/docs/VERSION/operations/dump-segment.html)
@@ -137,7 +136,6 @@ layout: toc
   * [Recommendations](/docs/VERSION/operations/recommendations.html)
   * [TLS Support](/docs/VERSION/operations/tls-support.html)
   * [Password Provider](/docs/VERSION/operations/password-provider.html)
-  * [HTTP Compression](/docs/VERSION/operations/http-compression.html)
 
 ## Configuration
   * [Configuration Reference](/docs/VERSION/configuration/index.html)
