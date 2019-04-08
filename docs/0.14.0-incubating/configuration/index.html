@@ -397,11 +397,6 @@ kafka.json  server.json
 <td>digest is the only authentication scheme supported.</td>
 <td>digest</td>
 </tr>
-<tr>
-<td><code>druid.zk.service.terminateDruidProcessOnConnectFail</code></td>
-<td>If set to &#39;true&#39; and the connection to ZooKeeper fails (after exhausting all potential backoff retires), Druid process terminates itself with exit code 1.</td>
-<td>false</td>
-</tr>
 </tbody></table>
 
 <h4 id="zookeeper-behavior">Zookeeper Behavior</h4>
@@ -1103,7 +1098,7 @@ For native query, only request logs where query/time is above the threshold are 
 
 <h3 id="emitting-metrics">Emitting Metrics</h3>
 
-<p>The Druid servers <a href="../operations/metrics.html">emit various metrics</a> and alerts via something we call an Emitter. There are three emitter implementations included with the code, a &quot;noop&quot; emitter (the default if none is specified), one that just logs to log4j (&quot;logging&quot;), and one that does POSTs of JSON events to a server (&quot;http&quot;). The properties for using the logging emitter are described below.</p>
+<p>The Druid servers <a href="../operations/metrics.html">emit various metrics</a> and alerts via something we call an Emitter. There are three emitter implementations included with the code, a &quot;noop&quot; emitter, one that just logs to log4j (&quot;logging&quot;, which is used by default if no emitter is specified) and one that does POSTs of JSON events to a server (&quot;http&quot;). The properties for using the logging emitter are described below.</p>
 
 <table><thead>
 <tr>
@@ -1114,7 +1109,7 @@ For native query, only request logs where query/time is above the threshold are 
 </thead><tbody>
 <tr>
 <td><code>druid.emitter</code></td>
-<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, &quot;http&quot; or &quot;parametrized&quot; will initialize one of the emitter modules. The value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
+<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, &quot;http&quot; or &quot;parametrized&quot; will initialize one of the emitter modules. value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
 <td>noop</td>
 </tr>
 </tbody></table>
@@ -1420,8 +1415,7 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 
 <h4 id="s3-deep-storage">S3 Deep Storage</h4>
 
-<p>This deep storage is used to interface with Amazon&#39;s S3. Note that the <code>druid-s3-extensions</code> extension must be loaded.
-The below table shows some important configurations for S3. See <a href="../development/extensions-core/s3.html">S3 Deep Storage</a> for full configurations.</p>
+<p>This deep storage is used to interface with Amazon&#39;s S3. Note that the <code>druid-s3-extensions</code> extension must be loaded.</p>
 
 <table><thead>
 <tr>
@@ -1452,7 +1446,7 @@ The below table shows some important configurations for S3. See <a href="../deve
 </tr>
 <tr>
 <td><code>druid.storage.disableAcl</code></td>
-<td>Boolean flag for ACL. If this is set to <code>false</code>, the full control would be granted to the bucket owner. This may require to set additional permissions. See <a href="../development/extensions-core/s3.html#s3-permissions-settings">S3 permissions settings</a>.</td>
+<td>Boolean flag for ACL.</td>
 <td>false</td>
 </tr>
 <tr>
@@ -1532,7 +1526,7 @@ The below table shows some important configurations for S3. See <a href="../deve
 </tbody></table>
 
 <p>You can also configure the Overlord to automatically retain the task logs in log directory and entries in task-related metadata storage tables only for last x milliseconds by configuring following additional properties.
-Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid processes and backing store nodes might result in un-intended behavior.</p>
+Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid processes and backing store nodes might result in un-intended behavior.  </p>
 
 <table><thead>
 <tr>
@@ -1865,6 +1859,11 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <td>PT300S</td>
 </tr>
 <tr>
+<td><code>druid.coordinator.merge.on</code></td>
+<td>Boolean flag for whether or not the Coordinator should try and merge small segments into a more optimal segment size.</td>
+<td>false</td>
+</tr>
+<tr>
 <td><code>druid.coordinator.load.timeout</code></td>
 <td>The timeout duration for when the Coordinator assigns a segment to a Historical process.</td>
 <td>PT15M</td>
@@ -1896,13 +1895,8 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 </tr>
 <tr>
 <td><code>druid.coordinator.balancer.strategy</code></td>
-<td>Specify the type of balancing strategy that the coordinator should use to distribute segments among the historicals. <code>cachingCost</code> is logically equivalent to <code>cost</code> but is more CPU-efficient on large clusters and will replace <code>cost</code> in the future versions, users are invited to try it. Use <code>diskNormalized</code> to distribute segments among processes so that the disks fill up uniformly and use <code>random</code> to randomly pick processes to distribute segments.</td>
+<td>Specify the type of balancing strategy that the Coordinator should use to distribute segments among the Historicals. <code>cachingCost</code> is logically equivalent to <code>cost</code> but is more CPU-efficient on large clusters and will replace <code>cost</code> in the future versions, users are invited to try it. Use <code>diskNormalized</code> to distribute segments among Historical processes so that the disks fill up uniformly and use <code>random</code> to randomly pick nodes to distribute segments.</td>
 <td><code>cost</code></td>
-</tr>
-<tr>
-<td><code>druid.coordinator.balancer.cachingCost.awaitInitialization</code></td>
-<td>Whether to wait for segment view initialization before creating the <code>cachingCost</code> balancing strategy. This property is enabled only when <code>druid.coordinator.balancer.strategy</code> is <code>cachingCost</code>. If set to &#39;true&#39;, the Coordinator will not start to assign segments, until the segment view is initialized. If set to &#39;false&#39;, the Coordinator will fallback to use the <code>cost</code> balancing strategy only if the segment view is not initialized yet. Notes, it may take much time to wait for the initialization since the <code>cachingCost</code> balancing strategy involves much computing to build itself.</td>
-<td>false</td>
 </tr>
 <tr>
 <td><code>druid.coordinator.loadqueuepeon.repeatDelay</code></td>
@@ -1940,14 +1934,8 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <tr>
 <td><code>druid.coordinator.loadqueuepeon.type</code></td>
 <td>curator or http</td>
-<td>Whether to use &quot;http&quot; or &quot;curator&quot; implementation to assign segment loads/drops to historical</td>
+<td>Whether to use &quot;http&quot; or &quot;curator&quot; implementation to assign segment loads/drops to Historical</td>
 <td>curator</td>
-</tr>
-<tr>
-<td><code>druid.coordinator.segment.awaitInitializationOnStart</code></td>
-<td>true or false</td>
-<td>Whether the the Coordinator will wait for its view of segments to fully initialize before starting up. If set to &#39;true&#39;, the Coordinator&#39;s HTTP server will not start up, and the Coordinator will not announce itself as available, until the server view is initialized.</td>
-<td>true</td>
 </tr>
 </tbody></table>
 
@@ -3841,7 +3829,7 @@ line.</p>
 
 <p>This section describes caching configuration that is common to Broker, Historical, and MiddleManager/Peon processes.</p>
 
-<p>Caching can optionally be enabled on the Broker, Historical, and MiddleManager/Peon processses. See <a href="#broker-caching">Broker</a>,
+<p>Caching can optionally be enabled on the Broker, Historical, and MiddleManager/Peon processses. See <a href="#broker-caching">Broker</a>, 
 <a href="#Historical-caching">Historical</a>, and <a href="#peon-caching">Peon</a> configuration options for how to enable it for different processes.</p>
 
 <p>Druid uses a local in-memory cache by default, unless a diffrent type of cache is specified.

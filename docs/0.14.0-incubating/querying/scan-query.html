@@ -139,16 +139,7 @@
 
 <h1 id="scan-query">Scan query</h1>
 
-<p>The Scan query returns raw Druid rows in streaming mode.  The biggest difference between the Select query and the Scan
-query is that the Scan query does not retain all the returned rows in memory before they are returned to the client.<br>
-The Select query <em>will</em> retain the rows in memory, causing memory pressure if too many rows are returned.<br>
-The Scan query can return all the rows without issuing another pagination query.</p>
-
-<p>In addition to straightforward usage where a Scan query is issued to the Broker, the Scan query can also be issued
-directly to Historical processes or streaming ingestion tasks. This can be useful if you want to retrieve large 
-amounts of data in parallel.</p>
-
-<p>An example Scan query object is shown below:</p>
+<p>Scan query returns raw Druid rows in streaming mode.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
    <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;scan&quot;</span><span class="p">,</span>
    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
@@ -158,10 +149,10 @@ amounts of data in parallel.</p>
      <span class="s2">&quot;2013-01-01/2013-01-02&quot;</span>
    <span class="p">],</span>
    <span class="nt">&quot;batchSize&quot;</span><span class="p">:</span><span class="mi">20480</span><span class="p">,</span>
-   <span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="mi">3</span>
+   <span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="mi">5</span>
  <span class="p">}</span>
 </code></pre></div>
-<p>The following are the main parameters for Scan queries:</p>
+<p>There are several main parts to a scan query:</p>
 
 <table><thead>
 <tr>
@@ -187,7 +178,7 @@ amounts of data in parallel.</p>
 </tr>
 <tr>
 <td>resultFormat</td>
-<td>How the results are represented: list, compactedList or valueVector. Currently only <code>list</code> and <code>compactedList</code> are supported. Default is <code>list</code></td>
+<td>How result represented, list or compactedList or valueVector. Currently only <code>list</code> and <code>compactedList</code> are supported. Default is <code>list</code></td>
 <td>no</td>
 </tr>
 <tr>
@@ -211,25 +202,20 @@ amounts of data in parallel.</p>
 <td>no</td>
 </tr>
 <tr>
-<td>order</td>
-<td>The ordering of returned rows based on timestamp.  &quot;ascending&quot;, &quot;descending&quot;, and &quot;none&quot; (default) are supported.  Currently, &quot;ascending&quot; and &quot;descending&quot; are only supported for queries where the limit is less than <code>druid.query.scan.maxRowsQueuedForOrdering</code>.  Scan queries that are either legacy mode or have a limit greater than <code>druid.query.scan.maxRowsQueuedForOrdering</code> will not be time-ordered and default to a order of &quot;none&quot;.</td>
-<td>none</td>
-</tr>
-<tr>
 <td>legacy</td>
 <td>Return results consistent with the legacy &quot;scan-query&quot; contrib extension. Defaults to the value set by <code>druid.query.scan.legacy</code>, which in turn defaults to false. See <a href="#legacy-mode">Legacy mode</a> for details.</td>
 <td>no</td>
 </tr>
 <tr>
 <td>context</td>
-<td>An additional JSON Object which can be used to specify certain flags (see the Query Context Properties section below).</td>
+<td>An additional JSON Object which can be used to specify certain flags.</td>
 <td>no</td>
 </tr>
 </tbody></table>
 
 <h2 id="example-results">Example results</h2>
 
-<p>The format of the result when resultFormat equals <code>list</code>:</p>
+<p>The format of the result when resultFormat equals to <code>list</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">[{</span>
     <span class="nt">&quot;segmentId&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia_editstream_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span><span class="p">,</span>
     <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span>
@@ -293,10 +279,40 @@ amounts of data in parallel.</p>
         <span class="nt">&quot;delta&quot;</span> <span class="p">:</span> <span class="mf">77.0</span><span class="p">,</span>
         <span class="nt">&quot;variation&quot;</span> <span class="p">:</span> <span class="mf">77.0</span><span class="p">,</span>
         <span class="nt">&quot;deleted&quot;</span> <span class="p">:</span> <span class="mf">0.0</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;robot&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;namespace&quot;</span> <span class="p">:</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;anonymous&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;page&quot;</span> <span class="p">:</span> <span class="s2">&quot;113_U.S._73&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;newpage&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="nt">&quot;added&quot;</span> <span class="p">:</span> <span class="mf">70.0</span><span class="p">,</span>
+        <span class="nt">&quot;delta&quot;</span> <span class="p">:</span> <span class="mf">70.0</span><span class="p">,</span>
+        <span class="nt">&quot;variation&quot;</span> <span class="p">:</span> <span class="mf">70.0</span><span class="p">,</span>
+        <span class="nt">&quot;deleted&quot;</span> <span class="p">:</span> <span class="mf">0.0</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;robot&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;namespace&quot;</span> <span class="p">:</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;anonymous&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;unpatrolled&quot;</span> <span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;page&quot;</span> <span class="p">:</span> <span class="s2">&quot;113_U.S._756&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;language&quot;</span> <span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;newpage&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;count&quot;</span> <span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="nt">&quot;added&quot;</span> <span class="p">:</span> <span class="mf">68.0</span><span class="p">,</span>
+        <span class="nt">&quot;delta&quot;</span> <span class="p">:</span> <span class="mf">68.0</span><span class="p">,</span>
+        <span class="nt">&quot;variation&quot;</span> <span class="p">:</span> <span class="mf">68.0</span><span class="p">,</span>
+        <span class="nt">&quot;deleted&quot;</span> <span class="p">:</span> <span class="mf">0.0</span>
     <span class="p">}</span> <span class="p">]</span>
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
-<p>The format of the result when resultFormat equals <code>compactedList</code>:</p>
+<p>The format of the result when resultFormat equals to <code>compactedList</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">[{</span>
     <span class="nt">&quot;segmentId&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia_editstream_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span><span class="p">,</span>
     <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span>
@@ -305,40 +321,16 @@ amounts of data in parallel.</p>
     <span class="nt">&quot;events&quot;</span> <span class="p">:</span> <span class="p">[</span>
      <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;11._korpus_(NOVJ)&quot;</span><span class="p">,</span> <span class="s2">&quot;sl&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;EmausBot&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">39.0</span><span class="p">,</span> <span class="mf">39.0</span><span class="p">,</span> <span class="mf">39.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
      <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;112_U.S._580&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-     <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;113_U.S._243&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+     <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;113_U.S._243&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">77.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+     <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;113_U.S._73&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+     <span class="p">[</span><span class="s2">&quot;2013-01-01T00:00:00.000Z&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;113_U.S._756&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;MZMcBride&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
     <span class="p">]</span>
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
-<h2 id="time-ordering">Time Ordering</h2>
-
-<p>The Scan query currently supports ordering based on timestamp for non-legacy queries.  Note that using time ordering
-will yield results that do not indicate which segment rows are from (<code>segmentId</code> will show up as <code>null</code>).  Furthermore,
-time ordering is only supported where the result set limit is less than <code>druid.query.scan.maxRowsQueuedForOrdering</code> 
-rows <strong>or</strong> all segments scanned have fewer than <code>druid.query.scan.maxSegmentPartitionsOrderedInMemory</code> partitions.  Also,
-time ordering is not supported for queries issued directly to historicals unless a list of segments is specified.  The 
-reasoning behind these limitations is that the implementation of time ordering uses two strategies that can consume too 
-much heap memory if left unbounded.  These strategies (listed below) are chosen on a per-Historical basis depending on
-query result set limit and the number of segments being scanned.</p>
-
-<ol>
-<li><p>Priority Queue: Each segment on a Historical is opened sequentially.  Every row is added to a bounded priority
-queue which is ordered by timestamp.  For every row above the result set limit, the row with the earliest (if descending)
-or latest (if ascending) timestamp will be dequeued.  After every row has been processed, the sorted contents of the
-priority queue are streamed back to the Broker(s) in batches.  Attempting to load too many rows into memory runs the
-risk of Historical nodes running out of memory.  The <code>druid.query.scan.maxRowsQueuedForOrdering</code> property protects
-from this by limiting the number of rows in the query result set when time ordering is used.</p></li>
-<li><p>N-Way Merge: For each segment, each partition is opened in parallel.  Since each partition&#39;s rows are already
-time-ordered, an n-way merge can be performed on the results from each partition.  This approach doesn&#39;t persist the entire
-result set in memory (like the Priority Queue) as it streams back batches as they are returned from the merge function.
-However, attempting to query too many partition could also result in high memory usage due to the need to open 
-decompression and decoding buffers for each.  The <code>druid.query.scan.maxSegmentPartitionsOrderedInMemory</code> limit protects
-from this by capping the number of partitions opened at any times when time ordering is used.</p></li>
-</ol>
-
-<p>Both <code>druid.query.scan.maxRowsQueuedForOrdering</code> and <code>druid.query.scan.maxSegmentPartitionsOrderedInMemory</code> are 
-configurable and can be tuned based on hardware specs and number of dimensions being queried.  These config properties
-can also be overridden using the <code>maxRowsQueuedForOrdering</code> and <code>maxSegmentPartitionsOrderedInMemory</code> properties in 
-the query context (see the Query Context Properties section).</p>
+<p>The biggest difference between select query and scan query is that, scan query doesn&#39;t retain all rows in memory before rows can be returned to client.<br>
+It will cause memory pressure if too many rows required by select query.<br>
+Scan query doesn&#39;t have this issue.<br>
+Scan query can return all rows without issuing another pagination query, which is extremely useful when query against Historical or realtime process directly.</p>
 
 <h2 id="legacy-mode">Legacy mode</h2>
 
@@ -357,68 +349,6 @@ you may have that is named &quot;timestamp&quot;.</li>
 the best way to migrate is to activate legacy mode during a rolling upgrade, then switch it off after the upgrade
 is complete.</p>
 
-<h2 id="configuration-properties">Configuration Properties</h2>
-
-<p>Configuration properties:</p>
-
-<table><thead>
-<tr>
-<th>property</th>
-<th>description</th>
-<th>values</th>
-<th>default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>druid.query.scan.maxRowsQueuedForOrdering</td>
-<td>The maximum number of rows returned when time ordering is used</td>
-<td>An integer in [1, 2147483647]</td>
-<td>100000</td>
-</tr>
-<tr>
-<td>druid.query.scan.maxSegmentPartitionsOrderedInMemory</td>
-<td>The maximum number of segments scanned per historical when time ordering is used</td>
-<td>An integer in [1, 2147483647]</td>
-<td>50</td>
-</tr>
-<tr>
-<td>druid.query.scan.legacy</td>
-<td>Whether legacy mode should be turned on for Scan queries</td>
-<td>true or false</td>
-<td>false</td>
-</tr>
-</tbody></table>
-
-<h2 id="query-context-properties">Query Context Properties</h2>
-
-<table><thead>
-<tr>
-<th>property</th>
-<th>description</th>
-<th>values</th>
-<th>default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>maxRowsQueuedForOrdering</td>
-<td>The maximum number of rows returned when time ordering is used.  Overrides the identically named config.</td>
-<td>An integer in [1, 2147483647]</td>
-<td><code>druid.query.scan.maxRowsQueuedForOrdering</code></td>
-</tr>
-<tr>
-<td>maxSegmentPartitionsOrderedInMemory</td>
-<td>The maximum number of segments scanned per historical when time ordering is used.  Overrides the identically named config.</td>
-<td>An integer in [1, 2147483647]</td>
-<td><code>druid.query.scan.maxSegmentPartitionsOrderedInMemory</code></td>
-</tr>
-</tbody></table>
-
-<p>Sample query context JSON object:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;maxRowsQueuedForOrdering&quot;</span><span class="p">:</span> <span class="mi">100001</span><span class="p">,</span>
-  <span class="nt">&quot;maxSegmentPartitionsOrderedInMemory&quot;</span><span class="p">:</span> <span class="mi">100</span>    
-<span class="p">}</span>
-</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

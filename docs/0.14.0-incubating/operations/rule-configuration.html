@@ -148,6 +148,8 @@ Drop rules indicate when segments should be dropped entirely from the cluster. F
 
 <p>Note: It is recommended that the Coordinator console is used to configure rules. However, the Coordinator process does have HTTP endpoints to programmatically configure rules.</p>
 
+<p>When a rule is updated, the change may not be reflected until the next time the Coordinator runs. This will be fixed in the near future.</p>
+
 <h2 id="load-rules">Load Rules</h2>
 
 <p>Load rules indicate how many replicas of a segment should exist in a server tier. <strong>Please note</strong>: If a Load rule is used to retain only data from a certain interval or period, it must be accompanied by a Drop rule. If a Drop rule is not included, data not within the specified interval or period will be retained by the default rule (loadForever).</p>

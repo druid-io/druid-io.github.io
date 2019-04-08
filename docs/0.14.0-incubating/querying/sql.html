@@ -137,13 +137,6 @@
   ~ under the License.
   -->
 
-<p>&lt;!-- 
-    The format of the tables that describe the functions and operators 
-    should not be changed without updating the script create-sql-function-doc 
-    in web-console/script/create-sql-function-doc, because the script detects
-    patterns in this markdown file and parse it to TypeScript file for web console
-   --&gt;</p>
-
 <h1 id="sql">SQL</h1>
 
 <div class="note caution">
@@ -359,46 +352,6 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td><code>MOD(x, y)</code></td>
 <td>Modulo (remainder of x divided by y).</td>
 </tr>
-<tr>
-<td><code>SIN(expr)</code></td>
-<td>Trigonometric sine of an angle expr.</td>
-</tr>
-<tr>
-<td><code>COS(expr)</code></td>
-<td>Trigonometric cosine of an angle expr.</td>
-</tr>
-<tr>
-<td><code>TAN(expr)</code></td>
-<td>Trigonometric tangent of an angle expr.</td>
-</tr>
-<tr>
-<td><code>COT(expr)</code></td>
-<td>Trigonometric cotangent of an angle expr.</td>
-</tr>
-<tr>
-<td><code>ASIN(expr)</code></td>
-<td>Arc sine of expr.</td>
-</tr>
-<tr>
-<td><code>ACOS(expr)</code></td>
-<td>Arc cosine of expr.</td>
-</tr>
-<tr>
-<td><code>ATAN(expr)</code></td>
-<td>Arc tangent of expr.</td>
-</tr>
-<tr>
-<td><code>ATAN2(y, x)</code></td>
-<td>Angle theta from the conversion of rectangular coordinates (x, y) to polar * coordinates (r, theta).</td>
-</tr>
-<tr>
-<td><code>DEGREES(expr)</code></td>
-<td>Converts an angle measured in radians to an approximately equivalent angle measured in degrees</td>
-</tr>
-<tr>
-<td><code>RADIANS(expr)</code></td>
-<td>Converts an angle measured in degrees to an approximately equivalent angle measured in radians</td>
-</tr>
 </tbody></table>
 
 <h3 id="string-functions">String functions</h3>
@@ -424,10 +377,6 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Two argument version of CONCAT.</td>
 </tr>
 <tr>
-<td><code>FORMAT(pattern[, args...])</code></td>
-<td>Returns a string formatted in the manner of Java&#39;s <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#format-java.lang.String-java.lang.Object...-">String.format</a>.</td>
-</tr>
-<tr>
 <td><code>LENGTH(expr)</code></td>
 <td>Length of expr in UTF-16 code units.</td>
 </tr>
@@ -450,10 +399,6 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <tr>
 <td><code>LOWER(expr)</code></td>
 <td>Returns expr in all lowercase.</td>
-</tr>
-<tr>
-<td><code>PARSE_LONG(string[, radix])</code></td>
-<td>Parses a string into a long (BIGINT) with the given radix, or 10 (decimal) if a radix is not provided.</td>
 </tr>
 <tr>
 <td><code>POSITION(needle IN haystack [FROM fromIndex])</code></td>
@@ -860,7 +805,9 @@ converted to zeroes).</p>
 
 <h2 id="query-execution">Query execution</h2>
 
-<p>Queries without aggregations will use Druid&#39;s <a href="scan-query.html">Scan</a> native query type.</p>
+<p>Queries without aggregations will use Druid&#39;s <a href="scan-query.html">Scan</a> or <a href="select-query.html">Select</a> native query types.
+Scan is used whenever possible, as it is generally higher performance and more efficient than Select. However, Select
+is used in one case: when the query includes an <code>ORDER BY __time</code>, since Scan does not have a sorting feature.</p>
 
 <p>Aggregation queries (using GROUP BY, DISTINCT, or any aggregation functions) will use one of Druid&#39;s three native
 aggregation query types. Two (Timeseries and TopN) are specialized for specific types of aggregations, whereas the other
@@ -1267,73 +1214,59 @@ datasource &quot;foo&quot;, use the query:</p>
 <table><thead>
 <tr>
 <th>Column</th>
-<th>Type</th>
 <th>Notes</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>segment_id</td>
-<td>STRING</td>
 <td>Unique segment identifier</td>
 </tr>
 <tr>
 <td>datasource</td>
-<td>STRING</td>
 <td>Name of datasource</td>
 </tr>
 <tr>
 <td>start</td>
-<td>STRING</td>
 <td>Interval start time (in ISO 8601 format)</td>
 </tr>
 <tr>
 <td>end</td>
-<td>STRING</td>
 <td>Interval end time (in ISO 8601 format)</td>
 </tr>
 <tr>
 <td>size</td>
-<td>LONG</td>
 <td>Size of segment in bytes</td>
 </tr>
 <tr>
 <td>version</td>
-<td>STRING</td>
 <td>Version string (generally an ISO8601 timestamp corresponding to when the segment set was first started). Higher version means the more recently created segment. Version comparing is based on string comparison.</td>
 </tr>
 <tr>
 <td>partition_num</td>
-<td>LONG</td>
 <td>Partition number (an integer, unique within a datasource+interval+version; may not necessarily be contiguous)</td>
 </tr>
 <tr>
 <td>num_replicas</td>
-<td>LONG</td>
 <td>Number of replicas of this segment currently being served</td>
 </tr>
 <tr>
 <td>num_rows</td>
-<td>LONG</td>
 <td>Number of rows in current segment, this value could be null if unkown to Broker at query time</td>
 </tr>
 <tr>
 <td>is_published</td>
-<td>LONG</td>
-<td>Boolean is represented as long type where 1 = true, 0 = false. 1 represents this segment has been published to the metadata store with <code>used=1</code></td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 represents this segment has been published to the metadata store</td>
 </tr>
 <tr>
 <td>is_available</td>
-<td>LONG</td>
-<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any process(Historical or realtime)</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any server(Historical or realtime)</td>
 </tr>
 <tr>
 <td>is_realtime</td>
-<td>LONG</td>
 <td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is being served on any type of realtime tasks</td>
 </tr>
 <tr>
 <td>payload</td>
-<td>STRING</td>
 <td>JSON-serialized data segment payload</td>
 </tr>
 </tbody></table>
@@ -1359,48 +1292,39 @@ datasource &quot;foo&quot;, use the query:</p>
 <table><thead>
 <tr>
 <th>Column</th>
-<th>Type</th>
 <th>Notes</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>server</td>
-<td>STRING</td>
 <td>Server name in the form host:port</td>
 </tr>
 <tr>
 <td>host</td>
-<td>STRING</td>
 <td>Hostname of the server</td>
 </tr>
 <tr>
 <td>plaintext_port</td>
-<td>LONG</td>
 <td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
 </tr>
 <tr>
 <td>tls_port</td>
-<td>LONG</td>
 <td>TLS port of the server, or -1 if TLS is disabled</td>
 </tr>
 <tr>
 <td>server_type</td>
-<td>STRING</td>
 <td>Type of Druid service. Possible values include: Historical, realtime and indexer_executor(Peon).</td>
 </tr>
 <tr>
 <td>tier</td>
-<td>STRING</td>
 <td>Distribution tier see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.tier</a></td>
 </tr>
 <tr>
 <td>current_size</td>
-<td>LONG</td>
 <td>Current size of segments in bytes on this server</td>
 </tr>
 <tr>
 <td>max_size</td>
-<td>LONG</td>
 <td>Max size in bytes this server recommends to assign to segments see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.maxSize</a></td>
 </tr>
 </tbody></table>
@@ -1415,18 +1339,15 @@ datasource &quot;foo&quot;, use the query:</p>
 <table><thead>
 <tr>
 <th>Column</th>
-<th>Type</th>
 <th>Notes</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>server</td>
-<td>STRING</td>
 <td>Server name in format host:port (Primary key of <a href="#SERVERS-table">servers table</a>)</td>
 </tr>
 <tr>
 <td>segment_id</td>
-<td>STRING</td>
 <td>Segment identifier (Primary key of <a href="#SEGMENTS-table">segments table</a>)</td>
 </tr>
 </tbody></table>
@@ -1449,73 +1370,59 @@ check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 <table><thead>
 <tr>
 <th>Column</th>
-<th>Type</th>
 <th>Notes</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>task_id</td>
-<td>STRING</td>
 <td>Unique task identifier</td>
 </tr>
 <tr>
 <td>type</td>
-<td>STRING</td>
 <td>Task type, for example this value is &quot;index&quot; for indexing tasks. See <a href="../ingestion/tasks.html">tasks-overview</a></td>
 </tr>
 <tr>
 <td>datasource</td>
-<td>STRING</td>
 <td>Datasource name being indexed</td>
 </tr>
 <tr>
 <td>created_time</td>
-<td>STRING</td>
 <td>Timestamp in ISO8601 format corresponding to when the ingestion task was created. Note that this value is populated for completed and waiting tasks. For running and pending tasks this value is set to 1970-01-01T00:00:00Z</td>
 </tr>
 <tr>
 <td>queue_insertion_time</td>
-<td>STRING</td>
 <td>Timestamp in ISO8601 format corresponding to when this task was added to the queue on the Overlord</td>
 </tr>
 <tr>
 <td>status</td>
-<td>STRING</td>
 <td>Status of a task can be RUNNING, FAILED, SUCCESS</td>
 </tr>
 <tr>
 <td>runner_status</td>
-<td>STRING</td>
 <td>Runner status of a completed task would be NONE, for in-progress tasks this can be RUNNING, WAITING, PENDING</td>
 </tr>
 <tr>
 <td>duration</td>
-<td>LONG</td>
 <td>Time it took to finish the task in milliseconds, this value is present only for completed tasks</td>
 </tr>
 <tr>
 <td>location</td>
-<td>STRING</td>
 <td>Server name where this task is running in the format host:port, this information is present only for RUNNING tasks</td>
 </tr>
 <tr>
 <td>host</td>
-<td>STRING</td>
 <td>Hostname of the server where task is running</td>
 </tr>
 <tr>
 <td>plaintext_port</td>
-<td>LONG</td>
 <td>Unsecured port of the server, or -1 if plaintext traffic is disabled</td>
 </tr>
 <tr>
 <td>tls_port</td>
-<td>LONG</td>
 <td>TLS port of the server, or -1 if TLS is disabled</td>
 </tr>
 <tr>
 <td>error_msg</td>
-<td>STRING</td>
 <td>Detailed error message in case of FAILED tasks</td>
 </tr>
 </tbody></table>

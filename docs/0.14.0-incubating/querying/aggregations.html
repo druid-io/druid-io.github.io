@@ -362,14 +362,6 @@ The Cardinality and HyperUnique aggregators are deprecated. Please use <a href="
 
 <p>We recommend this aggregator in general for quantiles/histogram use cases, as it provides formal error bounds and has distribution-independent accuracy.</p>
 
-<h4 id="moments-sketch-experimental">Moments Sketch (Experimental)</h4>
-
-<p>The <a href="../development/extensions-contrib/momentsketch-quantiles.html">Moments Sketch</a> extension-provided aggregator is an experimental aggregator that provides quantile estimates using the <a href="https://github.com/stanford-futuredata/momentsketch">Moments Sketch</a>.</p>
-
-<p>The Moments Sketch aggregator is provided as an experimental option. It is optimized for merging speed and it can have higher aggregation performance compared to the DataSketches quantiles aggregator. However, the accuracy of the Moments Sketch is distribution-dependent, so users will need to empirically verify that the aggregator is suitable for their input data.</p>
-
-<p>As a general guideline for experimentation, the <a href="https://arxiv.org/pdf/1803.01969.pdf">Moments Sketch paper</a> points out that this algorithm works better on inputs with high entropy. In particular, the algorithm is not a good fit when the input data consists of a small number of clustered discrete values.</p>
-
 <h4 id="fixed-buckets-histogram">Fixed Buckets Histogram</h4>
 
 <p>Druid also provides a [simple histogram implementation]((../development/extensions-core/approxiate-histograms.html#fixed-buckets-histogram) that uses a fixed range and fixed number of buckets with support for quantile estimation, backed by an array of bucket count values.</p>

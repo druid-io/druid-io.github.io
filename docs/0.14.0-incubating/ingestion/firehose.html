@@ -252,8 +252,7 @@ A sample http firehose spec is shown below:</p>
 <h3 id="ingestsegmentfirehose">IngestSegmentFirehose</h3>
 
 <p>This Firehose can be used to read the data from existing druid segments.
-It can be used to ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
-This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
+It can be used ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
 A sample ingest firehose spec is shown below -</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;ingestSegment&quot;</span><span class="p">,</span>
@@ -298,28 +297,20 @@ A sample ingest firehose spec is shown below -</p>
 <td>See <a href="../querying/filters.html">Filters</a></td>
 <td>no</td>
 </tr>
-<tr>
-<td>maxInputSegmentBytesPerTask</td>
-<td>When used with the native parallel index task, the maximum number of bytes of input segments to process in a single task. If a single segment is larger than this number, it will be processed by itself in a single task (input segments are never split across tasks). Defaults to 150MB.</td>
-<td>no</td>
-</tr>
 </tbody></table>
 
 <h4 id="sqlfirehose">SqlFirehose</h4>
 
-<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.</p>
-
-<p>Requires one of the following extensions:
- * <a href="../development/extensions-core/mysql.html">MySQL Metadata Store</a>.
- * <a href="../development/extensions-core/postgresql.html">PostgreSQL Metadata Store</a>.</p>
+<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.
+An example is shown below:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;sql&quot;</span><span class="p">,</span>
     <span class="nt">&quot;database&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mysql&quot;</span><span class="p">,</span>
         <span class="nt">&quot;connectorConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
+        <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
         <span class="p">}</span>
      <span class="p">},</span>
     <span class="nt">&quot;sqls&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SELECT * FROM table1&quot;</span><span class="p">,</span> <span class="s2">&quot;SELECT * FROM table2&quot;</span><span class="p">]</span>
@@ -341,7 +332,7 @@ A sample ingest firehose spec is shown below -</p>
 </tr>
 <tr>
 <td>database</td>
-<td>Specifies the database connection details.</td>
+<td>Specifies the database connection details.<code>type</code> should specify the database type and <code>connectorConfig</code> should specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
 <td></td>
 <td>Yes</td>
 </tr>
@@ -378,30 +369,6 @@ A sample ingest firehose spec is shown below -</p>
 <tr>
 <td>sqls</td>
 <td>List of SQL queries where each SQL query would retrieve the data to be indexed.</td>
-<td></td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<h4 id="database">Database</h4>
-
-<table><thead>
-<tr>
-<th>property</th>
-<th>description</th>
-<th>default</th>
-<th>required?</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>type</td>
-<td>The type of database to query. Valid values are <code>mysql</code> and <code>postgresql</code>_</td>
-<td></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>connectorConfig</td>
-<td>specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
 <td></td>
 <td>Yes</td>
 </tr>
@@ -468,18 +435,13 @@ This can be used to merge data from more than one firehose.</p>
 </tr>
 <tr>
 <td>serviceName</td>
-<td>Name used to announce the event receiver service endpoint</td>
+<td>name used to announce the event receiver service endpoint</td>
 <td>yes</td>
 </tr>
 <tr>
-<td>maxIdleTime</td>
-<td>A firehose is automatically shut down after not receiving any events for this period of time, in milliseconds. If not specified, a firehose is never shut down due to being idle. Zero and negative values have the same effect.</td>
-<td>no</td>
-</tr>
-<tr>
 <td>bufferSize</td>
-<td>Size of buffer used by firehose to store events</td>
-<td>no, default is 100000</td>
+<td>size of buffer used by firehose to store events</td>
+<td>no default(100000)</td>
 </tr>
 </tbody></table>
 

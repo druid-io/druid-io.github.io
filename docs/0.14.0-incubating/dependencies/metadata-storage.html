@@ -147,10 +147,7 @@ a number of tables used for various purposes described below.</p>
 <a href="../development/extensions-core/mysql.html">MySQL</a> and <a href="../development/extensions-core/postgresql.html">PostgreSQL</a> are more production suitable metadata stores.</p>
 
 <div class="note caution">
-The Metadata Storage stores the entire metadata which is essential for a Druid cluster to work.
-For production clusters, consider using MySQL or PostgreSQL instead of Derby.
-Also, it's highly recommended to set up a high availability environment
-because there is no way to restore if you lose any metadata.
+Derby is not suitable for production use as a metadata store. Use MySQL or PostgreSQL instead.
 </div>
 
 <h2 id="using-derby">Using derby</h2>

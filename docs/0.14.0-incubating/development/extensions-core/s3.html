@@ -184,18 +184,13 @@
 <td>Must be set.</td>
 </tr>
 <tr>
-<td><code>druid.storage.disableAcl</code></td>
-<td>Boolean flag to disable ACL. If this is set to <code>false</code>, the full control would be granted to the bucket owner. This may require to set additional permissions. See <a href="#s3-permissions-settings">S3 permissions settings</a>.</td>
-<td>false</td>
-</tr>
-<tr>
 <td><code>druid.storage.sse.type</code></td>
 <td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="#server-side-encryption">Server-side encryption section</a> for more details.</td>
 <td>None</td>
 </tr>
 <tr>
 <td><code>druid.storage.sse.kms.keyId</code></td>
-<td>AWS KMS key ID. This is used only when <code>druid.storage.sse.type</code> is <code>kms</code> and can be empty to use the default key ID.</td>
+<td>AWS KMS key ID. Can be empty if <code>druid.storage.sse.type</code> is <code>kms</code>.</td>
 <td>None</td>
 </tr>
 <tr>
@@ -205,7 +200,7 @@
 </tr>
 <tr>
 <td><code>druid.s3.protocol</code></td>
-<td>Communication protocol type to use when sending requests to AWS. <code>http</code> or <code>https</code> can be used. This configuration would be ignored if <code>druid.s3.endpoint.url</code> is filled with a URL with a different protocol.</td>
+<td>Communication protocol type to use when sending requests to AWS. <code>http</code> or <code>https</code> can be used.</td>
 <td><code>https</code></td>
 </tr>
 <tr>
@@ -254,11 +249,6 @@
 <td>None</td>
 </tr>
 </tbody></table>
-
-<h3 id="s3-permissions-settings">S3 permissions settings</h3>
-
-<p><code>s3:GetObject</code> and <code>s3:PutObject</code> are basically required for pushing/loading segments to/from S3.
-If <code>druid.storage.disableAcl</code> is set to <code>false</code>, then <code>s3:GetBucketAcl</code> and <code>s3:PutObjectAcl</code> are additionally required to set ACL for objects.</p>
 
 <h2 id="server-side-encryption">Server-side encryption</h2>
 

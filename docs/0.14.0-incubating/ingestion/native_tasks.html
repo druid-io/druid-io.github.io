@@ -159,7 +159,7 @@ task statuses. If one of them fails, it retries the failed task until the retryi
 If all worker tasks succeed, then it collects the reported list of generated segments and publishes those segments at once.</p>
 
 <p>To use this task, the <code>firehose</code> in <code>ioConfig</code> should be <em>splittable</em>. If it&#39;s not, this task runs sequentially. The
-current splittable fireshoses are <a href="./firehose.html#localfirehose"><code>LocalFirehose</code></a>, <a href="./firehose.html#ingestsegmentfirehose"><code>IngestSegmentFirehose</code></a>, <a href="./firehose.html#httpfirehose"><code>HttpFirehose</code></a>
+current splittable fireshoses are <a href="./firehose.html#localfirehose"><code>LocalFirehose</code></a>, <a href="./firehose.html#httpfirehose"><code>HttpFirehose</code></a>
 , <a href="../development/extensions-core/s3.html#statics3firehose"><code>StaticS3Firehose</code></a>, <a href="../development/extensions-contrib/azure.html#staticazureblobstorefirehose"><code>StaticAzureBlobStoreFirehose</code></a>
 , <a href="../development/extensions-contrib/google.html#staticgoogleblobstorefirehose"><code>StaticGoogleBlobStoreFirehose</code></a>, and <a href="../development/extensions-contrib/cloudfiles.html#staticcloudfilesfirehose"><code>StaticCloudFilesFirehose</code></a>.</p>
 
@@ -320,7 +320,7 @@ that range if there&#39;s some stray data with unexpected timestamps.</p>
 </tr>
 <tr>
 <td>appendToExisting</td>
-<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs.</td>
+<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs (which can be forced by setting &#39;forceExtendableShardSpecs&#39; in the tuning config).</td>
 <td>false</td>
 <td>no</td>
 </tr>
@@ -384,6 +384,12 @@ that range if there&#39;s some stray data with unexpected timestamps.</p>
 <td>maxPendingPersists</td>
 <td>Maximum number of persists that can be pending but not started. If this limit would be exceeded by a new intermediate persist, ingestion will block until the currently-running persist finishes. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
 <td>0 (meaning one persist can be running concurrently with ingestion, and none can be queued up)</td>
+<td>no</td>
+</tr>
+<tr>
+<td>forceExtendableShardSpecs</td>
+<td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>false</td>
 <td>no</td>
 </tr>
 <tr>
@@ -628,6 +634,7 @@ The returned result contains the worker task spec, a current task status if exis
           <span class="nt">&quot;longEncoding&quot;</span><span class="p">:</span> <span class="s2">&quot;longs&quot;</span>
         <span class="p">},</span>
         <span class="nt">&quot;maxPendingPersists&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;forceExtendableShardSpecs&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
         <span class="nt">&quot;reportParseExceptions&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
         <span class="nt">&quot;pushTimeout&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="nt">&quot;segmentWriteOutMediumFactory&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
@@ -828,7 +835,7 @@ that range if there&#39;s some stray data with unexpected timestamps.</p>
 </tr>
 <tr>
 <td>appendToExisting</td>
-<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs.</td>
+<td>Creates segments as additional shards of the latest version, effectively appending to the segment set instead of replacing it. This will only work if the existing segment set has extendable-type shardSpecs (which can be forced by setting &#39;forceExtendableShardSpecs&#39; in the tuning config).</td>
 <td>false</td>
 <td>no</td>
 </tr>
@@ -898,6 +905,12 @@ that range if there&#39;s some stray data with unexpected timestamps.</p>
 <td>maxPendingPersists</td>
 <td>Maximum number of persists that can be pending but not started. If this limit would be exceeded by a new intermediate persist, ingestion will block until the currently-running persist finishes. Maximum heap memory usage for indexing scales with maxRowsInMemory * (2 + maxPendingPersists).</td>
 <td>0 (meaning one persist can be running concurrently with ingestion, and none can be queued up)</td>
+<td>no</td>
+</tr>
+<tr>
+<td>forceExtendableShardSpecs</td>
+<td>Forces use of extendable shardSpecs. Experimental feature intended for use with the <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing service extension</a>.</td>
+<td>false</td>
 <td>no</td>
 </tr>
 <tr>
@@ -1062,7 +1075,7 @@ the index task immediately pushes all segments created until that moment, cleans
 continues to ingest remaining data.</p>
 
 <p>To enable bulk pushing mode, <code>forceGuaranteedRollup</code> should be set in the TuningConfig. Note that this option cannot
-be used with <code>appendToExisting</code> of IOConfig.</p>
+be used with either <code>forceExtendableShardSpecs</code> of TuningConfig or <code>appendToExisting</code> of IOConfig.</p>
 
         </div>
         <div class="col-md-3">

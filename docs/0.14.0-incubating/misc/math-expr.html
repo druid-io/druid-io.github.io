@@ -173,8 +173,8 @@ This feature is still experimental. It has not been optimized for performance ye
 <td>Binary Comparison</td>
 </tr>
 <tr>
-<td>&amp;&amp;, &#124;</td>
-<td>Binary Logical AND, OR</td>
+<td>&amp;&amp;,\</td>
+<td>\</td>
 </tr>
 </tbody></table>
 
@@ -237,11 +237,7 @@ should not rely on the behavior in this case to stay the same in future releases
 </thead><tbody>
 <tr>
 <td>concat</td>
-<td>concat(expr, expr...) concatenate a list of strings</td>
-</tr>
-<tr>
-<td>format</td>
-<td>format(pattern[, args...]) returns a string formatted in the manner of Java&#39;s <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#format-java.lang.String-java.lang.Object...-">String.format</a>.</td>
+<td>concatenate a list of strings</td>
 </tr>
 <tr>
 <td>like</td>
@@ -250,10 +246,6 @@ should not rely on the behavior in this case to stay the same in future releases
 <tr>
 <td>lookup</td>
 <td>lookup(expr, lookup-name) looks up expr in a registered <a href="../querying/lookups.html">query-time lookup</a></td>
-</tr>
-<tr>
-<td>parse_long</td>
-<td>parse_long(string[, radix]) parses a string as a long with the given radix, or 10 (decimal) if a radix is not provided.</td>
 </tr>
 <tr>
 <td>regexp_extract</td>
@@ -390,10 +382,6 @@ should not rely on the behavior in this case to stay the same in future releases
 <td>cosh(x) would return the hyperbolic cosine of x</td>
 </tr>
 <tr>
-<td>cot</td>
-<td>cot(x) would return the trigonometric cotangent of an angle x</td>
-</tr>
-<tr>
 <td>div</td>
 <td>div(x,y) is integer division of x by y</td>
 </tr>
@@ -444,10 +432,6 @@ should not rely on the behavior in this case to stay the same in future releases
 <tr>
 <td>nextUp</td>
 <td>nextUp(x) would return the floating-point value adjacent to x in the direction of positive infinity</td>
-</tr>
-<tr>
-<td>pi</td>
-<td>pi would return the constant value of the π</td>
 </tr>
 <tr>
 <td>pow</td>

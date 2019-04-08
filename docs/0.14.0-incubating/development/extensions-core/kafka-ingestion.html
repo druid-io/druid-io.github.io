@@ -583,6 +583,12 @@ MiddleManagers. A supervisor for a dataSource is started by submitting a supervi
 <td>Configure tasks to reject messages with timestamps later than this period after the task reached its taskDuration; for example if this is set to <code>PT1H</code>, the taskDuration is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps later than <em>2016-01-01T14:00Z</em> will be dropped. <strong>Note:</strong> Tasks sometimes run past their task duration, for example, in cases of supervisor failover. Setting earlyMessageRejectionPeriod too low may cause messages to be dropped unexpectedly whenever a task runs past its originally configured task duration.</td>
 <td>no (default == none)</td>
 </tr>
+<tr>
+<td><code>skipOffsetGaps</code></td>
+<td>Boolean</td>
+<td>Whether or not to allow gaps of missing offsets in the Kafka stream. This is required for compatibility with implementations such as MapR Streams which does not guarantee consecutive offsets. If this is false, an exception will be thrown if offsets are not consecutive.</td>
+<td>no (default == false)</td>
+</tr>
 </tbody></table>
 
 <h2 id="operations">Operations</h2>

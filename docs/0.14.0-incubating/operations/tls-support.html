@@ -218,49 +218,43 @@ values for the below mentioned configs among others provided by Java implementat
 </thead><tbody>
 <tr>
 <td><code>druid.server.https.requireClientCertificate</code></td>
-<td>If set to true, clients must identify themselves by providing a TLS certificate, without which connections will fail.</td>
-<td>false</td>
-<td>no</td>
-</tr>
-<tr>
-<td><code>druid.server.https.requestClientCertificate</code></td>
-<td>If set to true, clients may optionally identify themselves by providing a TLS certificate. Connections will not fail if TLS certificate is not provided. This property is ignored if <code>requireClientCertificate</code> is set to true. If <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false, the rest of the options in this table are ignored.</td>
+<td>If set to true, clients must identify themselves by providing a TLS certificate.  If <code>requireClientCertificate</code> is false, the rest of the options in this table are ignored.</td>
 <td>false</td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>druid.server.https.trustStoreType</code></td>
-<td>The type of the trust store containing certificates used to validate client certificates. Not needed if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>The type of the trust store containing certificates used to validate client certificates. Not needed if <code>requireClientCertificate</code> is false.</td>
 <td><code>java.security.KeyStore.getDefaultType()</code></td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>druid.server.https.trustStorePath</code></td>
-<td>The file path or URL of the trust store containing certificates used to validate client certificates. Not needed if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>The file path or URL of the trust store containing certificates used to validate client certificates. Not needed if <code>requireClientCertificate</code> is false.</td>
 <td>none</td>
 <td>yes, only if <code>requireClientCertificate</code> is true</td>
 </tr>
 <tr>
 <td><code>druid.server.https.trustStoreAlgorithm</code></td>
-<td>Algorithm to be used by TrustManager to validate client certificate chains. Not needed if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>Algorithm to be used by TrustManager to validate client certificate chains. Not needed if <code>requireClientCertificate</code> is false.</td>
 <td><code>javax.net.ssl.TrustManagerFactory.getDefaultAlgorithm()</code></td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>druid.server.https.trustStorePassword</code></td>
-<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.  Not needed if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Trust Store.  Not needed if <code>requireClientCertificate</code> is false.</td>
 <td>none</td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>druid.server.https.validateHostnames</code></td>
-<td>If set to true, check that the client&#39;s hostname matches the CN/subjectAltNames in the client certificate.  Not used if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>If set to true, check that the client&#39;s hostname matches the CN/subjectAltNames in the client certificate.  Not used if <code>requireClientCertificate</code> is false.</td>
 <td>true</td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>druid.server.https.crlPath</code></td>
-<td>Specifies a path to a file containing static <a href="https://en.wikipedia.org/wiki/Certificate_revocation_list">Certificate Revocation Lists</a>, used to check if a client certificate has been revoked. Not used if <code>requireClientCertificate</code> and <code>requestClientCertificate</code> are false.</td>
+<td>Specifies a path to a file containing static <a href="https://en.wikipedia.org/wiki/Certificate_revocation_list">Certificate Revocation Lists</a>, used to check if a client certificate has been revoked. Not used if <code>requireClientCertificate</code> is false.</td>
 <td>null</td>
 <td>no</td>
 </tr>
