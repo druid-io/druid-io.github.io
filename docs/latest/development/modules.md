@@ -92,7 +92,7 @@ Binders.dataSegmentPusherBinder(binder)
        .to(HdfsDataSegmentPusher.class).in(LazySingleton.class);
 ```
 
-`Binders.dataSegment*Binder()` is a call provided by the druid-api jar which sets up a Guice multibind "MapBinder".  If that doesn't make sense, don't worry about it, just think of it as a magical incantation.
+`Binders.dataSegment*Binder()` is a call provided by the druid-core jar which sets up a Guice multibind "MapBinder".  If that doesn't make sense, don't worry about it, just think of it as a magical incantation.
 
 `addBinding("hdfs")` for the Puller binder creates a new handler for loadSpec objects of type "hdfs".  For the Pusher binder it creates a new type value that you can specify for the `druid.storage.type` parameter.
 
@@ -109,8 +109,8 @@ In addition to DataSegmentPusher and DataSegmentPuller, you can also bind:
 **WARNING!** This is not a formal procedure, but a collection of hints to validate if your new deep storage implementation is able do push, pull and kill segments.
 
 It's recommended to use batch ingestion tasks to validate your implementation.
-The segment will be automatically rolled up to historical note after ~20 seconds. 
-In this way, you can validate both push (at realtime node) and pull (at historical node) segments.
+The segment will be automatically rolled up to Historical note after ~20 seconds. 
+In this way, you can validate both push (at realtime process) and pull (at Historical process) segments.
 
 * DataSegmentPusher
 
@@ -118,9 +118,9 @@ Wherever your data storage (cloud storage service, distributed file system, etc.
 
 * DataSegmentPuller
 
-After ~20 secs your ingestion task ends, you should be able to see your historical node trying to load the new segment.
+After ~20 secs your ingestion task ends, you should be able to see your Historical process trying to load the new segment.
 
-The following example was retrieved from a historical node configured to use Azure for deep storage:
+The following example was retrieved from a Historical process configured to use Azure for deep storage:
 
 ```
 2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00

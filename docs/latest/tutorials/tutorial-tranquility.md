@@ -39,12 +39,12 @@ don't need to have loaded any data yet.
 In the Druid package root, run the following commands:
 
 ```bash
-curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.2.tgz -o tranquility-distribution-0.8.2.tgz
-tar -xzf tranquility-distribution-0.8.2.tgz
-mv tranquility-distribution-0.8.2 tranquility
+curl http://static.druid.io/tranquility/releases/tranquility-distribution-0.8.3.tgz -o tranquility-distribution-0.8.3.tgz
+tar -xzf tranquility-distribution-0.8.3.tgz
+mv tranquility-distribution-0.8.3 tranquility
 ```
 
-The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at `tranquility` under the apache-druid-0.13.0-incubating package root.
+The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at `tranquility` under the apache-druid-0.14.0-incubating package root.
 
 ## Enable Tranquility Server
 
@@ -54,7 +54,7 @@ The startup scripts for the tutorial will expect the contents of the Tranquility
 As part of the output of *supervise* you should see something like:
 
 ```bash
-Running command[tranquility-server], logging to[/stage/apache-druid-0.13.0-incubating/var/sv/tranquility-server.log]: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList=[]
+Running command[tranquility-server], logging to[/stage/apache-druid-0.14.0-incubating/var/sv/tranquility-server.log]: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList=[]
 ```
 
 You can check the log file in `var/sv/tranquility-server.log` to confirm that the server is starting up properly.
