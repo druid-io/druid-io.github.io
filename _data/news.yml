@@ -1,3 +1,7 @@
+  - date: 2019-04-09
+    name: Apache Druid (incubating) 0.14.0 Released
+    link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.14.0-incubating'
+
   - date: 2018-12-18
     name: Apache Druid (incubating) 0.13.0 Released
     link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.13.0-incubating'
@@ -5,7 +9,3 @@
   - date: 2018-09-18
     name: Druid 0.12.3 Released
     link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.12.3'
-
-  - date: 2018-08-09
-    name: Druid 0.12.2 Released
-    link: 'https://github.com/apache/incubator-druid/releases/tag/druid-0.12.2'
