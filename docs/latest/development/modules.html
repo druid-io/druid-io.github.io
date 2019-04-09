@@ -203,7 +203,7 @@ and <code>org.apache.druid.query.aggregation.BufferAggregator</code>.</li>
        <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
        <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPusher</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </code></pre></div>
-<p><code>Binders.dataSegment*Binder()</code> is a call provided by the druid-api jar which sets up a Guice multibind &quot;MapBinder&quot;.  If that doesn&#39;t make sense, don&#39;t worry about it, just think of it as a magical incantation.</p>
+<p><code>Binders.dataSegment*Binder()</code> is a call provided by the druid-core jar which sets up a Guice multibind &quot;MapBinder&quot;.  If that doesn&#39;t make sense, don&#39;t worry about it, just think of it as a magical incantation.</p>
 
 <p><code>addBinding(&quot;hdfs&quot;)</code> for the Puller binder creates a new handler for loadSpec objects of type &quot;hdfs&quot;.  For the Pusher binder it creates a new type value that you can specify for the <code>druid.storage.type</code> parameter.</p>
 
@@ -222,8 +222,8 @@ and <code>org.apache.druid.query.aggregation.BufferAggregator</code>.</li>
 <p><strong>WARNING!</strong> This is not a formal procedure, but a collection of hints to validate if your new deep storage implementation is able do push, pull and kill segments.</p>
 
 <p>It&#39;s recommended to use batch ingestion tasks to validate your implementation.
-The segment will be automatically rolled up to historical note after ~20 seconds. 
-In this way, you can validate both push (at realtime node) and pull (at historical node) segments.</p>
+The segment will be automatically rolled up to Historical note after ~20 seconds. 
+In this way, you can validate both push (at realtime process) and pull (at Historical process) segments.</p>
 
 <ul>
 <li>DataSegmentPusher</li>
@@ -235,9 +235,9 @@ In this way, you can validate both push (at realtime node) and pull (at historic
 <li>DataSegmentPuller</li>
 </ul>
 
-<p>After ~20 secs your ingestion task ends, you should be able to see your historical node trying to load the new segment.</p>
+<p>After ~20 secs your ingestion task ends, you should be able to see your Historical process trying to load the new segment.</p>
 
-<p>The following example was retrieved from a historical node configured to use Azure for deep storage:</p>
+<p>The following example was retrieved from a Historical process configured to use Azure for deep storage:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2015-04-14T02:42:33,450 INFO [ZkCoordinator-0] org.apache.druid.server.coordination.ZkCoordinator - New request[LOAD: dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00
 .000Z_2015-04-14T02:41:09.484Z] with zNode[/druid/dev/loadQueue/192.168.33.104:8081/dde_2015-01-02T00:00:00.000Z_2015-01-03T00:00:00.000Z_2015-04-14T02:41:09.
 484Z].
@@ -406,7 +406,7 @@ See the documentation in <code>org.apache.druid.cli.PullDependencies</code> for 
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

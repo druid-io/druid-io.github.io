@@ -143,8 +143,8 @@
 <li> <a href="../design/coordinator.html">Coordinator</a> leader election</li>
 <li> Segment &quot;publishing&quot; protocol from <a href="../design/historical.html">Historical</a> and <a href="../design/realtime.html">Realtime</a></li>
 <li> Segment load/drop protocol between <a href="../design/coordinator.html">Coordinator</a> and <a href="../design/historical.html">Historical</a></li>
-<li> <a href="../design/indexing-service.html">Overlord</a> leader election</li>
-<li> <a href="../design/indexing-service.html">Indexing Service</a> task management</li>
+<li> <a href="../design/overlord.html">Overlord</a> leader election</li>
+<li> <a href="../design/overlord.html">Overlord</a> and <a href="../design/middlemanager.html">MiddleManager</a> task management</li>
 </ol>
 
 <h3 id="coordinator-leader-election">Coordinator Leader Election</h3>
@@ -156,7 +156,7 @@
 
 <p>The <code>announcementsPath</code> and <code>servedSegmentsPath</code> are used for this.</p>
 
-<p>All <a href="../design/historical.html">Historical</a> and <a href="../design/realtime.html">Realtime</a> nodes publish themselves on the <code>announcementsPath</code>, specifically, they will create an ephemeral znode at</p>
+<p>All <a href="../design/historical.html">Historical</a> and <a href="../design/realtime.html">Realtime</a> processes publish themselves on the <code>announcementsPath</code>, specifically, they will create an ephemeral znode at</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.announcementsPath}/${druid.host}
 </code></pre></div>
 <p>Which signifies that they exist. They will also subsequently create a permanent znode at</p>
@@ -165,16 +165,16 @@
 <p>And as they load up segments, they will attach ephemeral znodes that look like</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.servedSegmentsPath}/${druid.host}/_segment_identifier_
 </code></pre></div>
-<p>Nodes like the <a href="../design/coordinator.html">Coordinator</a> and <a href="../design/broker.html">Broker</a> can then watch these paths to see which nodes are currently serving which segments.</p>
+<p>Processes like the <a href="../design/coordinator.html">Coordinator</a> and <a href="../design/broker.html">Broker</a> can then watch these paths to see which processes are currently serving which segments.</p>
 
 <h3 id="segment-load-drop-protocol-between-coordinator-and-historical">Segment load/drop protocol between Coordinator and Historical</h3>
 
 <p>The <code>loadQueuePath</code> is used for this.</p>
 
-<p>When the <a href="../design/coordinator.html">Coordinator</a> decides that a <a href="../design/historical.html">Historical</a> node should load or drop a segment, it writes an ephemeral znode to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.loadQueuePath}/_host_of_historical_node/_segment_identifier
+<p>When the <a href="../design/coordinator.html">Coordinator</a> decides that a <a href="../design/historical.html">Historical</a> process should load or drop a segment, it writes an ephemeral znode to</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>${druid.zk.paths.loadQueuePath}/_host_of_historical_process/_segment_identifier
 </code></pre></div>
-<p>This node will contain a payload that indicates to the historical node what it should do with the given segment. When the historical node is done with the work, it will delete the znode in order to signify to the Coordinator that it is complete.</p>
+<p>This znode will contain a payload that indicates to the Historical process what it should do with the given segment. When the Historical process is done with the work, it will delete the znode in order to signify to the Coordinator that it is complete.</p>
 
         </div>
         <div class="col-md-3">
@@ -204,7 +204,7 @@
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

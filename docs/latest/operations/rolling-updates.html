@@ -137,7 +137,7 @@
 
 <h1 id="rolling-updates">Rolling Updates</h1>
 
-<p>For rolling Druid cluster updates with no downtime, we recommend updating Druid nodes in the
+<p>For rolling Druid cluster updates with no downtime, we recommend updating Druid processes in the
 following order:</p>
 
 <ol>
@@ -153,15 +153,15 @@ following order:</p>
 
 <h2 id="historical">Historical</h2>
 
-<p>Historical nodes can be updated one at a time. Each Historical node has a startup time to memory map
+<p>Historical processes can be updated one at a time. Each Historical process has a startup time to memory map
 all the segments it was serving before the update. The startup time typically takes a few seconds to
-a few minutes, depending on the hardware of the node. As long as each Historical node is updated
-with a sufficient delay (greater than the time required to start a single node), you can rolling
+a few minutes, depending on the hardware of the host. As long as each Historical process is updated
+with a sufficient delay (greater than the time required to start a single process), you can rolling
 update the entire Historical cluster.</p>
 
 <h2 id="overlord">Overlord</h2>
 
-<p>Overlord nodes can be updated one at a time in a rolling fashion.</p>
+<p>Overlord processes can be updated one at a time in a rolling fashion.</p>
 
 <h2 id="middle-managers">Middle Managers</h2>
 
@@ -195,26 +195,26 @@ to <code>&lt;MiddleManager_IP:PORT&gt;/druid/worker/v1/enable</code>.</p>
 
 <h3 id="autoscaling-based-replacement">Autoscaling-based replacement</h3>
 
-<p>If autoscaling is enabled on your Overlord, then Overlord nodes can launch new Middle Manager nodes
+<p>If autoscaling is enabled on your Overlord, then Overlord processes can launch new Middle Manager processes
 en masse and then gracefully terminate old ones as their tasks finish. This process is configured by
-setting <code>druid.indexer.runner.minWorkerVersion=#{VERSION}</code>. Each time you update your overlord node,
+setting <code>druid.indexer.runner.minWorkerVersion=#{VERSION}</code>. Each time you update your Overlord process,
 the <code>VERSION</code> value should be increased, which will trigger a mass launch of new Middle Managers.</p>
 
 <p>The config <code>druid.indexer.autoscale.workerVersion=#{VERSION}</code> also needs to be set.</p>
 
 <h2 id="standalone-real-time">Standalone Real-time</h2>
 
-<p>Standalone real-time nodes can be updated one at a time in a rolling fashion.</p>
+<p>Standalone real-time processes can be updated one at a time in a rolling fashion.</p>
 
 <h2 id="broker">Broker</h2>
 
-<p>Broker nodes can be updated one at a time in a rolling fashion. There needs to be some delay between
-updating each node as brokers must load the entire state of the cluster before they return valid
+<p>Broker processes can be updated one at a time in a rolling fashion. There needs to be some delay between
+updating each process as Brokers must load the entire state of the cluster before they return valid
 results.</p>
 
 <h2 id="coordinator">Coordinator</h2>
 
-<p>Coordinator nodes can be updated one at a time in a rolling fashion.</p>
+<p>Coordinator processes can be updated one at a time in a rolling fashion.</p>
 
         </div>
         <div class="col-md-3">
@@ -244,7 +244,7 @@ results.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

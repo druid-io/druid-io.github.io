@@ -137,21 +137,41 @@
 
 <h1 id="bloom-filter">Bloom Filter</h1>
 
-<p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-bloom-filter</code> as an extension.</p>
+<p>This extension adds the ability to both construct bloom filters from query results, and filter query results by testing 
+against a bloom filter. Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-bloom-filter</code> as an 
+extension.</p>
 
-<p>BloomFilter is a probabilistic data structure for set membership check.
-Following are some characterstics of BloomFilter
+<p>A BloomFilter is a probabilistic data structure for performing a set membership check. A bloom filter is a good candidate 
+to use with Druid for cases where an explicit filter is impossible, e.g. filtering a query against a set of millions of
+ values.</p>
+
+<p>Following are some characteristics of BloomFilters:
 - BloomFilters are highly space efficient when compared to using a HashSet.
-- Because of the probabilistic nature of bloom filter false positive (element not present in bloom filter but test() says true) are possible
-- false negatives are not possible (if element is present then test() will never say false).
-- The false positive probability is configurable (default: 5%) depending on which storage requirement may increase or decrease.
-- Lower the false positive probability greater is the space requirement.
-- Bloom filters are sensitive to number of elements that will be inserted in the bloom filter.
-- During the creation of bloom filter expected number of entries must be specified.If the number of insertions exceed the specified initial number of entries then false positive probability will increase accordingly.</p>
+- Because of the probabilistic nature of bloom filters, false positive results are possible (element was not actually 
+inserted into a bloom filter during construction, but <code>test()</code> says true)
+- False negatives are not possible (if element is present then <code>test()</code> will never say false). 
+- The false positive probability of this implementation is currently fixed at 5%, but increasing the number of entries 
+that the filter can hold can decrease this false positive rate in exchange for overall size.
+- Bloom filters are sensitive to number of elements that will be inserted in the bloom filter. During the creation of bloom filter expected number of entries must be specified. If the number of insertions exceed
+ the specified initial number of entries then false positive probability will increase accordingly.</p>
 
-<p>Internally, this implementation of bloom filter uses Murmur3 fast non-cryptographic hash algorithm.</p>
+<p>This extension is currently based on <code>org.apache.hive.common.util.BloomKFilter</code> from <code>hive-storage-api</code>. Internally, 
+this implementation uses Murmur3 as the hash algorithm.</p>
 
-<h3 id="json-representation-of-bloom-filter">JSON Representation of Bloom Filter</h3>
+<p>To construct a BloomKFilter externally with Java to use as a filter in a Druid query:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">BloomKFilter</span> <span class="n">bloomFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BloomKFilter</span><span class="o">(</span><span class="mi">1500</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 1&quot;</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 2&quot;</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 3&quot;</span><span class="o">);</span>
+<span class="n">ByteArrayOutputStream</span> <span class="n">byteArrayOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
+<span class="n">BloomKFilter</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="n">byteArrayOutputStream</span><span class="o">,</span> <span class="n">bloomFilter</span><span class="o">);</span>
+<span class="n">String</span> <span class="n">base64Serialized</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeBase64String</span><span class="o">(</span><span class="n">byteArrayOutputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">());</span>
+</code></pre></div>
+<p>This string can then be used in the native or sql Druid query.</p>
+
+<h2 id="filtering-queries-with-a-bloom-filter">Filtering queries with a Bloom Filter</h2>
+
+<h3 id="json-specification-of-bloom-filter">JSON Specification of Bloom Filter</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension_name&gt;</span><span class="p">,</span>
@@ -183,19 +203,115 @@ Following are some characterstics of BloomFilter
 </tr>
 <tr>
 <td><code>extractionFn</code></td>
-<td><a href="./../dimensionspecs.html#extraction-functions">Extraction function</a> to apply to the dimension values</td>
+<td><a href="../../querying/dimensionspecs.html#extraction-functions">Extraction function</a> to apply to the dimension values</td>
 <td>no</td>
 </tr>
 </tbody></table>
 
 <h3 id="serialized-format-for-bloomkfilter">Serialized Format for BloomKFilter</h3>
 
-<p>Serialized BloomKFilter format:
- - 1 byte for the number of hash functions.
- - 1 big endian int(That is how OutputStream works) for the number of longs in the bitset
- - big endian longs in the BloomKFilter bitset</p>
+<p>Serialized BloomKFilter format:</p>
+
+<ul>
+<li>1 byte for the number of hash functions.</li>
+<li>1 big endian int(That is how OutputStream works) for the number of longs in the bitset</li>
+<li>big endian longs in the BloomKFilter bitset</li>
+</ul>
 
 <p>Note: <code>org.apache.hive.common.util.BloomKFilter</code> provides a serialize method which can be used to serialize bloom filters to outputStream.</p>
+
+<h3 id="filtering-sql-queries">Filtering SQL Queries</h3>
+
+<p>Bloom filters can be used in SQL <code>WHERE</code> clauses via the <code>bloom_filter_test</code> operator:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">druid</span><span class="p">.</span><span class="n">foo</span> <span class="k">WHERE</span> <span class="n">bloom_filter_test</span><span class="p">(</span><span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;&lt;serialized_bytes_for_BloomKFilter&gt;&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="expression-and-virtual-column-support">Expression and Virtual Column Support</h3>
+
+<p>The bloom filter extension also adds a bloom filter <a href="../../misc/math-expr.html">Druid expression</a> which shares syntax 
+with the SQL operator.</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="n">bloom_filter_test</span><span class="p">(</span><span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;&lt;serialized_bytes_for_BloomKFilter&gt;&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="bloom-filter-query-aggregator">Bloom Filter Query Aggregator</h2>
+
+<p>Input for a <code>bloomKFilter</code> can also be created from a druid query with the <code>bloom</code> aggregator. Note that it is very 
+important to set a reasonable value for the <code>maxNumEntries</code> parameter, which is the maximum number of distinct entries 
+that the bloom filter can represent without increasing the false postive rate. It may be worth performing a query using
+one of the unique count sketches to calculate the value for this parameter in order to build a bloom filter appropriate 
+for the query. </p>
+
+<h3 id="json-specification-of-bloom-filter-aggregator">JSON Specification of Bloom Filter Aggregator</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_field_name&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;maxNumEntries&quot;</span><span class="p">:</span> <span class="err">&lt;maximum_number_of_elements_for_BloomKFilter&gt;</span>
+      <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_spec&gt;</span>
+    <span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>Aggregator Type. Should always be <code>bloom</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Output field name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td><a href="../../querying/dimensionspecs.html">DimensionSpec</a> to add to <code>org.apache.hive.common.util.BloomKFilter</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>maxNumEntries</code></td>
+<td>Maximum number of distinct values supported by <code>org.apache.hive.common.util.BloomKFilter</code>, default <code>1500</code></td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<h3 id="example">Example</h3>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikiticker&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;2015-09-12T00:00:00.000/2015-09-13T00:00:00.000&quot;</span> <span class="p">],</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;userBloom&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;maxNumEntries&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+      <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;outputType&quot;</span><span class="p">:</span> <span class="s2">&quot;STRING&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>response</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-09-12T00:00:00.000Z&quot;</span><span class="p">,</span><span class="nt">&quot;result&quot;</span><span class="p">:{</span><span class="nt">&quot;userBloom&quot;</span><span class="p">:</span><span class="s2">&quot;BAAAJhAAAA...&quot;</span><span class="p">}}]</span>
+</code></pre></div>
+<p>These values can then be set in the filter specification described above. </p>
+
+<p>Ordering results by a bloom filter aggregator, for example in a TopN query, will perform a comparatively expensive 
+linear scan <em>of the filter itself</em> to count the number of set bits as a means of approximating how many items have been 
+added to the set. As such, ordering by an alternate aggregation is recommended if possible. </p>
+
+<h3 id="sql-bloom-filter-aggregator">SQL Bloom Filter Aggregator</h3>
+
+<p>Bloom filters can be computed in SQL expressions with the <code>bloom_filter</code> aggregator:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="n">BLOOM_FILTER</span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="k">max</span> <span class="nb">number</span> <span class="k">of</span> <span class="n">entries</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">druid</span><span class="p">.</span><span class="n">foo</span> <span class="k">WHERE</span> <span class="n">dim2</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span>
+</code></pre></div>
+<p>but requires the setting <code>druid.sql.planner.serializeComplexValues</code> to be set to <code>true</code>. Bloom filter results in an SQL
+ response are serialized into a base64 string, which can then be used in subsequent queries as a filter.</p>
 
         </div>
         <div class="col-md-3">
@@ -225,7 +341,7 @@ Following are some characterstics of BloomFilter
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

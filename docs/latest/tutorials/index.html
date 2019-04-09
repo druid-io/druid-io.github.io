@@ -164,12 +164,12 @@ OSes</a>.</p>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz">Download</a>
-the 0.13.0-incubating release.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz">Download</a>
+the 0.14.0-incubating release.</p>
 
 <p>Extract Druid by running the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.13.0-incubating-bin.tar.gz
-<span class="nb">cd</span> apache-druid-0.13.0-incubating
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.14.0-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.14.0-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
@@ -193,23 +193,24 @@ need to download and run Zookeeper.</p>
 tar -xzf zookeeper-3.4.11.tar.gz
 mv zookeeper-3.4.11 zk
 </code></pre></div>
-<p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the apache-druid-0.13.0-incubating package root.</p>
+<p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the apache-druid-0.14.0-incubating package root.</p>
 
 <h2 id="start-up-druid-services">Start up Druid services</h2>
 
-<p>From the apache-druid-0.13.0-incubating package root, run the following command:</p>
+<p>From the apache-druid-0.14.0-incubating package root, run the following command:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
 </code></pre></div>
 <p>This will bring up instances of Zookeeper and the Druid services, all running on the local machine, e.g.:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk quickstart/tutorial/conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>coordinator<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/coordinator.log<span class="o">]</span>: bin/run-druid coordinator quickstart/tutorial/conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>//stage/apache-druid-0.13.0-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker quickstart/tutorial/conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical quickstart/tutorial/conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>overlord<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/overlord.log<span class="o">]</span>: bin/run-druid overlord quickstart/tutorial/conf
-<span class="o">[</span>Thu Jul <span class="m">26</span> <span class="m">12</span>:16:23 <span class="m">2018</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.13.0-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>coordinator<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/coordinator.log<span class="o">]</span>: bin/run-druid coordinator quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>router<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/router.log<span class="o">]</span>: bin/run-druid router quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>overlord<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/overlord.log<span class="o">]</span>: bin/run-druid overlord quickstart/tutorial/conf
+<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.0-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager quickstart/tutorial/conf
 </code></pre></div>
-<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.13.0-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
+<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.14.0-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
 
 <p>Later on, if you&#39;d like to stop the services, CTRL-C to exit the <code>bin/supervise</code> script, which will terminate the Druid processes.</p>
 
@@ -329,7 +330,7 @@ mv zookeeper-3.4.11 zk
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

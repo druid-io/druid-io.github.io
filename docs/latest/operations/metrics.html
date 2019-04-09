@@ -183,33 +183,39 @@
 </tr>
 <tr>
 <td><code>query/node/time</code></td>
-<td>Milliseconds taken to query individual historical/realtime nodes.</td>
+<td>Milliseconds taken to query individual historical/realtime processes.</td>
 <td>id, status, server.</td>
 <td>&lt; 1s</td>
 </tr>
 <tr>
 <td><code>query/node/bytes</code></td>
-<td>number of bytes returned from querying individual historical/realtime nodes.</td>
+<td>number of bytes returned from querying individual historical/realtime processes.</td>
 <td>id, status, server.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>query/node/ttfb</code></td>
-<td>Time to first byte. Milliseconds elapsed until broker starts receiving the response from individual historical/realtime nodes.</td>
+<td>Time to first byte. Milliseconds elapsed until Broker starts receiving the response from individual historical/realtime processes.</td>
 <td>id, status, server.</td>
 <td>&lt; 1s</td>
 </tr>
 <tr>
 <td><code>query/node/backpressure</code></td>
-<td>Milliseconds that the channel to this node has spent suspended due to backpressure.</td>
+<td>Milliseconds that the channel to this process has spent suspended due to backpressure.</td>
 <td>id, status, server.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>query/intervalChunk/time</code></td>
-<td>Only emitted if interval chunking is enabled. Milliseconds required to query an interval chunk.</td>
+<td>Only emitted if interval chunking is enabled. Milliseconds required to query an interval chunk. This metric is deprecated and will be removed in the future because interval chunking is deprecated. See <a href="../querying/query-context.html">Query Context</a>.</td>
 <td>id, status, chunkInterval (if interval chunking is enabled).</td>
 <td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>query/count</code></td>
+<td>number of total queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>query/success/count</code></td>
@@ -267,7 +273,7 @@
 </tr>
 <tr>
 <td><code>query/segmentAndCache/time</code></td>
-<td>Milliseconds taken to query individual segment or hit the cache (if it is enabled on the historical node).</td>
+<td>Milliseconds taken to query individual segment or hit the cache (if it is enabled on the Historical process).</td>
 <td>id, segment.</td>
 <td>several hundred milliseconds</td>
 </tr>
@@ -276,6 +282,12 @@
 <td>Microseconds of CPU time taken to complete a query</td>
 <td>Common: dataSource, type, interval, hasFilters, duration, context, remoteAddress, id. Aggregation Queries: numMetrics, numComplexMetrics. GroupBy: numDimensions. TopN: threshold, dimension.</td>
 <td>Varies</td>
+</tr>
+<tr>
+<td><code>query/count</code></td>
+<td>number of total queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>query/success/count</code></td>
@@ -324,6 +336,12 @@
 <td>Number of segments in queue waiting to be scanned.</td>
 <td></td>
 <td>Close to 0</td>
+</tr>
+<tr>
+<td><code>query/count</code></td>
+<td>number of total queries</td>
+<td>This metric is only available if the QueryCountStatsMonitor module is included.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>query/success/count</code></td>
@@ -490,9 +508,67 @@
 </tr>
 </tbody></table>
 
-<h2 id="ingestion-metrics">Ingestion Metrics</h2>
+<h2 id="sql-metrics">SQL Metrics</h2>
 
-<p>These metrics are only available if the RealtimeMetricsMonitor is included in the monitors list for the Realtime node. These metrics are deltas for each emission period.</p>
+<p>If SQL is enabled, the Broker will emit the following metrics for SQL.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sqlQuery/time</code></td>
+<td>Milliseconds taken to complete a SQL.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>sqlQuery/bytes</code></td>
+<td>number of bytes returned in SQL response.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="ingestion-metrics-kafka-indexing-service">Ingestion Metrics (Kafka Indexing Service)</h2>
+
+<p>These metrics are applicable for the Kafka Indexing Service.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ingest/kafka/lag</code></td>
+<td>Total lag between the offsets consumed by the Kafka indexing tasks and latest offsets in Kafka brokers across all partitions. Minimum emission period for this metric is a minute.</td>
+<td>dataSource.</td>
+<td>Greater than 0, should not be a very high number</td>
+</tr>
+<tr>
+<td><code>ingest/kafka/maxLag</code></td>
+<td>Max lag between the offsets consumed by the Kafka indexing tasks and latest offsets in Kafka brokers across all partitions. Minimum emission period for this metric is a minute.</td>
+<td>dataSource.</td>
+<td>Greater than 0, should not be a very high number</td>
+</tr>
+<tr>
+<td><code>ingest/kafka/avgLag</code></td>
+<td>Average lag between the offsets consumed by the Kafka indexing tasks and latest offsets in Kafka brokers across all partitions. Minimum emission period for this metric is a minute.</td>
+<td>dataSource.</td>
+<td>Greater than 0, should not be a very high number</td>
+</tr>
+</tbody></table>
+
+<h2 id="ingestion-metrics-realtime-process">Ingestion Metrics (Realtime process)</h2>
+
+<p>These metrics are only available if the RealtimeMetricsMonitor is included in the monitors list for the Realtime process. These metrics are deltas for each emission period.</p>
 
 <table><thead>
 <tr>
@@ -524,13 +600,7 @@
 <td><code>ingest/events/processed</code></td>
 <td>Number of events successfully processed per emission period.</td>
 <td>dataSource, taskId, taskType.</td>
-<td>Equal to your # of events per</td>
-</tr>
-<tr>
-<td>emission period.</td>
-<td></td>
-<td></td>
-<td></td>
+<td>Equal to your # of events per emission period.</td>
 </tr>
 <tr>
 <td><code>ingest/rows/output</code></td>
@@ -604,15 +674,9 @@
 <td>dataSource, taskId, taskType.</td>
 <td>Greater than 0, depends on the time carried in event</td>
 </tr>
-<tr>
-<td><code>ingest/kafka/lag</code></td>
-<td>Applicable for Kafka Indexing Service. Total lag between the offsets consumed by the Kafka indexing tasks and latest offsets in Kafka brokers across all partitions. Minimum emission period for this metric is a minute.</td>
-<td>dataSource.</td>
-<td>Greater than 0, should not be a very high number</td>
-</tr>
 </tbody></table>
 
-<p>Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0. </p>
+<p>Note: If the JVM does not support CPU time measurement for the current thread, ingest/merge/cpu and ingest/persists/cpu will be 0.</p>
 
 <h3 id="indexing-service">Indexing Service</h3>
 
@@ -660,11 +724,41 @@
 <td>dataSource, taskId, taskType, interval.</td>
 <td>Varies.</td>
 </tr>
+<tr>
+<td><code>task/success/count</code></td>
+<td>Number of successful tasks per emission period. This metric is only available if the TaskCountStatsMonitor module is included.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>task/failed/count</code></td>
+<td>Number of failed tasks per emission period. This metric is only available if the TaskCountStatsMonitor module is included.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>task/running/count</code></td>
+<td>Number of current running tasks. This metric is only available if the TaskCountStatsMonitor module is included.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>task/pending/count</code></td>
+<td>Number of current pending tasks. This metric is only available if the TaskCountStatsMonitor module is included.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
+<tr>
+<td><code>task/waiting/count</code></td>
+<td>Number of current waiting tasks. This metric is only available if the TaskCountStatsMonitor module is included.</td>
+<td>dataSource.</td>
+<td>Varies.</td>
+</tr>
 </tbody></table>
 
 <h2 id="coordination">Coordination</h2>
 
-<p>These metrics are for the Druid coordinator and are reset each time the coordinator runs the coordination logic.</p>
+<p>These metrics are for the Druid Coordinator and are reset each time the Coordinator runs the coordination logic.</p>
 
 <table><thead>
 <tr>
@@ -778,7 +872,7 @@
 </tr>
 </tbody></table>
 
-<p>If <code>emitBalancingStats</code> is set to <code>true</code> in the coordinator <a href="../configuration/index.html#dynamic-configuration">dynamic configuration</a>, then <a href="../configuration/logging.html">log entries</a> for class <code>org.apache.druid.server.coordinator.helper.DruidCoordinatorLogger</code> will have extra information on balancing decisions.</p>
+<p>If <code>emitBalancingStats</code> is set to <code>true</code> in the Coordinator <a href="../configuration/index.html#dynamic-configuration">dynamic configuration</a>, then <a href="../configuration/logging.html">log entries</a> for class <code>org.apache.druid.server.coordinator.helper.DruidCoordinatorLogger</code> will have extra information on balancing decisions.</p>
 
 <h2 id="general-health">General Health</h2>
 
@@ -931,20 +1025,8 @@
 <tr>
 <td><code>ingest/events/buffered</code></td>
 <td>Number of events queued in the EventReceiverFirehose&#39;s buffer</td>
-<td>serviceName, dataSource, taskId, taskType, bufferCapacity</td>
-<td></td>
-</tr>
-<tr>
-<td>.</td>
-<td>Equal</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>to current # of events in the buffer queue.</td>
-<td></td>
-<td></td>
-<td></td>
+<td>serviceName, dataSource, taskId, taskType, bufferCapacity.</td>
+<td>Equal to current # of events in the buffer queue.</td>
 </tr>
 <tr>
 <td><code>ingest/bytes/received</code></td>
@@ -1092,7 +1174,7 @@
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

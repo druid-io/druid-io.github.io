@@ -143,19 +143,31 @@
 
 <ul>
 <li><a href="#common">Common</a></li>
+<li><a href="#master-server">Master Server</a>
+
+<ul>
 <li><a href="#coordinator">Coordinator</a></li>
 <li><a href="#overlord">Overlord</a></li>
+</ul></li>
+<li><a href="#data-server">Data Server</a>
+
+<ul>
 <li><a href="#middlemanager">MiddleManager</a></li>
 <li><a href="#peon">Peon</a></li>
-<li><a href="#broker">Broker</a></li>
 <li><a href="#historical">Historical</a></li>
+</ul></li>
+<li><a href="#query-server">Query Server</a>
+
+<ul>
+<li><a href="#broker">Broker</a></li>
+</ul></li>
 </ul>
 
 <h2 id="common">Common</h2>
 
-<p>The following endpoints are supported by all nodes.</p>
+<p>The following endpoints are supported by all processes.</p>
 
-<h3 id="node-information">Node information</h3>
+<h3 id="process-information">Process information</h3>
 
 <h4 id="get">GET</h4>
 
@@ -163,7 +175,7 @@
 <li><code>/status</code></li>
 </ul>
 
-<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the process.</p>
 
 <ul>
 <li><code>/status/health</code></li>
@@ -175,34 +187,36 @@
 <li><code>/status/properties</code></li>
 </ul>
 
-<p>Returns the current configuration properties of the node.</p>
+<p>Returns the current configuration properties of the process.</p>
 
-<h2 id="coordinator">Coordinator</h2>
+<h2 id="master-server">Master Server</h2>
 
-<h3 id="leadership">Leadership</h3>
+<p>This section documents the API endpoints for the processes that reside on Master servers (Coordinators and Overlords) in the suggested <a href="../design/processes.html#server-types">three-server configuration</a>.</p>
 
-<h4 id="get">GET</h4>
+<h3 id="coordinator">Coordinator</h3>
+
+<h4 id="leadership">Leadership</h4>
+
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/leader</code></li>
 </ul>
 
-<p>Returns the current leader coordinator of the cluster.</p>
+<p>Returns the current leader Coordinator of the cluster.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/isLeader</code></li>
 </ul>
 
-<p>Returns true if the coordinator receiving the request is the current leader.</p>
-
-<h3 id="segment-loading">Segment Loading</h3>
-
-<h4 id="get">GET</h4>
-
 <p>Returns a JSON object with field &quot;leader&quot;, either true or false, indicating if this server is the current leader
-coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
+Coordinator of the cluster. In addition, returns HTTP 200 if the server is the current leader and HTTP 404 if not.
 This is suitable for use as a load balancer status check if you only want the active leader to be considered in-service
 at the load balancer.</p>
+
+<h4 id="segment-loading">Segment Loading</h4>
+
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/loadstatus</code></li>
@@ -226,23 +240,23 @@ at the load balancer.</p>
 <li><code>/druid/coordinator/v1/loadqueue</code></li>
 </ul>
 
-<p>Returns the ids of segments to load and drop for each historical node.</p>
+<p>Returns the ids of segments to load and drop for each Historical process.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/loadqueue?simple</code></li>
 </ul>
 
-<p>Returns the number of segments to load and drop, as well as the total segment load and drop size in bytes for each historical node.</p>
+<p>Returns the number of segments to load and drop, as well as the total segment load and drop size in bytes for each Historical process.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/loadqueue?full</code></li>
 </ul>
 
-<p>Returns the serialized JSON of segments to load and drop for each historical node.</p>
+<p>Returns the serialized JSON of segments to load and drop for each Historical process.</p>
 
-<h3 id="metadata-store-information">Metadata store information</h3>
+<h4 id="metadata-store-information">Metadata store information</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/metadata/datasources</code></li>
@@ -286,23 +300,26 @@ at the load balancer.</p>
 
 <p>Returns full segment metadata for a specific segment as stored in the metadata store.</p>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments</code></li>
 </ul>
 
-<p>Returns a list of all segments, overlapping with any of given intervals,  for a datasource as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
+<p>Returns a list of all segments, overlapping with any of given intervals,  for a datasource as stored in the metadata store. Request body is array of string IS0 8601 intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code></li>
 </ul>
 
-<p>Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
+<p>Returns a list of all segments, overlapping with any of given intervals, for a datasource with the full segment metadata as stored in the metadata store. Request body is array of string ISO 8601 intervals like [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
 
-<h3 id="datasources">Datasources</h3>
+<h4 id="datasources">Datasources</h4>
 
-<h4 id="get">GET</h4>
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
+
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources</code></li>
@@ -356,7 +373,7 @@ at the load balancer.</p>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}</code></li>
 </ul>
 
-<p>Returns a set of segment ids for an ISO8601 interval. Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+<p>Returns a set of segment ids for an interval.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}?simple</code></li>
@@ -400,7 +417,7 @@ at the load balancer.</p>
 
 <p>Return the tiers that a datasource exists in.</p>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}</code></li>
@@ -414,7 +431,7 @@ at the load balancer.</p>
 
 <p>Enables a segment of a datasource.</p>
 
-<h4 id="delete">DELETE<a name="coordinator-delete"></a></h4>
+<h5 id="delete">DELETE<a name="coordinator-delete"></a></h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}</code></li>
@@ -424,12 +441,10 @@ at the load balancer.</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}</code></li>
-<li><code>@Deprecated. /druid/coordinator/v1/datasources/{dataSourceName}?kill=true&amp;interval={myISO8601Interval}</code></li>
+<li><code>@Deprecated. /druid/coordinator/v1/datasources/{dataSourceName}?kill=true&amp;interval={myInterval}</code></li>
 </ul>
 
 <p>Runs a <a href="../ingestion/tasks.html">Kill task</a> for a given interval and datasource.</p>
-
-<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/datasources/{dataSourceName}/segments/{segmentId}</code></li>
@@ -437,9 +452,12 @@ at the load balancer.</p>
 
 <p>Disables a segment.</p>
 
-<h3 id="retention-rules">Retention Rules</h3>
+<h4 id="retention-rules">Retention Rules</h4>
 
-<h4 id="get">GET</h4>
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
+
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/rules</code></li>
@@ -463,7 +481,7 @@ at the load balancer.</p>
 <li><code>/druid/coordinator/v1/rules/history?interval=&lt;interval&gt;</code></li>
 </ul>
 
-<p>Returns audit history of rules for all datasources. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in coordinator runtime.properties</p>
+<p>Returns audit history of rules for all datasources. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in Coordinator runtime.properties</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/rules/history?count=&lt;n&gt;</code></li>
@@ -475,7 +493,7 @@ at the load balancer.</p>
 <li><code>/druid/coordinator/v1/rules/{dataSourceName}/history?interval=&lt;interval&gt;</code></li>
 </ul>
 
-<p>Returns audit history of rules for a specified datasource. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in coordinator runtime.properties</p>
+<p>Returns audit history of rules for a specified datasource. default value of interval can be specified by setting <code>druid.audit.manager.auditHistoryMillis</code> (1 week if not configured) in Coordinator runtime.properties</p>
 
 <ul>
 <li><code>/druid/coordinator/v1/rules/{dataSourceName}/history?count=&lt;n&gt;</code></li>
@@ -483,7 +501,7 @@ at the load balancer.</p>
 
 <p>Returns last <n> entries of audit history of rules for a specified datasource.</p>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/rules/{dataSourceName}</code></li>
@@ -512,11 +530,12 @@ at the load balancer.</p>
 </tr>
 </tbody></table>
 
-<h3 id="intervals">Intervals</h3>
+<h4 id="intervals">Intervals</h4>
 
-<h4 id="get">GET</h4>
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
 
-<p>Note that {interval} parameters are delimited by a <code>_</code> instead of a <code>/</code> (e.g., 2016-06-27_2016-06-28).</p>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/intervals</code></li>
@@ -542,9 +561,9 @@ at the load balancer.</p>
 
 <p>Returns total size and count for each datasource for each interval within given isointerval.</p>
 
-<h3 id="compaction-configuration">Compaction Configuration</h3>
+<h4 id="compaction-configuration">Compaction Configuration</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/config/compaction</code></li>
@@ -558,7 +577,7 @@ at the load balancer.</p>
 
 <p>Returns a compaction config of a dataSource.</p>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/config/compaction/taskslots?ratio={someRatio}&amp;max={someMaxSlots}</code></li>
@@ -574,9 +593,10 @@ will be set for them.</p>
 <li><code>/druid/coordinator/v1/config/compaction</code></li>
 </ul>
 
-<p>Creates or updates the compaction config for a dataSource. See <a href="../configuration/index.html#compaction-dynamic-configuration">Compaction Configuration</a> for configuration details.</p>
+<p>Creates or updates the compaction config for a dataSource.
+See <a href="../configuration/index.html#compaction-dynamic-configuration">Compaction Configuration</a> for configuration details.</p>
 
-<h4 id="delete">DELETE</h4>
+<h5 id="delete">DELETE</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/config/compaction/{dataSource}</code></li>
@@ -584,16 +604,16 @@ will be set for them.</p>
 
 <p>Removes the compaction config for a dataSource.</p>
 
-<h3 id="server-information">Server Information</h3>
+<h4 id="server-information">Server Information</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/coordinator/v1/servers</code></li>
 </ul>
 
 <p>Returns a list of servers URLs using the format <code>{hostname}:{port}</code>. Note that
-nodes that run with different types will appear multiple times with different
+processes that run with different types will appear multiple times with different
 ports.</p>
 
 <ul>
@@ -601,24 +621,24 @@ ports.</p>
 </ul>
 
 <p>Returns a list of server data objects in which each object has the following keys:
-- <code>host</code>: host URL include (<code>{hostname}:{port}</code>)
-- <code>type</code>: node type (<code>indexer-executor</code>, <code>historical</code>)
-- <code>currSize</code>: storage size currently used
-- <code>maxSize</code>: maximum storage size
-- <code>priority</code>
-- <code>tier</code></p>
+* <code>host</code>: host URL include (<code>{hostname}:{port}</code>)
+* <code>type</code>: process type (<code>indexer-executor</code>, <code>historical</code>)
+* <code>currSize</code>: storage size currently used
+* <code>maxSize</code>: maximum storage size
+* <code>priority</code>
+* <code>tier</code></p>
 
-<h2 id="overlord">Overlord</h2>
+<h3 id="overlord">Overlord</h3>
 
-<h3 id="leadership">Leadership</h3>
+<h4 id="leadership">Leadership</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/indexer/v1/leader</code> </li>
 </ul>
 
-<p>Returns the current leader overlord of the cluster. If you have multiple overlords, just one is leading at any given time. The others are on standby.</p>
+<p>Returns the current leader Overlord of the cluster. If you have multiple Overlords, just one is leading at any given time. The others are on standby.</p>
 
 <ul>
 <li><code>/druid/indexer/v1/isLeader</code></li>
@@ -628,9 +648,76 @@ ports.</p>
 server is the current leader and HTTP 404 if not. This is suitable for use as a load balancer status check if you
 only want the active leader to be considered in-service at the load balancer.</p>
 
-<h3 id="tasks">Tasks<a name="overlord-tasks"></a></h3>
+<h4 id="tasks">Tasks<a name="overlord-tasks"></a></h4>
 
-<h4 id="get">GET</h4>
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
+
+<h5 id="get">GET</h5>
+
+<ul>
+<li><code>/druid/indexer/v1/tasks</code></li>
+</ul>
+
+<p>Retrieve list of tasks. Accepts query string parameters <code>state</code>, <code>datasource</code>, <code>createdTimeInterval</code>, <code>max</code>, and <code>type</code>.</p>
+
+<table><thead>
+<tr>
+<th>Query Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>state</code></td>
+<td>filter list of tasks by task state, valid options are <code>running</code>, <code>complete</code>, <code>waiting</code>, and <code>pending</code>.</td>
+</tr>
+<tr>
+<td><code>datasource</code></td>
+<td>return tasks filtered by Druid datasource.</td>
+</tr>
+<tr>
+<td><code>createdTimeInterval</code></td>
+<td>return tasks created within the specified interval.</td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td>maximum number of <code>&quot;complete&quot;</code> tasks to return. Only applies when <code>state</code> is set to <code>&quot;complete&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>filter tasks by task type. See <a href="../ingestion/tasks.html">task documentation</a> for more details.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><code>/druid/indexer/v1/completeTasks</code></li>
+</ul>
+
+<p>Retrieve list of complete tasks. Equivalent to <code>/druid/indexer/v1/tasks?state=complete</code>.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/runningTasks</code></li>
+</ul>
+
+<p>Retrieve list of running tasks. Equivalent to <code>/druid/indexer/v1/tasks?state=running</code>.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/waitingTasks</code></li>
+</ul>
+
+<p>Retrieve list of waiting tasks. Equivalent to <code>/druid/indexer/v1/tasks?state=waiting</code>.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/pendingTasks</code></li>
+</ul>
+
+<p>Retrieve list of pending tasks. Equivalent to <code>/druid/indexer/v1/tasks?state=pending</code>.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/task/{taskId}</code></li>
+</ul>
+
+<p>Retrieve the &#39;payload&#39; of a task.</p>
 
 <ul>
 <li><code>/druid/indexer/v1/task/{taskId}/status</code></li>
@@ -654,31 +741,258 @@ This API is deprecated and will be removed in future releases.
 
 <p>Retrieve a <a href="../ingestion/reports.html">task completion report</a> for a task. Only works for completed tasks.</p>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/indexer/v1/task</code> </li>
 </ul>
 
-<p>Endpoint for submitting tasks and supervisor specs to the overlord. Returns the taskId of the submitted task.</p>
+<p>Endpoint for submitting tasks and supervisor specs to the Overlord. Returns the taskId of the submitted task.</p>
 
 <ul>
-<li><code>druid/indexer/v1/task/{taskId}/shutdown</code></li>
+<li><code>/druid/indexer/v1/task/{taskId}/shutdown</code></li>
 </ul>
 
 <p>Shuts down a task.</p>
 
 <ul>
-<li><code>druid/indexer/v1/datasources/{dataSource}/shutdownAllTasks</code></li>
+<li><code>/druid/indexer/v1/datasources/{dataSource}/shutdownAllTasks</code></li>
 </ul>
 
 <p>Shuts down all tasks for a dataSource.</p>
 
-<h2 id="middlemanager">MiddleManager</h2>
+<ul>
+<li><code>/druid/indexer/v1/taskStatus</code></li>
+</ul>
 
-<p>The MiddleManager does not have any API endpoints beyond the <a href="#common">common endpoints</a>.</p>
+<p>Retrieve list of task status objects for list of task id strings in request body.</p>
 
-<h2 id="peon">Peon</h2>
+<h5 id="delete">DELETE</h5>
+
+<ul>
+<li><code>/druid/indexer/v1/pendingSegments/{dataSource}</code></li>
+</ul>
+
+<p>Manually clean up pending segments table in metadata storage for <code>datasource</code>. Returns a JSON object response with 
+<code>numDeleted</code> and count of rows deleted from the pending segments table. This API is used by the 
+<code>druid.coordinator.kill.pendingSegments.on</code> <a href="../configuration/index.html#coordinator-operation">coordinator setting</a>
+which automates this operation to perform periodically.</p>
+
+<h4 id="supervisors">Supervisors</h4>
+
+<h5 id="get">GET</h5>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor</code></li>
+</ul>
+
+<p>Returns a list of strings of the currently active supervisor ids.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor?full</code></li>
+</ul>
+
+<p>Returns a list of objects of the currently active supervisors.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>supervisor unique identifier</td>
+</tr>
+<tr>
+<td><code>spec</code></td>
+<td>SupervisorSpec</td>
+<td>json specification of supervisor (See Supervisor Configuration for details)</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;</code></li>
+</ul>
+
+<p>Returns the current spec for the supervisor with the provided ID.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status</code></li>
+</ul>
+
+<p>Returns the current status of the supervisor with the provided ID.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/history</code></li>
+</ul>
+
+<p>Returns an audit history of specs for all supervisors (current and past).</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/history</code></li>
+</ul>
+
+<p>Returns an audit history of specs for the supervisor with the provided ID.</p>
+
+<h5 id="post">POST</h5>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor</code></li>
+</ul>
+
+<p>Create a new supervisor or update an existing one.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/suspend</code></li>
+</ul>
+
+<p>Suspend the current running supervisor of the provided ID. Responds with updated SupervisorSpec.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/suspendAll</code></li>
+</ul>
+
+<p>Suspend all supervisors at once.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/resume</code></li>
+</ul>
+
+<p>Resume indexing tasks for a supervisor. Responds with updated SupervisorSpec.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/resumeAll</code></li>
+</ul>
+
+<p>Resume all supervisors at once.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset</code></li>
+</ul>
+
+<p>Reset the specified supervisor.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/terminate</code></li>
+</ul>
+
+<p>Terminate a supervisor of the provided ID.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/terminateAll</code></li>
+</ul>
+
+<p>Terminate all supervisors at once.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown</code></li>
+</ul>
+
+<p>Shutdown a supervisor.</p>
+
+<div class="note caution">
+This API is deprecated and will be removed in future releases.
+Please use the equivalent 'terminate' instead.
+</div>
+
+<h4 id="dynamic-configuration">Dynamic Configuration</h4>
+
+<p>See <a href="../configuration/index.html#overlord-dynamic-configuration">Overlord Dynamic Configuration</a> for details. </p>
+
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
+
+<h5 id="get">GET</h5>
+
+<ul>
+<li><code>/druid/indexer/v1/worker</code></li>
+</ul>
+
+<p>Retreives current overlord dynamic configuration. </p>
+
+<ul>
+<li><code>/druid/indexer/v1/worker/history?interval={interval}&amp;counter={count}</code></li>
+</ul>
+
+<p>Retrieves history of changes to overlord dynamic configuration. Accepts <code>interval</code> and  <code>count</code> query string parameters 
+to filter by interval and limit the number of results respectively.</p>
+
+<ul>
+<li><code>/druid/indexer/v1/scaling</code></li>
+</ul>
+
+<p>Retrieves overlord scaling events if auto-scaling runners are in use.</p>
+
+<h5 id="post">POST</h5>
+
+<ul>
+<li>/druid/indexer/v1/worker</li>
+</ul>
+
+<p>Update overlord dynamic worker configuration.</p>
+
+<h2 id="data-server">Data Server</h2>
+
+<p>This section documents the API endpoints for the processes that reside on Data servers (MiddleManagers/Peons and Historicals) 
+in the suggested <a href="../design/processes.html#server-types">three-server configuration</a>.</p>
+
+<h3 id="middlemanager">MiddleManager</h3>
+
+<h5 id="get">GET</h5>
+
+<ul>
+<li><code>/druid/worker/v1/enabled</code></li>
+</ul>
+
+<p>Check whether a MiddleManager is in an enabled or disabled state. Returns JSON object keyed by the combined <code>druid.host</code> 
+and <code>druid.port</code> with the boolean state as the value.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>/druid/worker/v1/tasks</code></li>
+</ul>
+
+<p>Retrieve a list of active tasks being run on MiddleManager. Returns JSON list of taskid strings.  Normal usage should 
+prefer to use the <code>/druid/indexer/v1/tasks</code> <a href="#overlord">Overlord API</a> or one of it&#39;s task state specific variants instead.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span><span class="s2">&quot;index_wikiticker_2019-02-11T02:20:15.316Z&quot;</span><span class="p">]</span>
+</code></pre></div>
+<ul>
+<li><code>/druid/worker/v1/task/{taskid}/log</code> </li>
+</ul>
+
+<p>Retrieve task log output stream by task id. Normal usage should prefer to use the <code>/druid/indexer/v1/task/{taskId}/log</code>
+<a href="#overlord">Overlord API</a> instead.</p>
+
+<h5 id="post">POST</h5>
+
+<ul>
+<li><code>/druid/worker/v1/disable</code></li>
+</ul>
+
+<p>&#39;Disable&#39; a MiddleManager, causing it to stop accepting new tasks but complete all existing tasks. Returns JSON  object 
+keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="s2">&quot;disabled&quot;</span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>/druid/worker/v1/enable</code></li>
+</ul>
+
+<p>&#39;Enable&#39; a MiddleManager, allowing it to accept new tasks again if it was previously disabled. Returns JSON  object 
+keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="s2">&quot;enabled&quot;</span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>/druid/worker/v1/task/{taskid}/shutdown</code></li>
+</ul>
+
+<p>Shutdown a running task by <code>taskid</code>. Normal usage should prefer to use the <code>/druid/indexer/v1/task/{taskId}/shutdown</code> 
+<a href="#overlord">Overlord API</a> instead. Returns JSON:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="s2">&quot;index_kafka_wikiticker_f7011f8ffba384b_fpeclode&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="peon">Peon</h3>
 
 <h4 id="get">GET</h4>
 
@@ -686,19 +1000,47 @@ This API is deprecated and will be removed in future releases.
 <li><code>/druid/worker/v1/chat/{taskId}/rowStats</code></li>
 </ul>
 
-<p>Retrieve a live row stats report from a peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
+<p>Retrieve a live row stats report from a Peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
 
 <ul>
 <li><code>/druid/worker/v1/chat/{taskId}/unparseableEvents</code></li>
 </ul>
 
-<p>Retrieve an unparseable events report from a peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
+<p>Retrieve an unparseable events report from a Peon. See <a href="../ingestion/reports.html">task reports</a> for more details.</p>
 
-<h2 id="broker">Broker</h2>
+<h3 id="historical">Historical</h3>
 
-<h3 id="datasource-information">Datasource Information</h3>
+<h4 id="segment-loading">Segment Loading</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
+
+<ul>
+<li><code>/druid/historical/v1/loadstatus</code></li>
+</ul>
+
+<p>Returns JSON of the form <code>{&quot;cacheInitialized&quot;:&lt;value&gt;}</code>, where value is either <code>true</code> or <code>false</code> indicating if all
+segments in the local cache have been loaded. This can be used to know when a Historical process is ready
+to be queried after a restart.</p>
+
+<ul>
+<li><code>/druid/historical/v1/readiness</code></li>
+</ul>
+
+<p>Similar to <code>/druid/historical/v1/loadstatus</code>, but instead of returning JSON with a flag, responses 200 OK if segments
+in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&#39;t.</p>
+
+<h2 id="query-server">Query Server</h2>
+
+<p>This section documents the API endpoints for the processes that reside on Query servers (Brokers) in the suggested <a href="../design/processes.html#server-types">three-server configuration</a>.</p>
+
+<h3 id="broker">Broker</h3>
+
+<h4 id="datasource-information">Datasource Information</h4>
+
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+(e.g., 2016-06-27_2016-06-28).</p>
+
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/v2/datasources</code></li>
@@ -712,7 +1054,7 @@ This API is deprecated and will be removed in future releases.
 
 <p>Returns the dimensions and metrics of the datasource. Optionally, you can provide request parameter &quot;full&quot; to get list of served intervals with dimensions and metrics being served for those intervals. You can also provide request param &quot;interval&quot; explicitly to refer to a particular interval.</p>
 
-<p>If no interval is specified, a default interval spanning a configurable period before the current time will be used. The duration of this interval is specified in ISO8601 format via:</p>
+<p>If no interval is specified, a default interval spanning a configurable period before the current time will be used. The default duration of this interval is specified in ISO 8601 duration format via:</p>
 
 <p>druid.query.segmentMetadata.defaultHistory</p>
 
@@ -723,7 +1065,7 @@ This API is deprecated and will be removed in future releases.
 <p>Returns the dimensions of the datasource.</p>
 
 <div class="note caution">
-This API is deprecated and will be removed in future releases. Please use [SegmentMetadataQuery](../querying/segmentmetadataquery.html) instead
+This API is deprecated and will be removed in future releases. Please use <a href="../querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
 which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
 if you're using SQL.
 </div>
@@ -735,30 +1077,30 @@ if you're using SQL.
 <p>Returns the metrics of the datasource.</p>
 
 <div class="note caution">
-This API is deprecated and will be removed in future releases. Please use [SegmentMetadataQuery](../querying/segmentmetadataquery.html) instead
+This API is deprecated and will be removed in future releases. Please use <a href="../querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
 which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
 if you're using SQL.
 </div>
 
 <ul>
-<li><code>/druid/v2/datasources/{dataSourceName}/candidates?intervals={comma-separated-intervals-in-ISO8601-format}&amp;numCandidates={numCandidates}</code></li>
+<li><code>/druid/v2/datasources/{dataSourceName}/candidates?intervals={comma-separated-intervals}&amp;numCandidates={numCandidates}</code></li>
 </ul>
 
 <p>Returns segment information lists including server locations for the given datasource and intervals. If &quot;numCandidates&quot; is not specified, it will return all servers for each interval.</p>
 
-<h3 id="load-status">Load Status</h3>
+<h4 id="load-status">Load Status</h4>
 
-<h4 id="get">GET</h4>
+<h5 id="get">GET</h5>
 
 <ul>
 <li><code>/druid/broker/v1/loadstatus</code></li>
 </ul>
 
-<p>Returns a flag indicating if the broker knows about all segments in Zookeeper. This can be used to know when a broker node is ready to be queried after a restart.</p>
+<p>Returns a flag indicating if the Broker knows about all segments in Zookeeper. This can be used to know when a Broker process is ready to be queried after a restart.</p>
 
-<h3 id="queries">Queries</h3>
+<h4 id="queries">Queries</h4>
 
-<h4 id="post">POST</h4>
+<h5 id="post">POST</h5>
 
 <ul>
 <li><code>/druid/v2/</code></li>
@@ -771,27 +1113,6 @@ if you're using SQL.
 </ul>
 
 <p>Returns segment information lists including server locations for the given query..</p>
-
-<h2 id="historical">Historical</h2>
-
-<h3 id="segment-loading">Segment Loading</h3>
-
-<h4 id="get">GET</h4>
-
-<ul>
-<li><code>/druid/historical/v1/loadstatus</code></li>
-</ul>
-
-<p>Returns JSON of the form <code>{&quot;cacheInitialized&quot;:&lt;value&gt;}</code>, where value is either <code>true</code> or <code>false</code> indicating if all
-segments in the local cache have been loaded. This can be used to know when a historical node is ready
-to be queried after a restart.</p>
-
-<ul>
-<li><code>/druid/historical/v1/readiness</code></li>
-</ul>
-
-<p>Similar to <code>/druid/historical/v1/loadstatus</code>, but instead of returning JSON with a flag, responses 200 OK if segments
-in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&#39;t.</p>
 
         </div>
         <div class="col-md-3">
@@ -821,7 +1142,7 @@ in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

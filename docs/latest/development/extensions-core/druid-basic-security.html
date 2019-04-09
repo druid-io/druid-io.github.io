@@ -165,7 +165,7 @@
 </thead><tbody>
 <tr>
 <td><code>druid.auth.basic.common.pollingPeriod</code></td>
-<td>Defines in milliseconds how often nodes should poll the coordinator for the current authenticator/authorizer database state.</td>
+<td>Defines in milliseconds how often processes should poll the Coordinator for the current authenticator/authorizer database state.</td>
 <td>60000</td>
 <td>No</td>
 </tr>
@@ -177,13 +177,13 @@
 </tr>
 <tr>
 <td><code>druid.auth.basic.common.maxSyncRetries</code></td>
-<td>Determines how many times a service will retry if the authentication/authorization database state sync with the coordinator fails.</td>
+<td>Determines how many times a service will retry if the authentication/authorization database state sync with the Coordinator fails.</td>
 <td>10</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>druid.auth.basic.common.cacheDirectory</code></td>
-<td>If defined, snapshots of the basic Authenticator and Authorizer database caches will be stored on disk in this directory. If this property is defined, when a service is starting, it will attempt to initialize its caches from these on-disk snapshots, if the service is unable to initialize its state by communicating with the coordinator.</td>
+<td>If defined, snapshots of the basic Authenticator and Authorizer database caches will be stored on disk in this directory. If this property is defined, when a service is starting, it will attempt to initialize its caches from these on-disk snapshots, if the service is unable to initialize its state by communicating with the Coordinator.</td>
 <td>null</td>
 <td>No</td>
 </tr>
@@ -222,13 +222,13 @@ druid.auth.authenticator.MyBasicAuthenticator.authorizerName=MyBasicAuthorizer
 </tr>
 <tr>
 <td><code>druid.auth.authenticator.MyBasicAuthenticator.initialInternalClientPassword</code></td>
-<td>Initial <a href="../../operations/password-provider.html">Password Provider</a> for the default internal system user, used for internal node communication. If no password is specified, the default internal system user will not be created. If the default internal system user already exists, setting this property will not affect its password.</td>
+<td>Initial <a href="../../operations/password-provider.html">Password Provider</a> for the default internal system user, used for internal process communication. If no password is specified, the default internal system user will not be created. If the default internal system user already exists, setting this property will not affect its password.</td>
 <td>null</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>druid.auth.authenticator.MyBasicAuthenticator.enableCacheNotifications</code></td>
-<td>If true, the coordinator will notify Druid nodes whenever a configuration change to this Authenticator occurs, allowing them to immediately update their state without waiting for polling.</td>
+<td>If true, the Coordinator will notify Druid processes whenever a configuration change to this Authenticator occurs, allowing them to immediately update their state without waiting for polling.</td>
 <td>true</td>
 <td>No</td>
 </tr>
@@ -311,7 +311,7 @@ druid.auth.authorizer.MyBasicAuthorizer.type=basic
 </thead><tbody>
 <tr>
 <td><code>druid.auth.authorizer.MyBasicAuthorizer.enableCacheNotifications</code></td>
-<td>If true, the coordinator will notify Druid nodes whenever a configuration change to this Authorizer occurs, allowing them to immediately update their state without waiting for polling.</td>
+<td>If true, the Coordinator will notify Druid processes whenever a configuration change to this Authorizer occurs, allowing them to immediately update their state without waiting for polling.</td>
 <td>true</td>
 <td>No</td>
 </tr>
@@ -471,7 +471,7 @@ Return the current load status of the local caches of the authorization database
 <table><thead>
 <tr>
 <th>Endpoint</th>
-<th>Node Type</th>
+<th>Process Type</th>
 </tr>
 </thead><tbody>
 <tr>
@@ -501,7 +501,7 @@ Return the current load status of the local caches of the authorization database
 <table><thead>
 <tr>
 <th>Endpoint</th>
-<th>Node Type</th>
+<th>Process Type</th>
 </tr>
 </thead><tbody>
 <tr>
@@ -523,7 +523,7 @@ Return the current load status of the local caches of the authorization database
 <table><thead>
 <tr>
 <th>Endpoint</th>
-<th>Node Type</th>
+<th>Process Type</th>
 </tr>
 </thead><tbody>
 <tr>
@@ -608,7 +608,7 @@ Return the current load status of the local caches of the authorization database
 </tr>
 <tr>
 <td><code>/status</code></td>
-<td>all nodes</td>
+<td>all process types</td>
 </tr>
 </tbody></table>
 
@@ -620,13 +620,13 @@ Return the current load status of the local caches of the authorization database
 
 <h2 id="configuration-propagation">Configuration Propagation</h2>
 
-<p>To prevent excessive load on the coordinator, the Authenticator and Authorizer user/role database state is cached on each Druid node.</p>
+<p>To prevent excessive load on the Coordinator, the Authenticator and Authorizer user/role database state is cached on each Druid process.</p>
 
-<p>Each node will periodically poll the coordinator for the latest database state, controlled by the <code>druid.auth.basic.common.pollingPeriod</code> and <code>druid.auth.basic.common.maxRandomDelay</code> properties.</p>
+<p>Each process will periodically poll the Coordinator for the latest database state, controlled by the <code>druid.auth.basic.common.pollingPeriod</code> and <code>druid.auth.basic.common.maxRandomDelay</code> properties.</p>
 
-<p>When a configuration update occurs, the coordinator can optionally notify each node with the updated database state. This behavior is controlled by the <code>enableCacheNotifications</code> and <code>cacheNotificationTimeout</code> properties on Authenticators and Authorizers.</p>
+<p>When a configuration update occurs, the Coordinator can optionally notify each process with the updated database state. This behavior is controlled by the <code>enableCacheNotifications</code> and <code>cacheNotificationTimeout</code> properties on Authenticators and Authorizers.</p>
 
-<p>Note that because of the caching, changes made to the user/role database may not be immediately reflected at each Druid node.</p>
+<p>Note that because of the caching, changes made to the user/role database may not be immediately reflected at each Druid process.</p>
 
         </div>
         <div class="col-md-3">
@@ -656,7 +656,7 @@ Return the current load status of the local caches of the authorization database
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

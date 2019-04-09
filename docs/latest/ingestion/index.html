@@ -139,6 +139,8 @@
 
 <h2 id="overview">Overview</h2>
 
+<p><a name="datasources" /></p>
+
 <h3 id="datasources-and-segments">Datasources and segments</h3>
 
 <p>Druid data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
@@ -173,6 +175,8 @@ size, and its location on deep storage. These entries are what the Coordinator u
 available on the cluster.</p>
 
 <p>For details on the segment file format, please see <a href="../design/segments.html">segment files</a>.</p>
+
+<p>For details on modeling your data in Druid, see <a href="schema-design.html">schema design</a>.</p>
 
 <h4 id="segment-identifiers">Segment identifiers</h4>
 
@@ -275,13 +279,13 @@ to load that segment and instructs that Historical to do so.</li>
 <h2 id="ingestion-methods">Ingestion methods</h2>
 
 <p>In most ingestion methods, this work is done by Druid
-MiddleManager nodes. One exception is Hadoop-based ingestion, where this work is instead done using a Hadoop MapReduce
-job on YARN (although MiddleManager nodes are still involved in starting and monitoring the Hadoop jobs).</p>
+MiddleManager processes. One exception is Hadoop-based ingestion, where this work is instead done using a Hadoop MapReduce
+job on YARN (although MiddleManager processes are still involved in starting and monitoring the Hadoop jobs).</p>
 
-<p>Once segments have been generated and stored in <a href="../dependencies/deep-storage.html">deep storage</a>, they will be loaded by Druid Historical nodes. Some Druid
-ingestion methods additionally support <em>real-time queries</em>, meaning you can query in-flight data on MiddleManager nodes
+<p>Once segments have been generated and stored in <a href="../dependencies/deep-storage.html">deep storage</a>, they will be loaded by Druid Historical processes. Some Druid
+ingestion methods additionally support <em>real-time queries</em>, meaning you can query in-flight data on MiddleManager processes
 before it is finished being converted and written to deep storage. In general, a small amount of data will be in-flight
-on MiddleManager nodes relative to the larger amount of historical data being served from Historical nodes.</p>
+on MiddleManager processes relative to the larger amount of historical data being served from Historical processes.</p>
 
 <p>See the <a href="../design/index.html">Design</a> page for more details on how Druid stores and manages your data.</p>
 
@@ -309,7 +313,7 @@ the best one for your situation.</p>
 <tr>
 <td><a href="hadoop.html">Hadoop</a></td>
 <td>Druid launches Hadoop Map/Reduce jobs to load data files.</td>
-<td>Append or overwrite</td>
+<td>Overwrite</td>
 <td>Yes</td>
 <td>Yes</td>
 <td>No</td>
@@ -342,7 +346,7 @@ particular time chunk may be partitioned further using options that vary based o
 
 <ul>
 <li>With <a href="hadoop.html">Hadoop</a> you can do hash- or range-based partitioning on one or more columns.</li>
-<li>With <a href="native_tasks.html">Native batch</a> you can partition on a hash of all dimension columns. This is useful when
+<li>With <a href="native_tasks.html">Native batch</a> you can partition on a hash of dimension columns. This is useful when
 rollup is enabled, since it maximizes your space savings.</li>
 <li>With <a href="../development/extensions-core/kafka-ingestion.html">Kafka indexing</a>, partitioning is based on Kafka
 partitions, and is not configurable through Druid. You can configure it on the Kafka side by using the partitioning
@@ -359,6 +363,9 @@ time. However, two data ingestion methods <em>can</em> operate on different time
 time. For example, you can do a batch backfill from Hadoop while also doing a real-time load from Kafka, so long as
 the backfill data and the real-time data do not need to be written to the same time partitions. (If they do, the
 real-time load will take priority.)</p>
+
+<p>For tips on how partitioning can affect performance and storage footprint, see the
+<a href="schema-design.html#partitioning">schema design</a> page.</p>
 
 <h2 id="rollup">Rollup</h2>
 
@@ -388,16 +395,17 @@ Roll-up is a first-level aggregation operation over a selected set of &quot;dime
 2018-01-02T21:33:00Z      7.7.7.7       8.8.8.8            300      3000
 2018-01-02T21:35:00Z      7.7.7.7       8.8.8.8            300      3000
 </code></pre></div>
-<p>Druid can roll up data as it is ingested to minimize the amount of raw data that needs to be stored.
-In practice, we see that rolling up data can dramatically reduce the size of data that needs to be stored (up to a factor of 100).
-This storage reduction does come at a cost: as we roll up data, we lose the ability to query individual events. </p>
-
 <p>The rollup granularity is the minimum granularity you will be able to explore data at and events are floored to this granularity. 
 Hence, Druid ingestion specs define this granularity as the <code>queryGranularity</code> of the data. The lowest supported <code>queryGranularity</code> is millisecond.</p>
 
-<p>The following links may be helpful in further understanding dimensions and metrics:
-* https://en.wikipedia.org/wiki/Dimension_(data_warehouse)
-* https://en.wikipedia.org/wiki/Measure_(data_warehouse))</p>
+<p>The following links may be helpful in further understanding dimensions and metrics:</p>
+
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/Dimension_(data_warehouse)">https://en.wikipedia.org/wiki/Dimension_(data_warehouse)</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Measure_(data_warehouse)">https://en.wikipedia.org/wiki/Measure_(data_warehouse)</a></p></li>
+</ul>
+
+<p>For tips on how to use rollup in your Druid schema designs, see the <a href="schema-design.html#rollup">schema design</a> page.</p>
 
 <h3 id="roll-up-modes">Roll-up modes</h3>
 
@@ -431,9 +439,9 @@ Hence, Druid ingestion specs define this granularity as the <code>queryGranulari
 
 <p>Druid supports retention rules, which are used to define intervals of time where data should be preserved, and intervals where data should be discarded.</p>
 
-<p>Druid also supports separating historical nodes into tiers, and the retention rules can be configured to assign data for specific intervals to specific tiers.</p>
+<p>Druid also supports separating Historical processes into tiers, and the retention rules can be configured to assign data for specific intervals to specific tiers.</p>
 
-<p>These features are useful for performance/cost management; a common use case is separating historical nodes into a &quot;hot&quot; tier and a &quot;cold&quot; tier.</p>
+<p>These features are useful for performance/cost management; a common use case is separating Historical processes into a &quot;hot&quot; tier and a &quot;cold&quot; tier.</p>
 
 <p>For more information, please see <a href="../operations/rule-configuration.html">Load rules</a>.</p>
 
@@ -473,7 +481,7 @@ Hence, Druid ingestion specs define this granularity as the <code>queryGranulari
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

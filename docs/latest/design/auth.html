@@ -244,7 +244,7 @@ druid.auth.authenticator.anonymous.authorizerName=myBasicAuthorizer
 </code></pre></div>
 <h2 id="escalator">Escalator</h2>
 
-<p>The <code>druid.escalator.type</code> property determines what authentication scheme should be used for internal Druid cluster communications (such as when a broker node communicates with historical nodes for query processing).</p>
+<p>The <code>druid.escalator.type</code> property determines what authentication scheme should be used for internal Druid cluster communications (such as when a Broker process communicates with Historical processes for query processing).</p>
 
 <p>The Escalator chosen for this property must use an authentication scheme that is supported by an Authenticator in <code>druid.auth.authenticationChain</code>. Authenticator extension implementors must also provide a corresponding Escalator implementation if they intend to use a particular authentication scheme for internal Druid communications.</p>
 
@@ -285,7 +285,7 @@ druid.auth.authenticator.anonymous.authorizerName=myBasicAuthorizer
 
 <h2 id="internal-system-user">Internal System User</h2>
 
-<p>Internal requests between Druid nodes (non-user initiated communications) need to have authentication credentials attached. </p>
+<p>Internal requests between Druid processes (non-user initiated communications) need to have authentication credentials attached. </p>
 
 <p>These requests should be run as an &quot;internal system user&quot;, an identity that represents the Druid cluster itself, with full access permissions.</p>
 
@@ -348,7 +348,7 @@ druid.auth.authorizer.&lt;authorizer-name&gt;.name=&lt;authorizer-name&gt;
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Router Node</title>
+<title>Druid | Router Process</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -135,16 +135,20 @@
   ~ under the License.
   -->
 
-<h1 id="router-node">Router Node</h1>
+<h1 id="router-process">Router Process</h1>
 
-<p>You should only ever need the router node if you have a Druid cluster well into the terabyte range. The router node can be used to route queries to different broker nodes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
+<p>The Router process can be used to route queries to different Broker processes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
+
+<p>For query routing purposes, you should only ever need the Router process if you have a Druid cluster well into the terabyte range. </p>
+
+<p>In addition to query routing, the Router also runs the <a href="../operations/management-uis.html#druid-console">Druid Console</a>, a management UI for datasources, segments, tasks, data processes (Historicals and MiddleManagers), and coordinator dynamic configuration. The user can also run SQL and native Druid queries within the console.</p>
 
 <h2 id="running">Running</h2>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>org.apache.druid.cli.Main server router
 </code></pre></div>
 <h2 id="example-production-configuration">Example Production Configuration</h2>
 
-<p>In this example, we have two tiers in our production cluster: <code>hot</code> and <code>_default_tier</code>. Queries for the <code>hot</code> tier are routed through the <code>broker-hot</code> set of brokers, and queries for the <code>_default_tier</code> are routed through the <code>broker-cold</code> set of brokers. If any exceptions or network problems occur, queries are routed to the <code>broker-cold</code> set of brokers. In our example, we are running with a c3.2xlarge EC2 node. We assume a <code>common.runtime.properties</code> already exists.</p>
+<p>In this example, we have two tiers in our production cluster: <code>hot</code> and <code>_default_tier</code>. Queries for the <code>hot</code> tier are routed through the <code>broker-hot</code> set of Brokers, and queries for the <code>_default_tier</code> are routed through the <code>broker-cold</code> set of Brokers. If any exceptions or network problems occur, queries are routed to the <code>broker-cold</code> set of brokers. In our example, we are running with a c3.2xlarge EC2 instance. We assume a <code>common.runtime.properties</code> already exists.</p>
 
 <p>JVM settings:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-server
@@ -177,14 +181,14 @@ druid.router.tierToBrokerMap={&quot;hot&quot;:&quot;druid:broker-hot&quot;,&quot
 druid.router.http.numConnections=50
 druid.router.http.readTimeout=PT5M
 
-# Number of threads used by the router proxy http client
+# Number of threads used by the Router proxy http client
 druid.router.http.numMaxThreads=100
 
 druid.server.http.numThreads=100
 </code></pre></div>
 <h2 id="runtime-configuration">Runtime Configuration</h2>
 
-<p>The router module uses several of the default modules in <a href="../configuration/index.html">Configuration</a> and has the following set of configurations as well:</p>
+<p>The Router module uses several of the default modules in <a href="../configuration/index.html">Configuration</a> and has the following set of configurations as well:</p>
 
 <table><thead>
 <tr>
@@ -197,32 +201,20 @@ druid.server.http.numThreads=100
 <tr>
 <td><code>druid.router.defaultBrokerServiceName</code></td>
 <td>Any string.</td>
-<td>The default broker to connect to in case service discovery fails.</td>
+<td>The default Broker to connect to in case service discovery fails.</td>
 <td>druid/broker</td>
 </tr>
 <tr>
 <td><code>druid.router.tierToBrokerMap</code></td>
-<td>An ordered JSON map of tiers to broker names. The priority of brokers is based on the ordering.</td>
-<td>Queries for a certain tier of data are routed to their appropriate broker.</td>
-<td>{&quot;_default&quot;: &quot;<defaultBrokerServiceName>&quot;}</td>
+<td>An ordered JSON map of tiers to Broker names. The priority of Brokers is based on the ordering.</td>
+<td>Queries for a certain tier of data are routed to their appropriate Broker.</td>
+<td>{&quot;_default_tier&quot;: &quot;<defaultBrokerServiceName>&quot;}</td>
 </tr>
 <tr>
 <td><code>druid.router.defaultRule</code></td>
 <td>Any string.</td>
 <td>The default rule for all datasources.</td>
 <td>&quot;_default&quot;</td>
-</tr>
-<tr>
-<td><code>druid.router.rulesEndpoint</code></td>
-<td>Any string.</td>
-<td>The coordinator endpoint to extract rules from.</td>
-<td>&quot;/druid/coordinator/v1/rules&quot;</td>
-</tr>
-<tr>
-<td><code>druid.router.coordinatorServiceName</code></td>
-<td>Any string.</td>
-<td>The service discovery name of the coordinator.</td>
-<td>druid/coordinator</td>
 </tr>
 <tr>
 <td><code>druid.router.pollPeriod</code></td>
@@ -239,12 +231,12 @@ druid.server.http.numThreads=100
 <tr>
 <td><code>druid.router.avatica.balancer.type</code></td>
 <td>String representing an AvaticaConnectionBalancer name</td>
-<td>Class to use for balancing Avatica queries across brokers</td>
+<td>Class to use for balancing Avatica queries across Brokers</td>
 <td>rendezvousHash</td>
 </tr>
 <tr>
 <td><code>druid.router.http.maxRequestBufferSize</code></td>
-<td>Maximum size of the buffer used to write requests when forwarding them to the broker. This should be set to atleast the maxHeaderSize allowed on the broker</td>
+<td>Maximum size of the buffer used to write requests when forwarding them to the Broker. This should be set to atleast the maxHeaderSize allowed on the Broker</td>
 <td>8 * 1024</td>
 <td></td>
 </tr>
@@ -252,14 +244,14 @@ druid.server.http.numThreads=100
 
 <h2 id="router-strategies">Router Strategies</h2>
 
-<p>The router has a configurable list of strategies for how it selects which brokers to route queries to. The order of the strategies matter because as soon as a strategy condition is matched, a broker is selected.</p>
+<p>The Router has a configurable list of strategies for how it selects which Brokers to route queries to. The order of the strategies matter because as soon as a strategy condition is matched, a Broker is selected.</p>
 
 <h3 id="timeboundary">timeBoundary</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;timeBoundary&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Including this strategy means all timeBoundary queries are always routed to the highest priority broker.</p>
+<p>Including this strategy means all timeBoundary queries are always routed to the highest priority Broker.</p>
 
 <h3 id="priority">priority</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -268,13 +260,13 @@ druid.server.http.numThreads=100
   <span class="nt">&quot;maxPriority&quot;</span><span class="p">:</span><span class="mi">1</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Queries with a priority set to less than minPriority are routed to the lowest priority broker. Queries with priority set to greater than maxPriority are routed to the highest priority broker. By default, minPriority is 0 and maxPriority is 1. Using these default values, if a query with priority 0 (the default query priority is 0) is sent, the query skips the priority selection logic.</p>
+<p>Queries with a priority set to less than minPriority are routed to the lowest priority Broker. Queries with priority set to greater than maxPriority are routed to the highest priority Broker. By default, minPriority is 0 and maxPriority is 1. Using these default values, if a query with priority 0 (the default query priority is 0) is sent, the query skips the priority selection logic.</p>
 
 <h3 id="javascript">JavaScript</h3>
 
 <p>Allows defining arbitrary routing rules using a JavaScript function. The function is passed the configuration and the query to be executed, and returns the tier it should be routed to, or null for the default tier.</p>
 
-<p><em>Example</em>: a function that sends queries containing more than three aggregators to the lowest priority broker.</p>
+<p><em>Example</em>: a function that sends queries containing more than three aggregators to the lowest priority Broker.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function (config, query) { if (query.getAggregatorSpecs &amp;&amp; query.getAggregatorSpecs().size() &gt;= 3) { var size = config.getTierToBrokerMap().values().size(); if (size &gt; 0) { return config.getTierToBrokerMap().values().toArray()[size-1] } else { return config.getDefaultBrokerServiceName() } } else { return null } }&quot;</span>
@@ -286,15 +278,15 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 
 <h2 id="avatica-query-balancing">Avatica Query Balancing</h2>
 
-<p>All Avatica JDBC requests with a given connection ID must be routed to the same broker, since Druid brokers do not share connection state with each other.</p>
+<p>All Avatica JDBC requests with a given connection ID must be routed to the same Broker, since Druid Brokers do not share connection state with each other.</p>
 
-<p>To accomplish this, Druid provides two built-in balancers that use rendezvous hashing and consistent hashing of a request&#39;s connection ID respectively to assign requests to brokers.</p>
+<p>To accomplish this, Druid provides two built-in balancers that use rendezvous hashing and consistent hashing of a request&#39;s connection ID respectively to assign requests to Brokers.</p>
 
-<p>Note that when multiple routers are used, all routers should have identical balancer configuration to ensure that they make the same routing decisions.</p>
+<p>Note that when multiple Routers are used, all Routers should have identical balancer configuration to ensure that they make the same routing decisions.</p>
 
 <h3 id="rendezvous-hash-balancer">Rendezvous Hash Balancer</h3>
 
-<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Rendezvous_hashing">Rendezvous Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a broker.</p>
+<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Rendezvous_hashing">Rendezvous Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a Broker.</p>
 
 <p>To use this balancer, specify the following property:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.router.avatica.balancer.type=rendezvousHash
@@ -303,16 +295,16 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 
 <h3 id="consistent-hash-balancer">Consistent Hash Balancer</h3>
 
-<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Consistent_hashing">Consistent Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a broker.</p>
+<p>This balancer uses <a href="https://en.wikipedia.org/wiki/Consistent_hashing">Consistent Hashing</a> on an Avatica request&#39;s connection ID to assign the request to a Broker.</p>
 
 <p>To use this balancer, specify the following property:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.router.avatica.balancer.type=consistentHash
 </code></pre></div>
-<p>This is a non-default implementation that is provided for experimentation purposes. The consistent hasher has longer setup times on initialization and when the set of brokers changes, but has a faster broker assignment time than the rendezous hasher when tested with 5 brokers. Benchmarks for both implementations have been provided in <code>ConsistentHasherBenchmark</code> and <code>RendezvousHasherBenchmark</code>. The consistent hasher also requires locking, while the rendezvous hasher does not.</p>
+<p>This is a non-default implementation that is provided for experimentation purposes. The consistent hasher has longer setup times on initialization and when the set of Brokers changes, but has a faster Broker assignment time than the rendezous hasher when tested with 5 Brokers. Benchmarks for both implementations have been provided in <code>ConsistentHasherBenchmark</code> and <code>RendezvousHasherBenchmark</code>. The consistent hasher also requires locking, while the rendezvous hasher does not.</p>
 
 <h2 id="http-endpoints">HTTP Endpoints</h2>
 
-<p>The router node exposes several HTTP endpoints for interactions.</p>
+<p>The Router process exposes several HTTP endpoints for interactions.</p>
 
 <h3 id="get">GET</h3>
 
@@ -320,7 +312,7 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 <li><code>/status</code></li>
 </ul>
 
-<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the node.</p>
+<p>Returns the Druid version, loaded extensions, memory used, total memory and other useful information about the process.</p>
 
 <ul>
 <li><code>/druid/v2/datasources</code></li>
@@ -348,28 +340,28 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 
 <h2 id="router-as-management-proxy">Router as Management Proxy</h2>
 
-<p>The router can be configured to forward requests to the active coordinator or overlord node. This may be useful for
+<p>The Router can be configured to forward requests to the active Coordinator or Overlord process. This may be useful for
 setting up a highly available cluster in situations where the HTTP redirect mechanism of the inactive -&gt; active
-coordinator/overlord does not function correctly (servers are behind a load balancer, the hostname used in the redirect
+Coordinator/Overlord does not function correctly (servers are behind a load balancer, the hostname used in the redirect
 is only resolvable internally, etc.).</p>
 
 <h3 id="enabling-the-management-proxy">Enabling the Management Proxy</h3>
 
-<p>To enable this functionality, set the following in the router&#39;s runtime.properties:</p>
+<p>To enable this functionality, set the following in the Router&#39;s runtime.properties:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.router.managementProxy.enabled=true
 </code></pre></div>
 <h3 id="routing">Routing</h3>
 
 <p>The management proxy supports implicit and explicit routes. Implicit routes are those where the destination can be
-determined from the original request path based on Druid API path conventions. For the coordinator the convention is
-<code>/druid/coordinator/*</code> and for the overlord the convention is <code>/druid/indexer/*</code>. These are convenient because they mean
-that using the management proxy does not require modifying the API request other than issuing the request to the router
-instead of the coordinator or overlord. Most Druid API requests can be routed implicitly.</p>
+determined from the original request path based on Druid API path conventions. For the Coordinator the convention is
+<code>/druid/coordinator/*</code> and for the Overlord the convention is <code>/druid/indexer/*</code>. These are convenient because they mean
+that using the management proxy does not require modifying the API request other than issuing the request to the Router
+instead of the Coordinator or Overlord. Most Druid API requests can be routed implicitly.</p>
 
-<p>Explicit routes are those where the request to the router contains a path prefix indicating which node the request
-should be routed to. For the coordinator this prefix is <code>/proxy/coordinator</code> and for the overlord it is <code>/proxy/overlord</code>.
+<p>Explicit routes are those where the request to the Router contains a path prefix indicating which process the request
+should be routed to. For the Coordinator this prefix is <code>/proxy/coordinator</code> and for the Overlord it is <code>/proxy/overlord</code>.
 This is required for API calls with an ambiguous destination. For example, the <code>/status</code> API is present on all Druid
-nodes, so explicit routing needs to be used to indicate the proxy destination.</p>
+processes, so explicit routing needs to be used to indicate the proxy destination.</p>
 
 <p>This is summarized in the table below:</p>
 
@@ -435,7 +427,7 @@ nodes, so explicit routing needs to be used to indicate the proxy destination.</
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

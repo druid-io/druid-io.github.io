@@ -140,11 +140,18 @@
 <p>Druid is designed to be deployed as a scalable, fault-tolerant cluster.</p>
 
 <p>In this document, we&#39;ll set up a simple cluster and discuss how it can be further configured to meet
-your needs. This simple cluster will feature scalable, fault-tolerant servers for Historicals and MiddleManagers, and a single
-coordination server to host the Coordinator and Overlord processes. In production, we recommend deploying Coordinators and Overlords in a fault-tolerant
-configuration as well.</p>
+your needs. </p>
+
+<p>This simple cluster will feature:
+ - A single Master server to host the Coordinator and Overlord processes
+ - Scalable, fault-tolerant Data servers running Historical and MiddleManager processes
+ - Query servers, hosting Druid Broker processes</p>
+
+<p>In production, we recommend deploying multiple Master servers with Coordinator and Overlord processes in a fault-tolerant configuration as well.</p>
 
 <h2 id="select-hardware">Select hardware</h2>
+
+<h3 id="master-server">Master Server</h3>
 
 <p>The Coordinator and Overlord processes can be co-located on a single server that is responsible for handling the metadata and coordination needs of your cluster.
 The equivalent of an AWS <a href="https://aws.amazon.com/ec2/instance-types/#M3">m3.xlarge</a> is sufficient for most clusters. This
@@ -156,6 +163,8 @@ hardware offers:</p>
 <li>80 GB SSD storage</li>
 </ul>
 
+<h3 id="data-server">Data Server</h3>
+
 <p>Historicals and MiddleManagers can be colocated on a single server to handle the actual data in your cluster. These servers benefit greatly from CPU, RAM,
 and SSDs. The equivalent of an AWS <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a> is a
 good starting point. This hardware offers:</p>
@@ -165,6 +174,8 @@ good starting point. This hardware offers:</p>
 <li>61 GB RAM</li>
 <li>160 GB SSD storage</li>
 </ul>
+
+<h3 id="query-server">Query Server</h3>
 
 <p>Druid Brokers accept queries and farm them out to the rest of the cluster. They also optionally maintain an
 in-memory query cache. These servers benefit greatly from CPU and RAM, and can also be deployed on
@@ -199,12 +210,12 @@ OSes</a>.</p>
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
 
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz">Download</a>
-the 0.13.0-incubating release.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz">Download</a>
+the 0.14.0-incubating release.</p>
 
 <p>Extract Druid by running the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.13.0-incubating-bin.tar.gz
-<span class="nb">cd</span> apache-druid-0.13.0-incubating
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.14.0-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.14.0-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
@@ -286,7 +297,7 @@ druid.indexer.logs.directory=/druid/indexing-logs
 
 <ul>
 <li>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml,
-mapred-site.xml) on the classpath of your Druid nodes. You can do this by copying them into
+mapred-site.xml) on the classpath of your Druid processes. You can do this by copying them into
 <code>conf/druid/_common/</code>.</li>
 </ul>
 
@@ -308,11 +319,11 @@ using this functionality, then at this point you should
 of your cluster:</p>
 
 <ul>
-<li><p>Update <code>druid.indexer.task.hadoopWorkingPath</code> in <code>conf/middleManager/runtime.properties</code> to
+<li><p>Update <code>druid.indexer.task.hadoopWorkingPath</code> in <code>conf/druid/middleManager/runtime.properties</code> to
 a path on HDFS that you&#39;d like to use for temporary files required during the indexing process.
 <code>druid.indexer.task.hadoopWorkingPath=/tmp/druid-indexing</code> is a common choice.</p></li>
 <li><p>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml,
-mapred-site.xml) on the classpath of your Druid nodes. You can do this by copying them into
+mapred-site.xml) on the classpath of your Druid processes. You can do this by copying them into
 <code>conf/druid/_common/core-site.xml</code>, <code>conf/druid/_common/hdfs-site.xml</code>, and so on.</p></li>
 </ul>
 
@@ -324,11 +335,18 @@ are loading data using Hadoop or Elastic MapReduce.</p>
 
 <h2 id="configure-addresses-for-druid-coordination">Configure addresses for Druid coordination</h2>
 
-<p>In this simple cluster, you will deploy a single Druid Coordinator, a
-single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metadata store on the same server.</p>
+<p>In this simple cluster, you will deploy a single Master server containing the following:
+- A single Druid Coordinator process
+- A single Druid Overlord process
+- A single ZooKeeper istance
+- An embedded Derby metadata store</p>
+
+<p>The processes on the cluster need to be configured with the addresses of this ZK instance and the metadata store.</p>
 
 <p>In <code>conf/druid/_common/common.runtime.properties</code>, replace
-&quot;zk.service.host&quot; with the address of the machine that runs your ZK instance:</p>
+&quot;zk.service.host&quot; with <a href="https://zookeeper.apache.org/doc/current/zookeeperProgrammers.html">connection string</a>
+containing a comma separated list of host:port pairs, each corresponding to a ZooKeeper server
+(e.g. &quot;127.0.0.1:4545&quot; or &quot;127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002&quot;):</p>
 
 <ul>
 <li><code>druid.zk.service.host</code></li>
@@ -343,13 +361,13 @@ single Druid Overlord, a single ZooKeeper instance, and an embedded Derby metada
 </ul>
 
 <div class="note caution">
-In production, we recommend running 2 servers, each running a Druid Coordinator
-and a Druid Overlord. We also recommend running a ZooKeeper cluster on its own dedicated hardware,
+In production, we recommend running 2 Master servers, each running a Druid Coordinator process
+and a Druid Overlord process. We also recommend running a ZooKeeper cluster on its own dedicated hardware,
 as well as replicated <a href = "../dependencies/metadata-storage.html">metadata storage</a>
 such as MySQL or PostgreSQL, on its own dedicated hardware.
 </div>
 
-<h2 id="tune-druid-processes-that-serve-queries">Tune Druid processes that serve queries</h2>
+<h2 id="tune-processes-on-the-data-server">Tune processes on the Data Server</h2>
 
 <p>Druid Historicals and MiddleManagers can be co-located on the same hardware. Both Druid processes benefit greatly from
 being tuned to the hardware they run on. If you are running Tranquility Server or Kafka, you can also colocate Tranquility with these two Druid processes.
@@ -367,7 +385,7 @@ hardware. The most commonly adjusted configurations are:</p>
 <li><code>druid.processing.numThreads</code></li>
 <li><code>druid.query.groupBy.maxIntermediateRows</code></li>
 <li><code>druid.query.groupBy.maxResults</code></li>
-<li><code>druid.server.maxSize</code> and <code>druid.segmentCache.locations</code> on Historical Nodes</li>
+<li><code>druid.server.maxSize</code> and <code>druid.segmentCache.locations</code> on Historical processes</li>
 <li><code>druid.worker.capacity</code> on MiddleManagers</li>
 </ul>
 
@@ -378,7 +396,7 @@ Keep -XX:MaxDirectMemory >= numThreads*sizeBytes, otherwise Druid will fail to s
 <p>Please see the Druid <a href="../configuration/index.html">configuration documentation</a> for a full description of all
 possible configuration options.</p>
 
-<h2 id="tune-druid-brokers">Tune Druid Brokers</h2>
+<h2 id="tune-druid-brokers-on-the-query-server">Tune Druid Brokers on the Query Server</h2>
 
 <p>Druid Brokers also benefit greatly from being tuned to the hardware they
 run on. If you are using <a href="https://aws.amazon.com/ec2/instance-types/#r3">r3.2xlarge</a> EC2 instances,
@@ -409,30 +427,47 @@ possible configuration options.</p>
 <p>If you&#39;re using a firewall or some other system that only allows traffic on specific ports, allow
 inbound connections on the following:</p>
 
+<h3 id="master-server">Master Server</h3>
+
 <ul>
-<li>1527 (Derby on your Coordinator; not needed if you are using a separate metadata store like MySQL or PostgreSQL)</li>
+<li>1527 (Derby metadata store; not needed if you are using a separate metadata store like MySQL or PostgreSQL)</li>
 <li>2181 (ZooKeeper; not needed if you are using a separate ZooKeeper cluster)</li>
 <li>8081 (Coordinator)</li>
-<li>8082 (Broker)</li>
-<li>8083 (Historical)</li>
-<li>8084 (Standalone Realtime, if used)</li>
-<li>8088 (Router, if used)</li>
 <li>8090 (Overlord)</li>
+</ul>
+
+<h3 id="data-server">Data Server</h3>
+
+<ul>
+<li>8083 (Historical)</li>
 <li>8091, 8100&ndash;8199 (Druid Middle Manager; you may need higher than port 8199 if you have a very high <code>druid.worker.capacity</code>)</li>
+</ul>
+
+<h3 id="query-server">Query Server</h3>
+
+<ul>
+<li>8082 (Broker)</li>
+<li>8088 (Router, if used)</li>
+</ul>
+
+<h3 id="other">Other</h3>
+
+<ul>
 <li>8200 (Tranquility Server, if used)</li>
+<li>8084 (Standalone Realtime, if used, deprecated)</li>
 </ul>
 
 <div class="note caution">
 In production, we recommend deploying ZooKeeper and your metadata store on their own dedicated hardware,
-rather than on the Coordinator server.
+rather than on the Master server.
 </div>
 
-<h2 id="start-coordinator-overlord-zookeeper-and-metadata-store">Start Coordinator, Overlord, Zookeeper, and metadata store</h2>
+<h2 id="start-master-server">Start Master Server</h2>
 
-<p>Copy the Druid distribution and your edited configurations to your coordination
-server. If you have been editing the configurations on your local machine, you can use <em>rsync</em> to
-copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az apache-druid-0.13.0-incubating/ COORDINATION_SERVER:apache-druid-0.13.0-incubating/
+<p>Copy the Druid distribution and your edited configurations to your Master server. </p>
+
+<p>If you have been editing the configurations on your local machine, you can use <em>rsync</em> to copy them:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az apache-druid-0.14.0-incubating/ COORDINATION_SERVER:apache-druid-0.14.0-incubating/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
@@ -452,15 +487,15 @@ java <span class="sb">`</span>cat conf/druid/overlord/jvm.config <span class="p"
 <p>You should see a log message printed out for each service that starts up. You can view detailed logs
 for any service by looking in the <code>var/log/druid</code> directory using another terminal.</p>
 
-<h2 id="start-historicals-and-middlemanagers">Start Historicals and MiddleManagers</h2>
+<h2 id="start-data-server">Start Data Server</h2>
 
-<p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Historicals and MiddleManagers.</p>
+<p>Copy the Druid distribution and your edited configurations to your Data servers set aside for the Druid Historicals and MiddleManagers.</p>
 
-<p>On each one, <em>cd</em> into the distribution and run this command to start a Data server:</p>
+<p>On each one, <em>cd</em> into the distribution and run this command to start the Data server processes:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf/druid/historical/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/historical:lib/* org.apache.druid.cli.Main server historical
 java <span class="sb">`</span>cat conf/druid/middleManager/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/middleManager:lib/* org.apache.druid.cli.Main server middleManager
 </code></pre></div>
-<p>You can add more servers with Druid Historicals and MiddleManagers as needed.</p>
+<p>You can add more Data servers with Druid Historicals and MiddleManagers as needed.</p>
 
 <div class="note info">
 For clusters with complex resource allocation needs, you can break apart Historicals and MiddleManagers and scale the components individually.
@@ -477,14 +512,14 @@ tar -xzf tranquility-distribution-0.8.0.tgz
 <span class="nb">cd</span> tranquility-distribution-0.8.0
 bin/tranquility &lt;server or kafka&gt; -configFile &lt;path_to_druid_distro&gt;/conf/tranquility/&lt;server or kafka&gt;.json
 </code></pre></div>
-<h2 id="start-druid-broker">Start Druid Broker</h2>
+<h2 id="start-query-server">Start Query Server</h2>
 
-<p>Copy the Druid distribution and your edited configurations to your servers set aside for the Druid Brokers.</p>
+<p>Copy the Druid distribution and your edited configurations to your Query servers set aside for the Druid Brokers.</p>
 
-<p>On each one, <em>cd</em> into the distribution and run this command to start a Broker (you may want to pipe the output to a log file):</p>
+<p>On each Query server, <em>cd</em> into the distribution and run this command to start the Broker process (you may want to pipe the output to a log file):</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java <span class="sb">`</span>cat conf/druid/broker/jvm.config <span class="p">|</span> xargs<span class="sb">`</span> -cp conf/druid/_common:conf/druid/broker:lib/* org.apache.druid.cli.Main server broker
 </code></pre></div>
-<p>You can add more Brokers as needed based on query load.</p>
+<p>You can add more Query servers as needed based on query load.</p>
 
 <h2 id="loading-data">Loading data</h2>
 
@@ -519,7 +554,7 @@ Druid based on your use case. Read more about <a href="../ingestion/index.html">
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

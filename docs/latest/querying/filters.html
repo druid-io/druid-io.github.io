@@ -383,6 +383,8 @@ provided).</p>
 </code></pre></div>
 <p>The IN filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
+<p>If an empty <code>values</code> array is passed to the IN filter, it will simply return an empty result.</p>
+
 <h3 id="like-filter">Like filter</h3>
 
 <p>Like filters can be used for basic wildcard searches. They are equivalent to the SQL LIKE operator. Special characters
@@ -478,19 +480,19 @@ greater than, less than, greater than or equal to, less than or equal to, and &q
 <tr>
 <td>lowerStrict</td>
 <td>Boolean</td>
-<td>Perform strict comparison on the lower bound (&quot;&lt;&quot; instead of &quot;&lt;=&quot;)</td>
+<td>Perform strict comparison on the lower bound (&quot;&gt;&quot; instead of &quot;&gt;=&quot;)</td>
 <td>no, default: false</td>
 </tr>
 <tr>
 <td>upperStrict</td>
 <td>Boolean</td>
-<td>Perform strict comparison on the upper bound (&quot;&gt;&quot; instead of &quot;&gt;=&quot;)</td>
+<td>Perform strict comparison on the upper bound (&quot;&lt;&quot; instead of &quot;&lt;=&quot;)</td>
 <td>no, default: false</td>
 </tr>
 <tr>
 <td>ordering</td>
 <td>String</td>
-<td>Specifies the sorting order to use when comparing values against the bound. Can be one of the following values: &quot;lexicographic&quot;, &quot;alphanumeric&quot;, &quot;numeric&quot;, &quot;strlen&quot;. See <a href="./sorting-orders.html">Sorting Orders</a> for more details.</td>
+<td>Specifies the sorting order to use when comparing values against the bound. Can be one of the following values: &quot;lexicographic&quot;, &quot;alphanumeric&quot;, &quot;numeric&quot;, &quot;strlen&quot;, &quot;version&quot;. See <a href="./sorting-orders.html">Sorting Orders</a> for more details.</td>
 <td>no, default: &quot;lexicographic&quot;</td>
 </tr>
 <tr>
@@ -772,7 +774,7 @@ should be specified as if the timestamp values were strings.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

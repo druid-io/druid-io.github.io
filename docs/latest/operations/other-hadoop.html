@@ -152,7 +152,7 @@ and you can use HDFS for deep storage even if you&#39;re loading data from strea
 <h2 id="tip-1-place-hadoop-xmls-on-druid-classpath">Tip #1: Place Hadoop XMLs on Druid classpath</h2>
 
 <p>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml, mapred-site.xml) on the classpath
-of your Druid nodes. You can do this by copying them into <code>conf/druid/_common/core-site.xml</code>,
+of your Druid processes. You can do this by copying them into <code>conf/druid/_common/core-site.xml</code>,
 <code>conf/druid/_common/hdfs-site.xml</code>, and so on. This allows Druid to find your Hadoop cluster and properly submit jobs.</p>
 
 <h2 id="tip-2-classloader-modification-on-hadoop-map-reduce-jobs-only">Tip #2: Classloader modification on Hadoop (Map/Reduce jobs only)</h2>
@@ -172,7 +172,7 @@ there is a conflict.</p>
 
 <ul>
 <li>Using the task definition, e.g. add <code>&quot;mapreduce.job.classloader&quot;: &quot;true&quot;</code> to the <code>jobProperties</code> of the <code>tuningConfig</code> of your indexing task (see the <a href="../ingestion/hadoop.html">Hadoop batch ingestion documentation</a>).</li>
-<li>Using system properties, e.g. on the middleManager set <code>druid.indexer.runner.javaOpts=... -Dhadoop.mapreduce.job.classloader=true</code>.</li>
+<li>Using system properties, e.g. on the MiddleManager set <code>druid.indexer.runner.javaOpts=... -Dhadoop.mapreduce.job.classloader=true</code>.</li>
 </ul>
 
 <h3 id="overriding-specific-classes">Overriding specific classes</h3>
@@ -290,7 +290,7 @@ work with the classloader isolation option (<code>mapreduce.job.classloader = tr
 
 <p><strong>Alternate workaround - 2</strong></p>
 
-<p>Another workaround solution is to build a custom fat jar of Druid using <a href="http://www.scala-sbt.org/">sbt</a>, which manually excludes all the conflicting Jackson dependencies, and then put this fat jar in the classpath of the command that starts overlord indexing service. To do this, please follow the following steps.</p>
+<p>Another workaround solution is to build a custom fat jar of Druid using <a href="http://www.scala-sbt.org/">sbt</a>, which manually excludes all the conflicting Jackson dependencies, and then put this fat jar in the classpath of the command that starts Overlord indexing service. To do this, please follow the following steps.</p>
 
 <p>(1) Download and install sbt.</p>
 
@@ -329,7 +329,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
   <span class="nt">&lt;/dependency&gt;</span>
 
   <span class="nt">&lt;dependency&gt;</span>
-      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions.contrib<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>druid-parquet-extensions<span class="nt">&lt;/artifactId&gt;</span>
       <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;/dependency&gt;</span>
@@ -427,7 +427,7 @@ addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

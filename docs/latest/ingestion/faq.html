@@ -169,19 +169,19 @@ We recommend using batch ingestion methods for historical data in production. </
 
 <p>1) Druid is unable to write to the metadata storage. Make sure your configurations are correct.</p>
 
-<p>2) Historical nodes are out of capacity and cannot download any more segments. You&#39;ll see exceptions in the coordinator logs if this occurs and the coordinator console will show the historicals are near capacity.</p>
+<p>2) Historical processes are out of capacity and cannot download any more segments. You&#39;ll see exceptions in the Coordinator logs if this occurs and the Coordinator console will show the Historicals are near capacity.</p>
 
-<p>3) Segments are corrupt and cannot be downloaded. You&#39;ll see exceptions in your historical nodes if this occurs.</p>
+<p>3) Segments are corrupt and cannot be downloaded. You&#39;ll see exceptions in your Historical processes if this occurs.</p>
 
-<p>4) Deep storage is improperly configured. Make sure that your segment actually exists in deep storage and that the coordinator logs have no errors.</p>
+<p>4) Deep storage is improperly configured. Make sure that your segment actually exists in deep storage and that the Coordinator logs have no errors.</p>
 
 <h2 id="how-do-i-get-hdfs-to-work">How do I get HDFS to work?</h2>
 
 <p>Make sure to include the <code>druid-hdfs-storage</code> and all the hadoop configuration, dependencies (that can be obtained by running command <code>hadoop classpath</code> on a machine where hadoop has been setup) in the classpath. And, provide necessary HDFS settings as described in <a href="../dependencies/deep-storage.html">Deep Storage</a> .</p>
 
-<h2 id="i-dont-see-my-druid-segments-on-my-historical-nodes">I don&#39;t see my Druid segments on my historical nodes</h2>
+<h2 id="i-dont-see-my-druid-segments-on-my-historical-processes">I don&#39;t see my Druid segments on my Historical processes</h2>
 
-<p>You can check the coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code>. Make sure that your segments have actually loaded on <a href="../design/historical.html">historical nodes</a>. If your segments are not present, check the coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because historical nodes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
+<p>You can check the Coordinator console located at <code>&lt;COORDINATOR_IP&gt;:&lt;PORT&gt;</code>. Make sure that your segments have actually loaded on <a href="../design/historical.html">Historical processes</a>. If your segments are not present, check the Coordinator logs for messages about capacity of replication errors. One reason that segments are not downloaded is because Historical processes have maxSizes that are too small, making them incapable of downloading more data. You can change that with (for example):</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>-Ddruid.segmentCache.locations=[{&quot;path&quot;:&quot;/tmp/druid/storageLocation&quot;,&quot;maxSize&quot;:&quot;500000000000&quot;}]
 -Ddruid.server.maxSize=500000000000
 </code></pre></div>
@@ -209,7 +209,7 @@ Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; i
 
 <h2 id="real-time-ingestion-seems-to-be-stuck">Real-time ingestion seems to be stuck</h2>
 
-<p>There are a few ways this can occur. Druid will throttle ingestion to prevent out of memory problems if the intermediate persists are taking too long or if hand-off is taking too long. If your node logs indicate certain columns are taking a very long time to build (for example, if your segment granularity is hourly, but creating a single column takes 30 minutes), you should re-evaluate your configuration or scale up your real-time ingestion. </p>
+<p>There are a few ways this can occur. Druid will throttle ingestion to prevent out of memory problems if the intermediate persists are taking too long or if hand-off is taking too long. If your process logs indicate certain columns are taking a very long time to build (for example, if your segment granularity is hourly, but creating a single column takes 30 minutes), you should re-evaluate your configuration or scale up your real-time ingestion. </p>
 
 <h2 id="more-information">More information</h2>
 
@@ -243,7 +243,7 @@ Or, if you use hadoop based ingestion, then you can use &quot;dataSource&quot; i
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

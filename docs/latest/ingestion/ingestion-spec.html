@@ -546,6 +546,8 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
 </tr>
 </tbody></table>
 
+<p><a name="dimensions" /></p>
+
 <h3 id="dimensionsspec">DimensionsSpec</h3>
 
 <table><thead>
@@ -559,7 +561,7 @@ handle all formatting decisions on their own, without using the ParseSpec.</p>
 <tr>
 <td>dimensions</td>
 <td>JSON array</td>
-<td>A list of <a href="#dimension-schema">dimension schema</a> objects or dimension names. Providing a name is equivalent to providing a String-typed dimension schema with the given name. If this is an empty array, Druid will treat all columns that are not timestamp or metric columns as String-typed dimension columns.</td>
+<td>A list of <a href="#dimension-schema">dimension schema</a> objects or dimension names. Providing a name is equivalent to providing a String-typed dimension schema with the given name. If this is an empty array, Druid will treat all non-timestamp, non-metric columns that do not appear in &quot;dimensionExclusions&quot; as String-typed dimension columns.</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -629,7 +631,8 @@ for the <code>comment</code> column.</p>
 
 <h2 id="granularityspec">GranularitySpec</h2>
 
-<p>The default granularity spec is <code>uniform</code>, and can be changed by setting the <code>type</code> field.
+<p>GranularitySpec is to define how to partition a dataSource into <a href="../design/index.html#datasources-and-segments">time chunks</a>.
+The default granularitySpec is <code>uniform</code>, and can be changed by setting the <code>type</code> field.
 Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.</p>
 
 <h3 id="uniform-granularity-spec">Uniform Granularity Spec</h3>
@@ -647,13 +650,13 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 <tr>
 <td>segmentGranularity</td>
 <td>string</td>
-<td>The granularity to create segments at.</td>
+<td>The granularity to create time chunks at. Multiple segments can be created per time chunk. For example, with &#39;DAY&#39; <code>segmentGranularity</code>, the events of the same day fall into the same time chunk which can be optionally further partitioned into multiple segments based on other configurations and input size. See <a href="../querying/granularities.html">Granularity</a> for supported granularities.</td>
 <td>no (default == &#39;DAY&#39;)</td>
 </tr>
 <tr>
 <td>queryGranularity</td>
 <td>string</td>
-<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of &#39;NONE&#39; means millisecond granularity.</td>
+<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of &#39;NONE&#39; means millisecond granularity. See <a href="../querying/granularities.html">Granularity</a> for supported granularities.</td>
 <td>no (default == &#39;NONE&#39;)</td>
 </tr>
 <tr>
@@ -664,9 +667,9 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 </tr>
 <tr>
 <td>intervals</td>
-<td>string</td>
+<td>JSON string array</td>
 <td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
-<td>no. If specified, batch ingestion tasks may skip determining partitions phase which results in faster ingestion.</td>
+<td>no. If specified, Hadoop and native non-parallel batch ingestion tasks may skip determining partitions phase which results in faster ingestion; native parallel ingestion tasks can request all their locks up-front instead of one by one. Batch ingestion will thrown away any data not in the specified intervals.</td>
 </tr>
 </tbody></table>
 
@@ -685,7 +688,7 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 <tr>
 <td>queryGranularity</td>
 <td>string</td>
-<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of &#39;NONE&#39; means millisecond granularity.</td>
+<td>The minimum granularity to be able to query results at and the granularity of the data inside the segment. E.g. a value of &quot;minute&quot; will mean that data is aggregated at minutely granularity. That is, if there are collisions in the tuple (minute(timestamp), dimensions), then it will aggregate values together using the aggregators instead of storing individual rows. A granularity of &#39;NONE&#39; means millisecond granularity. See <a href="../querying/granularities.html">Granularity</a> for supported granularities.</td>
 <td>no (default == &#39;NONE&#39;)</td>
 </tr>
 <tr>
@@ -696,9 +699,9 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
 </tr>
 <tr>
 <td>intervals</td>
-<td>string</td>
+<td>JSON string array</td>
 <td>A list of intervals for the raw data being ingested. Ignored for real-time ingestion.</td>
-<td>no. If specified, batch ingestion tasks may skip determining partitions phase which results in faster ingestion.</td>
+<td>no. If specified, Hadoop and native non-parallel batch ingestion tasks may skip determining partitions phase which results in faster ingestion; native parallel ingestion tasks can request all their locks up-front instead of one by one. Batch ingestion will thrown away any data not in the specified intervals.</td>
 </tr>
 </tbody></table>
 
@@ -769,7 +772,7 @@ Currently, <code>uniform</code> and <code>arbitrary</code> types are supported.<
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -382,22 +382,22 @@ Response for above query would look something like below...</p>
 <h4 id="strategies">Strategies</h4>
 
 <p>GroupBy queries can be executed using two different strategies. The default strategy for a cluster is determined by the
-&quot;druid.query.groupBy.defaultStrategy&quot; runtime property on the broker. This can be overridden using &quot;groupByStrategy&quot; in
+&quot;druid.query.groupBy.defaultStrategy&quot; runtime property on the Broker. This can be overridden using &quot;groupByStrategy&quot; in
 the query context. If neither the context field nor the property is set, the &quot;v2&quot; strategy will be used.</p>
 
 <ul>
 <li><p>&quot;v2&quot;, the default, is designed to offer better performance and memory management. This strategy generates
-per-segment results using a fully off-heap map. Data nodes merge the per-segment results using a fully off-heap
+per-segment results using a fully off-heap map. Data processes merge the per-segment results using a fully off-heap
 concurrent facts map combined with an on-heap string dictionary. This may optionally involve spilling to disk. Data
-nodes return sorted results to the broker, which merges result streams using an N-way merge. The broker materializes
+processes return sorted results to the Broker, which merges result streams using an N-way merge. The broker materializes
 the results if necessary (e.g. if the query sorts on columns other than its dimensions). Otherwise, it streams results
 back as they are merged.</p></li>
-<li><p>&quot;v1&quot;, a legacy engine, generates per-segment results on data nodes (historical, realtime, middleManager) using a map which
-is partially on-heap (dimension keys and the map itself) and partially off-heap (the aggregated values). Data nodes then
+<li><p>&quot;v1&quot;, a legacy engine, generates per-segment results on data processes (Historical, realtime, MiddleManager) using a map which
+is partially on-heap (dimension keys and the map itself) and partially off-heap (the aggregated values). Data processes then
 merge the per-segment results using Druid&#39;s indexing mechanism. This merging is multi-threaded by default, but can
-optionally be single-threaded. The broker merges the final result set using Druid&#39;s indexing mechanism again. The broker
-merging is always single-threaded. Because the broker merges results using the indexing mechanism, it must materialize
-the full result set before returning any results. On both the data nodes and the broker, the merging index is fully
+optionally be single-threaded. The Broker merges the final result set using Druid&#39;s indexing mechanism again. The broker
+merging is always single-threaded. Because the Broker merges results using the indexing mechanism, it must materialize
+the full result set before returning any results. On both the data processes and the Broker, the merging index is fully
 on-heap by default, but it can optionally store aggregated values off-heap.</p></li>
 </ul>
 
@@ -415,9 +415,9 @@ that can complete successfully in one engine may exceed resource limits and fail
 <li>groupBy v1 imposes no limit on the number of concurrently running queries, whereas groupBy v2 controls memory usage
 by using a finite-sized merge buffer pool. By default, the number of merge buffers is 1/4 the number of processing
 threads. You can adjust this as necessary to balance concurrency and memory usage.</li>
-<li>groupBy v1 supports caching on either the broker or historical nodes, whereas groupBy v2 only supports caching on
-historical nodes.</li>
-<li>groupBy v1 supports using <a href="query-context.html">chunkPeriod</a> to parallelize merging on the broker, whereas groupBy v2
+<li>groupBy v1 supports caching on either the Broker or Historical processes, whereas groupBy v2 only supports caching on
+Historical processes.</li>
+<li>groupBy v1 supports using <a href="query-context.html">chunkPeriod</a> to parallelize merging on the Broker, whereas groupBy v2
 ignores chunkPeriod.</li>
 <li>groupBy v2 supports both array-based aggregation and hash-based aggregation. The array-based aggregation is used only
 when the grouping key is a single indexed string column. In array-based aggregation, the dictionary-encoded value is used
@@ -465,7 +465,7 @@ concurrent query load.</p>
 
 <h5 id="limit-pushdown-optimization">Limit pushdown optimization</h5>
 
-<p>Druid pushes down the <code>limit</code> spec in groupBy queries to the segments on historicals wherever possible to early prune unnecessary intermediate results and minimize the amount of data transferred to brokers. By default, this technique is applied only when all fields in the <code>orderBy</code> spec is a subset of the grouping keys. This is because the <code>limitPushDown</code> doesn&#39;t guarantee the exact results if the <code>orderBy</code> spec includes any fields that are not in the grouping keys. However, you can enable this technique even in such cases if you can sacrifice some accuracy for fast query processing like in topN queries. See <code>forceLimitPushDown</code> in <a href="#groupby-v2-configurations">advanced groupBy v2 configurations</a>.</p>
+<p>Druid pushes down the <code>limit</code> spec in groupBy queries to the segments on Historicals wherever possible to early prune unnecessary intermediate results and minimize the amount of data transferred to Brokers. By default, this technique is applied only when all fields in the <code>orderBy</code> spec is a subset of the grouping keys. This is because the <code>limitPushDown</code> doesn&#39;t guarantee the exact results if the <code>orderBy</code> spec includes any fields that are not in the grouping keys. However, you can enable this technique even in such cases if you can sacrifice some accuracy for fast query processing like in topN queries. See <code>forceLimitPushDown</code> in <a href="#groupby-v2-configurations">advanced groupBy v2 configurations</a>.</p>
 
 <h5 id="optimizing-hash-table">Optimizing hash table</h5>
 
@@ -475,10 +475,10 @@ concurrent query load.</p>
 
 <h5 id="parallel-combine">Parallel combine</h5>
 
-<p>Once a historical finishes aggregation using the hash table, it sorts the aggregated results and merges them before sending to the
-broker for N-way merge aggregation in the broker. By default, historicals use all their available processing threads
+<p>Once a Historical finishes aggregation using the hash table, it sorts the aggregated results and merges them before sending to the
+Broker for N-way merge aggregation in the broker. By default, Historicals use all their available processing threads
 (configured by <code>druid.processing.numThreads</code>) for aggregation, but use a single thread for sorting and merging
-aggregates which is an http thread to send data to brokers.</p>
+aggregates which is an http thread to send data to Brokers.</p>
 
 <p>This is to prevent some heavy groupBy queries from blocking other queries. In Druid, the processing threads are shared
 between all submitted queries and they are <em>not interruptible</em>. It means, if a heavy query takes all available
@@ -493,11 +493,11 @@ data is actually spilled (see <a href="#memory-tuning-and-resource-limits">Memor
 
 <p>Once parallel combine is enabled, the groupBy v2 engine can create a combining tree for merging sorted aggregates. Each
 intermediate node of the tree is a thread merging aggregates from the child nodes. The leaf node threads read and merge
-aggregates from hash tables including spilled ones. Usually, leaf nodes are slower than intermediate nodes because they
+aggregates from hash tables including spilled ones. Usually, leaf processes are slower than intermediate nodes because they
 need to read data from disk. As a result, less threads are used for intermediate nodes by default. You can change the
 degree of intermediate nodes. See <code>intermediateCombineDegree</code> in <a href="#groupby-v2-configurations">Advanced groupBy v2 configurations</a>.</p>
 
-<p>Please note that each historical needs two merge buffers to process a groupBy v2 query with parallel combine: one for
+<p>Please note that each Historical needs two merge buffers to process a groupBy v2 query with parallel combine: one for
 computing intermediate aggregates from each segment and another for combining intermediate aggregates in parallel.</p>
 
 <h4 id="alternatives">Alternatives</h4>
@@ -515,15 +515,15 @@ results acceptable.</p></li>
 
 <h4 id="nested-groupbys">Nested groupBys</h4>
 
-<p>Nested groupBys (dataSource of type &quot;query&quot;) are performed differently for &quot;v1&quot; and &quot;v2&quot;. The broker first runs the
+<p>Nested groupBys (dataSource of type &quot;query&quot;) are performed differently for &quot;v1&quot; and &quot;v2&quot;. The Broker first runs the
 inner groupBy query in the usual way. &quot;v1&quot; strategy then materializes the inner query&#39;s results on-heap with Druid&#39;s
 indexing mechanism, and runs the outer query on these materialized results. &quot;v2&quot; strategy runs the outer query on the
 inner query&#39;s results stream with off-heap fact map and on-heap string dictionary that can spill to disk. Both
-strategy perform the outer query on the broker in a single-threaded fashion.</p>
+strategy perform the outer query on the Broker in a single-threaded fashion.</p>
 
 <h4 id="configurations">Configurations</h4>
 
-<p>This section describes the configurations for groupBy queries. You can set the runtime properties in the <code>runtime.properties</code> file on broker, historical, and MiddleManager nodes. You can set the query context parameters through the <a href="query-context.html">query context</a>.</p>
+<p>This section describes the configurations for groupBy queries. You can set the runtime properties in the <code>runtime.properties</code> file on Broker, Historical, and MiddleManager processes. You can set the query context parameters through the <a href="query-context.html">query context</a>.</p>
 
 <h5 id="configurations-for-groupby-v2">Configurations for groupBy v2</h5>
 
@@ -568,7 +568,7 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 
 <h4 id="advanced-configurations">Advanced configurations</h4>
 
-<h5 id="common-configuragions-for-all-groupby-strategies">Common configuragions for all groupBy strategies</h5>
+<h5 id="common-configurations-for-all-groupby-strategies">Common configurations for all groupBy strategies</h5>
 
 <p>Supported runtime properties:</p>
 
@@ -688,7 +688,7 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
 </tr>
 <tr>
 <td><code>forceLimitPushDown</code></td>
-<td>When all fields in the orderby are part of the grouping key, the broker will push limit application down to the historical nodes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
+<td>When all fields in the orderby are part of the grouping key, the Broker will push limit application down to the Historical processes. When the sorting order uses fields that are not in the grouping key, applying this optimization can result in approximate results with unknown accuracy, so this optimization is disabled by default in that case. Enabling this context flag turns on limit push down for limit/orderbys that contain non-grouping key columns.</td>
 <td>false</td>
 </tr>
 </tbody></table>
@@ -770,7 +770,7 @@ strategy perform the outer query on the broker in a single-threaded fashion.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

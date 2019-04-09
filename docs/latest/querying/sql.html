@@ -144,12 +144,12 @@ subject to change.
 
 <p>Druid SQL is a built-in SQL layer and an alternative to Druid&#39;s native JSON-based query language, and is powered by a
 parser and planner based on <a href="https://calcite.apache.org/">Apache Calcite</a>. Druid SQL translates SQL into native Druid
-queries on the query broker (the first node you query), which are then passed down to data nodes as native Druid
-queries. Other than the (slight) overhead of translating SQL on the broker, there isn&#39;t an additional performance
+queries on the query Broker (the first process you query), which are then passed down to data processes as native Druid
+queries. Other than the (slight) overhead of translating SQL on the Broker, there isn&#39;t an additional performance
 penalty versus native queries.</p>
 
 <p>To enable Druid SQL, make sure you have set <code>druid.sql.enable = true</code> either in your common.runtime.properties or your
-broker&#39;s runtime.properties.</p>
+Broker&#39;s runtime.properties.</p>
 
 <h2 id="query-syntax">Query syntax</h2>
 
@@ -201,7 +201,7 @@ ordinal position (like <code>ORDER BY 2</code> to order by the second selected c
 can only order by the <code>__time</code> column. For aggregation queries, ORDER BY can order by any column.</p>
 
 <p>The LIMIT clause can be used to limit the number of rows returned. It can be used with any query type. It is pushed down
-to data nodes for queries that run with the native TopN query type, but not the native GroupBy query type. Future
+to data processes for queries that run with the native TopN query type, but not the native GroupBy query type. Future
 versions of Druid will support pushing down limits using the native GroupBy query type as well. If you notice that
 adding a limit doesn&#39;t change performance very much, then it&#39;s likely that Druid didn&#39;t push down the limit for your
 query.</p>
@@ -255,8 +255,28 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Counts distinct values of expr, which can be a regular column or a hyperUnique column. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>.</td>
 </tr>
 <tr>
+<td><code>APPROX_COUNT_DISTINCT_DS_HLL(expr, [lgK, tgtHllType])</code></td>
+<td>Counts distinct values of expr, which can be a regular column or an <a href="../development/extensions-core/datasketches-hll.html">HLL sketch</a> column. The <code>lgK</code> and <code>tgtHllType</code> parameters are described in the HLL sketch documentation. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_COUNT_DISTINCT_DS_THETA(expr, [size])</code></td>
+<td>Counts distinct values of expr, which can be a regular column or a <a href="../development/extensions-core/datasketches-theta.html">Theta sketch</a> column. The <code>size</code> parameter is described in the Theta sketch documentation. This is always approximate, regardless of the value of &quot;useApproximateCountDistinct&quot;. See also <code>COUNT(DISTINCT expr)</code>. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
 <td><code>APPROX_QUANTILE(expr, probability, [resolution])</code></td>
-<td>Computes approximate quantiles on numeric or approxHistogram exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The &quot;resolution&quot; is the number of centroids to use for the computation. Higher resolutions will give more precise results but also have higher overhead. If not provided, the default resolution is 50. The <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> must be loaded to use this function.</td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/approximate-histograms.html#approximate-histogram-aggregator">approxHistogram</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The &quot;resolution&quot; is the number of centroids to use for the computation. Higher resolutions will give more precise results but also have higher overhead. If not provided, the default resolution is 50. The <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_QUANTILE_DS(expr, probability, [k])</code></td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/datasketches-quantiles.html">Quantiles sketch</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The <code>k</code> parameter is described in the Quantiles sketch documentation. The <a href="../development/extensions-core/datasketches-extension.html">DataSketches extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>APPROX_QUANTILE_FIXED_BUCKETS(expr, probability, numBuckets, lowerLimit, upperLimit, [outlierHandlingMode])</code></td>
+<td>Computes approximate quantiles on numeric or <a href="../development/extensions-core/approximate-histograms.html#fixed-buckets-histogram">fixed buckets histogram</a> exprs. The &quot;probability&quot; should be between 0 and 1 (exclusive). The <code>numBuckets</code>, <code>lowerLimit</code>, <code>upperLimit</code>, and <code>outlierHandlingMode</code> parameters are described in the fixed buckets histogram documentation. The <a href="../development/extensions-core/approximate-histograms.html">approximate histogram extension</a> must be loaded to use this function.</td>
+</tr>
+<tr>
+<td><code>BLOOM_FILTER(expr, numEntries)</code></td>
+<td>Computes a bloom filter from values produced by <code>expr</code>, with <code>numEntries</code> maximum number of distinct values before false positve rate increases. See <a href="../development/extensions-core/bloom-filter.html">bloom filter extension</a> documentation for additional details.</td>
 </tr>
 </tbody></table>
 
@@ -379,6 +399,10 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <td>Returns expr in all lowercase.</td>
 </tr>
 <tr>
+<td><code>POSITION(needle IN haystack [FROM fromIndex])</code></td>
+<td>Returns the index of needle within haystack, with indexes starting from 1. The search will begin at fromIndex, or 1 if fromIndex is not specified. If the needle is not found, returns 0.</td>
+</tr>
+<tr>
 <td><code>REGEXP_EXTRACT(expr, pattern, [index])</code></td>
 <td>Apply regular expression pattern and extract a capture group, or null if there is no match. If index is unspecified or zero, returns the substring that matched the pattern.</td>
 </tr>
@@ -388,7 +412,7 @@ possible for two aggregators in the same SQL query to have different filters.</p
 </tr>
 <tr>
 <td><code>STRPOS(haystack, needle)</code></td>
-<td>Returns the index of needle within haystack, starting from 1. If the needle is not found, returns 0.</td>
+<td>Returns the index of needle within haystack, with indexes starting from 1. If the needle is not found, returns 0.</td>
 </tr>
 <tr>
 <td><code>SUBSTRING(expr, index, [length])</code></td>
@@ -628,6 +652,10 @@ over the connection time zone.</p>
 <td><code>COALESCE(value1, value2, ...)</code></td>
 <td>Returns the first value that is neither NULL nor empty string.</td>
 </tr>
+<tr>
+<td><code>BLOOM_FILTER_TEST(&lt;expr&gt;, &lt;serialized-filter&gt;)</code></td>
+<td>Returns true if the value is contained in the base64 serialized bloom filter. See <a href="../development/extensions-core/bloom-filter.html">bloom filter extension</a> documentation for additional details.</td>
+</tr>
 </tbody></table>
 
 <h3 id="unsupported-features">Unsupported features</h3>
@@ -796,26 +824,26 @@ computed in memory. See the TopN documentation for more details.</p></li>
 <li><p><a href="groupbyquery.html">GroupBy</a> is used for all other aggregations, including any nested aggregation queries. Druid&#39;s
 GroupBy is a traditional aggregation engine: it delivers exact results and rankings and supports a wide variety of
 features. GroupBy aggregates in memory if it can, but it may spill to disk if it doesn&#39;t have enough memory to complete
-your query. Results are streamed back from data nodes through the broker if you ORDER BY the same expressions in your
+your query. Results are streamed back from data processes through the Broker if you ORDER BY the same expressions in your
 GROUP BY clause, or if you don&#39;t have an ORDER BY at all. If your query has an ORDER BY referencing expressions that
-don&#39;t appear in the GROUP BY clause (like aggregation functions) then the broker will materialize a list of results in
+don&#39;t appear in the GROUP BY clause (like aggregation functions) then the Broker will materialize a list of results in
 memory, up to a max of your LIMIT, if any. See the GroupBy documentation for details about tuning performance and memory
 use.</p></li>
 </ul>
 
 <p>If your query does nested aggregations (an aggregation subquery in your FROM clause) then Druid will execute it as a
 <a href="groupbyquery.html#nested-groupbys">nested GroupBy</a>. In nested GroupBys, the innermost aggregation is distributed, but
-all outer aggregations beyond that take place locally on the query broker.</p>
+all outer aggregations beyond that take place locally on the query Broker.</p>
 
 <p>Semi-join queries containing WHERE clauses like <code>col IN (SELECT expr FROM ...)</code> are executed with a special process. The
-broker will first translate the subquery into a GroupBy to find distinct values of <code>expr</code>. Then, the broker will rewrite
+Broker will first translate the subquery into a GroupBy to find distinct values of <code>expr</code>. Then, the broker will rewrite
 the subquery to a literal filter, like <code>col IN (val1, val2, ...)</code> and run the outer query. The configuration parameter
 druid.sql.planner.maxSemiJoinRowsInMemory controls the maximum number of values that will be materialized for this kind
 of plan.</p>
 
 <p>For all native query types, filters on the <code>__time</code> column will be translated into top-level query &quot;intervals&quot; whenever
 possible, which allows Druid to use its global time index to quickly prune the set of data that must be scanned. In
-addition, Druid will use indexes local to each data node to further speed up WHERE evaluation. This can typically be
+addition, Druid will use indexes local to each data process to further speed up WHERE evaluation. This can typically be
 done for filters that involve boolean combinations of references to and functions of single columns, like
 <code>WHERE col1 = &#39;a&#39; AND col2 = &#39;b&#39;</code>, but not <code>WHERE col1 = col2</code>.</p>
 
@@ -827,10 +855,10 @@ done for filters that involve boolean combinations of references to and function
 <li>The <code>COUNT(DISTINCT col)</code> aggregation functions by default uses a variant of
 <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a>, a fast approximate distinct counting
 algorithm. Druid SQL will switch to exact distinct counts if you set &quot;useApproximateCountDistinct&quot; to &quot;false&quot;, either
-through query context or through broker configuration.</li>
+through query context or through Broker configuration.</li>
 <li>GROUP BY queries over a single column with ORDER BY and LIMIT may be executed using the TopN engine, which uses an
 approximate algorithm. Druid SQL will switch to an exact grouping algorithm if you set &quot;useApproximateTopN&quot; to &quot;false&quot;,
-either through query context or through broker configuration.</li>
+either through query context or through Broker configuration.</li>
 <li>The APPROX_COUNT_DISTINCT and APPROX_QUANTILE aggregation functions always use approximate algorithms, regardless
 of configuration.</li>
 </ul>
@@ -933,7 +961,7 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 <code>jdbc:avatica:remote:url=http://BROKER:8082/druid/v2/sql/avatica/</code>.</p>
 
 <p>Example code:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// Connect to /druid/v2/sql/avatica/ on your broker.</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// Connect to /druid/v2/sql/avatica/ on your Broker.</span>
 <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/&quot;</span><span class="o">;</span>
 
 <span class="c1">// Set any connection context parameters you need here (see &quot;Connection context&quot; below).</span>
@@ -957,9 +985,9 @@ so avoid those.</p>
 
 <h4 id="connection-stickiness">Connection stickiness</h4>
 
-<p>Druid&#39;s JDBC server does not share connection state between brokers. This means that if you&#39;re using JDBC and have
-multiple Druid brokers, you should either connect to a specific broker, or use a load balancer with sticky sessions
-enabled. The Druid Router node provides connection stickiness when balancing JDBC requests, and can be used to achieve
+<p>Druid&#39;s JDBC server does not share connection state between Brokers. This means that if you&#39;re using JDBC and have
+multiple Druid Brokers, you should either connect to a specific Broker, or use a load balancer with sticky sessions
+enabled. The Druid Router process provides connection stickiness when balancing JDBC requests, and can be used to achieve
 the necessary stickiness even with a normal non-sticky load balancer. Please see the
 <a href="../development/router.html">Router</a> documentation for more details.</p>
 
@@ -971,6 +999,9 @@ the necessary stickiness even with a normal non-sticky load balancer. Please see
 All other context parameters you provide will be attached to Druid queries and can affect how they run. See
 <a href="query-context.html">Query context</a> for details on the possible options.</p>
 
+<p>Note that to specify an unique identifier for SQL query, use <code>sqlQueryId</code> instead of <code>queryId</code>. Setting <code>queryId</code> for a SQL
+request has no effect, all native queries underlying SQL will use auto-generated queryId.</p>
+
 <p>Connection context can be specified as JDBC connection properties or as a &quot;context&quot; object in the JSON API.</p>
 
 <table><thead>
@@ -981,31 +1012,36 @@ All other context parameters you provide will be attached to Druid queries and c
 </tr>
 </thead><tbody>
 <tr>
+<td><code>sqlQueryId</code></td>
+<td>Unique identifier given to this SQL query. For HTTP client, it will be returned in <code>X-Druid-SQL-Query-Id</code> header.</td>
+<td>auto-generated</td>
+</tr>
+<tr>
 <td><code>sqlTimeZone</code></td>
 <td>Sets the time zone for this connection, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
-<td>druid.sql.planner.sqlTimeZone on the broker (default: UTC)</td>
+<td>druid.sql.planner.sqlTimeZone on the Broker (default: UTC)</td>
 </tr>
 <tr>
 <td><code>useApproximateCountDistinct</code></td>
 <td>Whether to use an approximate cardinalty algorithm for <code>COUNT(DISTINCT foo)</code>.</td>
-<td>druid.sql.planner.useApproximateCountDistinct on the broker (default: true)</td>
+<td>druid.sql.planner.useApproximateCountDistinct on the Broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useApproximateTopN</code></td>
 <td>Whether to use approximate <a href="topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="groupbyquery.html">GroupBy queries</a> will be used instead.</td>
-<td>druid.sql.planner.useApproximateTopN on the broker (default: true)</td>
+<td>druid.sql.planner.useApproximateTopN on the Broker (default: true)</td>
 </tr>
 <tr>
 <td><code>useFallback</code></td>
-<td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
-<td>druid.sql.planner.useFallback on the broker (default: false)</td>
+<td>Whether to evaluate operations on the Broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>druid.sql.planner.useFallback on the Broker (default: false)</td>
 </tr>
 </tbody></table>
 
 <h3 id="retrieving-metadata">Retrieving metadata</h3>
 
-<p>Druid brokers infer table and column metadata for each dataSource from segments loaded in the cluster, and use this to
-plan SQL queries. This metadata is cached on broker startup and also updated periodically in the background through
+<p>Druid Brokers infer table and column metadata for each dataSource from segments loaded in the cluster, and use this to
+plan SQL queries. This metadata is cached on Broker startup and also updated periodically in the background through
 <a href="segmentmetadataquery.html">SegmentMetadata queries</a>. Background metadata refreshing is triggered by
 segments entering and exiting the cluster, and can also be throttled through configuration.</p>
 
@@ -1163,15 +1199,15 @@ datasource &quot;foo&quot;, use the query:</p>
 
 <h2 id="system-schema">SYSTEM SCHEMA</h2>
 
-<p>The &quot;sys&quot; schema provides visibility into Druid segments, servers and tasks.
-For example to retrieve all segments for datasource &quot;wikipedia&quot;, use the query:
-<code>sql
-SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
-</code></p>
+<p>The &quot;sys&quot; schema provides visibility into Druid segments, servers and tasks.</p>
 
 <h3 id="segments-table">SEGMENTS table</h3>
 
 <p>Segments table provides details on all Druid segments, whether they are published yet or not.</p>
+
+<h4 id="caveat">CAVEAT</h4>
+
+<p>Note that a segment can be served by more than one stream ingestion tasks or Historical processes, in that case it would have multiple replicas. These replicas are weakly consistent with each other when served by multiple ingestion tasks, until a segment is eventually served by a Historical, at that point the segment is immutable. Broker prefers to query a segment from Historical over an ingestion task. But if a segment has multiple realtime replicas, for eg. kafka index tasks, and one task is slower than other, then the sys.segments query results can vary for the duration of the tasks because only one of the ingestion tasks is queried by the Broker and it is not gauranteed that the same task gets picked everytime. The <code>num_rows</code> column of segments table can have inconsistent values during this period. There is an open <a href="https://github.com/apache/incubator-druid/issues/5915">issue</a> about this inconsistency with stream ingestion tasks.</p>
 
 <table><thead>
 <tr>
@@ -1213,7 +1249,7 @@ SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
 </tr>
 <tr>
 <td>num_rows</td>
-<td>Number of rows in current segment, this value could be null if unkown to broker at query time</td>
+<td>Number of rows in current segment, this value could be null if unkown to Broker at query time</td>
 </tr>
 <tr>
 <td>is_published</td>
@@ -1221,7 +1257,7 @@ SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
 </tr>
 <tr>
 <td>is_available</td>
-<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any server(historical or realtime)</td>
+<td>Boolean is represented as long type where 1 = true, 0 = false. 1 if this segment is currently being served by any server(Historical or realtime)</td>
 </tr>
 <tr>
 <td>is_realtime</td>
@@ -1233,9 +1269,23 @@ SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
 </tr>
 </tbody></table>
 
+<p>For example to retrieve all segments for datasource &quot;wikipedia&quot;, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">WHERE</span> <span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span>
+</code></pre></div>
+<p>Another example to retrieve segments total_size, avg_size, avg_num_rows and num_segments per datasource:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span>
+    <span class="n">datasource</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_size</span><span class="p">,</span>
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;size&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">FILTER</span><span class="p">(</span><span class="k">WHERE</span> <span class="ss">&quot;size&quot;</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">avg_size</span><span class="p">,</span>
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="k">SUM</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="k">SUM</span><span class="p">(</span><span class="ss">&quot;num_rows&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">FILTER</span><span class="p">(</span><span class="k">WHERE</span> <span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">avg_num_rows</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">num_segments</span>
+<span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">2</span> <span class="k">DESC</span>
+</code></pre></div>
 <h3 id="servers-table">SERVERS table</h3>
 
-<p>Servers table lists all data servers(any server that hosts a segment). It includes both historicals and peons.</p>
+<p>Servers table lists all data servers(any server that hosts a segment). It includes both Historicals and Peons.</p>
 
 <table><thead>
 <tr>
@@ -1261,7 +1311,7 @@ SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
 </tr>
 <tr>
 <td>server_type</td>
-<td>Type of Druid service. Possible values include: historical, realtime and indexer_executor(peon).</td>
+<td>Type of Druid service. Possible values include: Historical, realtime and indexer_executor(Peon).</td>
 </tr>
 <tr>
 <td>tier</td>
@@ -1277,11 +1327,9 @@ SELECT * FROM sys.segments WHERE datasource = &#39;wikipedia&#39;
 </tr>
 </tbody></table>
 
-<p>To retrieve information about all servers, use the query:
-<code>sql
-SELECT * FROM sys.servers;
-</code></p>
-
+<p>To retrieve information about all servers, use the query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span><span class="p">;</span>
+</code></pre></div>
 <h3 id="server_segments-table">SERVER_SEGMENTS table</h3>
 
 <p>SERVER_SEGMENTS is used to join servers with segments table</p>
@@ -1303,17 +1351,15 @@ SELECT * FROM sys.servers;
 </tbody></table>
 
 <p>JOIN between &quot;servers&quot; and &quot;segments&quot; can be used to query the number of segments for a specific datasource, 
-grouped by server, example query:
-<code>sql
-SELECT count(segments.segment_id) as num_segments from sys.segments as segments 
-INNER JOIN sys.server_segments as server_segments 
-ON segments.segment_id  = server_segments.segment_id 
-INNER JOIN sys.servers as servers 
-ON servers.server = server_segments.server
-WHERE segments.datasource = &#39;wikipedia&#39; 
-GROUP BY servers.server;
-</code></p>
-
+grouped by server, example query:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">num_segments</span> <span class="k">from</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">as</span> <span class="n">segments</span> 
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">server_segments</span> <span class="k">as</span> <span class="n">server_segments</span> 
+<span class="k">ON</span> <span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span>  <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">segment_id</span> 
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span> <span class="k">as</span> <span class="n">servers</span> 
+<span class="k">ON</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">server</span>
+<span class="k">WHERE</span> <span class="n">segments</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span> 
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span><span class="p">;</span>
+</code></pre></div>
 <h3 id="tasks-table">TASKS table</h3>
 
 <p>The tasks table provides information about active and recently-completed indexing tasks. For more information 
@@ -1331,7 +1377,7 @@ check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 </tr>
 <tr>
 <td>type</td>
-<td>Task type, for example this value is &quot;index&quot; for indexing tasks. See <a href="../ingestion/tasks.md">tasks-overview</a></td>
+<td>Task type, for example this value is &quot;index&quot; for indexing tasks. See <a href="../ingestion/tasks.html">tasks-overview</a></td>
 </tr>
 <tr>
 <td>datasource</td>
@@ -1343,7 +1389,7 @@ check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 </tr>
 <tr>
 <td>queue_insertion_time</td>
-<td>Timestamp in ISO8601 format corresponding to when this task was added to the queue on the overlord</td>
+<td>Timestamp in ISO8601 format corresponding to when this task was added to the queue on the Overlord</td>
 </tr>
 <tr>
 <td>status</td>
@@ -1379,14 +1425,14 @@ check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 </tr>
 </tbody></table>
 
-<p>For example, to retrieve tasks information filtered by status, use the query
-<code>sql
-SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
-</code></p>
+<p>For example, to retrieve tasks information filtered by status, use the query</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">tasks</span> <span class="k">WHERE</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;FAILED&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Note that sys tables may not support all the Druid SQL Functions.</p>
 
 <h2 id="server-configuration">Server configuration</h2>
 
-<p>The Druid SQL server is configured through the following properties on the broker.</p>
+<p>The Druid SQL server is configured through the following properties on the Broker.</p>
 
 <table><thead>
 <tr>
@@ -1408,7 +1454,7 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
 <tr>
 <td><code>druid.sql.avatica.maxConnections</code></td>
 <td>Maximum number of open connections for the Avatica server. These are not HTTP connections, but are logical client connections that may span multiple HTTP connections.</td>
-<td>50</td>
+<td>25</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.maxRowsPerFrame</code></td>
@@ -1418,7 +1464,7 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
 <tr>
 <td><code>druid.sql.avatica.maxStatementsPerConnection</code></td>
 <td>Maximum number of simultaneous open statements per Avatica client connection.</td>
-<td>1</td>
+<td>4</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.connectionIdleTimeout</code></td>
@@ -1451,7 +1497,7 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
 <td>PT1M</td>
 </tr>
 <tr>
-<td><code>druid.sql.planner.selectPageSize</code></td>
+<td><code>druid.sql.planner.selectThreshold</code></td>
 <td>Page size threshold for <a href="../querying/select-query.html">Select queries</a>. Select queries for larger resultsets will be issued back-to-back using pagination.</td>
 <td>1000</td>
 </tr>
@@ -1467,7 +1513,7 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
 </tr>
 <tr>
 <td><code>druid.sql.planner.useFallback</code></td>
-<td>Whether to evaluate operations on the broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
+<td>Whether to evaluate operations on the Broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
 <td>false</td>
 </tr>
 <tr>
@@ -1479,6 +1525,42 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
 <td><code>druid.sql.planner.sqlTimeZone</code></td>
 <td>Sets the default time zone for the server, which will affect how time functions and timestamp literals behave. Should be a time zone name like &quot;America/Los_Angeles&quot; or offset like &quot;-08:00&quot;.</td>
 <td>UTC</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataSegmentCacheEnable</code></td>
+<td>Whether to keep a cache of published segments in broker. If true, broker polls coordinator in background to get segments from metadata store and maintains a local cache. If false, coordinator&#39;s REST api will be invoked when broker needs published segments info.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.sql.planner.metadataSegmentPollPeriod</code></td>
+<td>How often to poll coordinator for published segments list if <code>druid.sql.planner.metadataSegmentCacheEnable</code> is set to true. Poll period is in milliseconds.</td>
+<td>60000</td>
+</tr>
+</tbody></table>
+
+<h2 id="sql-metrics">SQL Metrics</h2>
+
+<p>Broker will emit the following metrics for SQL.</p>
+
+<table><thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Dimensions</th>
+<th>Normal Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sqlQuery/time</code></td>
+<td>Milliseconds taken to complete a SQL.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td>&lt; 1s</td>
+</tr>
+<tr>
+<td><code>sqlQuery/bytes</code></td>
+<td>number of bytes returned in SQL response.</td>
+<td>id, nativeQueryIds, dataSource, remoteAddress, success.</td>
+<td></td>
 </tr>
 </tbody></table>
 
@@ -1510,7 +1592,7 @@ SELECT * FROM sys.tasks where status=&#39;FAILED&#39;;
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

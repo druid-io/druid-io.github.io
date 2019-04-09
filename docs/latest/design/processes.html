@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Druid Processes and Servers</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="druid-processes-and-servers">Druid Processes and Servers</h1>
+
+<h2 id="process-types">Process Types</h2>
+
+<p>Druid has several process types:</p>
+
+<ul>
+<li><a href="../design/coordinator.html">Coordinator</a></li>
+<li><a href="../design/overlord.html">Overlord</a></li>
+<li><a href="../design/broker.html">Broker</a></li>
+<li><a href="../design/historical.html">Historical</a></li>
+<li><a href="../design/middlemanager.html">MiddleManager</a> and <a href="../design/peons.html">Peons</a></li>
+<li><a href="../development/router.html">Router (Optional)</a> </li>
+</ul>
+
+<h2 id="server-types">Server Types</h2>
+
+<p>Druid processes can be deployed any way you like, but for ease of deployment we suggest organizing them into three server types:</p>
+
+<ul>
+<li><strong>Master</strong></li>
+<li><strong>Query</strong></li>
+<li><strong>Data</strong></li>
+</ul>
+
+<p><img src="../../img/druid-architecture.png" width="800"/></p>
+
+<p>This section describes the Druid processes and the suggested Master/Query/Data server organization, as shown in the architecture diagram above.</p>
+
+<h3 id="master-server">Master server</h3>
+
+<p>A Master server manages data ingestion and availability: it is responsible for starting new ingestion jobs and coordinating availability of data on the &quot;Data servers&quot; described below.</p>
+
+<p>Within a Master server, functionality is split between two processes, the Coordinator and Overlord.</p>
+
+<h4 id="coordinator-process">Coordinator process</h4>
+
+<p><a href="../design/coordinator.html"><strong>Coordinator</strong></a> processes watch over the Historical processes on the Data servers. They are responsible for assigning segments to specific servers, and for ensuring segments are well-balanced across Historicals.</p>
+
+<h4 id="overlord-process">Overlord process</h4>
+
+<p><a href="../design/overlord.html"><strong>Overlord</strong></a> processes watch over the MiddleManager processes on the Data servers and are the controllers of data ingestion into Druid. They are responsible for assigning ingestion tasks to MiddleManagers and for coordinating segment publishing.</p>
+
+<h3 id="query-server">Query server</h3>
+
+<p>A Query server provides the endpoints that users and client applications interact with, routing queries to Data servers or other Query servers (and optionally proxied Master server requests as well).</p>
+
+<p>Within a Query server, functionality is split between two processes, the Broker and Router.</p>
+
+<h4 id="broker-process">Broker process</h4>
+
+<p><a href="../design/broker.html"><strong>Broker</strong></a> processes receive queries from external clients and forward those queries to Data servers. When Brokers receive results from those subqueries, they merge those results and return them to the
+caller. End users typically query Brokers rather than querying Historicals or MiddleManagers processes on Data servers directly.</p>
+
+<h4 id="router-process-optional">Router process (optional)</h4>
+
+<p><a href="../development/router.html"><strong>Router</strong></a> processes are <em>optional</em> processes that provide a unified API gateway in front of Druid Brokers,
+Overlords, and Coordinators. They are optional since you can also simply contact the Druid Brokers, Overlords, and
+Coordinators directly.</p>
+
+<p>The Router also runs the <a href="../operations/management-uis.html#druid-console">Druid Console</a>, a management UI for datasources, segments, tasks, data processes (Historicals and MiddleManagers), and coordinator dynamic configuration. The user can also run SQL and native Druid queries within the console.</p>
+
+<h3 id="data-server">Data server</h3>
+
+<p>A Data server executes ingestion jobs and stores queryable data.</p>
+
+<p>Within a Data server, functionality is split between two processes, the Historical and MiddleManager.</p>
+
+<h3 id="historical-process">Historical process</h3>
+
+<p><a href="../design/historical.html"><strong>Historical</strong></a> processes are the workhorses that handle storage and querying on &quot;historical&quot; data
+(including any streaming data that has been in the system long enough to be committed). Historical processes
+download segments from deep storage and respond to queries about these segments. They don&#39;t accept writes.</p>
+
+<h3 id="middle-manager-process">Middle Manager process</h3>
+
+<p><a href="../design/middlemanager.html"><strong>MiddleManager</strong></a> processes handle ingestion of new data into the cluster. They are responsible
+for reading from external data sources and publishing new Druid segments.</p>
+
+<h4 id="peon-processes">Peon processes</h4>
+
+<p><a href="../design/peons.html"><strong>Peon</strong></a> processes are task execution engines spawned by MiddleManagers. Each Peon runs a separate JVM and is responsible for executing a single task. Peons always run on the same host as the MiddleManager that spawned them.</p>
+
+<h2 id="pros-and-cons-of-colocation">Pros and cons of colocation</h2>
+
+<p>Druid processes can be colocated based on the Master/Data/Query server organization as
+described above. This organization generally results in better utilization of
+hardware resources for most clusters.</p>
+
+<p>For very large scale clusters, however, it can be desirable to split the Druid processes
+such that they run on individual servers to avoid resource contention.</p>
+
+<p>This section describes guidelines and configuration parameters related to process colocation.</p>
+
+<h3 id="coordinators-and-overlords">Coordinators and Overlords</h3>
+
+<p>The workload on the Coordinator process tends to increase with the number of segments in the cluster. The Overlord&#39;s workload also increases based on the number of segments in the cluster, but to a lesser degree than the Coordinator.</p>
+
+<p>In clusters with very high segment counts, it can make sense to separate the Coordinator and Overlord processes to provide more resources for the Coordinator&#39;s segment balancing workload.</p>
+
+<h4 id="unified-process">Unified Process</h4>
+
+<p>The Coordinator and Overlord processes can be run as a single combined process by setting the <code>druid.coordinator.asOverlord.enabled</code> property.</p>
+
+<p>Please see <a href="../configuration/index.html#coordinator-operation">Coordinator Configuration: Operation</a> for details.</p>
+
+<h3 id="historicals-and-middlemanagers">Historicals and MiddleManagers</h3>
+
+<p>With higher levels of ingestion or query load, it can make sense to deploy the Historical and MiddleManager processes on separate hosts to to avoid CPU and memory contention. </p>
+
+<p>The Historical also benefits from having free memory for memory mapped segments, which can be another reason to deploy the Historical and MiddleManager processes separately.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/latest/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

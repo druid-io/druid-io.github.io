@@ -138,15 +138,20 @@
 <h1 id="native-index-tasks">Native Index Tasks</h1>
 
 <p>Druid currently has two types of native batch indexing tasks, <code>index_parallel</code> which runs tasks
-in parallel on multiple middle manager nodes, and <code>index</code> which will run a single indexing task locally on a single
-middle manager.</p>
+in parallel on multiple MiddleManager processes, and <code>index</code> which will run a single indexing task locally on a single
+MiddleManager.</p>
+
+<p>Please check <a href="./hadoop-vs-native-batch.html">Hadoop-based Batch Ingestion VS Native Batch Ingestion</a> for differences between native batch ingestion and Hadoop-based ingestion.</p>
+
+<p>To run either kind of native batch indexing task, write an ingestion spec as specified below. Then POST it to the
+<a href="../operations/api-reference.html#tasks"><code>/druid/indexer/v1/task</code> endpoint on the Overlord</a>, or use the <code>post-index-task</code> script included with Druid.</p>
 
 <h2 id="parallel-index-task">Parallel Index Task</h2>
 
 <p>The Parallel Index Task is a task for parallel batch indexing. This task only uses Druid&#39;s resource and
 doesn&#39;t depend on other external systems like Hadoop. This task currently works in a single phase without shuffling intermediate
 data. <code>index_parallel</code> task is a supervisor task which basically generates multiple worker tasks and submits
-them to overlords. Each worker task reads input data and makes segments. Once they successfully generate segments for all
+them to Overlords. Each worker task reads input data and makes segments. Once they successfully generate segments for all
 input, they report the generated segment list to the supervisor task. The supervisor task periodically checks the worker
 task statuses. If one of them fails, it retries the failed task until the retrying number reaches the configured limit.
 If all worker tasks succeed, then it collects the reported list of generated segments and publishes those segments at once.</p>
@@ -161,7 +166,16 @@ which specifies a split and submits worker tasks using those specs. As a result,
 the implementation of splittable firehoses. Please note that multiple tasks can be created for the same worker task spec
 if one of them fails.</p>
 
-<p>Since this task doesn&#39;t shuffle intermediate data, it isn&#39;t available for <a href="../ingestion/index.html#roll-up-modes">perfect rollup</a>. </p>
+<p>You may want to consider the below points:
+- Since this task doesn&#39;t shuffle intermediate data, it isn&#39;t available for <a href="../ingestion/index.html#roll-up-modes">perfect rollup</a>.
+- The number of tasks for parallel ingestion is decided by <code>maxNumSubTasks</code> in the tuningConfig.
+  Since the supervisor task creates up to <code>maxNumSubTasks</code> worker tasks regardless of the available task slots,
+  it may affect to other ingestion performance. As a result, it&#39;s important to set <code>maxNumSubTasks</code> properly.
+  See the below <a href="#capacity-planning">Capacity Planning</a> section for more details.
+- By default, batch ingestion replaces all data in any segment that it writes to. If you&#39;d like to add to the segment
+  instead, set the appendToExisting flag in ioConfig. Note that it only replaces data in segments where it actively adds
+  data: if there are segments in your granularitySpec&#39;s intervals that have no data written by this task, they will be
+  left alone.</p>
 
 <p>An example ingestion spec is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -227,6 +241,10 @@ if one of them fails.</p>
           <span class="nt">&quot;baseDir&quot;</span><span class="p">:</span> <span class="s2">&quot;examples/indexing/&quot;</span><span class="p">,</span>
           <span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia_index_data*&quot;</span>
         <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningconfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_parallel&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;maxNumSubTasks&quot;</span><span class="p">:</span> <span class="mi">2</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -267,6 +285,14 @@ if one of them fails.</p>
 <p>This field is required.</p>
 
 <p>See <a href="../ingestion/ingestion-spec.html#dataschema">Ingestion Spec DataSchema</a></p>
+
+<p>If you specify <code>intervals</code> explicitly in your dataSchema&#39;s granularitySpec, batch ingestion will lock the full intervals
+specified when it starts up, and you will learn quickly if the specified interval overlaps with locks held by other
+tasks (eg, Kafka ingestion). Otherwise, batch ingestion will lock each interval as it is discovered, so you may only
+learn that the task overlaps with a higher-priority task later in ingestion.  If you specify <code>intervals</code> explicitly, any
+rows outside the specified intervals will be thrown away. We recommend setting <code>intervals</code> explicitly if you know the
+time range of the data so that locking failure happens faster, and so that you don&#39;t accidentally replace data outside
+that range if there&#39;s some stray data with unexpected timestamps.</p>
 
 <h4 id="ioconfig">IOConfig</h4>
 
@@ -317,7 +343,7 @@ if one of them fails.</p>
 <td>yes</td>
 </tr>
 <tr>
-<td>targetPartitionSize</td>
+<td>maxRowsPerSegment</td>
 <td>Used in sharding. Determines how many rows are in each segment.</td>
 <td>5000000</td>
 <td>no</td>
@@ -337,12 +363,12 @@ if one of them fails.</p>
 <tr>
 <td>maxTotalRows</td>
 <td>Total number of rows in segments waiting for being pushed. Used in determining when intermediate pushing should occur.</td>
-<td>150000</td>
+<td>20000000</td>
 <td>no</td>
 </tr>
 <tr>
 <td>numShards</td>
-<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if targetPartitionSize is set.</td>
+<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if maxRowsPerSegment is set.</td>
 <td>null</td>
 <td>no</td>
 </tr>
@@ -378,14 +404,14 @@ if one of them fails.</p>
 </tr>
 <tr>
 <td>segmentWriteOutMediumFactory</td>
-<td>Segment write-out medium to use when creating segments. See <a href="../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
-<td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used</td>
+<td>Segment write-out medium to use when creating segments. See <a href="#segmentWriteOutMediumFactory">SegmentWriteOutMediumFactory</a>.</td>
+<td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory.type</code> is used</td>
 <td>no</td>
 </tr>
 <tr>
 <td>maxNumSubTasks</td>
-<td>Maximum number of tasks which can be run at the same time.</td>
-<td>Integer.MAX_VALUE</td>
+<td>Maximum number of tasks which can be run at the same time. The supervisor task would spawn worker tasks up to <code>maxNumSubTasks</code> regardless of the available task slots. If this value is set to 1, the supervisor task processes data ingestion on its own instead of spawning worker tasks. If this value is set to too large, too many worker tasks can be created which might block other ingestion. Check <a href="#capacity-planning">Capacity Planning</a> for more details.</td>
+<td>1</td>
 <td>no</td>
 </tr>
 <tr>
@@ -593,7 +619,7 @@ The returned result contains the worker task spec, a current task status if exis
       <span class="p">},</span>
       <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_parallel&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+        <span class="nt">&quot;maxRowsPerSegment&quot;</span><span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
         <span class="nt">&quot;maxRowsInMemory&quot;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">,</span>
         <span class="nt">&quot;maxTotalRows&quot;</span><span class="p">:</span> <span class="mi">20000000</span><span class="p">,</span>
         <span class="nt">&quot;numShards&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
@@ -610,7 +636,7 @@ The returned result contains the worker task spec, a current task status if exis
         <span class="nt">&quot;reportParseExceptions&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
         <span class="nt">&quot;pushTimeout&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="nt">&quot;segmentWriteOutMediumFactory&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-        <span class="nt">&quot;maxNumSubTasks&quot;</span><span class="p">:</span> <span class="mi">2147483647</span><span class="p">,</span>
+        <span class="nt">&quot;maxNumSubTasks&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
         <span class="nt">&quot;maxRetry&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
         <span class="nt">&quot;taskStatusCheckPeriodMs&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
         <span class="nt">&quot;chatHandlerTimeout&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10S&quot;</span><span class="p">,</span>
@@ -646,6 +672,27 @@ The returned result contains the worker task spec, a current task status if exis
 </ul>
 
 <p>Returns the task attempt history of the worker task spec of the given id, or HTTP 404 Not Found error if the supervisor task is running in the sequential mode.</p>
+
+<h3 id="capacity-planning">Capacity Planning</h3>
+
+<p>The supervisor task can create up to <code>maxNumSubTasks</code> worker tasks no matter how many task slots are currently available.
+As a result, total number of tasks which can be run at the same time is <code>(maxNumSubTasks + 1)</code> (including the supervisor task).
+Please note that this can be even larger than total number of task slots (sum of the capacity of all workers).
+If <code>maxNumSubTasks</code> is larger than <code>n (available task slots)</code>, then
+<code>maxNumSubTasks</code> tasks are created by the supervisor task, but only <code>n</code> tasks would be started.
+Others will wait in the pending state until any running task is finished.</p>
+
+<p>If you are using the Parallel Index Task with stream ingestion together,
+we would recommend to limit the max capacity for batch ingestion to prevent
+stream ingestion from being blocked by batch ingestion. Suppose you have
+<code>t</code> Parallel Index Tasks to run at the same time, but want to limit
+the max number of tasks for batch ingestion to <code>b</code>. Then, (sum of <code>maxNumSubTasks</code>
+of all Parallel Index Tasks + <code>t</code> (for supervisor tasks)) must be smaller than <code>b</code>.</p>
+
+<p>If you have some tasks of a higher priority than others, you may set their
+<code>maxNumSubTasks</code> to a higher value than lower priority tasks.
+This may help the higher priority tasks to finish earlier than lower priority tasks
+by assigning more task slots to them.</p>
 
 <h2 id="local-index-task">Local Index Task</h2>
 
@@ -708,12 +755,17 @@ The returned result contains the worker task spec, a current task status if exis
     <span class="p">},</span>
     <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsPerSegment&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
       <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">1000000</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>By default, batch ingestion replaces all data in any segment that it writes to. If you&#39;d like to add to the segment
+instead, set the appendToExisting flag in ioConfig. Note that it only replaces data in segments where it actively adds
+data: if there are segments in your granularitySpec&#39;s intervals that have no data written by this task, they will be
+left alone.</p>
+
 <h4 id="task-properties">Task Properties</h4>
 
 <table><thead>
@@ -750,6 +802,12 @@ The returned result contains the worker task spec, a current task status if exis
 <p>This field is required.</p>
 
 <p>See <a href="../ingestion/ingestion-spec.html#dataschema">Ingestion Spec DataSchema</a></p>
+
+<p>If you do not specify <code>intervals</code> explicitly in your dataSchema&#39;s granularitySpec, the Local Index Task will do an extra
+pass over the data to determine the range to lock when it starts up.  If you specify <code>intervals</code> explicitly, any rows
+outside the specified intervals will be thrown away. We recommend setting <code>intervals</code> explicitly if you know the time
+range of the data because it allows the task to skip the extra pass, and so that you don&#39;t accidentally replace data outside
+that range if there&#39;s some stray data with unexpected timestamps.</p>
 
 <h4 id="ioconfig">IOConfig</h4>
 
@@ -800,7 +858,7 @@ The returned result contains the worker task spec, a current task status if exis
 <td>yes</td>
 </tr>
 <tr>
-<td>targetPartitionSize</td>
+<td>maxRowsPerSegment</td>
 <td>Used in sharding. Determines how many rows are in each segment.</td>
 <td>5000000</td>
 <td>no</td>
@@ -825,7 +883,7 @@ The returned result contains the worker task spec, a current task status if exis
 </tr>
 <tr>
 <td>numShards</td>
-<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if targetPartitionSize is set.</td>
+<td>Directly specify the number of shards to create. If this is specified and &#39;intervals&#39; is specified in the granularitySpec, the index task can skip the determine intervals/partitions pass through the data. numShards cannot be specified if maxRowsPerSegment is set.</td>
 <td>null</td>
 <td>no</td>
 </tr>
@@ -855,7 +913,7 @@ The returned result contains the worker task spec, a current task status if exis
 </tr>
 <tr>
 <td>forceGuaranteedRollup</td>
-<td>Forces guaranteeing the <a href="../ingestion/index.html#roll-up-modes">perfect rollup</a>. The perfect rollup optimizes the total size of generated segments and querying time while indexing time will be increased. This flag cannot be used with either <code>appendToExisting</code> of IOConfig or <code>forceExtendableShardSpecs</code>. For more details, see the below <strong>Segment pushing modes</strong> section.</td>
+<td>Forces guaranteeing the <a href="../ingestion/index.html#roll-up-modes">perfect rollup</a>. The perfect rollup optimizes the total size of generated segments and querying time while indexing time will be increased. If this is set to true, the index task will read the entire input data twice: one for finding the optimal number of partitions per time chunk and one for generating segments. Note that the result segments would be hash-partitioned. You can set <code>forceExtendableShardSpecs</code> if you plan to append more data to the same time range in the future. This flag cannot be used with <code>appendToExisting</code> of IOConfig. For more details, see the below <strong>Segment pushing modes</strong> section.</td>
 <td>false</td>
 <td>no</td>
 </tr>
@@ -873,8 +931,8 @@ The returned result contains the worker task spec, a current task status if exis
 </tr>
 <tr>
 <td>segmentWriteOutMediumFactory</td>
-<td>Segment write-out medium to use when creating segments. See <a href="../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
-<td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used</td>
+<td>Segment write-out medium to use when creating segments. See <a href="#segmentWriteOutMediumFactory">SegmentWriteOutMediumFactory</a>.</td>
+<td>Not specified, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory.type</code> is used</td>
 <td>no</td>
 </tr>
 <tr>
@@ -980,6 +1038,24 @@ compression formats. The indexSpec is optional and default parameters will be us
 </tr>
 </tbody></table>
 
+<h4 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>See <a href="../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
 <h4 id="segment-pushing-modes">Segment pushing modes</h4>
 
 <p>While ingesting data using the Index task, it creates segments from the input data and pushes them. For segment pushing,
@@ -987,12 +1063,12 @@ the Index task supports two segment pushing modes, i.e., <em>bulk pushing mode</
 <a href="../ingestion/index.html#roll-up-modes">perfect rollup and best-effort rollup</a>, respectively.</p>
 
 <p>In the bulk pushing mode, every segment is pushed at the very end of the index task. Until then, created segments
-are stored in the memory and local storage of the node running the index task. As a result, this mode might cause a
+are stored in the memory and local storage of the process running the index task. As a result, this mode might cause a
 problem due to limited storage capacity, and is not recommended to use in production.</p>
 
 <p>On the contrary, in the incremental pushing mode, segments are incrementally pushed, that is they can be pushed
 in the middle of the index task. More precisely, the index task collects data and stores created segments in the memory
-and disks of the node running that task until the total number of collected rows exceeds <code>maxTotalRows</code>. Once it exceeds,
+and disks of the process running that task until the total number of collected rows exceeds <code>maxTotalRows</code>. Once it exceeds,
 the index task immediately pushes all segments created until that moment, cleans all pushed segments up, and
 continues to ingest remaining data.</p>
 
@@ -1027,7 +1103,7 @@ be used with either <code>forceExtendableShardSpecs</code> of TuningConfig or <c
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

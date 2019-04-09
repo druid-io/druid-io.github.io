@@ -232,7 +232,7 @@ For simple Hadoop batch ingestion, <code>static</code> or <code>granularity</cod
 <tr>
 <td>segments</td>
 <td>List</td>
-<td>List of segments from which to read data from, by default it is obtained automatically. You can obtain list of segments to put here by making a POST query to coordinator at url /druid/coordinator/v1/metadata/datasources/segments?full with list of intervals specified in the request paylod e.g. [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]. You may want to provide this list manually in order to ensure that segments read are exactly same as they were at the time of task submission, task would fail if the list provided by the user does not match with state of database when the task actually runs.</td>
+<td>List of segments from which to read data from, by default it is obtained automatically. You can obtain list of segments to put here by making a POST query to Coordinator at url /druid/coordinator/v1/metadata/datasources/segments?full with list of intervals specified in the request paylod e.g. [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]. You may want to provide this list manually in order to ensure that segments read are exactly same as they were at the time of task submission, task would fail if the list provided by the user does not match with state of database when the task actually runs.</td>
 <td>no</td>
 </tr>
 <tr>
@@ -336,7 +336,7 @@ Note that, &quot;useNewAggs&quot; must be set to default value false to support 
   <span class="err">...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>It is STRONGLY RECOMMENDED to provide list of segments in <code>dataSource</code> inputSpec explicitly so that your delta ingestion task is idempotent. You can obtain that list of segments by making following call to the coordinator.
+<p>It is STRONGLY RECOMMENDED to provide list of segments in <code>dataSource</code> inputSpec explicitly so that your delta ingestion task is idempotent. You can obtain that list of segments by making following call to the Coordinator.
 POST <code>/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments?full</code>
 Request Body: [interval1, interval2,...] for example [&quot;2012-01-01T00:00:00.000/2012-01-03T00:00:00.000&quot;, &quot;2012-01-05T00:00:00.000/2012-01-07T00:00:00.000&quot;]</p>
 
@@ -376,7 +376,7 @@ scenarios dealing with more than 1GB of data.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

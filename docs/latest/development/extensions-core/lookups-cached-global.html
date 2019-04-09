@@ -152,9 +152,9 @@ Static configuration is no longer supported. Lookups can be configured through
 
 <p>Globally cached lookups are appropriate for lookups which are not possible to pass at query time due to their size,
 or are not desired to be passed at query time because the data is to reside in and be handled by the Druid servers,
-and are small enough to reasonably populate on a node. This usually means tens to tens of thousands of entries per lookup.</p>
+and are small enough to reasonably populate in-memory. This usually means tens to tens of thousands of entries per lookup.</p>
 
-<p>Globally cached lookups all draw from the same cache pool, allowing each node to have a fixed cache pool that can be used by cached lookups.</p>
+<p>Globally cached lookups all draw from the same cache pool, allowing each process to have a fixed cache pool that can be used by cached lookups.</p>
 
 <p>Globally cached lookups can be specified as part of the <a href="../../querying/lookups.html">cluster wide config for lookups</a> as a type of <code>cachedNamespace</code></p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>
@@ -223,9 +223,9 @@ and are small enough to reasonably populate on a node. This usually means tens t
 </tr>
 </tbody></table>
 
-<p>If <code>firstCacheTimeout</code> is set to a non-zero value, it should be less than <code>druid.manager.lookups.hostUpdateTimeout</code>. If <code>firstCacheTimeout</code> is NOT set, then management is essentially asynchronous and does not know if a lookup succeeded or failed in starting. In such a case logs from the lookup nodes should be monitored for repeated failures.</p>
+<p>If <code>firstCacheTimeout</code> is set to a non-zero value, it should be less than <code>druid.manager.lookups.hostUpdateTimeout</code>. If <code>firstCacheTimeout</code> is NOT set, then management is essentially asynchronous and does not know if a lookup succeeded or failed in starting. In such a case logs from the processes using lookups should be monitored for repeated failures.</p>
 
-<p>Proper functionality of globally cached lookups requires the following extension to be loaded on the broker, peon, and historical nodes:
+<p>Proper functionality of globally cached lookups requires the following extension to be loaded on the Broker, Peon, and Historical processes:
 <code>druid-lookups-cached-global</code></p>
 
 <h2 id="example-configuration">Example configuration</h2>
@@ -258,7 +258,7 @@ and are small enough to reasonably populate on a node. This usually means tens t
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Where the coordinator endpoint <code>/druid/coordinator/v1/lookups/realtime_customer2/country_code</code> should return</p>
+<p>Where the Coordinator endpoint <code>/druid/coordinator/v1/lookups/realtime_customer2/country_code</code> should return</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v0&quot;</span><span class="p">,</span>
   <span class="nt">&quot;lookupExtractorFactory&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -284,8 +284,8 @@ and are small enough to reasonably populate on a node. This usually means tens t
 </code></pre></div>
 <h2 id="cache-settings">Cache Settings</h2>
 
-<p>Lookups are cached locally on historical nodes. The following are settings used by the nodes which service queries when 
-setting namespaces (broker, peon, historical)</p>
+<p>Lookups are cached locally on Historical processes. The following are settings used by the processes which service queries when 
+setting namespaces (Broker, Peon, Historical)</p>
 
 <table><thead>
 <tr>
@@ -687,7 +687,7 @@ will not be included in the lookup.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

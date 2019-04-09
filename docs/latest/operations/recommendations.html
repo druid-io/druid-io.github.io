@@ -170,21 +170,21 @@
 
 <p>Additionally, for large jvm heaps, here are a few Garbage Collection efficiency guidelines that have been known to help in some cases.
 - Mount /tmp on tmpfs ( See http://www.evanjones.ca/jvm-mmap-pause.html )
-- On Disk-IO intensive nodes (e.g. Historical and MiddleManager), GC and Druid logs should be written to a different disk than where data is written.
+- On Disk-IO intensive processes (e.g. Historical and MiddleManager), GC and Druid logs should be written to a different disk than where data is written.
 - Disable Transparent Huge Pages ( See https://blogs.oracle.com/linux/performance-issues-with-transparent-huge-pages-thp )
 - Try disabling biased locking by using <code>-XX:-UseBiasedLocking</code> jvm flag. ( See https://dzone.com/articles/logging-stop-world-pauses-jvm )</p>
 
 <h1 id="use-utc-timezone">Use UTC Timezone</h1>
 
-<p>We recommend using UTC timezone for all your events and across on your nodes, not just for Druid, but for all data infrastructure. This can greatly mitigate potential query problems with inconsistent timezones. To query in a non-UTC timezone see <a href="../querying/granularities.html#period-granularities">query granularities</a></p>
+<p>We recommend using UTC timezone for all your events and across your hosts, not just for Druid, but for all data infrastructure. This can greatly mitigate potential query problems with inconsistent timezones. To query in a non-UTC timezone see <a href="../querying/granularities.html#period-granularities">query granularities</a></p>
 
 <h1 id="ssds">SSDs</h1>
 
-<p>SSDs are highly recommended for historical and real-time nodes if you are not running a cluster that is entirely in memory. SSDs can greatly mitigate the time required to page data in and out of memory.</p>
+<p>SSDs are highly recommended for Historical and real-time processes if you are not running a cluster that is entirely in memory. SSDs can greatly mitigate the time required to page data in and out of memory.</p>
 
 <h1 id="jbod-vs-raid">JBOD vs RAID</h1>
 
-<p>Historical nodes store large number of segments on Disk and support specifying multiple paths for storing those. Typically, hosts have multiple disks configured with RAID which makes them look like a single disk to OS. RAID might have overheads specially if its not hardware controller based but software based. So, Historicals might get improved disk throughput with JBOD.</p>
+<p>Historical processes store large number of segments on Disk and support specifying multiple paths for storing those. Typically, hosts have multiple disks configured with RAID which makes them look like a single disk to OS. RAID might have overheads specially if its not hardware controller based but software based. So, Historicals might get improved disk throughput with JBOD.</p>
 
 <h1 id="use-timeseries-and-topn-queries-instead-of-groupby-where-possible">Use Timeseries and TopN Queries Instead of GroupBy Where Possible</h1>
 
@@ -231,7 +231,7 @@ too many large segments impacts query performance, most notably with TopN querie
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

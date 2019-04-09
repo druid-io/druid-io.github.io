@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Overlord Node</title>
+<title>Druid | Overlord Process</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -135,11 +135,11 @@
   ~ under the License.
   -->
 
-<h1 id="overlord-node">Overlord Node</h1>
+<h1 id="overlord-process">Overlord Process</h1>
 
 <h3 id="configuration">Configuration</h3>
 
-<p>For Overlord Node Configuration, see <a href="../configuration/index.html#overlord">Overlord Configuration</a>.</p>
+<p>For Overlord Process Configuration, see <a href="../configuration/index.html#overlord">Overlord Configuration</a>.</p>
 
 <h3 id="http-endpoints">HTTP Endpoints</h3>
 
@@ -147,19 +147,18 @@
 
 <h3 id="overview">Overview</h3>
 
-<p>The overlord node is responsible for accepting tasks, coordinating task distribution, creating locks around tasks, and returning statuses to callers. Overlord can be configured to run in one of two modes - local or remote (local being default).
-In local mode overlord is also responsible for creating peons for executing tasks. When running the overlord in local mode, all middle manager and peon configurations must be provided as well.
-Local mode is typically used for simple workflows.  In remote mode, the overlord and middle manager are run in separate processes and you can run each on a different server.
+<p>The Overlord process is responsible for accepting tasks, coordinating task distribution, creating locks around tasks, and returning statuses to callers. Overlord can be configured to run in one of two modes - local or remote (local being default).
+In local mode Overlord is also responsible for creating Peons for executing tasks. When running the Overlord in local mode, all MiddleManager and Peon configurations must be provided as well.
+Local mode is typically used for simple workflows.  In remote mode, the Overlord and MiddleManager are run in separate processes and you can run each on a different server.
 This mode is recommended if you intend to use the indexing service as the single endpoint for all Druid indexing.</p>
 
 <h3 id="overlord-console">Overlord Console</h3>
 
-<p>The overlord console can be used to view pending tasks, running tasks, available workers, and recent worker creation and termination. The console can be accessed at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>http://&lt;OVERLORD_IP&gt;:&lt;port&gt;/console.html
-</code></pre></div>
+<p>The Overlord provides a UI for managing tasks and workers. For more details, please see <a href="../operations/management-uis.html#overlord-console">overlord console</a>.</p>
+
 <h3 id="blacklisted-workers">Blacklisted Workers</h3>
 
-<p>If the workers fail tasks above a threshold, the overlord will blacklist these workers. No more than 20% of the nodes can be blacklisted. Blacklisted nodes will be periodically whitelisted.</p>
+<p>If a MiddleManager has task failures above a threshold, the Overlord will blacklist these MiddleManagers. No more than 20% of the MiddleManagers can be blacklisted. Blacklisted MiddleManagers will be periodically whitelisted.</p>
 
 <p>The following vairables can be used to set the threshold and blacklist timeouts.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.indexer.runner.maxRetriesBeforeBlacklist
@@ -169,9 +168,9 @@ druid.indexer.runner.maxPercentageBlacklistWorkers
 </code></pre></div>
 <h3 id="autoscaling">Autoscaling</h3>
 
-<p>The Autoscaling mechanisms currently in place are tightly coupled with our deployment infrastructure but the framework should be in place for other implementations. We are highly open to new implementations or extensions of the existing mechanisms. In our own deployments, middle manager nodes are Amazon AWS EC2 nodes and they are provisioned to register themselves in a <a href="https://github.com/ning/galaxy">galaxy</a> environment.</p>
+<p>The Autoscaling mechanisms currently in place are tightly coupled with our deployment infrastructure but the framework should be in place for other implementations. We are highly open to new implementations or extensions of the existing mechanisms. In our own deployments, MiddleManager processes are Amazon AWS EC2 nodes and they are provisioned to register themselves in a <a href="https://github.com/ning/galaxy">galaxy</a> environment.</p>
 
-<p>If autoscaling is enabled, new middle managers may be added when a task has been in pending state for too long. Middle managers may be terminated if they have not run any tasks for a period of time.</p>
+<p>If autoscaling is enabled, new MiddleManagers may be added when a task has been in pending state for too long. MiddleManagers may be terminated if they have not run any tasks for a period of time.</p>
 
         </div>
         <div class="col-md-3">
@@ -201,7 +200,7 @@ druid.indexer.runner.maxPercentageBlacklistWorkers
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

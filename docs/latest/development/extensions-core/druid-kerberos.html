@@ -137,7 +137,7 @@
 
 <h1 id="kerberos">Kerberos</h1>
 
-<p>Druid Extension to enable Authentication for Druid Nodes using Kerberos.
+<p>Druid Extension to enable Authentication for Druid Processes using Kerberos.
 This extension adds an Authenticator which is used to protect HTTP Endpoints using the simple and protected GSSAPI negotiation mechanism <a href="https://en.wikipedia.org/wiki/SPNEGO">SPNEGO</a>.
 Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-kerberos</code> as an extension.</p>
 
@@ -169,14 +169,14 @@ druid.auth.authenticator.MyKerberosAuthenticator.type=kerberos
 <tr>
 <td><code>druid.auth.authenticator.kerberos.serverPrincipal</code></td>
 <td><code>HTTP/_HOST@EXAMPLE.COM</code></td>
-<td>SPNego service principal used by druid nodes</td>
+<td>SPNego service principal used by druid processes</td>
 <td>empty</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>druid.auth.authenticator.kerberos.serverKeytab</code></td>
 <td><code>/etc/security/keytabs/spnego.service.keytab</code></td>
-<td>SPNego service keytab used by druid nodes</td>
+<td>SPNego service keytab used by druid processes</td>
 <td>empty</td>
 <td>Yes</td>
 </tr>
@@ -210,7 +210,7 @@ druid.auth.authenticator.MyKerberosAuthenticator.type=kerberos
 </tr>
 </tbody></table>
 
-<p>As a note, it is required that the SPNego principal in use by the druid nodes must start with HTTP (This specified by <a href="https://tools.ietf.org/html/rfc4559">RFC-4559</a>) and must be of the form &quot;HTTP/_HOST@REALM&quot;.
+<p>As a note, it is required that the SPNego principal in use by the druid processes must start with HTTP (This specified by <a href="https://tools.ietf.org/html/rfc4559">RFC-4559</a>) and must be of the form &quot;HTTP/_HOST@REALM&quot;.
 The special string _HOST will be replaced automatically with the value of config <code>druid.host</code></p>
 
 <h3 id="auth-to-local-syntax">Auth to Local Syntax</h3>
@@ -228,7 +228,7 @@ In such cases, max request header size that druid can handle can be increased by
 
 <h2 id="configuring-kerberos-escalated-client">Configuring Kerberos Escalated Client</h2>
 
-<p>Druid internal nodes communicate with each other using an escalated http Client. A Kerberos enabled escalated HTTP Client can be configured by following properties -</p>
+<p>Druid internal processes communicate with each other using an escalated http Client. A Kerberos enabled escalated HTTP Client can be configured by following properties -</p>
 
 <table><thead>
 <tr>
@@ -242,21 +242,21 @@ In such cases, max request header size that druid can handle can be increased by
 <tr>
 <td><code>druid.escalator.type</code></td>
 <td><code>kerberos</code></td>
-<td>Type of Escalator client used for internal node communication.</td>
+<td>Type of Escalator client used for internal process communication.</td>
 <td>n/a</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>druid.escalator.internalClientPrincipal</code></td>
 <td><code>druid@EXAMPLE.COM</code></td>
-<td>Principal user name, used for internal node communication</td>
+<td>Principal user name, used for internal process communication</td>
 <td>n/a</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>druid.escalator.internalClientKeytab</code></td>
 <td><code>/etc/security/keytabs/druid.keytab</code></td>
-<td>Path to keytab file used for internal node communication</td>
+<td>Path to keytab file used for internal process communication</td>
 <td>n/a</td>
 <td>Yes</td>
 </tr>
@@ -279,13 +279,13 @@ In such cases, max request header size that druid can handle can be increased by
 <li><p>Now you can access druid HTTP endpoints using curl command as follows -</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl --negotiate -u:anyUser -b ~/cookies.txt -c ~/cookies.txt -X POST -H&#39;Content-Type: application/json&#39; &lt;HTTP_END_POINT&gt;
 </code></pre></div>
-<p>e.g to send a query from file <code>query.json</code> to druid broker use this command -</p>
+<p>e.g to send a query from file <code>query.json</code> to the Druid Broker use this command -</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl --negotiate -u:anyUser -b ~/cookies.txt -c ~/cookies.txt -X POST -H&#39;Content-Type: application/json&#39;  http://broker-host:port/druid/v2/?pretty -d @query.json
 </code></pre></div>
 <p>Note: Above command will authenticate the user first time using SPNego negotiate mechanism and store the authentication cookie in file. For subsequent requests the cookie will be used for authentication.</p></li>
 </ol>
 
-<h2 id="accessing-coordinator-or-overlord-console-from-web-browser">Accessing coordinator or overlord console from web browser</h2>
+<h2 id="accessing-coordinator-or-overlord-console-from-web-browser">Accessing Coordinator or Overlord console from web browser</h2>
 
 <p>To access Coordinator/Overlord console from browser you will need to configure your browser for SPNego authentication as follows -</p>
 
@@ -343,7 +343,7 @@ In such cases, max request header size that druid can handle can be increased by
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

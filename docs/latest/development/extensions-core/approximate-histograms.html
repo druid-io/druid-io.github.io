@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Approximate Histogram aggregator</title>
+<title>Druid | Approximate Histogram aggregators</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -135,9 +135,17 @@
   ~ under the License.
   -->
 
-<h1 id="approximate-histogram-aggregator">Approximate Histogram aggregator</h1>
+<h1 id="approximate-histogram-aggregators">Approximate Histogram aggregators</h1>
 
 <p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-histogram</code> as an extension.</p>
+
+<p>The <code>druid-histogram</code> extension provides an approximate histogram aggregator and a fixed buckets histogram aggregator.</p>
+
+<h2 id="approximate-histogram-aggregator-deprecated">Approximate Histogram aggregator (Deprecated)</h2>
+
+<div class="note caution">
+The Approximate Histogram aggregator is deprecated. Please use <a href="../extensions-core/datasketches-quantiles.html">DataSketches Quantiles</a> instead which provides a superior distribution-independent algorithm with formal error guarantees.
+</div>
 
 <p>This aggregator is based on
 <a href="http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf">http://jmlr.org/papers/volume11/ben-haim10a/ben-haim10a.pdf</a>
@@ -222,16 +230,176 @@ query.</p>
 </tr>
 </tbody></table>
 
-<h3 id="approximate-histogram-post-aggregators">Approximate Histogram post-aggregators</h3>
+<h2 id="fixed-buckets-histogram">Fixed Buckets Histogram</h2>
+
+<p>The fixed buckets histogram aggregator builds a histogram on a numeric column, with evenly-sized buckets across a specified value range. Values outside of the range are handled based on a user-specified outlier handling mode.</p>
+
+<p>This histogram supports the min/max/quantiles post-aggregators but does not support the bucketing post-aggregators.</p>
+
+<h3 id="when-to-use">When to use</h3>
+
+<p>The accuracy/usefulness of the fixed buckets histogram is extremely data-dependent; it is provided to support special use cases where the user has a great deal of prior information about the data being aggregated and knows that a fixed buckets implementation is suitable. </p>
+
+<p>For general histogram and quantile use cases, the <a href="../extensions-core/datasketches-quantiles.html">DataSketches Quantiles Sketch</a> extension is recommended.</p>
+
+<h3 id="properties">Properties</h3>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>Type of the aggregator. Must <code>fixedBucketsHistogram</code>.</td>
+<td>No default, must be specified</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Column name for the aggregator.</td>
+<td>No default, must be specified</td>
+</tr>
+<tr>
+<td><code>fieldName</code></td>
+<td>Column name of the input to the aggregator.</td>
+<td>No default, must be specified</td>
+</tr>
+<tr>
+<td><code>lowerLimit</code></td>
+<td>Lower limit of the histogram.</td>
+<td>No default, must be specified</td>
+</tr>
+<tr>
+<td><code>upperLimit</code></td>
+<td>Upper limit of the histogram.</td>
+<td>No default, must be specified</td>
+</tr>
+<tr>
+<td><code>numBuckets</code></td>
+<td>Number of buckets for the histogram. The range [lowerLimit, upperLimit] will be divided into <code>numBuckets</code> intervals of equal size.</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>outlierHandlingMode</code></td>
+<td>Specifies how values outside of [lowerLimit, upperLimit] will be handled. Supported modes are &quot;ignore&quot;, &quot;overflow&quot;, and &quot;clip&quot;. See <a href="#outlier-handling-modes">outlier handling modes</a> for more details.</td>
+<td>No default, must be specified</td>
+</tr>
+</tbody></table>
+
+<p>An example aggregator spec is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fixedBucketsHistogram&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;numBuckets&quot;</span> <span class="p">:</span> <span class="err">&lt;integer&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;lowerLimit&quot;</span> <span class="p">:</span> <span class="err">&lt;double&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;upperLimit&quot;</span> <span class="p">:</span> <span class="err">&lt;double&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;outlierHandlingMode&quot;</span><span class="p">:</span> <span class="err">&lt;mode&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="outlier-handling-modes">Outlier handling modes</h3>
+
+<p>The outlier handling mode specifies what should be done with values outside of the histogram&#39;s range. There are three supported modes:</p>
+
+<ul>
+<li><code>ignore</code>: Throw away outlier values.</li>
+<li><code>overflow</code>: A count of outlier values will be tracked by the histogram, available in the <code>lowerOutlierCount</code> and <code>upperOutlierCount</code> fields.</li>
+<li><code>clip</code>: Outlier values will be clipped to the <code>lowerLimit</code> or the <code>upperLimit</code> and included in the histogram.</li>
+</ul>
+
+<p>If you don&#39;t care about outliers, <code>ignore</code> is the cheapest option performance-wise. There is currently no difference in storage size among the modes.</p>
+
+<h3 id="output-fields">Output fields</h3>
+
+<p>The histogram aggregator&#39;s output object has the following fields:</p>
+
+<ul>
+<li><code>lowerLimit</code>: Lower limit of the histogram</li>
+<li><code>upperLimit</code>: Upper limit of the histogram</li>
+<li><code>numBuckets</code>: Number of histogram buckets</li>
+<li><code>outlierHandlingMode</code>: Outlier handling mode</li>
+<li><code>count</code>: Total number of values contained in the histgram, excluding outliers</li>
+<li><code>lowerOutlierCount</code>: Count of outlier values below <code>lowerLimit</code>. Only used if the outlier mode is <code>overflow</code>.</li>
+<li><code>upperOutlierCount</code>: Count of outlier values above <code>upperLimit</code>. Only used if the outlier mode is <code>overflow</code>.</li>
+<li><code>missingValueCount</code>: Count of null values seen by the histogram.</li>
+<li><code>max</code>: Max value seen by the histogram. This does not include outlier values.</li>
+<li><code>min</code>: Min value seen by the histogram. This does not include outlier values.</li>
+<li><code>histogram</code>: An array of longs with size <code>numBuckets</code>, containing the bucket counts</li>
+</ul>
+
+<h3 id="ingesting-existing-histograms">Ingesting existing histograms</h3>
+
+<p>It is also possible to ingest existing fixed buckets histograms. The input must be a Base64 string encoding a byte array that contains a serialized histogram object. Both &quot;full&quot; and &quot;sparse&quot; formats can be used. Please see <a href="#serialization-formats">Serialization formats</a> below for details.</p>
+
+<h3 id="serialization-formats">Serialization formats</h3>
+
+<h4 id="full-serialization-format">Full serialization format</h4>
+
+<p>This format includes the full histogram bucket count array in the serialization format.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>byte: serialization version, must be 0x01
+byte: encoding mode, 0x01 for full
+double: lowerLimit
+double: upperLimit
+int: numBuckets
+byte: outlier handling mode (0x00 for `ignore`, 0x01 for `overflow`, and 0x02 for `clip`)
+long: count, total number of values contained in the histogram, excluding outliers
+long: lowerOutlierCount
+long: upperOutlierCount
+long: missingValueCount
+double: max
+double: min
+array of longs: bucket counts for the histogram
+</code></pre></div>
+<h4 id="sparse-serialization-format">Sparse serialization format</h4>
+
+<p>This format represents the histogram bucket counts as (bucketNum, count) pairs. This serialization format is used when less than half of the histogram&#39;s buckets have values.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>byte: serialization version, must be 0x01
+byte: encoding mode, 0x02 for sparse
+double: lowerLimit
+double: upperLimit
+int: numBuckets
+byte: outlier handling mode (0x00 for `ignore`, 0x01 for `overflow`, and 0x02 for `clip`)
+long: count, total number of values contained in the histogram, excluding outliers
+long: lowerOutlierCount
+long: upperOutlierCount
+long: missingValueCount
+double: max
+double: min
+int: number of following (bucketNum, count) pairs
+sequence of (int, long) pairs:
+  int: bucket number
+  count: bucket count
+</code></pre></div>
+<h3 id="combining-histograms-with-different-bucketing-schemes">Combining histograms with different bucketing schemes</h3>
+
+<p>It is possible to combine two histograms with different bucketing schemes (lowerLimit, upperLimit, numBuckets) together. </p>
+
+<p>The bucketing scheme of the &quot;left hand&quot; histogram will be preserved (i.e., when running a query, the bucketing schemes specified in the query&#39;s histogram aggregators will be preserved). </p>
+
+<p>When merging, we assume that values are evenly distributed within the buckets of the &quot;right hand&quot; histogram.</p>
+
+<p>When the right-hand histogram contains outliers (when using <code>overflow</code> mode), we assume that all of the outliers counted in the right-hand histogram will be outliers in the left-hand histogram as well.</p>
+
+<p>For performance and accuracy reasons, we recommend avoiding aggregation of histograms with different bucketing schemes if possible.</p>
+
+<h3 id="null-handling">Null handling</h3>
+
+<p>If <code>druid.generic.useDefaultValueForNull</code> is false, null values will be tracked in the <code>missingValueCount</code> field of the histogram.</p>
+
+<p>If <code>druid.generic.useDefaultValueForNull</code> is true, null values will be added to the histogram as the default 0.0 value.</p>
+
+<h2 id="histogram-post-aggregators">Histogram post-aggregators</h2>
 
 <p>Post-aggregators are used to transform opaque approximate histogram sketches
 into bucketed histogram representations, as well as to compute various
 distribution metrics such as quantiles, min, and max.</p>
 
-<h4 id="equal-buckets-post-aggregator">Equal buckets post-aggregator</h4>
+<h3 id="equal-buckets-post-aggregator">Equal buckets post-aggregator</h3>
 
 <p>Computes a visual representation of the approximate histogram with a given number of equal-sized bins.
-Bucket intervals are based on the range of the underlying data.</p>
+Bucket intervals are based on the range of the underlying data. This aggregator is not supported for the fixed buckets histogram.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;equalBuckets&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
@@ -239,13 +407,15 @@ Bucket intervals are based on the range of the underlying data.</p>
   <span class="nt">&quot;numBuckets&quot;</span><span class="p">:</span> <span class="err">&lt;count&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="buckets-post-aggregator">Buckets post-aggregator</h4>
+<h3 id="buckets-post-aggregator">Buckets post-aggregator</h3>
 
 <p>Computes a visual representation given an initial breakpoint, offset, and a bucket size.</p>
 
 <p>Bucket size determines the width of the binning interval.</p>
 
 <p>Offset determines the value on which those interval bins align.</p>
+
+<p>This aggregator is not supported for the fixed buckets histogram.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;buckets&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
@@ -254,31 +424,33 @@ Bucket intervals are based on the range of the underlying data.</p>
   <span class="nt">&quot;offset&quot;</span><span class="p">:</span> <span class="err">&lt;offset&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="custom-buckets-post-aggregator">Custom buckets post-aggregator</h4>
+<h3 id="custom-buckets-post-aggregator">Custom buckets post-aggregator</h3>
 
 <p>Computes a visual representation of the approximate histogram with bins laid out according to the given breaks.</p>
+
+<p>This aggregator is not supported for the fixed buckets histogram.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;customBuckets&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;breaks&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">&lt;value&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
-<h4 id="min-post-aggregator">min post-aggregator</h4>
+<h3 id="min-post-aggregator">min post-aggregator</h3>
 
-<p>Returns the minimum value of the underlying approximate histogram aggregator</p>
+<p>Returns the minimum value of the underlying approximate or fixed buckets histogram aggregator</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
-<h4 id="max-post-aggregator">max post-aggregator</h4>
+<h3 id="max-post-aggregator">max post-aggregator</h3>
 
-<p>Returns the maximum value of the underlying approximate histogram aggregator</p>
+<p>Returns the maximum value of the underlying approximate or fixed buckets histogram aggregator</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="quantile-post-aggregator">quantile post-aggregator</h4>
 
-<p>Computes a single quantile based on the underlying approximate histogram aggregator</p>
+<p>Computes a single quantile based on the underlying approximate or fixed buckets histogram aggregator</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantile&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;probability&quot;</span> <span class="p">:</span> <span class="err">&lt;quantile&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h4 id="quantiles-post-aggregator">quantiles post-aggregator</h4>
 
-<p>Computes an array of quantiles based on the underlying approximate histogram aggregator</p>
+<p>Computes an array of quantiles based on the underlying approximate or fixed buckets histogram aggregator</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;probabilities&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">&lt;quantile&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
@@ -310,7 +482,7 @@ Bucket intervals are based on the range of the underlying data.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

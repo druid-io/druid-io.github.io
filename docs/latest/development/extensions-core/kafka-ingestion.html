@@ -141,24 +141,22 @@
 Kafka by managing the creation and lifetime of Kafka indexing tasks. These indexing tasks read events using Kafka&#39;s own
 partition and offset mechanism and are therefore able to provide guarantees of exactly-once ingestion. They are also
 able to read non-recent events from Kafka and are not subject to the window period considerations imposed on other
-ingestion mechanisms. The supervisor oversees the state of the indexing tasks to coordinate handoffs, manage failures,
+ingestion mechanisms using Tranquility. The supervisor oversees the state of the indexing tasks to coordinate handoffs, manage failures,
 and ensure that the scalability and replication requirements are maintained.</p>
 
 <p>This service is provided in the <code>druid-kafka-indexing-service</code> core extension (see
-<a href="../../operations/including-extensions.html">Including Extensions</a>). Please note that the Kafka indexing service is
-currently designated as an <em>experimental feature</em> and is subject to the usual
-<a href="../experimental.html">experimental caveats</a>.</p>
+<a href="../../operations/including-extensions.html">Including Extensions</a>).</p>
 
 <div class="note info">
 The Kafka indexing service uses the Java consumer that was introduced in Kafka 0.10.x. As there were protocol changes
 made in this version, Kafka 0.10.x consumers might not be compatible with older brokers. Ensure that your Kafka brokers are
-version 0.10.x or better before using this service. Refer <a href="https://kafka.apache.org/documentation/#upgrade">Kafka upgrade guide</a> if you are using older version of kafka brokers.
+version 0.10.x or better before using this functionality. Refer <a href="https://kafka.apache.org/documentation/#upgrade">Kafka upgrade guide</a> if you are using older version of Kafka brokers.
 </div>
 
 <h2 id="submitting-a-supervisor-spec">Submitting a Supervisor Spec</h2>
 
-<p>The Kafka indexing service requires that the <code>druid-kafka-indexing-service</code> extension be loaded on both the overlord and the
-middle managers. A supervisor for a dataSource is started by submitting a supervisor spec via HTTP POST to
+<p>The Kafka indexing service requires that the <code>druid-kafka-indexing-service</code> extension be loaded on both the Overlord and the
+MiddleManagers. A supervisor for a dataSource is started by submitting a supervisor spec via HTTP POST to
 <code>http://&lt;OVERLORD_IP&gt;:&lt;OVERLORD_PORT&gt;/druid/indexer/v1/supervisor</code>, for example:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>curl -X POST -H &#39;Content-Type: application/json&#39; -d @supervisor-spec.json http://localhost:8090/druid/indexer/v1/supervisor
 </code></pre></div>
@@ -246,14 +244,14 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td>yes</td>
 </tr>
 <tr>
-<td><code>tuningConfig</code></td>
-<td>A KafkaSupervisorTuningConfig to configure the supervisor and indexing tasks, see below.</td>
-<td>no</td>
-</tr>
-<tr>
 <td><code>ioConfig</code></td>
 <td>A KafkaSupervisorIOConfig to configure the supervisor and indexing tasks, see below.</td>
 <td>yes</td>
+</tr>
+<tr>
+<td><code>tuningConfig</code></td>
+<td>A KafkaSupervisorTuningConfig to configure the supervisor and indexing tasks, see below.</td>
+<td>no</td>
 </tr>
 </tbody></table>
 
@@ -373,9 +371,9 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 <tr>
 <td><code>segmentWriteOutMediumFactory</code></td>
-<td>String</td>
-<td>Segment write-out medium to use when creating segments. See <a href="../../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
-<td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory</code> is used)</td>
+<td>Object</td>
+<td>Segment write-out medium to use when creating segments. See below for more information.</td>
+<td>no (not specified by default, the value from <code>druid.peon.defaultSegmentWriteOutMediumFactory.type</code> is used)</td>
 </tr>
 <tr>
 <td><code>intermediateHandoffPeriod</code></td>
@@ -483,6 +481,24 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 </tbody></table>
 
+<h4 id="segmentwriteoutmediumfactory">SegmentWriteOutMediumFactory</h4>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>String</td>
+<td>See <a href="../../configuration/index.html#segmentwriteoutmediumfactory">Additional Peon Configuration: SegmentWriteOutMediumFactory</a> for explanation and available options.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
 <h3 id="kafkasupervisorioconfig">KafkaSupervisorIOConfig</h3>
 
 <table><thead>
@@ -506,9 +522,15 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <td>yes</td>
 </tr>
 <tr>
+<td><code>pollTimeout</code></td>
+<td>Long</td>
+<td>The length of time to wait for the kafka consumer to poll records, in milliseconds</td>
+<td>no (default == 100)</td>
+</tr>
+<tr>
 <td><code>replicas</code></td>
 <td>Integer</td>
-<td>The number of replica sets, where 1 means a single set of tasks (no replication). Replica tasks will always be assigned to different workers to provide resiliency against node failure.</td>
+<td>The number of replica sets, where 1 means a single set of tasks (no replication). Replica tasks will always be assigned to different workers to provide resiliency against process failure.</td>
 <td>no (default == 1)</td>
 </tr>
 <tr>
@@ -556,7 +578,7 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 <tr>
 <td><code>earlyMessageRejectionPeriod</code></td>
 <td>ISO8601 Period</td>
-<td>Configure tasks to reject messages with timestamps later than this period after the task reached its taskDuration; for example if this is set to <code>PT1H</code>, the taskDuration is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps later than <em>2016-01-01T14:00Z</em> will be dropped.</td>
+<td>Configure tasks to reject messages with timestamps later than this period after the task reached its taskDuration; for example if this is set to <code>PT1H</code>, the taskDuration is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps later than <em>2016-01-01T14:00Z</em> will be dropped. <strong>Note:</strong> Tasks sometimes run past their task duration, for example, in cases of supervisor failover. Setting earlyMessageRejectionPeriod too low may cause messages to be dropped unexpectedly whenever a task runs past its originally configured task duration.</td>
 <td>no (default == none)</td>
 </tr>
 <tr>
@@ -567,16 +589,28 @@ middle managers. A supervisor for a dataSource is started by submitting a superv
 </tr>
 </tbody></table>
 
-<h2 id="supervisor-api">Supervisor API</h2>
+<h2 id="operations">Operations</h2>
 
-<p>The following endpoints are available on the Overlord:</p>
+<p>This section gives descriptions of how some supervisor APIs work specifically in Kafka Indexing Service.
+For all supervisor APIs, please check <a href="../../operations/api-reference.html#supervisors">Supervisor APIs</a>.</p>
 
-<h4 id="create-supervisor">Create Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor
-</code></pre></div>
-<p>Use <code>Content-Type: application/json</code> and provide a supervisor spec in the request body.</p>
+<h3 id="getting-supervisor-status-report">Getting Supervisor Status Report</h3>
 
-<p>Calling this endpoint when there is already an existing supervisor for the same dataSource will cause:</p>
+<p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status</code> returns a snapshot report of the current state of the tasks managed by the given supervisor. This includes the latest
+offsets as reported by Kafka, the consumer lag per partition, as well as the aggregate lag of all partitions. The
+consumer lag per partition may be reported as negative values if the supervisor has not received a recent latest offset
+response from Kafka. The aggregate lag value will always be &gt;= 0.</p>
+
+<h3 id="getting-supervisor-ingestion-stats-report">Getting Supervisor Ingestion Stats Report</h3>
+
+<p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/stats</code> returns a snapshot of the current ingestion row counters for each task being managed by the supervisor, along with moving averages for the row counters.</p>
+
+<p>See <a href="../../ingestion/reports.html#row-stats">Task Reports: Row Stats</a> for more information.</p>
+
+<h3 id="updating-existing-supervisors">Updating Existing Supervisors</h3>
+
+<p><code>POST /druid/indexer/v1/supervisor</code> can be used to update existing supervisor spec.
+Calling this endpoint when there is already an existing supervisor for the same dataSource will cause:</p>
 
 <ul>
 <li>The running supervisor to signal its managed tasks to stop reading and begin publishing.</li>
@@ -587,31 +621,17 @@ existing publishing tasks and will create new tasks starting at the offsets the 
 
 <p>Seamless schema migrations can thus be achieved by simply submitting the new schema using this endpoint.</p>
 
-<h4 id="suspend-supervisor">Suspend Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/suspend
-</code></pre></div>
-<p>Suspend indexing tasks associated with a supervisor. Note that the supervisor itself will still be
-operating and emitting logs and metrics, it will just ensure that no indexing tasks are running until the supervisor
-is resumed. Responds with updated SupervisorSpec.</p>
+<h3 id="suspending-and-resuming-supervisors">Suspending and Resuming Supervisors</h3>
 
-<h4 id="suspend-all-supervisors">Suspend All Supervisors</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/suspendAll
-</code></pre></div>
-<p>Suspend all supervisors at once.</p>
+<p>You can suspend and resume a supervisor using <code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/suspend</code> and <code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/resume</code>, respectively.</p>
 
-<h4 id="resume-supervisor">Resume Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/resume
-</code></pre></div>
-<p>Resume indexing tasks for a supervisor. Responds with updated SupervisorSpec.</p>
+<p>Note that the supervisor itself will still be operating and emitting logs and metrics,
+it will just ensure that no indexing tasks are running until the supervisor is resumed.</p>
 
-<h4 id="resume-all-supervisors">Resume All Supervisors</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/resumeAll
-</code></pre></div>
-<p>Resume all supervisors at once.</p>
+<h3 id="resetting-supervisors">Resetting Supervisors</h3>
 
-<h4 id="reset-supervisor">Reset Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset
-</code></pre></div>
+<p>To reset a running supervisor, you can use <code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/reset</code>.</p>
+
 <p>The indexing service keeps track of the latest persisted Kafka offsets in order to provide exactly-once ingestion
 guarantees across tasks. Subsequent tasks must start reading from where the previous task completed in order for the
 generated segments to be accepted. If the messages at the expected starting offsets are no longer available in Kafka
@@ -626,82 +646,18 @@ and re-create any active tasks so that tasks begin reading from valid offsets.</
 <p>Note that since the stored offsets are necessary to guarantee exactly-once ingestion, resetting them with this endpoint
 may cause some Kafka messages to be skipped or to be read twice.</p>
 
-<h4 id="terminate-supervisor">Terminate Supervisor</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/terminate
-</code></pre></div>
-<p>Terminate a supervisor and cause all associated indexing tasks managed by this supervisor to immediately stop and begin 
-publishing their segments. This supervisor will still exist in the metadata store and it&#39;s history may be retrieved 
+<h3 id="terminating-supervisors">Terminating Supervisors</h3>
+
+<p><code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/terminate</code> terminates a supervisor and causes all associated indexing
+tasks managed by this supervisor to immediately stop and begin
+publishing their segments. This supervisor will still exist in the metadata store and it&#39;s history may be retrieved
 with the supervisor history api, but will not be listed in the &#39;get supervisors&#39; api response nor can it&#39;s configuration
 or status report be retrieved. The only way this supervisor can start again is by submitting a functioning supervisor
 spec to the create api.</p>
 
-<h4 id="terminate-all-supervisors">Terminate All Supervisors</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>POST /druid/indexer/v1/supervisor/terminateAll
-</code></pre></div>
-<p>Terminate all supervisors at once.</p>
+<h3 id="capacity-planning">Capacity Planning</h3>
 
-<h4 id="shutdown-supervisor">Shutdown Supervisor</h4>
-
-<p><em>Deprecated: use the equivalent &#39;terminate&#39; instead</em>
-<code>
-POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown
-</code></p>
-
-<h4 id="get-supervisor-ids">Get Supervisor IDs</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor
-</code></pre></div>
-<p>Returns a list of strings of the currently active supervisor ids.</p>
-
-<h4 id="get-supervisors">Get Supervisors</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor?full
-</code></pre></div>
-<p>Returns a list of objects of the currently active supervisors.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>id</code></td>
-<td>String</td>
-<td>supervisor unique identifier</td>
-</tr>
-<tr>
-<td><code>spec</code></td>
-<td>SupervisorSpec</td>
-<td>json specification of supervisor (See Supervisor Configuration for details)</td>
-</tr>
-</tbody></table>
-
-<h4 id="get-supervisor-spec">Get Supervisor Spec</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;
-</code></pre></div>
-<p>Returns the current spec for the supervisor with the provided ID.</p>
-
-<h4 id="get-supervisor-status-report">Get Supervisor Status Report</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status
-</code></pre></div>
-<p>Returns a snapshot report of the current state of the tasks managed by the given supervisor. This includes the latest
-offsets as reported by Kafka, the consumer lag per partition, as well as the aggregate lag of all partitions. The
-consumer lag per partition may be reported as negative values if the supervisor has not received a recent latest offset
-response from Kafka. The aggregate lag value will always be &gt;= 0.</p>
-
-<h4 id="get-all-supervisor-history">Get All Supervisor History</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/history
-</code></pre></div>
-<p>Returns an audit history of specs for all supervisors (current and past).</p>
-
-<h4 id="get-supervisor-history">Get Supervisor History</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/history
-</code></pre></div>
-<p>Returns an audit history of specs for the supervisor with the provided ID.</p>
-
-<h2 id="capacity-planning">Capacity Planning</h2>
-
-<p>Kafka indexing tasks run on middle managers and are thus limited by the resources available in the middle manager
+<p>Kafka indexing tasks run on MiddleManagers and are thus limited by the resources available in the MiddleManager
 cluster. In particular, you should make sure that you have sufficient worker capacity (configured using the
 <code>druid.worker.capacity</code> property) to handle the configuration in the supervisor spec. Note that worker capacity is
 shared across all types of indexing tasks, so you should plan your worker capacity to handle your total indexing load
@@ -711,7 +667,7 @@ in data loss (assuming the tasks run before Kafka purges those offsets).</p>
 
 <p>A running task will normally be in one of two states: <em>reading</em> or <em>publishing</em>. A task will remain in reading state for
 <code>taskDuration</code>, at which point it will transition to publishing state. A task will remain in publishing state for as long
-as it takes to generate segments, push segments to deep storage, and have them be loaded and served by a historical node
+as it takes to generate segments, push segments to deep storage, and have them be loaded and served by a Historical process
 (or until <code>completionTimeout</code> elapses).</p>
 
 <p>The number of reading tasks is controlled by <code>replicas</code> and <code>taskCount</code>. In general, there will be <code>replicas * taskCount</code>
@@ -723,41 +679,41 @@ should be a minimum capacity of:</p>
 </code></pre></div>
 <p>This value is for the ideal situation in which there is at most one set of tasks publishing while another set is reading.
 In some circumstances, it is possible to have multiple sets of tasks publishing simultaneously. This would happen if the
-time-to-publish (generate segment, push to deep storage, loaded on historical) &gt; <code>taskDuration</code>. This is a valid
+time-to-publish (generate segment, push to deep storage, loaded on Historical) &gt; <code>taskDuration</code>. This is a valid
 scenario (correctness-wise) but requires additional worker capacity to support. In general, it is a good idea to have
 <code>taskDuration</code> be large enough that the previous set of tasks finishes publishing before the current set begins.</p>
 
-<h2 id="supervisor-persistence">Supervisor Persistence</h2>
+<h3 id="supervisor-persistence">Supervisor Persistence</h3>
 
 <p>When a supervisor spec is submitted via the <code>POST /druid/indexer/v1/supervisor</code> endpoint, it is persisted in the
 configured metadata database. There can only be a single supervisor per dataSource, and submitting a second spec for
 the same dataSource will overwrite the previous one.</p>
 
-<p>When an overlord gains leadership, either by being started or as a result of another overlord failing, it will spawn
+<p>When an Overlord gains leadership, either by being started or as a result of another Overlord failing, it will spawn
 a supervisor for each supervisor spec in the metadata database. The supervisor will then discover running Kafka indexing
 tasks and will attempt to adopt them if they are compatible with the supervisor&#39;s configuration. If they are not
 compatible because they have a different ingestion spec or partition allocation, the tasks will be killed and the
-supervisor will create a new set of tasks. In this way, the supervisors are persistent across overlord restarts and
+supervisor will create a new set of tasks. In this way, the supervisors are persistent across Overlord restarts and
 fail-overs.</p>
 
-<p>A supervisor is stopped via the <code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/shutdown</code> endpoint. This places a
+<p>A supervisor is stopped via the <code>POST /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/terminate</code> endpoint. This places a
 tombstone marker in the database (to prevent the supervisor from being reloaded on a restart) and then gracefully
 shuts down the currently running supervisor. When a supervisor is shut down in this way, it will instruct its
 managed tasks to stop reading and begin publishing their segments immediately. The call to the shutdown endpoint will
 return after all tasks have been signalled to stop but before the tasks finish publishing their segments.</p>
 
-<h2 id="schema-configuration-changes">Schema/Configuration Changes</h2>
+<h3 id="schema-configuration-changes">Schema/Configuration Changes</h3>
 
 <p>Schema and configuration changes are handled by submitting the new supervisor spec via the same
-<code>POST /druid/indexer/v1/supervisor</code> endpoint used to initially create the supervisor. The overlord will initiate a
+<code>POST /druid/indexer/v1/supervisor</code> endpoint used to initially create the supervisor. The Overlord will initiate a
 graceful shutdown of the existing supervisor which will cause the tasks being managed by that supervisor to stop reading
 and begin publishing their segments. A new supervisor will then be started which will create a new set of tasks that
 will start reading from the offsets where the previous now-publishing tasks left off, but using the updated schema.
 In this way, configuration changes can be applied without requiring any pause in ingestion.</p>
 
-<h2 id="deployment-notes">Deployment Notes</h2>
+<h3 id="deployment-notes">Deployment Notes</h3>
 
-<h3 id="on-the-subject-of-segments">On the Subject of Segments</h3>
+<h4 id="on-the-subject-of-segments">On the Subject of Segments</h4>
 
 <p>Each Kafka Indexing Task puts events consumed from Kafka partitions assigned to it in a single segment for each segment
 granular interval until maxRowsPerSegment, maxTotalRows or intermediateHandoffPeriod limit is reached, at this point a new partition
@@ -765,7 +721,7 @@ for this segment granularity is created for further events. Kafka Indexing Task 
 means that all the segments created by a task will not be held up till the task duration is over. As soon as maxRowsPerSegment,
 maxTotalRows or intermediateHandoffPeriod limit is hit, all the segments held by the task at that point in time will be handed-off
 and new set of segments will be created for further events. This means that the task can run for longer durations of time
-without accumulating old segments locally on Middle Manager nodes and it is encouraged to do so.</p>
+without accumulating old segments locally on Middle Manager processes and it is encouraged to do so.</p>
 
 <p>Kafka Indexing Service may still produce some small segments. Lets say the task duration is 4 hours, segment granularity
 is set to an HOUR and Supervisor was started at 9:10 then after 4 hours at 13:10, new set of tasks will be started and
@@ -803,7 +759,7 @@ Hadoop (see <a href="https://github.com/apache/incubator-druid/pull/5102">here</
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

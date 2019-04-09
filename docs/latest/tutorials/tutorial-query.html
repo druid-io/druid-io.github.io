@@ -169,7 +169,7 @@
 </code></pre></div>
 <p>This query retrieves the 10 Wikipedia pages with the most page edits on 2015-09-12.</p>
 
-<p>Let&#39;s submit this query to the Druid broker:</p>
+<p>Let&#39;s submit this query to the Druid Broker:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/wikipedia-top-pages.json http://localhost:8082/druid/v2?pretty
 </code></pre></div>
 <p>You should see the following query results:</p>
@@ -217,7 +217,7 @@
 
 <h3 id="topn-query-example">TopN query example</h3>
 
-<p>The tutorial package includes an example file that contains the SQL query shown above at <code>quickstart/tutorial/wikipedia-top-pages-sql.json</code>. Let&#39;s submit that query to the Druid broker:</p>
+<p>The tutorial package includes an example file that contains the SQL query shown above at <code>quickstart/tutorial/wikipedia-top-pages-sql.json</code>. Let&#39;s submit that query to the Druid Broker:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/wikipedia-top-pages-sql.json http://localhost:8082/druid/v2/sql
 </code></pre></div>
 <p>The following results should be returned:</p>
@@ -406,7 +406,7 @@ Retrieved <span class="m">1</span> row in <span class="m">0</span>.03s.
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -151,49 +151,54 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The ingestion spec can be found at <code>quickstart/tutorial/retention-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>retention-tutorial</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/retention-index.json 
 </code></pre></div>
-<p>After the ingestion completes, go to http://localhost:8081 in a browser to access the Coordinator console.</p>
+<p>After the ingestion completes, go to <a href="http://localhost:8888/unified-console.html#datasources">http://localhost:8888/unified-console.html#datasources</a> in a browser to access the Druid Console&#39;s datasource view.</p>
 
-<p>In the Coordinator console, go to the <code>datasources</code> tab at the top of the page.</p>
+<p>This view shows the available datasources and a summary of the retention rules for each datasource:</p>
 
-<p>This tab shows the available datasources and a summary of the retention rules for each datasource:</p>
+<p><img src="../tutorials/img/tutorial-retention-01.png" alt="Summary" title="Summary"></p>
 
-<p><img src="../tutorials/img/tutorial-retention-00.png" alt="Summary" title="Summary"></p>
+<p>Currently there are no rules set for the <code>retention-tutorial</code> datasource. Note that there are default rules for the cluster: load forever with 2 replicants in <code>_default_tier</code>. </p>
 
-<p>Currently there are no rules set for the <code>retention-tutorial</code> datasource. Note that there are default rules, currently set to <code>load Forever 2 in _default_tier</code>. </p>
-
-<p>This means that all data will be loaded regardless of timestamp, and each segment will be replicated to two nodes in the default tier. </p>
+<p>This means that all data will be loaded regardless of timestamp, and each segment will be replicated to two Historical processes in the default tier. </p>
 
 <p>In this tutorial, we will ignore the tiering and redundancy concepts for now.</p>
 
-<p>Let&#39;s click the <code>retention-tutorial</code> datasource on the left. </p>
+<p>Let&#39;s view the segments for the <code>retention-tutorial</code> datasource by clicking the &quot;24 Segments&quot; link next to &quot;Fully Available&quot;.</p>
 
-<p>The next page (http://localhost:8081/#/datasources/retention-tutorial) provides information about what segments a datasource contains. On the left, the page shows that there are 24 segments, each one containing data for a specific hour of 2015-09-12:</p>
+<p>The segments view (<a href="http://localhost:8888/unified-console.html#segments">http://localhost:8888/unified-console.html#segments</a>) provides information about what segments a datasource contains. The page shows that there are 24 segments, each one containing data for a specific hour of 2015-09-12:</p>
 
-<p><img src="../tutorials/img/tutorial-retention-01.png" alt="Original segments" title="Original segments"></p>
+<p><img src="../tutorials/img/tutorial-retention-02.png" alt="Original segments" title="Original segments"></p>
 
 <h2 id="set-retention-rules">Set retention rules</h2>
 
 <p>Suppose we want to drop data for the first 12 hours of 2015-09-12 and keep data for the later 12 hours of 2015-09-12.</p>
 
-<p>Click the <code>edit rules</code> button with a pencil icon at the upper left corner of the page.</p>
+<p>Go to the <a href="http://localhost:8888/unified-console.html#datasources">datasources view</a> and click the blue pencil icon next to <code>Cluster default: loadForever</code> for the <code>retention-tutorial</code> datasource.</p>
 
-<p>A rule configuration window will appear. Enter <code>tutorial</code> for both the user and changelog comment field.</p>
+<p>A rule configuration window will appear:</p>
 
-<p>Now click the <code>+ Add a rule</code> button twice. </p>
+<p><img src="../tutorials/img/tutorial-retention-03.png" alt="Rule configuration" title="Rule configuration"></p>
 
-<p>In the <code>rule #1</code> box at the top, click <code>Load</code>, <code>Interval</code>, enter <code>2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z</code> in the interval box, and click <code>+ _default_tier replicant</code>.</p>
+<p>Now click the <code>+ New rule</code> button twice. </p>
 
-<p>In the <code>rule #2</code> box at the bottom, click <code>Drop</code> and <code>Forever</code>.</p>
+<p>In the upper rule box, select <code>Load</code> and <code>by interval</code>, and then enter <code>2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z</code> in field next to <code>by interval</code>. Replicants can remain at 2 in the <code>_default_tier</code>.</p>
+
+<p>In the lower rule box, select <code>Drop</code> and <code>forever</code>.</p>
 
 <p>The rules should look like this:</p>
 
-<p><img src="../tutorials/img/tutorial-retention-02.png" alt="Set rules" title="Set rules"></p>
+<p><img src="../tutorials/img/tutorial-retention-04.png" alt="Set rules" title="Set rules"></p>
 
-<p>Now click <code>Save all rules</code>, wait for a few seconds, and refresh the page. </p>
+<p>Now click <code>Next</code>. The rule configuration process will ask for a user name and comment, for change logging purposes. You can enter <code>tutorial</code> for both.</p>
 
-<p>The segments for the first 12 hours of 2015-09-12 are now gone:</p>
+<p>Now click <code>Save</code>. You can see the new rules in the datasources view:</p>
 
-<p><img src="../tutorials/img/tutorial-retention-03.png" alt="New segments" title="New segments"></p>
+<p><img src="../tutorials/img/tutorial-retention-05.png" alt="New rules" title="New rules"></p>
+
+<p>Give the cluster a few minutes to apply the rule change, and go to the <a href="http://localhost:8888/unified-console.html#segments">segments view</a> in the Druid Console.
+The segments for the first 12 hours of 2015-09-12 are now gone:</p>
+
+<p><img src="../tutorials/img/tutorial-retention-06.png" alt="New segments" title="New segments"></p>
 
 <p>The resulting retention rule chain is the following:</p>
 
@@ -249,7 +254,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

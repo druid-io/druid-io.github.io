@@ -139,7 +139,8 @@
 
 <p>This tutorial demonstrates how to compact existing segments into fewer but larger segments.</p>
 
-<p>Because there is some per-segment memory and processing overhead, it can sometimes be beneficial to reduce the total number of segments.</p>
+<p>Because there is some per-segment memory and processing overhead, it can sometimes be beneficial to reduce the total number of segments.
+Please check <a href="../operations/segment-optimization.html">Segment size optimization</a> for details.</p>
 
 <p>For this tutorial, we&#39;ll assume you&#39;ve already downloaded Druid as described in 
 the <a href="index.html">single-machine quickstart</a> and have it running on your local machine. </p>
@@ -148,16 +149,25 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 
 <h2 id="load-the-initial-data">Load the initial data</h2>
 
-<p>For this tutorial, we&#39;ll be using the Wikipedia edits sample data, with an ingestion task spec that will create a separate segment for each hour in the input data.</p>
+<p>For this tutorial, we&#39;ll be using the Wikipedia edits sample data, with an ingestion task spec that will create 1-3 segments per hour in the input data.</p>
 
 <p>The ingestion spec can be found at <code>quickstart/tutorial/compaction-init-index.json</code>. Let&#39;s submit that spec, which will create a datasource called <code>compaction-tutorial</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-init-index.json 
 </code></pre></div>
-<p>After the ingestion completes, go to http://localhost:8081/#/datasources/compaction-tutorial in a browser to view information about the new datasource in the Coordinator console.</p>
+<div class="note caution">
+Please note that `maxRowsPerSegment` in the ingestion spec is set to 1000. This is to generate multiple segments per hour and _NOT_ recommended in production.
+It's 5000000 by default and may need to be adjusted to make your segments optimized.
+</div>
 
-<p>There will be 24 segments for this datasource, one segment per hour in the input data:</p>
+<p>After the ingestion completes, go to <a href="http://localhost:8888/unified-console.html#datasources">http://localhost:8888/unified-console.html#datasources</a> in a browser to see the new datasource in the Druid Console.</p>
 
-<p><img src="../tutorials/img/tutorial-retention-01.png" alt="Original segments" title="Original segments"></p>
+<p><img src="../tutorials/img/tutorial-compaction-01.png" alt="compaction-tutorial datasource" title="compaction-tutorial datasource"></p>
+
+<p>Click the <code>51 segments</code> link next to &quot;Fully Available&quot; for the <code>compaction-tutorial</code> datasource to view information about the datasource&#39;s segments:</p>
+
+<p>There will be 51 segments for this datasource, 1-3 segments per hour in the input data:</p>
+
+<p><img src="../tutorials/img/tutorial-compaction-02.png" alt="Original segments" title="Original segments"></p>
 
 <p>Running a COUNT(*) query on this datasource shows that there are 39,244 rows:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> count<span class="o">(</span>*<span class="o">)</span> from <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">;</span>
@@ -170,16 +180,16 @@ Retrieved <span class="m">1</span> row in <span class="m">1</span>.38s.
 </code></pre></div>
 <h2 id="compact-the-data">Compact the data</h2>
 
-<p>Let&#39;s now combine these 24 segments into one segment.</p>
+<p>Let&#39;s now compact these 51 small segments.</p>
 
-<p>We have included a compaction task spec for this tutorial datasource at <code>quickstart/tutorial/compaction-final-index.json</code>:</p>
+<p>We have included a compaction task spec for this tutorial datasource at <code>quickstart/tutorial/compaction-keep-granularity.json</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12/2015-09-13&quot;</span><span class="p">,</span>
   <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+    <span class="nt">&quot;maxRowsPerSegment&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
     <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
     <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
   <span class="p">}</span>
@@ -189,20 +199,22 @@ Retrieved <span class="m">1</span> row in <span class="m">1</span>.38s.
 
 <p>The parameters in the <code>tuningConfig</code> control how many segments will be present in the compacted set of segments. </p>
 
-<p>In this tutorial example, only one compacted segment will be created, as the 39244 rows in the input is less than the 5000000 <code>targetPartitionSize</code>.</p>
+<p>In this tutorial example, only one compacted segment will be created per hour, as each hour has less rows than the 5000000 <code>maxRowsPerSegment</code> (note that the total number of rows is 39244).</p>
 
 <p>Let&#39;s submit this task now:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-final-index.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-keep-granularity.json
 </code></pre></div>
-<p>After the task finishes, refresh the http://localhost:8081/#/datasources/compaction-tutorial page.</p>
+<p>After the task finishes, refresh the <a href="http://localhost:8888/unified-console.html#segments">segments view</a>.</p>
 
-<p>The original 24 segments will eventually be marked as &quot;unused&quot; by the Coordinator and removed, with the new compacted segment remaining. </p>
+<p>The original 51 segments will eventually be marked as &quot;unused&quot; by the Coordinator and removed, with the new compacted segments remaining.</p>
 
-<p>By default, the Druid coordinator will not mark segments as unused until the coordinator process has been up for at least 15 minutes, so you may see the old segment set and the new compacted set at the same time in the coordinator, e.g.:</p>
+<p>By default, the Druid Coordinator will not mark segments as unused until the Coordinator process has been up for at least 15 minutes, so you may see the old segment set and the new compacted set at the same time in the Druid Console, with 75 total segments:</p>
 
-<p><img src="../tutorials/img/tutorial-compaction-01.png" alt="Compacted segments intermediate state" title="Compacted segments intermediate state"></p>
+<p><img src="../tutorials/img/tutorial-compaction-03.png" alt="Compacted segments intermediate state 1" title="Compacted segments intermediate state 1"></p>
 
-<p>The new compacted segment has a more recent version than the original segments, so even when both sets of segments are shown by the coordinator, queries will only read from the new compacted segment.</p>
+<p><img src="../tutorials/img/tutorial-compaction-04.png" alt="Compacted segments intermediate state 2" title="Compacted segments intermediate state 2"></p>
+
+<p>The new compacted segments have a more recent version than the original segments, so even when both sets of segments are shown in the Druid Console, queries will only read from the new compacted segments.</p>
 
 <p>Let&#39;s try running a COUNT(*) on <code>compaction-tutorial</code> again, where the row count should still be 39,244:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> count<span class="o">(</span>*<span class="o">)</span> from <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">;</span>
@@ -213,9 +225,40 @@ Retrieved <span class="m">1</span> row in <span class="m">1</span>.38s.
 └────────┘
 Retrieved <span class="m">1</span> row in <span class="m">1</span>.30s.
 </code></pre></div>
-<p>After the coordinator has been running for at least 15 minutes, the http://localhost:8081/#/datasources/compaction-tutorial page should show there is only 1 segment:</p>
+<p>After the Coordinator has been running for at least 15 minutes, the <a href="http://localhost:8888/unified-console.html#segments">segments view</a> should show there are 24 segments, one per hour:</p>
 
-<p><img src="../tutorials/img/tutorial-compaction-02.png" alt="Compacted segments final state" title="Compacted segments final state"></p>
+<p><img src="../tutorials/img/tutorial-compaction-05.png" alt="Compacted segments hourly granularity 1" title="Compacted segments hourly granularity 1"></p>
+
+<p><img src="../tutorials/img/tutorial-compaction-06.png" alt="Compacted segments hourly granularity 2" title="Compacted segments hourly granularity 2"></p>
+
+<h2 id="compact-the-data-with-new-segment-granularity">Compact the data with new segment granularity</h2>
+
+<p>The compaction task can also produce compacted segments with a granularity different from the granularity of the input segments.</p>
+
+<p>We have included a compaction task spec that will create DAY granularity segments at <code>quickstart/tutorial/compaction-day-granularity.json</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;compaction-tutorial&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-09-12/2015-09-13&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;maxRowsPerSegment&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+    <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
+    <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Note that <code>segmentGranularity</code> is set to <code>DAY</code> in this compaction task spec.</p>
+
+<p>Let&#39;s submit this task now:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/compaction-day-granularity.json
+</code></pre></div>
+<p>It will take a bit of time before the Coordinator marks the old input segments as unused, so you may see an intermediate state with 25 total segments. Eventually, there will only be one DAY granularity segment:</p>
+
+<p><img src="../tutorials/img/tutorial-compaction-07.png" alt="Compacted segments day granularity 1" title="Compacted segments day granularity 1"></p>
+
+<p><img src="../tutorials/img/tutorial-compaction-08.png" alt="Compacted segments day granularity 2" title="Compacted segments day granularity 2"></p>
 
 <h2 id="further-reading">Further reading</h2>
 
@@ -251,7 +294,7 @@ Retrieved <span class="m">1</span> row in <span class="m">1</span>.30s.
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

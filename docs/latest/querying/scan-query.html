@@ -328,7 +328,7 @@
 <p>The biggest difference between select query and scan query is that, scan query doesn&#39;t retain all rows in memory before rows can be returned to client.<br>
 It will cause memory pressure if too many rows required by select query.<br>
 Scan query doesn&#39;t have this issue.<br>
-Scan query can return all rows without issuing another pagination query, which is extremely useful when query against historical or realtime node directly.</p>
+Scan query can return all rows without issuing another pagination query, which is extremely useful when query against Historical or realtime process directly.</p>
 
 <h2 id="legacy-mode">Legacy mode</h2>
 
@@ -343,7 +343,7 @@ you may have that is named &quot;timestamp&quot;.</li>
 </ul>
 
 <p>Legacy mode can be triggered either by passing <code>&quot;legacy&quot; : true</code> in your query JSON, or by setting
-<code>druid.query.scan.legacy = true</code> on your Druid nodes. If you were previously using the scan-query contrib extension,
+<code>druid.query.scan.legacy = true</code> on your Druid processes. If you were previously using the scan-query contrib extension,
 the best way to migrate is to activate legacy mode during a rolling upgrade, then switch it off after the upgrade
 is complete.</p>
 
@@ -375,7 +375,7 @@ is complete.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

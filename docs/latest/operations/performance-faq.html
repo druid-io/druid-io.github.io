@@ -139,23 +139,23 @@
 
 <h2 id="i-cant-match-your-benchmarked-results">I can&#39;t match your benchmarked results</h2>
 
-<p>Improper configuration is by far the largest problem we see people trying to deploy Druid. The example configurations listed in the tutorials are designed for a small volume of data where all nodes are on a single machine. The configs are extremely poor for actual production use.</p>
+<p>Improper configuration is by far the largest problem we see people trying to deploy Druid. The example configurations listed in the tutorials are designed for a small volume of data where all processes are on a single machine. The configs are extremely poor for actual production use.</p>
 
 <h2 id="what-should-i-set-my-jvm-heap">What should I set my JVM heap?</h2>
 
-<p>The size of the JVM heap really depends on the type of Druid node you are running. Below are a few considerations.</p>
+<p>The size of the JVM heap really depends on the type of Druid process you are running. Below are a few considerations.</p>
 
-<p><a href="../design/broker.html">Broker nodes</a> uses the JVM heap mainly to merge results from historicals and real-times. Brokers also use off-heap memory and processing threads for groupBy queries. We recommend 20G-30G of heap here.</p>
+<p><a href="../design/broker.html">Broker processes</a> uses the JVM heap mainly to merge results from Historicals and real-times. Brokers also use off-heap memory and processing threads for groupBy queries. We recommend 20G-30G of heap here.</p>
 
-<p><a href="../design/historical.html">Historical nodes</a> use off-heap memory to store intermediate results, and by default, all segments are memory mapped before they can be queried. Typically, the more memory is available on a historical node, the more segments can be served without the possibility of data being paged on to disk. On historicals, the JVM heap is used for <a href="../querying/groupbyquery.html">GroupBy queries</a>, some data structures used for intermediate computation, and general processing. One way to calculate how much space there is for segments is: memory_for_segments = total_memory - heap - direct_memory - jvm_overhead. Note that total_memory here refers to the memory available to the cgroup (if running on Linux), which for default cases is going to be all the system memory.</p>
+<p><a href="../design/historical.html">Historical processes</a> use off-heap memory to store intermediate results, and by default, all segments are memory mapped before they can be queried. Typically, the more memory is available on a Historical process, the more segments can be served without the possibility of data being paged on to disk. On Historicals, the JVM heap is used for <a href="../querying/groupbyquery.html">GroupBy queries</a>, some data structures used for intermediate computation, and general processing. One way to calculate how much space there is for segments is: memory_for_segments = total_memory - heap - direct_memory - jvm_overhead. Note that total_memory here refers to the memory available to the cgroup (if running on Linux), which for default cases is going to be all the system memory.</p>
 
 <p>We recommend 250mb * (processing.numThreads) for the heap.</p>
 
-<p><a href="../design/coordinator.html">Coordinator nodes</a> do not require off-heap memory and the heap is used for loading information about all segments to determine what segments need to be loaded, dropped, moved, or replicated.</p>
+<p><a href="../design/coordinator.html">Coordinator processes</a> do not require off-heap memory and the heap is used for loading information about all segments to determine what segments need to be loaded, dropped, moved, or replicated.</p>
 
 <h2 id="how-much-direct-memory-does-druid-use">How much direct memory does Druid use?</h2>
 
-<p>Any Druid node that process queries (brokers, ingestion workers, and historical nodes) use two kinds of direct memory buffers with configurable size: processing buffers and merge buffers.</p>
+<p>Any Druid process that handles queries (Brokers, Peons, and Historicals) uses two kinds of direct memory buffers with configurable size: processing buffers and merge buffers.</p>
 
 <p>Each processing thread is allocated one processing buffer. Additionally, there is a shared pool of merge buffers (only used for GroupBy V2 queries currently).</p>
 
@@ -172,11 +172,11 @@ Operators can ensure at least this amount of direct memory is available by provi
 
 <h2 id="what-is-the-intermediate-computation-buffer">What is the intermediate computation buffer?</h2>
 
-<p>The intermediate computation buffer specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed. The default size is 1073741824 bytes (1GB).</p>
+<p>The intermediate computation buffer specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime processes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed. The default size is 1073741824 bytes (1GB).</p>
 
 <h2 id="what-is-server-maxsize">What is server maxSize?</h2>
 
-<p>Server maxSize sets the maximum cumulative segment size (in bytes) that a node can hold. Changing this parameter will affect performance by controlling the memory/disk ratio on a node. Setting this parameter to a value greater than the total memory capacity on a node and may cause disk paging to occur. This paging time introduces a query latency delay.</p>
+<p>Server maxSize sets the maximum cumulative segment size (in bytes) that a process can hold. Changing this parameter will affect performance by controlling the memory/disk ratio on a process. Setting this parameter to a value greater than the total memory capacity on a process and may cause disk paging to occur. This paging time introduces a query latency delay.</p>
 
 <h2 id="my-logs-are-really-chatty-can-i-set-them-to-asynchronously-write">My logs are really chatty, can I set them to asynchronously write?</h2>
 
@@ -236,7 +236,7 @@ Operators can ensure at least this amount of direct memory is available by provi
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

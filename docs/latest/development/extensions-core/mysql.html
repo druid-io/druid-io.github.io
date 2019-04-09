@@ -184,8 +184,11 @@ installed separately. There are a few ways to obtain this library:</p>
 <div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span>  <span class="c1">-- create a druid database, make sure to use utf8mb4 as encoding</span>
   <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">druid</span> <span class="k">DEFAULT</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">utf8mb4</span><span class="p">;</span>
 
-  <span class="c1">-- create a druid user, and grant it all permission on the database we just created</span>
-  <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+  <span class="c1">-- create a druid user</span>
+  <span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;diurd&#39;</span><span class="p">;</span>
+
+  <span class="c1">-- grant the user all the permissions on the database we just created</span>
+  <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">druid</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;druid&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
 </code></pre></div>
 <ol>
 <li>Configure your Druid metadata storage extension:</li>
@@ -197,7 +200,7 @@ installed separately. There are a few ways to obtain this library:</p>
 <span class="na">  druid.metadata.storage.type</span><span class="o">=</span><span class="s">mysql</span>
 <span class="na">  druid.metadata.storage.connector.connectURI</span><span class="o">=</span><span class="s">jdbc:mysql://&lt;host&gt;/druid</span>
 <span class="na">  druid.metadata.storage.connector.user</span><span class="o">=</span><span class="s">druid</span>
-<span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">diurd</span>
+<span class="na">  druid.metadata.storage.connector.password</span><span class="o">=</span><span class="s">druid</span>
 </code></pre></div>
 <h2 id="encrypting-mysql-connections">Encrypting MySQL connections</h2>
 
@@ -303,7 +306,7 @@ installed separately. There are a few ways to obtain this library:</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

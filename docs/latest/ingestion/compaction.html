@@ -145,6 +145,7 @@
     <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;interval</span> <span class="err">to</span> <span class="err">specify</span> <span class="err">segments</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
     <span class="nt">&quot;dimensions&quot;</span> <span class="err">&lt;custom</span> <span class="err">dimensionsSpec&gt;</span><span class="p">,</span>
     <span class="nt">&quot;keepSegmentGranularity&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="err">&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segmentGranularity&quot;</span><span class="p">:</span> <span class="err">&lt;segment</span> <span class="err">granularity</span> <span class="err">after</span> <span class="err">compaction&gt;</span><span class="p">,</span>
     <span class="nt">&quot;targetCompactionSizeBytes&quot;</span><span class="p">:</span> <span class="err">&lt;target</span> <span class="err">size</span> <span class="err">of</span> <span class="err">compacted</span> <span class="err">segments&gt;</span>
     <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">&lt;index</span> <span class="err">task</span> <span class="err">tuningConfig&gt;</span><span class="p">,</span>
     <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
@@ -178,18 +179,28 @@
 <td>Yes</td>
 </tr>
 <tr>
-<td><code>dimensions</code></td>
-<td>Custom dimensionsSpec. compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.</td>
+<td><code>dimensionsSpec</code></td>
+<td>Custom dimensionsSpec. Compaction task will use this dimensionsSpec if exist instead of generating one. See below for more details.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>metricsSpec</code></td>
+<td>Custom metricsSpec. Compaction task will use this metricsSpec if specified rather than generating one.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>segmentGranularity</code></td>
+<td>If this is set, compactionTask will change the segment granularity for the given interval. See <a href="./ingestion-spec.html#uniform-granularity-spec">segmentGranularity of Uniform Granularity Spec</a> for more details. See the below table for the behavior.</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>keepSegmentGranularity</code></td>
-<td>If set to true, compactionTask will keep the time chunk boundaries and merge segments only if they fall into the same time chunk.</td>
-<td>No (default = true)</td>
+<td>Deprecated. Please use <code>segmentGranularity</code> instead. See the below table for its behavior.</td>
+<td>No</td>
 </tr>
 <tr>
 <td><code>targetCompactionSizeBytes</code></td>
-<td>Target segment size after comapction. Cannot be used with <code>targetPartitionSize</code>, <code>maxTotalRows</code>, and <code>numShards</code> in tuningConfig.</td>
+<td>Target segment size after comapction. Cannot be used with <code>maxRowsPerSegment</code>, <code>maxTotalRows</code>, and <code>numShards</code> in tuningConfig.</td>
 <td>No</td>
 </tr>
 <tr>
@@ -204,6 +215,47 @@
 </tr>
 </tbody></table>
 
+<h3 id="used-segmentgranularity-based-on-segmentgranularity-and-keepsegmentgranularity">Used segmentGranularity based on <code>segmentGranularity</code> and <code>keepSegmentGranularity</code></h3>
+
+<table><thead>
+<tr>
+<th>SegmentGranularity</th>
+<th>keepSegmentGranularity</th>
+<th>Used SegmentGranularity</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Non-null</td>
+<td>True</td>
+<td>Error</td>
+</tr>
+<tr>
+<td>Non-null</td>
+<td>False</td>
+<td>Given segmentGranularity</td>
+</tr>
+<tr>
+<td>Non-null</td>
+<td>Null</td>
+<td>Given segmentGranularity</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>True</td>
+<td>Original segmentGranularity</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>False</td>
+<td>ALL segmentGranularity. All events will fall into the single time chunk.</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>Null</td>
+<td>Original segmentGranularity</td>
+</tr>
+</tbody></table>
+
 <p>An example of compaction task is</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;compact&quot;</span><span class="p">,</span>
@@ -212,9 +264,9 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>This compaction task reads <em>all segments</em> of the interval <code>2017-01-01/2018-01-01</code> and results in new segments.
-Note that intervals of the input segments are merged into a single interval of <code>2017-01-01/2018-01-01</code> no matter what the segmentGranularity was.
-To control the number of result segments, you can set <code>targetPartitionSize</code> or <code>numShards</code>. See <a href="../ingestion/native_tasks.html#tuningconfig">indexTuningConfig</a> for more details.
-To merge each day&#39;s worth of data into separate segments, you can submit multiple <code>compact</code> tasks, one for each day. They will run in parallel.</p>
+Since both <code>segmentGranularity</code> and <code>keepSegmentGranularity</code> are null, the original segment granularity will be remained and not changed after compaction.
+To control the number of result segments per time chunk, you can set <a href="../configuration/index.html#compaction-dynamic-configuration">maxRowsPerSegment</a> or <a href="../ingestion/native_tasks.html#tuningconfig">numShards</a>.
+Please note that you can run multiple compactionTasks at the same time. For example, you can run 12 compactionTasks per month instead of running a single task for the entire year.</p>
 
 <p>A compaction task internally generates an <code>index</code> task spec for performing compaction work with some fixed parameters.
 For example, its <code>firehose</code> is always the <a href="./firehose.html#ingestsegmentfirehose">ingestSegmentSpec</a>, and <code>dimensionsSpec</code> and <code>metricsSpec</code>
@@ -266,7 +318,7 @@ You can check that your segments are rolled up or not by using <a href="../query
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -149,7 +149,7 @@
 <tr>
 <td>timeout</td>
 <td><code>druid.server.http.defaultQueryTimeout</code></td>
-<td>Query timeout in millis, beyond which unfinished queries will be cancelled. 0 timeout means <code>no timeout</code>. To set the default timeout, see <a href="../configuration/index.html#broker">broker configuration</a></td>
+<td>Query timeout in millis, beyond which unfinished queries will be cancelled. 0 timeout means <code>no timeout</code>. To set the default timeout, see <a href="../configuration/index.html#broker">Broker configuration</a></td>
 </tr>
 <tr>
 <td>priority</td>
@@ -194,12 +194,12 @@
 <tr>
 <td>chunkPeriod</td>
 <td><code>P0D</code> (off)</td>
-<td>At the broker node level, long interval queries (of any type) may be broken into shorter interval queries to parallelize merging more than normal. Broken up queries will use a larger share of cluster resources, but may be able to complete faster as a result. Use ISO 8601 periods. For example, if this property is set to <code>P1M</code> (one month), then a query covering a year would be broken into 12 smaller queries. The broker uses its query processing executor service to initiate processing for query chunks, so make sure &quot;druid.processing.numThreads&quot; is configured appropriately on the broker. <a href="groupbyquery.html">groupBy queries</a> do not support chunkPeriod by default, although they do if using the legacy &quot;v1&quot; engine.</td>
+<td>At the Broker process level, long interval queries (of any type) may be broken into shorter interval queries to parallelize merging more than normal. Broken up queries will use a larger share of cluster resources, but, if you use groupBy &quot;v1, it may be able to complete faster as a result. Use ISO 8601 periods. For example, if this property is set to <code>P1M</code> (one month), then a query covering a year would be broken into 12 smaller queries. The broker uses its query processing executor service to initiate processing for query chunks, so make sure &quot;druid.processing.numThreads&quot; is configured appropriately on the broker. <a href="groupbyquery.html">groupBy queries</a> do not support chunkPeriod by default, although they do if using the legacy &quot;v1&quot; engine. This context is deprecated since it&#39;s only useful for groupBy &quot;v1&quot;, and will be removed in the future releases.</td>
 </tr>
 <tr>
 <td>maxScatterGatherBytes</td>
 <td><code>druid.server.http.maxScatterGatherBytes</code></td>
-<td>Maximum number of bytes gathered from data nodes such as historicals and realtime processes to execute a query. This parameter can be used to further reduce <code>maxScatterGatherBytes</code> limit at query time. See <a href="../configuration/index.html#broker">broker configuration</a> for more details.</td>
+<td>Maximum number of bytes gathered from data processes such as Historicals and realtime processes to execute a query. This parameter can be used to further reduce <code>maxScatterGatherBytes</code> limit at query time. See <a href="../configuration/index.html#broker">Broker configuration</a> for more details.</td>
 </tr>
 <tr>
 <td>maxQueuedBytes</td>
@@ -209,12 +209,12 @@
 <tr>
 <td>serializeDateTimeAsLong</td>
 <td><code>false</code></td>
-<td>If true, DateTime is serialized as long in the result returned by broker and the data transportation between broker and compute node</td>
+<td>If true, DateTime is serialized as long in the result returned by Broker and the data transportation between Broker and compute process</td>
 </tr>
 <tr>
 <td>serializeDateTimeAsLongInner</td>
 <td><code>false</code></td>
-<td>If true, DateTime is serialized as long in the data transportation between broker and compute node</td>
+<td>If true, DateTime is serialized as long in the data transportation between Broker and compute process</td>
 </tr>
 </tbody></table>
 
@@ -284,7 +284,7 @@
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

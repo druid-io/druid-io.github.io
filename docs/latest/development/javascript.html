@@ -150,7 +150,7 @@
 <li><a href="../querying/post-aggregations.html#javascript-post-aggregator">Post-aggregators</a></li>
 <li><a href="../ingestion/data-formats.html#javascript">Input parsers</a></li>
 <li><a href="../development/router.html#javascript">Router strategy</a></li>
-<li><a href="../configuration/indexing-service.html#javascript">Worker select strategy</a></li>
+<li><a href="../configuration/index.html#javascript-worker-select-strategy">Worker select strategy</a></li>
 </ul>
 
 <p>JavaScript can be injected dynamically at runtime, making it convenient to rapidly prototype new functionality
@@ -174,7 +174,7 @@ unpredictable results if global variables are used.</p>
 <h2 id="performance">Performance</h2>
 
 <p>Simple JavaScript functions typically have a slight performance penalty to native speed. More complex JavaScript
-functions can have steeper performance penalties. Druid compiles JavaScript functions once per node per query.</p>
+functions can have steeper performance penalties. Druid compiles JavaScript functions once on each data process per query.</p>
 
 <p>You may need to pay special attention to garbage collection when making heavy use of JavaScript functions, especially
 garbage collection of the compiled classes themselves. Be sure to use a garbage collector configuration that supports
@@ -217,7 +217,7 @@ we recommend developing a native Druid extension.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

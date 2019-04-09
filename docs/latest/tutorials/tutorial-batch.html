@@ -147,7 +147,7 @@ don&#39;t need to have loaded any data yet.</p>
 
 <h2 id="preparing-the-data-and-the-ingestion-task-spec">Preparing the data and the ingestion task spec</h2>
 
-<p>A data load is initiated by submitting an <em>ingestion task</em> spec to the Druid overlord. For this tutorial, we&#39;ll be loading the sample Wikipedia page edits data.</p>
+<p>A data load is initiated by submitting an <em>ingestion task</em> spec to the Druid Overlord. For this tutorial, we&#39;ll be loading the sample Wikipedia page edits data.</p>
 
 <p>The Druid package includes the following sample native batch ingestion task spec at <code>quickstart/tutorial/wikipedia-index.json</code>, shown here for convenience,
 which has been configured to read the <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> input file:</p>
@@ -209,7 +209,7 @@ which has been configured to read the <code>quickstart/tutorial/wikiticker-2015-
     <span class="p">},</span>
     <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
+      <span class="nt">&quot;maxRowsPerSegment&quot;</span> <span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span>
       <span class="nt">&quot;maxRowsInMemory&quot;</span> <span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
       <span class="nt">&quot;forceExtendableShardSpecs&quot;</span> <span class="p">:</span> <span class="kc">true</span>
     <span class="p">}</span>
@@ -227,7 +227,7 @@ a task that loads the <code>wikiticker-2015-09-12-sampled.json.gz</code> file in
 
 <p>For convenience, the Druid package includes a batch ingestion helper script at <code>bin/post-index-task</code>.</p>
 
-<p>This script will POST an ingestion task to the Druid overlord and poll Druid until the data is available for querying.</p>
+<p>This script will POST an ingestion task to the Druid Overlord and poll Druid until the data is available for querying.</p>
 
 <p>Run the following command from Druid package root:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/wikipedia-index.json 
@@ -255,22 +255,22 @@ wikipedia loading complete! You may now query your data
 
 <p>Let&#39;s briefly discuss how we would&#39;ve submitted the ingestion task without using the script. You do not need to run these commands.</p>
 
-<p>To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.13.0-incubating directory:</p>
+<p>To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.14.0-incubating directory:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X <span class="s1">&#39;POST&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -d @quickstart/tutorial/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
 </code></pre></div>
 <p>Which will print the ID of the task if the submission was successful:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="o">{</span><span class="s2">&quot;task&quot;</span>:<span class="s2">&quot;index_wikipedia_2018-06-09T21:30:32.802Z&quot;</span><span class="o">}</span>
 </code></pre></div>
-<p>To view the status of the ingestion task, go to the overlord console:
-<a href="http://localhost:8090/console.html">http://localhost:8090/console.html</a>. You can refresh the console periodically, and after
-the task is successful, you should see a &quot;SUCCESS&quot; status for the task.</p>
+<p>To view the status of the ingestion task, go to the Druid Console:
+<a href="http://localhost:8888">http://localhost:8888/</a>. You can refresh the console periodically, and after
+the task is successful, you should see a &quot;SUCCESS&quot; status for the task under the <a href="http://localhost:8888/unified-console.html#tasks">Tasks view</a>.</p>
 
-<p>After the ingestion task finishes, the data will be loaded by historical nodes and available for
+<p>After the ingestion task finishes, the data will be loaded by Historical processes and available for
 querying within a minute or two. You can monitor the progress of loading the data in the
-coordinator console, by checking whether there is a datasource &quot;wikipedia&quot; with a blue circle
-indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http://localhost:8081/#/</a>.</p>
+Datasources view, by checking whether there is a datasource &quot;wikipedia&quot; with a green circle
+indicating &quot;fully available&quot;: <a href="http://localhost:8888/unified-console.html#datasources">http://localhost:8888/unified-console.html#datasources</a>.</p>
 
-<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Coordinator console" title="Wikipedia 100% loaded"></p>
+<p><img src="../tutorials/img/tutorial-batch-01.png" alt="Druid Console" title="Wikipedia 100% loaded"></p>
 
 <h2 id="further-reading">Further reading</h2>
 
@@ -304,7 +304,7 @@ indicating &quot;fully available&quot;: <a href="http://localhost:8081/#/">http:
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

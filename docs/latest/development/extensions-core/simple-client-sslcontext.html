@@ -138,7 +138,7 @@
 <h1 id="simple-sslcontext-provider-module">Simple SSLContext Provider Module</h1>
 
 <p>This module contains a simple implementation of <a href="http://docs.oracle.com/javase/8/docs/api/javax/net/ssl/SSLContext.html">SSLContext</a>
-that will be injected to be used with HttpClient that Druid nodes use internally to communicate with each other. To learn more about
+that will be injected to be used with HttpClient that Druid processes use internally to communicate with each other. To learn more about
 Java&#39;s SSL support, please refer to <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html">this</a> guide.</p>
 
 <h1 id="configuration">Configuration</h1>
@@ -213,7 +213,7 @@ Java&#39;s SSL support, please refer to <a href="http://docs.oracle.com/javase/8
 </tr>
 <tr>
 <td><code>druid.client.https.keyStorePassword</code></td>
-<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Key Store.</td>
+<td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the Key Store.</td>
 <td>none</td>
 <td>no</td>
 </tr>
@@ -225,8 +225,14 @@ Java&#39;s SSL support, please refer to <a href="http://docs.oracle.com/javase/8
 </tr>
 <tr>
 <td><code>druid.client.https.keyManagerPassword</code></td>
-<td>The <a href="../operations/password-provider.html">Password Provider</a> or String password for the Key Manager.</td>
+<td>The <a href="../../operations/password-provider.html">Password Provider</a> or String password for the Key Manager.</td>
 <td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>druid.client.https.validateHostnames</code></td>
+<td>Validate the hostname of the server. This should not be disabled unless you are using <a href="../../operations/tls-support.html#custom-tls-certificate-checks">custom TLS certificate checks</a> and know that standard hostname validation is not needed.</td>
+<td>true</td>
 <td>no</td>
 </tr>
 </tbody></table>
@@ -262,7 +268,7 @@ values for the above mentioned configs among others provided by Java implementat
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -162,6 +162,16 @@ Derby is not suitable for production use as a metadata store. Use MySQL or Postg
 
 <p>See <a href="../development/extensions-core/postgresql.html">postgresql-metadata-storage</a>. </p>
 
+<h2 id="adding-custom-dbcp-properties">Adding custom dbcp properties</h2>
+
+<p>NOTE: These properties are not settable through the druid.metadata.storage.connector.dbcp properties : username, password, connectURI, validationQuery, testOnBorrow. These must be set through druid.metadata.storage.connector properties.</p>
+
+<p>Example supported properties:</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="na">druid.metadata.storage.connector.dbcp.maxConnLifetimeMillis</span><span class="o">=</span><span class="s">1200000</span>
+<span class="na">druid.metadata.storage.connector.dbcp.defaultQueryTimeout</span><span class="o">=</span><span class="s">30000</span>
+</code></pre></div>
+<p>See <a href="https://commons.apache.org/proper/commons-dbcp/configuration.html">BasicDataSource Configuration</a> for full list.</p>
+
 <h2 id="metadata-storage-tables">Metadata Storage Tables</h2>
 
 <h3 id="segments-table">Segments Table</h3>
@@ -216,8 +226,7 @@ parameters across the cluster at runtime.</p>
 
 <h3 id="task-related-tables">Task-related Tables</h3>
 
-<p>There are also a number of tables created and used by the <a href="../design/indexing-service.html">Indexing
-Service</a> in the course of its work.</p>
+<p>There are also a number of tables created and used by the <a href="../design/overlord.html">Overlord</a> and <a href="../design/middlemanager.html">MiddleManager</a> when managing tasks.</p>
 
 <h3 id="audit-table">Audit Table</h3>
 
@@ -230,9 +239,9 @@ config changes.</p>
 <p>The Metadata Storage is accessed only by:</p>
 
 <ol>
-<li>Indexing Service Nodes (if any)</li>
-<li>Realtime Nodes (if any)</li>
-<li>Coordinator Nodes</li>
+<li>Indexing Service Processes (if any)</li>
+<li>Realtime Processes (if any)</li>
+<li>Coordinator Processes</li>
 </ol>
 
 <p>Thus you need to give permissions (eg in AWS Security Groups)  only for these machines to access the Metadata storage.</p>
@@ -265,7 +274,7 @@ config changes.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
