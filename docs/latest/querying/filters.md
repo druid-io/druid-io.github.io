@@ -235,6 +235,8 @@ The grammar for a IN filter is as follows:
 
 The IN filter supports the use of extraction functions, see [Filtering with Extraction Functions](#filtering-with-extraction-functions) for details.
 
+If an empty `values` array is passed to the IN filter, it will simply return an empty result.
+
 ### Like filter
 
 Like filters can be used for basic wildcard searches. They are equivalent to the SQL LIKE operator. Special characters
@@ -272,9 +274,9 @@ greater than, less than, greater than or equal to, less than or equal to, and "b
 |dimension|String|The dimension to filter on|yes|
 |lower|String|The lower bound for the filter|no|
 |upper|String|The upper bound for the filter|no|
-|lowerStrict|Boolean|Perform strict comparison on the lower bound ("<" instead of "<=")|no, default: false|
-|upperStrict|Boolean|Perform strict comparison on the upper bound (">" instead of ">=")|no, default: false|
-|ordering|String|Specifies the sorting order to use when comparing values against the bound. Can be one of the following values: "lexicographic", "alphanumeric", "numeric", "strlen". See [Sorting Orders](./sorting-orders.html) for more details.|no, default: "lexicographic"|
+|lowerStrict|Boolean|Perform strict comparison on the lower bound (">" instead of ">=")|no, default: false|
+|upperStrict|Boolean|Perform strict comparison on the upper bound ("<" instead of "<=")|no, default: false|
+|ordering|String|Specifies the sorting order to use when comparing values against the bound. Can be one of the following values: "lexicographic", "alphanumeric", "numeric", "strlen", "version". See [Sorting Orders](./sorting-orders.html) for more details.|no, default: "lexicographic"|
 |extractionFn|[Extraction function](#filtering-with-extraction-functions)| Extraction function to apply to the dimension|no|
   
 Bound filters support the use of extraction functions, see [Filtering with Extraction Functions](#filtering-with-extraction-functions) for details.

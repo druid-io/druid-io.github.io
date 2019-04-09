@@ -99,7 +99,7 @@ We'll ingest this data using the following ingestion task spec, located at `quic
     },
     "tuningConfig" : {
       "type" : "index",
-      "targetPartitionSize" : 5000000,
+      "maxRowsPerSegment" : 5000000,
       "maxRowsInMemory" : 25000,
       "forceExtendableShardSpecs" : true
     }
@@ -115,7 +115,7 @@ We will see how these definitions are used after we load this data.
 
 ## Load the example data
 
-From the apache-druid-0.13.0-incubating package root, run the following command:
+From the apache-druid-0.14.0-incubating package root, run the following command:
 
 ```bash
 bin/post-index-task --file quickstart/tutorial/rollup-index.json 

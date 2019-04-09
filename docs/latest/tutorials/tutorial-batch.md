@@ -34,7 +34,7 @@ don't need to have loaded any data yet.
 
 ## Preparing the data and the ingestion task spec
 
-A data load is initiated by submitting an *ingestion task* spec to the Druid overlord. For this tutorial, we'll be loading the sample Wikipedia page edits data.
+A data load is initiated by submitting an *ingestion task* spec to the Druid Overlord. For this tutorial, we'll be loading the sample Wikipedia page edits data.
 
 The Druid package includes the following sample native batch ingestion task spec at `quickstart/tutorial/wikipedia-index.json`, shown here for convenience,
 which has been configured to read the `quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz` input file:
@@ -98,7 +98,7 @@ which has been configured to read the `quickstart/tutorial/wikiticker-2015-09-12
     },
     "tuningConfig" : {
       "type" : "index",
-      "targetPartitionSize" : 5000000,
+      "maxRowsPerSegment" : 5000000,
       "maxRowsInMemory" : 25000,
       "forceExtendableShardSpecs" : true
     }
@@ -117,7 +117,7 @@ a task that loads the `wikiticker-2015-09-12-sampled.json.gz` file included in t
 
 For convenience, the Druid package includes a batch ingestion helper script at `bin/post-index-task`.
 
-This script will POST an ingestion task to the Druid overlord and poll Druid until the data is available for querying.
+This script will POST an ingestion task to the Druid Overlord and poll Druid until the data is available for querying.
 
 Run the following command from Druid package root:
 
@@ -151,7 +151,7 @@ If you wish to go through any of the other ingestion tutorials, you will need to
 
 Let's briefly discuss how we would've submitted the ingestion task without using the script. You do not need to run these commands.
 
-To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.13.0-incubating directory:
+To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.14.0-incubating directory:
 
 ```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task
@@ -163,16 +163,16 @@ Which will print the ID of the task if the submission was successful:
 {"task":"index_wikipedia_2018-06-09T21:30:32.802Z"}
 ```
 
-To view the status of the ingestion task, go to the overlord console:
-[http://localhost:8090/console.html](http://localhost:8090/console.html). You can refresh the console periodically, and after
-the task is successful, you should see a "SUCCESS" status for the task.
+To view the status of the ingestion task, go to the Druid Console:
+[http://localhost:8888/](http://localhost:8888). You can refresh the console periodically, and after
+the task is successful, you should see a "SUCCESS" status for the task under the [Tasks view](http://localhost:8888/unified-console.html#tasks).
 
-After the ingestion task finishes, the data will be loaded by historical nodes and available for
+After the ingestion task finishes, the data will be loaded by Historical processes and available for
 querying within a minute or two. You can monitor the progress of loading the data in the
-coordinator console, by checking whether there is a datasource "wikipedia" with a blue circle
-indicating "fully available": [http://localhost:8081/#/](http://localhost:8081/#/).
+Datasources view, by checking whether there is a datasource "wikipedia" with a green circle
+indicating "fully available": [http://localhost:8888/unified-console.html#datasources](http://localhost:8888/unified-console.html#datasources).
 
-![Coordinator console](../tutorials/img/tutorial-batch-01.png "Wikipedia 100% loaded")
+![Druid Console](../tutorials/img/tutorial-batch-01.png "Wikipedia 100% loaded")
 
 ## Further reading
 

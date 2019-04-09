@@ -52,6 +52,19 @@ See [mysql-metadata-storage extension documentation](../development/extensions-c
 
 See [postgresql-metadata-storage](../development/extensions-core/postgresql.html). 
 
+## Adding custom dbcp properties
+
+NOTE: These properties are not settable through the druid.metadata.storage.connector.dbcp properties : username, password, connectURI, validationQuery, testOnBorrow. These must be set through druid.metadata.storage.connector properties.
+
+Example supported properties:
+
+```properties
+druid.metadata.storage.connector.dbcp.maxConnLifetimeMillis=1200000
+druid.metadata.storage.connector.dbcp.defaultQueryTimeout=30000
+```
+
+See [BasicDataSource Configuration](https://commons.apache.org/proper/commons-dbcp/configuration.html) for full list.
+
 ## Metadata Storage Tables
 
 ### Segments Table
@@ -109,8 +122,7 @@ parameters across the cluster at runtime.
 
 ### Task-related Tables
 
-There are also a number of tables created and used by the [Indexing
-Service](../design/indexing-service.html) in the course of its work.
+There are also a number of tables created and used by the [Overlord](../design/overlord.html) and [MiddleManager](../design/middlemanager.html) when managing tasks.
 
 ### Audit Table
 
@@ -122,8 +134,8 @@ config changes.
 
 The Metadata Storage is accessed only by:
 
-1. Indexing Service Nodes (if any)
-2. Realtime Nodes (if any)
-3. Coordinator Nodes
+1. Indexing Service Processes (if any)
+2. Realtime Processes (if any)
+3. Coordinator Processes
 
 Thus you need to give permissions (eg in AWS Security Groups)  only for these machines to access the Metadata storage.
