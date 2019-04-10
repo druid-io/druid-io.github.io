@@ -14,7 +14,7 @@ The current Druid stable release is {{ site.druid_stable_version }}.
 </p>
 
 * Release date: April 9, 2019
-* Binary download: [apache-druid-{{ druid_stable_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_stable_version }}/apache-druid-{{ druid_stable_version }}-bin.tar.gz)
+* Binary download: [apache-druid-{{ site.druid_stable_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz)
 * Source download: [apache-druid-{{ site.druid_stable_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-src.tar.gz)
 * Release notes: [0.14.0](https://github.com/apache/incubator-druid/issues/7126)
 
