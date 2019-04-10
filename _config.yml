@@ -23,6 +23,9 @@ title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
 druid_stable_version: 0.14.0-incubating
+druid_older_versions:
+  - 0.13.0-incubating
+
 tranquility_stable_version: 0.8.3
 
 gems:
