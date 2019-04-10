@@ -13,23 +13,27 @@ The current Druid stable release is {{ site.druid_stable_version }}.
 <a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
 </p>
 
-Source download: [apache-druid-{{ site.druid_stable_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-src.tar.gz)
+* Release date: April 9, 2019
+* Binary download: [apache-druid-{{ druid_stable_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_stable_version }}/apache-druid-{{ druid_stable_version }}-bin.tar.gz)
+* Source download: [apache-druid-{{ site.druid_stable_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-src.tar.gz)
+* Release notes: [0.14.0](https://github.com/apache/incubator-druid/issues/7126)
 
 ## Older releases
 
 {% for druid_older_version in site.druid_older_versions %}
 #### {{ druid_older_version }}
 
-Binary download: [apache-druid-{{ druid_older_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-bin.tar.gz)
-
-Source download: [apache-druid-{{ druid_older_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-src.tar.gz)
+* Release date: Dec. 18, 2018
+* Binary download: [apache-druid-{{ druid_older_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-bin.tar.gz)
+* Source download: [apache-druid-{{ druid_older_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-src.tar.gz)
+* Release notes: [0.13.0](https://github.com/apache/incubator-druid/issues/6442)
 {% endfor %}
+
+To learn more about releases, please visit the [versioning page](/docs/latest/development/versioning.html).
 
 ## Get started
 
 To get started with Druid, visit the [quickstart](/docs/latest/tutorials/index.html).
-
-To learn more about releases, please visit the [versioning page](/docs/latest/development/versioning.html).
 
 ## Optional dependencies
 
