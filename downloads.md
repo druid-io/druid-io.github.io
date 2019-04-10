@@ -15,6 +15,16 @@ The current Druid stable release is {{ site.druid_stable_version }}.
 
 Source download: [apache-druid-{{ site.druid_stable_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-src.tar.gz)
 
+## Older releases
+
+{% for druid_older_version in site.druid_older_versions %}
+#### {{ druid_older_version }}
+
+Binary download: [apache-druid-{{ druid_older_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-bin.tar.gz)
+
+Source download: [apache-druid-{{ druid_older_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version }}/apache-druid-{{ druid_older_version }}-src.tar.gz)
+{% endfor %}
+
 ## Get started
 
 To get started with Druid, visit the [quickstart](/docs/latest/tutorials/index.html).
