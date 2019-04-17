@@ -86,7 +86,6 @@ Condé Nast uses Druid to track billions of events across our two dozen brands, 
 Didi Chuxing is the world’s largest mobile transportation platform, offering a full range of commuting options to 400 cities in China.
 Didi uses Druid as a core component of our real-time bigdata processing pipeline. Druid powers Didi's real-time monitor system which has hundreds of key business metrics. We are deep impressed by Druid's fast aggregations and sub-second OLAP queries. With Druid, we can get insights from data in real-time.
 
-
 ## DripStat
 
 DripStat uses Druid as a timeseries database to power the DripStat GUI. DripStat ingests transactional data for Java, Scala, and Groovy applications into Druid.
@@ -101,6 +100,10 @@ eBay uses Druid to aggregate multiple data streams for real-time user behavior a
 
 * [Druid and Pulsar](http://blog.csdn.net/ebay/article/details/50205611)
 * [embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications](http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/)
+
+## GameAnalytics
+
+* [Why GameAnalytics migrated to Apache Druid](https://imply.io/post/why-gameanalytics-migrated-to-druid)
 
 ## Glia
 
@@ -407,7 +410,6 @@ Tencent SCRM product use Druid for customer behavior analysis.
 
 TWC uses Druid for exploratory analytics.
 
-
 ## TrafficGuard
 
 TrafficGuard detects, mitigates and reports on ad fraud before it hits digital advertising budgets. Three formidable layers of protection block both general invalid traffic (GIVT) and sophisticated invalid traffic (SIVT) to ensure that digital advertising results in legitimate advertising engagement. With visibility of traffic across thousands of campaigns, TrafficGuard’s machine learning can identify emerging patterns, trends and indicators of fraud quickly and reliably. 
@@ -415,6 +417,7 @@ TrafficGuard detects, mitigates and reports on ad fraud before it hits digital a
 Druid is a key component of our Big Data Operation Insight Platform.We use imply.io
 Learn more about TrafficGuard’s comprehensive fraud mitigation at (https://www.trafficguard.ai)
 
+* [Using Druid to fight ad fraud](https://imply.io/post/using-druid-to-fight-ad-fraud)
 
 ## TripleLift
 
@@ -435,6 +438,10 @@ ViralGains uses Druid for real-time analysis of millions of viral video views, s
 ## Virool
 
 Druid powers Virool’s real time analytics of over 1 billion raw events per day. We query this data to gain a deep understanding of all of our inventory sources, from exchanges to direct partners, everything is available with lightning fast query times. Druid puts the power and flexibility of big data in each of our Viroolian’s hands.
+
+## WalkMe
+
+* [How WalkMe uses Druid and Imply Cloud to Analyze Clickstreams and User Behavior](https://imply.io/post/how-walkme-uses-druid-and-imply-cloud)
 
 ## Walmart
 
@@ -460,6 +467,7 @@ Xiaomi uses Druid as an analytics tool to analyze online advertising data.
 
 Yahoo uses Druid to power various customer-facing audience and advertising analytics products.
 
+* [Druid Ecosystem at Yahoo](https://speakerdeck.com/implydatainc/druid-ecosystem-at-yahoo)
 * [Complementing Hadoop at Yahoo: Interactive Analytics with Druid](http://yahooeng.tumblr.com/post/125287346011/complementing-hadoop-at-yahoo-interactive)
 * [Combining Druid and DataSketches for Real-time, Robust Behavioral Analytics](https://yahooeng.tumblr.com/post/147711922956/combining-druid-and-datasketches-for-real-time)
 
