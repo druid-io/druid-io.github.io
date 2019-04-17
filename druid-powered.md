@@ -439,7 +439,7 @@ ViralGains uses Druid for real-time analysis of millions of viral video views, s
 
 Druid powers Virool’s real time analytics of over 1 billion raw events per day. We query this data to gain a deep understanding of all of our inventory sources, from exchanges to direct partners, everything is available with lightning fast query times. Druid puts the power and flexibility of big data in each of our Viroolian’s hands.
 
-## Walkme
+## WalkMe
 
 * [How WalkMe uses Druid and Imply Cloud to Analyze Clickstreams and User Behavior](https://imply.io/post/how-walkme-uses-druid-and-imply-cloud)
 
