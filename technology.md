@@ -4,7 +4,7 @@ layout: simple_page
 sectionid: technology
 ---
 
-Druid is an open source distributed data store.
+Apache Druid (incubating) is an open source distributed data store.
 Druid’s core design combines ideas from [OLAP/analytic databases](https://en.wikipedia.org/wiki/Online_analytical_processing), [timeseries databases](https://en.wikipedia.org/wiki/Time_series_database), and [search systems](https://en.wikipedia.org/wiki/Full-text_search) to create a unified system for a broad range of [use cases](/use-cases). Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.
 
 <div class="image-large">

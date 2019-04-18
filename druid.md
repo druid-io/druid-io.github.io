@@ -4,7 +4,7 @@ layout: simple_page
 sectionid: druid
 ---
 
-Druid is an open-source data store designed for sub-second queries on real-time
+Apache Druid (incubating) is an open-source data store designed for sub-second queries on real-time
 and historical data. It is primarily used for business intelligence
 ([OLAP](http://en.wikipedia.org/wiki/Online_analytical_processing)) queries on
 event data. Druid provides low latency (real-time) data ingestion, flexible
