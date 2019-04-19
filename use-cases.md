@@ -6,7 +6,7 @@ sectionid: use-cases
 
 ## Streaming and operational data
 
-Druid generally works well with any event-oriented, clickstream, timeseries, or telemetry data, especially streaming datasets from [Apache Kafka](https://kafka.apache.org/).
+Apache Druid (incubating) generally works well with any event-oriented, clickstream, timeseries, or telemetry data, especially streaming datasets from [Apache Kafka](https://kafka.apache.org/).
 Druid provides [exactly once consumption semantics](/docs/latest/development/extensions-core/kafka-ingestion) from Apache Kafka and is commonly used as a sink for event-oriented Kafka topics.
 
 Druid also works well for batch data sets.

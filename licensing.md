@@ -5,7 +5,7 @@ layout: simple_page
 
 ## License
 
-Druid and the Druid documentation are licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+Apache Druid (incubating) and the Druid documentation are licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 The Druid website is licensed under [CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 

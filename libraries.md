@@ -6,7 +6,7 @@ layout: simple_page
 Query Libraries
 ---------------
 
-Some great folks have written their own libraries to interact with Druid.
+Some great folks have written their own libraries to interact with Apache Druid (incubating).
 
 #### Python
 

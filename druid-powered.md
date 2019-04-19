@@ -1,5 +1,5 @@
 ---
-title: Powered by Druid
+title: Powered by Apache Druid (incubating)
 subtitle: <a href="https://github.com/druid-io/druid-io.github.io/blob/src/druid-powered.md"><span class="fa fa-plus"></span> Add Your Company</a>
 layout: simple_page
 sectionid: powered-by
