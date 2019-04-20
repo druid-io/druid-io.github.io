@@ -174,7 +174,7 @@
 
 <h3 id="filtered-dimensionspecs">Filtered DimensionSpecs</h3>
 
-<p>These are only useful for multi-value dimensions. If you have a row in druid that has a multi-value dimension with values [&quot;v1&quot;, &quot;v2&quot;, &quot;v3&quot;] and you send a groupBy/topN query grouping by that dimension with <a href="filters.html">query filter</a> for value &quot;v1&quot;. In the response you will get 3 rows containing &quot;v1&quot;, &quot;v2&quot; and &quot;v3&quot;. This behavior might be unintuitive for some use cases.</p>
+<p>These are only useful for multi-value dimensions. If you have a row in Apache Druid (incubating) that has a multi-value dimension with values [&quot;v1&quot;, &quot;v2&quot;, &quot;v3&quot;] and you send a groupBy/topN query grouping by that dimension with <a href="filters.html">query filter</a> for value &quot;v1&quot;. In the response you will get 3 rows containing &quot;v1&quot;, &quot;v2&quot; and &quot;v3&quot;. This behavior might be unintuitive for some use cases.</p>
 
 <p>It happens because &quot;query filter&quot; is internally used on the bitmaps and only used to match the row to be included in the query result processing. With multi-value dimensions, &quot;query filter&quot; behaves like a contains check, which will match the row with dimension value [&quot;v1&quot;, &quot;v2&quot;, &quot;v3&quot;]. Please see the section on &quot;Multi-value columns&quot; in <a href="../design/segments.html">segment</a> for more details.
 Then groupBy/topN processing pipeline &quot;explodes&quot; all multi-value dimensions resulting 3 rows for &quot;v1&quot;, &quot;v2&quot; and &quot;v3&quot; each.</p>

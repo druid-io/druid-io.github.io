@@ -139,7 +139,7 @@
 
 <h3 id="configuration">Configuration</h3>
 
-<p>For Broker Process Configuration, see <a href="../configuration/index.html#broker">Broker Configuration</a>.</p>
+<p>For Apache Druid (incubating) Broker Process Configuration, see <a href="../configuration/index.html#broker">Broker Configuration</a>.</p>
 
 <h3 id="http-endpoints">HTTP endpoints</h3>
 
@@ -155,7 +155,7 @@ On start up, Historical processes announce themselves and the segments they are 
 </code></pre></div>
 <h3 id="forwarding-queries">Forwarding Queries</h3>
 
-<p>Most druid queries contain an interval object that indicates a span of time for which data is requested. Likewise, Druid <a href="../design/segments.html">Segments</a> are partitioned to contain data for some interval of time and segments are distributed across a cluster. Consider a simple datasource with 7 segments where each segment contains data for a given day of the week. Any query issued to the datasource for more than one day of data will hit more than one segment. These segments will likely be distributed across multiple processes, and hence, the query will likely hit multiple processes.</p>
+<p>Most Druid queries contain an interval object that indicates a span of time for which data is requested. Likewise, Druid <a href="../design/segments.html">Segments</a> are partitioned to contain data for some interval of time and segments are distributed across a cluster. Consider a simple datasource with 7 segments where each segment contains data for a given day of the week. Any query issued to the datasource for more than one day of data will hit more than one segment. These segments will likely be distributed across multiple processes, and hence, the query will likely hit multiple processes.</p>
 
 <p>To determine which processes to forward queries to, the Broker process first builds a view of the world from information in Zookeeper. Zookeeper maintains information about <a href="../design/historical.html">Historical</a> and streaming ingestion <a href="../design/peons.html">Peon</a> processes and the segments they are serving. For every datasource in Zookeeper, the Broker process builds a timeline of segments and the processes that serve them. When queries are received for a specific datasource and interval, the Broker process performs a lookup into the timeline associated with the query datasource for the query interval and retrieves the processes that contain data for the query. The Broker process then forwards down the query to the selected processes.</p>
 

@@ -143,7 +143,7 @@
 
 <h3 id="datasources-and-segments">Datasources and segments</h3>
 
-<p>Druid data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
+<p>Apache Druid (incubating) data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
 partitioned by time and, optionally, further partitioned by other attributes. Each time range is called a &quot;chunk&quot; (for
 example, a single day, if your datasource is partitioned by day). Within a chunk, data is partitioned into one or more
 &quot;segments&quot;. Each segment is a single file, typically comprising up to a few million rows of data. Since segments are

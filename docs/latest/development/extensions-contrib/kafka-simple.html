@@ -137,11 +137,11 @@
 
 <h1 id="kafka-simple-consumer">Kafka Simple Consumer</h1>
 
-<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-kafka-eight-simpleConsumer</code> extension.</p>
+<p>To use this Apache Druid (incubating) extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-kafka-eight-simpleConsumer</code> extension.</p>
 
 <h2 id="firehose">Firehose</h2>
 
-<p>This is an experimental firehose to ingest data from kafka using kafka simple consumer api. Currently, this firehose would only work inside standalone realtime processes.
+<p>This is an experimental firehose to ingest data from Apache Kafka using the Kafka simple consumer api. Currently, this firehose would only work inside standalone realtime processes.
 The configuration for KafkaSimpleConsumerFirehose is similar to the Kafka Eight Firehose , except <code>firehose</code> should be replaced with <code>firehoseV2</code> like this:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehoseV2&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;kafka-0.8-v2&quot;</span><span class="p">,</span>

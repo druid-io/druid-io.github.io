@@ -137,7 +137,7 @@
 
 <h1 id="router-process">Router Process</h1>
 
-<p>The Router process can be used to route queries to different Broker processes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
+<p>The Apache Druid (incubating) Router process can be used to route queries to different Broker processes. By default, the broker routes queries based on how <a href="../operations/rule-configuration.html">Rules</a> are set up. For example, if 1 month of recent data is loaded into a <code>hot</code> cluster, queries that fall within the recent month can be routed to a dedicated set of brokers. Queries outside this range are routed to another set of brokers. This set up provides query isolation such that queries for more important data are not impacted by queries for less important data. </p>
 
 <p>For query routing purposes, you should only ever need the Router process if you have a Druid cluster well into the terabyte range. </p>
 

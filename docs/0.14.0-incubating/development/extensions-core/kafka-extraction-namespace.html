@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Kafka Lookups</title>
+<title>Druid | Apache Kafka Lookups</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -141,7 +141,7 @@
 Lookups are an <a href="../experimental.html">experimental</a> feature.
 </div>
 
-<p>Make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-lookups-cached-global</code> and <code>druid-kafka-extraction-namespace</code> as an extension.</p>
+<p>To use this Apache Druid (incubating) extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-lookups-cached-global</code> and <code>druid-kafka-extraction-namespace</code> as an extension.</p>
 
 <p>If you need updates to populate as promptly as possible, it is possible to plug into a kafka topic whose key is the old value and message is the desired new value (both in UTF-8) as a LookupExtractorFactory.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>

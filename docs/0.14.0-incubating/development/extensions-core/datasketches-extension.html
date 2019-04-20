@@ -137,7 +137,7 @@
 
 <h1 id="datasketches-extension">DataSketches extension</h1>
 
-<p>Druid aggregators based on <a href="http://datasketches.github.io/">datasketches</a> library. Sketches are data structures implementing approximate streaming mergeable algorithms. Sketches can be ingested from the outside of Druid or built from raw data at ingestion time. Sketches can be stored in Druid segments as additive metrics.</p>
+<p>Apache Druid (incubating) aggregators based on <a href="http://datasketches.github.io/">datasketches</a> library. Sketches are data structures implementing approximate streaming mergeable algorithms. Sketches can be ingested from the outside of Druid or built from raw data at ingestion time. Sketches can be stored in Druid segments as additive metrics.</p>
 
 <p>To use the datasketches aggregators, make sure you <a href="../../operations/including-extensions.html">include</a> the extension in your config file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.extensions.loadList=[&quot;druid-datasketches&quot;]
