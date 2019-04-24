@@ -2,8 +2,8 @@
   name: "Druid Israel Meetup"
   info: Druid Israel Meetup @ WalkMe
   link: https://www.meetup.com/Druid-Israel/events/260506060/
-
+  
 - date: 2019-05-13
-  name: "Apache Road Show"
-  info: Lightning talks @ Revolution Brewing, Local Meetups @ Emporium Beercade
-  link: https://www.apachecon.com/chiroadshow19/evening.html
+  name: "Chicago Apache Roadshow"
+  info: "Inside Apache Druid: Designed for Performance"
+  link: https://www.apachecon.com/chiroadshow19/talks/inside-apache-druid-designed-for-performance.html
