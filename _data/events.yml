@@ -2,6 +2,11 @@
   name: "Druid Israel Meetup"
   info: Druid Israel Meetup @ WalkMe
   link: https://www.meetup.com/Druid-Israel/events/260506060/
+
+- date: 2019-05-01
+  name: "Future of Data: Silicon Valley"
+  info: The Latest in Apache Hive, Spark, Druid and Impala
+  link: https://www.meetup.com/futureofdata-siliconvalley/events/260713401/
   
 - date: 2019-05-13
   name: "Chicago Apache Roadshow"
