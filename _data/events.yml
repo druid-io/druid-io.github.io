@@ -1,13 +1,4 @@
-- date: 2019-04-30
-  name: "Druid Israel Meetup"
-  info: Druid Israel Meetup @ WalkMe
-  link: https://www.meetup.com/Druid-Israel/events/260506060/
 
-- date: 2019-05-01
-  name: "Future of Data: Silicon Valley"
-  info: The Latest in Apache Hive, Spark, Druid and Impala
-  link: https://www.meetup.com/futureofdata-siliconvalley/events/260713401/
-  
 - date: 2019-05-13
   name: "Chicago Apache Roadshow"
   info: "Inside Apache Druid: Designed for Performance"
@@ -23,3 +14,7 @@
   info: "Setting the Stage for Fast Analytics with Druid"
   link: https://dataworkssummit.com/washington-dc-2019/session/setting-the-stage-for-fast-analytics-with-druid/
   
+- date: 2019-06-12
+  name: "Druid NYC Meetup @ Tumblr"
+  info: "Inside Apache Druid: Deep Dive, Personalized Related Blog Recommendation with User Feedback"
+  link: https://www.meetup.com/Apache-Druid-NYC/events/260925189/
