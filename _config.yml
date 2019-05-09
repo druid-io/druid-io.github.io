@@ -23,9 +23,10 @@ title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
 druid_stable_version: 0.14.1-incubating
-druid_stable_version_date: 2019-05-09
 
-druid_older_versions:
+druid_versions:
+  - version: 0.14.1-incubating
+    date: 2019-05-09
   - version: 0.14.0-incubating
     date: 2019-04-09
   - version: 0.13.0-incubating
