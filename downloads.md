@@ -21,7 +21,7 @@ The current Apache Druid (incubating) stable release is {{ site.druid_stable_ver
 ## Older releases
 
 {% for druid_older_version in site.druid_older_versions %}
-#### {{ druid_older_version }}
+#### {{ druid_older_version.version }}
 
 * Release date: {{ druid_older_version.date | date: "%b %e %Y" }}
 * Binary download: [apache-druid-{{ druid_older_version.version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version.version }}/apache-druid-{{ druid_older_version.version }}-bin.tar.gz)
