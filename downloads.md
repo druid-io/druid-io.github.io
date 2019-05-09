@@ -23,7 +23,6 @@ The current Apache Druid (incubating) stable release is {{ release.version }}.
 ## Older releases
 
 {% for release in site.druid_versions offset:1 %}
-
 #### {{ release.version  }}
 
 * Release date: {{ release.date | date: "%b %e %Y" }}
