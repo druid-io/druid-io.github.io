@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Working with different versions of Apache Hadoop</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="https://druid.apache.org/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="working-with-different-versions-of-hadoop">Working with different versions of Hadoop</h1>
+
+<p>Apache Druid (incubating) can interact with Hadoop in two ways:</p>
+
+<ol>
+<li><a href="../development/extensions-core/hdfs.html">Use HDFS for deep storage</a> using the druid-hdfs-storage extension.</li>
+<li><a href="../ingestion/hadoop.html">Batch-load data from Hadoop</a> using Map/Reduce jobs.</li>
+</ol>
+
+<p>These are not necessarily linked together; you can load data with Hadoop jobs into a non-HDFS deep storage (like S3),
+and you can use HDFS for deep storage even if you&#39;re loading data from streams rather than using Hadoop jobs.</p>
+
+<p>For best results, use these tips when configuring Druid to interact with your favorite Hadoop distribution.</p>
+
+<h2 id="tip-1-place-hadoop-xmls-on-druid-classpath">Tip #1: Place Hadoop XMLs on Druid classpath</h2>
+
+<p>Place your Hadoop configuration XMLs (core-site.xml, hdfs-site.xml, yarn-site.xml, mapred-site.xml) on the classpath
+of your Druid processes. You can do this by copying them into <code>conf/druid/_common/core-site.xml</code>,
+<code>conf/druid/_common/hdfs-site.xml</code>, and so on. This allows Druid to find your Hadoop cluster and properly submit jobs.</p>
+
+<h2 id="tip-2-classloader-modification-on-hadoop-map-reduce-jobs-only">Tip #2: Classloader modification on Hadoop (Map/Reduce jobs only)</h2>
+
+<p>Druid uses a number of libraries that are also likely present on your Hadoop cluster, and if these libraries conflict,
+your Map/Reduce jobs can fail. This problem can be avoided by enabling classloader isolation using the Hadoop job
+property <code>mapreduce.job.classloader = true</code>. This instructs Hadoop to use a separate classloader for Druid dependencies
+and for Hadoop&#39;s own dependencies.</p>
+
+<p>If your version of Hadoop does not support this functionality, you can also try setting the property
+<code>mapreduce.job.user.classpath.first = true</code>. This instructs Hadoop to prefer loading Druid&#39;s version of a library when
+there is a conflict.</p>
+
+<p>Generally, you should only set one of these parameters, not both.</p>
+
+<p>These properties can be set in either one of the following ways:</p>
+
+<ul>
+<li>Using the task definition, e.g. add <code>&quot;mapreduce.job.classloader&quot;: &quot;true&quot;</code> to the <code>jobProperties</code> of the <code>tuningConfig</code> of your indexing task (see the <a href="../ingestion/hadoop.html">Hadoop batch ingestion documentation</a>).</li>
+<li>Using system properties, e.g. on the MiddleManager set <code>druid.indexer.runner.javaOpts=... -Dhadoop.mapreduce.job.classloader=true</code>.</li>
+</ul>
+
+<h3 id="overriding-specific-classes">Overriding specific classes</h3>
+
+<p>When <code>mapreduce.job.classloader = true</code>, it is also possible to specifically define which classes should be loaded from the hadoop system classpath and which should be loaded from job-supplied JARs.</p>
+
+<p>This is controlled by defining class inclusion/exclusion patterns in the <code>mapreduce.job.classloader.system.classes</code> property in the <code>jobProperties</code> of <code>tuningConfig</code>.</p>
+
+<p>For example, some community members have reported version incompatibility errors with the Validator class:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Error: java.lang.ClassNotFoundException: javax.validation.Validator
+</code></pre></div>
+<p>The following <code>jobProperties</code> excludes <code>javax.validation.</code> classes from being loaded from the system classpath, while including those from <code>java.,javax.,org.apache.commons.logging.,org.apache.log4j.,org.apache.hadoop.</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&quot;jobProperties&quot;: {
+  &quot;mapreduce.job.classloader&quot;: &quot;true&quot;,
+  &quot;mapreduce.job.classloader.system.classes&quot;: &quot;-javax.validation.,java.,javax.,org.apache.commons.logging.,org.apache.log4j.,org.apache.hadoop.&quot;
+}
+</code></pre></div>
+<p><a href="https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml">mapred-default.xml</a> documentation contains more information about this property.</p>
+
+<h2 id="tip-3-use-specific-versions-of-hadoop-libraries">Tip #3: Use specific versions of Hadoop libraries</h2>
+
+<p>Druid loads Hadoop client libraries from two different locations. Each set of libraries is loaded in an isolated
+classloader.</p>
+
+<ol>
+<li>HDFS deep storage uses jars from <code>extensions/druid-hdfs-storage/</code> to read and write Druid data on HDFS.</li>
+<li>Batch ingestion uses jars from <code>hadoop-dependencies/</code> to submit Map/Reduce jobs (location customizable via the
+<code>druid.extensions.hadoopDependenciesDir</code> runtime property; see <a href="../configuration/index.html#extensions">Configuration</a>).</li>
+</ol>
+
+<p><code>hadoop-client:2.8.3</code> is the default version of the Hadoop client bundled with Druid for both purposes. This works with
+many Hadoop distributions (the version does not necessarily need to match), but if you run into issues, you can instead
+have Druid load libraries that exactly match your distribution. To do this, either copy the jars from your Hadoop
+cluster, or use the <code>pull-deps</code> tool to download the jars from a Maven repository.</p>
+
+<h3 id="preferred-load-using-druids-standard-mechanism">Preferred: Load using Druid&#39;s standard mechanism</h3>
+
+<p>If you have issues with HDFS deep storage, you can switch your Hadoop client libraries by recompiling the
+druid-hdfs-storage extension using an alternate version of the Hadoop client libraries. You can do this by editing
+the main Druid pom.xml and rebuilding the distribution by running <code>mvn package</code>.</p>
+
+<p>If you have issues with Map/Reduce jobs, you can switch your Hadoop client libraries without rebuilding Druid. You can
+do this by adding a new set of libraries to the <code>hadoop-dependencies/</code> directory (or another directory specified by
+druid.extensions.hadoopDependenciesDir) and then using <code>hadoopDependencyCoordinates</code> in the
+<a href="../ingestion/hadoop.html">Hadoop Index Task</a> to specify the Hadoop dependencies you want Druid to load.</p>
+
+<p>Example:</p>
+
+<p>Suppose you specify <code>druid.extensions.hadoopDependenciesDir=/usr/local/druid_tarball/hadoop-dependencies</code>, and you have downloaded
+<code>hadoop-client</code> 2.3.0 and 2.4.0, either by copying them from your Hadoop cluster or by using <code>pull-deps</code> to download
+the jars from a Maven repository. Then underneath <code>hadoop-dependencies</code>, your jars should look like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>hadoop-dependencies/
+└── hadoop-client
+    ├── 2.3.0
+    │   ├── activation-1.1.jar
+    │   ├── avro-1.7.4.jar
+    │   ├── commons-beanutils-1.7.0.jar
+    │   ├── commons-beanutils-core-1.8.0.jar
+    │   ├── commons-cli-1.2.jar
+    │   ├── commons-codec-1.4.jar
+    ..... lots of jars
+    └── 2.4.0
+        ├── activation-1.1.jar
+        ├── avro-1.7.4.jar
+        ├── commons-beanutils-1.7.0.jar
+        ├── commons-beanutils-core-1.8.0.jar
+        ├── commons-cli-1.2.jar
+        ├── commons-codec-1.4.jar
+    ..... lots of jars
+</code></pre></div>
+<p>As you can see, under <code>hadoop-client</code>, there are two sub-directories, each denotes a version of <code>hadoop-client</code>.</p>
+
+<p>Next, use <code>hadoopDependencyCoordinates</code> in <a href="../ingestion/hadoop.html">Hadoop Index Task</a> to specify the Hadoop dependencies you want Druid to load.</p>
+
+<p>For example, in your Hadoop Index Task spec file, you can write:</p>
+
+<p><code>&quot;hadoopDependencyCoordinates&quot;: [&quot;org.apache.hadoop:hadoop-client:2.4.0&quot;]</code></p>
+
+<p>This instructs Druid to load hadoop-client 2.4.0 when processing the task. What happens behind the scene is that Druid first looks for a folder
+called <code>hadoop-client</code> underneath <code>druid.extensions.hadoopDependenciesDir</code>, then looks for a folder called <code>2.4.0</code>
+underneath <code>hadoop-client</code>, and upon successfully locating these folders, hadoop-client 2.4.0 is loaded.</p>
+
+<h3 id="alternative-append-your-hadoop-jars-to-the-druid-classpath">Alternative: Append your Hadoop jars to the Druid classpath</h3>
+
+<p>You can also load Hadoop client libraries in Druid&#39;s main classloader, rather than an isolated classloader. This
+mechanism is relatively easy to reason about, but it also means that you have to ensure that all dependency jars on the
+classpath are compatible. That is, Druid makes no provisions while using this method to maintain class loader isolation
+so you must make sure that the jars on your classpath are mutually compatible.</p>
+
+<ol>
+<li>Set <code>druid.indexer.task.defaultHadoopCoordinates=[]</code>. By setting this to an empty list, Druid will not load any other Hadoop dependencies except the ones specified in the classpath.</li>
+<li>Append your Hadoop jars to Druid&#39;s classpath. Druid will load them into the system.</li>
+</ol>
+
+<h2 id="notes-on-specific-hadoop-distributions">Notes on specific Hadoop distributions</h2>
+
+<p>If the tips above do not solve any issues you are having with HDFS deep storage or Hadoop batch indexing, you may
+have luck with one of the following suggestions contributed by the Druid community.</p>
+
+<h3 id="cdh">CDH</h3>
+
+<p>Members of the community have reported dependency conflicts between the version of Jackson used in CDH and Druid when running a Mapreduce job like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java.lang.VerifyError: class com.fasterxml.jackson.datatype.guava.deser.HostAndPortDeserializer overrides final method deserialize.(Lcom/fasterxml/jackson/core/JsonParser;Lcom/fasterxml/jackson/databind/DeserializationContext;)Ljava/lang/Object;
+</code></pre></div>
+<p><strong>Preferred workaround</strong></p>
+
+<p>First, try the tip under &quot;Classloader modification on Hadoop&quot; above. More recent versions of CDH have been reported to
+work with the classloader isolation option (<code>mapreduce.job.classloader = true</code>).</p>
+
+<p><strong>Alternate workaround - 1</strong></p>
+
+<p>You can try editing Druid&#39;s pom.xml dependencies to match the version of Jackson in your Hadoop version and recompile Druid.</p>
+
+<p>For more about building Druid, please see <a href="../development/build.html">Building Druid</a>.</p>
+
+<p><strong>Alternate workaround - 2</strong></p>
+
+<p>Another workaround solution is to build a custom fat jar of Druid using <a href="http://www.scala-sbt.org/">sbt</a>, which manually excludes all the conflicting Jackson dependencies, and then put this fat jar in the classpath of the command that starts Overlord indexing service. To do this, please follow the following steps.</p>
+
+<p>(1) Download and install sbt.</p>
+
+<p>(2) Make a new directory named &#39;druid_build&#39;.</p>
+
+<p>(3) Cd to &#39;druid_build&#39; and create the build.sbt file with the content <a href="./use_sbt_to_build_fat_jar.html">here</a>.</p>
+
+<p>You can always add more building targets or remove the ones you don&#39;t need.</p>
+
+<p>(4) In the same directory create a new directory named &#39;project&#39;.</p>
+
+<p>(5) Put the druid source code into &#39;druid_build/project&#39;.</p>
+
+<p>(6) Create a file &#39;druid_build/project/assembly.sbt&#39; with content as follows.
+<code>
+addSbtPlugin(&quot;com.eed3si9n&quot; % &quot;sbt-assembly&quot; % &quot;0.13.0&quot;)
+</code></p>
+
+<p>(7) In the &#39;druid_build&#39; directory, run &#39;sbt assembly&#39;.</p>
+
+<p>(8) In the &#39;druid_build/target/scala-2.10&#39; folder, you will find the fat jar you just build.</p>
+
+<p>(9) Make sure the jars you&#39;ve uploaded has been completely removed. The HDFS directory is by default &#39;/tmp/druid-indexing/classpath&#39;.</p>
+
+<p>(10) Include the fat jar in the classpath when you start the indexing service. Make sure you&#39;ve removed &#39;lib/*&#39; from your classpath because now the fat jar includes all you need.</p>
+
+<p><strong>Alternate workaround - 3</strong></p>
+
+<p>If sbt is not your choice, you can also use <code>maven-shade-plugin</code> to make a fat jar: relocation all jackson packages will resolve it too. In this way, druid will not be affected by jackson library embedded in hadoop. Please follow the steps below:</p>
+
+<p>(1) Add all extensions you needed to <code>services/pom.xml</code> like</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span> <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>druid-avro-extensions<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+
+  <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>druid-parquet-extensions<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+
+  <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>druid-hdfs-storage<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+
+  <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.druid.extensions<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>mysql-metadata-storage<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>${project.parent.version}<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>(2) Shade jackson packages and assemble a fat jar.</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;plugin&gt;</span>
+     <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+     <span class="nt">&lt;artifactId&gt;</span>maven-shade-plugin<span class="nt">&lt;/artifactId&gt;</span>
+     <span class="nt">&lt;executions&gt;</span>
+         <span class="nt">&lt;execution&gt;</span>
+             <span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+             <span class="nt">&lt;goals&gt;</span>
+                 <span class="nt">&lt;goal&gt;</span>shade<span class="nt">&lt;/goal&gt;</span>
+             <span class="nt">&lt;/goals&gt;</span>
+             <span class="nt">&lt;configuration&gt;</span>
+                 <span class="nt">&lt;outputFile&gt;</span>
+                     ${project.build.directory}/${project.artifactId}-${project.version}-selfcontained.jar
+                 <span class="nt">&lt;/outputFile&gt;</span>
+                 <span class="nt">&lt;relocations&gt;</span>
+                     <span class="nt">&lt;relocation&gt;</span>
+                         <span class="nt">&lt;pattern&gt;</span>com.fasterxml.jackson<span class="nt">&lt;/pattern&gt;</span>
+                         <span class="nt">&lt;shadedPattern&gt;</span>shade.com.fasterxml.jackson<span class="nt">&lt;/shadedPattern&gt;</span>
+                     <span class="nt">&lt;/relocation&gt;</span>
+                 <span class="nt">&lt;/relocations&gt;</span>
+                 <span class="nt">&lt;artifactSet&gt;</span>
+                     <span class="nt">&lt;includes&gt;</span>
+                         <span class="nt">&lt;include&gt;</span>*:*<span class="nt">&lt;/include&gt;</span>
+                     <span class="nt">&lt;/includes&gt;</span>
+                 <span class="nt">&lt;/artifactSet&gt;</span>
+                 <span class="nt">&lt;filters&gt;</span>
+                     <span class="nt">&lt;filter&gt;</span>
+                         <span class="nt">&lt;artifact&gt;</span>*:*<span class="nt">&lt;/artifact&gt;</span>
+                         <span class="nt">&lt;excludes&gt;</span>
+                             <span class="nt">&lt;exclude&gt;</span>META-INF/*.SF<span class="nt">&lt;/exclude&gt;</span>
+                             <span class="nt">&lt;exclude&gt;</span>META-INF/*.DSA<span class="nt">&lt;/exclude&gt;</span>
+                             <span class="nt">&lt;exclude&gt;</span>META-INF/*.RSA<span class="nt">&lt;/exclude&gt;</span>
+                         <span class="nt">&lt;/excludes&gt;</span>
+                     <span class="nt">&lt;/filter&gt;</span>
+                 <span class="nt">&lt;/filters&gt;</span>
+                 <span class="nt">&lt;transformers&gt;</span>
+                     <span class="nt">&lt;transformer</span> <span class="na">implementation=</span><span class="s">&quot;org.apache.maven.plugins.shade.resource.ServicesResourceTransformer&quot;</span><span class="nt">/&gt;</span>
+                 <span class="nt">&lt;/transformers&gt;</span>
+             <span class="nt">&lt;/configuration&gt;</span>
+         <span class="nt">&lt;/execution&gt;</span>
+     <span class="nt">&lt;/executions&gt;</span>
+ <span class="nt">&lt;/plugin&gt;</span>
+</code></pre></div>
+<p>Copy out <code>services/target/xxxxx-selfcontained.jar</code> after <code>mvn install</code> in project root for further usage.</p>
+
+<p>(3) run hadoop indexer (post an indexing task is not possible now) as below. <code>lib</code> is not needed anymore. As hadoop indexer is a standalone tool, you don&#39;t have to replace the jars of your running services:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>java -Xmx32m <span class="se">\</span>
+  -Dfile.encoding<span class="o">=</span>UTF-8 -Duser.timezone<span class="o">=</span>UTC <span class="se">\</span>
+  -classpath config/hadoop:config/overlord:config/_common:<span class="nv">$SELF_CONTAINED_JAR</span>:<span class="nv">$HADOOP_DISTRIBUTION</span>/etc/hadoop <span class="se">\</span>
+  -Djava.security.krb5.conf<span class="o">=</span><span class="nv">$KRB5</span> <span class="se">\</span>
+  org.apache.druid.cli.Main index hadoop <span class="se">\</span>
+  <span class="nv">$config_path</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="https://druid.apache.org/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.1-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

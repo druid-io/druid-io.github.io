@@ -171,7 +171,7 @@
 
 <p><code>-d</code> or <code>--defaultVersion</code></p>
 
-<p>Version to use for extension coordinate that doesn&#39;t have a version information. For example, if extension coordinate is <code>org.apache.druid.extensions:mysql-metadata-storage</code>, and default version is <code>0.14.0-incubating</code>, then this coordinate will be treated as <code>org.apache.druid.extensions:mysql-metadata-storage:0.14.0-incubating</code></p>
+<p>Version to use for extension coordinate that doesn&#39;t have a version information. For example, if extension coordinate is <code>org.apache.druid.extensions:mysql-metadata-storage</code>, and default version is <code>0.14.1-incubating</code>, then this coordinate will be treated as <code>org.apache.druid.extensions:mysql-metadata-storage:0.14.1-incubating</code></p>
 
 <p><code>--use-proxy</code></p>
 
@@ -205,8 +205,8 @@
 
 <p>Example:</p>
 
-<p>Suppose you want to download <code>druid-rabbitmq</code>, <code>mysql-metadata-storage</code> and <code>hadoop-client</code>(both 2.3.0 and 2.4.0) with a specific version, you can run <code>pull-deps</code> command with <code>-c org.apache.druid.extensions:druid-examples:0.14.0-incubating</code>, <code>-c org.apache.druid.extensions:mysql-metadata-storage:0.14.0-incubating</code>, <code>-h org.apache.hadoop:hadoop-client:2.3.0</code> and <code>-h org.apache.hadoop:hadoop-client:2.4.0</code>, an example command would be:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -classpath &quot;/my/druid/lib/*&quot; org.apache.druid.cli.Main tools pull-deps --clean -c org.apache.druid.extensions:mysql-metadata-storage:0.14.0-incubating -c org.apache.druid.extensions.contrib:druid-rabbitmq:0.14.0-incubating -h org.apache.hadoop:hadoop-client:2.3.0 -h org.apache.hadoop:hadoop-client:2.4.0
+<p>Suppose you want to download <code>druid-rabbitmq</code>, <code>mysql-metadata-storage</code> and <code>hadoop-client</code>(both 2.3.0 and 2.4.0) with a specific version, you can run <code>pull-deps</code> command with <code>-c org.apache.druid.extensions:druid-examples:0.14.1-incubating</code>, <code>-c org.apache.druid.extensions:mysql-metadata-storage:0.14.1-incubating</code>, <code>-h org.apache.hadoop:hadoop-client:2.3.0</code> and <code>-h org.apache.hadoop:hadoop-client:2.4.0</code>, an example command would be:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -classpath &quot;/my/druid/lib/*&quot; org.apache.druid.cli.Main tools pull-deps --clean -c org.apache.druid.extensions:mysql-metadata-storage:0.14.1-incubating -c org.apache.druid.extensions.contrib:druid-rabbitmq:0.14.1-incubating -h org.apache.hadoop:hadoop-client:2.3.0 -h org.apache.hadoop:hadoop-client:2.4.0
 </code></pre></div>
 <p>Because <code>--clean</code> is supplied, this command will first remove the directories specified at <code>druid.extensions.directory</code> and <code>druid.extensions.hadoopDependenciesDir</code>, then recreate them and start downloading the extensions there. After finishing downloading, if you go to the extension directories you specified, you will see</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>tree extensions
@@ -216,12 +216,12 @@ extensions
 │   ├── commons-digester-1.8.jar
 │   ├── commons-logging-1.1.1.jar
 │   ├── commons-validator-1.4.0.jar
-│   ├── druid-examples-0.14.0-incubating.jar
+│   ├── druid-examples-0.14.1-incubating.jar
 │   ├── twitter4j-async-3.0.3.jar
 │   ├── twitter4j-core-3.0.3.jar
 │   └── twitter4j-stream-3.0.3.jar
 └── mysql-metadata-storage
-    └── mysql-metadata-storage-0.14.0-incubating.jar
+    └── mysql-metadata-storage-0.14.1-incubating.jar
 </code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>tree hadoop-dependencies
 hadoop-dependencies/
 └── hadoop-client
@@ -242,8 +242,8 @@ hadoop-dependencies/
         ├── commons-codec-1.4.jar
     ..... lots of jars
 </code></pre></div>
-<p>Note that if you specify <code>--defaultVersion</code>, you don&#39;t have to put version information in the coordinate. For example, if you want both <code>druid-rabbitmq</code> and <code>mysql-metadata-storage</code> to use version <code>0.14.0-incubating</code>,  you can change the command above to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -classpath &quot;/my/druid/lib/*&quot; org.apache.druid.cli.Main tools pull-deps --defaultVersion 0.14.0-incubating --clean -c org.apache.druid.extensions:mysql-metadata-storage -c org.apache.druid.extensions.contrib:druid-rabbitmq -h org.apache.hadoop:hadoop-client:2.3.0 -h org.apache.hadoop:hadoop-client:2.4.0
+<p>Note that if you specify <code>--defaultVersion</code>, you don&#39;t have to put version information in the coordinate. For example, if you want both <code>druid-rabbitmq</code> and <code>mysql-metadata-storage</code> to use version <code>0.14.1-incubating</code>,  you can change the command above to</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>java -classpath &quot;/my/druid/lib/*&quot; org.apache.druid.cli.Main tools pull-deps --defaultVersion 0.14.1-incubating --clean -c org.apache.druid.extensions:mysql-metadata-storage -c org.apache.druid.extensions.contrib:druid-rabbitmq -h org.apache.hadoop:hadoop-client:2.3.0 -h org.apache.hadoop:hadoop-client:2.4.0
 </code></pre></div>
 <div class="note info">
 Please note to use the pull-deps tool you must know the Maven groupId, artifactId, and version of your extension.
@@ -279,7 +279,7 @@ For Druid community extensions listed <a href="../development/extensions.html">h
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Materialized View</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="https://druid.apache.org/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="materialized-view">Materialized View</h1>
+
+<p>To use this Apache Druid (incubating) feature, make sure to only load <code>materialized-view-selection</code> on Broker and load <code>materialized-view-maintenance</code> on Overlord. In addtion, this feature currently requires a Hadoop cluster.</p>
+
+<p>This feature enables Druid to greatly improve the query performance, especially when the query dataSource has a very large number of dimensions but the query only required several dimensions. This feature includes two parts. One is <code>materialized-view-maintenance</code>, and the other is <code>materialized-view-selection</code>.</p>
+
+<h2 id="materialized-view-maintenance">Materialized-view-maintenance</h2>
+
+<p>In materialized-view-maintenance, dataSouces user ingested are called &quot;base-dataSource&quot;. For each base-dataSource, we can submit <code>derivativeDataSource</code> supervisors to create and maintain other dataSources which we called  &quot;derived-dataSource&quot;. The deminsions and metrics of derived-dataSources are the subset of base-dataSource&#39;s.
+The <code>derivativeDataSource</code> supervisor is used to keep the timeline of derived-dataSource consistent with base-dataSource. Each <code>derivativeDataSource</code> supervisor  is responsible for one derived-dataSource.</p>
+
+<p>A sample derivativeDataSource supervisor spec is shown below:
+<code>json
+   {
+       &quot;type&quot;: &quot;derivativeDataSource&quot;,
+       &quot;baseDataSource&quot;: &quot;wikiticker&quot;,
+       &quot;dimensionsSpec&quot;: {
+           &quot;dimensions&quot;: [
+               &quot;isUnpatrolled&quot;,
+               &quot;metroCode&quot;,
+               &quot;namespace&quot;,
+               &quot;page&quot;,
+               &quot;regionIsoCode&quot;,
+               &quot;regionName&quot;,
+               &quot;user&quot;
+           ]
+       },
+       &quot;metricsSpec&quot;: [
+           {
+               &quot;name&quot;: &quot;count&quot;,
+               &quot;type&quot;: &quot;count&quot;
+           },
+           {
+               &quot;name&quot;: &quot;added&quot;,
+               &quot;type&quot;: &quot;longSum&quot;,
+               &quot;fieldName&quot;: &quot;added&quot;
+           }
+       ],
+       &quot;tuningConfig&quot;: {
+           &quot;type&quot;: &quot;hadoop&quot;
+       }
+   }
+</code></p>
+
+<p><strong>Supervisor Configuration</strong></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Type</td>
+<td>The supervisor type. This should always be <code>derivativeDataSource</code>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>baseDataSource</td>
+<td>The name of base dataSource. This dataSource data should be already stored inside Druid, and the dataSource will be used as input data.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dimensionsSpec</td>
+<td>Specifies the dimensions of the data. These dimensions must be the subset of baseDataSource&#39;s dimensions.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>metricsSpec</td>
+<td>A list of aggregators. These metrics must be the subset of baseDataSource&#39;s metrics. See <a href="../../querying/aggregations.html">aggregations</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>tuningConfig</td>
+<td>TuningConfig must be HadoopTuningConfig. See <a href="../../ingestion/hadoop.html#tuningconfig">Hadoop tuning config</a>.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dataSource</td>
+<td>The name of this derived dataSource.</td>
+<td>no(default=baseDataSource-hashCode of supervisor)</td>
+</tr>
+<tr>
+<td>hadoopDependencyCoordinates</td>
+<td>A JSON array of Hadoop dependency coordinates that Druid will use, this property will override the default Hadoop coordinates. Once specified, Druid will look for those Hadoop dependencies from the location specified by druid.extensions.hadoopDependenciesDir</td>
+<td>no</td>
+</tr>
+<tr>
+<td>classpathPrefix</td>
+<td>Classpath that will be pre-appended for the Peon process.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>context</td>
+<td>See below.</td>
+<td>no</td>
+</tr>
+</tbody></table>
+
+<p><strong>Context</strong></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>maxTaskCount</td>
+<td>The max number of tasks the supervisor can submit simultaneously.</td>
+<td>no(default=1)</td>
+</tr>
+</tbody></table>
+
+<h2 id="materialized-view-selection">Materialized-view-selection</h2>
+
+<p>In materialized-view-selection, we implement a new query type <code>view</code>. When we request a view query, Druid will try its best to optimize the query based on query dataSource and intervals.</p>
+
+<p>A sample view query spec is shown below:
+<code>json
+   {
+       &quot;queryType&quot;: &quot;view&quot;,
+       &quot;query&quot;: {
+           &quot;queryType&quot;: &quot;groupBy&quot;,
+           &quot;dataSource&quot;: &quot;wikiticker&quot;,
+           &quot;granularity&quot;: &quot;all&quot;,
+           &quot;dimensions&quot;: [
+               &quot;user&quot;
+           ],
+           &quot;limitSpec&quot;: {
+               &quot;type&quot;: &quot;default&quot;,
+               &quot;limit&quot;: 1,
+               &quot;columns&quot;: [
+                   {
+                       &quot;dimension&quot;: &quot;added&quot;,
+                       &quot;direction&quot;: &quot;descending&quot;,
+                       &quot;dimensionOrder&quot;: &quot;numeric&quot;
+                   }
+               ]
+           },
+           &quot;aggregations&quot;: [
+               {
+                   &quot;type&quot;: &quot;longSum&quot;,
+                   &quot;name&quot;: &quot;added&quot;,
+                   &quot;fieldName&quot;: &quot;added&quot;
+               }
+           ],
+           &quot;intervals&quot;: [
+               &quot;2015-09-12/2015-09-13&quot;
+           ]
+       }
+   }
+</code>
+There are 2 parts in a view query:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>queryType</td>
+<td>The query type. This should always be view</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>query</td>
+<td>The real query of this <code>view</code> query. The real query must be <a href="../../querying/groupbyquery.html">groupBy</a>, <a href="../../querying/topnquery.html">topN</a>, or <a href="../../querying/timeseriesquery.html">timeseries</a> type.</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p><strong>Note that Materialized View is currently designated as experimental. Please make sure the time of all processes are the same and increase monotonically. Otherwise, some unexpected errors may happen on query results.</strong></p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="https://druid.apache.org/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.1-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

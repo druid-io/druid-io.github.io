@@ -154,7 +154,7 @@ don&#39;t need to have loaded any data yet.</p>
 tar -xzf tranquility-distribution-0.8.3.tgz
 mv tranquility-distribution-0.8.3 tranquility
 </code></pre></div>
-<p>The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at <code>tranquility</code> under the apache-druid-0.14.0-incubating package root.</p>
+<p>The startup scripts for the tutorial will expect the contents of the Tranquility tarball to be located at <code>tranquility</code> under the apache-druid-0.14.1-incubating package root.</p>
 
 <h2 id="enable-tranquility-server">Enable Tranquility Server</h2>
 
@@ -164,7 +164,7 @@ mv tranquility-distribution-0.8.3 tranquility
 </ul>
 
 <p>As part of the output of <em>supervise</em> you should see something like:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Running command<span class="o">[</span>tranquility-server<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.14.0-incubating/var/sv/tranquility-server.log<span class="o">]</span>: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList<span class="o">=[]</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Running command<span class="o">[</span>tranquility-server<span class="o">]</span>, logging to<span class="o">[</span>/stage/apache-druid-0.14.1-incubating/var/sv/tranquility-server.log<span class="o">]</span>: tranquility/bin/tranquility server -configFile quickstart/tutorial/conf/tranquility/server.json -Ddruid.extensions.loadList<span class="o">=[]</span>
 </code></pre></div>
 <p>You can check the log file in <code>var/sv/tranquility-server.log</code> to confirm that the server is starting up properly.</p>
 
@@ -230,7 +230,7 @@ allocated to the ingestion task. Subsequent POSTs will complete quickly once thi
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

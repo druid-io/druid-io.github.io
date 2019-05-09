@@ -1,0 +1,237 @@
+
+
+
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h2 id="getting-started">Getting Started</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/index.html">Design</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/index.html#what-is-druid">What is Druid?</a></li>
+<li><a href="/docs/0.14.1-incubating/design/index.html#when-to-use-druid">When should I use Druid</a></li>
+<li><a href="/docs/0.14.1-incubating/design/index.html#architecture">Architecture</a></li>
+<li><a href="/docs/0.14.1-incubating/design/index.html#datasources-and-segments">Datasources &amp; Segments</a></li>
+<li><a href="/docs/0.14.1-incubating/design/index.html#query-processing">Query processing</a></li>
+<li><a href="/docs/0.14.1-incubating/design/index.html#external-dependencies">External dependencies</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/index.html">Ingestion overview</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/index.html">Quickstart</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-batch.html">Tutorial: Loading a file</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-kafka.html">Tutorial: Loading stream data from Apache Kafka</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-batch-hadoop.html">Tutorial: Loading a file using Apache Hadoop</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-tranquility.html">Tutorial: Loading stream data using HTTP push</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-query.html">Tutorial: Querying data</a></li>
+</ul></li>
+<li>Further tutorials
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-rollup.html">Tutorial: Rollup</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-retention.html">Tutorial: Configuring retention</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-update-data.html">Tutorial: Updating existing data</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-compaction.html">Tutorial: Compacting segments</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-delete-data.html">Tutorial: Deleting data</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-ingestion-spec.html">Tutorial: Writing your own ingestion specs</a></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/tutorial-transform-spec.html">Tutorial: Transforming input data</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/tutorials/cluster.html">Clustering</a></li>
+</ul>
+
+<h2 id="data-ingestion">Data Ingestion</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/ingestion/index.html">Ingestion overview</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/schema-design.html">Schema Design</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/data-formats.html">Data Formats</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/tasks.html">Tasks Overview</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/ingestion-spec.html">Ingestion Spec</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/ingestion/transform-spec.html">Transform Specs</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/firehose.html">Firehoses</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/schema-changes.html">Schema Changes</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/batch-ingestion.html">Batch File Ingestion</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/ingestion/native_tasks.html">Native Batch Ingestion</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/hadoop.html">Hadoop Batch Ingestion</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/stream-ingestion.html">Stream Ingestion</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/development/extensions-core/kafka-ingestion.html">Kafka Indexing Service (Stream Pull)</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/stream-push.html">Stream Push</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/compaction.html">Compaction</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/update-existing-data.html">Updating Existing Data</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/delete-data.html">Deleting Data</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/locking-and-priority.html">Task Locking &amp; Priority</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/reports.html">Task Reports</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/faq.html">FAQ</a></li>
+<li><a href="/docs/0.14.1-incubating/ingestion/misc-tasks.html">Misc. Tasks</a></li>
+</ul>
+
+<h2 id="querying">Querying</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/querying/querying.html">Overview</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/timeseriesquery.html">Timeseries</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/topnquery.html">TopN</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/groupbyquery.html">GroupBy</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/timeboundaryquery.html">Time Boundary</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/segmentmetadataquery.html">Segment Metadata</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/datasourcemetadataquery.html">DataSource Metadata</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/searchquery.html">Search</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/select-query.html">Select</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/scan-query.html">Scan</a></li>
+<li>Components
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/querying/datasource.html">Datasources</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/filters.html">Filters</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/aggregations.html">Aggregations</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/post-aggregations.html">Post Aggregations</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/granularities.html">Granularities</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/dimensionspecs.html">DimensionSpecs</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/query-context.html">Context</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/querying/multi-value-dimensions.html">Multi-value dimensions</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/sql.html">SQL</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/lookups.html">Lookups</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/joins.html">Joins</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/multitenancy.html">Multitenancy</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/caching.html">Caching</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/sorting-orders.html">Sorting Orders</a></li>
+<li><a href="/docs/0.14.1-incubating/querying/virtual-columns.html">Virtual Columns</a></li>
+</ul>
+
+<h2 id="design">Design</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/index.html">Overview</a></li>
+<li>Storage
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/segments.html">Segments</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/design/processes.html">Processes and Servers</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/coordinator.html">Coordinator</a></li>
+<li><a href="/docs/0.14.1-incubating/design/overlord.html">Overlord</a></li>
+<li><a href="/docs/0.14.1-incubating/design/broker.html">Broker</a></li>
+<li><a href="/docs/0.14.1-incubating/design/historical.html">Historical</a></li>
+<li><a href="/docs/0.14.1-incubating/design/middlemanager.html">MiddleManager</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/design/peons.html">Peons</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/design/realtime.html">Realtime (Deprecated)</a></li>
+</ul></li>
+<li>Dependencies
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/dependencies/deep-storage.html">Deep Storage</a></li>
+<li><a href="/docs/0.14.1-incubating/dependencies/metadata-storage.html">Metadata Storage</a></li>
+<li><a href="/docs/0.14.1-incubating/dependencies/zookeeper.html">ZooKeeper</a></li>
+</ul></li>
+</ul>
+
+<h2 id="operations">Operations</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html">API Reference</a>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#coordinator">Coordinator</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#overlord">Overlord</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#middlemanager">MiddleManager</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#peon">Peon</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#broker">Broker</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/api-reference.html#historical">Historical</a></li>
+</ul></li>
+<li><a href="/docs/0.14.1-incubating/operations/including-extensions.html">Including Extensions</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/rule-configuration.html">Data Retention</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/metrics.html">Metrics and Monitoring</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/alerts.html">Alerts</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/rolling-updates.html">Updating the Cluster</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/other-hadoop.html">Different Hadoop Versions</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/performance-faq.html">Performance FAQ</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/management-uis.html">Management UIs</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/dump-segment.html">Dump Segment Tool</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/insert-segment-to-db.html">Insert Segment Tool</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/pull-deps.html">Pull Dependencies Tool</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/recommendations.html">Recommendations</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/tls-support.html">TLS Support</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/password-provider.html">Password Provider</a></li>
+<li><a href="/docs/0.14.1-incubating/operations/http-compression.html">HTTP Compression</a></li>
+</ul>
+
+<h2 id="configuration">Configuration</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html">Configuration Reference</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#recommended-configuration-file-organization">Recommended Configuration File Organization</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#jvm-configuration-best-practices">JVM Configuration Best Practices</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#common-configurations">Common Configuration</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#coordinator">Coordinator</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#overlord">Overlord</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#middle-manager-and-peons">MiddleManager &amp; Peons</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#broker">Broker</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#historical">Historical</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#cache-configuration">Caching</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/index.html#general-query-configuration">General Query Configuration</a></li>
+<li><a href="/docs/0.14.1-incubating/configuration/logging.html">Configuring Logging</a></li>
+</ul>
+
+<h2 id="development">Development</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/development/overview.html">Overview</a></li>
+<li><a href="/docs/0.14.1-incubating/development/libraries.html">Libraries</a></li>
+<li><a href="/docs/0.14.1-incubating/development/extensions.html">Extensions</a></li>
+<li><a href="/docs/0.14.1-incubating/development/javascript.html">JavaScript</a></li>
+<li><a href="/docs/0.14.1-incubating/development/build.html">Build From Source</a></li>
+<li><a href="/docs/0.14.1-incubating/development/versioning.html">Versioning</a></li>
+<li><a href="/docs/0.14.1-incubating/development/integrating-druid-with-other-technologies.html">Integration</a></li>
+<li>Experimental Features
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/development/experimental.html">Overview</a></li>
+<li><a href="/docs/0.14.1-incubating/development/extensions-core/approximate-histograms.html">Approximate Histograms and Quantiles</a></li>
+<li><a href="/docs/0.14.1-incubating/development/extensions-core/datasketches-extension.html">Datasketches</a></li>
+<li><a href="/docs/0.14.1-incubating/development/geo.html">Geographic Queries</a></li>
+<li><a href="/docs/0.14.1-incubating/development/router.html">Router</a></li>
+<li><a href="/docs/0.14.1-incubating/development/extensions-core/kafka-ingestion.html">Kafka Indexing Service</a></li>
+</ul></li>
+</ul>
+
+<h2 id="misc">Misc</h2>
+
+<ul>
+<li><a href="/docs/0.14.1-incubating/misc/math-expr.html">Druid Expressions Language</a></li>
+<li><a href="/docs/0.14.1-incubating/misc/papers-and-talks.html">Papers &amp; Talks</a></li>
+<li><a href="/thanks.html">Thanks</a></li>
+</ul>
+

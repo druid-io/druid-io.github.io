@@ -149,7 +149,7 @@
 <li><a href="#jvm-configuration-best-practices">JVM Configuration Best Practices</a></li>
 <li><a href="#extensions">Extensions</a></li>
 <li><a href="#modules">Modules</a></li>
-<li><a href="#zookeper">Zookeeper</a></li>
+<li><a href="#zookeeper">Zookeeper</a></li>
 <li><a href="#exhibitor">Exhibitor</a></li>
 <li><a href="#tls">TLS</a></li>
 <li><a href="#authentication-and-authorization">Authentication &amp; Authorization</a></li>
@@ -1096,7 +1096,7 @@ For native query, only request logs where query/time is above the threshold are 
 
 <h3 id="emitting-metrics">Emitting Metrics</h3>
 
-<p>The Druid servers <a href="../operations/metrics.html">emit various metrics</a> and alerts via something we call an Emitter. There are three emitter implementations included with the code, a &quot;noop&quot; emitter, one that just logs to log4j (&quot;logging&quot;, which is used by default if no emitter is specified) and one that does POSTs of JSON events to a server (&quot;http&quot;). The properties for using the logging emitter are described below.</p>
+<p>The Druid servers <a href="../operations/metrics.html">emit various metrics</a> and alerts via something we call an Emitter. There are three emitter implementations included with the code, a &quot;noop&quot; emitter (the default if none is specified), one that just logs to log4j (&quot;logging&quot;), and one that does POSTs of JSON events to a server (&quot;http&quot;). The properties for using the logging emitter are described below.</p>
 
 <table><thead>
 <tr>
@@ -1107,7 +1107,7 @@ For native query, only request logs where query/time is above the threshold are 
 </thead><tbody>
 <tr>
 <td><code>druid.emitter</code></td>
-<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, &quot;http&quot; or &quot;parametrized&quot; will initialize one of the emitter modules. value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
+<td>Setting this value to &quot;noop&quot;, &quot;logging&quot;, &quot;http&quot; or &quot;parametrized&quot; will initialize one of the emitter modules. The value &quot;composing&quot; can be used to initialize multiple emitter modules.</td>
 <td>noop</td>
 </tr>
 </tbody></table>
@@ -2679,7 +2679,7 @@ its better to write a druid extension module with extending current worker selec
 <p>Example: a function that sends batch_index_task to workers 10.0.0.1 and 10.0.0.2 and all other tasks to other available workers.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
 &quot;type&quot;:&quot;javascript&quot;,
-&quot;function&quot;:&quot;function (config, zkWorkers, task) {\nvar batch_workers = new java.util.ArrayList();\nbatch_workers.add(\&quot;10.0.0.1\&quot;);\nbatch_workers.add(\&quot;10.0.0.2\&quot;);\nworkers = zkWorkers.keySet().toArray();\nvar sortedWorkers = new Array()\n;for(var i = 0; i &lt; workers.length; i++){\n sortedWorkers[i] = workers[i];\n}\nArray.prototype.sort.call(sortedWorkers,function(a, b){return zkWorkers.get(b).getCurrCapacityUsed() - zkWorkers.get(a).getCurrCapacityUsed();});\nvar minWorkerVer = config.getMinWorkerVersion();\nfor (var i = 0; i &lt; sortedWorkers.length; i++) {\n var worker = sortedWorkers[i];\n  var zkWorker = zkWorkers.get(worker);\n  if(zkWorker.canRunTask(task) &amp;&amp; zkWorker.isValidVersion(minWorkerVer)){\n    if(task.getType() == &#39;index_hadoop&#39; &amp;&amp; batch_workers.contains(worker)){\n      return worker;\n    } else {\n      if(task.getType() != &#39;index_hadoop&#39; &amp;&amp; !batch_workers.contains(worker)){\n        return worker;\n      }\n    }\n  }\n}\nreturn null;\n}&quot;
+&quot;function&quot;:&quot;function (config, zkWorkers, task) {\nvar batch_workers = new java.util.ArrayList();\nbatch_workers.add(\&quot;middleManager1_hostname:8091\&quot;);\nbatch_workers.add(\&quot;middleManager2_hostname:8091\&quot;);\nworkers = zkWorkers.keySet().toArray();\nvar sortedWorkers = new Array()\n;for(var i = 0; i &lt; workers.length; i++){\n sortedWorkers[i] = workers[i];\n}\nArray.prototype.sort.call(sortedWorkers,function(a, b){return zkWorkers.get(b).getCurrCapacityUsed() - zkWorkers.get(a).getCurrCapacityUsed();});\nvar minWorkerVer = config.getMinWorkerVersion();\nfor (var i = 0; i &lt; sortedWorkers.length; i++) {\n var worker = sortedWorkers[i];\n  var zkWorker = zkWorkers.get(worker);\n  if(zkWorker.canRunTask(task) &amp;&amp; zkWorker.isValidVersion(minWorkerVer)){\n    if(task.getType() == &#39;index_hadoop&#39; &amp;&amp; batch_workers.contains(worker)){\n      return worker;\n    } else {\n      if(task.getType() != &#39;index_hadoop&#39; &amp;&amp; !batch_workers.contains(worker)){\n        return worker;\n      }\n    }\n  }\n}\nreturn null;\n}&quot;
 }
 </code></pre></div>
 <div class="note info">
@@ -4383,7 +4383,7 @@ If there is an L1 miss and L2 hit, it will also populate L1.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

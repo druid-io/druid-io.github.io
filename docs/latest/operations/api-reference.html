@@ -316,7 +316,7 @@ at the load balancer.</p>
 
 <h4 id="datasources">Datasources</h4>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -454,7 +454,7 @@ at the load balancer.</p>
 
 <h4 id="retention-rules">Retention Rules</h4>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -532,7 +532,7 @@ at the load balancer.</p>
 
 <h4 id="intervals">Intervals</h4>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -650,7 +650,7 @@ only want the active leader to be considered in-service at the load balancer.</p
 
 <h4 id="tasks">Tasks<a name="overlord-tasks"></a></h4>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -773,8 +773,8 @@ This API is deprecated and will be removed in future releases.
 <li><code>/druid/indexer/v1/pendingSegments/{dataSource}</code></li>
 </ul>
 
-<p>Manually clean up pending segments table in metadata storage for <code>datasource</code>. Returns a JSON object response with 
-<code>numDeleted</code> and count of rows deleted from the pending segments table. This API is used by the 
+<p>Manually clean up pending segments table in metadata storage for <code>datasource</code>. Returns a JSON object response with
+<code>numDeleted</code> and count of rows deleted from the pending segments table. This API is used by the
 <code>druid.coordinator.kill.pendingSegments.on</code> <a href="../configuration/index.html#coordinator-operation">coordinator setting</a>
 which automates this operation to perform periodically.</p>
 
@@ -900,9 +900,9 @@ Please use the equivalent 'terminate' instead.
 
 <h4 id="dynamic-configuration">Dynamic Configuration</h4>
 
-<p>See <a href="../configuration/index.html#overlord-dynamic-configuration">Overlord Dynamic Configuration</a> for details. </p>
+<p>See <a href="../configuration/index.html#overlord-dynamic-configuration">Overlord Dynamic Configuration</a> for details.</p>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -911,13 +911,13 @@ Please use the equivalent 'terminate' instead.
 <li><code>/druid/indexer/v1/worker</code></li>
 </ul>
 
-<p>Retreives current overlord dynamic configuration. </p>
+<p>Retreives current overlord dynamic configuration.</p>
 
 <ul>
 <li><code>/druid/indexer/v1/worker/history?interval={interval}&amp;counter={count}</code></li>
 </ul>
 
-<p>Retrieves history of changes to overlord dynamic configuration. Accepts <code>interval</code> and  <code>count</code> query string parameters 
+<p>Retrieves history of changes to overlord dynamic configuration. Accepts <code>interval</code> and  <code>count</code> query string parameters
 to filter by interval and limit the number of results respectively.</p>
 
 <ul>
@@ -936,7 +936,7 @@ to filter by interval and limit the number of results respectively.</p>
 
 <h2 id="data-server">Data Server</h2>
 
-<p>This section documents the API endpoints for the processes that reside on Data servers (MiddleManagers/Peons and Historicals) 
+<p>This section documents the API endpoints for the processes that reside on Data servers (MiddleManagers/Peons and Historicals)
 in the suggested <a href="../design/processes.html#server-types">three-server configuration</a>.</p>
 
 <h3 id="middlemanager">MiddleManager</h3>
@@ -947,7 +947,7 @@ in the suggested <a href="../design/processes.html#server-types">three-server co
 <li><code>/druid/worker/v1/enabled</code></li>
 </ul>
 
-<p>Check whether a MiddleManager is in an enabled or disabled state. Returns JSON object keyed by the combined <code>druid.host</code> 
+<p>Check whether a MiddleManager is in an enabled or disabled state. Returns JSON object keyed by the combined <code>druid.host</code>
 and <code>druid.port</code> with the boolean state as the value.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
 </code></pre></div>
@@ -955,12 +955,12 @@ and <code>druid.port</code> with the boolean state as the value.</p>
 <li><code>/druid/worker/v1/tasks</code></li>
 </ul>
 
-<p>Retrieve a list of active tasks being run on MiddleManager. Returns JSON list of taskid strings.  Normal usage should 
+<p>Retrieve a list of active tasks being run on MiddleManager. Returns JSON list of taskid strings.  Normal usage should
 prefer to use the <code>/druid/indexer/v1/tasks</code> <a href="#overlord">Overlord API</a> or one of it&#39;s task state specific variants instead.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span><span class="s2">&quot;index_wikiticker_2019-02-11T02:20:15.316Z&quot;</span><span class="p">]</span>
 </code></pre></div>
 <ul>
-<li><code>/druid/worker/v1/task/{taskid}/log</code> </li>
+<li><code>/druid/worker/v1/task/{taskid}/log</code></li>
 </ul>
 
 <p>Retrieve task log output stream by task id. Normal usage should prefer to use the <code>/druid/indexer/v1/task/{taskId}/log</code>
@@ -972,7 +972,7 @@ prefer to use the <code>/druid/indexer/v1/tasks</code> <a href="#overlord">Overl
 <li><code>/druid/worker/v1/disable</code></li>
 </ul>
 
-<p>&#39;Disable&#39; a MiddleManager, causing it to stop accepting new tasks but complete all existing tasks. Returns JSON  object 
+<p>&#39;Disable&#39; a MiddleManager, causing it to stop accepting new tasks but complete all existing tasks. Returns JSON  object
 keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="s2">&quot;disabled&quot;</span><span class="p">}</span>
 </code></pre></div>
@@ -980,7 +980,7 @@ keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
 <li><code>/druid/worker/v1/enable</code></li>
 </ul>
 
-<p>&#39;Enable&#39; a MiddleManager, allowing it to accept new tasks again if it was previously disabled. Returns JSON  object 
+<p>&#39;Enable&#39; a MiddleManager, allowing it to accept new tasks again if it was previously disabled. Returns JSON  object
 keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;localhost:8091&quot;</span><span class="p">:</span><span class="s2">&quot;enabled&quot;</span><span class="p">}</span>
 </code></pre></div>
@@ -988,7 +988,7 @@ keyed by the combined <code>druid.host</code> and <code>druid.port</code>:</p>
 <li><code>/druid/worker/v1/task/{taskid}/shutdown</code></li>
 </ul>
 
-<p>Shutdown a running task by <code>taskid</code>. Normal usage should prefer to use the <code>/druid/indexer/v1/task/{taskId}/shutdown</code> 
+<p>Shutdown a running task by <code>taskid</code>. Normal usage should prefer to use the <code>/druid/indexer/v1/task/{taskId}/shutdown</code>
 <a href="#overlord">Overlord API</a> instead. Returns JSON:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="s2">&quot;index_kafka_wikiticker_f7011f8ffba384b_fpeclode&quot;</span><span class="p">}</span>
 </code></pre></div>
@@ -1037,7 +1037,7 @@ in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&
 
 <h4 id="datasource-information">Datasource Information</h4>
 
-<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code> 
+<p>Note that all <em>interval</em> URL parameters are ISO 8601 strings delimited by a <code>_</code> instead of a <code>/</code>
 (e.g., 2016-06-27_2016-06-28).</p>
 
 <h5 id="get">GET</h5>
@@ -1065,8 +1065,8 @@ in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&
 <p>Returns the dimensions of the datasource.</p>
 
 <div class="note caution">
-This API is deprecated and will be removed in future releases. Please use <a href="../querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
-which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
+This API is deprecated and will be removed in future releases. Please use <a href="/querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
+which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use <a href="/querying/sql.html#retrieving-metadata">INFORMATION_SCHEMA tables</a>
 if you're using SQL.
 </div>
 
@@ -1142,7 +1142,7 @@ if you're using SQL.
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -210,12 +210,12 @@ OSes</a>.</p>
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.</p>
 
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz">Download</a>
-the 0.14.0-incubating release.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz">Download</a>
+the 0.14.1-incubating release.</p>
 
 <p>Extract Druid by running the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.14.0-incubating-bin.tar.gz
-<span class="nb">cd</span> apache-druid-0.14.0-incubating
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.14.1-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.14.1-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
@@ -467,7 +467,7 @@ rather than on the Master server.
 <p>Copy the Druid distribution and your edited configurations to your Master server. </p>
 
 <p>If you have been editing the configurations on your local machine, you can use <em>rsync</em> to copy them:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az apache-druid-0.14.0-incubating/ COORDINATION_SERVER:apache-druid-0.14.0-incubating/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -az apache-druid-0.14.1-incubating/ COORDINATION_SERVER:apache-druid-0.14.1-incubating/
 </code></pre></div>
 <p>Log on to your coordination server and install Zookeeper:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz -o zookeeper-3.4.11.tar.gz
@@ -554,7 +554,7 @@ Druid based on your use case. Read more about <a href="../ingestion/index.html">
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
