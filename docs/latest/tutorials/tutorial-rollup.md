@@ -115,7 +115,7 @@ We will see how these definitions are used after we load this data.
 
 ## Load the example data
 
-From the apache-druid-0.14.0-incubating package root, run the following command:
+From the apache-druid-0.14.1-incubating package root, run the following command:
 
 ```bash
 bin/post-index-task --file quickstart/tutorial/rollup-index.json 

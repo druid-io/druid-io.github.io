@@ -70,7 +70,7 @@ Now click `Next` and enter `tutorial` for both the user and changelog comment fi
 
 This will cause the first 12 segments of `deletion-tutorial` to be dropped. However, these dropped segments are not removed from deep storage.
 
-You can see that all 24 segments are still present in deep storage by listing the contents of `apache-druid-0.14.0-incubating/var/druid/segments/deletion-tutorial`:
+You can see that all 24 segments are still present in deep storage by listing the contents of `apache-druid-0.14.1-incubating/var/druid/segments/deletion-tutorial`:
 
 ```bash
 $ ls -l1 var/druid/segments/deletion-tutorial/

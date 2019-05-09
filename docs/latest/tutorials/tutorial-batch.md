@@ -151,7 +151,7 @@ If you wish to go through any of the other ingestion tutorials, you will need to
 
 Let's briefly discuss how we would've submitted the ingestion task without using the script. You do not need to run these commands.
 
-To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.14.0-incubating directory:
+To submit the task, POST it to Druid in a new terminal window from the apache-druid-0.14.1-incubating directory:
 
 ```bash
 curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/wikipedia-index.json http://localhost:8090/druid/indexer/v1/task

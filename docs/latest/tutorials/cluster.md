@@ -89,14 +89,14 @@ First, download and unpack the release archive. It's best to do this on a single
 since you will be editing the configurations and then copying the modified distribution out to all
 of your servers.
 
-[Download](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.0-incubating/apache-druid-0.14.0-incubating-bin.tar.gz)
-the 0.14.0-incubating release.
+[Download](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.1-incubating/apache-druid-0.14.1-incubating-bin.tar.gz)
+the 0.14.1-incubating release.
 
 Extract Druid by running the following commands in your terminal:
 
 ```bash
-tar -xzf apache-druid-0.14.0-incubating-bin.tar.gz
-cd apache-druid-0.14.0-incubating
+tar -xzf apache-druid-0.14.1-incubating-bin.tar.gz
+cd apache-druid-0.14.1-incubating
 ```
 
 In the package, you should find:
@@ -332,7 +332,7 @@ Copy the Druid distribution and your edited configurations to your Master server
 If you have been editing the configurations on your local machine, you can use *rsync* to copy them:
 
 ```bash
-rsync -az apache-druid-0.14.0-incubating/ COORDINATION_SERVER:apache-druid-0.14.0-incubating/
+rsync -az apache-druid-0.14.1-incubating/ COORDINATION_SERVER:apache-druid-0.14.1-incubating/
 ```
 
 Log on to your coordination server and install Zookeeper:
