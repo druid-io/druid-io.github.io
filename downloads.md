@@ -7,13 +7,12 @@ canonical: 'http://druid.io/downloads.html'
 
 ## Stable release
 
-The current Apache Druid (incubating) stable release is {{ site.druid_stable_version }}.
+{% for release in site.druid_versions limit:1 %}
+The current Apache Druid (incubating) stable release is {{ release.version }}.
 
 <p>
-<a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
+<a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{release.version}} release</a><br>
 </p>
-
-{% for release in site.druid_versions limit:1 %}
 
 * Release date: {{ release.date | date: "%b %e %Y" }}
 * Binary download: [apache-druid-{{ release.version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz)

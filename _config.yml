@@ -22,8 +22,6 @@ highlighter: pygments
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
-druid_stable_version: 0.14.1-incubating
-
 druid_versions:
   - version: 0.14.1-incubating
     date: 2019-05-09
