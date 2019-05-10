@@ -7,26 +7,28 @@ canonical: 'http://druid.io/downloads.html'
 
 ## Stable release
 
-The current Apache Druid (incubating) stable release is {{ site.druid_stable_version }}.
+{% for release in site.druid_versions limit:1 %}
+The current Apache Druid (incubating) stable release is {{ release.version }}.
 
 <p>
-<a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{site.druid_stable_version}} release</a><br>
+<a class="large-button download" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz" download onclick="trackDownload('button', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz');"><span class="fa fa-download"></span> Download {{release.version}} release</a><br>
 </p>
 
-* Release date: {{ site.druid_stable_version_date | date: "%b %e %Y" }}
-* Binary download: [apache-druid-{{ site.druid_stable_version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-bin.tar.gz)
-* Source download: [apache-druid-{{ site.druid_stable_version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_stable_version }}/apache-druid-{{ site.druid_stable_version }}-src.tar.gz)
-* Release notes: [{{ site.druid_stable_version }}](https://github.com/apache/incubator-druid/releases/tag/druid-{{ site.druid_stable_version }})
+* Release date: {{ release.date | date: "%b %e %Y" }}
+* Binary download: [apache-druid-{{ release.version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz)
+* Source download: [apache-druid-{{ release.version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-src.tar.gz)
+* Release notes: [{{ release.version }}](https://github.com/apache/incubator-druid/releases/tag/druid-{{ release.version }})
+{% endfor %}
 
 ## Older releases
 
-{% for druid_older_version in site.druid_older_versions %}
-#### {{ druid_older_version.version }}
+{% for release in site.druid_versions offset:1 %}
+#### {{ release.version  }}
 
-* Release date: {{ druid_older_version.date | date: "%b %e %Y" }}
-* Binary download: [apache-druid-{{ druid_older_version.version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version.version }}/apache-druid-{{ druid_older_version.version }}-bin.tar.gz)
-* Source download: [apache-druid-{{ druid_older_version.version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ druid_older_version.version }}/apache-druid-{{ druid_older_version.version }}-src.tar.gz)
-* Release notes: [{{ druid_older_version.version }}](https://github.com/apache/incubator-druid/releases/tag/druid-{{ druid_older_version.version }})
+* Release date: {{ release.date | date: "%b %e %Y" }}
+* Binary download: [apache-druid-{{ release.version }}-bin.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-bin.tar.gz)
+* Source download: [apache-druid-{{ release.version }}-src.tar.gz](https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ release.version }}/apache-druid-{{ release.version }}-src.tar.gz)
+* Release notes: [{{ release.version }}](https://github.com/apache/incubator-druid/releases/tag/druid-{{ release.version }})
 {% endfor %}
 
 To learn more about releases, please visit the [versioning page](/docs/latest/development/versioning.html).

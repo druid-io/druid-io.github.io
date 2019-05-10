@@ -4,17 +4,11 @@
   <h3>
     Latest releases
   </h3>
+  {% for release in site.druid_versions limit:5 %}
   <p>
-    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-{{ site.druid_stable_version }}">
-      <span class="title">Apache Druid (incubating) {{ site.druid_stable_version | remove: "-incubating" }} Released</span><br>
-      <span class="text-muted">{{ site.druid_stable_version_date | date: "%b %e %Y" }}</span>
-    </a>
-  </p>
-  {% for older_version in site.druid_older_versions %}
-  <p>
-    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-{{ older_version.version }}">
-      <span class="title">Apache Druid (incubating) {{ older_version.version | remove: "-incubating"}} Released</span><br>
-      <span class="text-muted">{{ older_version.date | date: "%b %e %Y" }}</span>
+    <a href="https://github.com/apache/incubator-druid/releases/tag/druid-{{ release.version }}">
+      <span class="title">Apache Druid (incubating) {{ release.version | remove: "-incubating"}} Released</span><br>
+      <span class="text-muted">{{ release.date | date: "%b %e %Y" }}</span>
     </a>
   </p>
   {% endfor %}
