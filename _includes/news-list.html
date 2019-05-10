@@ -4,7 +4,7 @@
   <h3>
     Latest releases
   </h3>
-  {% for release in site.druid_versions %}
+  {% for release in site.druid_versions limit:5 %}
   <p>
     <a href="https://github.com/apache/incubator-druid/releases/tag/druid-{{ release.version }}">
       <span class="title">Apache Druid (incubating) {{ release.version | remove: "-incubating"}} Released</span><br>
