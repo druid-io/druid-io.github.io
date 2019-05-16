@@ -1,14 +1,3 @@
-
-- date: 2019-05-13
-  name: "Chicago Apache Roadshow"
-  info: "Inside Apache Druid: Designed for Performance"
-  link: https://www.apachecon.com/chiroadshow19/talks/inside-apache-druid-designed-for-performance.html
-
-- date: 2019-05-13
-  name: "Kafka Summit London 2019"
-  info: "How To Use Kafka and Druid to Tame Your Router Data"
-  link: https://kafka-summit.org/sessions/use-kafka-druid-tame-router-data-2/
-  
 - date: 2019-05-22
   name: "DataWorks Summit"
   info: "Setting the Stage for Fast Analytics with Druid"
