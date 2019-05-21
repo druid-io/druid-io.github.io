@@ -71,6 +71,7 @@ UIs
 * [Pivot](https://github.com/implydata/pivot) - An exploratory analytics UI for Druid
 * [Metabase](https://github.com/metabase/metabase) - Simple dashboards, charts and query tool for your Druid DB
 * [Metatron](https://github.com/metatron-app/metatron-discovery) - All-in-one analytics with Druid from easy data preparation to fast visualization
+* [Turnilo](https://github.com/allegro/turnilo) - Business intelligence, data exploration and visualization web application for Druid, formerly know as [Swiv](https://github.com/yahoo/swiv) and [Pivot](https://github.com/implydata/pivot)
 
 Tools
 -----
