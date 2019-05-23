@@ -1,8 +1,3 @@
-- date: 2019-05-22
-  name: "DataWorks Summit"
-  info: "Setting the Stage for Fast Analytics with Druid"
-  link: https://dataworkssummit.com/washington-dc-2019/session/setting-the-stage-for-fast-analytics-with-druid/
-  
 - date: 2019-06-12
   name: "Druid NYC Meetup @ Tumblr"
   info: "Inside Apache Druid: Deep Dive, Personalized Related Blog Recommendation with User Feedback"
