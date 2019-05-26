@@ -59,4 +59,4 @@ Previous discussions are available in the [Apache Mail Archives](https://lists.a
 
 ## Release Archive
 
-All previous Apache release of Druid are available at the [Apache release archives](https://archive.apache.org/dist/incubator/druid/).
+All previous Apache releases of Druid are available at the [Apache release archives](https://archive.apache.org/dist/incubator/druid/).
