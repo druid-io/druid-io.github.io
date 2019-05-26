@@ -57,6 +57,6 @@ If you are interested in being notified of upcoming release candidates and being
 
 Previous discussions are available in the [Apache Mail Archives](https://lists.apache.org/list.html?dev@druid.apache.org).
 
-## Release Archive
+## Release archive
 
 All previous Apache releases of Druid are available at the [Apache release archives](https://archive.apache.org/dist/incubator/druid/).
