@@ -20,15 +20,20 @@ highlighter: pygments
 title: 'Druid'
 description: 'Real²time Exploratory Analytics on Large Datasets'
 
+
 druid_versions:
-  - version: 0.14.2-incubating
-    date: 2019-05-26
-  - version: 0.14.1-incubating
-    date: 2019-05-09
-  - version: 0.14.0-incubating
-    date: 2019-04-09
-  - version: 0.13.0-incubating
-    date: 2018-12-18
+  - release: 0.14
+    versions:
+      - version: 0.14.2-incubating
+        date: 2019-05-26
+      - version: 0.14.1-incubating
+        date: 2019-05-09
+      - version: 0.14.0-incubating
+        date: 2019-04-09
+  - release: 0.13
+    versions:
+      - version: 0.13.0-incubating
+        date: 2018-12-18
 
 
 tranquility_stable_version: 0.8.3

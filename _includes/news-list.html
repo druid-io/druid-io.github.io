@@ -4,12 +4,21 @@
   <h3>
     Latest releases
   </h3>
-  {% for release in site.druid_versions limit:5 %}
+  {% assign ctr = 0 %}
+  {% assign max = 5 %}
+  {% for branch in site.druid_versions %}
+  {% if ctr < max %}
+  {% for release in branch.versions %}
+  {% if ctr < max %}
+  {% assign ctr = ctr | plus:1 %}
   <p>
     <a href="https://github.com/apache/incubator-druid/releases/tag/druid-{{ release.version }}">
       <span class="title">Apache Druid (incubating) {{ release.version | remove: "-incubating"}} Released</span><br>
       <span class="text-muted">{{ release.date | date: "%b %e %Y" }}</span>
     </a>
   </p>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
   {% endfor %}
 </div>
