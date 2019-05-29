@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Apache Parquet Extension</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="https://druid.apache.org/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs//">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="apache-parquet-extension">Apache Parquet Extension</h1>
+
+<p>This Apache Druid (incubating) module extends <a href="../../ingestion/hadoop.html">Druid Hadoop based indexing</a> to ingest data directly from offline 
+Apache Parquet files. </p>
+
+<p>Note: <code>druid-parquet-extensions</code> depends on the <code>druid-avro-extensions</code> module, so be sure to
+ <a href="../../operations/including-extensions.html">include  both</a>.</p>
+
+<h2 id="parquet-hadoop-parser">Parquet Hadoop Parser</h2>
+
+<p>This extension provides two ways to parse Parquet files:
+* <code>parquet</code> - using a simple conversion contained within this extension 
+* <code>parquet-avro</code> - conversion to avro records with the <code>parquet-avro</code> library and using the <code>druid-avro-extensions</code>
+ module to parse the avro data</p>
+
+<p>Selection of conversion method is controlled by parser type, and the correct hadoop input format must also be set in 
+the <code>ioConfig</code>,  <code>org.apache.druid.data.input.parquet.DruidParquetInputFormat</code> for <code>parquet</code> and 
+<code>org.apache.druid.data.input.parquet.DruidParquetAvroInputFormat</code> for <code>parquet-avro</code>.</p>
+
+<p>Both parse options support auto field discovery and flattening if provided with a 
+<a href="../../ingestion/flatten-json.html">flattenSpec</a> with <code>parquet</code> or <code>avro</code> as the <code>format</code>. Parquet nested list and map 
+<a href="https://github.com/apache/parquet-format/blob/master/LogicalTypes.md">logical types</a> <em>should</em> operate correctly with 
+json path expressions for all supported types. <code>parquet-avro</code> sets a hadoop job property 
+<code>parquet.avro.add-list-element-records</code> to <code>false</code> (which normally defaults to <code>true</code>), in order to &#39;unwrap&#39; primitive 
+list elements into multi-value dimensions.</p>
+
+<p>The <code>parquet</code> parser supports <code>int96</code> Parquet values, while <code>parquet-avro</code> does not. There may also be some subtle 
+differences in the behavior of json path expression evaluation of <code>flattenSpec</code>.</p>
+
+<p>We suggest using <code>parquet</code> over <code>parquet-avro</code> to allow ingesting data beyond the schema constraints of Avro conversion. 
+However, <code>parquet-avro</code> was the original basis for this extension, and as such it is a bit more mature.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Choose <code>parquet</code> or <code>parquet-avro</code> to determine how Parquet files are parsed</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data, and optionally, a flatten spec. Valid parseSpec formats are <code>timeAndDims</code>, <code>parquet</code>, <code>avro</code> (if used with avro conversion).</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>binaryAsString</td>
+<td>Boolean</td>
+<td>Specifies if the bytes parquet column which is not logically marked as a string or enum type should be converted to strings anyway.</td>
+<td>no(default == false)</td>
+</tr>
+</tbody></table>
+
+<p>When the time dimension is a <a href="https://github.com/apache/parquet-format/blob/master/LogicalTypes.md">DateType column</a>, a format should not be supplied. When the format is UTF8 (String), either <code>auto</code> or a explicitly defined <a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">format</a> is required.</p>
+
+<h3 id="examples">Examples</h3>
+
+<h4 id="parquet-parser-parquet-parsespec"><code>parquet</code> parser, <code>parquet</code> parseSpec</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.parquet&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;nestedDim&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.nestedData.dim1&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;listDimFirstItem&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.listDim[1]&quot;</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+<h4 id="parquet-parser-timeanddims-parsespec"><code>parquet</code> parser, <code>timeAndDims</code> parseSpec</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.parquet.DruidParquetInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.parquet&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;dim1&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dim2&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dim3&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;listDim&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="parquet-avro-parser-avro-parsespec"><code>parquet-avro</code> parser, <code>avro</code> parseSpec</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.druid.data.input.parquet.DruidParquetAvroInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.parquet&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet-avro&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;avro&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;nestedDim&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.nestedData.dim1&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;listDimFirstItem&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.listDim[1]&quot;</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+<p>For additional details see <a href="../../ingestion/hadoop.html">hadoop ingestion</a> and <a href="../../ingestion/ingestion-spec.html">general ingestion spec</a> documentation.</p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="https://druid.apache.org/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid//apache-druid--bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.2-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

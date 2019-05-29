@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Multitenancy Considerations</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="https://druid.apache.org/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+      <p> Looking for the <a href="/docs//">latest stable documentation</a>?</p>
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="multitenancy-considerations">Multitenancy Considerations</h1>
+
+<p>Apache Druid (incubating) is often used to power user-facing data applications, where multitenancy is an important requirement. This
+document outlines Druid&#39;s multitenant storage and querying features.</p>
+
+<h2 id="shared-datasources-or-datasource-per-tenant">Shared datasources or datasource-per-tenant?</h2>
+
+<p>A datasource is the Druid equivalent of a database table. Multitenant workloads can either use a separate datasource
+for each tenant, or can share one or more datasources between tenants using a &quot;tenant_id&quot; dimension. When deciding
+which path to go down, consider that each path has pros and cons.</p>
+
+<p>Pros of datasources per tenant:</p>
+
+<ul>
+<li>Each datasource can have its own schema, its own backfills, its own partitioning rules, and its own data loading
+and expiration rules.</li>
+<li>Queries can be faster since there will be fewer segments to examine for a typical tenant&#39;s query.</li>
+<li>You get the most flexibility.</li>
+</ul>
+
+<p>Pros of shared datasources:</p>
+
+<ul>
+<li>Each datasource requires its own JVMs for realtime indexing.</li>
+<li>Each datasource requires its own YARN resources for Hadoop batch jobs.</li>
+<li>Each datasource requires its own segment files on disk.</li>
+<li>For these reasons it can be wasteful to have a very large number of small datasources.</li>
+</ul>
+
+<p>One compromise is to use more than one datasource, but a smaller number than tenants. For example, you could have some
+tenants with partitioning rules A and some with partitioning rules B; you could use two datasources and split your
+tenants between them.</p>
+
+<h2 id="partitioning-shared-datasources">Partitioning shared datasources</h2>
+
+<p>If your multitenant cluster uses shared datasources, most of your queries will likely filter on a &quot;tenant_id&quot;
+dimension. These sorts of queries perform best when data is well-partitioned by tenant. There are a few ways to
+accomplish this.</p>
+
+<p>With batch indexing, you can use <a href="../indexing/batch-ingestion.html#single-dimension-partitioning">single-dimension partitioning</a>
+to partition your data by tenant_id. Druid always partitions by time first, but the secondary partition within each
+time bucket will be on tenant_id.</p>
+
+<p>With realtime indexing, you have a couple of options.</p>
+
+<ol>
+<li>Partition on tenant_id upfront. You&#39;d do this by tweaking the stream you send to Druid. If you&#39;re using Kafka then
+you can have your Kafka producer partition your topic by a hash of tenant_id. If you&#39;re using Tranquility then you can
+define a custom <a href="http://static.druid.io/tranquility/api/latest/#com.metamx.tranquility.partition.Partitioner">Partitioner</a>.</li>
+<li>Reindex your older data periodically. You can do this with the <a href="../ingestion/hadoop.html#datasource">&quot;dataSource&quot; input spec</a>.
+You can use this in concert with single-dimension partitioning to repartition your data.</li>
+</ol>
+
+<h2 id="customizing-data-distribution">Customizing data distribution</h2>
+
+<p>Druid additionally supports multitenancy by providing configurable means of distributing data. Druid&#39;s Historical processes 
+can be configured into <a href="../operations/rule-configuration.html">tiers</a>, and <a href="../operations/rule-configuration.html">rules</a> 
+can be set that determines which segments go into which tiers. One use case of this is that recent data tends to be accessed 
+more frequently than older data. Tiering enables more recent segments to be hosted on more powerful hardware for better performance. 
+A second copy of recent segments can be replicated on cheaper hardware (a different tier), and older segments can also be 
+stored on this tier.</p>
+
+<h2 id="supporting-high-query-concurrency">Supporting high query concurrency</h2>
+
+<p>Druid&#39;s fundamental unit of computation is a <a href="../design/segments.html">segment</a>. Processes scan segments in parallel and a
+given process can scan <code>druid.processing.numThreads</code> concurrently. To
+process more data in parallel and increase performance, more cores can be added to a cluster. Druid segments
+should be sized such that any computation over any given segment should complete in at most 500ms.</p>
+
+<p>Druid internally stores requests to scan segments in a priority queue. If a given query requires scanning
+more segments than the total number of available processors in a cluster, and many similarly expensive queries are concurrently
+running, we don&#39;t want any query to be starved out. Druid&#39;s internal processing logic will scan a set of segments from one query and release resources as soon as the scans complete.
+This allows for a second set of segments from another query to be scanned. By keeping segment computation time very small, we ensure
+that resources are constantly being yielded, and segments pertaining to different queries are all being processed.</p>
+
+<p>Druid queries can optionally set a <code>priority</code> flag in the <a href="../querying/query-context.html">query context</a>. Queries known to be
+slow (download or reporting style queries) can be de-prioritized and more interactive queries can have higher priority. </p>
+
+<p>Broker processes can also be dedicated to a given tier. For example, one set of Broker processes can be dedicated to fast interactive queries, 
+and a second set of Broker processes can be dedicated to slower reporting queries. Druid also provides a <a href="../development/router.html">Router</a> 
+process that can route queries to different Brokers based on various query parameters (datasource, interval, etc.).  </p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="https://druid.apache.org/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid//apache-druid--bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.14.2-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>
