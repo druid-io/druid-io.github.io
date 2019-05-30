@@ -100,6 +100,7 @@ eBay uses Druid to aggregate multiple data streams for real-time user behavior a
 
 * [Druid and Pulsar](http://blog.csdn.net/ebay/article/details/50205611)
 * [embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications](http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/)
+* [Monitoring at eBay with Druid](https://www.ebayinc.com/stories/blogs/tech/monitoring-at-ebay-with-druid/)
 
 ## GameAnalytics
 
