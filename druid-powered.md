@@ -98,6 +98,7 @@ Easemob Technologies, Inc. is the leading provider of open IM platform, cloud co
 
 eBay uses Druid to aggregate multiple data streams for real-time user behavior analytics by ingesting up at a very high rate(over 100,000 events/sec), with the ability to query or aggregate data by any random combination of dimensions, and support over 100 concurrent queries without impacting ingest rate and query latencies.
 
+* [Monitoring at eBay with Druid](https://www.ebayinc.com/stories/blogs/tech/monitoring-at-ebay-with-druid/)
 * [Druid and Pulsar](http://blog.csdn.net/ebay/article/details/50205611)
 * [embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications](http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/)
 
