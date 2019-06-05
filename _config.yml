@@ -26,10 +26,6 @@ druid_versions:
     versions:
       - version: 0.14.2-incubating
         date: 2019-05-27
-      - version: 0.14.1-incubating
-        date: 2019-05-09
-      - version: 0.14.0-incubating
-        date: 2019-04-09
   - release: 0.13
     versions:
       - version: 0.13.0-incubating
