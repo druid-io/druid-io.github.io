@@ -102,6 +102,10 @@ eBay uses Druid to aggregate multiple data streams for real-time user behavior a
 * [Druid and Pulsar](http://blog.csdn.net/ebay/article/details/50205611)
 * [embedded-druid: Leveraging Druid Capabilities in Stand-alone Applications](http://www.ebaytechblog.com/2016/02/05/embedded-druid-leveraging-druid-capabilities-in-stand-alone-applications/)
 
+## FullContact
+
+* [Enrich API Brings Higher Match Rates with Multi-Field Enrichment Capabilities](https://www.fullcontact.com/blog/enrich-api-brings-higher-match-rates-with-multi-field-enrichment-capabilities/)
+
 ## GameAnalytics
 
 * [Why GameAnalytics migrated to Apache Druid](https://imply.io/post/why-gameanalytics-migrated-to-druid)
