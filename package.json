@@ -16,7 +16,7 @@
   "dependencies": {
     "broken-link-checker": "0.7.8",
     "glob": "7.1.2",
-    "gulp": "3.9.1",
+    "gulp": "4.0.2",
     "gulp-sass": "4.0.1",
     "natives": "^1.1.6",
     "node-sass": "4.9.2"
